@@ -27,12 +27,37 @@ const BASE: [number, number][] = [
   [150, 300], [470, 250], [350, 300],
 ];
 
-const CHIPS: { px: number; py: number; lx: number; ly: number; values: string[] }[] = [
-  { px: 300, py: 112, lx: 250, ly: 56, values: ["Female · 26", "Male · 41", "HH $88k", "Age 34"] },
-  { px: 232, py: 150, lx: 150, ly: 116, values: ["$1,240 LTV", "Loyal", "2.3 mi", "4 visits"] },
-  { px: 430, py: 90, lx: 430, ly: 48, values: ["Male · 47", "High intent", "HH $102k", "New mover"] },
-  { px: 560, py: 195, lx: 636, ly: 156, values: ["Female · 38", "Churn risk", "$58 / visit", "Growth +7%"] },
-  { px: 205, py: 252, lx: 152, ly: 300, values: ["Male · 63", "HH $71k", "Age 51", "Female · 29"] },
+const CHIPS: { px: number; py: number; lx: number; ly: number; title: string; info: string; values: string[] }[] = [
+  {
+    px: 300, py: 112, lx: 250, ly: 56,
+    title: "Core customer",
+    info: "A young professional in your trade area — mid-income and digitally engaged. Segments like this respond to loyalty offers and drive the bulk of repeat visits.",
+    values: ["Female · 26", "Male · 41", "HH $88k", "Age 34"],
+  },
+  {
+    px: 232, py: 150, lx: 150, ly: 116,
+    title: "High-value loyalist",
+    info: "Your most valuable repeat customers — worth roughly $1,240 over their lifetime. Keeping them loyal costs far less than winning new ones.",
+    values: ["$1,240 LTV", "Loyal", "2.3 mi", "4 visits"],
+  },
+  {
+    px: 430, py: 90, lx: 430, ly: 48,
+    title: "High-intent prospect",
+    info: "A new mover with strong household income and clear buying signals — prime for a first-visit offer before a competitor captures them.",
+    values: ["Male · 47", "High intent", "HH $102k", "New mover"],
+  },
+  {
+    px: 560, py: 195, lx: 636, ly: 156,
+    title: "At-risk customer",
+    info: "Spend per visit and frequency are slipping — a churn-risk flag so you can win them back with a targeted offer before they're gone.",
+    values: ["Female · 38", "Churn risk", "$58 / visit", "Visits ↓"],
+  },
+  {
+    px: 205, py: 252, lx: 152, ly: 300,
+    title: "Emerging segment",
+    info: "An older, established household nearby — steady, reliable spenders who are often overlooked and worth targeting for growth.",
+    values: ["Male · 63", "HH $71k", "Age 51", "Female · 29"],
+  },
 ];
 
 // Clickable map features. (x, y) is BOTH the visible node and the centre of the
@@ -47,21 +72,21 @@ const POIS: Poi[] = [
 const FORECAST_INFO = "Modeled from your data and market signals — it updates as inputs change.";
 
 const TECH: { name: string; info: string }[] = [
-  { name: "Regression", info: "Finds which factors actually drive an outcome — and by how much." },
-  { name: "Forecasting", info: "Projects future demand, revenue, or cost from historical patterns." },
-  { name: "Lifetime value", info: "What a customer is worth over the whole relationship, not one sale." },
-  { name: "Segmentation", info: "Groups customers by behavior and value so you target the right ones." },
-  { name: "Cohort analysis", info: "Tracks groups over time to see retention — and what changes it." },
-  { name: "EBITDA margin", info: "Core operating profitability, before financing and accounting noise." },
-  { name: "Break-even", info: "The volume where revenue finally covers your costs." },
-  { name: "Elasticity", info: "How sensitive demand is to a change in price." },
-  { name: "Optimization", info: "The best allocation of price, spend, or inventory under real constraints." },
-  { name: "Propensity score", info: "The probability a given customer buys, churns, or converts next." },
-  { name: "Hot-spot analysis", info: "Where demand clusters most densely across the map." },
-  { name: "Sensitivity", info: "How the outcome shifts when a key assumption changes." },
+  { name: "Regression", info: "Isolates which factors actually move a result — like what drives a sale — and by how much. It tells you which levers are worth pulling, so you invest where it counts instead of guessing." },
+  { name: "Forecasting", info: "Projects demand, revenue, and cost from your history and market signals. You can staff, stock, and budget ahead of what's coming instead of always reacting to it." },
+  { name: "Lifetime value", info: "Estimates what a customer is worth over the whole relationship, not one sale. It tells you how much it's worth spending to win and keep the right customers." },
+  { name: "Segmentation", info: "Groups your customers by behavior and value. Your marketing and offers reach the right people with the right message instead of everyone at once." },
+  { name: "Cohort analysis", info: "Follows groups of customers over time to reveal who stays, who leaves, and when. It points to exactly what to fix to keep customers longer." },
+  { name: "EBITDA margin", info: "Shows core operating profitability, stripped of financing and accounting noise. You see how much each part of the business truly earns, and where margin leaks." },
+  { name: "Break-even", info: "Pinpoints the sales volume where you finally cover your costs. It's the number every location, product, or price change has to clear to make money." },
+  { name: "Elasticity", info: "Measures how demand responds to price. You can raise prices where it won't cost you volume — and know where holding the line protects sales." },
+  { name: "Optimization", info: "Finds the best mix of price, spend, and inventory within your real constraints. Limited time and money go where they return the most." },
+  { name: "Propensity score", info: "Ranks each customer by how likely they are to buy, churn, or upgrade next. Your team spends its effort where it will actually pay off." },
+  { name: "Hot-spot analysis", info: "Maps where demand clusters most densely across your market. You aim marketing, staffing, and expansion at where the customers actually are." },
+  { name: "Sensitivity", info: "Tests how the outcome shifts when a key assumption changes. You learn which risks matter most and how much room for error you really have." },
 ];
 
-const DELTAS = ["+12.4%", "+8.1%", "+15.2%", "+9.7%", "+11.3%"];
+const DELTAS = ["+12.4%", "+8.1%", "-3.2%", "+15.2%", "-1.8%", "+9.7%", "+11.3%", "-4.6%"];
 
 // Everyday context signals — cycled to show the breadth of what we watch.
 const SIGNALS: { k: string; v: string }[] = [
@@ -109,6 +134,8 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const accentText = dark ? "#cf8078" : "#7a2020";
   const popupBg = dark ? "#17110f" : "#ffffff";
   const nodeBg = dark ? "#1a1210" : "#ffffff";
+  const upColor = dark ? "#5cba85" : "#2f8f57";
+  const downColor = dark ? "#e0736a" : "#b23b30";
 
   const svgRef = useRef<SVGSVGElement>(null);
   const nextId = useRef(1000);
@@ -130,7 +157,8 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
 
   useEffect(() => {
     if (!playing || reduced) return;
-    const id = window.setInterval(() => {
+    // an open spot that avoids the HUD panels
+    const spot = (): [number, number] => {
       let x = 400;
       let y = 180;
       for (let t = 0; t < 24; t++) {
@@ -142,18 +170,28 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         const inSignals = x < 238 && y > 292;
         if (!inChart && !inReadout && !inPause && !inSignals) break;
       }
+      return [x, y];
+    };
+    const id = window.setInterval(() => {
+      const [x, y] = spot();
       const nd: Dot = { id: nextId.current++, x, y, spawned: true };
       setDots((prev) => {
-        const arr = [...prev, nd];
+        // drift a few existing points so the field is always shifting
+        let arr = prev.map((d) =>
+          !d.leaving && Math.random() < 0.28
+            ? { ...d, x: clamp(d.x + (Math.random() - 0.5) * 46, 40, 760), y: clamp(d.y + (Math.random() - 0.5) * 40, 40, 316) }
+            : d
+        );
+        arr = [...arr, nd];
         const spawned = arr.filter((d) => d.spawned && !d.leaving);
-        if (spawned.length > 9) {
+        if (spawned.length > 13) {
           const oldest = spawned[0]!;
           window.setTimeout(() => setDots((p) => p.filter((d) => d.id !== oldest.id)), 700);
           return arr.map((d) => (d.id === oldest.id ? { ...d, leaving: true } : d));
         }
         return arr;
       });
-    }, 2600);
+    }, 1800);
     return () => window.clearInterval(id);
   }, [playing, reduced]);
 
@@ -170,6 +208,8 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const tech = reduced ? TECH[0]! : TECH[tick % TECH.length]!;
   const delta = reduced ? DELTAS[0]! : DELTAS[tick % DELTAS.length]!;
   const sig = reduced ? SIGNALS[0]! : SIGNALS[tick % SIGNALS.length]!;
+  const deltaUp = !delta.startsWith("-");
+  const deltaColor = deltaUp ? upColor : downColor;
   const fadeKey = reduced ? "static" : tick;
 
   const cardW = 246;
@@ -266,18 +306,42 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
               <animate attributeName="opacity" from="0.55" to="0" dur="1.4s" repeatCount="1" fill="freeze" />
             </circle>
           )}
-          <circle cx={d.x} cy={d.y} r={d.spawned ? 2.6 : 2} fill={d.spawned ? accent : dotColor}>
+          <circle
+            cx={d.x}
+            cy={d.y}
+            r={d.spawned ? 2.6 : 2}
+            fill={d.spawned ? accent : dotColor}
+            style={reduced ? undefined : { transition: "cx 1.3s ease, cy 1.3s ease" }}
+          >
             {d.spawned && !d.leaving && !reduced && <animate attributeName="opacity" from="0" to="1" dur="0.6s" repeatCount="1" fill="freeze" />}
             {d.leaving && !reduced && <animate attributeName="opacity" from="1" to="0" dur="0.7s" repeatCount="1" fill="freeze" />}
           </circle>
         </g>
       ))}
 
-      {/* demographic labels */}
+      {/* demographic labels — each a clickable customer profile */}
       {CHIPS.map((c, i) => (
-        <g key={i}>
+        <g
+          key={i}
+          role="button"
+          tabIndex={0}
+          aria-label={`${c.title} — details`}
+          style={{ cursor: "pointer" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setPopup({ title: c.title, lines: wrap(c.info), ax: c.lx, ay: c.ly });
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setPopup({ title: c.title, lines: wrap(c.info), ax: c.lx, ay: c.ly });
+            }
+          }}
+        >
           <line x1={c.px} y1={c.py} x2={c.lx} y2={c.ly} stroke={hair} strokeWidth="1" />
-          <circle cx={c.px} cy={c.py} r="2.6" fill={accent} />
+          {/* small + node on the map anchor signals it's clickable */}
+          <circle cx={c.px} cy={c.py} r="5.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
+          <path d={`M${c.px - 2.4} ${c.py} H${c.px + 2.4} M${c.px} ${c.py - 2.4} V${c.py + 2.4}`} stroke={accentText} strokeWidth="1" strokeLinecap="round" />
           <g transform={`translate(${c.lx} ${c.ly})`}>
             <rect x="-50" y="-12" width="100" height="24" rx="4" fill={chipBg} stroke={hair} />
             <text key={fadeKey} className={reduced ? undefined : "animate-fade"} y="1" textAnchor="middle" dominantBaseline="middle" fontSize="11.5" fontWeight={500} letterSpacing="0.01em" fill={labelText}>
@@ -346,8 +410,8 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           <tspan fill={micro}>ANALYZING&nbsp;&nbsp;·&nbsp;&nbsp;</tspan>
           <tspan key={fadeKey} className={reduced ? undefined : "animate-fade"} fill={accentText}>{tech.name.toUpperCase()}</tspan>
         </text>
-        <circle cx="243" cy="0" r="7" fill="none" stroke={hair} strokeWidth="1" />
-        <text x="243" y="0.5" textAnchor="middle" dominantBaseline="middle" fontSize="9.5" fontStyle="italic" fontWeight={500} fill={muted}>i</text>
+        <circle cx="243" cy="0" r="7.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
+        <path d="M239.8 0 H246.2 M243 -3.2 V3.2" stroke={accentText} strokeWidth="1" strokeLinecap="round" />
       </g>
 
       {/* pause / play — top right */}
@@ -405,18 +469,18 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         <rect x="0" y="0" width="210" height="94" rx="6" fill={panel} stroke={hair} />
         <text x="14" y="19" fontSize="9.5" fontWeight={500} letterSpacing="0.09em" fill={micro}>REVENUE FORECAST</text>
         <g key={`d-${fadeKey}`} className={reduced ? undefined : "animate-fade"}>
-          <path d="M188 12 L192 16 L196 12 Z" fill={accentText} transform="rotate(180 192 14)" />
-          <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={accentText}>{delta}</text>
+          <path d="M188 12 L192 16 L196 12 Z" fill={deltaColor} transform={deltaUp ? "rotate(180 192 14)" : undefined} />
+          <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={deltaColor}>{delta}</text>
         </g>
         <line x1="14" y1="82" x2="196" y2="82" stroke={hair} strokeWidth="1" />
-        <path d={`${SPARK} L196 82 L14 82 Z`} fill={accent} fillOpacity="0.12" transform="translate(0 6)" />
-        <path d={SPARK} fill="none" stroke={accent} strokeWidth="1.5" transform="translate(0 6)" />
+        <path key={`fill-${fadeKey}`} d={`${SPARK} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" transform="translate(0 6)" />
+        <path key={`ln-${fadeKey}`} d={SPARK} fill="none" stroke={deltaColor} strokeWidth="1.5" transform="translate(0 6)" />
         {!reduced ? (
-          <circle r="2.8" fill={dark ? "#fff" : "#500000"} stroke={accent} strokeWidth="1" transform="translate(0 6)" pointerEvents="none">
+          <circle r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" transform="translate(0 6)" pointerEvents="none">
             <animateMotion dur="6s" repeatCount="indefinite" path={SPARK} />
           </circle>
         ) : (
-          <circle cx="196" cy="30" r="2.8" fill={dark ? "#fff" : "#500000"} stroke={accent} strokeWidth="1" />
+          <circle cx="196" cy="30" r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" />
         )}
         <g pointerEvents="none">
           <circle cx="194" cy="74" r="7.5" fill={nodeBg} stroke={accent} strokeWidth="1" />

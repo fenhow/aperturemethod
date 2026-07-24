@@ -167,7 +167,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         const inChart = x > 556 && y > 244;
         const inReadout = x < 296 && y < 42;
         const inPause = x > 690 && y < 42;
-        const inSignals = x < 238 && y > 292;
+        const inSignals = x > 286 && x < 512 && y > 292;
         if (!inChart && !inReadout && !inPause && !inSignals) break;
       }
       return [x, y];
@@ -229,7 +229,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         {!reduced && <animate attributeName="opacity" values="0.5;0.16;0.5" dur="2.6s" repeatCount="indefinite" />}
       </circle>
       <circle cx={x} cy={y} r="7.5" fill={nodeBg} stroke={accentText} strokeWidth="1.3" />
-      <path d={`M${x - 3.3} ${y} H${x + 3.3} M${x} ${y - 3.3} V${y + 3.3}`} stroke={accentText} strokeWidth="1.4" strokeLinecap="round" />
+      <path d={`M${x - 3.3} ${y} H${x + 3.3} M${x} ${y - 3.3} V${y + 3.3}`} stroke={labelText} strokeWidth="1.5" strokeLinecap="round" />
     </g>
   );
 
@@ -410,7 +410,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         </circle>
         <text x="26" y="1" dominantBaseline="middle" fontSize="10.5" fontWeight={500} letterSpacing="0.07em">
           <tspan fill={micro}>ANALYZING&nbsp;&nbsp;·&nbsp;&nbsp;</tspan>
-          <tspan key={fadeKey} className={reduced ? undefined : "animate-fade"} fill={labelText}>{tech.name.toUpperCase()}</tspan>
+          <tspan key={fadeKey} className={reduced ? undefined : "animate-fade"} fill={upColor}>{tech.name.toUpperCase()}</tspan>
         </text>
         <Node x={243} y={0} />
       </g>
@@ -486,8 +486,8 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         <Node x={194} y={74} />
       </g>
 
-      {/* live signals — bottom left */}
-      <g transform="translate(20 298)">
+      {/* live signals — bottom centre */}
+      <g transform="translate(294 298)">
         <rect x="0" y="0" width="212" height="46" rx="6" fill={panel} stroke={hair} />
         <circle cx="15" cy="16" r="2.6" fill={upColor}>
           {!reduced && <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite" />}
@@ -503,7 +503,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
 
       {/* hint */}
       {!popup && (
-        <text x="398" y="330" textAnchor="middle" fontSize="9.5" letterSpacing="0.09em" fill={micro}>
+        <text x="20" y="340" fontSize="9.5" letterSpacing="0.09em" fill={micro}>
           SELECT A POINT TO EXPLORE
         </text>
       )}

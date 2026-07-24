@@ -69,6 +69,12 @@ const POIS: Poi[] = [
   { title: "Drive-time rings", info: "5-, 10-, and 15-minute reach from your front door.", x: 196, y: 126 },
 ];
 
+const COMPETITOR = {
+  title: "Competitor",
+  info: "A rival location about 2.1 miles away. We map where competitors win and lose, so you can defend your base and target the customers they underserve.",
+  px: 662, py: 150, lx: 702, ly: 116, label: "Competitor · 2.1 mi",
+};
+
 const FORECAST_INFO = "Modeled from your data and market signals — it updates as inputs change.";
 
 const TECH: { name: string; info: string }[] = [
@@ -142,6 +148,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const [reduced, setReduced] = useState(false);
   const [playing, setPlaying] = useState(true);
   const [tick, setTick] = useState(0);
+  const [fidx, setFidx] = useState(0);
   const [dots, setDots] = useState<Dot[]>(() => BASE.map(([x, y], i) => ({ id: i, x, y, spawned: false })));
   const [popup, setPopup] = useState<Popup | null>(null);
 
@@ -152,6 +159,13 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   useEffect(() => {
     if (!playing || reduced || popup) return;
     const id = window.setInterval(() => setTick((t) => t + 1), 3200);
+    return () => window.clearInterval(id);
+  }, [playing, reduced, popup]);
+
+  // the revenue forecast changes on its own, slower cadence
+  useEffect(() => {
+    if (!playing || reduced || popup) return;
+    const id = window.setInterval(() => setFidx((f) => f + 1), 6000);
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
 
@@ -206,11 +220,12 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
 
   const val = (values: string[], offset: number) => values[(tick + offset) % values.length]!;
   const tech = reduced ? TECH[0]! : TECH[tick % TECH.length]!;
-  const delta = reduced ? DELTAS[0]! : DELTAS[tick % DELTAS.length]!;
+  const delta = reduced ? DELTAS[0]! : DELTAS[fidx % DELTAS.length]!;
   const sig = reduced ? SIGNALS[0]! : SIGNALS[tick % SIGNALS.length]!;
   const deltaUp = !delta.startsWith("-");
   const deltaColor = deltaUp ? upColor : downColor;
   const fadeKey = reduced ? "static" : tick;
+  const fbKey = reduced ? "static" : fidx;
 
   const cardW = 246;
   const cardH = popup ? 32 + popup.lines.length * 15 + 12 : 0;
@@ -353,6 +368,33 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         </g>
       ))}
 
+      {/* competitor callout */}
+      <g
+        role="button"
+        tabIndex={0}
+        aria-label="Competitor — details"
+        style={{ cursor: "pointer" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          setPopup({ title: COMPETITOR.title, lines: wrap(COMPETITOR.info), ax: COMPETITOR.lx, ay: COMPETITOR.ly });
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setPopup({ title: COMPETITOR.title, lines: wrap(COMPETITOR.info), ax: COMPETITOR.lx, ay: COMPETITOR.ly });
+          }
+        }}
+      >
+        <line x1={COMPETITOR.px} y1={COMPETITOR.py} x2={COMPETITOR.lx} y2={COMPETITOR.ly} stroke={hair} strokeWidth="1" />
+        <Node x={COMPETITOR.px} y={COMPETITOR.py} />
+        <g transform={`translate(${COMPETITOR.lx} ${COMPETITOR.ly})`}>
+          <rect x="-54" y="-12" width="108" height="24" rx="4" fill={chipBg} stroke={hair} />
+          <text y="1" textAnchor="middle" dominantBaseline="middle" fontSize="10.5" fontWeight={500} letterSpacing="0.01em" fill={downColor}>
+            {COMPETITOR.label}
+          </text>
+        </g>
+      </g>
+
       {/* primary + secondary pins (drawn under the click nodes) */}
       <g transform="translate(292 150)">
         <circle r="6.5" fill="none" stroke={accent} strokeWidth="1.2" opacity="0.6" />
@@ -469,13 +511,13 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
       >
         <rect x="0" y="0" width="210" height="94" rx="6" fill={panel} stroke={hair} />
         <text x="14" y="19" fontSize="9.5" fontWeight={500} letterSpacing="0.09em" fill={micro}>REVENUE FORECAST</text>
-        <g key={`d-${fadeKey}`} className={reduced ? undefined : "animate-fade"}>
+        <g key={`d-${fbKey}`} className={reduced ? undefined : "animate-fade"}>
           <path d="M188 12 L192 16 L196 12 Z" fill={deltaColor} transform={deltaUp ? "rotate(180 192 14)" : undefined} />
           <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={deltaColor}>{delta}</text>
         </g>
         <line x1="14" y1="82" x2="196" y2="82" stroke={hair} strokeWidth="1" />
-        <path key={`fill-${fadeKey}`} d={`${SPARK} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" transform="translate(0 6)" />
-        <path key={`ln-${fadeKey}`} d={SPARK} fill="none" stroke={deltaColor} strokeWidth="1.5" transform="translate(0 6)" />
+        <path key={`fill-${fbKey}`} d={`${SPARK} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" transform="translate(0 6)" />
+        <path key={`ln-${fbKey}`} d={SPARK} fill="none" stroke={deltaColor} strokeWidth="1.5" transform="translate(0 6)" />
         {!reduced ? (
           <circle r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" transform="translate(0 6)" pointerEvents="none">
             <animateMotion dur="6s" repeatCount="indefinite" path={SPARK} />
@@ -486,17 +528,17 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         <Node x={194} y={74} />
       </g>
 
-      {/* live signals — bottom centre */}
+      {/* live signals — bottom centre, content centred */}
       <g transform="translate(294 298)">
         <rect x="0" y="0" width="212" height="46" rx="6" fill={panel} stroke={hair} />
-        <circle cx="15" cy="16" r="2.6" fill={upColor}>
+        <circle cx="14" cy="23" r="2.6" fill={upColor}>
           {!reduced && <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite" />}
         </circle>
-        <text x="27" y="19" fontSize="9" fontWeight={500} letterSpacing="0.09em" fill={micro}>
+        <text x="106" y="17" textAnchor="middle" fontSize="9" fontWeight={500} letterSpacing="0.09em" fill={micro}>
           <tspan>LIVE SIGNALS&nbsp;&nbsp;·&nbsp;&nbsp;</tspan>
           <tspan key={`sk-${fadeKey}`} className={reduced ? undefined : "animate-fade"} fill={muted}>{sig.k}</tspan>
         </text>
-        <text key={`sv-${fadeKey}`} className={reduced ? undefined : "animate-fade"} x="15" y="36" fontSize="12" fontWeight={600} fill={labelText}>
+        <text key={`sv-${fadeKey}`} className={reduced ? undefined : "animate-fade"} x="106" y="35" textAnchor="middle" fontSize="12" fontWeight={600} fill={labelText}>
           {sig.v}
         </text>
       </g>

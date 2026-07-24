@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/consent/CookieConsent";
+import { Analytics } from "@/components/analytics/Analytics";
 import "./globals.css";
 
 /**
@@ -106,6 +107,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <CookieConsent />
+        <Analytics />
       </body>
     </html>
   );

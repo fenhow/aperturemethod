@@ -76,7 +76,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     items: [
       { label: "Book a consultation", href: "/contact#book" },
       { label: "Email", href: "mailto:hello@aperturemethod.com" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/fenhow" },
     ],
   },
   {

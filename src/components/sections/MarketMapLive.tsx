@@ -4,20 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Interactive "Market Map" — an on-brand illustration of spatial intelligence
- * (GIS) that behaves like a live analytics instrument:
- *  - radar sweep, cycling MBA analysis readout, live forecast chart;
- *  - demographic tags fading over customer clusters;
- *  - dots that spawn (with a ping) and retire to signal real-time activity;
- *  - "+" markers you can click for plain-English explanations (map features and
- *    the current MBA technique);
+ * Interactive "Market Map" — a restrained, editorial illustration of spatial
+ * intelligence (GIS) that behaves like a live analytics instrument:
+ *  - radar sweep, cycling analysis readout, live forecast panel;
+ *  - demographic labels fading over customer clusters;
+ *  - points that spawn and retire to signal real-time activity;
+ *  - refined "+" nodes you can click for plain-English explanations, each with
+ *    its click target centred exactly on the node;
  *  - a pause / play control.
- * Cycling text pauses while a popup is open. Reduced-motion users get a calm,
+ * Cycling text freezes while a popup is open. Reduced-motion users get a calm,
  * static, still-explorable version.
  */
 
 type Dot = { id: number; x: number; y: number; spawned: boolean; leaving?: boolean };
 type Popup = { title: string; lines: string[]; ax: number; ay: number };
+type Poi = { title: string; info: string; x: number; y: number };
 
 const BASE: [number, number][] = [
   [250, 120], [268, 138], [235, 150], [285, 128], [300, 160], [262, 170],
@@ -27,24 +28,24 @@ const BASE: [number, number][] = [
 ];
 
 const CHIPS: { px: number; py: number; lx: number; ly: number; values: string[] }[] = [
-  { px: 300, py: 112, lx: 250, ly: 58, values: ["Female · 26", "Male · 41", "HH $88k", "Age 34"] },
-  { px: 232, py: 150, lx: 150, ly: 118, values: ["$1,240 LTV", "Loyal ★", "2.3 mi", "Repeat ×4"] },
-  { px: 430, py: 90, lx: 430, ly: 50, values: ["Male · 47", "High intent", "HH $102k", "New mover"] },
-  { px: 560, py: 195, lx: 636, ly: 158, values: ["Female · 38", "Churn risk", "$/visit $58", "Growth ▲7%"] },
+  { px: 300, py: 112, lx: 250, ly: 56, values: ["Female · 26", "Male · 41", "HH $88k", "Age 34"] },
+  { px: 232, py: 150, lx: 150, ly: 116, values: ["$1,240 LTV", "Loyal", "2.3 mi", "4 visits"] },
+  { px: 430, py: 90, lx: 430, ly: 48, values: ["Male · 47", "High intent", "HH $102k", "New mover"] },
+  { px: 560, py: 195, lx: 636, ly: 156, values: ["Female · 38", "Churn risk", "$58 / visit", "Growth +7%"] },
   { px: 205, py: 252, lx: 152, ly: 300, values: ["Male · 63", "HH $71k", "Age 51", "Female · 29"] },
 ];
 
-// Clickable map features. bx/by = where the "+" marker sits.
-const POIS: { title: string; info: string; hx: number; hy: number; r: number; bx: number; by: number }[] = [
-  { title: "Primary location", info: "Your business, anchored to its trade area and drive-time reach.", hx: 278, hy: 145, r: 16, bx: 293, by: 130 },
-  { title: "Opportunity zone", info: "An underserved cluster where demand outpaces local competition.", hx: 540, hy: 215, r: 15, bx: 553, by: 201 },
-  { title: "Customer hot-spot", info: "Where your most valuable customers concentrate — measured by value, not just volume.", hx: 300, hy: 165, r: 15, bx: 322, by: 176 },
-  { title: "Drive-time rings", info: "5-, 10-, and 15-minute reach from your front door.", hx: 194, hy: 145, r: 13, bx: 194, by: 128 },
+// Clickable map features. (x, y) is BOTH the visible node and the centre of the
+// click target — so a click always lands on the "+".
+const POIS: Poi[] = [
+  { title: "Primary location", info: "Your business, anchored to its trade area and drive-time reach.", x: 300, y: 128 },
+  { title: "Opportunity zone", info: "An underserved cluster where demand outpaces local competition.", x: 553, y: 200 },
+  { title: "Customer hot-spot", info: "Where your most valuable customers concentrate — measured by value, not just volume.", x: 322, y: 176 },
+  { title: "Drive-time rings", info: "5-, 10-, and 15-minute reach from your front door.", x: 196, y: 126 },
 ];
 
 const FORECAST_INFO = "Modeled from your data and market signals — it updates as inputs change.";
 
-// MBA techniques + plain-English explanations (click the readout to read them).
 const TECH: { name: string; info: string }[] = [
   { name: "Regression", info: "Finds which factors actually drive an outcome — and by how much." },
   { name: "Forecasting", info: "Projects future demand, revenue, or cost from historical patterns." },
@@ -60,12 +61,25 @@ const TECH: { name: string; info: string }[] = [
   { name: "Sensitivity", info: "How the outcome shifts when a key assumption changes." },
 ];
 
-const DELTAS = ["▲ 12.4%", "▲ 8.1%", "▲ 15.2%", "▲ 9.7%", "▲ 11.3%"];
+const DELTAS = ["+12.4%", "+8.1%", "+15.2%", "+9.7%", "+11.3%"];
+
+// Everyday context signals — cycled to show the breadth of what we watch.
+const SIGNALS: { k: string; v: string }[] = [
+  { k: "LOCAL TIME", v: "3:42 PM" },
+  { k: "WEATHER", v: "Clear · 72°F" },
+  { k: "DATE", v: "Fri, Jul 24" },
+  { k: "FOOT TRAFFIC", v: "+6% vs. average" },
+  { k: "MARKET NEWS", v: "Rates held steady" },
+  { k: "SEASONALITY", v: "Peak week" },
+  { k: "NEARBY EVENT", v: "Festival Saturday" },
+  { k: "COMPETITOR", v: "New site 2.1 mi" },
+];
+
 const SPARK = "M14 74 L45 64 L76 68 L107 52 L138 44 L167 30 L196 24";
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
-function wrap(text: string, max = 34): string[] {
+function wrap(text: string, max = 36): string[] {
   const words = text.split(" ");
   const lines: string[] = [];
   let cur = "";
@@ -83,16 +97,18 @@ function wrap(text: string, max = 34): string[] {
 
 export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "light"; className?: string }) {
   const dark = tone === "dark";
-  const line = dark ? "rgba(255,255,255,0.10)" : "rgba(20,20,20,0.10)";
-  const dotColor = dark ? "rgba(255,255,255,0.5)" : "rgba(20,20,20,0.4)";
-  const pill = dark ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.85)";
-  const panel = dark ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.9)";
-  const pillStroke = dark ? "rgba(255,255,255,0.18)" : "rgba(20,20,20,0.12)";
-  const labelText = dark ? "#ffffff" : "#141414";
-  const muted = dark ? "rgba(255,255,255,0.6)" : "rgba(20,20,20,0.55)";
-  const accentText = dark ? "#c9756c" : "#500000";
-  const popupBg = dark ? "#141414" : "#ffffff";
-  const badgeBg = dark ? "#1c1413" : "#ffffff";
+  const line = dark ? "rgba(255,255,255,0.08)" : "rgba(20,20,20,0.08)";
+  const dotColor = dark ? "rgba(255,255,255,0.42)" : "rgba(20,20,20,0.34)";
+  const chipBg = dark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.9)";
+  const panel = dark ? "rgba(255,255,255,0.045)" : "rgba(255,255,255,0.92)";
+  const hair = dark ? "rgba(255,255,255,0.14)" : "rgba(20,20,20,0.12)";
+  const labelText = dark ? "rgba(255,255,255,0.92)" : "#141414";
+  const muted = dark ? "rgba(255,255,255,0.5)" : "rgba(20,20,20,0.5)";
+  const micro = dark ? "rgba(255,255,255,0.42)" : "rgba(20,20,20,0.42)";
+  const accent = "#b5544f";
+  const accentText = dark ? "#cf8078" : "#7a2020";
+  const popupBg = dark ? "#17110f" : "#ffffff";
+  const nodeBg = dark ? "#1a1210" : "#ffffff";
 
   const svgRef = useRef<SVGSVGElement>(null);
   const nextId = useRef(1000);
@@ -106,14 +122,12 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
-  // label / readout cycling — slower, and paused while a popup is open
   useEffect(() => {
     if (!playing || reduced || popup) return;
-    const id = window.setInterval(() => setTick((t) => t + 1), 3000);
+    const id = window.setInterval(() => setTick((t) => t + 1), 3200);
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
 
-  // spawn + retire dots (real-time activity)
   useEffect(() => {
     if (!playing || reduced) return;
     const id = window.setInterval(() => {
@@ -123,9 +137,10 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         x = 40 + Math.random() * 720;
         y = 40 + Math.random() * 280;
         const inChart = x > 556 && y > 244;
-        const inReadout = x < 284 && y < 44;
-        const inPause = x > 676 && y < 44;
-        if (!inChart && !inReadout && !inPause) break;
+        const inReadout = x < 296 && y < 42;
+        const inPause = x > 690 && y < 42;
+        const inSignals = x < 238 && y > 292;
+        if (!inChart && !inReadout && !inPause && !inSignals) break;
       }
       const nd: Dot = { id: nextId.current++, x, y, spawned: true };
       setDots((prev) => {
@@ -138,7 +153,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         }
         return arr;
       });
-    }, 2400);
+    }, 2600);
     return () => window.clearInterval(id);
   }, [playing, reduced]);
 
@@ -154,20 +169,23 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const val = (values: string[], offset: number) => values[(tick + offset) % values.length]!;
   const tech = reduced ? TECH[0]! : TECH[tick % TECH.length]!;
   const delta = reduced ? DELTAS[0]! : DELTAS[tick % DELTAS.length]!;
+  const sig = reduced ? SIGNALS[0]! : SIGNALS[tick % SIGNALS.length]!;
   const fadeKey = reduced ? "static" : tick;
 
-  const cardW = 244;
-  const cardH = popup ? 34 + popup.lines.length * 16 + 12 : 0;
+  const cardW = 246;
+  const cardH = popup ? 32 + popup.lines.length * 15 + 12 : 0;
   const cardX = popup ? clamp(popup.ax - cardW / 2, 12, 800 - cardW - 12) : 0;
   const cardYRaw = popup ? popup.ay - cardH - 18 : 0;
   const cardY = popup ? (cardYRaw < 12 ? clamp(popup.ay + 18, 12, 360 - cardH - 12) : cardYRaw) : 0;
 
-  const Marker = ({ bx, by }: { bx: number; by: number }) => (
+  const openPoi = (p: Poi) => setPopup({ title: p.title, lines: wrap(p.info), ax: p.x, ay: p.y });
+
+  // A refined marker node: faint outer ring + hairline disc + thin plus.
+  const Node = ({ x, y }: { x: number; y: number }) => (
     <g pointerEvents="none">
-      <circle cx={bx} cy={by} r="9" fill={badgeBg} stroke="#b5544f" strokeWidth="1.25">
-        {!reduced && <animate attributeName="opacity" values="1;0.55;1" dur="3.4s" repeatCount="indefinite" />}
-      </circle>
-      <path d={`M${bx - 4} ${by} H${bx + 4} M${bx} ${by - 4} V${by + 4}`} stroke="#c9756c" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx={x} cy={y} r="12" fill="none" stroke={accent} strokeWidth="1" opacity="0.28" />
+      <circle cx={x} cy={y} r="7.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
+      <path d={`M${x - 3.2} ${y} H${x + 3.2} M${x} ${y - 3.2} V${y + 3.2}`} stroke={accentText} strokeWidth="1" strokeLinecap="round" />
     </g>
   );
 
@@ -175,73 +193,110 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
     <svg
       ref={svgRef}
       viewBox="0 0 800 360"
-      aria-label="Interactive market map: click the plus markers to learn what the analysis shows"
+      aria-label="Interactive market map: select a point to learn what the analysis shows"
       className={cn("h-auto w-full", className)}
       onClick={() => setPopup(null)}
     >
       <defs>
-        <pattern id="mml-streets" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M40 0H0V40" fill="none" stroke={line} strokeWidth="1" />
+        <pattern id="mml-streets" width="44" height="44" patternUnits="userSpaceOnUse">
+          <path d="M44 0H0V44" fill="none" stroke={line} strokeWidth="1" />
         </pattern>
         <radialGradient id="mml-heat" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#8c2b2b" stopOpacity="0.85" />
-          <stop offset="45%" stopColor="#500000" stopOpacity="0.5" />
+          <stop offset="0%" stopColor="#7c2626" stopOpacity="0.62" />
+          <stop offset="48%" stopColor="#500000" stopOpacity="0.34" />
           <stop offset="100%" stopColor="#500000" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="mml-sweep" cx="278" cy="145" r="150" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#b5544f" stopOpacity="0.34" />
-          <stop offset="100%" stopColor="#b5544f" stopOpacity="0" />
+          <stop offset="0%" stopColor={accent} stopOpacity="0.22" />
+          <stop offset="100%" stopColor={accent} stopOpacity="0" />
         </radialGradient>
+        <radialGradient id="mml-sweep2" cx="540" cy="215" r="95" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor={accent} stopOpacity="0.20" />
+          <stop offset="100%" stopColor={accent} stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="mml-scan" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor={accent} stopOpacity="0" />
+          <stop offset="70%" stopColor={accent} stopOpacity="0.07" />
+          <stop offset="100%" stopColor={accent} stopOpacity="0.13" />
+        </linearGradient>
       </defs>
 
       <rect width="800" height="360" fill="url(#mml-streets)" />
-      <path d="M0 300 L800 60" stroke={line} strokeWidth="2" fill="none" />
-      <path d="M120 0 L520 360" stroke={line} strokeWidth="2" fill="none" />
+      <path d="M0 300 L800 60" stroke={line} strokeWidth="1.5" fill="none" />
+      <path d="M120 0 L520 360" stroke={line} strokeWidth="1.5" fill="none" />
 
-      <circle cx="278" cy="145" r="130" fill="url(#mml-heat)" />
-      <circle cx="540" cy="215" r="110" fill="url(#mml-heat)" />
+      <circle cx="292" cy="150" r="132" fill="url(#mml-heat)" />
+      <circle cx="540" cy="215" r="108" fill="url(#mml-heat)" />
 
       {!reduced && (
-        <path d="M278 145 L428 145 A150 150 0 0 1 413.9 208.4 Z" fill="url(#mml-sweep)">
-          <animateTransform attributeName="transform" type="rotate" from="0 278 145" to="360 278 145" dur="13s" repeatCount="indefinite" />
+        <path d="M292 150 L442 150 A150 150 0 0 1 427.9 213.4 Z" fill="url(#mml-sweep)">
+          <animateTransform attributeName="transform" type="rotate" from="0 292 150" to="360 292 150" dur="16s" repeatCount="indefinite" />
         </path>
       )}
 
-      {[46, 84, 122].map((r) => (
-        <circle key={r} cx="278" cy="145" r={r} fill="none" stroke="#b5544f" strokeWidth="1.25" strokeDasharray="4 6" opacity={0.7 - r / 400} />
+      {/* second radar over the growth / opportunity cluster */}
+      {!reduced && (
+        <path d="M540 215 L635 215 A95 95 0 0 1 626.1 255.2 Z" fill="url(#mml-sweep2)">
+          <animateTransform attributeName="transform" type="rotate" from="360 540 215" to="0 540 215" dur="11s" repeatCount="indefinite" />
+        </path>
+      )}
+
+      {[48, 88, 128].map((r) => (
+        <circle key={r} cx="292" cy="150" r={r} fill="none" stroke={accent} strokeWidth="1" strokeDasharray="2 7" opacity={0.5 - r / 520} />
+      ))}
+      {[36, 66].map((r) => (
+        <circle key={`g${r}`} cx="540" cy="215" r={r} fill="none" stroke={accent} strokeWidth="1" strokeDasharray="2 7" opacity={0.42 - r / 520} />
       ))}
 
-      {/* customer points (base + live) */}
+      {/* data-collection scan sweeping the whole grid */}
+      {!reduced && (
+        <g>
+          <rect x="0" y="0" width="78" height="360" fill="url(#mml-scan)" />
+          <rect x="76" y="0" width="1.4" height="360" fill={accent} opacity="0.35" />
+          <animateTransform attributeName="transform" type="translate" from="-80 0" to="800 0" dur="7.5s" repeatCount="indefinite" />
+        </g>
+      )}
+
+      {/* customer points */}
       {dots.map((d) => (
         <g key={d.id}>
           {d.spawned && !d.leaving && !reduced && (
-            <circle cx={d.x} cy={d.y} r="3" fill="none" stroke="#b5544f" strokeWidth="1.5">
-              <animate attributeName="r" from="3" to="14" dur="1.2s" repeatCount="1" fill="freeze" />
-              <animate attributeName="opacity" from="0.7" to="0" dur="1.2s" repeatCount="1" fill="freeze" />
+            <circle cx={d.x} cy={d.y} r="2.5" fill="none" stroke={accent} strokeWidth="1">
+              <animate attributeName="r" from="2.5" to="12" dur="1.4s" repeatCount="1" fill="freeze" />
+              <animate attributeName="opacity" from="0.55" to="0" dur="1.4s" repeatCount="1" fill="freeze" />
             </circle>
           )}
-          <circle cx={d.x} cy={d.y} r={d.spawned ? 3 : 2.5} fill={d.spawned ? "#c9756c" : dotColor}>
-            {d.spawned && !d.leaving && !reduced && <animate attributeName="opacity" from="0" to="1" dur="0.5s" repeatCount="1" fill="freeze" />}
+          <circle cx={d.x} cy={d.y} r={d.spawned ? 2.6 : 2} fill={d.spawned ? accent : dotColor}>
+            {d.spawned && !d.leaving && !reduced && <animate attributeName="opacity" from="0" to="1" dur="0.6s" repeatCount="1" fill="freeze" />}
             {d.leaving && !reduced && <animate attributeName="opacity" from="1" to="0" dur="0.7s" repeatCount="1" fill="freeze" />}
           </circle>
         </g>
       ))}
 
-      {/* demographic chips */}
+      {/* demographic labels */}
       {CHIPS.map((c, i) => (
         <g key={i}>
-          <line x1={c.px} y1={c.py} x2={c.lx} y2={c.ly} stroke={pillStroke} strokeWidth="1" />
-          <circle cx={c.px} cy={c.py} r="3.5" fill="#b5544f" />
+          <line x1={c.px} y1={c.py} x2={c.lx} y2={c.ly} stroke={hair} strokeWidth="1" />
+          <circle cx={c.px} cy={c.py} r="2.6" fill={accent} />
           <g transform={`translate(${c.lx} ${c.ly})`}>
-            <rect x="-48" y="-13" width="96" height="26" rx="13" fill={pill} stroke={pillStroke} />
-            <text key={fadeKey} className={reduced ? undefined : "animate-fade"} y="1" textAnchor="middle" dominantBaseline="middle" fontSize="12.5" fontWeight={500} fill={labelText}>
+            <rect x="-50" y="-12" width="100" height="24" rx="4" fill={chipBg} stroke={hair} />
+            <text key={fadeKey} className={reduced ? undefined : "animate-fade"} y="1" textAnchor="middle" dominantBaseline="middle" fontSize="11.5" fontWeight={500} letterSpacing="0.01em" fill={labelText}>
               {reduced ? c.values[0] : val(c.values, i)}
             </text>
           </g>
         </g>
       ))}
 
-      {/* clickable map features with + markers */}
+      {/* primary + secondary pins (drawn under the click nodes) */}
+      <g transform="translate(292 150)">
+        <circle r="6.5" fill="none" stroke={accent} strokeWidth="1.2" opacity="0.6" />
+        <circle r="2.4" fill={accent} />
+      </g>
+      <g transform="translate(540 215)">
+        <circle r="2.2" fill={accent} opacity="0.85" />
+      </g>
+
+      {/* clickable feature nodes — hit target centred on the node */}
       {POIS.map((p) => (
         <g
           key={p.title}
@@ -251,58 +306,58 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           style={{ cursor: "pointer" }}
           onClick={(e) => {
             e.stopPropagation();
-            setPopup({ title: p.title, lines: wrap(p.info), ax: p.bx, ay: p.by });
+            openPoi(p);
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              setPopup({ title: p.title, lines: wrap(p.info), ax: p.bx, ay: p.by });
+              openPoi(p);
             }
           }}
         >
-          <circle cx={p.hx} cy={p.hy} r={p.r} fill="transparent" />
-          <Marker bx={p.bx} by={p.by} />
+          <circle cx={p.x} cy={p.y} r="18" fill="transparent" />
+          <Node x={p.x} y={p.y} />
         </g>
       ))}
 
-      {/* MBA analysis readout — top left, clickable */}
+      {/* analysis readout — top left, clickable */}
       <g
         role="button"
         tabIndex={0}
         aria-label={`Analytics: ${tech.name} — what it means`}
         style={{ cursor: "pointer" }}
-        transform="translate(22 24)"
+        transform="translate(20 20)"
         onClick={(e) => {
           e.stopPropagation();
-          setPopup({ title: tech.name, lines: wrap(tech.info), ax: 150, ay: 42 });
+          setPopup({ title: tech.name, lines: wrap(tech.info), ax: 148, ay: 40 });
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            setPopup({ title: tech.name, lines: wrap(tech.info), ax: 150, ay: 42 });
+            setPopup({ title: tech.name, lines: wrap(tech.info), ax: 148, ay: 40 });
           }
         }}
       >
-        <rect x="0" y="-15" width="268" height="30" rx="15" fill={pill} stroke={pillStroke} />
-        <rect x="14" y="-4" width="8" height="8" fill="#8c2b2b">
-          {!reduced && <animate attributeName="opacity" values="1;0.25;1" dur="1.8s" repeatCount="indefinite" />}
-        </rect>
-        <text x="32" y="1" dominantBaseline="middle" fontSize="11.5" fontWeight={500} letterSpacing="0.06em">
-          <tspan fill={muted}>ANALYZING&nbsp;·&nbsp;</tspan>
-          <tspan key={fadeKey} className={reduced ? undefined : "animate-fade"} fill={accentText}>{tech.name}</tspan>
+        <rect x="0" y="-14" width="258" height="28" rx="4" fill={chipBg} stroke={hair} />
+        <circle cx="15" cy="0" r="2.8" fill={accent}>
+          {!reduced && <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite" />}
+        </circle>
+        <text x="26" y="1" dominantBaseline="middle" fontSize="10.5" fontWeight={500} letterSpacing="0.07em">
+          <tspan fill={micro}>ANALYZING&nbsp;&nbsp;·&nbsp;&nbsp;</tspan>
+          <tspan key={fadeKey} className={reduced ? undefined : "animate-fade"} fill={accentText}>{tech.name.toUpperCase()}</tspan>
         </text>
-        <circle cx="252" cy="0" r="8" fill={badgeBg} stroke="#b5544f" strokeWidth="1.25" />
-        <text x="252" y="1" textAnchor="middle" dominantBaseline="middle" fontSize="11" fontWeight={700} fill="#c9756c">?</text>
+        <circle cx="243" cy="0" r="7" fill="none" stroke={hair} strokeWidth="1" />
+        <text x="243" y="0.5" textAnchor="middle" dominantBaseline="middle" fontSize="9.5" fontStyle="italic" fontWeight={500} fill={muted}>i</text>
       </g>
 
-      {/* pause / play control — top right */}
+      {/* pause / play — top right */}
       {!reduced && (
         <g
           role="button"
           tabIndex={0}
           aria-label={playing ? "Pause the animation" : "Play the animation"}
           style={{ cursor: "pointer" }}
-          transform="translate(688 10)"
+          transform="translate(704 8)"
           onClick={(e) => {
             e.stopPropagation();
             togglePlay();
@@ -314,14 +369,22 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
             }
           }}
         >
-          <rect x="0" y="0" width="88" height="28" rx="14" fill={pill} stroke={pillStroke} />
-          <text x="44" y="15" textAnchor="middle" dominantBaseline="middle" fontSize="12" fontWeight={500} fill={labelText}>
-            {playing ? "❚❚ Pause" : "▶ Play"}
+          <rect x="0" y="0" width="76" height="26" rx="4" fill={chipBg} stroke={hair} />
+          {playing ? (
+            <g fill={labelText}>
+              <rect x="14" y="8.5" width="2.4" height="9" rx="0.6" />
+              <rect x="18.5" y="8.5" width="2.4" height="9" rx="0.6" />
+            </g>
+          ) : (
+            <path d="M14 8.5 L21 13 L14 17.5 Z" fill={labelText} />
+          )}
+          <text x="46" y="13.5" textAnchor="middle" dominantBaseline="middle" fontSize="9.5" fontWeight={500} letterSpacing="0.08em" fill={muted}>
+            {playing ? "PAUSE" : "PLAY"}
           </text>
         </g>
       )}
 
-      {/* live forecast chart — bottom right (whole panel is clickable) */}
+      {/* forecast panel — bottom right (whole panel clickable) */}
       <g
         role="button"
         tabIndex={0}
@@ -339,49 +402,59 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           }
         }}
       >
-        <rect x="0" y="0" width="210" height="94" rx="12" fill={panel} stroke={pillStroke} />
-        <text x="14" y="20" fontSize="11" fontWeight={500} letterSpacing="0.04em" fill={muted}>REVENUE FORECAST</text>
-        <text key={`d-${fadeKey}`} className={reduced ? undefined : "animate-fade"} x="196" y="20" textAnchor="end" fontSize="12" fontWeight={600} fill={accentText}>{delta}</text>
-        <line x1="14" y1="82" x2="196" y2="82" stroke={pillStroke} strokeWidth="1" />
-        <path d={`${SPARK} L196 82 L14 82 Z`} fill="#500000" fillOpacity="0.18" transform="translate(0 6)" />
-        <path d={SPARK} fill="none" stroke="#b5544f" strokeWidth="2" transform="translate(0 6)" />
+        <rect x="0" y="0" width="210" height="94" rx="6" fill={panel} stroke={hair} />
+        <text x="14" y="19" fontSize="9.5" fontWeight={500} letterSpacing="0.09em" fill={micro}>REVENUE FORECAST</text>
+        <g key={`d-${fadeKey}`} className={reduced ? undefined : "animate-fade"}>
+          <path d="M188 12 L192 16 L196 12 Z" fill={accentText} transform="rotate(180 192 14)" />
+          <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={accentText}>{delta}</text>
+        </g>
+        <line x1="14" y1="82" x2="196" y2="82" stroke={hair} strokeWidth="1" />
+        <path d={`${SPARK} L196 82 L14 82 Z`} fill={accent} fillOpacity="0.12" transform="translate(0 6)" />
+        <path d={SPARK} fill="none" stroke={accent} strokeWidth="1.5" transform="translate(0 6)" />
         {!reduced ? (
-          <circle r="3.5" fill="#fff" stroke="#500000" strokeWidth="1" transform="translate(0 6)" pointerEvents="none">
-            <animateMotion dur="5.5s" repeatCount="indefinite" path={SPARK} />
+          <circle r="2.8" fill={dark ? "#fff" : "#500000"} stroke={accent} strokeWidth="1" transform="translate(0 6)" pointerEvents="none">
+            <animateMotion dur="6s" repeatCount="indefinite" path={SPARK} />
           </circle>
         ) : (
-          <circle cx="196" cy="30" r="3.5" fill="#fff" stroke="#500000" strokeWidth="1" />
+          <circle cx="196" cy="30" r="2.8" fill={dark ? "#fff" : "#500000"} stroke={accent} strokeWidth="1" />
         )}
-        {/* + affordance in the panel corner */}
-        <circle cx="192" cy="74" r="9" fill={badgeBg} stroke="#b5544f" strokeWidth="1.25" pointerEvents="none" />
-        <path d="M188 74 H196 M192 70 V78" stroke="#c9756c" strokeWidth="1.5" strokeLinecap="round" pointerEvents="none" />
+        <g pointerEvents="none">
+          <circle cx="194" cy="74" r="7.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
+          <path d="M190.8 74 H197.2 M194 70.8 V77.2" stroke={accentText} strokeWidth="1" strokeLinecap="round" />
+        </g>
       </g>
 
-      {/* pins */}
-      <g transform="translate(278 145)">
-        <circle r="9" fill="#500000" />
-        <circle r="3.5" fill="#fff" />
-      </g>
-      <g transform="translate(540 215)">
-        <circle r="7" fill="#8c2b2b" />
-        <circle r="2.8" fill="#fff" />
+      {/* live signals — bottom left */}
+      <g transform="translate(20 298)">
+        <rect x="0" y="0" width="212" height="46" rx="6" fill={panel} stroke={hair} />
+        <circle cx="15" cy="16" r="2.6" fill={accent}>
+          {!reduced && <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite" />}
+        </circle>
+        <text x="27" y="19" fontSize="9" fontWeight={500} letterSpacing="0.09em" fill={micro}>
+          <tspan>LIVE SIGNALS&nbsp;&nbsp;·&nbsp;&nbsp;</tspan>
+          <tspan key={`sk-${fadeKey}`} className={reduced ? undefined : "animate-fade"} fill={muted}>{sig.k}</tspan>
+        </text>
+        <text key={`sv-${fadeKey}`} className={reduced ? undefined : "animate-fade"} x="15" y="36" fontSize="12" fontWeight={600} fill={labelText}>
+          {sig.v}
+        </text>
       </g>
 
       {/* hint */}
       {!popup && (
-        <text x="24" y="344" fontSize="11" fill={muted} opacity="0.8">
-          Click a ＋ marker to explore ↗
+        <text x="398" y="330" textAnchor="middle" fontSize="9.5" letterSpacing="0.09em" fill={micro}>
+          SELECT A POINT TO EXPLORE
         </text>
       )}
 
       {/* explanation popup */}
       {popup && (
         <g>
-          <line x1={popup.ax} y1={popup.ay} x2={clamp(popup.ax, cardX + 12, cardX + cardW - 12)} y2={cardY < popup.ay ? cardY + cardH : cardY} stroke={pillStroke} strokeWidth="1" />
-          <rect x={cardX} y={cardY} width={cardW} height={cardH} rx="12" fill={popupBg} stroke={pillStroke} />
-          <text x={cardX + 16} y={cardY + 22} fontSize="13.5" fontWeight={600} fill={labelText}>{popup.title}</text>
+          <line x1={popup.ax} y1={popup.ay} x2={clamp(popup.ax, cardX + 14, cardX + cardW - 14)} y2={cardY < popup.ay ? cardY + cardH : cardY} stroke={hair} strokeWidth="1" />
+          <rect x={cardX} y={cardY} width={cardW} height={cardH} rx="6" fill={popupBg} stroke={hair} />
+          <rect x={cardX} y={cardY} width="3" height={cardH} rx="1.5" fill={accent} />
+          <text x={cardX + 16} y={cardY + 21} fontSize="12.5" fontWeight={600} letterSpacing="0.01em" fill={accentText}>{popup.title}</text>
           {popup.lines.map((l, i) => (
-            <text key={i} x={cardX + 16} y={cardY + 42 + i * 16} fontSize="12" fill={muted}>{l}</text>
+            <text key={i} x={cardX + 16} y={cardY + 40 + i * 15} fontSize="11.5" fill={muted}>{l}</text>
           ))}
           <g
             role="button"
@@ -393,8 +466,13 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
               setPopup(null);
             }}
           >
-            <rect x={cardX + cardW - 30} y={cardY + 8} width="22" height="22" rx="6" fill="transparent" />
-            <text x={cardX + cardW - 19} y={cardY + 20} textAnchor="middle" dominantBaseline="middle" fontSize="15" fill={muted}>×</text>
+            <rect x={cardX + cardW - 28} y={cardY + 8} width="20" height="20" rx="4" fill="transparent" />
+            <path
+              d={`M${cardX + cardW - 22} ${cardY + 14} l8 8 M${cardX + cardW - 14} ${cardY + 14} l-8 8`}
+              stroke={muted}
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            />
           </g>
         </g>
       )}

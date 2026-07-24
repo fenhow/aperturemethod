@@ -72,7 +72,7 @@ const POIS: Poi[] = [
 const COMPETITOR = {
   title: "Competitor",
   info: "A rival location about 2.1 miles away. We map where competitors win and lose, so you can defend your base and target the customers they underserve.",
-  px: 662, py: 150, lx: 702, ly: 116, label: "Competitor · 2.1 mi",
+  px: 416, py: 182, lx: 416, ly: 220, label: "Competitor · 2.1 mi",
 };
 
 const FORECAST_INFO = "Modeled from your data and market signals — it updates as inputs change.";
@@ -162,10 +162,10 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
 
-  // the revenue forecast changes on its own, slower cadence
+  // the revenue forecast changes on its own, much slower cadence
   useEffect(() => {
     if (!playing || reduced || popup) return;
-    const id = window.setInterval(() => setFidx((f) => f + 1), 6000);
+    const id = window.setInterval(() => setFidx((f) => f + 1), 11000);
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
 
@@ -240,10 +240,10 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   // button. Brighter coral than the static data so it clearly stands out.
   const Node = ({ x, y }: { x: number; y: number }) => (
     <g pointerEvents="none">
-      <circle cx={x} cy={y} r="13" fill="none" stroke={accentText} strokeWidth="1" opacity="0.4">
-        {!reduced && <animate attributeName="opacity" values="0.5;0.16;0.5" dur="2.6s" repeatCount="indefinite" />}
+      <circle cx={x} cy={y} r="13" fill="none" stroke={labelText} strokeWidth="1" opacity="0.4">
+        {!reduced && <animate attributeName="opacity" values="0.55;0.18;0.55" dur="2.6s" repeatCount="indefinite" />}
       </circle>
-      <circle cx={x} cy={y} r="7.5" fill={nodeBg} stroke={accentText} strokeWidth="1.3" />
+      <circle cx={x} cy={y} r="7.5" fill={nodeBg} stroke={labelText} strokeWidth="1.3" />
       <path d={`M${x - 3.3} ${y} H${x + 3.3} M${x} ${y - 3.3} V${y + 3.3}`} stroke={labelText} strokeWidth="1.5" strokeLinecap="round" />
     </g>
   );

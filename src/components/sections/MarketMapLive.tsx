@@ -29,7 +29,7 @@ const BASE: [number, number][] = [
 
 const CHIPS: { px: number; py: number; lx: number; ly: number; title: string; info: string; values: string[] }[] = [
   {
-    px: 300, py: 112, lx: 250, ly: 56,
+    px: 272, py: 106, lx: 250, ly: 56,
     title: "Core customer",
     info: "A young professional in your trade area — mid-income and digitally engaged. Segments like this respond to loyalty offers and drive the bulk of repeat visits.",
     values: ["Female · 26", "Male · 41", "HH $88k", "Age 34"],
@@ -47,13 +47,13 @@ const CHIPS: { px: number; py: number; lx: number; ly: number; title: string; in
     values: ["Male · 47", "High intent", "HH $102k", "New mover"],
   },
   {
-    px: 560, py: 195, lx: 636, ly: 156,
+    px: 590, py: 178, lx: 636, ly: 156,
     title: "At-risk customer",
     info: "Spend per visit and frequency are slipping — a churn-risk flag so you can win them back with a targeted offer before they're gone.",
     values: ["Female · 38", "Churn risk", "$58 / visit", "Visits ↓"],
   },
   {
-    px: 205, py: 252, lx: 152, ly: 300,
+    px: 205, py: 250, lx: 152, ly: 268,
     title: "Emerging segment",
     info: "An older, established household nearby — steady, reliable spenders who are often overlooked and worth targeting for growth.",
     values: ["Male · 63", "HH $71k", "Age 51", "Female · 29"],
@@ -220,12 +220,16 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
 
   const openPoi = (p: Poi) => setPopup({ title: p.title, lines: wrap(p.info), ax: p.x, ay: p.y });
 
-  // A refined marker node: faint outer ring + hairline disc + thin plus.
+  // The single, consistent "clickable" marker used for every interactive point —
+  // same size and colour everywhere, with a gently pulsing halo so it reads as a
+  // button. Brighter coral than the static data so it clearly stands out.
   const Node = ({ x, y }: { x: number; y: number }) => (
     <g pointerEvents="none">
-      <circle cx={x} cy={y} r="12" fill="none" stroke={accent} strokeWidth="1" opacity="0.28" />
-      <circle cx={x} cy={y} r="7.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
-      <path d={`M${x - 3.2} ${y} H${x + 3.2} M${x} ${y - 3.2} V${y + 3.2}`} stroke={accentText} strokeWidth="1" strokeLinecap="round" />
+      <circle cx={x} cy={y} r="13" fill="none" stroke={accentText} strokeWidth="1" opacity="0.4">
+        {!reduced && <animate attributeName="opacity" values="0.5;0.16;0.5" dur="2.6s" repeatCount="indefinite" />}
+      </circle>
+      <circle cx={x} cy={y} r="7.5" fill={nodeBg} stroke={accentText} strokeWidth="1.3" />
+      <path d={`M${x - 3.3} ${y} H${x + 3.3} M${x} ${y - 3.3} V${y + 3.3}`} stroke={accentText} strokeWidth="1.4" strokeLinecap="round" />
     </g>
   );
 
@@ -339,9 +343,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           }}
         >
           <line x1={c.px} y1={c.py} x2={c.lx} y2={c.ly} stroke={hair} strokeWidth="1" />
-          {/* small + node on the map anchor signals it's clickable */}
-          <circle cx={c.px} cy={c.py} r="5.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
-          <path d={`M${c.px - 2.4} ${c.py} H${c.px + 2.4} M${c.px} ${c.py - 2.4} V${c.py + 2.4}`} stroke={accentText} strokeWidth="1" strokeLinecap="round" />
+          <Node x={c.px} y={c.py} />
           <g transform={`translate(${c.lx} ${c.ly})`}>
             <rect x="-50" y="-12" width="100" height="24" rx="4" fill={chipBg} stroke={hair} />
             <text key={fadeKey} className={reduced ? undefined : "animate-fade"} y="1" textAnchor="middle" dominantBaseline="middle" fontSize="11.5" fontWeight={500} letterSpacing="0.01em" fill={labelText}>
@@ -408,10 +410,9 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         </circle>
         <text x="26" y="1" dominantBaseline="middle" fontSize="10.5" fontWeight={500} letterSpacing="0.07em">
           <tspan fill={micro}>ANALYZING&nbsp;&nbsp;·&nbsp;&nbsp;</tspan>
-          <tspan key={fadeKey} className={reduced ? undefined : "animate-fade"} fill={accentText}>{tech.name.toUpperCase()}</tspan>
+          <tspan key={fadeKey} className={reduced ? undefined : "animate-fade"} fill={labelText}>{tech.name.toUpperCase()}</tspan>
         </text>
-        <circle cx="243" cy="0" r="7.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
-        <path d="M239.8 0 H246.2 M243 -3.2 V3.2" stroke={accentText} strokeWidth="1" strokeLinecap="round" />
+        <Node x={243} y={0} />
       </g>
 
       {/* pause / play — top right */}
@@ -482,16 +483,13 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         ) : (
           <circle cx="196" cy="30" r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" />
         )}
-        <g pointerEvents="none">
-          <circle cx="194" cy="74" r="7.5" fill={nodeBg} stroke={accent} strokeWidth="1" />
-          <path d="M190.8 74 H197.2 M194 70.8 V77.2" stroke={accentText} strokeWidth="1" strokeLinecap="round" />
-        </g>
+        <Node x={194} y={74} />
       </g>
 
       {/* live signals — bottom left */}
       <g transform="translate(20 298)">
         <rect x="0" y="0" width="212" height="46" rx="6" fill={panel} stroke={hair} />
-        <circle cx="15" cy="16" r="2.6" fill={accent}>
+        <circle cx="15" cy="16" r="2.6" fill={upColor}>
           {!reduced && <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite" />}
         </circle>
         <text x="27" y="19" fontSize="9" fontWeight={500} letterSpacing="0.09em" fill={micro}>

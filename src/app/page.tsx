@@ -9,6 +9,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { CountUp } from "@/components/ui/CountUp";
 import { MethodAperture } from "@/components/sections/MethodAperture";
 import { MarketMapLive } from "@/components/sections/MarketMapLive";
+import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { HeroRotator } from "@/components/home/HeroRotator";
 import { industries } from "@/lib/industries";
 import { primaryCta } from "@/lib/site";
@@ -190,6 +191,14 @@ export default function Home() {
               Spatial intelligence most consultants don&apos;t offer.
             </figcaption>
           </figure>
+        </Reveal>
+
+        <Reveal variant="up" delay={160} className="mt-6">
+          <RevenueForecastLive />
+          <p className="mt-3 text-small text-white/55">
+            A live revenue forecast — we don&apos;t just show your numbers, we continuously project
+            where your business is heading.
+          </p>
         </Reveal>
       </Section>
 

@@ -75,8 +75,6 @@ const COMPETITOR = {
   px: 416, py: 182, lx: 416, ly: 220, label: "Competitor · 2.1 mi",
 };
 
-const FORECAST_INFO = "Modeled from your data and market signals — it updates as inputs change.";
-
 const TECH: { name: string; info: string }[] = [
   { name: "Regression", info: "Isolates which factors actually move a result — like what drives a sale — and by how much. It tells you which levers are worth pulling, so you invest where it counts instead of guessing." },
   { name: "Forecasting", info: "Projects demand, revenue, and cost from your history and market signals. You can staff, stock, and budget ahead of what's coming instead of always reacting to it." },
@@ -92,8 +90,6 @@ const TECH: { name: string; info: string }[] = [
   { name: "Sensitivity", info: "Tests how the outcome shifts when a key assumption changes. You learn which risks matter most and how much room for error you really have." },
 ];
 
-const DELTAS = ["+12.4%", "-3.2%", "+8.1%", "-1.8%", "+15.2%", "-4.6%", "+9.7%", "-2.4%"];
-
 // Everyday context signals — cycled to show the breadth of what we watch.
 const SIGNALS: { k: string; v: string }[] = [
   { k: "LOCAL TIME", v: "3:42 PM" },
@@ -105,10 +101,6 @@ const SIGNALS: { k: string; v: string }[] = [
   { k: "NEARBY EVENT", v: "Festival Saturday" },
   { k: "COMPETITOR", v: "New site 2.1 mi" },
 ];
-
-// Two trend shapes so the line direction matches the number: up = rising, down = falling.
-const SPARK_UP = "M14 70 L45 64 L76 58 L107 50 L138 42 L167 32 L196 24";
-const SPARK_DOWN = "M14 26 L45 32 L76 40 L107 48 L138 56 L167 66 L196 72";
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -150,8 +142,6 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const [reduced, setReduced] = useState(false);
   const [playing, setPlaying] = useState(true);
   const [tick, setTick] = useState(0);
-  const [fidx, setFidx] = useState(0);
-  const [shownDelta, setShownDelta] = useState<string>(DELTAS[0]!);
   const [dots, setDots] = useState<Dot[]>(() => BASE.map(([x, y], i) => ({ id: i, x, y, spawned: false })));
   const [popup, setPopup] = useState<Popup | null>(null);
 
@@ -164,30 +154,6 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
     const id = window.setInterval(() => setTick((t) => t + 1), 3200);
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
-
-  // the forecast trend (direction + colour) changes on a slow cadence, matched to
-  // one full sweep of the marker
-  useEffect(() => {
-    if (!playing || reduced || popup) return;
-    const id = window.setInterval(() => setFidx((f) => f + 1), 14000);
-    return () => window.clearInterval(id);
-  }, [playing, reduced, popup]);
-
-  // the readout number ticks quickly within the current trend, so it keeps
-  // changing as the marker travels
-  useEffect(() => {
-    const base = reduced ? DELTAS[0]! : DELTAS[fidx % DELTAS.length]!;
-    const baseNum = parseFloat(base);
-    const isUp = baseNum >= 0;
-    setShownDelta(base);
-    if (!playing || reduced || popup) return;
-    const id = window.setInterval(() => {
-      const jittered = baseNum + (Math.random() - 0.5) * 1.4;
-      const v = isUp ? Math.max(0.1, jittered) : Math.min(-0.1, jittered);
-      setShownDelta((v >= 0 ? "+" : "") + v.toFixed(1) + "%");
-    }, 1500);
-    return () => window.clearInterval(id);
-  }, [playing, reduced, popup, fidx]);
 
   useEffect(() => {
     if (!playing || reduced) return;
@@ -240,14 +206,8 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
 
   const val = (values: string[], offset: number) => values[(tick + offset) % values.length]!;
   const tech = reduced ? TECH[0]! : TECH[tick % TECH.length]!;
-  const delta = reduced ? DELTAS[0]! : DELTAS[fidx % DELTAS.length]!;
   const sig = reduced ? SIGNALS[0]! : SIGNALS[tick % SIGNALS.length]!;
-  const deltaUp = !delta.startsWith("-");
-  const deltaColor = deltaUp ? upColor : downColor;
-  const spark = deltaUp ? SPARK_UP : SPARK_DOWN;
-  const sparkEndY = deltaUp ? 24 : 72;
   const fadeKey = reduced ? "static" : tick;
-  const fbKey = reduced ? "static" : fidx;
 
   const cardW = 246;
   const cardH = popup ? 32 + popup.lines.length * 15 + 12 : 0;
@@ -512,47 +472,6 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           </text>
         </g>
       )}
-
-      {/* forecast panel — bottom right (whole panel clickable) */}
-      <g
-        role="button"
-        tabIndex={0}
-        aria-label="Revenue forecast — details"
-        style={{ cursor: "pointer" }}
-        transform="translate(566 250)"
-        onClick={(e) => {
-          e.stopPropagation();
-          setPopup({ title: "Revenue forecast", lines: wrap(FORECAST_INFO), ax: 671, ay: 250 });
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            setPopup({ title: "Revenue forecast", lines: wrap(FORECAST_INFO), ax: 671, ay: 250 });
-          }
-        }}
-      >
-        <rect x="0" y="0" width="210" height="94" rx="6" fill={panel} stroke={hair} />
-        <text x="14" y="19" fontSize="9.5" fontWeight={500} letterSpacing="0.09em" fill={micro}>REVENUE FORECAST</text>
-        <g>
-          <path d="M188 12 L192 16 L196 12 Z" fill={deltaColor} transform={deltaUp ? "rotate(180 192 14)" : undefined} />
-          <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={deltaColor}>{shownDelta}</text>
-        </g>
-        <line x1="14" y1="82" x2="196" y2="82" stroke={hair} strokeWidth="1" />
-        {/* line + fill swap (fade) with each new metric */}
-        <g key={`spark-${fbKey}`} className={reduced ? undefined : "animate-fade"} transform="translate(0 6)">
-          <path d={`${spark} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" />
-          <path d={spark} fill="none" stroke={deltaColor} strokeWidth="1.6" />
-        </g>
-        {/* marker travels left↔right along the current trend line */}
-        {reduced ? (
-          <circle cx="196" cy={sparkEndY + 6} r="3" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1.4" pointerEvents="none" />
-        ) : (
-          <circle key={`m-${fbKey}`} r="3" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1.4" transform="translate(0 6)" pointerEvents="none">
-            <animateMotion dur="14s" repeatCount="indefinite" path={spark} keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" />
-          </circle>
-        )}
-        <Node x={194} y={74} />
-      </g>
 
       {/* live signals — bottom centre, content centred */}
       <g transform="translate(294 298)">

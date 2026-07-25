@@ -106,7 +106,9 @@ const SIGNALS: { k: string; v: string }[] = [
   { k: "COMPETITOR", v: "New site 2.1 mi" },
 ];
 
-const SPARK = "M14 74 L45 64 L76 68 L107 52 L138 44 L167 30 L196 24";
+// Two trend shapes so the line direction matches the number: up = rising, down = falling.
+const SPARK_UP = "M14 70 L45 64 L76 58 L107 50 L138 42 L167 32 L196 24";
+const SPARK_DOWN = "M14 26 L45 32 L76 40 L107 48 L138 56 L167 66 L196 72";
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
@@ -165,7 +167,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   // the revenue forecast changes on its own, much slower cadence
   useEffect(() => {
     if (!playing || reduced || popup) return;
-    const id = window.setInterval(() => setFidx((f) => f + 1), 11000);
+    const id = window.setInterval(() => setFidx((f) => f + 1), 15000);
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
 
@@ -224,6 +226,8 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const sig = reduced ? SIGNALS[0]! : SIGNALS[tick % SIGNALS.length]!;
   const deltaUp = !delta.startsWith("-");
   const deltaColor = deltaUp ? upColor : downColor;
+  const spark = deltaUp ? SPARK_UP : SPARK_DOWN;
+  const sparkEndY = deltaUp ? 24 : 72;
   const fadeKey = reduced ? "static" : tick;
   const fbKey = reduced ? "static" : fidx;
 
@@ -516,15 +520,11 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={deltaColor}>{delta}</text>
         </g>
         <line x1="14" y1="82" x2="196" y2="82" stroke={hair} strokeWidth="1" />
-        <path key={`fill-${fbKey}`} d={`${SPARK} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" transform="translate(0 6)" />
-        <path key={`ln-${fbKey}`} d={SPARK} fill="none" stroke={deltaColor} strokeWidth="1.5" transform="translate(0 6)" />
-        {!reduced ? (
-          <circle r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" transform="translate(0 6)" pointerEvents="none">
-            <animateMotion dur="6s" repeatCount="indefinite" path={SPARK} />
-          </circle>
-        ) : (
-          <circle cx="196" cy="30" r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" />
-        )}
+        <g key={`spark-${fbKey}`} className={reduced ? undefined : "animate-fade"} transform="translate(0 6)">
+          <path d={`${spark} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" />
+          <path d={spark} fill="none" stroke={deltaColor} strokeWidth="1.6" />
+          <circle cx="196" cy={sparkEndY} r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" />
+        </g>
         <Node x={194} y={74} />
       </g>
 

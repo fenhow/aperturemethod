@@ -42,7 +42,7 @@ const slides: Slide[] = [
     eyebrow: "Know your business",
     title: "Bring your business into focus.",
     sub: "The MBA-level analytics, AI, and strategy big companies rely on — sized for your business, in plain language, and put to work.",
-    image: "/hero/hero-3-v6.jpg",
+    image: "/hero/hero-3-v7.jpg",
   },
 ];
 

@@ -23,7 +23,7 @@ const slides: Slide[] = [
     eyebrow: "Know your numbers",
     title: "See exactly where you make money.",
     sub: "We turn the data you already have into a clear picture of what's working, what's not, and what to do next.",
-    image: "/hero/hero-1-v4.jpg",
+    image: "/hero/hero-1-v5.jpg",
   },
   {
     eyebrow: "Know your customers",

@@ -151,6 +151,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const [playing, setPlaying] = useState(true);
   const [tick, setTick] = useState(0);
   const [fidx, setFidx] = useState(0);
+  const [shownDelta, setShownDelta] = useState<string>(DELTAS[0]!);
   const [dots, setDots] = useState<Dot[]>(() => BASE.map(([x, y], i) => ({ id: i, x, y, spawned: false })));
   const [popup, setPopup] = useState<Popup | null>(null);
 
@@ -164,12 +165,29 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
 
-  // the revenue forecast changes on its own, much slower cadence
+  // the forecast trend (direction + colour) changes on a slow cadence, matched to
+  // one full sweep of the marker
   useEffect(() => {
     if (!playing || reduced || popup) return;
-    const id = window.setInterval(() => setFidx((f) => f + 1), 5000);
+    const id = window.setInterval(() => setFidx((f) => f + 1), 14000);
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
+
+  // the readout number ticks quickly within the current trend, so it keeps
+  // changing as the marker travels
+  useEffect(() => {
+    const base = reduced ? DELTAS[0]! : DELTAS[fidx % DELTAS.length]!;
+    const baseNum = parseFloat(base);
+    const isUp = baseNum >= 0;
+    setShownDelta(base);
+    if (!playing || reduced || popup) return;
+    const id = window.setInterval(() => {
+      const jittered = baseNum + (Math.random() - 0.5) * 1.4;
+      const v = isUp ? Math.max(0.1, jittered) : Math.min(-0.1, jittered);
+      setShownDelta((v >= 0 ? "+" : "") + v.toFixed(1) + "%");
+    }, 1500);
+    return () => window.clearInterval(id);
+  }, [playing, reduced, popup, fidx]);
 
   useEffect(() => {
     if (!playing || reduced) return;
@@ -515,9 +533,9 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
       >
         <rect x="0" y="0" width="210" height="94" rx="6" fill={panel} stroke={hair} />
         <text x="14" y="19" fontSize="9.5" fontWeight={500} letterSpacing="0.09em" fill={micro}>REVENUE FORECAST</text>
-        <g key={`d-${fbKey}`} className={reduced ? undefined : "animate-fade"}>
+        <g>
           <path d="M188 12 L192 16 L196 12 Z" fill={deltaColor} transform={deltaUp ? "rotate(180 192 14)" : undefined} />
-          <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={deltaColor}>{delta}</text>
+          <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={deltaColor}>{shownDelta}</text>
         </g>
         <line x1="14" y1="82" x2="196" y2="82" stroke={hair} strokeWidth="1" />
         {/* line + fill swap (fade) with each new metric */}
@@ -525,17 +543,14 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           <path d={`${spark} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" />
           <path d={spark} fill="none" stroke={deltaColor} strokeWidth="1.6" />
         </g>
-        {/* persistent marker that glides up (green) / down (red) with each change */}
-        <circle
-          cx="196"
-          cy={sparkEndY + 6}
-          r="3"
-          fill={dark ? "#fff" : "#141414"}
-          stroke={deltaColor}
-          strokeWidth="1.4"
-          pointerEvents="none"
-          style={reduced ? undefined : { transition: "cy 1.1s cubic-bezier(0.4,0,0.2,1), stroke 0.5s ease" }}
-        />
+        {/* marker travels left↔right along the current trend line */}
+        {reduced ? (
+          <circle cx="196" cy={sparkEndY + 6} r="3" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1.4" pointerEvents="none" />
+        ) : (
+          <circle key={`m-${fbKey}`} r="3" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1.4" transform="translate(0 6)" pointerEvents="none">
+            <animateMotion dur="14s" repeatCount="indefinite" path={spark} keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="linear" />
+          </circle>
+        )}
         <Node x={194} y={74} />
       </g>
 

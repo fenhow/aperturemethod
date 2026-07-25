@@ -92,7 +92,7 @@ const TECH: { name: string; info: string }[] = [
   { name: "Sensitivity", info: "Tests how the outcome shifts when a key assumption changes. You learn which risks matter most and how much room for error you really have." },
 ];
 
-const DELTAS = ["+12.4%", "+8.1%", "-3.2%", "+15.2%", "-1.8%", "+9.7%", "+11.3%", "-4.6%"];
+const DELTAS = ["+12.4%", "-3.2%", "+8.1%", "-1.8%", "+15.2%", "-4.6%", "+9.7%", "-2.4%"];
 
 // Everyday context signals — cycled to show the breadth of what we watch.
 const SIGNALS: { k: string; v: string }[] = [
@@ -167,7 +167,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   // the revenue forecast changes on its own, much slower cadence
   useEffect(() => {
     if (!playing || reduced || popup) return;
-    const id = window.setInterval(() => setFidx((f) => f + 1), 15000);
+    const id = window.setInterval(() => setFidx((f) => f + 1), 5000);
     return () => window.clearInterval(id);
   }, [playing, reduced, popup]);
 
@@ -520,11 +520,22 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
           <text x="196" y="20" textAnchor="end" fontSize="11.5" fontWeight={600} fill={deltaColor}>{delta}</text>
         </g>
         <line x1="14" y1="82" x2="196" y2="82" stroke={hair} strokeWidth="1" />
+        {/* line + fill swap (fade) with each new metric */}
         <g key={`spark-${fbKey}`} className={reduced ? undefined : "animate-fade"} transform="translate(0 6)">
           <path d={`${spark} L196 82 L14 82 Z`} fill={deltaColor} fillOpacity="0.12" />
           <path d={spark} fill="none" stroke={deltaColor} strokeWidth="1.6" />
-          <circle cx="196" cy={sparkEndY} r="2.8" fill={dark ? "#fff" : "#141414"} stroke={deltaColor} strokeWidth="1" />
         </g>
+        {/* persistent marker that glides up (green) / down (red) with each change */}
+        <circle
+          cx="196"
+          cy={sparkEndY + 6}
+          r="3"
+          fill={dark ? "#fff" : "#141414"}
+          stroke={deltaColor}
+          strokeWidth="1.4"
+          pointerEvents="none"
+          style={reduced ? undefined : { transition: "cy 1.1s cubic-bezier(0.4,0,0.2,1), stroke 0.5s ease" }}
+        />
         <Node x={194} y={74} />
       </g>
 

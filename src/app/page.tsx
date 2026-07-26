@@ -17,17 +17,6 @@ import { primaryCta } from "@/lib/site";
 
 /** Homepage — Concept A, composed from the approved Step 6 copy. */
 
-const capabilities = [
-  "Business assessment",
-  "Financial & quantitative analysis",
-  "Customer & market intelligence",
-  "Spatial intelligence (GIS)",
-  "AI where it genuinely helps",
-  "Strategic planning",
-  "Hands-on implementation",
-  "Ongoing advisory & support",
-];
-
 const whyDifferent = [
   {
     h: "Graduate-level analytics",
@@ -153,7 +142,25 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Why we're different */}
+      {/* Method overview */}
+      <Section>
+        <Reveal>
+          <SectionHeading
+            eyebrow="The Aperture Method™"
+            title="Five steps, from flying blind to running on evidence."
+            lede="A clear path that turns the data your business already has into decisions you can act on — then helps put them to work."
+          />
+          <p className="mt-5 text-h4 font-semibold text-maroon">{methodTagline}</p>
+        </Reveal>
+        <Reveal variant="zoom" delay={120} className="mt-12">
+          <MethodAperture />
+        </Reveal>
+        <p className="mt-8">
+          <LinkArrow href="/the-aperture-method">Explore the Method</LinkArrow>
+        </p>
+      </Section>
+
+      {/* Why we're different — the differentiator, shown live */}
       <Section tone="dark">
         <Reveal className="max-w-measure">
           <p className="eyebrow eyebrow--on-dark mb-5">Why we&apos;re different</p>
@@ -197,115 +204,37 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* Method overview */}
-      <Section>
-        <Reveal>
-          <SectionHeading
-            eyebrow="The Aperture Method™"
-            title="Five steps, from flying blind to running on evidence."
-            lede="A clear path that turns the data your business already has into decisions you can act on — then helps put them to work."
-          />
-          <p className="mt-5 text-h4 font-semibold text-maroon">{methodTagline}</p>
-        </Reveal>
-        <Reveal variant="zoom" delay={120} className="mt-12">
-          <MethodAperture />
-        </Reveal>
-        <p className="mt-8">
-          <LinkArrow href="/the-aperture-method">Explore the Method</LinkArrow>
-        </p>
-      </Section>
-
-      {/* What you get — deliverables teaser */}
-      <Section tone="dark">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-          <Reveal variant="right">
-            <p className="eyebrow eyebrow--on-dark mb-5">What you get</p>
-            <h2 className="text-h2 font-semibold text-paper">
-              Strategy you can see — not a slide deck of opinions.
-            </h2>
-            <p className="mt-5 text-body-lg text-white/70">
-              Every engagement produces a complete, reconciled set of executive deliverables: the
-              Business X-Ray, Profit Map, Customer &amp; Market Map, Opportunity Matrix, and a live
-              Scoreboard. See exactly what lands on your desk.
+      {/* What you get — the demonstrator + the deliverables you keep */}
+      <Section tone="surface">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <Reveal variant="left" delay={100} className="order-last lg:order-first">
+            <Link href="/what-you-get" className="group block overflow-hidden rounded-lg border border-line shadow-card hover-lift">
+              <Image
+                src="/lumina.jpg"
+                alt="Lumina Medical Aesthetics — an illustrative example business"
+                width={1600}
+                height={1066}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="h-auto w-full"
+              />
+            </Link>
+            <p className="mt-3 text-small text-muted">
+              Illustrative — Lumina Medical Aesthetics is a fictional company; figures are synthetic.
             </p>
+          </Reveal>
+          <Reveal variant="right">
+            <SectionHeading
+              eyebrow="What you get"
+              title="Strategy you can see — and everything you keep."
+              lede="Meet Lumina Medical Aesthetics, an illustrative med-spa we take through the entire Aperture Method. Every engagement produces a complete, reconciled set of executive deliverables — the Business X-Ray, Profit Map, Customer & Market Map, Opportunity Matrix, and a live Scoreboard — plus the working files behind them. It keeps working after the engagement, and it's yours."
+            />
             <p className="mt-8">
-              <Link href="/what-you-get" className="btn--on-dark">
+              <Link href="/what-you-get" className="btn">
                 See what you get
               </Link>
             </p>
           </Reveal>
-          <Reveal variant="left" delay={100}>
-            <div className="overflow-hidden rounded-lg border border-white/10 shadow-card">
-              <Image
-                src="/deliverables/01_engagement_cover.jpg"
-                alt="An Aperture Method engagement deliverable set — illustrative"
-                width={1150}
-                height={1489}
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="h-auto w-full"
-              />
-            </div>
-            <p className="mt-3 text-small text-white/45">Illustrative example — figures are synthetic.</p>
-          </Reveal>
         </div>
-      </Section>
-
-      {/* Capabilities */}
-      <Section tone="surface">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-          <Reveal variant="right">
-            <SectionHeading
-              eyebrow="What we do"
-              title="The depth of a big firm — put into plain business terms."
-              lede="Under the five steps sits real capability. You'll understand every number and every recommendation."
-            />
-            <p className="mt-8">
-              <LinkArrow href="/what-we-do">What we do</LinkArrow>
-            </p>
-          </Reveal>
-          <Reveal variant="left" delay={100}>
-            <ul className="grid grid-cols-1 gap-px overflow-hidden rounded border border-line bg-line sm:grid-cols-2">
-              {capabilities.map((c) => (
-                <li
-                  key={c}
-                  className="bg-paper px-5 py-5 text-[15px] font-medium text-ink transition-colors duration-200 hover:bg-maroon hover:text-paper"
-                >
-                  {c}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-      </Section>
-
-      {/* Business outcomes — centered, numbers count in */}
-      <Section>
-        <Reveal>
-          <SectionHeading
-            eyebrow="What you get"
-            title="Decisions you can act on — and keep."
-            className="mx-auto text-center"
-          />
-        </Reveal>
-        <dl className="mt-12 grid grid-cols-2 gap-y-10 border-t border-line pt-12 lg:grid-cols-4">
-          {outcomes.map((o, i) => (
-            <Reveal
-              key={o.label}
-              variant="zoom"
-              delay={i * 110}
-              className="border-line px-4 text-center lg:[&:not(:last-child)]:border-r"
-            >
-              <dt className="text-display font-semibold leading-none text-maroon">
-                {o.kind === "count" ? (
-                  <CountUp value={o.value} suffix={o.suffix ?? ""} />
-                ) : (
-                  o.stat
-                )}
-              </dt>
-              <dd className="mt-4 text-small uppercase tracking-overline text-muted">{o.label}</dd>
-            </Reveal>
-          ))}
-        </dl>
       </Section>
 
       {/* AI without the black box */}
@@ -333,27 +262,6 @@ export default function Home() {
             Bring AI into your business
           </Link>
         </Reveal>
-      </Section>
-
-      {/* The intelligence that stays (platform) */}
-      <Section tone="surface">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <Reveal variant="right">
-            <SectionHeading
-              eyebrow="The intelligence that stays"
-              title="A living picture of your business — that you keep."
-              lede="Our platform turns the customer data you already have into continuous intelligence: who your best customers are, who's likely to leave, who's ready to buy more, and where the next customers are. Unlike a one-time report, it keeps working after the engagement — and it's yours."
-            />
-          </Reveal>
-          <Reveal variant="left" delay={100}>
-            <ImagePlaceholder
-              id="HOME-PLATFORM"
-              ratio="aspect-[4/3]"
-              className="rounded border border-line"
-              label="Illustrative Customer & Market Map dashboard — to be added"
-            />
-          </Reveal>
-        </div>
       </Section>
 
       {/* Who we help — industries */}
@@ -391,37 +299,34 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Proof — the illustrative demonstrator */}
+      {/* By the numbers — the shape of an engagement */}
       <Section tone="surface">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <Reveal variant="left" delay={100} className="order-last lg:order-first">
-            <Link href="/what-you-get" className="group block overflow-hidden rounded-lg border border-line shadow-card hover-lift">
-              <Image
-                src="/lumina.jpg"
-                alt="Lumina Medical Aesthetics — an illustrative example business"
-                width={1600}
-                height={1066}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="h-auto w-full"
-              />
-            </Link>
-            <p className="mt-3 text-small text-muted">
-              Illustrative — Lumina Medical Aesthetics is a fictional company; figures are synthetic.
-            </p>
-          </Reveal>
-          <Reveal variant="right">
-            <SectionHeading
-              eyebrow="What the work looks like"
-              title="See it run on a real business."
-              lede="Meet Lumina Medical Aesthetics — an illustrative med-spa we take through the entire Aperture Method. From first diagnostic to live dashboard, see exactly what an engagement produces and what lands on your desk."
-            />
-            <p className="mt-8">
-              <Link href="/what-you-get" className="btn">
-                See what you get
-              </Link>
-            </p>
-          </Reveal>
-        </div>
+        <Reveal>
+          <SectionHeading
+            eyebrow="By the numbers"
+            title="Decisions you can act on — and keep."
+            className="mx-auto text-center"
+          />
+        </Reveal>
+        <dl className="mt-12 grid grid-cols-2 gap-y-10 border-t border-line pt-12 lg:grid-cols-4">
+          {outcomes.map((o, i) => (
+            <Reveal
+              key={o.label}
+              variant="zoom"
+              delay={i * 110}
+              className="border-line px-4 text-center lg:[&:not(:last-child)]:border-r"
+            >
+              <dt className="text-display font-semibold leading-none text-maroon">
+                {o.kind === "count" ? (
+                  <CountUp value={o.value} suffix={o.suffix ?? ""} />
+                ) : (
+                  o.stat
+                )}
+              </dt>
+              <dd className="mt-4 text-small uppercase tracking-overline text-muted">{o.label}</dd>
+            </Reveal>
+          ))}
+        </dl>
       </Section>
 
       {/* Founder */}

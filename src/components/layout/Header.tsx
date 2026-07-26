@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { primaryNav, primaryCta, type NavItem } from "@/lib/site";
 import { megaNav, primaryCta, siteConfig, type MegaEntry } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/brand/Logo";

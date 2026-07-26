@@ -18,11 +18,11 @@ export const slotImages: Record<string, SlotImage> = {
     alt: "A clinician-owned healthcare practice",
   },
   "HOME-IND-industrial-manufacturing": {
-    src: "/slots/HOME-IND-industrial-manufacturing.jpg",
+    src: "/slots/HOME-IND-industrial-manufacturing-v2.jpg",
     alt: "An owner-run manufacturing and fabrication business",
   },
   "HOME-IND-professional-services": {
-    src: "/slots/HOME-IND-professional-services.jpg",
+    src: "/slots/HOME-IND-professional-services-v2.jpg",
     alt: "A founder-led professional services firm",
   },
   "HOME-IND-retail-consumer": {

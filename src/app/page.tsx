@@ -89,9 +89,21 @@ const problem = [
 ];
 
 const proof = [
-  { eyebrow: "Home & Trade Services", title: "A regional HVAC company that couldn't see which jobs made money." },
-  { eyebrow: "Healthcare Practices", title: "A multi-location dental group deciding where to invest next." },
-  { eyebrow: "Distribution", title: "A distributor with thousands of SKUs and no view of profit." },
+  {
+    eyebrow: "Aperture Insights",
+    title: "A whole-business diagnostic that names the single biggest constraint.",
+    img: "/deliverables/02_insights_aperture_score.jpg",
+  },
+  {
+    eyebrow: "Aperture Analytics",
+    title: "A Profit Map showing where every dollar is made and lost.",
+    img: "/deliverables/03_analytics_scenario_model.jpg",
+  },
+  {
+    eyebrow: "Aperture Live",
+    title: "A live Scoreboard that proves the strategy is working.",
+    img: "/deliverables/06_live_scoreboard.jpg",
+  },
 ];
 
 const insights = [
@@ -397,20 +409,31 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Proof — illustrative */}
+      {/* Proof — the deliverables you get */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
             eyebrow="What the work looks like"
             title="What the work looks like."
-            lede="Representative examples of the problems we solve and how the Method addresses them."
+            lede="Real pages from one illustrative engagement — the actual deliverables you receive, not a scenario."
           />
         </Reveal>
         <div className="mt-10 grid gap-8 lg:grid-cols-3">
           {proof.map((p, i) => (
             <Reveal key={p.title} variant="up" delay={i * 90}>
-              <article className="flex h-full flex-col overflow-hidden rounded border border-line bg-paper hover-lift">
-                <ImagePlaceholder id={`HOME-PROOF-${i + 1}`} label={`${p.eyebrow} — illustrative`} />
+              <Link
+                href="/what-you-get"
+                className="group flex h-full flex-col overflow-hidden rounded border border-line bg-paper hover-lift"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden border-b border-line bg-white">
+                  <Image
+                    src={p.img}
+                    alt={`${p.eyebrow} deliverable — illustrative`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover object-top"
+                  />
+                </div>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="mb-3 flex items-center gap-2">
                     <span className="rounded-sm bg-gray-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted">
@@ -419,13 +442,14 @@ export default function Home() {
                     <span className="eyebrow">{p.eyebrow}</span>
                   </div>
                   <h3 className="text-h4 font-semibold text-ink">{p.title}</h3>
+                  <ReadMore label="See what you get" className="mt-4" />
                 </div>
-              </article>
+              </Link>
             </Reveal>
           ))}
         </div>
         <p className="mt-6 text-small italic text-muted">
-          Illustrative scenarios — representative of the work, not actual client results.
+          Illustrative — Lumina Medical Aesthetics is a fictional company; figures are synthetic.
         </p>
       </Section>
 

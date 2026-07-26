@@ -138,7 +138,7 @@ export default function LuminaCaseStudyPage() {
             <h1 className="text-display font-semibold text-paper">Lumina Medical Aesthetics</h1>
             <p className="mt-6 max-w-xl text-body-lg text-white/75">
               A complete Aperture Method™ engagement, start to finish — how we found the one thing
-              holding a fast-growing med-spa's profit flat, what each phase produced, and the plan that
+              holding a fast-growing med-spa&apos;s profit flat, what each phase produced, and the plan that
               followed.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -248,10 +248,10 @@ export default function LuminaCaseStudyPage() {
             Fix retention first — then expand, where the data points.
           </h2>
           <p className="mt-6 text-body-lg text-white/75">
-            The single highest-return move wasn't a new location — it was keeping the patients Lumina
+            The single highest-return move wasn&apos;t a new location — it was keeping the patients Lumina
             already wins. Closing the retention gap is worth an estimated $200K–$400K in additional
             annual profit and de-risks everything that follows. And when the time comes to grow,
-            Lumina's own patients point clearly to one place: the Energy Corridor.
+            Lumina&apos;s own patients point clearly to one place: the Energy Corridor.
           </p>
         </Reveal>
         <Reveal className="mt-8">
@@ -286,7 +286,7 @@ export default function LuminaCaseStudyPage() {
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
             <div className="max-w-2xl">
               <h2 className="text-h2 font-semibold text-paper">
-                Curious what your business's version of this looks like?
+                Curious what your business&apos;s version of this looks like?
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
                 It starts with a single low-risk step — the Business X-Ray. Everything above follows

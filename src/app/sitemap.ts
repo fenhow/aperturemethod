@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1.0, changeFrequency: "weekly" },
     { path: "/the-aperture-method", priority: 0.9, changeFrequency: "monthly" },
     { path: "/what-we-do", priority: 0.9, changeFrequency: "monthly" },
+    { path: "/what-you-get", priority: 0.9, changeFrequency: "monthly" },
     { path: "/ai", priority: 0.9, changeFrequency: "monthly" },
     { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
     { path: "/case-studies", priority: 0.7, changeFrequency: "monthly" },

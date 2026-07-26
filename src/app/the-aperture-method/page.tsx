@@ -166,6 +166,11 @@ export default function TheApertureMethodPage() {
         <Reveal variant="zoom" delay={100} className="mt-12">
           <MethodExplorer />
         </Reveal>
+        <Reveal className="mt-8">
+          <Link href="/what-you-get" className="btn--secondary">
+            See what you get →
+          </Link>
+        </Reveal>
       </Section>
 
       {/* How we deliver */}

@@ -221,6 +221,41 @@ export default function Home() {
         </p>
       </Section>
 
+      {/* What you get — deliverables teaser */}
+      <Section tone="dark">
+        <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+          <Reveal variant="right">
+            <p className="eyebrow eyebrow--on-dark mb-5">What you get</p>
+            <h2 className="text-h2 font-semibold text-paper">
+              Strategy you can see — not a slide deck of opinions.
+            </h2>
+            <p className="mt-5 text-body-lg text-white/70">
+              Every engagement produces a complete, reconciled set of executive deliverables: the
+              Business X-Ray, Profit Map, Customer &amp; Market Map, Opportunity Matrix, and a live
+              Scoreboard. See exactly what lands on your desk.
+            </p>
+            <p className="mt-8">
+              <Link href="/what-you-get" className="btn--on-dark">
+                See what you get
+              </Link>
+            </p>
+          </Reveal>
+          <Reveal variant="left" delay={100}>
+            <div className="overflow-hidden rounded-lg border border-white/10 shadow-card">
+              <Image
+                src="/deliverables/01_engagement_cover.jpg"
+                alt="An Aperture Method engagement deliverable set — illustrative"
+                width={1150}
+                height={1489}
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="h-auto w-full"
+              />
+            </div>
+            <p className="mt-3 text-small text-white/45">Illustrative example — figures are synthetic.</p>
+          </Reveal>
+        </div>
+      </Section>
+
       {/* Capabilities */}
       <Section tone="surface">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">

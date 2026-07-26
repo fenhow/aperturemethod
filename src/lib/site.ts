@@ -28,6 +28,7 @@ export type NavItem = {
 export const primaryNav: NavItem[] = [
   { label: "The Method", href: "/the-aperture-method" },
   { label: "What We Do", href: "/what-we-do" },
+  { label: "What You Get", href: "/what-you-get" },
   { label: "AI", href: "/ai" },
   { label: "Insights", href: "/insights" },
   { label: "Working Together", href: "/working-together" },
@@ -65,6 +66,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     items: [
       { label: "The Aperture Method", href: "/the-aperture-method" },
       { label: "What We Do", href: "/what-we-do" },
+      { label: "What You Get", href: "/what-you-get" },
       { label: "AI, Without the Black Box", href: "/ai" },
       { label: "Working Together", href: "/working-together" },
       { label: "Industries", href: "/industries" },

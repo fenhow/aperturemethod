@@ -69,7 +69,7 @@ export function Header() {
           </Link>
 
           {/* Desktop navigation */}
-          <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex xl:gap-8">
+          <nav aria-label="Primary" className="hidden items-center gap-5 lg:flex xl:gap-7">
             {primaryNav.map((item: NavItem) =>
               item.href === "/industries" ? (
                 <NavDropdown key={item.href} item={item} active={isActive(item.href)} onDark={scrolled} />

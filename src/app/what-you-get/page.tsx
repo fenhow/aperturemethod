@@ -272,6 +272,14 @@ export default function WhatYouGetPage() {
                 Yours starts with a single low-risk step — the Business X-Ray. Everything above follows
                 from it, only as the value becomes obvious.
               </p>
+              <p className="mt-5">
+                <Link
+                  href="/case-studies/lumina-medical-aesthetics"
+                  className="text-[15px] font-semibold text-paper underline-offset-4 hover:underline"
+                >
+                  Read the full Lumina case study &rarr;
+                </Link>
+              </p>
             </div>
             <Link href={primaryCta.href} className="btn--on-dark shrink-0">
               Book a consultation

@@ -178,7 +178,7 @@ export default function AiPage() {
       </Section>
 
       {/* Practical uses */}
-      <Section>
+      <Section id="in-practice">
         <Reveal>
           <SectionHeading
             eyebrow="In practice"
@@ -206,7 +206,7 @@ export default function AiPage() {
       </Section>
 
       {/* How we keep it honest — principles */}
-      <Section tone="surface">
+      <Section id="trust" tone="surface">
         <Reveal>
           <SectionHeading eyebrow="Safe and simple" title="And we keep it honest the whole way." />
         </Reveal>

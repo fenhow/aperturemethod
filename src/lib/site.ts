@@ -69,7 +69,7 @@ export type MegaEntry =
 export const megaNav: MegaEntry[] = [
   {
     kind: "group",
-    label: "Our Approach",
+    label: "The Method",
     href: "/the-aperture-method",
     hub: {
       eyebrow: "The engagement",
@@ -79,13 +79,30 @@ export const megaNav: MegaEntry[] = [
       linkLabel: "Understand · Quantify · Reveal · Navigate · Perform",
     },
     links: [
-      { label: "The Method", href: "/the-aperture-method", desc: "How the five phases work" },
+      { label: "The Five Phases", href: "/the-aperture-method", desc: "How the Method works" },
       { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
       { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
       { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
     ],
   },
-  { kind: "link", label: "AI", href: "/ai" },
+  {
+    kind: "group",
+    label: "AI",
+    href: "/ai",
+    hub: {
+      eyebrow: "Practical AI",
+      title: "AI, where it actually matters",
+      blurb:
+        "We help you integrate AI into your business — deliberately, only where it earns its place, and it stays yours to keep.",
+      linkLabel: "AI for your business",
+    },
+    links: [
+      { label: "AI for Your Business", href: "/ai", desc: "The overview — understand, implement, use" },
+      { label: "Where It Pays Off", href: "/ai#in-practice", desc: "Practical jobs AI actually does" },
+      { label: "How We Bring It In", href: "/ai#how", desc: "Adoption as part of the Method" },
+      { label: "No Black Boxes", href: "/ai#trust", desc: "Explainable, and a person decides" },
+    ],
+  },
   {
     kind: "group",
     label: "Industries",

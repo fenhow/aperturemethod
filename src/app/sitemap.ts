@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/ai", priority: 0.9, changeFrequency: "monthly" },
     { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
     { path: "/case-studies", priority: 0.7, changeFrequency: "monthly" },
+    { path: "/case-studies/lumina-medical-aesthetics", priority: 0.8, changeFrequency: "monthly" },
     { path: "/insights", priority: 0.8, changeFrequency: "weekly" },
     { path: "/working-together", priority: 0.8, changeFrequency: "monthly" },
     { path: "/about", priority: 0.7, changeFrequency: "monthly" },

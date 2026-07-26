@@ -55,27 +55,27 @@ const uses: { h: string; p: string; phase: string }[] = [
   {
     h: "Automate the busywork",
     p: "Quoting, scheduling, data entry, follow-ups, reporting — the repetitive work that eats your team's week, handled so they can focus on customers.",
-    phase: "Execute",
+    phase: "Aperture Live",
   },
   {
     h: "Answer customers faster",
     p: "Assistants and workflows that help you respond quickly and consistently, so service keeps up as you grow — with a person in the loop.",
-    phase: "Execute",
+    phase: "Aperture Live",
   },
   {
     h: "Forecast demand and revenue",
     p: "Projecting what's coming so you can plan staffing, inventory, and cash with more confidence than a gut estimate.",
-    phase: "Quantify",
+    phase: "Aperture Analytics",
   },
   {
     h: "See who's likely to leave — or buy more",
     p: "Scoring customers by their likelihood to churn or grow, so your attention and offers go where they'll actually move the needle.",
-    phase: "Illuminate",
+    phase: "Aperture Intelligence",
   },
   {
     h: "Find patterns you'd never spot by hand",
     p: "Surfacing what really drives profit and predicts a good customer, tested honestly against your own numbers.",
-    phase: "Quantify",
+    phase: "Aperture Analytics",
   },
 ];
 

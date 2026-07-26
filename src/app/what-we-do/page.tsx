@@ -42,7 +42,7 @@ const capabilities: Capability[] = [
       "The Business X-Ray, the Aperture Score, and a one-page statement of your single biggest constraint.",
     outcomes:
       "A shared, honest baseline; the one problem that matters most, named; clear priorities before you spend on anything else.",
-    meta: "Phase: Focus · Relevant to every industry",
+    meta: "Aperture Insights · Relevant to every industry",
     cta: "Start with a Business X-Ray",
   },
   {
@@ -59,7 +59,7 @@ const capabilities: Capability[] = [
       "The Profit Map, a financial and scenario model you keep, and a quantified opportunity summary.",
     outcomes:
       "Clarity on profit by product, customer, channel, and location; every opportunity sized in dollars.",
-    meta: "Phase: Quantify · Distribution, retail, trades, professional services",
+    meta: "Aperture Analytics · Distribution, retail, trades, professional services",
     cta: "Put numbers behind your decisions",
   },
   {
@@ -73,10 +73,10 @@ const capabilities: Capability[] = [
     work:
       "Segmentation; lifetime-value modeling; churn and propensity scoring; geographic, demographic, and trade-area analysis; a live dashboard on the Aperture platform.",
     deliverables:
-      "The Customer Map — a live dashboard you keep — and the models behind it.",
+      "The Customer & Market Map — a live dashboard you keep — and the models behind it.",
     outcomes:
       "Sharper retention and marketing; evidence-based expansion and site selection; an asset that keeps working.",
-    meta: "Phase: Illuminate · Retail, healthcare, trades, distribution",
+    meta: "Aperture Intelligence · Retail, healthcare, trades, distribution",
     cta: "See your customers clearly",
   },
   {
@@ -90,10 +90,10 @@ const capabilities: Capability[] = [
     work:
       "Trade-area and drive-time analysis; ZIP- and block-level demographics, income, and growth; competitor and traffic mapping; hot-spot and market-penetration analysis; site-selection modeling.",
     deliverables:
-      "The Market Map — trade areas, opportunity zones, and site scores you can act on.",
+      "The GIS trade-area analysis — trade areas, opportunity zones, and site scores you can act on.",
     outcomes:
       "Expansion and marketing aimed where the opportunity is, not where it feels busy; site decisions backed by evidence.",
-    meta: "Phase: Illuminate · Retail, healthcare, trades, professional services",
+    meta: "Aperture Intelligence · Retail, healthcare, trades, professional services",
     cta: "See where the opportunity is",
   },
   {
@@ -110,7 +110,7 @@ const capabilities: Capability[] = [
       "The Opportunity Matrix and the Focus Plan — a plain Now/Next/Later roadmap, board-ready.",
     outcomes:
       "A short, sequenced, owned plan; aligned leadership; confidence about what to do first, defer, or stop.",
-    meta: "Phase: Chart · Relevant to every industry",
+    meta: "Aperture Compass · Relevant to every industry",
     cta: "Build your roadmap",
   },
   {
@@ -127,12 +127,12 @@ const capabilities: Capability[] = [
       "The Aperture platform and dashboards, working automations, and a practical modernization roadmap.",
     outcomes:
       "Less manual work; better forecasts and decisions surfaced where your team already works. AI supports decisions; people make them — every output is reviewed.",
-    meta: "Across Illuminate and Execute · Especially trades, healthcare, distribution",
+    meta: "Across Aperture Intelligence and Aperture Live · Especially trades, healthcare, distribution",
     cta: "Modernize with a plan",
   },
   {
     n: "07",
-    arc: "Execute",
+    arc: "Perform",
     headline: "We stay until the strategy is working.",
     overview:
       "Hands-on execution, operational improvement, and ongoing senior counsel — the part where most consulting stops and most value quietly leaks.",
@@ -141,10 +141,10 @@ const capabilities: Capability[] = [
     work:
       "Embedded delivery on a light cadence; operational improvement; live KPI tracking; change support; quarterly reviews; capability handoff. Where a plan requires commercial or digital execution — brand, web, or marketing operations — we coordinate it in service of the strategy.",
     deliverables:
-      "The Scoreboard, a steady operating rhythm, quarterly Focus Reviews, and playbooks that outlast the engagement.",
+      "The Scoreboard, a steady operating rhythm, quarterly performance reviews, and playbooks that outlast the engagement.",
     outcomes:
       "Results that show up in your numbers, and the capability to sustain them without us.",
-    meta: "Phase: Execute · Relevant to every industry",
+    meta: "Aperture Live · Relevant to every industry",
     cta: "Make the plan real",
   },
 ];
@@ -152,7 +152,7 @@ const capabilities: Capability[] = [
 const arc = [
   { h: "Understand", p: "How it runs, where the money is, and who your customers are — through evidence." },
   { h: "Decide", p: "The few moves with the biggest payoff, sequenced into a plan you own." },
-  { h: "Execute", p: "We stay until it shows up in your numbers — and leave you the tools." },
+  { h: "Perform", p: "We stay until it shows up in your numbers — and leave you the tools." },
 ];
 
 function Detail({ label, text, accent }: { label: string; text: string; accent?: boolean }) {
@@ -195,7 +195,7 @@ export default function WhatWeDoPage() {
       {/* The arc */}
       <Section tone="surface">
         <Reveal>
-          <SectionHeading eyebrow="How we work" title="Understand. Decide. Execute." />
+          <SectionHeading eyebrow="How we work" title="Understand. Decide. Perform." />
         </Reveal>
         <Reveal variant="up" delay={100}>
           <div className="mt-10 grid gap-px overflow-hidden rounded border border-line bg-line md:grid-cols-3">

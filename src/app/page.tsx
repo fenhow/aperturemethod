@@ -12,6 +12,7 @@ import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { HeroRotator } from "@/components/home/HeroRotator";
 import { industries } from "@/lib/industries";
+import { methodTagline } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 
 /** Homepage — Concept A, composed from the approved Step 6 copy. */
@@ -210,6 +211,7 @@ export default function Home() {
             title="Five steps, from flying blind to running on evidence."
             lede="A clear path that turns the data your business already has into decisions you can act on — then helps put them to work."
           />
+          <p className="mt-5 text-h4 font-semibold text-maroon">{methodTagline}</p>
         </Reveal>
         <Reveal variant="zoom" delay={120} className="mt-12">
           <MethodAperture />
@@ -319,7 +321,7 @@ export default function Home() {
               id="HOME-PLATFORM"
               ratio="aspect-[4/3]"
               className="rounded border border-line"
-              label="Illustrative Customer Map dashboard — to be added"
+              label="Illustrative Customer & Market Map dashboard — to be added"
             />
           </Reveal>
         </div>

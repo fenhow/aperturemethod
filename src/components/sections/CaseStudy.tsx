@@ -6,7 +6,13 @@ import { cn } from "@/lib/utils";
  * outcome is set apart. Real, permissioned case studies replace these later.
  */
 
-const PHASES = ["FOCUS", "QUANTIFY", "ILLUMINATE", "CHART", "EXECUTE"];
+const PHASES = [
+  "Aperture Insights",
+  "Aperture Analytics",
+  "Aperture Intelligence",
+  "Aperture Compass",
+  "Aperture Live",
+];
 
 function renderBody(body: string) {
   const idx = body.indexOf("Illustratively");

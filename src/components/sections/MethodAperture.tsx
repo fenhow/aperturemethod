@@ -113,7 +113,7 @@ export function MethodAperture() {
         <button
           type="button"
           onClick={() => go(1)}
-          aria-label={`Aperture mark, pointing to step ${phase.n}, ${phase.name}. Activate for the next step.`}
+          aria-label={`Aperture mark, pointing to step ${phase.n}, ${phase.product}. Activate for the next step.`}
           className="group absolute left-1/2 top-1/2 grid h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full focus-visible:outline-none"
         >
           <span
@@ -156,14 +156,14 @@ export function MethodAperture() {
                   isActive ? "text-maroon" : "text-muted"
                 )}
               >
-                {p.name}
+                {p.verb}
               </span>
 
               <button
                 type="button"
                 onClick={() => select(i)}
                 aria-pressed={isActive}
-                aria-label={`Step ${p.n}: ${p.name} — ${p.title}`}
+                aria-label={`Step ${p.n}: ${p.product} — ${p.verb}`}
                 className={cn(
                   "relative grid h-10 w-10 place-items-center rounded-full border text-[13px] font-semibold tabular-nums transition-all duration-300",
                   isActive
@@ -190,27 +190,21 @@ export function MethodAperture() {
           <div className="flex items-center justify-center gap-3 lg:justify-start">
             <span className="text-display font-semibold leading-none text-maroon">{phase.n}</span>
             <div className="text-left">
-              <h3 className="text-h3 font-semibold text-ink">{phase.name}</h3>
-              <p className="eyebrow mt-1">{phase.title}</p>
+              <h3 className="text-h3 font-semibold text-ink">{phase.product}&trade;</h3>
+              <p className="eyebrow mt-1">{phase.verb} · &ldquo;{phase.question}&rdquo;</p>
             </div>
           </div>
 
-          <p className="mx-auto mt-6 max-w-md text-body-lg text-body lg:mx-0">{phase.purpose}</p>
+          <p className="mx-auto mt-6 max-w-md text-body-lg text-body lg:mx-0">{phase.line}</p>
 
-          <div className="mx-auto mt-8 grid max-w-md gap-4 border-t border-line pt-6 text-left sm:grid-cols-2 lg:mx-0">
-            <div>
-              <p className="text-overline font-semibold uppercase tracking-overline text-muted">You get</p>
-              <p className="mt-1 text-body font-medium text-ink">{phase.deliverable}</p>
-            </div>
-            <div>
-              <p className="text-overline font-semibold uppercase tracking-overline text-muted">Decides</p>
-              <p className="mt-1 text-body text-muted">{phase.decision}</p>
-            </div>
+          <div className="mx-auto mt-8 max-w-md border-t border-line pt-6 text-left lg:mx-0">
+            <p className="text-overline font-semibold uppercase tracking-overline text-muted">You get</p>
+            <p className="mt-1 text-body font-medium text-ink">{phase.deliverable}</p>
           </div>
         </div>
 
         <p aria-live="polite" className="sr-only">
-          Step {phase.n} of {methodPhases.length}: {phase.name}. {phase.purpose}
+          Step {phase.n} of {methodPhases.length}: {phase.product}. {phase.line}
         </p>
 
         {/* Controls */}

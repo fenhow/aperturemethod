@@ -5,13 +5,14 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Faq } from "@/components/ui/Faq";
 import { Reveal } from "@/components/ui/Reveal";
 import { MethodExplorer } from "@/components/sections/MethodExplorer";
+import { methodTagline, methodSummary } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
   title: "The Method — From Data to Decision",
   description:
-    "A clear, five-step framework that turns the data your business already has into confident decisions — then helps you carry them out. Focus, Quantify, Illuminate, Chart, Execute.",
+    "A clear, five-step framework that turns the data your business already has into confident decisions — then helps you carry them out. Understand. Quantify. Reveal. Navigate. Perform.",
   path: "/the-aperture-method",
 });
 
@@ -48,11 +49,11 @@ const dataPrinciples = [
 const faqs = [
   {
     q: "How long does it take?",
-    a: "Focus and Quantify typically run a few weeks each; Illuminate stands up in two to three; Chart is one to two. Execute is ongoing for as long as it's earning its place. The Business X-Ray delivers real insight in its first weeks.",
+    a: "Aperture Insights and Aperture Analytics typically run a few weeks each; Aperture Intelligence stands up in two to three; Aperture Compass is one to two. Aperture Live is ongoing for as long as it's earning its place. The Business X-Ray delivers real insight in its first weeks.",
   },
   {
     q: "How much of my team's time will it take?",
-    a: "Very little early on — a few interviews and access to data you already have. Execute is a genuine partnership, but even then your team stays focused on running the business.",
+    a: "Very little early on — a few interviews and access to data you already have. Aperture Live is a genuine partnership, but even then your team stays focused on running the business.",
   },
   {
     q: "Do we need clean, perfect data?",
@@ -91,6 +92,7 @@ export default function TheApertureMethodPage() {
             decisions, then helps you carry them out. The rigor a large company would expect, sized for
             an owner-run business, delivered by the person who does the work.
           </p>
+          <p className="mt-7 text-h4 font-semibold text-paper">{methodTagline}</p>
           <div className="mt-9 flex flex-wrap gap-4">
             <Link href={primaryCta.href} className="btn--on-dark">
               {primaryCta.label}
@@ -106,11 +108,12 @@ export default function TheApertureMethodPage() {
       <Section>
         <Reveal className="max-w-measure">
           <SectionHeading title="What The Aperture Method is." />
-          <p className="mt-6 text-body-lg text-body">
-            A structured, five-phase engagement — Focus, Quantify, Illuminate, Chart, Execute — with a
-            continuous intelligence layer, the Aperture platform, running through all of it. Each phase
-            opens the picture a little more. The whole thing is designed to end not with a report, but
-            with decisions in motion and results in your numbers.
+          <p className="mt-6 text-body-lg text-body">{methodSummary}</p>
+          <p className="mt-5 text-body-lg text-body">
+            Five named phase-products — Aperture Insights, Aperture Analytics, Aperture Intelligence,
+            Aperture Compass, and Aperture Live — with a continuous intelligence layer, the Aperture
+            platform, running through all of it. The whole thing is designed to end not with a report,
+            but with decisions in motion and results in your numbers.
           </p>
           <p className="mt-5 text-body-lg text-body">
             The individual techniques are the same ones a top firm would use. What&apos;s ours is how
@@ -173,7 +176,7 @@ export default function TheApertureMethodPage() {
             <p className="text-body-lg text-body">
               Engagements are fixed-fee and phase-gated. You see the price, and you decide whether to
               continue at each gate — so you&apos;re never locked into an open-ended commitment. The work
-              is senior-led from start to finish. In Execute, we move to a light recurring cadence, and
+              is senior-led from start to finish. In Aperture Live, we move to a light recurring cadence, and
               we deliberately hand over the models, dashboards, and playbooks. Most clients start with
               the Business X-Ray.
             </p>
@@ -196,7 +199,7 @@ export default function TheApertureMethodPage() {
         <Reveal className="max-w-measure">
           <SectionHeading title="Measured on your numbers." />
           <p className="mt-6 text-body-lg text-body">
-            The targets that matter are set in Chart and tracked live on the Scoreboard — every
+            The targets that matter are set in Aperture Compass and tracked live on the Scoreboard — every
             initiative marked red, amber, or green against its KPI. We review them with you each quarter
             and adjust. We ask to be measured on whether the strategy shows up in your results, not on
             how the deck looked.

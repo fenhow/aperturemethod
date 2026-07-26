@@ -59,8 +59,8 @@ export function MethodExplorer() {
             <span className={cn("text-[15px] font-semibold tracking-wide", i === active ? "text-maroon" : "text-muted")}>
               {ph.n}
             </span>
-            <span className="mt-2 block text-h4 font-semibold text-ink">{ph.name}</span>
-            <span className="mt-1 block text-small text-muted">{ph.title}</span>
+            <span className="mt-2 block text-h4 font-semibold text-ink">{ph.product}&trade;</span>
+            <span className="mt-1 block text-small text-muted">{ph.verb}</span>
           </button>
         ))}
       </div>
@@ -71,18 +71,18 @@ export function MethodExplorer() {
         aria-labelledby={`method-tab-${active}`}
         className="border-t border-line pt-8"
       >
-        <p key={`p-${active}`} className="max-w-3xl text-h3 font-medium text-ink motion-safe:animate-fade-up">
-          {phase.purpose}
+        <p key={`q-${active}`} className="eyebrow mb-3 text-maroon motion-safe:animate-fade">
+          {phase.verb} · &ldquo;{phase.question}&rdquo;
         </p>
-        <div key={`d-${active}`} className="mt-8 grid max-w-3xl gap-8 motion-safe:animate-fade sm:grid-cols-2">
-          <div>
-            <p className="eyebrow mb-2">What you get</p>
-            <p className="text-body-lg font-medium text-ink">{phase.deliverable}</p>
-          </div>
-          <div>
-            <p className="eyebrow mb-2">The decision it supports</p>
-            <p className="text-body text-body">{phase.decision}</p>
-          </div>
+        <p key={`p-${active}`} className="max-w-3xl text-h3 font-medium text-ink motion-safe:animate-fade-up">
+          {phase.heading}
+        </p>
+        <p key={`desc-${active}`} className="mt-5 max-w-3xl text-body-lg text-body motion-safe:animate-fade">
+          {phase.description}
+        </p>
+        <div key={`d-${active}`} className="mt-8 max-w-3xl motion-safe:animate-fade">
+          <p className="eyebrow mb-2">What you get</p>
+          <p className="text-body-lg font-medium text-ink">{phase.deliverable}</p>
         </div>
       </div>
 

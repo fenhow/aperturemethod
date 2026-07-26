@@ -27,8 +27,8 @@ type Step = {
 const journey: Step[] = [
   {
     n: "01",
-    name: "Focus",
-    sub: "Business assessment",
+    name: "Aperture Insights",
+    sub: "Understand the business",
     duration: "2–3 weeks",
     what: "We get the whole business into focus — how it runs, how it's performing, and the single constraint holding it back most. This is the Business X-Ray, and it's where most clients begin.",
     get: "Your Business X-Ray and Aperture Score, plus a clear read on the #1 thing to fix first.",
@@ -36,38 +36,38 @@ const journey: Step[] = [
   },
   {
     n: "02",
-    name: "Quantify",
-    sub: "MBA-level analytics",
+    name: "Aperture Analytics",
+    sub: "Quantify the business",
     duration: "2–4 weeks",
-    what: "We apply graduate-level analytics — forecasting, lifetime value, margin and break-even, scenario modeling — to show exactly where you make and lose money, and what moves the needle.",
-    get: "Your Profit Map and a financial model you keep and can re-run as things change.",
+    what: "We apply advanced analysis, financial modeling, forecasting, and scenario planning to show exactly where you make and lose money — and what really drives profitability.",
+    get: "Your Profit Map and a scenario model you keep and can re-run as things change.",
     your: "One working session to validate assumptions, plus sales and cost data exports. We handle the analysis; you sanity-check the story it tells.",
   },
   {
     n: "03",
-    name: "Illuminate",
-    sub: "Customer & spatial intelligence",
+    name: "Aperture Intelligence",
+    sub: "Reveal customer & market intelligence",
     duration: "2–3 weeks, then continuous",
-    what: "We turn your customer and location data into a living picture of value, risk, and — through spatial intelligence (GIS) — precisely where your next customers and best markets are.",
-    get: "Your Customer Map and Market Map, standing up as a live dashboard you keep watching.",
+    what: "We combine customer analytics, demographics, geographic intelligence (GIS), market trends, and competitive insight to reveal who your customers are, where they are, and where the greatest growth opportunities exist.",
+    get: "Your Customer & Market Map, with GIS trade-area analysis, standing up as a live dashboard you keep watching.",
     your: "A customer and location data export and one review session to confirm what rings true on the ground.",
   },
   {
     n: "04",
-    name: "Chart",
-    sub: "Strategy & roadmap",
+    name: "Aperture Compass",
+    sub: "Determine the strategic direction",
     duration: "1–2 weeks",
-    what: "We narrow everything down to the few moves with the biggest payoff and sequence them — Now, Next, Later — into a plan you own and understand.",
+    what: "We convert the analysis into a prioritized roadmap — evaluating opportunities by value, complexity, risk, and impact, and sequencing them Now, Next, Later into a plan you own.",
     get: "Your Opportunity Matrix and Focus Plan, with targets set against real numbers.",
     your: "One or two decision workshops. This is where your judgment matters most — you make the calls; we bring the evidence and the trade-offs.",
   },
   {
     n: "05",
-    name: "Execute",
-    sub: "Implementation & support",
+    name: "Aperture Live",
+    sub: "Manage & improve performance",
     duration: "Ongoing · 3–12 months",
-    what: "We help make the plan real, track results live, and keep the intelligence working — course-correcting on real data rather than a static deck.",
-    get: "Your Scoreboard tracking every initiative red / amber / green, plus quarterly Focus Reviews and a clean handoff of the models and playbooks.",
+    what: "We stand up executive dashboards, KPIs, and automated reporting so leadership can monitor performance in real time, measure progress against the plan, and keep improving.",
+    get: "Your Scoreboard and KPI system tracking every initiative red / amber / green, quarterly performance reviews, and a re-scored Aperture Score to prove progress.",
     your: "A monthly steering conversation and a quarterly review. Your team runs the business; we keep the plan on course and the tools sharp.",
   },
 ];
@@ -89,11 +89,11 @@ const scoreParts: string[] = [
 const faqs = [
   {
     q: "How long does the whole thing take?",
-    a: "The analysis phases — Focus through Chart — typically run about six to ten weeks end to end, and the Business X-Ray delivers real insight in its first couple of weeks. Execute then continues for as long as it's earning its place.",
+    a: "The analysis phases — Aperture Insights through Aperture Compass — typically run about six to ten weeks end to end, and the Business X-Ray delivers real insight in its first couple of weeks. Aperture Live then continues for as long as it's earning its place.",
   },
   {
     q: "How much of my team's time will it cost?",
-    a: "Very little early on — a few interviews and access to data you already have. Chart asks for a bit more of your judgment in the decision workshops, and Execute is a genuine partnership, but even then your team stays focused on running the business.",
+    a: "Very little early on — a few interviews and access to data you already have. Aperture Compass asks for a bit more of your judgment in the decision workshops, and Aperture Live is a genuine partnership, but even then your team stays focused on running the business.",
   },
   {
     q: "Do I have to do all five steps?",
@@ -101,7 +101,7 @@ const faqs = [
   },
   {
     q: "Is it really a straight line?",
-    a: "It's a loop, not a line. Fresh data from Execute re-opens Focus on the next constraint, so the method keeps compounding rather than ending at a report.",
+    a: "It's a loop, not a line. Fresh data from Aperture Live re-opens Aperture Insights on the next constraint, so the method keeps compounding rather than ending at a report.",
   },
   {
     q: "Do we need clean, perfect data?",
@@ -140,8 +140,8 @@ export default function WorkingTogetherPage() {
         <Reveal className="max-w-measure">
           <SectionHeading title="The shape of an engagement." />
           <p className="mt-6 text-body-lg text-body">
-            Every engagement follows the same five phases — Focus, Quantify, Illuminate, Chart,
-            Execute — with the Aperture platform running underneath the whole way. Each phase is
+            Every engagement follows the same five phases — Understand, Quantify, Reveal, Navigate,
+            Perform — with the Aperture platform running underneath the whole way. Each phase is
             fixed-fee and phase-gated: you see the value, then decide whether to continue. Almost
             everyone starts small, with the Business X-Ray, and keeps going because the picture keeps
             getting clearer.
@@ -219,7 +219,7 @@ export default function WorkingTogetherPage() {
           <SectionHeading
             eyebrow="At a glance"
             title="Roughly six to ten weeks to a plan — then partnership."
-            lede="The analysis phases move quickly. Execute is where the work becomes results, and it lasts as long as it keeps earning its place."
+            lede="The analysis phases move quickly. Aperture Live is where the work becomes results, and it lasts as long as it keeps earning its place."
           />
         </Reveal>
         <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded border border-line bg-line lg:grid-cols-5">
@@ -258,7 +258,7 @@ export default function WorkingTogetherPage() {
                   <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-line bg-surface text-h2 font-semibold text-maroon transition-colors duration-200 group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper">
                     {s.n}
                   </div>
-                  <h3 className="mt-5 text-h3 font-semibold text-ink">{s.name}</h3>
+                  <h3 className="mt-5 text-h3 font-semibold text-ink">{s.name}&trade;</h3>
                   <p className="mt-1 text-small text-muted">{s.sub}</p>
                   <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1 text-small font-medium text-ink">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -303,7 +303,7 @@ export default function WorkingTogetherPage() {
 
         <Reveal className="mt-10 max-w-measure">
           <p className="text-body-lg text-body">
-            And then it loops. Fresh data from Execute re-opens Focus on the next constraint, so the
+            And then it loops. Fresh data from Aperture Live re-opens Aperture Insights on the next constraint, so the
             method keeps compounding — each pass a little sharper than the last.
           </p>
         </Reveal>

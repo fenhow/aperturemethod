@@ -42,13 +42,13 @@ export const industries: Industry[] = [
     ],
     offer:
       "Start with the Business X-Ray to expose pricing and margin leaks fast; then a Profit Map by job and customer, and a plan to fix quoting and mix.",
-    phases: "Focus · Quantify · Chart · Execute",
+    phases: "Understand · Quantify · Navigate · Perform",
     deliverables: ["Business X-Ray", "Profit Map", "Focus Plan", "Scoreboard"],
     firstQuestion:
       "Do you know your true cost per job — and which work and customers actually make money?",
     caseStudy: {
       title: "An $8M metal-fabrication job shop that quoted on gut.",
-      body: "The shop quoted work the way it always had — on experience and a feel for the shop rate. Margins were slipping and the owner couldn't say which jobs were the problem. FOCUS named the constraint: quoting that hadn't kept pace with labor and material costs. QUANTIFY built a Profit Map by job type and customer and found a large share of jobs run below true cost once setup and rework were counted, with a handful of accounts carrying the rest. CHART introduced quoting discipline, repriced the worst work, and set target margins by job type. EXECUTE tracked margin per job on the Scoreboard. Illustratively, a shop like this could recover several points of margin through pricing and quoting discipline alone — without turning away good work.",
+      body: "The shop quoted work the way it always had — on experience and a feel for the shop rate. Margins were slipping and the owner couldn't say which jobs were the problem. Aperture Insights named the constraint: quoting that hadn't kept pace with labor and material costs. Aperture Analytics built a Profit Map by job type and customer and found a large share of jobs run below true cost once setup and rework were counted, with a handful of accounts carrying the rest. Aperture Compass introduced quoting discipline, repriced the worst work, and set target margins by job type. Aperture Live tracked margin per job on the Scoreboard. Illustratively, a shop like this could recover several points of margin through pricing and quoting discipline alone — without turning away good work.",
     },
     seoDescription:
       "The Aperture Method™ helps owner-run manufacturers and job shops ($2M–$20M) find their true cost per job, fix quoting and pricing, and grow margin — using the data they already have.",
@@ -69,14 +69,14 @@ export const industries: Industry[] = [
       "“Where do we open next?”",
     ],
     offer:
-      "A Profit Map by unit, daypart, and item; the Customer Map with trade-area analysis to pick your next site; and labor and inventory targets.",
+      "A Profit Map by unit, daypart, and item; the Customer & Market Map with GIS trade-area analysis to pick your next site; and labor and inventory targets.",
     phases: "All five phases",
-    deliverables: ["Profit Map", "Customer Map", "Focus Plan", "Scoreboard"],
+    deliverables: ["Profit Map", "Customer & Market Map", "Focus Plan", "Scoreboard"],
     firstQuestion:
       "Which locations, hours, and items actually make money — and where should the next one go?",
     caseStudy: {
       title: "A five-unit fast-casual group deciding where to open next.",
-      body: "The group was doing well on the surface — revenue up, the owner already eyeing a sixth location. FOCUS reframed the question from “where do we expand” to “what makes a unit win here.” QUANTIFY built a Profit Map by unit, daypart, and menu item and exposed popular items sold at a loss once labor was counted, plus a busy flagship that kept the least. ILLUMINATE used trade-area and demographic data to explain two laggards and pinpoint strong sites for number six. CHART sequenced menu and labor fixes first, a data-backed site decision second. EXECUTE tracked unit-level margin. Illustratively, a group like this could lift blended margin through menu and labor changes alone, and choose its next site on evidence.",
+      body: "The group was doing well on the surface — revenue up, the owner already eyeing a sixth location. Aperture Insights reframed the question from “where do we expand” to “what makes a unit win here.” Aperture Analytics built a Profit Map by unit, daypart, and menu item and exposed popular items sold at a loss once labor was counted, plus a busy flagship that kept the least. Aperture Intelligence used trade-area and demographic data to explain two laggards and pinpoint strong sites for number six. Aperture Compass sequenced menu and labor fixes first, a data-backed site decision second. Aperture Live tracked unit-level margin. Illustratively, a group like this could lift blended margin through menu and labor changes alone, and choose its next site on evidence.",
     },
     seoDescription:
       "The Aperture Method™ helps multi-unit retailers, restaurants, and hospitality owners see profit by location, daypart, and item — and choose their next site on evidence.",
@@ -98,13 +98,13 @@ export const industries: Industry[] = [
     ],
     offer:
       "A Profit Map by client, service, and team; client segmentation to define your best-fit work; and pricing, packaging, and productization moves.",
-    phases: "Focus · Quantify · Chart · Execute",
+    phases: "Understand · Quantify · Navigate · Perform",
     deliverables: ["Business X-Ray", "Profit Map", "Focus Plan", "Scoreboard"],
     firstQuestion:
       "Are your biggest clients your most profitable — and what should you reprice or restructure?",
     caseStudy: {
       title: "A $4M marketing agency, always busy, never sure why profit was thin.",
-      body: "The founder was working flat out but couldn't predict a good month from a bad one. FOCUS identified the constraint as pricing and mix, not sales. QUANTIFY built a Profit Map by client, service, and team that revealed a few marquee clients run at or below cost after real hours, heavy scope creep on fixed-fee work, and dangerous revenue concentration. ILLUMINATE defined the genuinely profitable, best-fit client. CHART sequenced repricing, renegotiating or exiting the worst-fit clients, and productizing a high-demand service. EXECUTE tracked client-level margin and utilization. Illustratively, a firm like this could lift and stabilize margin through pricing and client-mix changes alone — turning “busy” into profitable and predictable.",
+      body: "The founder was working flat out but couldn't predict a good month from a bad one. Aperture Insights identified the constraint as pricing and mix, not sales. Aperture Analytics built a Profit Map by client, service, and team that revealed a few marquee clients run at or below cost after real hours, heavy scope creep on fixed-fee work, and dangerous revenue concentration. Aperture Intelligence defined the genuinely profitable, best-fit client. Aperture Compass sequenced repricing, renegotiating or exiting the worst-fit clients, and productizing a high-demand service. Aperture Live tracked client-level margin and utilization. Illustratively, a firm like this could lift and stabilize margin through pricing and client-mix changes alone — turning “busy” into profitable and predictable.",
     },
     seoDescription:
       "The Aperture Method™ helps founder-led agencies and firms ($1M–$10M) see profit by client and service, fix pricing and scope, and make margin predictable.",
@@ -127,12 +127,12 @@ export const industries: Industry[] = [
     offer:
       "A Profit Map by location, provider, and procedure; the Customer (Patient) Map for recall and high-value segments; and a data-backed answer to the “should I add a location” question.",
     phases: "All five phases",
-    deliverables: ["Profit Map", "Customer Map", "Focus Plan", "Scoreboard"],
+    deliverables: ["Profit Map", "Customer & Market Map", "Focus Plan", "Scoreboard"],
     firstQuestion:
       "Which locations, providers, and procedures actually profit — and should you add a location?",
     caseStudy: {
       title: "A three-location dental group unsure where to invest next.",
-      body: "The owner was considering a fourth office but couldn't tell which of the three — or which providers and procedures — actually drove profit. FOCUS found the constraint wasn't demand; it was utilization and mix. QUANTIFY produced a Profit Map by location, provider, and procedure and showed the “busy” office was least profitable once chair time was counted, with a few procedures run at a loss. ILLUMINATE flagged a large base of lapsed patients overdue for recall and the highest-value segments. CHART prioritized fixing scheduling and mix before expansion, plus a recall push and a geographically-informed site decision. EXECUTE tracked utilization and recall. Illustratively, a practice like this could lift chair utilization and reactivate dormant patients before spending on a new build-out.",
+      body: "The owner was considering a fourth office but couldn't tell which of the three — or which providers and procedures — actually drove profit. Aperture Insights found the constraint wasn't demand; it was utilization and mix. Aperture Analytics produced a Profit Map by location, provider, and procedure and showed the “busy” office was least profitable once chair time was counted, with a few procedures run at a loss. Aperture Intelligence flagged a large base of lapsed patients overdue for recall and the highest-value segments. Aperture Compass prioritized fixing scheduling and mix before expansion, plus a recall push and a geographically-informed site decision. Aperture Live tracked utilization and recall. Illustratively, a practice like this could lift chair utilization and reactivate dormant patients before spending on a new build-out.",
     },
     seoDescription:
       "The Aperture Method™ helps clinician-owned practices understand profit by location, provider, and procedure, improve utilization and recall, and decide where to grow — strictly on the business side.",

@@ -18,7 +18,10 @@ export function MethodStrip({
         {methodPhases.map((p) => (
           <div key={p.n} className="bg-paper p-6">
             <div className="text-h3 font-semibold leading-none text-maroon">{p.n}</div>
-            <h3 className="mt-3 text-h4 font-semibold text-ink">{p.name}</h3>
+            <h3 className="mt-3 text-h4 font-semibold text-ink">{p.product}&trade;</h3>
+            <p className="mt-1 text-overline font-semibold uppercase tracking-overline text-maroon">
+              {p.verb} · {p.question}
+            </p>
             <p className="mt-2 text-small leading-relaxed text-muted">{p.line}</p>
             {withDeliverables ? (
               <p className="mt-3 text-small font-semibold text-maroon">

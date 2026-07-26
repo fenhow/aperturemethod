@@ -1,63 +1,82 @@
 /**
- * Shared content used across pages (CMS-ready shapes). The five-phase method
- * is reused on the homepage (strip), the Method page (explorer), and elsewhere.
+ * Shared content used across pages (CMS-ready shapes). The five named
+ * phase-products of The Aperture Method™ are reused on the homepage (strip),
+ * the Method page (explorer), and elsewhere.
  */
 
+/** The method's signature one-liner. */
+export const methodTagline = "Understand. Quantify. Reveal. Navigate. Perform.";
+
+/** The framework summary — used on the Method page / hero as needed. */
+export const methodSummary =
+  "The Aperture Method™ is a structured business transformation framework that combines executive consulting, advanced analytics, geographic intelligence, and performance management into a single, integrated methodology. Each phase builds on the previous one — a clear path from understanding the current state to achieving measurable, sustainable improvement.";
+
 export type MethodPhase = {
-  n: string;
-  name: string;
-  title: string; // sub-label, e.g. "Business assessment"
-  line: string; // one-liner for the strip
-  purpose: string; // fuller sentence for the explorer
-  deliverable: string; // "You get"
-  decision: string; // the decision it supports
+  n: string; // "01".."05"
+  product: string; // the phase-product name, e.g. "Aperture Insights"
+  verb: string; // the signature verb, e.g. "Understand"
+  heading: string; // full heading, e.g. "Understand the Business"
+  question: string; // the executive mindset question
+  line: string; // short one-liner for strips/cards
+  description: string; // the full executive description
+  deliverable: string; // the tangible artifact(s) inside the product — "what you get"
 };
 
 export const methodPhases: MethodPhase[] = [
   {
     n: "01",
-    name: "Focus",
-    title: "Business assessment",
-    line: "Get the whole business into focus and name the one thing holding it back.",
-    purpose: "We get the whole business into focus — how it runs, how it's doing, and the one thing holding it back most.",
-    deliverable: "The Business X-Ray + your Aperture Score",
-    decision: "Where to focus first — and whether to proceed to full analysis.",
+    product: "Aperture Insights",
+    verb: "Understand",
+    heading: "Understand the Business",
+    question: "What is happening?",
+    line: "A comprehensive executive assessment of where your business stands today.",
+    description:
+      "Every successful transformation begins with clarity. Aperture Insights provides a comprehensive assessment of your organization by examining operations, financial performance, leadership, customers, processes, technology, and market position. The result is an executive-level understanding of where your business stands today, what is working, and where the greatest opportunities and risks exist.",
+    deliverable: "The Business X-Ray™ + Aperture Score™",
   },
   {
     n: "02",
-    name: "Quantify",
-    title: "MBA-level analytics",
-    line: "See exactly where you make and lose money.",
-    purpose: "We apply graduate-level analytics — forecasting, lifetime value, optimization — so you can see exactly where you make and lose money.",
-    deliverable: "The Profit Map + a model you keep",
-    decision: "Pricing, and where to invest, cut, or reprice.",
+    product: "Aperture Analytics",
+    verb: "Quantify",
+    heading: "Quantify the Business",
+    question: "Why is it happening?",
+    line: "Turn financial and operational data into decision-ready intelligence.",
+    description:
+      "Data becomes valuable when it informs decisions. Aperture Analytics transforms financial and operational information into meaningful business intelligence through advanced analysis, financial modeling, forecasting, and scenario planning. This phase identifies the key drivers of profitability, operational efficiency, and long-term value creation.",
+    deliverable: "The Profit Map™ + scenario model",
   },
   {
     n: "03",
-    name: "Illuminate",
-    title: "Customer & spatial intelligence",
-    line: "Understand your customers — and, on the map, where to grow.",
-    purpose: "We turn your customer and location data into a living picture of value, risk, and — through spatial intelligence (GIS) — exactly where to grow.",
-    deliverable: "The Customer Map & Market Map you keep",
-    decision: "Retention, targeting, expansion, site selection, and marketing allocation.",
+    product: "Aperture Intelligence",
+    verb: "Reveal",
+    heading: "Reveal Customer & Market Intelligence",
+    question: "What opportunities does it reveal?",
+    line: "See who your customers are, where they are, and where to grow.",
+    description:
+      "Understanding your customers is essential to sustainable growth. Aperture Intelligence combines customer analytics, demographic data, geographic intelligence (GIS), market trends, and competitive insights to reveal who your customers are, where they are, how they behave, and where the greatest growth opportunities exist. This transforms raw data into actionable strategic intelligence.",
+    deliverable: "The Customer & Market Map™ + GIS trade-area analysis",
   },
   {
     n: "04",
-    name: "Chart",
-    title: "Strategy & roadmap",
-    line: "Choose the few moves with the biggest payoff, in order.",
-    purpose: "We choose the few moves with the biggest payoff and sequence them into a plan you own.",
-    deliverable: "The Opportunity Matrix + the Focus Plan",
-    decision: "What to do first, what to defer, and what to stop.",
+    product: "Aperture Compass",
+    verb: "Navigate",
+    heading: "Determine the Strategic Direction",
+    question: "Where should we go next?",
+    line: "Convert analysis into a prioritized, board-ready strategic roadmap.",
+    description:
+      "Insights only create value when they become action. Aperture Compass converts analysis into a prioritized strategic roadmap that aligns business objectives with measurable initiatives. Opportunities are evaluated based on value, complexity, risk, and organizational impact, creating a clear execution plan focused on the initiatives that will deliver the greatest return.",
+    deliverable: "The Opportunity Matrix™ + Focus Plan™ (Now / Next / Later)",
   },
   {
     n: "05",
-    name: "Execute",
-    title: "Implementation",
-    line: "Make it real, track results, and keep the intelligence working.",
-    purpose: "We help make it real, track results, and keep the intelligence working long after.",
-    deliverable: "The Scoreboard + quarterly Focus Reviews",
-    decision: "Course corrections and what to sustain.",
+    product: "Aperture Live",
+    verb: "Perform",
+    heading: "Manage & Improve Performance",
+    question: "How do we sustain and improve results?",
+    line: "Executive dashboards and KPIs that keep performance improving.",
+    description:
+      "Business improvement is a continuous process, not a one-time project. Aperture Live provides executive dashboards, key performance indicators, automated reporting, and ongoing business intelligence that allow leadership to monitor performance in real time, measure progress against strategic objectives, and make informed decisions with confidence.",
+    deliverable: "The Scoreboard™ + KPI system, plus a re-scored Aperture Score™ to prove progress",
   },
 ];
 

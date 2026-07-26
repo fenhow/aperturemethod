@@ -36,7 +36,7 @@ const slides: Slide[] = [
     eyebrow: "Know where AI fits",
     title: "Put AI to work — without the hype.",
     sub: "Understand it, implement what fits, and use it to hold your edge — with a person in the loop and models that are yours to keep.",
-    image: "/hero/hero-4-v8.jpg",
+    image: "/hero/hero-4-v9.jpg",
   },
   {
     eyebrow: "Know your business",

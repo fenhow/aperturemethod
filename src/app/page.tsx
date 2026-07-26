@@ -88,24 +88,6 @@ const problem = [
   },
 ];
 
-const proof = [
-  {
-    eyebrow: "Aperture Insights",
-    title: "A whole-business diagnostic that names the single biggest constraint.",
-    img: "/deliverables/02_insights_aperture_score.jpg",
-  },
-  {
-    eyebrow: "Aperture Analytics",
-    title: "A Profit Map showing where every dollar is made and lost.",
-    img: "/deliverables/03_analytics_scenario_model.jpg",
-  },
-  {
-    eyebrow: "Aperture Live",
-    title: "A live Scoreboard that proves the strategy is working.",
-    img: "/deliverables/06_live_scoreboard.jpg",
-  },
-];
-
 const insights = [
   {
     eyebrow: "Know Your Numbers",
@@ -409,48 +391,37 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Proof — the deliverables you get */}
+      {/* Proof — the illustrative demonstrator */}
       <Section tone="surface">
-        <Reveal>
-          <SectionHeading
-            eyebrow="What the work looks like"
-            title="What the work looks like."
-            lede="Real pages from one illustrative engagement — the actual deliverables you receive, not a scenario."
-          />
-        </Reveal>
-        <div className="mt-10 grid gap-8 lg:grid-cols-3">
-          {proof.map((p, i) => (
-            <Reveal key={p.title} variant="up" delay={i * 90}>
-              <Link
-                href="/what-you-get"
-                className="group flex h-full flex-col overflow-hidden rounded border border-line bg-paper hover-lift"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden border-b border-line bg-white">
-                  <Image
-                    src={p.img}
-                    alt={`${p.eyebrow} deliverable — illustrative`}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="object-cover object-top"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="mb-3 flex items-center gap-2">
-                    <span className="rounded-sm bg-gray-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted">
-                      Illustrative
-                    </span>
-                    <span className="eyebrow">{p.eyebrow}</span>
-                  </div>
-                  <h3 className="text-h4 font-semibold text-ink">{p.title}</h3>
-                  <ReadMore label="See what you get" className="mt-4" />
-                </div>
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <Reveal variant="left" delay={100} className="order-last lg:order-first">
+            <Link href="/what-you-get" className="group block overflow-hidden rounded-lg border border-line shadow-card hover-lift">
+              <Image
+                src="/lumina.jpg"
+                alt="Lumina Medical Aesthetics — an illustrative example business"
+                width={1600}
+                height={1066}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="h-auto w-full"
+              />
+            </Link>
+            <p className="mt-3 text-small text-muted">
+              Illustrative — Lumina Medical Aesthetics is a fictional company; figures are synthetic.
+            </p>
+          </Reveal>
+          <Reveal variant="right">
+            <SectionHeading
+              eyebrow="What the work looks like"
+              title="See it run on a real business."
+              lede="Meet Lumina Medical Aesthetics — an illustrative med-spa we take through the entire Aperture Method. From first diagnostic to live dashboard, see exactly what an engagement produces and what lands on your desk."
+            />
+            <p className="mt-8">
+              <Link href="/what-you-get" className="btn">
+                See what you get
               </Link>
-            </Reveal>
-          ))}
+            </p>
+          </Reveal>
         </div>
-        <p className="mt-6 text-small italic text-muted">
-          Illustrative — Lumina Medical Aesthetics is a fictional company; figures are synthetic.
-        </p>
       </Section>
 
       {/* Founder */}

@@ -14,7 +14,7 @@ export const slotImages: Record<string, SlotImage> = {
     alt: "Fenwick How reviewing analytics at his desk",
   },
   "HOME-IND-healthcare": {
-    src: "/slots/HOME-IND-healthcare.jpg",
+    src: "/slots/HOME-IND-healthcare-v2.jpg",
     alt: "A clinician-owned healthcare practice",
   },
   "HOME-IND-industrial-manufacturing": {
@@ -26,7 +26,7 @@ export const slotImages: Record<string, SlotImage> = {
     alt: "A founder-led professional services firm",
   },
   "HOME-IND-retail-consumer": {
-    src: "/slots/HOME-IND-retail-consumer.jpg",
+    src: "/slots/HOME-IND-retail-consumer-v2.jpg",
     alt: "A multi-location retail and consumer business",
   },
 };

@@ -63,7 +63,7 @@ export function NavDropdown({
           href={item.href}
           aria-current={active ? "page" : undefined}
           className={cn(
-            "relative py-1 text-[15px] font-medium transition-colors duration-fast",
+            "relative py-1 text-[14px] font-medium transition-colors duration-fast",
             onDark ? "text-white/90 hover:text-white" : "text-ink hover:text-maroon"
           )}
         >

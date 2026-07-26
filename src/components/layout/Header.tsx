@@ -44,6 +44,7 @@ export function Header() {
   }, []);
 
   return (
+    <>
     <header
       className={cn(
         "sticky top-0 z-50 border-b backdrop-blur-sm transition-colors duration-300",
@@ -124,8 +125,9 @@ export function Header() {
           </button>
         </div>
       </Container>
-
-      <MobileMenu open={mobileOpen} onClose={closeMobile} isActive={isActive} />
     </header>
+
+    <MobileMenu open={mobileOpen} onClose={closeMobile} isActive={isActive} />
+    </>
   );
 }

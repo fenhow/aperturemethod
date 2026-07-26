@@ -157,8 +157,12 @@ const arc = [
 
 function Detail({ label, text, accent }: { label: string; text: string; accent?: boolean }) {
   return (
-    <div className="bg-paper p-6">
-      <p className={accent ? "eyebrow mb-2" : "mb-2 text-overline font-semibold uppercase tracking-overline text-muted"}>
+    <div className="group bg-paper p-6 transition-colors duration-200 hover:bg-maroon/[0.06]">
+      <p
+        className={`mb-2 text-overline font-bold uppercase tracking-overline transition-colors duration-200 ${
+          accent ? "text-maroon" : "text-muted group-hover:text-maroon"
+        }`}
+      >
         {label}
       </p>
       <p className={accent ? "text-body font-medium text-ink" : "text-body text-body"}>{text}</p>

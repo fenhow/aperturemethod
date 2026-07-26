@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Faq } from "@/components/ui/Faq";
 import { Reveal } from "@/components/ui/Reveal";
+import { ProductName } from "@/components/brand/ProductName";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
@@ -229,7 +230,7 @@ export default function WorkingTogetherPage() {
                 {s.n}
               </p>
               <h3 className="mt-1 text-h4 font-semibold text-ink transition-colors group-hover:text-paper">
-                {s.name}
+                {s.name.replace("Aperture ", "")}
               </h3>
               <p className="mt-1.5 text-small text-muted transition-colors group-hover:text-white/80">
                 {s.duration}
@@ -258,7 +259,9 @@ export default function WorkingTogetherPage() {
                   <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-line bg-surface text-h2 font-semibold text-maroon transition-colors duration-200 group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper">
                     {s.n}
                   </div>
-                  <h3 className="mt-5 text-h3 font-semibold text-ink">{s.name}&trade;</h3>
+                  <h3 className="mt-5 text-h3 font-semibold text-ink">
+                    <ProductName short={s.name.replace("Aperture ", "")} tone="light" />
+                  </h3>
                   <p className="mt-1 text-small text-muted">{s.sub}</p>
                   <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1 text-small font-medium text-ink">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">

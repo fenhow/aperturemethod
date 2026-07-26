@@ -1,4 +1,5 @@
 import { methodPhases } from "@/lib/content";
+import { ProductName } from "@/components/brand/ProductName";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,7 +19,9 @@ export function MethodStrip({
         {methodPhases.map((p) => (
           <div key={p.n} className="bg-paper p-6">
             <div className="text-h3 font-semibold leading-none text-maroon">{p.n}</div>
-            <h3 className="mt-3 text-h4 font-semibold text-ink">{p.product}&trade;</h3>
+            <h3 className="mt-3 text-h4 font-semibold text-ink">
+              <ProductName short={p.short} tone="light" />
+            </h3>
             <p className="mt-1 text-overline font-semibold uppercase tracking-overline text-maroon">
               {p.verb} · {p.question}
             </p>

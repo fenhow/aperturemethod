@@ -14,6 +14,7 @@ export const methodSummary =
 export type MethodPhase = {
   n: string; // "01".."05"
   product: string; // the phase-product name, e.g. "Aperture Insights"
+  short: string; // the distinct word used with the mark, e.g. "Insights"
   verb: string; // the signature verb, e.g. "Understand"
   heading: string; // full heading, e.g. "Understand the Business"
   question: string; // the executive mindset question
@@ -26,6 +27,7 @@ export const methodPhases: MethodPhase[] = [
   {
     n: "01",
     product: "Aperture Insights",
+    short: "Insights",
     verb: "Understand",
     heading: "Understand the Business",
     question: "What is happening?",
@@ -37,6 +39,7 @@ export const methodPhases: MethodPhase[] = [
   {
     n: "02",
     product: "Aperture Analytics",
+    short: "Analytics",
     verb: "Quantify",
     heading: "Quantify the Business",
     question: "Why is it happening?",
@@ -48,6 +51,7 @@ export const methodPhases: MethodPhase[] = [
   {
     n: "03",
     product: "Aperture Intelligence",
+    short: "Intelligence",
     verb: "Reveal",
     heading: "Reveal Customer & Market Intelligence",
     question: "What opportunities does it reveal?",
@@ -59,6 +63,7 @@ export const methodPhases: MethodPhase[] = [
   {
     n: "04",
     product: "Aperture Compass",
+    short: "Compass",
     verb: "Navigate",
     heading: "Determine the Strategic Direction",
     question: "Where should we go next?",
@@ -70,6 +75,7 @@ export const methodPhases: MethodPhase[] = [
   {
     n: "05",
     product: "Aperture Live",
+    short: "Live",
     verb: "Perform",
     heading: "Manage & Improve Performance",
     question: "How do we sustain and improve results?",

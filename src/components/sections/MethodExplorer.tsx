@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { methodPhases } from "@/lib/content";
+import { ProductName } from "@/components/brand/ProductName";
 import { cn } from "@/lib/utils";
 
 /**
@@ -59,7 +60,9 @@ export function MethodExplorer() {
             <span className={cn("text-[15px] font-semibold tracking-wide", i === active ? "text-maroon" : "text-muted")}>
               {ph.n}
             </span>
-            <span className="mt-2 block text-h4 font-semibold text-ink">{ph.product}&trade;</span>
+            <span className="mt-2 block text-h4 font-semibold text-ink">
+              <ProductName short={ph.short} tone="light" />
+            </span>
             <span className="mt-1 block text-small text-muted">{ph.verb}</span>
           </button>
         ))}

@@ -29,6 +29,18 @@ export const slotImages: Record<string, SlotImage> = {
     src: "/slots/HOME-IND-retail-consumer-v2.jpg",
     alt: "A multi-location retail and consumer business",
   },
+  "HOME-INSIGHT-1": {
+    src: "/slots/HOME-INSIGHT-1.jpg",
+    alt: "A handwritten profit analysis beside a laptop dashboard and calculator",
+  },
+  "HOME-INSIGHT-2": {
+    src: "/slots/HOME-INSIGHT-2.jpg",
+    alt: "A business owner using AI tools on a tablet over financial reports",
+  },
+  "HOME-INSIGHT-3": {
+    src: "/slots/HOME-INSIGHT-3.jpg",
+    alt: "A strategic-priorities whiteboard beside a profitable-growth planner",
+  },
 };
 
 export function getSlotImage(id?: string): SlotImage | undefined {

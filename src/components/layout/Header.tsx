@@ -135,7 +135,7 @@ export function Header() {
                     aria-current={isActive(entry.href) ? "page" : undefined}
                     onMouseEnter={() => openNow("")}
                     className={cn(
-                      "group relative py-1 text-[14px] font-medium transition-colors duration-fast",
+                      "group relative py-1 text-[15px] font-medium transition-colors duration-fast",
                       scrolled ? "text-white/90 hover:text-white" : "text-ink hover:text-maroon"
                     )}
                   >
@@ -162,7 +162,7 @@ export function Header() {
                         setOpenGroup((v) => (v === entry.label ? null : entry.label))
                       }
                       className={cn(
-                        "group relative flex items-center gap-1 py-1 text-[14px] font-medium transition-colors duration-fast",
+                        "group relative flex items-center gap-1 py-1 text-[15px] font-medium transition-colors duration-fast",
                         scrolled ? "text-white/90 hover:text-white" : "text-ink hover:text-maroon"
                       )}
                     >
@@ -249,21 +249,39 @@ export function Header() {
 
                 {/* Link columns */}
                 <div className="grid grid-cols-2 gap-x-8 gap-y-1 self-center">
-                  {activeGroup.links.map((l) => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      aria-current={isActive(l.href) ? "page" : undefined}
-                      className="group rounded-md px-3 py-3 transition-colors hover:bg-surface"
-                    >
-                      <span className="block text-[15px] font-semibold text-ink group-hover:text-maroon">
-                        {l.label}
-                      </span>
-                      {l.desc && (
-                        <span className="mt-0.5 block text-small text-muted">{l.desc}</span>
-                      )}
-                    </Link>
-                  ))}
+                  {activeGroup.links.map((l) => {
+                    const inner = (
+                      <>
+                        <span className="block text-[15px] font-semibold text-ink group-hover:text-maroon">
+                          {l.label}
+                        </span>
+                        {l.desc && (
+                          <span className="mt-0.5 block text-small text-muted">{l.desc}</span>
+                        )}
+                      </>
+                    );
+                    const cls = "group rounded-md px-3 py-3 transition-colors hover:bg-surface";
+                    return l.external ? (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cls}
+                      >
+                        {inner}
+                      </a>
+                    ) : (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        aria-current={isActive(l.href) ? "page" : undefined}
+                        className={cls}
+                      >
+                        {inner}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </Container>

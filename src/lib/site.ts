@@ -55,7 +55,7 @@ export const industriesNav: NavItem[] = [
  * link or a group that opens a mega-panel with a left "hub" descriptor box and
  * a column of links. `primaryNav` above is retained for any legacy consumers.
  */
-export type MegaLink = { label: string; href: string; desc?: string };
+export type MegaLink = { label: string; href: string; desc?: string; external?: boolean };
 export type MegaHub = {
   eyebrow: string;
   title: string;
@@ -119,7 +119,24 @@ export const megaNav: MegaEntry[] = [
       { label: "Retail & Consumer", href: "/industries/retail-consumer", desc: "Multi-location & consumer brands" },
       { label: "Professional Services", href: "/industries/professional-services", desc: "Founder-led firms & practices" },
       { label: "Healthcare Practices", href: "/industries/healthcare", desc: "Clinician-owned practices" },
-      { label: "Case Studies", href: "/case-studies", desc: "Illustrative engagements, end to end" },
+    ],
+  },
+  {
+    kind: "group",
+    label: "Case Studies",
+    href: "/case-studies/lumina-medical-aesthetics",
+    hub: {
+      eyebrow: "Featured · Full engagement",
+      title: "Lumina Medical Aesthetics",
+      blurb:
+        "A complete engagement, start to finish — the constraint, the work across all five phases, and the plan that followed.",
+      linkLabel: "Read the case study",
+    },
+    links: [
+      { label: "Lumina — Full Engagement", href: "/case-studies/lumina-medical-aesthetics", desc: "The whole engagement, start to finish" },
+      { label: "The Deliverables", href: "/what-you-get", desc: "Every report and working file, up close" },
+      { label: "Read the Full Report", href: "/reports/Lumina-Aperture-Method-Example-Report.pdf", desc: "The complete 41-page PDF", external: true },
+      { label: "All Case Studies", href: "/case-studies", desc: "Illustrative examples across industries" },
     ],
   },
   {

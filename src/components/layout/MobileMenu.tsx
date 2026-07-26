@@ -107,21 +107,35 @@ export function MobileMenu({
                     {entry.label}
                   </Link>
                   <ul className="mb-2 mt-1 space-y-0.5 pl-1">
-                    {entry.links.map((l) => (
-                      <li key={l.href}>
-                        <Link
-                          href={l.href}
-                          onClick={onClose}
-                          aria-current={isActive(l.href) ? "page" : undefined}
-                          className={cn(
-                            "block py-2 text-body-lg transition-colors hover:text-maroon",
-                            isActive(l.href) ? "text-maroon" : "text-body"
-                          )}
-                        >
-                          {l.label}
-                        </Link>
-                      </li>
-                    ))}
+                    {entry.links.map((l) =>
+                      l.external ? (
+                        <li key={l.href}>
+                          <a
+                            href={l.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={onClose}
+                            className="block py-2 text-body-lg text-body transition-colors hover:text-maroon"
+                          >
+                            {l.label}
+                          </a>
+                        </li>
+                      ) : (
+                        <li key={l.href}>
+                          <Link
+                            href={l.href}
+                            onClick={onClose}
+                            aria-current={isActive(l.href) ? "page" : undefined}
+                            className={cn(
+                              "block py-2 text-body-lg transition-colors hover:text-maroon",
+                              isActive(l.href) ? "text-maroon" : "text-body"
+                            )}
+                          >
+                            {l.label}
+                          </Link>
+                        </li>
+                      )
+                    )}
                   </ul>
                 </li>
               )

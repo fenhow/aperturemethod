@@ -13,6 +13,22 @@ export const slotImages: Record<string, SlotImage> = {
     src: "/slots/HOME-PLATFORM.png",
     alt: "Fenwick How reviewing analytics at his desk",
   },
+  "HOME-IND-healthcare": {
+    src: "/slots/HOME-IND-healthcare.jpg",
+    alt: "A clinician-owned healthcare practice",
+  },
+  "HOME-IND-industrial-manufacturing": {
+    src: "/slots/HOME-IND-industrial-manufacturing.jpg",
+    alt: "An owner-run manufacturing and fabrication business",
+  },
+  "HOME-IND-professional-services": {
+    src: "/slots/HOME-IND-professional-services.jpg",
+    alt: "A founder-led professional services firm",
+  },
+  "HOME-IND-retail-consumer": {
+    src: "/slots/HOME-IND-retail-consumer.jpg",
+    alt: "A multi-location retail and consumer business",
+  },
 };
 
 export function getSlotImage(id?: string): SlotImage | undefined {

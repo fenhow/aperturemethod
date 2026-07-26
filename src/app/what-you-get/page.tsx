@@ -98,6 +98,11 @@ const deliverables: Deliverable[] = [
   },
 ];
 
+const exampleReport = {
+  href: "/reports/Lumina-Aperture-Method-Example-Report.pdf",
+  pages: 41,
+};
+
 const techniques = [
   "Regression",
   "Forecasting",
@@ -131,6 +136,30 @@ export default function WhatYouGetPage() {
             deliverables — not a slide deck of opinions. Here&apos;s exactly what lands on your desk.
           </p>
           <p className="mt-7 text-h4 font-semibold text-paper">{methodTagline}</p>
+          <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+            <a
+              href={exampleReport.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn--on-dark inline-flex items-center gap-2.5"
+            >
+              <svg
+                className="h-4 w-4 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 3v12m0 0l-4-4m4 4l4-4" />
+                <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+              </svg>
+              See the example report
+            </a>
+            <span className="text-small text-white/50">PDF · {exampleReport.pages} pages · illustrative</span>
+          </div>
           <p className="mt-6 text-small text-white/55">
             Shown with Lumina Medical Aesthetics, an illustrative example.
           </p>
@@ -212,11 +241,22 @@ export default function WhatYouGetPage() {
       <Section tone="surface">
         <Reveal className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
           <SectionHeading title="And the working files, not just the reports." />
-          <p className="text-body-lg text-body">
-            Alongside the reports you receive the working files: reconciled financial statements, the live
-            Profit Map workbook, the ArcGIS map layers, and a 36-month KPI feed to drive your dashboard.
-            The intelligence is yours to keep and keep using.
-          </p>
+          <div>
+            <p className="text-body-lg text-body">
+              Alongside the reports you receive the working files: reconciled financial statements, the live
+              Profit Map workbook, the ArcGIS map layers, and a 36-month KPI feed to drive your dashboard.
+              The intelligence is yours to keep and keep using.
+            </p>
+            <a
+              href={exampleReport.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 font-medium text-maroon underline-offset-4 hover:underline"
+            >
+              See the full example report ({exampleReport.pages}-page PDF)
+              <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
         </Reveal>
       </Section>
 

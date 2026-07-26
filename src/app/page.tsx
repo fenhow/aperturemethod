@@ -435,7 +435,7 @@ export default function Home() {
           <Reveal variant="right">
             <div className="relative aspect-[4/5] overflow-hidden rounded border border-line">
               <Image
-                src="/fenwick-how.jpg"
+                src="/fen1.jpg"
                 alt="Fenwick How, founder of The Aperture Method"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"

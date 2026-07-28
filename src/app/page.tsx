@@ -8,6 +8,7 @@ import { ReadMore } from "@/components/ui/ReadMore";
 import { Reveal } from "@/components/ui/Reveal";
 import { CountUp } from "@/components/ui/CountUp";
 import { MethodAperture } from "@/components/sections/MethodAperture";
+import { ApertureDifference } from "@/components/sections/ApertureDifference";
 import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { HeroRotator } from "@/components/home/HeroRotator";
@@ -159,6 +160,9 @@ export default function Home() {
           <LinkArrow href="/the-aperture-method">Explore the Method</LinkArrow>
         </p>
       </Section>
+
+      {/* The Aperture Difference — positioning statement */}
+      <ApertureDifference tone="surface" />
 
       {/* Why we're different — the differentiator, shown live */}
       <Section tone="dark">

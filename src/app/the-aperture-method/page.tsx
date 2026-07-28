@@ -5,6 +5,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Faq } from "@/components/ui/Faq";
 import { Reveal } from "@/components/ui/Reveal";
 import { MethodExplorer } from "@/components/sections/MethodExplorer";
+import { MethodFrameworks } from "@/components/sections/MethodFrameworks";
+import { ApertureDifference } from "@/components/sections/ApertureDifference";
 import { methodTagline, methodSummary } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
@@ -172,6 +174,12 @@ export default function TheApertureMethodPage() {
           </Link>
         </Reveal>
       </Section>
+
+      {/* Under the hood — the frameworks behind each phase */}
+      <MethodFrameworks />
+
+      {/* The Aperture Difference — positioning statement */}
+      <ApertureDifference tone="dark" />
 
       {/* How we deliver */}
       <Section tone="surface">

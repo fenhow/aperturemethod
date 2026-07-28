@@ -162,7 +162,10 @@ export default function Home() {
       </Section>
 
       {/* The Aperture Difference — positioning statement */}
-      <ApertureDifference tone="surface" />
+      <ApertureDifference
+        tone="surface"
+        cta={{ label: "See it in action", href: "/case-studies/lumina-medical-aesthetics" }}
+      />
 
       {/* Why we're different — the differentiator, shown live */}
       <Section tone="dark">

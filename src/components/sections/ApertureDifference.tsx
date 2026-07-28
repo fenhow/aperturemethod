@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { apertureDifference as d } from "@/lib/content";
@@ -5,9 +6,16 @@ import { apertureDifference as d } from "@/lib/content";
 /**
  * "The Aperture Difference" — a bold positioning statement contrasting ordinary
  * consulting ("recommendations") with the Method ("executive intelligence").
- * Dark by default for emphasis; verbs match the approved tagline.
+ * Dark by default for emphasis; verbs match the approved tagline. Pass `cta` to
+ * append a link (e.g. to the proof — the Lumina case study).
  */
-export function ApertureDifference({ tone = "dark" }: { tone?: "dark" | "surface" }) {
+export function ApertureDifference({
+  tone = "dark",
+  cta,
+}: {
+  tone?: "dark" | "surface";
+  cta?: { label: string; href: string };
+}) {
   const onDark = tone === "dark";
   return (
     <Section tone={tone}>
@@ -43,6 +51,18 @@ export function ApertureDifference({ tone = "dark" }: { tone?: "dark" | "surface
 
       <Reveal>
         <p className={`mt-8 text-small ${onDark ? "text-white/50" : "text-muted"}`}>{d.verbsLine}</p>
+        {cta && (
+          <p className="mt-6">
+            <Link
+              href={cta.href}
+              className={`text-[15px] font-semibold underline-offset-4 hover:underline ${
+                onDark ? "text-paper" : "text-maroon"
+              }`}
+            >
+              {cta.label} &rarr;
+            </Link>
+          </p>
+        )}
       </Reveal>
     </Section>
   );

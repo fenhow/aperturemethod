@@ -107,7 +107,6 @@ export const methodPhases: MethodPhase[] = [
     frameworks: [
       { name: "Strategic option generation", what: "Deliberately widens the set of moves you could make, so you're not choosing from just one or two." },
       { name: "Weighted decision matrices", what: "Scores options against what matters most to you, so the best choice is clear and defensible." },
-      { name: "ICE prioritization", what: "Ranks ideas by Impact, Confidence, and Ease, so you tackle the highest-return moves first." },
       { name: "Risk assessment", what: "Names what could go wrong and how likely it is, so you plan with eyes open." },
       { name: "Scenario analysis", what: "Tests how each option holds up under different futures before you commit." },
       { name: "Hypothesis-driven validation", what: "Treats a big bet as a testable assumption and checks it cheaply before you scale it." },
@@ -126,6 +125,7 @@ export const methodPhases: MethodPhase[] = [
       "Business improvement is a continuous process, not a one-time project. Aperture Live provides executive dashboards, key performance indicators, automated reporting, and ongoing business intelligence that allow leadership to monitor performance in real time, measure progress against strategic objectives, and make informed decisions with confidence.",
     deliverable: "The Scoreboard™ + KPI system, plus a re-scored Aperture Score™ to prove progress",
     frameworks: [
+      { name: "Aperture Dashboard™ Live", what: "Your always-on executive dashboard — the metrics that matter, pulled into one live view so you can see performance in real time and act on it." },
       { name: "OKRs & KPI management", what: "Sets clear objectives and the few numbers that prove you're hitting them." },
       { name: "Executive dashboards & scorecards", what: "A live, at-a-glance view of the metrics that matter, so you always know where you stand." },
       { name: "Project governance", what: "Light structure to keep initiatives on track, on time, and accountable." },

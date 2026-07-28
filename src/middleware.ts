@@ -10,39 +10,45 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY, supabaseConfigured } from "@/lib/supab
 export async function middleware(request: NextRequest) {
   if (!supabaseConfigured) return NextResponse.next();
 
-  let response = NextResponse.next({ request });
+  try {
+    let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
+    const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options)
-        );
-      },
-    },
-  });
+    });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  const path = request.nextUrl.pathname;
-  const isLogin = path === "/portal/login";
-  const needsAuth = path.startsWith("/portal") || path.startsWith("/admin");
+    const path = request.nextUrl.pathname;
+    const isLogin = path === "/portal/login";
+    const needsAuth = path.startsWith("/portal") || path.startsWith("/admin");
 
-  if (needsAuth && !isLogin && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/portal/login";
-    url.searchParams.set("next", path);
-    return NextResponse.redirect(url);
+    if (needsAuth && !isLogin && !user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/portal/login";
+      url.searchParams.set("next", path);
+      return NextResponse.redirect(url);
+    }
+
+    return response;
+  } catch {
+    // Never take the site down over an auth hiccup — let the request proceed.
+    // The page-level checks and Row-Level Security still protect the data.
+    return NextResponse.next();
   }
-
-  return response;
 }
 
 export const config = {

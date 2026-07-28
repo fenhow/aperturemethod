@@ -7,8 +7,8 @@
  *   NEXT_PUBLIC_SUPABASE_URL       — your project URL
  *   NEXT_PUBLIC_SUPABASE_ANON_KEY  — the public anon key (safe for the browser)
  */
-export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+export const SUPABASE_URL = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim().replace(/\/+$/, "");
+export const SUPABASE_ANON_KEY = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "").trim();
 
 /** True only when both values are present, so pages can degrade gracefully. */
 export const supabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);

@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/brand/Logo";
 import { Menu, ChevronDown } from "@/components/ui/icons";
 import { MobileMenu } from "./MobileMenu";
+import { AuthBar } from "./AuthBar";
 import { cn } from "@/lib/utils";
 
 /**
@@ -101,6 +102,7 @@ export function Header() {
                 >
                   LinkedIn
                 </a>
+                <AuthBar />
               </div>
             </div>
           </Container>

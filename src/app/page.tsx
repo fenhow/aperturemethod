@@ -217,7 +217,7 @@ export default function Home() {
           <Reveal variant="left" delay={100} className="order-last lg:order-first">
             <Link href="/what-you-get" className="group block overflow-hidden rounded-lg border border-line shadow-card hover-lift">
               <Image
-                src="/lumina.jpg"
+                src="/lumina-v2.jpg"
                 alt="Lumina Medical Aesthetics — an illustrative example business"
                 width={1600}
                 height={1066}

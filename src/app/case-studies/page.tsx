@@ -62,7 +62,7 @@ export default function CaseStudiesPage() {
             </div>
             <div className="relative order-1 min-h-[220px] lg:order-2">
               <Image
-                src="/lumina.jpg"
+                src="/lumina-v2.jpg"
                 alt="Lumina Medical Aesthetics — an illustrative med-spa"
                 fill
                 sizes="(max-width: 1024px) 100vw, 45vw"

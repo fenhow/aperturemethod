@@ -149,7 +149,7 @@ export default function LuminaCaseStudyPage() {
           <Reveal variant="left">
             <figure className="relative overflow-hidden rounded-lg ring-1 ring-white/10">
               <Image
-                src="/lumina.jpg"
+                src="/lumina-v2.jpg"
                 alt="Lumina Medical Aesthetics — an illustrative med-spa"
                 width={1120}
                 height={745}

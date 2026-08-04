@@ -222,3 +222,141 @@
     @apply max-w-measure;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   3D book mockup (homepage "The Book" segment).
+   --------------------------------------------------------------------------- */
+@layer components {
+  .book3d {
+    perspective: 1600px;
+    width: 300px;
+    max-width: 78vw;
+  }
+  .book3d__inner {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(-27deg) rotateX(4deg);
+    transition: transform 600ms var(--ease);
+    will-change: transform;
+  }
+  .book3d:hover .book3d__inner {
+    transform: rotateY(-16deg) rotateX(2deg);
+  }
+  .book3d__cover {
+    position: relative;
+    z-index: 2;
+    width: 300px;
+    height: 444px;
+    border-radius: 3px 6px 6px 3px;
+    background: #0a0a0a;
+    color: #fff;
+    overflow: hidden;
+    padding: 30px 28px;
+    box-shadow:
+      0 30px 60px -20px rgba(0, 0, 0, 0.55),
+      0 10px 20px -12px rgba(80, 0, 0, 0.5);
+    /* inner-margin sheen near the spine */
+    border-left: 3px solid rgba(255, 255, 255, 0.06);
+  }
+  .book3d__cover::after {
+    /* thin bright edge at the spine side */
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 10px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.14), transparent);
+  }
+  .book3d__glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(75% 55% at 68% 22%, rgba(140, 43, 43, 0.5), transparent 62%);
+    pointer-events: none;
+  }
+  .book3d__mark {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    opacity: 0.95;
+  }
+  .book3d__eyebrow {
+    position: relative;
+    margin-top: 22px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c9756c;
+  }
+  .book3d__title {
+    position: relative;
+    margin-top: 14px;
+    font-size: 40px;
+    line-height: 1.02;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .book3d__rule {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 3px;
+    margin-top: 20px;
+    background: #8c2b2b;
+  }
+  .book3d__sub {
+    position: relative;
+    margin-top: 18px;
+    max-width: 220px;
+    font-size: 13px;
+    line-height: 1.45;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .book3d__author {
+    position: absolute;
+    left: 28px;
+    bottom: 26px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  /* Page block (right edge) */
+  .book3d__pages {
+    position: absolute;
+    top: 6px;
+    right: -1px;
+    height: 432px;
+    width: 30px;
+    transform: translateX(30px) rotateY(90deg);
+    transform-origin: left center;
+    background: repeating-linear-gradient(
+      90deg,
+      #f7f7f5,
+      #f7f7f5 1px,
+      #e4e4e1 2px,
+      #f7f7f5 3px
+    );
+    border-radius: 2px;
+  }
+  /* Spine (left edge) */
+  .book3d__spine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 444px;
+    width: 30px;
+    transform: translateX(-30px) rotateY(-90deg);
+    transform-origin: right center;
+    background: linear-gradient(#160606, #050505);
+    border-radius: 3px 0 0 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .book3d__inner {
+      transition: none;
+    }
+  }
+}

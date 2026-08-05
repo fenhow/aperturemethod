@@ -60,7 +60,7 @@ export function Whitespace() {
                 c.aperture ? (
                   <div
                     key={c.k}
-                    className="flex min-h-[150px] flex-col rounded-lg border-2 border-maroon bg-[#f8e7e6] p-6 shadow-[0_0_0_4px_rgba(80,0,0,0.06)]"
+                    className="relative flex min-h-[150px] flex-col rounded-lg border-2 border-maroon bg-paper p-6 shadow-[0_20px_44px_-20px_rgba(80,0,0,0.45)] ring-1 ring-maroon/10 sm:scale-[1.03]"
                   >
                     <div className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-maroon" aria-hidden="true" />

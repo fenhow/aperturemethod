@@ -119,11 +119,19 @@ function PreviewModal({ d, onClose }: { d: Deliverable; onClose: () => void }) {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
-            <Link href={`/deliverables/${d.slug}`} className="btn">
-              View the full page →
-            </Link>
-            <LinkArrow href={`/method/${d.componentSlug}`}>About {d.component}™</LinkArrow>
+          <div className="border-t border-line pt-6">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <Link href={`/deliverables/${d.slug}`} className="btn">
+                View the full page →
+              </Link>
+              <LinkArrow href={`/case-studies/lumina-medical-aesthetics#${d.componentSlug}`}>
+                See it in the Lumina example
+              </LinkArrow>
+            </div>
+            <p className="mt-3 text-small text-muted">
+              The Lumina Medical Aesthetics case study shows this deliverable produced for a real
+              (illustrative) business.
+            </p>
           </div>
         </div>
       </div>

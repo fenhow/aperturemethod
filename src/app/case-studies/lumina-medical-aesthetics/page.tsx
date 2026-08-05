@@ -92,6 +92,16 @@ const phases: Phase[] = [
   },
 ];
 
+// Maps each phase to the component slug used by /deliverables, so a deliverable
+// can deep-link to the exact place its real example appears in this study.
+const PHASE_SLUG: Record<string, string> = {
+  "Aperture Insights": "insights",
+  "Aperture Analytics": "analytics",
+  "Aperture Intelligence": "intelligence",
+  "Aperture Compass": "compass",
+  "Aperture Live": "atlas",
+};
+
 function IllustrativeTag() {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
@@ -201,7 +211,8 @@ export default function LuminaCaseStudyPage() {
           {phases.map((p, i) => (
             <Reveal key={p.n} variant="up">
               <div
-                className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
+                id={PHASE_SLUG[p.product]}
+                className={`scroll-mt-28 grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
                   i % 2 === 1 ? "lg:[&>figure]:order-first" : ""
                 }`}
               >

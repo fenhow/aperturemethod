@@ -9,21 +9,21 @@ import { Reveal } from "@/components/ui/Reveal";
  */
 const CELLS = [
   {
-    // top-left: high GIS, low strategy
-    k: "GIS, marketing & data vendors",
-    d: "Maps, demographics, and lists — but no strategy to turn them into decisions.",
+    // top-left
+    k: "Local advisors, CPAs & DIY",
+    d: "Close and affordable — but not doing the quantitative or spatial work.",
     aperture: false,
   },
   {
-    // top-right: high GIS, high strategy — the white space
+    // top-right: the white space
     k: "Aperture",
     d: "Graduate-level analytics AND spatial intelligence — done for you, at your size.",
     aperture: true,
   },
   {
-    // bottom-left: low both
-    k: "Local advisors, CPAs & DIY",
-    d: "Close and affordable — but not doing the quantitative or spatial work.",
+    // bottom-left
+    k: "GIS, marketing & data vendors",
+    d: "Maps, demographics, and lists — but no strategy to turn them into decisions.",
     aperture: false,
   },
   {
@@ -60,7 +60,7 @@ export function Whitespace() {
                 c.aperture ? (
                   <div
                     key={c.k}
-                    className="flex min-h-[150px] flex-col rounded-lg border-2 border-maroon bg-paper p-6 shadow-[0_0_0_4px_rgba(80,0,0,0.06)]"
+                    className="flex min-h-[150px] flex-col rounded-lg border-2 border-maroon bg-[#f8e7e6] p-6 shadow-[0_0_0_4px_rgba(80,0,0,0.06)]"
                   >
                     <div className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-maroon" aria-hidden="true" />

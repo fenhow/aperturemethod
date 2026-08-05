@@ -109,24 +109,6 @@ export const megaNav: MegaEntry[] = [
   },
   {
     kind: "group",
-    label: "Industries",
-    href: "/industries",
-    hub: {
-      eyebrow: "Who we help",
-      title: "Examples, not limits",
-      blurb:
-        "Sectors we know well — but if you don't see yours, we very likely still work with you.",
-      linkLabel: "See all industries",
-    },
-    links: [
-      { label: "Industrial & Manufacturing", href: "/industries/industrial-manufacturing", desc: "Owner-run makers & fabricators" },
-      { label: "Retail & Consumer", href: "/industries/retail-consumer", desc: "Multi-location & consumer brands" },
-      { label: "Professional Services", href: "/industries/professional-services", desc: "Founder-led firms & practices" },
-      { label: "Healthcare Practices", href: "/industries/healthcare", desc: "Clinician-owned practices" },
-    ],
-  },
-  {
-    kind: "group",
     label: "Case Studies",
     href: "/case-studies/lumina-medical-aesthetics",
     hub: {
@@ -182,7 +164,6 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "What You Get", href: "/what-you-get" },
       { label: "AI, Without the Black Box", href: "/ai" },
       { label: "Working Together", href: "/working-together" },
-      { label: "Industries", href: "/industries" },
       { label: "Case Studies", href: "/case-studies" },
     ],
   },

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site";
 import { articles } from "@/lib/insights";
+import { deliverables } from "@/lib/deliverables";
 
 /**
  * XML sitemap (served at /sitemap.xml). Generated from the same content sources
@@ -15,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/the-aperture-method", priority: 0.9, changeFrequency: "monthly" },
     { path: "/what-we-do", priority: 0.9, changeFrequency: "monthly" },
     { path: "/what-you-get", priority: 0.9, changeFrequency: "monthly" },
+    { path: "/deliverables", priority: 0.9, changeFrequency: "monthly" },
     { path: "/ai", priority: 0.9, changeFrequency: "monthly" },
     { path: "/case-studies", priority: 0.7, changeFrequency: "monthly" },
     { path: "/case-studies/lumina-medical-aesthetics", priority: 0.8, changeFrequency: "monthly" },
@@ -30,13 +32,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/accessibility", priority: 0.3, changeFrequency: "yearly" },
   ];
 
+  const deliverableRoutes = deliverables.map((d) => ({
+    path: `/deliverables/${d.slug}`,
+    priority: 0.7,
+    changeFrequency: "monthly" as const,
+  }));
+
   const articleRoutes = articles.map((a) => ({
     path: `/insights/${a.slug}`,
     priority: 0.6,
     changeFrequency: "monthly" as const,
   }));
 
-  return [...staticRoutes, ...articleRoutes].map((r) => ({
+  return [...staticRoutes, ...deliverableRoutes, ...articleRoutes].map((r) => ({
     url: url(r.path),
     lastModified: now,
     changeFrequency: r.changeFrequency,

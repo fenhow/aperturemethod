@@ -86,7 +86,7 @@ export const megaNav: MegaEntry[] = [
       { label: "Aperture Atlas™", href: "/method/atlas", desc: "The living platform · GIS · DATA" },
     ],
   },
-  { kind: "link", label: "What You Get", href: "/what-you-get" },
+  { kind: "link", label: "What You Get", href: "/deliverables" },
   { kind: "link", label: "Working Together", href: "/working-together" },
   {
     kind: "group",
@@ -160,7 +160,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     items: [
       { label: "The Aperture Method", href: "/the-aperture-method" },
       { label: "What We Do", href: "/what-we-do" },
-      { label: "What You Get", href: "/what-you-get" },
+      { label: "The Deliverables", href: "/deliverables" },
       { label: "AI, Without the Black Box", href: "/ai" },
       { label: "Working Together", href: "/working-together" },
       { label: "Case Studies", href: "/case-studies" },

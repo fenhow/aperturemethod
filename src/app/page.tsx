@@ -51,13 +51,23 @@ export default function Home() {
           </div>
         </Reveal>
 
-        <Reveal delay={120} className="mt-6">
-          <p className="max-w-measure text-body text-muted">
-            <span className="font-semibold text-ink">Not sure which you need?</span> Start with a{" "}
-            <span className="font-semibold text-ink">Business X-Ray</span> — a fixed-fee diagnostic
-            that pinpoints your #1 constraint and prescribes exactly which components will move the
-            needle. One, a few, or all five.
-          </p>
+        <Reveal delay={120} className="mt-8">
+          <Link
+            href="#how-it-works"
+            className="group flex flex-col gap-5 rounded-2xl border border-maroon/30 bg-surface p-7 transition-colors hover:border-maroon sm:flex-row sm:items-center sm:justify-between sm:p-9"
+          >
+            <div className="max-w-2xl">
+              <p className="eyebrow">Start here</p>
+              <p className="mt-2 text-h3 font-semibold text-ink">
+                Not sure which you need? Start with a Business X-Ray.
+              </p>
+              <p className="mt-2 text-body text-muted">
+                A fixed-fee diagnostic that pinpoints your #1 constraint and prescribes exactly which
+                components will move the needle — one, a few, or all five.
+              </p>
+            </div>
+            <span className="btn shrink-0 group-hover:bg-maroon">See how it works →</span>
+          </Link>
         </Reveal>
       </Section>
 

@@ -107,6 +107,9 @@ export default function ComponentPage({ params }: { params: { component: string 
                 Deliverable
               </p>
               <p className="mt-3 text-h3 font-semibold text-ink">{p.deliverable}</p>
+              <p className="mt-5">
+                <LinkArrow href="/deliverables">What each deliverable is &amp; how we get it</LinkArrow>
+              </p>
             </div>
           </Reveal>
         </div>

@@ -9,6 +9,7 @@ import { Logo } from "@/components/brand/Logo";
 import { Menu, ChevronDown } from "@/components/ui/icons";
 import { MobileMenu } from "./MobileMenu";
 import { AuthBar } from "./AuthBar";
+import { LiveClock } from "./LiveClock";
 import { cn } from "@/lib/utils";
 
 /**
@@ -91,6 +92,7 @@ export function Header() {
             <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.01em] text-white/80">
               <span>Founder-led · Analytics, AI &amp; strategy for owner-run businesses</span>
               <div className="flex items-center gap-5">
+                <LiveClock className="hidden text-white/80 lg:inline-flex" />
                 <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-white">
                   {siteConfig.email}
                 </a>

@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/cookies", priority: 0.3, changeFrequency: "yearly" },
     { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
     { path: "/accessibility", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/glossary", priority: 0.5, changeFrequency: "monthly" },
   ];
 
   const deliverableRoutes = deliverables.map((d) => ({

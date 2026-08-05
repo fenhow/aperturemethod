@@ -7,6 +7,7 @@ import { MethodAperture } from "@/components/sections/MethodAperture";
 import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { ApertureHero } from "@/components/home/ApertureHero";
+import { TheArc } from "@/components/home/TheArc";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
 import { aperturePractices } from "@/lib/content";
@@ -34,21 +35,8 @@ export default function Home() {
           />
         </Reveal>
 
-        <Reveal delay={80} className="mt-8">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-small text-muted">
-            <span className="font-semibold text-ink">The arc:</span>
-            <span className="rounded-full border border-line px-3 py-1 font-semibold uppercase tracking-[0.1em] text-body">
-              MBA analytics
-            </span>
-            <span aria-hidden="true">→</span>
-            <span className="rounded-full border border-line px-3 py-1 font-semibold uppercase tracking-[0.1em] text-body">
-              Spatial · GIS
-            </span>
-            <span aria-hidden="true">→</span>
-            <span className="rounded-full border border-line px-3 py-1 font-semibold uppercase tracking-[0.1em] text-body">
-              Live data platform
-            </span>
-          </div>
+        <Reveal delay={80} className="mt-10">
+          <TheArc />
         </Reveal>
 
         <Reveal delay={120} className="mt-8">

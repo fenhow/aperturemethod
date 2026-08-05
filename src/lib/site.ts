@@ -152,6 +152,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "What We Believe", href: "/what-we-believe" },
       { label: "Insights", href: "/insights" },
+      { label: "Data Dictionary", href: "/glossary" },
       { label: "Contact", href: "/contact" },
     ],
   },

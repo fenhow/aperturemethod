@@ -125,7 +125,7 @@ function PreviewModal({ d, onClose }: { d: Deliverable; onClose: () => void }) {
           <div className="border-t border-line pt-6">
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
               <Link href={`/deliverables/${d.slug}`} className="btn">
-                View the full page →
+                Open the deliverable page →
               </Link>
               <LinkArrow href={`/case-studies/lumina-medical-aesthetics#${d.componentSlug}`}>
                 See it in the Lumina example
@@ -134,13 +134,14 @@ function PreviewModal({ d, onClose }: { d: Deliverable; onClose: () => void }) {
             <div className="mt-4">
               <DocumentLightbox
                 href={EXAMPLE_REPORT}
-                title="The Aperture Method — Example Report · Lumina Medical Aesthetics"
-                triggerLabel="Open the example report — full screen"
+                page={d.reportPage}
+                title={`Example Report · ${d.name} — Lumina Medical Aesthetics`}
+                triggerLabel={`See the ${d.name} in the example report — full screen`}
                 triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"
               />
               <p className="mt-2 text-small text-muted">
-                Page through the full 41-page example report — this deliverable is inside it, produced
-                for a real (illustrative) business.
+                Opens the example report straight to this deliverable — produced for a real
+                (illustrative) business. You can page through the rest from there.
               </p>
             </div>
           </div>

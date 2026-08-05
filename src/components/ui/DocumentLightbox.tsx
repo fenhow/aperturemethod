@@ -14,14 +14,18 @@ export function DocumentLightbox({
   triggerLabel,
   triggerClassName,
   triggerIcon = true,
+  page,
 }: {
   href: string;
   title: string;
   triggerLabel: React.ReactNode;
   triggerClassName?: string;
   triggerIcon?: boolean;
+  /** Optional starting page in the PDF (1-indexed). */
+  page?: number;
 }) {
   const [open, setOpen] = useState(false);
+  const target = page ? `${href}#page=${page}` : `${href}#view=FitH`;
 
   return (
     <>
@@ -42,12 +46,22 @@ export function DocumentLightbox({
         )}
         {triggerLabel}
       </button>
-      {open && <Viewer href={href} title={title} onClose={() => setOpen(false)} />}
+      {open && <Viewer src={target} href={target} title={title} onClose={() => setOpen(false)} />}
     </>
   );
 }
 
-function Viewer({ href, title, onClose }: { href: string; title: string; onClose: () => void }) {
+function Viewer({
+  src,
+  href,
+  title,
+  onClose,
+}: {
+  src: string;
+  href: string;
+  title: string;
+  onClose: () => void;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
@@ -103,7 +117,7 @@ function Viewer({ href, title, onClose }: { href: string; title: string; onClose
       </div>
       <div className="min-h-0 flex-1 px-2 pb-2 sm:px-4 sm:pb-4">
         <iframe
-          src={`${href}#view=FitH`}
+          src={src}
           title={title}
           className="h-full w-full rounded-lg border border-white/10 bg-white"
         />

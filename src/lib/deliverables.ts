@@ -15,11 +15,13 @@ export type Deliverable = {
   whatItIs: string; // plain-language "what it is"
   howWeGetIt: string; // plain-language "how we produce it"
   inside: string[]; // what's in it
+  reportPage: number; // starting page of this deliverable in the example report PDF
 };
 
 export const deliverables: Deliverable[] = [
   {
     slug: "business-x-ray",
+    reportPage: 10,
     name: "Business X-Ray",
     component: "Aperture Insights",
     componentSlug: "insights",
@@ -38,6 +40,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "aperture-score",
+    reportPage: 10,
     name: "Aperture Score",
     component: "Aperture Insights",
     componentSlug: "insights",
@@ -56,6 +59,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "profit-map",
+    reportPage: 16,
     name: "Profit Map",
     component: "Aperture Analytics",
     componentSlug: "analytics",
@@ -74,6 +78,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "customer-market-map",
+    reportPage: 21,
     name: "Customer & Market Map",
     component: "Aperture Intelligence",
     componentSlug: "intelligence",
@@ -92,6 +97,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "opportunity-matrix",
+    reportPage: 33,
     name: "Opportunity Matrix",
     component: "Aperture Compass",
     componentSlug: "compass",
@@ -110,6 +116,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "focus-plan",
+    reportPage: 33,
     name: "Focus Plan",
     component: "Aperture Compass",
     componentSlug: "compass",
@@ -128,6 +135,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "scoreboard",
+    reportPage: 38,
     name: "Scoreboard",
     component: "Aperture Atlas",
     componentSlug: "atlas",

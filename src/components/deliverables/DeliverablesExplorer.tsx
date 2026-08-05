@@ -7,7 +7,10 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { deliverables, type Deliverable } from "@/lib/deliverables";
+
+const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
 /**
  * Interactive deliverables index. Each card opens a quick-look modal that
@@ -128,10 +131,18 @@ function PreviewModal({ d, onClose }: { d: Deliverable; onClose: () => void }) {
                 See it in the Lumina example
               </LinkArrow>
             </div>
-            <p className="mt-3 text-small text-muted">
-              The Lumina Medical Aesthetics case study shows this deliverable produced for a real
-              (illustrative) business.
-            </p>
+            <div className="mt-4">
+              <DocumentLightbox
+                href={EXAMPLE_REPORT}
+                title="The Aperture Method — Example Report · Lumina Medical Aesthetics"
+                triggerLabel="Open the example report — full screen"
+                triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"
+              />
+              <p className="mt-2 text-small text-muted">
+                Page through the full 41-page example report — this deliverable is inside it, produced
+                for a real (illustrative) business.
+              </p>
+            </div>
           </div>
         </div>
       </div>

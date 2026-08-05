@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { Reveal } from "@/components/ui/Reveal";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
@@ -113,27 +114,14 @@ function IllustrativeTag() {
 
 function ReportButton({ onDark = false }: { onDark?: boolean }) {
   return (
-    <a
+    <DocumentLightbox
       href={REPORT}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={onDark ? "btn--on-dark inline-flex items-center gap-2.5" : "btn inline-flex items-center gap-2.5"}
-    >
-      <svg
-        className="h-4 w-4 shrink-0"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M12 3v12m0 0l-4-4m4 4l4-4" />
-        <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
-      </svg>
-      Read the full report
-    </a>
+      title="The Aperture Method — Example Report · Lumina Medical Aesthetics"
+      triggerLabel="Read the full report — full screen"
+      triggerClassName={
+        onDark ? "btn--on-dark inline-flex items-center gap-2.5" : "btn inline-flex items-center gap-2.5"
+      }
+    />
   );
 }
 

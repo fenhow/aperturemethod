@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { methodTagline } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
@@ -137,27 +138,12 @@ export default function WhatYouGetPage() {
           </p>
           <p className="mt-7 text-h4 font-semibold text-paper">{methodTagline}</p>
           <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-            <a
+            <DocumentLightbox
               href={exampleReport.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn--on-dark inline-flex items-center gap-2.5"
-            >
-              <svg
-                className="h-4 w-4 shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M12 3v12m0 0l-4-4m4 4l4-4" />
-                <path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
-              </svg>
-              See the example report
-            </a>
+              title="The Aperture Method — Example Report · Lumina Medical Aesthetics"
+              triggerLabel="See the example report — full screen"
+              triggerClassName="btn--on-dark inline-flex items-center gap-2.5"
+            />
             <span className="text-small text-white/50">PDF · {exampleReport.pages} pages · illustrative</span>
           </div>
           <p className="mt-6 text-small text-white/55">

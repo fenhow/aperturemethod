@@ -36,12 +36,15 @@ export function DocumentLightbox({
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.8"
+            strokeWidth="1.7"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+            {/* document with a folded corner (PDF) */}
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <path d="M14 2v6h6" />
+            <path d="M8.5 13.5h7M8.5 17h4.5" />
           </svg>
         )}
         {triggerLabel}

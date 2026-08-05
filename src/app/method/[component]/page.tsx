@@ -6,6 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { Logo } from "@/components/brand/Logo";
 import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { aperturePractices } from "@/lib/content";
@@ -65,22 +66,15 @@ export default function ComponentPage({ params }: { params: { component: string 
         />
         <Container className="relative z-10 pb-16 pt-32 md:pb-20 md:pt-40">
           <Reveal className="max-w-3xl">
-            <div className="mb-5 flex flex-wrap items-center gap-3">
-              <span className="eyebrow eyebrow--on-dark">
-                The Aperture Method™ · {p.n} of {String(total).padStart(2, "0")}
+            <div className="mb-6 flex flex-wrap items-center gap-4">
+              <Logo tone="light" variant={p.short.toUpperCase()} className="text-[19px]" />
+              <span className="rounded-full border border-white/20 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/70">
+                {p.n} of {String(total).padStart(2, "0")}
+                {p.cap ? ` · ${p.cap}` : ""}
               </span>
-              {p.cap && (
-                <span className="rounded-full border border-white/20 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/70">
-                  {p.cap}
-                </span>
-              )}
             </div>
-            <h1 className="text-display font-semibold text-paper">
-              {p.product}
-              <span className="align-super text-[0.35em]">™</span>
-            </h1>
-            <p className="mt-5 text-h4 font-medium text-white/85">{p.heading}</p>
-            <p className="mt-4 max-w-xl text-body-lg text-white/70">{p.line}</p>
+            <h1 className="text-display font-semibold text-paper">{p.heading}</h1>
+            <p className="mt-5 max-w-xl text-body-lg text-white/70">{p.line}</p>
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link href={primaryCta.href} className="btn--on-dark">
                 {primaryCta.label}

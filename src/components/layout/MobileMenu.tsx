@@ -69,7 +69,7 @@ export function MobileMenu({
     >
       <div ref={panelRef} className="flex h-[100dvh] flex-col">
         <div className="flex h-20 items-center justify-between border-b border-line px-6">
-          <Logo className="h-6" />
+          <Logo className="text-[17px]" />
           <button
             type="button"
             onClick={onClose}

@@ -14,10 +14,10 @@ import { primaryCta } from "@/lib/site";
  * hide a price entirely.
  */
 const PRICES = {
-  xray: "$X,XXX", // Business X-Ray diagnostic
-  component: "$X,XXX", // "from", per single component
-  full: "Custom", // the full Method (or e.g. "$XX,XXX")
-  atlas: "$XXX/mo", // Aperture Atlas, ongoing
+  xray: "$2,500", // Business X-Ray diagnostic (market-informed suggestion)
+  component: "$6,000", // "from", per single component
+  full: "$25,000", // the full Method (from)
+  atlas: "$1,000/mo", // Aperture Atlas, ongoing
 };
 
 export function HowItWorks() {
@@ -100,7 +100,7 @@ export function HowItWorks() {
             </p>
             {PRICES.full && (
               <p className="mt-6 text-small uppercase tracking-overline text-white/50">
-                Engagement ·{" "}
+                Full engagement · from{" "}
                 <span className="text-h4 font-semibold normal-case tracking-normal text-paper">
                   {PRICES.full}
                 </span>

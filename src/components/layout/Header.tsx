@@ -118,11 +118,10 @@ export function Header() {
           >
             <Link href="/" aria-label="The Aperture Method — home" className="shrink-0 rounded-sm">
               <Logo
-                priority
                 tone={scrolled ? "light" : "dark"}
                 className={cn(
                   "transition-all duration-fast",
-                  scrolled ? "h-[clamp(18px,5vw,24px)]" : "h-[clamp(20px,5.5vw,26px)]"
+                  scrolled ? "text-[clamp(15px,4vw,17px)]" : "text-[clamp(16px,4.4vw,19px)]"
                 )}
               />
             </Link>

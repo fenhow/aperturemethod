@@ -22,6 +22,7 @@ export type MethodPhase = {
   description: string; // the full executive description
   deliverable: string; // the tangible artifact(s) inside the product — "what you get"
   frameworks: Framework[]; // the named techniques/frameworks applied in this phase (depth layer)
+  cap?: string; // capability tag shown on the parent landing — "MBA", "GIS", "DATA", or a blend
 };
 
 /** A named technique plus a plain-language note on what it does for the client. */
@@ -134,6 +135,52 @@ export const methodPhases: MethodPhase[] = [
       { name: "Continuous improvement", what: "A habit of small, ongoing refinements so performance keeps climbing after the project ends." },
     ],
   },
+];
+
+/**
+ * Capability tags (MBA → GIS → DATA arc) shown on the parent landing page.
+ */
+const CAP: Record<string, string> = {
+  Insights: "MBA",
+  Analytics: "MBA",
+  Intelligence: "MBA · GIS",
+  Compass: "MBA · GIS",
+};
+
+/**
+ * Aperture Atlas™ — the fifth component and the platform. Aperture Live
+ * (performance management) is now MERGED into Atlas: one living, visual
+ * Geographic Intelligence Platform that carries both your ongoing performance
+ * (Scoreboard/KPIs) and your market/geographic intelligence. This is the home
+ * of the platform (formerly discoveraperture.com / SyncPoint AI) and the
+ * culmination of the methodology. Keeps the "Perform" verb so the signature
+ * tagline is unchanged.
+ */
+export const atlasPractice: MethodPhase = {
+  n: "05",
+  product: "Aperture Atlas",
+  short: "Atlas",
+  verb: "Perform",
+  heading: "The Living Intelligence Platform",
+  question: "How do we run — and keep improving — the business?",
+  line: "Your performance and your market on one live, visual platform — always current, and yours to keep.",
+  description:
+    "The methodology culminates in a living system. Aperture Atlas is the Geographic Intelligence Platform where the whole engagement stays alive — your KPIs and Scoreboard, your Market Maps, drive-time trade areas, and forecasts on one interactive, always-current dashboard. It is where performance management meets geographic intelligence: the tool you run the business from long after the engagement ends.",
+  deliverable: "The Aperture Atlas™ platform — a live Scoreboard, Market Maps & forecasts, yours to keep",
+  frameworks: [],
+  cap: "GIS · DATA",
+};
+
+/**
+ * The FIVE components of The Aperture Method™, in arc order, tagged with the
+ * capability that powers each (MBA → GIS → DATA). Used by the parent landing
+ * page. Aperture Live has been merged into Aperture Atlas (component 05). The
+ * core `methodPhases` above is left untouched for the existing Method pages
+ * (which still reference the pre-merge "Aperture Live" — rename later).
+ */
+export const aperturePractices: MethodPhase[] = [
+  ...methodPhases.slice(0, 4).map((p) => ({ ...p, cap: CAP[p.short] })),
+  atlasPractice,
 ];
 
 /**

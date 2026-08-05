@@ -23,7 +23,7 @@ export function LiveClock({ className }: { className?: string }) {
   }
 
   const date = now.toLocaleDateString(undefined, {
-    weekday: "short",
+    weekday: "long",
     month: "short",
     day: "numeric",
   });

@@ -89,10 +89,12 @@ export function Header() {
           )}
         >
           <Container>
-            <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.01em] text-white/80">
-              <span>Founder-led · Analytics, AI &amp; strategy for owner-run businesses</span>
-              <div className="flex items-center gap-5">
-                <LiveClock className="hidden text-white/80 lg:inline-flex" />
+            <div className="grid h-9 grid-cols-3 items-center text-[12px] tracking-[0.01em] text-white/80">
+              <span className="justify-self-start">
+                Founder-led · Analytics, AI &amp; strategy for owner-run businesses
+              </span>
+              <LiveClock className="justify-self-center text-white/90" />
+              <div className="flex items-center gap-5 justify-self-end">
                 <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-white">
                   {siteConfig.email}
                 </a>

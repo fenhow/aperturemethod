@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
  *   step for screen readers.
  */
 
-const NODE_R = 40; // node ring radius (% of dial)
+const NODE_R = 33; // node ring radius (% of dial)
 const AUTO_MS = 4200;
 
 export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase[] }) {
@@ -105,30 +105,30 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
 
   return (
     <div
-      className="mx-auto max-w-5xl rounded-2xl border border-line bg-surface px-6 py-10 shadow-card sm:px-10 sm:py-12"
+      className="mx-auto max-w-5xl rounded-2xl border border-line bg-surface px-8 py-14 shadow-card sm:px-16 sm:py-16"
       onMouseEnter={() => setPlaying(false)}
       onMouseLeave={() => setPlaying(true)}
       onFocusCapture={() => setPlaying(false)}
       onBlurCapture={() => setPlaying(true)}
     >
-      <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
         {/* Dial */}
         <div
           role="group"
           aria-label={`The ${phases.length} steps of The Aperture Method`}
           onKeyDown={onKeyDown}
-          className="relative mx-auto aspect-square w-full max-w-[380px]"
+          className="relative mx-auto aspect-square w-full max-w-[440px] py-2"
         >
           {/* concentric guide rings */}
-          <div className="absolute inset-[8%] rounded-full border border-line/80" />
-          <div className="absolute inset-[20%] rounded-full border border-line/60" />
+          <div className="absolute inset-[6%] rounded-full border border-line/70" />
+          <div className="absolute inset-[19%] rounded-full border border-line/50" />
 
           {/* Center mark — rotates so the maroon blade points to the active step */}
           <button
             type="button"
             onClick={() => go(1)}
             aria-label={`Aperture mark, pointing to step ${phase.n}, ${phase.product}. Activate for the next step.`}
-            className="group absolute left-1/2 top-1/2 grid h-[42%] w-[42%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full focus-visible:outline-none"
+            className="group absolute left-1/2 top-1/2 grid h-[37%] w-[37%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full focus-visible:outline-none"
           >
             <span
               className="absolute inset-[-18%] rounded-full bg-maroon/[0.07] blur-2xl transition-opacity group-hover:bg-maroon/[0.12]"

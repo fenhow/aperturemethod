@@ -8,6 +8,7 @@ import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { ApertureHero } from "@/components/home/ApertureHero";
 import { TheArc } from "@/components/home/TheArc";
+import { Whitespace } from "@/components/home/Whitespace";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
 import { aperturePractices } from "@/lib/content";
@@ -115,6 +116,9 @@ export default function Home() {
           <LinkArrow href="/the-aperture-method">Explore the full Method</LinkArrow>
         </p>
       </Section>
+
+      {/* The white space — the category-of-one positioning matrix */}
+      <Whitespace />
 
       {/* How it works — the engagement model + pricing */}
       <HowItWorks />

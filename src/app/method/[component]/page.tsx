@@ -6,12 +6,16 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { Logo } from "@/components/brand/Logo";
 import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { aperturePractices } from "@/lib/content";
+import { deliverables } from "@/lib/deliverables";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
+
+const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
 /**
  * Component pages for The Aperture Method™ — one product page per component
@@ -51,6 +55,7 @@ export default function ComponentPage({ params }: { params: { component: string 
   const next = aperturePractices[(idx + 1) % total]!;
   const isAtlas = p.short === "Atlas";
   const hasMap = p.short === "Intelligence" || isAtlas;
+  const reportPage = deliverables.find((x) => x.componentSlug === slugOf(p.short))?.reportPage;
 
   return (
     <>
@@ -110,6 +115,15 @@ export default function ComponentPage({ params }: { params: { component: string 
               <p className="mt-5">
                 <LinkArrow href="/deliverables">What each deliverable is &amp; how we get it</LinkArrow>
               </p>
+              <div className="mt-5 border-t border-line pt-5">
+                <DocumentLightbox
+                  href={EXAMPLE_REPORT}
+                  page={reportPage}
+                  title={`Example Report · ${p.product} — Lumina Medical Aesthetics`}
+                  triggerLabel={`See ${p.short} in the example report`}
+                  triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"
+                />
+              </div>
             </div>
           </Reveal>
         </div>

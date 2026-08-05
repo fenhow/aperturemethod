@@ -6,9 +6,12 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { deliverables, deliverableBySlug } from "@/lib/deliverables";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
+
+const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
 /**
  * Deliverable detail pages — one per named artifact (Business X-Ray, Aperture
@@ -113,6 +116,24 @@ export default function DeliverablePage({ params }: { params: { component: strin
             </Reveal>
           ))}
         </div>
+        {/* See the real thing — opens the example report to this deliverable */}
+        <div className="mt-10 rounded-xl border border-line bg-surface p-6 sm:p-7">
+          <p className="text-h4 font-semibold text-ink">See a real {d.name}™.</p>
+          <p className="mt-2 max-w-measure text-body text-muted">
+            Open the example report straight to this deliverable — produced end to end for Lumina
+            Medical Aesthetics, an illustrative business.
+          </p>
+          <div className="mt-5">
+            <DocumentLightbox
+              href={EXAMPLE_REPORT}
+              page={d.reportPage}
+              title={`Example Report · ${d.name} — Lumina Medical Aesthetics`}
+              triggerLabel={`Open the report to the ${d.name}`}
+              triggerClassName="btn inline-flex items-center gap-2.5"
+            />
+          </div>
+        </div>
+
         <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
           <LinkArrow href="/deliverables">All deliverables</LinkArrow>
           <LinkArrow href={`/deliverables/${next.slug}`}>Next: {next.name}™</LinkArrow>

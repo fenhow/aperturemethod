@@ -246,17 +246,21 @@
     position: relative;
     z-index: 2;
     width: 300px;
-    height: 444px;
-    border-radius: 3px 6px 6px 3px;
-    background: #0a0a0a;
+    height: 452px;
+    border-radius: 2px 7px 7px 2px;
+    background:
+      radial-gradient(82% 46% at 70% 12%, rgba(140, 43, 43, 0.4), transparent 60%),
+      linear-gradient(158deg, rgba(30, 22, 26, 0.9), #0a0a0a 46%, #070707 100%);
     color: #fff;
     overflow: hidden;
-    padding: 30px 28px;
+    display: flex;
+    flex-direction: column;
+    padding: 34px 30px 26px;
     box-shadow:
-      0 30px 60px -20px rgba(0, 0, 0, 0.55),
-      0 10px 20px -12px rgba(80, 0, 0, 0.5);
+      0 36px 72px -22px rgba(0, 0, 0, 0.62),
+      0 12px 26px -12px rgba(80, 0, 0, 0.55);
     /* inner-margin sheen near the spine */
-    border-left: 3px solid rgba(255, 255, 255, 0.06);
+    border-left: 3px solid rgba(255, 255, 255, 0.07);
   }
   .book3d__cover::after {
     /* thin bright edge at the spine side */
@@ -270,6 +274,13 @@
     position: absolute;
     inset: 0;
     background: radial-gradient(75% 55% at 68% 22%, rgba(140, 43, 43, 0.5), transparent 62%);
+    pointer-events: none;
+  }
+  .book3d__frame {
+    position: absolute;
+    inset: 15px;
+    border: 1px solid rgba(201, 162, 75, 0.45);
+    border-radius: 2px;
     pointer-events: none;
   }
   .book3d__mark {
@@ -300,10 +311,10 @@
   .book3d__rule {
     position: relative;
     display: block;
-    width: 40px;
-    height: 3px;
-    margin-top: 20px;
-    background: #8c2b2b;
+    width: 46px;
+    height: 2px;
+    margin-top: 18px;
+    background: linear-gradient(90deg, #c9a24b, #8c2b2b);
   }
   .book3d__sub {
     position: relative;
@@ -314,24 +325,34 @@
     font-weight: 300;
     color: rgba(255, 255, 255, 0.72);
   }
+  .book3d__foot {
+    position: relative;
+    margin-top: auto;
+    padding-top: 18px;
+  }
+  .book3d__sig {
+    display: block;
+    height: 42px;
+    width: auto;
+    margin: 0 0 4px -4px;
+    filter: invert(1) brightness(1.7);
+    opacity: 0.92;
+  }
   .book3d__author {
-    position: absolute;
-    left: 28px;
-    bottom: 26px;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
   }
   /* Page block (right edge) */
   .book3d__pages {
     position: absolute;
     top: 6px;
     right: -1px;
-    height: 432px;
-    width: 30px;
-    transform: translateX(30px) rotateY(90deg);
+    height: 440px;
+    width: 34px;
+    transform: translateX(34px) rotateY(90deg);
     transform-origin: left center;
     background: repeating-linear-gradient(
       90deg,
@@ -347,9 +368,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 444px;
-    width: 30px;
-    transform: translateX(-30px) rotateY(-90deg);
+    height: 452px;
+    width: 34px;
+    transform: translateX(-34px) rotateY(-90deg);
     transform-origin: right center;
     background: linear-gradient(#160606, #050505);
     border-radius: 3px 0 0 3px;

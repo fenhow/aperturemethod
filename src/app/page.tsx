@@ -12,6 +12,9 @@ import { Whitespace } from "@/components/home/Whitespace";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
 import { QuickContactCard } from "@/components/forms/QuickContactCard";
+import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
+
+const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 import { aperturePractices } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 
@@ -42,22 +45,89 @@ export default function Home() {
         </Reveal>
 
         <Reveal delay={120} className="mt-8">
-          <Link
-            href="#how-it-works"
-            className="group flex flex-col gap-5 rounded-2xl border border-maroon/30 bg-surface p-7 transition-colors hover:border-maroon sm:flex-row sm:items-center sm:justify-between sm:p-9"
-          >
-            <div className="max-w-2xl">
-              <p className="eyebrow">Start here</p>
-              <p className="mt-2 text-h3 font-semibold text-ink">
-                Not sure which you need? Start with a Business X-Ray.
-              </p>
-              <p className="mt-2 text-body text-muted">
-                A fixed-fee diagnostic that pinpoints your #1 constraint and prescribes exactly which
-                components will move the needle — one, a few, or all five.
-              </p>
+          <div className="rounded-2xl border border-maroon/30 bg-surface p-7 sm:p-9">
+            <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
+              {/* Left — what the X-Ray is, with ways to explore before booking */}
+              <div>
+                <p className="eyebrow">Start here</p>
+                <p className="mt-2 text-h3 font-semibold text-ink">
+                  Not sure where to start? Begin with a Business X-Ray&trade;.
+                </p>
+                <p className="mt-3 text-body text-muted">
+                  A fixed-fee diagnostic that reads your whole business across seven lenses, names your
+                  #1 constraint, and prescribes exactly which components will move the needle — one, a
+                  few, or all five.
+                </p>
+                <ul className="mt-5 space-y-2">
+                  {[
+                    "A seven-lens read of the whole business",
+                    "Your #1 constraint, clearly named",
+                    "Your Aperture Score™ — a baseline to track",
+                  ].map((li) => (
+                    <li key={li} className="flex items-start gap-2.5 text-small text-body">
+                      <span
+                        className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-maroon"
+                        aria-hidden="true"
+                      />
+                      {li}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-small text-muted">
+                  Fixed fee from <span className="font-semibold text-ink">$2,500</span> · real insight
+                  in its first weeks.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <Link href={primaryCta.href} className="btn">
+                    {primaryCta.label}
+                  </Link>
+                  <LinkArrow href="/deliverables/business-x-ray">What the X-Ray is</LinkArrow>
+                </div>
+                <div className="mt-4">
+                  <DocumentLightbox
+                    href={EXAMPLE_REPORT}
+                    page={10}
+                    title="Example Report · Business X-Ray — Lumina Medical Aesthetics"
+                    triggerLabel="See a real Business X-Ray in the example report"
+                    triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"
+                  />
+                </div>
+              </div>
+
+              {/* Right — the five components it points you to, each linked */}
+              <div className="rounded-xl border border-line bg-paper p-6">
+                <p className="text-overline font-semibold uppercase tracking-overline text-muted">
+                  Where it points you — the five components
+                </p>
+                <ul className="mt-3 divide-y divide-line">
+                  {aperturePractices.map((pr) => (
+                    <li key={pr.n}>
+                      <Link
+                        href={`/method/${pr.short.toLowerCase()}`}
+                        className="group flex items-center gap-3 py-3"
+                      >
+                        <span className="text-small font-semibold tabular-nums text-maroon">
+                          {pr.n}
+                        </span>
+                        <span className="flex-1 text-small font-medium text-ink group-hover:text-maroon">
+                          {pr.product}&trade;
+                        </span>
+                        <span
+                          className="translate-x-0 text-maroon opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
+                          aria-hidden="true"
+                        >
+                          &rarr;
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 border-t border-line pt-4">
+                  <LinkArrow href="#how-it-works">See how it works</LinkArrow>
+                </p>
+              </div>
             </div>
-            <span className="btn shrink-0 group-hover:bg-maroon">See how it works →</span>
-          </Link>
+          </div>
         </Reveal>
       </Section>
 

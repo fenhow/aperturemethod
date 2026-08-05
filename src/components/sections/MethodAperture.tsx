@@ -38,10 +38,10 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
         const onLeft = Math.sin(rad) < -0.05;
         const atTop = Math.cos(rad) > 0.7;
         const label = atTop
-          ? { transform: "translate(-50%, calc(-100% - 16px))", textAlign: "center" as const }
+          ? { transform: "translate(-50%, calc(-100% - 34px))", textAlign: "center" as const }
           : onLeft
-            ? { transform: "translate(calc(-100% - 30px), -50%)", textAlign: "right" as const }
-            : { transform: "translate(30px, -50%)", textAlign: "left" as const };
+            ? { transform: "translate(calc(-100% - 42px), -50%)", textAlign: "right" as const }
+            : { transform: "translate(42px, -50%)", textAlign: "left" as const };
         return { x, y, label };
       }),
     [phases, STEP]
@@ -166,7 +166,7 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
                   aria-hidden="true"
                   style={{ transform: node.label.transform, textAlign: node.label.textAlign }}
                   className={cn(
-                    "pointer-events-none absolute left-1/2 top-1/2 hidden whitespace-nowrap text-[13px] font-semibold tracking-tight transition-colors duration-300 sm:block",
+                    "pointer-events-none absolute left-1/2 top-1/2 hidden whitespace-nowrap text-[16px] font-semibold tracking-tight transition-colors duration-300 sm:block",
                     isActive ? "text-maroon" : "text-muted"
                   )}
                 >
@@ -179,9 +179,9 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
                   aria-pressed={isActive}
                   aria-label={`Step ${p.n}: ${p.product} — ${p.verb}`}
                   className={cn(
-                    "relative grid h-10 w-10 place-items-center rounded-full border text-[13px] font-semibold tabular-nums transition-all duration-300",
+                    "relative grid h-14 w-14 place-items-center rounded-full border text-[17px] font-semibold tabular-nums transition-all duration-300",
                     isActive
-                      ? "scale-110 border-maroon bg-maroon text-paper shadow-[0_0_0_5px_rgba(80,0,0,0.10)]"
+                      ? "scale-110 border-maroon bg-maroon text-paper shadow-[0_0_0_6px_rgba(80,0,0,0.10)]"
                       : "border-line bg-paper text-muted hover:border-maroon hover:text-maroon"
                   )}
                 >

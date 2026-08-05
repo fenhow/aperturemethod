@@ -11,6 +11,7 @@ import { TheArc } from "@/components/home/TheArc";
 import { Whitespace } from "@/components/home/Whitespace";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
+import { QuickContactCard } from "@/components/forms/QuickContactCard";
 import { aperturePractices } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 
@@ -111,6 +112,11 @@ export default function Home() {
               </Link>
             </Reveal>
           ))}
+
+          {/* Quick contact — fills the sixth slot in the 3-column grid */}
+          <Reveal variant="up" delay={160}>
+            <QuickContactCard />
+          </Reveal>
         </div>
         <p className="mt-8">
           <LinkArrow href="/the-aperture-method">Explore the full Method</LinkArrow>

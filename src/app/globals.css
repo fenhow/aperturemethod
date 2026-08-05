@@ -478,10 +478,19 @@
   .book360__sig { display: block; height: 40px; width: auto; margin: 0 0 4px -4px; filter: invert(1) brightness(1.7); opacity: 0.92; }
   .book360__author { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); }
   .book360__kicker { position: relative; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #c9756c; }
-  .book360__excerpt { position: relative; margin-top: 14px; font-size: 15px; line-height: 1.5; font-weight: 300; color: rgba(255, 255, 255, 0.9); }
+  .book360__excerpt { position: relative; margin-top: 14px; font-size: 14px; line-height: 1.5; font-weight: 300; color: rgba(255, 255, 255, 0.9); }
   .book360__excerpt b { font-weight: 600; color: #fff; }
-  .book360__authorbox { position: relative; margin-top: auto; display: flex; align-items: center; gap: 12px; padding-top: 18px; }
-  .book360__photo { width: 52px; height: 52px; border-radius: 999px; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.2); }
+  .book360__backwrap { position: relative; margin-top: auto; padding-top: 18px; }
+  .book360__authorbox { display: flex; align-items: center; gap: 12px; }
+  .book360__photo { width: 58px; height: 58px; border-radius: 999px; object-fit: cover; object-position: 50% 20%; border: 1px solid rgba(255, 255, 255, 0.2); flex-shrink: 0; }
   .book360__aname { font-size: 13px; font-weight: 600; color: #fff; letter-spacing: 0.02em; }
-  .book360__arole { font-size: 11px; color: rgba(255, 255, 255, 0.6); margin-top: 2px; }
+  .book360__arole { font-size: 10.5px; line-height: 1.4; color: rgba(255, 255, 255, 0.6); margin-top: 3px; }
+  .book360__backfoot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+  .book360__cat { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.72); }
+  .book360__imprint { font-size: 11px; font-weight: 500; color: rgba(255, 255, 255, 0.55); margin-top: 4px; }
+  .book360__bcwrap { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .book360__barcodebox { background: #fff; padding: 5px 6px 3px; border-radius: 1px; }
+  .book360__bars { width: 76px; height: 30px; background:
+      repeating-linear-gradient(90deg, #000 0, #000 1px, #fff 1px, #fff 2px, #000 2px, #000 4px, #fff 4px, #fff 5px, #000 5px, #000 6px, #fff 6px, #fff 8px, #000 8px, #000 9px, #fff 9px, #fff 11px); }
+  .book360__isbn { font-size: 9px; letter-spacing: 0.08em; color: rgba(255, 255, 255, 0.6); font-variant-numeric: tabular-nums; }
 }

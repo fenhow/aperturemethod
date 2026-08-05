@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { PreorderForm } from "@/components/forms/PreorderForm";
+import { Book3D } from "@/components/home/Book3D";
 
 /**
  * "The Book" segment — a 3D cover mockup of the forthcoming Aperture Method
@@ -11,64 +12,10 @@ export function BookSection() {
   return (
     <Section tone="surface" id="book">
       <div className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
-        {/* 3D book — rotates to reveal front, spine, pages, and back */}
-        <Reveal variant="right" className="flex justify-center py-6 lg:justify-start">
-          <div className="book360" title="Hover to pause">
-            <div className="book360__stage">
-              {/* Front cover */}
-              <div className="book360__face book360__front">
-                <div className="book360__glow" aria-hidden="true" />
-                <span className="book360__frame" aria-hidden="true" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo-icon-white.png" alt="" className="book360__mark" />
-                <p className="book360__eyebrow">A Business Methodology</p>
-                <h3 className="book360__title">
-                  The
-                  <br />
-                  Aperture
-                  <br />
-                  Method<span className="book360__tm">™</span>
-                </h3>
-                <span className="book360__rule" aria-hidden="true" />
-                <p className="book360__sub">
-                  Big-company intelligence, built for the businesses everyone else ignores.
-                </p>
-                <div className="book360__foot">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/fenwick-signature-black.png" alt="" className="book360__sig" />
-                  <p className="book360__author">Fenwick How</p>
-                </div>
-              </div>
-
-              {/* Back cover — photo + excerpt */}
-              <div className="book360__face book360__back">
-                <span className="book360__frame" aria-hidden="true" />
-                <p className="book360__kicker">From the book</p>
-                <p className="book360__excerpt">
-                  Big companies don&apos;t outgrow you because they&apos;re smarter. They outgrow you
-                  because they can <b>see</b> — their numbers, their customers, their market — while
-                  you run on instinct. Your business already has the data. This book is about finally
-                  turning it into decisions.
-                </p>
-                <div className="book360__authorbox">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/fenwick-how.jpg" alt="Fenwick How" className="book360__photo" />
-                  <div>
-                    <p className="book360__aname">Fenwick How</p>
-                    <p className="book360__arole">Founder, The Aperture Method™</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Spine + edges */}
-              <div className="book360__face book360__spine" aria-hidden="true">
-                <span className="book360__spinetext">The Aperture Method™ · Fenwick How</span>
-              </div>
-              <div className="book360__face book360__pages" aria-hidden="true" />
-              <div className="book360__face book360__top" aria-hidden="true" />
-              <div className="book360__face book360__bottom" aria-hidden="true" />
-            </div>
-          </div>
+        {/* 3D book — drag to spin; reveals front, spine, pages, and back */}
+        <Reveal variant="right" className="flex flex-col items-center gap-3 py-6 lg:items-start">
+          <Book3D />
+          <p className="text-small text-muted">Drag the book to spin it →</p>
         </Reveal>
 
         {/* Copy */}

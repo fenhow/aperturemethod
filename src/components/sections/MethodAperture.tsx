@@ -111,13 +111,13 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
       onFocusCapture={() => setPlaying(false)}
       onBlurCapture={() => setPlaying(true)}
     >
-      <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+      <div className="flex flex-col items-center gap-12 sm:gap-14">
         {/* Dial */}
         <div
           role="group"
           aria-label={`The ${phases.length} steps of The Aperture Method`}
           onKeyDown={onKeyDown}
-          className="relative mx-auto aspect-square w-full max-w-[440px] py-2"
+          className="relative mx-auto aspect-square w-full max-w-[560px] py-2"
         >
           {/* concentric guide rings */}
           <div className="absolute inset-[6%] rounded-full border border-line/70" />
@@ -199,9 +199,9 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
         </div>
 
         {/* Detail */}
-        <div className="mx-auto max-w-xl text-center lg:mx-0 lg:text-left">
+        <div className="mx-auto w-full max-w-2xl text-center">
           <div key={active} className="animate-fade-up">
-            <div className="flex items-center justify-center gap-3 lg:justify-start">
+            <div className="flex items-center justify-center gap-3">
               <span className="text-display font-semibold leading-none text-maroon">{phase.n}</span>
               <div className="text-left">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -218,9 +218,9 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
               </div>
             </div>
 
-            <p className="mx-auto mt-6 max-w-md text-body-lg text-body lg:mx-0">{phase.line}</p>
+            <p className="mx-auto mt-6 max-w-lg text-body-lg text-body">{phase.line}</p>
 
-            <div className="mx-auto mt-8 max-w-md border-t border-line pt-6 text-left lg:mx-0">
+            <div className="mx-auto mt-8 max-w-md border-t border-line pt-6 text-center">
               <p className="text-overline font-semibold uppercase tracking-overline text-muted">You get</p>
               <p className="mt-1 text-body font-medium text-ink">{phase.deliverable}</p>
             </div>

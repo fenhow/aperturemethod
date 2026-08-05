@@ -381,3 +381,107 @@
     }
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Full 3D book — rotates 360° to reveal front, spine, fore-edge, and back.
+   --------------------------------------------------------------------------- */
+@layer components {
+  .book360 {
+    perspective: 2200px;
+    width: 300px;
+    max-width: 80vw;
+    margin: 0 auto;
+  }
+  .book360__stage {
+    position: relative;
+    width: 300px;
+    height: 452px;
+    transform-style: preserve-3d;
+    animation: book-spin 26s linear infinite;
+    will-change: transform;
+  }
+  .book360:hover .book360__stage {
+    animation-play-state: paused;
+  }
+  @keyframes book-spin {
+    from { transform: rotateX(6deg) rotateY(-18deg); }
+    to   { transform: rotateX(6deg) rotateY(342deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .book360__stage { animation: none; transform: rotateX(5deg) rotateY(-26deg); }
+  }
+  .book360__face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+  .book360__front,
+  .book360__back {
+    width: 300px;
+    height: 452px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    background:
+      radial-gradient(82% 46% at 70% 12%, rgba(140, 43, 43, 0.4), transparent 60%),
+      linear-gradient(158deg, rgba(30, 22, 26, 0.92), #0a0a0a 46%, #070707 100%);
+    box-shadow: 0 42px 84px -26px rgba(0, 0, 0, 0.6);
+  }
+  .book360__front { transform: translateZ(21px); padding: 34px 30px 26px; border-radius: 2px 6px 6px 2px; }
+  .book360__back { transform: rotateY(180deg) translateZ(21px); padding: 28px 28px 24px; border-radius: 2px 6px 6px 2px; }
+  .book360__spine {
+    width: 42px;
+    height: 452px;
+    left: 129px;
+    transform: rotateY(-90deg) translateZ(150px);
+    background: linear-gradient(#1c0a0a, #050505);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .book360__spinetext {
+    transform: rotate(90deg);
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .book360__pages {
+    width: 42px;
+    height: 452px;
+    left: 129px;
+    transform: rotateY(90deg) translateZ(150px);
+    background: repeating-linear-gradient(0deg, #f4f2ee, #f4f2ee 1px, #dad7d0 2px, #f4f2ee 3px);
+  }
+  .book360__top,
+  .book360__bottom {
+    width: 300px;
+    height: 42px;
+    top: 205px;
+    background: repeating-linear-gradient(90deg, #f4f2ee, #f4f2ee 1px, #dad7d0 2px, #f4f2ee 3px);
+  }
+  .book360__top { transform: rotateX(90deg) translateZ(226px); }
+  .book360__bottom { transform: rotateX(-90deg) translateZ(226px); }
+  .book360__frame { position: absolute; inset: 14px; border: 1px solid rgba(201, 162, 75, 0.45); border-radius: 2px; pointer-events: none; }
+  .book360__glow { position: absolute; inset: 0; background: radial-gradient(75% 55% at 68% 20%, rgba(140, 43, 43, 0.45), transparent 62%); pointer-events: none; }
+  .book360__mark { position: relative; width: 42px; height: auto; opacity: 0.95; }
+  .book360__eyebrow { position: relative; margin-top: 18px; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #c9756c; }
+  .book360__title { position: relative; margin-top: 12px; font-size: 37px; line-height: 1.03; font-weight: 600; letter-spacing: -0.02em; color: #fff; }
+  .book360__tm { font-size: 0.32em; vertical-align: super; font-weight: 500; color: #c9a24b; letter-spacing: 0; }
+  .book360__rule { position: relative; display: block; width: 46px; height: 2px; margin-top: 16px; background: linear-gradient(90deg, #c9a24b, #8c2b2b); }
+  .book360__sub { position: relative; margin-top: 16px; max-width: 210px; font-size: 12.5px; line-height: 1.5; font-weight: 300; color: rgba(255, 255, 255, 0.72); }
+  .book360__foot { position: relative; margin-top: auto; padding-top: 16px; }
+  .book360__sig { display: block; height: 40px; width: auto; margin: 0 0 4px -4px; filter: invert(1) brightness(1.7); opacity: 0.92; }
+  .book360__author { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); }
+  .book360__kicker { position: relative; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #c9756c; }
+  .book360__excerpt { position: relative; margin-top: 14px; font-size: 15px; line-height: 1.5; font-weight: 300; color: rgba(255, 255, 255, 0.9); }
+  .book360__excerpt b { font-weight: 600; color: #fff; }
+  .book360__authorbox { position: relative; margin-top: auto; display: flex; align-items: center; gap: 12px; padding-top: 18px; }
+  .book360__photo { width: 52px; height: 52px; border-radius: 999px; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.2); }
+  .book360__aname { font-size: 13px; font-weight: 600; color: #fff; letter-spacing: 0.02em; }
+  .book360__arole { font-size: 11px; color: rgba(255, 255, 255, 0.6); margin-top: 2px; }
+}

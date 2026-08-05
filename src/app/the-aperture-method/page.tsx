@@ -6,6 +6,7 @@ import { Faq } from "@/components/ui/Faq";
 import { Reveal } from "@/components/ui/Reveal";
 import { MethodExplorer } from "@/components/sections/MethodExplorer";
 import { MethodFrameworks } from "@/components/sections/MethodFrameworks";
+import { MethodFlow } from "@/components/sections/MethodFlow";
 import { ApertureDifference } from "@/components/sections/ApertureDifference";
 import { methodTagline, methodSummary } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
@@ -174,6 +175,9 @@ export default function TheApertureMethodPage() {
           </Link>
         </Reveal>
       </Section>
+
+      {/* The Method, end to end — walk-through flow */}
+      <MethodFlow />
 
       {/* Under the hood — the frameworks behind each phase */}
       <MethodFrameworks />

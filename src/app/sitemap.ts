@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site";
-import { industries } from "@/lib/industries";
 import { articles } from "@/lib/insights";
 
 /**
@@ -17,7 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/what-we-do", priority: 0.9, changeFrequency: "monthly" },
     { path: "/what-you-get", priority: 0.9, changeFrequency: "monthly" },
     { path: "/ai", priority: 0.9, changeFrequency: "monthly" },
-    { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
     { path: "/case-studies", priority: 0.7, changeFrequency: "monthly" },
     { path: "/case-studies/lumina-medical-aesthetics", priority: 0.8, changeFrequency: "monthly" },
     { path: "/insights", priority: 0.8, changeFrequency: "weekly" },
@@ -32,19 +30,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/accessibility", priority: 0.3, changeFrequency: "yearly" },
   ];
 
-  const industryRoutes = industries.map((i) => ({
-    path: i.href,
-    priority: 0.7,
-    changeFrequency: "monthly" as const,
-  }));
-
   const articleRoutes = articles.map((a) => ({
     path: `/insights/${a.slug}`,
     priority: 0.6,
     changeFrequency: "monthly" as const,
   }));
 
-  return [...staticRoutes, ...industryRoutes, ...articleRoutes].map((r) => ({
+  return [...staticRoutes, ...articleRoutes].map((r) => ({
     url: url(r.path),
     lastModified: now,
     changeFrequency: r.changeFrequency,

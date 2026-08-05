@@ -7,6 +7,7 @@ import { MethodAperture } from "@/components/sections/MethodAperture";
 import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { ApertureHero } from "@/components/home/ApertureHero";
+import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
 import { aperturePractices } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
@@ -116,6 +117,9 @@ export default function Home() {
           <LinkArrow href="/the-aperture-method">Explore the full Method</LinkArrow>
         </p>
       </Section>
+
+      {/* How it works — the engagement model + pricing */}
+      <HowItWorks />
 
       {/* Aperture Atlas — the living platform (live demos) */}
       <Section tone="dark" id="atlas">

@@ -76,7 +76,7 @@ export const megaNav: MegaEntry[] = [
       title: "The Aperture Method",
       blurb:
         "One continuous arc — from a first honest read of the business to hands-on execution.",
-      linkLabel: "Understand · Quantify · Reveal · Navigate · Perform",
+      linkLabel: "How the Method works",
     },
     links: [
       { label: "Aperture Insights™", href: "/method/insights", desc: "Business assessment · MBA" },
@@ -84,11 +84,10 @@ export const megaNav: MegaEntry[] = [
       { label: "Aperture Intelligence™", href: "/method/intelligence", desc: "Market intelligence · MBA · GIS" },
       { label: "Aperture Compass™", href: "/method/compass", desc: "Strategic direction · MBA · GIS" },
       { label: "Aperture Atlas™", href: "/method/atlas", desc: "The living platform · GIS · DATA" },
-      { label: "How the Method works", href: "/the-aperture-method", desc: "The five-part arc" },
-      { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
-      { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
     ],
   },
+  { kind: "link", label: "What You Get", href: "/what-you-get" },
+  { kind: "link", label: "Working Together", href: "/working-together" },
   {
     kind: "group",
     label: "AI",
@@ -105,24 +104,6 @@ export const megaNav: MegaEntry[] = [
       { label: "Where It Pays Off", href: "/ai#in-practice", desc: "Practical jobs AI actually does" },
       { label: "How We Bring It In", href: "/ai#how", desc: "Adoption as part of the Method" },
       { label: "No Black Boxes", href: "/ai#trust", desc: "Explainable, and a person decides" },
-    ],
-  },
-  {
-    kind: "group",
-    label: "Industries",
-    href: "/industries",
-    hub: {
-      eyebrow: "Who we help",
-      title: "Examples, not limits",
-      blurb:
-        "Sectors we know well — but if you don't see yours, we very likely still work with you.",
-      linkLabel: "See all industries",
-    },
-    links: [
-      { label: "Industrial & Manufacturing", href: "/industries/industrial-manufacturing", desc: "Owner-run makers & fabricators" },
-      { label: "Retail & Consumer", href: "/industries/retail-consumer", desc: "Multi-location & consumer brands" },
-      { label: "Professional Services", href: "/industries/professional-services", desc: "Founder-led firms & practices" },
-      { label: "Healthcare Practices", href: "/industries/healthcare", desc: "Clinician-owned practices" },
     ],
   },
   {
@@ -182,7 +163,6 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "What You Get", href: "/what-you-get" },
       { label: "AI, Without the Black Box", href: "/ai" },
       { label: "Working Together", href: "/working-together" },
-      { label: "Industries", href: "/industries" },
       { label: "Case Studies", href: "/case-studies" },
     ],
   },

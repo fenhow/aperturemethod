@@ -76,7 +76,7 @@ export const megaNav: MegaEntry[] = [
       title: "The Aperture Method",
       blurb:
         "One continuous arc — from a first honest read of the business to hands-on execution.",
-      linkLabel: "Understand · Quantify · Reveal · Navigate · Perform",
+      linkLabel: "How the Method works",
     },
     links: [
       { label: "Aperture Insights™", href: "/method/insights", desc: "Business assessment · MBA" },
@@ -84,11 +84,10 @@ export const megaNav: MegaEntry[] = [
       { label: "Aperture Intelligence™", href: "/method/intelligence", desc: "Market intelligence · MBA · GIS" },
       { label: "Aperture Compass™", href: "/method/compass", desc: "Strategic direction · MBA · GIS" },
       { label: "Aperture Atlas™", href: "/method/atlas", desc: "The living platform · GIS · DATA" },
-      { label: "How the Method works", href: "/the-aperture-method", desc: "The five-part arc" },
-      { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
-      { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
     ],
   },
+  { kind: "link", label: "What You Get", href: "/what-you-get" },
+  { kind: "link", label: "Working Together", href: "/working-together" },
   {
     kind: "group",
     label: "AI",

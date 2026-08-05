@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { PreorderForm } from "@/components/forms/PreorderForm";
 
 /**
  * "The Book" segment — a 3D cover mockup of the forthcoming Aperture Method
@@ -18,6 +18,7 @@ export function BookSection() {
               {/* Front cover */}
               <div className="book3d__cover">
                 <div className="book3d__glow" aria-hidden="true" />
+                <span className="book3d__frame" aria-hidden="true" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/logo-icon-white.png" alt="" className="book3d__mark" />
                 <p className="book3d__eyebrow">A Business Methodology</p>
@@ -32,7 +33,11 @@ export function BookSection() {
                 <p className="book3d__sub">
                   Big-company intelligence, built for the businesses everyone else ignores.
                 </p>
-                <p className="book3d__author">Fenwick How</p>
+                <div className="book3d__foot">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/fenwick-signature-black.png" alt="" className="book3d__sig" />
+                  <p className="book3d__author">Fenwick How</p>
+                </div>
               </div>
               {/* Page block + spine */}
               <div className="book3d__pages" aria-hidden="true" />
@@ -56,17 +61,16 @@ export function BookSection() {
           <p className="mt-4 max-w-measure text-body text-muted">
             Written by Fenwick How, founder of The Aperture Method. In progress now.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-small font-semibold text-ink">
-              <span className="h-1.5 w-1.5 rounded-full bg-maroon" aria-hidden="true" />
-              Coming soon
-            </span>
-            <Link href="/contact#book" className="link-arrow">
-              Get notified when it&apos;s out
-              <span className="arrow" aria-hidden="true">
-                &rarr;
+
+          <div className="mt-8">
+            <div className="mb-3 flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-small font-semibold text-ink">
+                <span className="h-1.5 w-1.5 rounded-full bg-maroon" aria-hidden="true" />
+                Coming soon
               </span>
-            </Link>
+              <span className="text-small text-muted">Reserve your copy — no charge now.</span>
+            </div>
+            <PreorderForm />
           </div>
         </Reveal>
       </div>

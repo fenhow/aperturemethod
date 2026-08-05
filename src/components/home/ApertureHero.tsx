@@ -20,8 +20,8 @@ type Slide = { eyebrow: string; title: string; sub: string; image: string; video
 const slides: Slide[] = [
   {
     eyebrow: "One firm. One lens.",
-    title: "Your fractional intelligence department.",
-    sub: "Enterprise analytics and strategy — right-sized for you. The MBA-level analytics, AI, and strategy big companies rely on, brought to owner-run businesses, in plain language, and done for you.",
+    title: "Know your business. Know your market. Grow with confidence.",
+    sub: "Your fractional intelligence department — the business and marketing intelligence big companies rely on, right-sized for owner-run businesses, in plain language, and done for you.",
     image: "/hero/hero-3-v7.jpg",
   },
   {

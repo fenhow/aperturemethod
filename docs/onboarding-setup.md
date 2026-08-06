@@ -35,10 +35,20 @@ bucket under `<owner_id>/<uuid>.pdf` and linked via `documents.document_id`.
 
 | Variable | Purpose | If unset |
 | --- | --- | --- |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only. Lets the API create the client's portal account, store the signed PDF, and write the submission row. | PDF + email still work; nothing is stored in the portal. |
-| `RESEND_API_KEY` | Sends the signed PDF to the client and to Fenwick (via Resend's HTTP API). | Emails are skipped (logged); the client still gets the download. |
-| `ONBOARDING_FROM_EMAIL` | Verified sender, e.g. `The Aperture Method <onboarding@aperturemethod.com>`. | Falls back to that address. |
-| `ONBOARDING_NOTIFY_EMAIL` | Where owner notifications go. | Defaults to `fen@aperturemethod.com`. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only. On the new Supabase key system this is the **Secret key** (`sb_secret_…`). Lets the API create the client's portal account, store the signed PDF, and write the submission row. | PDF + email still work; nothing is stored in the portal. |
+| `SMTP_HOST` | SMTP server, e.g. `smtp.gmail.com`. | Emails are skipped (logged); the client still gets the download. |
+| `SMTP_PORT` | `465` (SSL) or `587` (STARTTLS). | Defaults to `587`. |
+| `SMTP_SECURE` | `"true"` for port 465, otherwise unset. | Defaults to `false`. |
+| `SMTP_USER` | Full mailbox address, e.g. `fen@aperturemethod.com`. | — |
+| `SMTP_PASS` | An **app password** for that mailbox (not the login password). | — |
+| `ONBOARDING_FROM_EMAIL` | Display sender, e.g. `The Aperture Method <onboarding@aperturemethod.com>`. | Defaults to `SMTP_USER`. |
+| `ONBOARDING_NOTIFY_EMAIL` | Where owner notifications go. | Defaults to `SMTP_USER`. |
+
+Email sends from your own mailbox over SMTP (no third-party service). For
+Google Workspace / Gmail: `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=465`,
+`SMTP_SECURE=true`, `SMTP_USER=<your address>`, and `SMTP_PASS=<app password>`
+(create one at Google Account → Security → App passwords; requires 2-step
+verification).
 
 `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` are already used by
 the portal. The service-role key is **server-only** — never expose it to the

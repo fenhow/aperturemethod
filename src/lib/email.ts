@@ -1,22 +1,48 @@
 import "server-only";
+import nodemailer, { type Transporter } from "nodemailer";
 
 /**
- * Minimal transactional email via Resend's HTTP API (no SDK needed). Set
- * RESEND_API_KEY in Vercel to enable. Until then, sends are logged and treated
- * as best-effort so the rest of the flow (PDF + storage) still works.
+ * Transactional email over SMTP — sent from your own mailbox (e.g. Google
+ * Workspace / Gmail on aperturemethod.com). No third-party service. Set these in
+ * Vercel → Settings → Environment Variables (Server):
  *
- *   RESEND_API_KEY          — your Resend key
- *   ONBOARDING_FROM_EMAIL   — verified sender, e.g. "The Aperture Method <onboarding@aperturemethod.com>"
- *   ONBOARDING_NOTIFY_EMAIL — where owner notifications go (default fen@aperturemethod.com)
+ *   SMTP_HOST   — e.g. smtp.gmail.com
+ *   SMTP_PORT   — 465 (SSL) or 587 (STARTTLS). Default 587.
+ *   SMTP_SECURE — "true" for port 465, otherwise leave unset/"false".
+ *   SMTP_USER   — the full mailbox address (e.g. fen@aperturemethod.com)
+ *   SMTP_PASS   — an app password for that mailbox (not your login password)
+ *   ONBOARDING_FROM_EMAIL   — optional display sender; defaults to SMTP_USER
+ *   ONBOARDING_NOTIFY_EMAIL — where owner notifications go; defaults to SMTP_USER
+ *
+ * Until SMTP is configured, sends are logged and treated as best-effort so the
+ * rest of the flow (PDF + portal storage) still works.
  */
-const RESEND_API_KEY = (process.env.RESEND_API_KEY ?? "").trim();
+const SMTP_HOST = (process.env.SMTP_HOST ?? "").trim();
+const SMTP_PORT = Number(process.env.SMTP_PORT ?? "587");
+const SMTP_SECURE = (process.env.SMTP_SECURE ?? "").trim().toLowerCase() === "true";
+const SMTP_USER = (process.env.SMTP_USER ?? "").trim();
+const SMTP_PASS = (process.env.SMTP_PASS ?? "").trim();
+
 export const FROM_EMAIL =
   (process.env.ONBOARDING_FROM_EMAIL ?? "").trim() ||
-  "The Aperture Method <onboarding@aperturemethod.com>";
+  (SMTP_USER ? `The Aperture Method <${SMTP_USER}>` : "The Aperture Method <onboarding@aperturemethod.com>");
 export const NOTIFY_EMAIL =
-  (process.env.ONBOARDING_NOTIFY_EMAIL ?? "").trim() || "fen@aperturemethod.com";
+  (process.env.ONBOARDING_NOTIFY_EMAIL ?? "").trim() || SMTP_USER || "fen@aperturemethod.com";
 
-export const emailConfigured = Boolean(RESEND_API_KEY);
+export const emailConfigured = Boolean(SMTP_HOST && SMTP_USER && SMTP_PASS);
+
+let transporter: Transporter | null = null;
+function getTransport(): Transporter {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: SMTP_HOST,
+      port: SMTP_PORT,
+      secure: SMTP_SECURE,
+      auth: { user: SMTP_USER, pass: SMTP_PASS },
+    });
+  }
+  return transporter;
+}
 
 export type Attachment = { filename: string; contentBase64: string };
 
@@ -28,33 +54,25 @@ export async function sendEmail(opts: {
   attachments?: Attachment[];
 }): Promise<{ ok: boolean; error?: string }> {
   if (!emailConfigured) {
-    console.info("[email] (not configured) would send:", opts.subject, "→", opts.to);
+    console.info("[email] (SMTP not configured) would send:", opts.subject, "→", opts.to);
     return { ok: false, error: "not-configured" };
   }
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: Array.isArray(opts.to) ? opts.to : [opts.to],
-        subject: opts.subject,
-        html: opts.html,
-        reply_to: opts.replyTo,
-        attachments: opts.attachments?.map((a) => ({ filename: a.filename, content: a.contentBase64 })),
-      }),
+    await getTransport().sendMail({
+      from: FROM_EMAIL,
+      to: opts.to,
+      subject: opts.subject,
+      html: opts.html,
+      replyTo: opts.replyTo,
+      attachments: opts.attachments?.map((a) => ({
+        filename: a.filename,
+        content: Buffer.from(a.contentBase64, "base64"),
+        contentType: "application/pdf",
+      })),
     });
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      console.error("[email] Resend error", res.status, text);
-      return { ok: false, error: `resend-${res.status}` };
-    }
     return { ok: true };
   } catch (err) {
-    console.error("[email] send failed", err);
-    return { ok: false, error: "exception" };
+    console.error("[email] SMTP send failed", err);
+    return { ok: false, error: "smtp-exception" };
   }
 }

@@ -91,9 +91,6 @@ export function Header() {
             <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.01em] text-white/80">
               <span>Founder-led · Analytics, AI &amp; strategy for owner-run businesses</span>
               <div className="flex items-center gap-5">
-                <Link href="/onboarding" className="font-medium transition-colors hover:text-white">
-                  New client
-                </Link>
                 <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-white">
                   {siteConfig.email}
                 </a>
@@ -121,11 +118,10 @@ export function Header() {
           >
             <Link href="/" aria-label="The Aperture Method — home" className="shrink-0 rounded-sm">
               <Logo
-                priority
                 tone={scrolled ? "light" : "dark"}
                 className={cn(
                   "transition-all duration-fast",
-                  scrolled ? "h-[clamp(18px,5vw,24px)]" : "h-[clamp(20px,5.5vw,26px)]"
+                  scrolled ? "text-[clamp(15px,4vw,17px)]" : "text-[clamp(16px,4.4vw,19px)]"
                 )}
               />
             </Link>

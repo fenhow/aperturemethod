@@ -115,3 +115,35 @@ create policy "storage_delete_admin" on storage.objects
 -- After you sign in once at /portal/login, make yourself the admin by running:
 --   update public.profiles set role = 'admin' where email = 'YOUR-EMAIL-HERE';
 -- =============================================================================
+
+-- =============================================================================
+-- Onboarding submissions — one row per submitted Intake Form / Agreement.
+-- Written server-side with the service-role key (bypasses RLS). The generated
+-- signed PDF is also stored in the `documents` bucket and linked via document_id
+-- so it appears in the client's portal. Added after initial launch; re-runnable.
+-- =============================================================================
+create table if not exists public.onboarding_submissions (
+  id            uuid primary key default gen_random_uuid(),
+  kind          text not null check (kind in ('intake', 'agreement')),
+  owner_id      uuid references public.profiles (id) on delete set null,
+  document_id   uuid references public.documents (id) on delete set null,
+  company       text,
+  signer_name   text,
+  signer_title  text,
+  signer_email  text not null,
+  answers       jsonb not null default '{}'::jsonb,
+  signature_type text check (signature_type in ('draw', 'type')),
+  consent       boolean not null default false,
+  ip            text,
+  user_agent    text,
+  created_at    timestamptz not null default now()
+);
+
+alter table public.onboarding_submissions enable row level security;
+
+-- Clients may read their own submissions; the admin sees everything. All writes
+-- are server-side via the service role, which bypasses RLS — no insert policy
+-- is granted to anon/authenticated on purpose.
+drop policy if exists "onboarding_read" on public.onboarding_submissions;
+create policy "onboarding_read" on public.onboarding_submissions
+  for select using (owner_id = auth.uid() or public.is_admin());

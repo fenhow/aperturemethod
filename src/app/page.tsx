@@ -12,7 +12,6 @@ import { Whitespace } from "@/components/home/Whitespace";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
 import { QuickContactCard } from "@/components/forms/QuickContactCard";
-import { WelcomePopup } from "@/components/home/WelcomePopup";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 
 const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
@@ -29,7 +28,6 @@ import { primaryCta } from "@/lib/site";
 export default function Home() {
   return (
     <>
-      <WelcomePopup />
       <ApertureHero />
 
       {/* One methodology. Six components. */}

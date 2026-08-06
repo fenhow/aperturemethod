@@ -1,17 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { agreementClauses, feeSchedule, ESIGN_CONSENT } from "@/lib/onboarding/content";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
-import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, SuccessPanel } from "./shared";
+import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog } from "./shared";
 
 export function AgreementForm() {
   const [f, setF] = useState<Record<string, string>>({});
   const [signature, setSignature] = useState<SignaturePayload | null>(null);
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { status, message, result, submit, download } = useOnboardingSubmit();
+  const [errOpen, setErrOpen] = useState(false);
+  const [problems, setProblems] = useState<string[]>([]);
+  const { status, message, submit, download } = useOnboardingSubmit();
+  const router = useRouter();
   const set = (name: string, v: string) => setF((s) => ({ ...s, [name]: v }));
 
   // Default the Effective date to today (set after mount to avoid SSR mismatch).
@@ -31,7 +35,11 @@ export function AgreementForm() {
     if (!signature) found.signature = "Please add your signature.";
     if (!consent) found.consent = "Please confirm the statement.";
     setErrors(found);
-    if (Object.keys(found).length) return;
+    if (Object.keys(found).length) {
+      setProblems(Object.values(found));
+      setErrOpen(true);
+      return;
+    }
 
     const payload: OnboardingPayload = {
       kind: "agreement",
@@ -47,9 +55,13 @@ export function AgreementForm() {
     await submit(payload);
   }
 
-  if (status === "success" && result) {
-    return <SuccessPanel title="Agreement signed." email={f.signer_email ?? ""} onDownload={download} />;
-  }
+  const summary: [string, string][] = [
+    ["Signed by", f.signer_name ?? ""],
+    ["Title", f.signer_title ?? ""],
+    ["Company", f.client_legal_name ?? ""],
+    ["Email", f.signer_email ?? ""],
+    ["Effective date", f.effective_date ?? ""],
+  ];
 
   const field = (
     name: string,
@@ -74,6 +86,7 @@ export function AgreementForm() {
   );
 
   return (
+    <>
     <form onSubmit={onSubmit} noValidate className="space-y-10">
       {/* Party / fill-ins */}
       <fieldset className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -162,5 +175,14 @@ export function AgreementForm() {
         {status === "submitting" ? "Submitting…" : "Sign & submit agreement"}
       </button>
     </form>
+    <ErrorDialog open={errOpen} problems={problems} onClose={() => setErrOpen(false)} />
+    <SuccessDialog
+      open={status === "success"}
+      title="Agreement signed"
+      summary={summary}
+      onDownload={download}
+      onHome={() => router.push("/")}
+    />
+    </>
   );
 }

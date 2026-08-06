@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { OnboardingErrors, OnboardingPayload } from "@/lib/onboarding/types";
 
 export const inputCls =
@@ -83,32 +83,118 @@ export function useOnboardingSubmit() {
   return { status, serverErrors, message, result, submit, download };
 }
 
-export function SuccessPanel({
-  title,
-  email,
-  onDownload,
+/** Centered modal overlay. Locks body scroll and scrolls the page to top so it
+ * is always visible (fixes the "stuck at the bottom" issue). Closes on backdrop
+ * click or Escape. */
+export function Modal({
+  open,
+  onClose,
+  labelledBy,
+  children,
 }: {
-  title: string;
-  email: string;
-  onDownload: () => void;
+  open: boolean;
+  onClose: () => void;
+  labelledBy?: string;
+  children: React.ReactNode;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby={labelledBy}>
+      <div className="absolute inset-0 bg-ink/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative z-10 w-full max-w-lg rounded-lg bg-paper p-8 shadow-xl">{children}</div>
+    </div>
+  );
+}
+
+/** Popup listing validation problems when a required field is missing. */
+export function ErrorDialog({
+  open,
+  problems,
+  onClose,
+}: {
+  open: boolean;
+  problems: string[];
+  onClose: () => void;
 }) {
   return (
-    <div role="status" aria-live="polite" className="rounded border border-line bg-surface p-8">
-      <h3 className="text-h3 font-semibold text-ink">{title}</h3>
-      <p className="mt-4 text-body-lg text-body">
-        Thank you — we&apos;ve received it and sent a signed copy to{" "}
-        <span className="font-medium text-ink">{email}</span>.
-      </p>
-      <p className="mt-3 text-body text-muted">
-        You can also find it any time in your secure client area. Sign in at{" "}
-        <a href="/portal" className="link-inline">
-          the client portal
-        </a>{" "}
-        with this email and we&apos;ll send a one-time link.
-      </p>
-      <button type="button" onClick={onDownload} className="btn mt-6">
-        Download your PDF
+    <Modal open={open} onClose={onClose} labelledBy="onb-err-title">
+      <h3 id="onb-err-title" className="text-h3 font-semibold text-ink">
+        Please check the form
+      </h3>
+      <p className="mt-3 text-body text-muted">A few things need your attention before we can submit:</p>
+      <ul className="mt-4 list-disc space-y-1.5 pl-5 text-body font-medium text-maroon">
+        {problems.map((p, i) => (
+          <li key={i}>{p}</li>
+        ))}
+      </ul>
+      <button type="button" onClick={onClose} className="btn mt-6 w-full justify-center py-3.5 sm:w-auto sm:px-10">
+        Got it
       </button>
-    </div>
+    </Modal>
+  );
+}
+
+/** Confirmation popup shown after a successful submit — summarizes the signed
+ * data, offers the PDF, and returns to the home page. */
+export function SuccessDialog({
+  open,
+  title,
+  summary,
+  onDownload,
+  onHome,
+}: {
+  open: boolean;
+  title: string;
+  summary: [string, string][];
+  onDownload: () => void;
+  onHome: () => void;
+}) {
+  return (
+    <Modal open={open} onClose={onHome} labelledBy="onb-ok-title">
+      <div className="flex items-start gap-3">
+        <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-maroon text-lg text-paper" aria-hidden="true">
+          ✓
+        </span>
+        <div>
+          <h3 id="onb-ok-title" className="text-h3 font-semibold text-ink">
+            {title}
+          </h3>
+          <p className="mt-2 text-body text-muted">
+            A signed copy has been emailed to you and saved to your secure client area.
+          </p>
+        </div>
+      </div>
+      <dl className="mt-5 divide-y divide-line rounded-md border border-line">
+        {summary.filter(([, v]) => v).map(([k, v]) => (
+          <div key={k} className="flex justify-between gap-4 px-4 py-2.5">
+            <dt className="text-small text-muted">{k}</dt>
+            <dd className="text-right text-small font-medium text-ink">{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <button type="button" onClick={onDownload} className="btn--secondary w-full justify-center py-3.5 sm:w-auto sm:px-8">
+          Download PDF
+        </button>
+        <button type="button" onClick={onHome} className="btn w-full justify-center py-3.5 sm:w-auto sm:px-8">
+          Done — return home
+        </button>
+      </div>
+    </Modal>
   );
 }

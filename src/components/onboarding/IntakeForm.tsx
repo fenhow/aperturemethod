@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   intakeSections,
   intakeConsent,
@@ -9,7 +10,7 @@ import {
 } from "@/lib/onboarding/content";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
-import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, SuccessPanel } from "./shared";
+import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog } from "./shared";
 
 type Row = { area: string; system: string; available: string; share: string };
 const initialRows: Row[] = SYSTEM_ROWS.map((area) => ({ area, system: "", available: "", share: "" }));
@@ -51,7 +52,10 @@ export function IntakeForm() {
   const [signature, setSignature] = useState<SignaturePayload | null>(null);
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { status, message, result, submit, download } = useOnboardingSubmit();
+  const [errOpen, setErrOpen] = useState(false);
+  const [problems, setProblems] = useState<string[]>([]);
+  const { status, message, submit, download } = useOnboardingSubmit();
+  const router = useRouter();
 
   const set = (name: string, v: string) => setAns((a) => ({ ...a, [name]: v }));
   const setRow = (i: number, key: keyof Row, v: string) =>
@@ -69,7 +73,11 @@ export function IntakeForm() {
     if (!signature) found.signature = "Please add your signature.";
     if (!consent) found.consent = "Please confirm the statement.";
     setErrors(found);
-    if (Object.keys(found).length) return;
+    if (Object.keys(found).length) {
+      setProblems(Object.values(found));
+      setErrOpen(true);
+      return;
+    }
 
     const payload: OnboardingPayload = {
       kind: "intake",
@@ -85,17 +93,14 @@ export function IntakeForm() {
     await submit(payload);
   }
 
-  if (status === "success" && result) {
-    return (
-      <SuccessPanel
-        title="Your intake is in."
-        email={ans.contact_email ?? ""}
-        onDownload={download}
-      />
-    );
-  }
+  const summary: [string, string][] = [
+    ["Name", `${ans.first_name ?? ""} ${ans.last_name ?? ""}`.trim()],
+    ["Company", ans.business_name ?? ""],
+    ["Email", ans.contact_email ?? ""],
+  ];
 
   return (
+    <>
     <form onSubmit={onSubmit} noValidate className="space-y-10">
       {intakeSections.map((section) => (
         <fieldset key={section.id} className="space-y-5">
@@ -221,5 +226,14 @@ export function IntakeForm() {
         {status === "submitting" ? "Submitting…" : "Submit intake form"}
       </button>
     </form>
+    <ErrorDialog open={errOpen} problems={problems} onClose={() => setErrOpen(false)} />
+    <SuccessDialog
+      open={status === "success"}
+      title="Intake received"
+      summary={summary}
+      onDownload={download}
+      onHome={() => router.push("/")}
+    />
+    </>
   );
 }

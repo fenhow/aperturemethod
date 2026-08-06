@@ -1,6 +1,6 @@
 import "server-only";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
-import { APERTURE_LOGO_WHITE_HORIZONTAL_B64, APERTURE_ICON_WHITE_B64 } from "./logo";
+import { APERTURE_LOGO_WHITE_HORIZONTAL_B64, APERTURE_ICON_WHITE_B64, FENWICK_SIGNATURE_B64 } from "./logo";
 import {
   intakeSections,
   intakeMeta,
@@ -54,6 +54,7 @@ class Doc {
   meta!: Meta;
   logo!: PDFImage;
   icon!: PDFImage;
+  fenSig!: PDFImage;
 
   async init(title: string, meta: Meta) {
     this.doc = await PDFDocument.create();
@@ -62,6 +63,7 @@ class Doc {
     this.ital = await this.doc.embedFont(StandardFonts.HelveticaOblique);
     this.logo = await this.doc.embedPng(Buffer.from(APERTURE_LOGO_WHITE_HORIZONTAL_B64, "base64"));
     this.icon = await this.doc.embedPng(Buffer.from(APERTURE_ICON_WHITE_B64, "base64"));
+    this.fenSig = await this.doc.embedPng(Buffer.from(FENWICK_SIGNATURE_B64, "base64"));
     this.title = san(title);
     this.meta = {
       signerName: san(meta.signerName), date: san(meta.date), ip: san(meta.ip), recipient: san(meta.recipient),
@@ -80,8 +82,8 @@ class Doc {
       // Maroon letterhead: official logo (left) + who it's prepared for (right)
       const BAND = 104;
       this.page.drawRectangle({ x: 0, y: PAGE_H - BAND, width: PAGE_W, height: BAND, color: MAROON });
-      const lw = 172, lh = lw * (this.logo.height / this.logo.width);
-      this.page.drawImage(this.logo, { x: MARGIN, y: PAGE_H - 42 - lh, width: lw, height: lh });
+      const lw = 214, lh = lw * (this.logo.height / this.logo.width);
+      this.page.drawImage(this.logo, { x: MARGIN, y: PAGE_H - 40 - lh, width: lw, height: lh });
       this.page.drawText(this.title, {
         x: MARGIN, y: PAGE_H - 84, size: 10.5, font: this.reg, color: rgb(0.92, 0.85, 0.85),
       });
@@ -258,10 +260,22 @@ class Doc {
     }
 
     if (secondParty) {
+      this.y -= 16;
+      this.ensure(96);
+      this.para("For The Aperture Method", { font: this.bold, size: 9.5, color: MAROON, after: 2 });
+      const top = this.y;
+      const sw = 150, sh = sw * (this.fenSig.height / this.fenSig.width);
+      this.page.drawImage(this.fenSig, { x: MARGIN, y: top - sh, width: sw, height: sh });
+      this.y = top - Math.max(sh, 30) - 2;
+      this.page.drawLine({ start: { x: MARGIN, y: this.y + 8 }, end: { x: MARGIN + 240, y: this.y + 8 }, thickness: 0.75, color: INK });
       this.y -= 8;
-      this.para("For The Aperture Method: Fenwick How, Founder — countersigned on acceptance.", {
-        size: 8.5, color: MUTED,
-      });
+      const arows: [string, string][] = [["Name", "Fenwick How"], ["Title", "Founder"], ["Date", this.meta.date]];
+      for (const [k, v] of arows) {
+        this.ensure(13);
+        this.page.drawText(k + ":", { x: MARGIN, y: this.y, size: 9, font: this.bold, color: INK });
+        this.page.drawText(san(v), { x: MARGIN + 78, y: this.y, size: 9, font: this.reg, color: INK });
+        this.y -= 13;
+      }
     }
   }
 }

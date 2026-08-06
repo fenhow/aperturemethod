@@ -157,7 +157,7 @@ export function AgreementForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="btn--primary w-full justify-center py-4 text-base sm:w-auto sm:px-10 disabled:opacity-60"
+        className="btn w-full justify-center py-4 text-base sm:w-auto sm:px-10 disabled:opacity-60"
       >
         {status === "submitting" ? "Submitting…" : "Sign & submit agreement"}
       </button>

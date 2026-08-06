@@ -106,7 +106,7 @@ export function SuccessPanel({
         </a>{" "}
         with this email and we&apos;ll send a one-time link.
       </p>
-      <button type="button" onClick={onDownload} className="btn--primary mt-6">
+      <button type="button" onClick={onDownload} className="btn mt-6">
         Download your PDF
       </button>
     </div>

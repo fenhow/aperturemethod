@@ -172,7 +172,7 @@ export const agreementMeta = {
   title: "New Customer Agreement",
   subtitle: "Consulting & Analytics Services — The Aperture Method™",
   template:
-    "This is a starting template, not legal advice. Bracketed [ ] items are defaults that Aperture sets per engagement. Fees and scope are set in Exhibit A.",
+    "When you sign, you'll receive a digital copy of the signed agreement for your records \u2014 and it's saved to your secure client area.",
 };
 
 export type Clause = { n: string; title: string; body: string[] };

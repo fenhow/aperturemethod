@@ -91,6 +91,9 @@ export function Header() {
             <div className="flex h-9 items-center justify-between text-[12px] tracking-[0.01em] text-white/80">
               <span>Founder-led · Analytics, AI &amp; strategy for owner-run businesses</span>
               <div className="flex items-center gap-5">
+                <Link href="/onboarding" className="font-medium transition-colors hover:text-white">
+                  New Client
+                </Link>
                 <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-white">
                   {siteConfig.email}
                 </a>

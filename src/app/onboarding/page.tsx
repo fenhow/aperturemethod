@@ -48,7 +48,7 @@ export default function OnboardingPage() {
             <Link
               key={s.href}
               href={s.href}
-              className="card-hover group flex flex-col justify-between rounded-lg border border-line bg-paper p-8"
+              className="group flex flex-col justify-between rounded-lg border border-line bg-paper p-8 transition-all hover:border-maroon hover:shadow-sm"
             >
               <div>
                 <p className="eyebrow mb-3">{s.step}</p>

@@ -1,5 +1,6 @@
 import "server-only";
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
+import { APERTURE_MARK_GOLD_B64 } from "./logo";
 import {
   intakeSections,
   intakeMeta,
@@ -51,12 +52,14 @@ class Doc {
   ital!: PDFFont;
   title = "";
   meta!: Meta;
+  mark!: PDFImage;
 
   async init(title: string, meta: Meta) {
     this.doc = await PDFDocument.create();
     this.reg = await this.doc.embedFont(StandardFonts.Helvetica);
     this.bold = await this.doc.embedFont(StandardFonts.HelveticaBold);
     this.ital = await this.doc.embedFont(StandardFonts.HelveticaOblique);
+    this.mark = await this.doc.embedPng(Buffer.from(APERTURE_MARK_GOLD_B64, "base64"));
     this.title = san(title);
     this.meta = { ...meta, signerName: san(meta.signerName), date: san(meta.date), ip: san(meta.ip) };
     this.addPage(true);
@@ -65,25 +68,29 @@ class Doc {
   addPage(first = false) {
     this.page = this.doc.addPage([PAGE_W, PAGE_H]);
     if (first) {
-      // Maroon header band
+      // Maroon letterhead band with the Aperture mark + wordmark
       this.page.drawRectangle({ x: 0, y: PAGE_H - 96, width: PAGE_W, height: 96, color: MAROON });
-      this.page.drawText("THE APERTURE METHOD", {
-        x: MARGIN, y: PAGE_H - 46, size: 15, font: this.bold, color: rgb(1, 1, 1),
-      });
-      this.page.drawText("™", { x: MARGIN + 176, y: PAGE_H - 42, size: 8, font: this.bold, color: GOLD });
+      const ms = 40;
+      this.page.drawImage(this.mark, { x: MARGIN, y: PAGE_H - 68, width: ms, height: ms });
+      const tx = MARGIN + ms + 14;
+      const word = "THE APERTURE METHOD";
+      this.page.drawText(word, { x: tx, y: PAGE_H - 44, size: 14, font: this.bold, color: rgb(1, 1, 1) });
+      const ww = this.bold.widthOfTextAtSize(word, 14);
+      this.page.drawText("™", { x: tx + ww + 2, y: PAGE_H - 40, size: 7, font: this.bold, color: GOLD });
       this.page.drawText(this.title, {
-        x: MARGIN, y: PAGE_H - 74, size: 10.5, font: this.reg, color: rgb(0.92, 0.85, 0.85),
+        x: tx, y: PAGE_H - 66, size: 10.5, font: this.reg, color: rgb(0.92, 0.85, 0.85),
       });
-      this.y = PAGE_H - 128;
+      this.y = PAGE_H - 126;
     } else {
+      this.page.drawImage(this.mark, { x: MARGIN, y: PAGE_H - 52, width: 14, height: 14 });
       this.page.drawText("THE APERTURE METHOD — " + this.title, {
-        x: MARGIN, y: PAGE_H - 46, size: 8, font: this.reg, color: MUTED,
+        x: MARGIN + 20, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED,
       });
       this.page.drawLine({
-        start: { x: MARGIN, y: PAGE_H - 54 }, end: { x: PAGE_W - MARGIN, y: PAGE_H - 54 },
+        start: { x: MARGIN, y: PAGE_H - 58 }, end: { x: PAGE_W - MARGIN, y: PAGE_H - 58 },
         thickness: 0.5, color: LINE,
       });
-      this.y = PAGE_H - 74;
+      this.y = PAGE_H - 78;
     }
   }
 
@@ -140,6 +147,32 @@ class Doc {
     this.y -= 8;
     this.ensure(20);
     this.para(text, { font: this.bold, size: 12, color: MAROON, after: 4 });
+  }
+
+  // Compact section header (denser than heading) — used by the 2-page intake.
+  sectionCompact(text: string) {
+    this.y -= 6;
+    this.ensure(16);
+    this.page.drawText(san(text), { x: MARGIN, y: this.y, size: 10.5, font: this.bold, color: MAROON });
+    this.y -= 14;
+  }
+
+  // Inline "Label:  value" with hanging indent for wrapped lines.
+  kv(label: string, value: string) {
+    const size = 9.5, gap = 12.5;
+    const lbl = san(label) + ":  ";
+    const lw = this.bold.widthOfTextAtSize(lbl, size);
+    const filled = Boolean(value && value.trim());
+    const lines = this.wrap(filled ? value.trim() : "—", this.reg, size, CONTENT_W - lw);
+    this.ensure(gap);
+    this.page.drawText(lbl, { x: MARGIN, y: this.y, size, font: this.bold, color: INK });
+    this.page.drawText(lines[0] ?? "—", { x: MARGIN + lw, y: this.y, size, font: this.reg, color: filled ? INK : MUTED });
+    this.y -= gap;
+    for (let i = 1; i < lines.length; i++) {
+      this.ensure(gap);
+      this.page.drawText(lines[i] ?? "", { x: MARGIN + lw, y: this.y, size, font: this.reg, color: INK });
+      this.y -= gap;
+    }
   }
 
   rule() {
@@ -225,18 +258,16 @@ function fieldValue(answers: Record<string, string>, name: string): string {
   return v && v.trim() ? v.trim() : "";
 }
 
-// ------- INTAKE PDF -------
+// ------- INTAKE PDF (dense, two-page) -------
 async function buildIntake(p: OnboardingPayload, meta: Meta): Promise<Uint8Array> {
   const d = new Doc();
   await d.init(intakeMeta.title, meta);
-  d.para(intakeMeta.subtitle, { font: d.ital, size: 11, color: MUTED, after: 10 });
+  d.para(intakeMeta.subtitle, { font: d.ital, size: 10, color: MUTED, after: 4 });
 
   for (const section of intakeSections) {
-    d.heading(section.title);
-    if (section.help) d.para(section.help, { size: 8.5, color: MUTED, after: 4 });
+    d.sectionCompact(section.title);
     for (const f of section.fields) {
       if (f.type === "systems") {
-        d.para("Systems & data access:", { font: d.bold, size: 9.5, after: 2 });
         let rows: Array<{ area: string; system: string; available: string; share: string }> = [];
         try {
           rows = JSON.parse(fieldValue(p.answers, f.name) || "[]");
@@ -246,23 +277,30 @@ async function buildIntake(p: OnboardingPayload, meta: Meta): Promise<Uint8Array
           const r = byArea.get(area);
           const parts: string[] = [];
           if (r?.system) parts.push(r.system);
-          if (r?.available) parts.push(`available: ${r.available}`);
+          if (r?.available) parts.push(`data: ${r.available}`);
           if (r?.share) parts.push(`share: ${r.share}`);
-          d.para(`${area} — ${parts.length ? parts.join(" · ") : "—"}`, { x: MARGIN + 14, size: 9, after: 1 });
+          d.kv(area, parts.length ? parts.join(" · ") : "");
         }
-        d.y -= 4;
         continue;
       }
       const val = fieldValue(p.answers, f.name);
-      d.ensure(14);
-      d.para(f.label, { font: d.bold, size: 9.5, after: 1 });
-      d.para(val || "—", { size: 10, color: val ? INK : MUTED, after: 5 });
+      if (f.type === "textarea") {
+        d.ensure(12);
+        d.para(f.label, { font: d.bold, size: 9.5, after: 0 });
+        d.para(val || "—", { size: 9.5, color: val ? INK : MUTED, gap: 12.5, after: 3 });
+      } else {
+        d.kv(f.label, val);
+      }
     }
   }
 
-  d.rule();
-  d.heading("Consent");
-  d.para("✓  " + intakeConsent, { size: 9, after: 2 });
+  d.y -= 2;
+  d.sectionCompact("Consent");
+  d.ensure(12);
+  const cy = d.y;
+  d.page.drawLine({ start: { x: MARGIN, y: cy + 1 }, end: { x: MARGIN + 3, y: cy - 2 }, thickness: 1.2, color: MAROON });
+  d.page.drawLine({ start: { x: MARGIN + 3, y: cy - 2 }, end: { x: MARGIN + 8, y: cy + 5 }, thickness: 1.2, color: MAROON });
+  d.para(intakeConsent, { x: MARGIN + 14, size: 8.5, gap: 12, after: 2 });
   await d.signatureBlock(p, false);
   d.finalizeFooters();
   return d.doc.save();

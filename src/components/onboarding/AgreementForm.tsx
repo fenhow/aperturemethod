@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { agreementClauses, feeSchedule, ESIGN_CONSENT } from "@/lib/onboarding/content";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
@@ -13,6 +13,12 @@ export function AgreementForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { status, message, result, submit, download } = useOnboardingSubmit();
   const set = (name: string, v: string) => setF((s) => ({ ...s, [name]: v }));
+
+  // Default the Effective date to today (set after mount to avoid SSR mismatch).
+  useEffect(() => {
+    const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    setF((s) => (s.effective_date ? s : { ...s, effective_date: today }));
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -76,7 +82,7 @@ export function AgreementForm() {
         {field("signer_name", "Your full name", { required: true, half: true })}
         {field("signer_title", "Your title", { required: true, half: true })}
         {field("signer_email", "Email", { type: "email", required: true, half: true })}
-        {field("effective_date", "Effective date (optional)", { half: true, placeholder: "e.g., today" })}
+        {field("effective_date", "Effective date", { half: true })}
         {field("company_address", "Company address (optional)")}
       </fieldset>
 
@@ -148,7 +154,11 @@ export function AgreementForm() {
         <p className="rounded-sm border border-maroon bg-maroon/5 p-4 text-small font-medium text-maroon">{message}</p>
       )}
 
-      <button type="submit" disabled={status === "submitting"} className="btn--primary disabled:opacity-60">
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        className="btn--primary w-full justify-center py-4 text-base sm:w-auto sm:px-10 disabled:opacity-60"
+      >
         {status === "submitting" ? "Submitting…" : "Sign & submit agreement"}
       </button>
     </form>

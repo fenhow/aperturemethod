@@ -1,6 +1,6 @@
 import "server-only";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
-import { APERTURE_MARK_GOLD_B64 } from "./logo";
+import { APERTURE_LOGO_WHITE_HORIZONTAL_B64, APERTURE_ICON_WHITE_B64 } from "./logo";
 import {
   intakeSections,
   intakeMeta,
@@ -41,7 +41,7 @@ const MARGIN = 56;
 const CONTENT_W = PAGE_W - MARGIN * 2;
 const BOTTOM = 70;
 
-type Meta = { signerName: string; date: string; ip: string };
+type Meta = { signerName: string; date: string; ip: string; recipient: string };
 
 class Doc {
   doc!: PDFDocument;
@@ -52,40 +52,53 @@ class Doc {
   ital!: PDFFont;
   title = "";
   meta!: Meta;
-  mark!: PDFImage;
+  logo!: PDFImage;
+  icon!: PDFImage;
 
   async init(title: string, meta: Meta) {
     this.doc = await PDFDocument.create();
     this.reg = await this.doc.embedFont(StandardFonts.Helvetica);
     this.bold = await this.doc.embedFont(StandardFonts.HelveticaBold);
     this.ital = await this.doc.embedFont(StandardFonts.HelveticaOblique);
-    this.mark = await this.doc.embedPng(Buffer.from(APERTURE_MARK_GOLD_B64, "base64"));
+    this.logo = await this.doc.embedPng(Buffer.from(APERTURE_LOGO_WHITE_HORIZONTAL_B64, "base64"));
+    this.icon = await this.doc.embedPng(Buffer.from(APERTURE_ICON_WHITE_B64, "base64"));
     this.title = san(title);
-    this.meta = { ...meta, signerName: san(meta.signerName), date: san(meta.date), ip: san(meta.ip) };
+    this.meta = {
+      signerName: san(meta.signerName), date: san(meta.date), ip: san(meta.ip), recipient: san(meta.recipient),
+    };
     this.addPage(true);
+  }
+
+  private rightText(text: string, y: number, size: number, font: PDFFont, color: ReturnType<typeof rgb>) {
+    const w = font.widthOfTextAtSize(text, size);
+    this.page.drawText(text, { x: PAGE_W - MARGIN - w, y, size, font, color });
   }
 
   addPage(first = false) {
     this.page = this.doc.addPage([PAGE_W, PAGE_H]);
     if (first) {
-      // Maroon letterhead band with the Aperture mark + wordmark
-      this.page.drawRectangle({ x: 0, y: PAGE_H - 96, width: PAGE_W, height: 96, color: MAROON });
-      const ms = 40;
-      this.page.drawImage(this.mark, { x: MARGIN, y: PAGE_H - 68, width: ms, height: ms });
-      const tx = MARGIN + ms + 14;
-      const word = "THE APERTURE METHOD";
-      this.page.drawText(word, { x: tx, y: PAGE_H - 44, size: 14, font: this.bold, color: rgb(1, 1, 1) });
-      const ww = this.bold.widthOfTextAtSize(word, 14);
-      this.page.drawText("™", { x: tx + ww + 2, y: PAGE_H - 40, size: 7, font: this.bold, color: GOLD });
+      // Maroon letterhead: official logo (left) + who it's prepared for (right)
+      const BAND = 104;
+      this.page.drawRectangle({ x: 0, y: PAGE_H - BAND, width: PAGE_W, height: BAND, color: MAROON });
+      const lw = 172, lh = lw * (this.logo.height / this.logo.width);
+      this.page.drawImage(this.logo, { x: MARGIN, y: PAGE_H - 42 - lh, width: lw, height: lh });
       this.page.drawText(this.title, {
-        x: tx, y: PAGE_H - 66, size: 10.5, font: this.reg, color: rgb(0.92, 0.85, 0.85),
+        x: MARGIN, y: PAGE_H - 84, size: 10.5, font: this.reg, color: rgb(0.92, 0.85, 0.85),
       });
-      this.y = PAGE_H - 126;
+      // Personalized block, right-aligned
+      const recip = this.meta.recipient.length > 40 ? this.meta.recipient.slice(0, 40) + "…" : this.meta.recipient;
+      this.rightText("PREPARED FOR", PAGE_H - 40, 7, this.bold, GOLD);
+      if (recip) this.rightText(recip, PAGE_H - 58, 12, this.bold, rgb(1, 1, 1));
+      const line2 = [this.meta.signerName, this.meta.date].filter(Boolean).join("  ·  ");
+      this.rightText(line2, PAGE_H - 74, 8.5, this.reg, rgb(0.92, 0.85, 0.85));
+      this.y = PAGE_H - BAND - 26;
     } else {
-      this.page.drawImage(this.mark, { x: MARGIN, y: PAGE_H - 52, width: 14, height: 14 });
-      this.page.drawText("THE APERTURE METHOD — " + this.title, {
-        x: MARGIN + 20, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED,
+      const ih = 14, iw = ih * (this.icon.width / this.icon.height);
+      this.page.drawImage(this.icon, { x: MARGIN, y: PAGE_H - 52, width: iw, height: ih });
+      this.page.drawText("The Aperture Method — " + this.title, {
+        x: MARGIN + iw + 8, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED,
       });
+      this.rightText(this.meta.recipient, PAGE_H - 47, 8, this.reg, MUTED);
       this.page.drawLine({
         start: { x: MARGIN, y: PAGE_H - 58 }, end: { x: PAGE_W - MARGIN, y: PAGE_H - 58 },
         thickness: 0.5, color: LINE,
@@ -354,7 +367,7 @@ export async function generateOnboardingPdf(
   p: OnboardingPayload,
   meta: { ip: string; date: string }
 ): Promise<{ bytes: Uint8Array; filename: string }> {
-  const m: Meta = { signerName: p.signerName, date: meta.date, ip: meta.ip };
+  const m: Meta = { signerName: p.signerName, date: meta.date, ip: meta.ip, recipient: p.company };
   const bytes = p.kind === "agreement" ? await buildAgreement(p, m) : await buildIntake(p, m);
   const safeCompany = p.company.replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "client";
   const stamp = meta.date.replace(/[^0-9]/g, "").slice(0, 8);

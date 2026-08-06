@@ -66,7 +66,7 @@ export const intakeSections: IntakeSection[] = [
     id: "company",
     title: "1. Company",
     fields: [
-      { name: "business_name", label: "Business name", type: "text", required: true },
+      { name: "business_name", label: "Company / business name", type: "text", required: true },
       { name: "website", label: "Website", type: "url", placeholder: "https://" },
       { name: "industry", label: "Industry / what you do", type: "text" },
       { name: "year_founded", label: "Year founded", type: "text" },
@@ -82,9 +82,11 @@ export const intakeSections: IntakeSection[] = [
   },
   {
     id: "contacts",
-    title: "2. Contacts",
+    title: "2. Primary contact",
     fields: [
-      { name: "contact_name", label: "Primary contact — name & title", type: "text", required: true },
+      { name: "first_name", label: "First name", type: "text", required: true },
+      { name: "last_name", label: "Last name", type: "text", required: true },
+      { name: "title", label: "Title / role", type: "text" },
       { name: "contact_email", label: "Email", type: "email", required: true },
       { name: "contact_phone", label: "Phone", type: "tel" },
       { name: "contact_best", label: "Best way / time to reach you", type: "text" },

@@ -61,8 +61,9 @@ export function IntakeForm() {
     e.preventDefault();
     const answers: Record<string, string> = { ...ans, systems_matrix: JSON.stringify(rows) };
     const found: Record<string, string> = {};
-    if (!answers.business_name?.trim()) found.business_name = "Please enter your business name.";
-    if (!answers.contact_name?.trim()) found.contact_name = "Please enter a primary contact.";
+    if (!answers.business_name?.trim()) found.business_name = "Please enter your company name.";
+    if (!answers.first_name?.trim()) found.first_name = "Please enter your first name.";
+    if (!answers.last_name?.trim()) found.last_name = "Please enter your last name.";
     if (!answers.contact_email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.contact_email.trim()))
       found.contact_email = "Please enter a valid email.";
     if (!signature) found.signature = "Please add your signature.";
@@ -73,7 +74,8 @@ export function IntakeForm() {
     const payload: OnboardingPayload = {
       kind: "intake",
       answers,
-      signerName: answers.contact_name!.trim(),
+      signerName: `${answers.first_name!.trim()} ${answers.last_name!.trim()}`.trim(),
+      signerTitle: answers.title?.trim() || undefined,
       signerEmail: answers.contact_email!.trim(),
       company: answers.business_name!.trim(),
       signature: signature!,
@@ -211,7 +213,11 @@ export function IntakeForm() {
         <p className="rounded-sm border border-maroon bg-maroon/5 p-4 text-small font-medium text-maroon">{message}</p>
       )}
 
-      <button type="submit" disabled={status === "submitting"} className="btn--primary disabled:opacity-60">
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        className="btn--primary w-full justify-center py-4 text-base sm:w-auto sm:px-10 disabled:opacity-60"
+      >
         {status === "submitting" ? "Submitting…" : "Submit intake form"}
       </button>
     </form>

@@ -57,11 +57,11 @@ export function useOnboardingSubmit() {
         setStatus("idle");
         return false;
       }
-      setMessage(data.message ?? "Something went wrong. Please email fen@aperturemethod.com.");
+      setMessage(data.message ?? "Something went wrong. Please email hello@aperturemethod.com.");
       setStatus("error");
       return false;
     } catch {
-      setMessage("We couldn't reach the server. Please email fen@aperturemethod.com and we'll help.");
+      setMessage("We couldn't reach the server. Please email hello@aperturemethod.com and we'll help.");
       setStatus("error");
       return false;
     }

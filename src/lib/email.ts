@@ -9,7 +9,7 @@ import nodemailer, { type Transporter } from "nodemailer";
  *   SMTP_HOST   — e.g. smtp.gmail.com
  *   SMTP_PORT   — 465 (SSL) or 587 (STARTTLS). Default 587.
  *   SMTP_SECURE — "true" for port 465, otherwise leave unset/"false".
- *   SMTP_USER   — the full mailbox address (e.g. fen@aperturemethod.com)
+ *   SMTP_USER   — the full mailbox address (e.g. hello@aperturemethod.com)
  *   SMTP_PASS   — an app password for that mailbox (not your login password)
  *   ONBOARDING_FROM_EMAIL   — optional display sender; defaults to SMTP_USER
  *   ONBOARDING_NOTIFY_EMAIL — where owner notifications go; defaults to SMTP_USER
@@ -25,9 +25,9 @@ const SMTP_PASS = (process.env.SMTP_PASS ?? "").trim();
 
 export const FROM_EMAIL =
   (process.env.ONBOARDING_FROM_EMAIL ?? "").trim() ||
-  (SMTP_USER ? `The Aperture Method <${SMTP_USER}>` : "The Aperture Method <onboarding@aperturemethod.com>");
+  (SMTP_USER ? `The Aperture Method <${SMTP_USER}>` : "The Aperture Method <hello@aperturemethod.com>");
 export const NOTIFY_EMAIL =
-  (process.env.ONBOARDING_NOTIFY_EMAIL ?? "").trim() || SMTP_USER || "fen@aperturemethod.com";
+  (process.env.ONBOARDING_NOTIFY_EMAIL ?? "").trim() || SMTP_USER || "hello@aperturemethod.com";
 
 export const emailConfigured = Boolean(SMTP_HOST && SMTP_USER && SMTP_PASS);
 

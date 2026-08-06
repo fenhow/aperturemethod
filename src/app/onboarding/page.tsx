@@ -71,8 +71,8 @@ export default function OnboardingPage() {
             your client portal
           </Link>
           . Questions? Email{" "}
-          <a href="mailto:fen@aperturemethod.com" className="link-inline">
-            fen@aperturemethod.com
+          <a href="mailto:hello@aperturemethod.com" className="link-inline">
+            hello@aperturemethod.com
           </a>
           .
         </p>

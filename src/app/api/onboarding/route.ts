@@ -73,7 +73,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("[onboarding] submit failed:", err);
     return NextResponse.json(
-      { ok: false, message: "Something went wrong. Please email fen@aperturemethod.com and we'll help." },
+      { ok: false, message: "Something went wrong. Please email hello@aperturemethod.com and we'll help." },
       { status: 500 }
     );
   }

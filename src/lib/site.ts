@@ -157,6 +157,7 @@ export const megaNav: MegaEntry[] = [
       { label: "Contact", href: "/contact", desc: "Start a conversation" },
     ],
   },
+  { kind: "link", label: "New Client", href: "/onboarding" },
 ];
 
 /** Footer link columns (Step 4 approved). */

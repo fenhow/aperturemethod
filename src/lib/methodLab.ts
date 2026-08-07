@@ -68,9 +68,19 @@ export const METHOD_LAB_FILES: Record<string, { file: string; type: string; name
     type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     name: "01 Aperture Method - Agent Build Spec.docx",
   },
+  specpdf: {
+    file: "01 Aperture Method - Agent Build Spec.pdf",
+    type: "application/pdf",
+    name: "01 Aperture Method - Agent Build Spec.pdf",
+  },
   map: {
     file: "02 Aperture Method - Agent Workflow Map.docx",
     type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     name: "02 Aperture Method - Agent Workflow Map.docx",
+  },
+  mappdf: {
+    file: "02 Aperture Method - Agent Workflow Map.pdf",
+    type: "application/pdf",
+    name: "02 Aperture Method - Agent Workflow Map.pdf",
   },
 };

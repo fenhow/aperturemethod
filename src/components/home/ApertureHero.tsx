@@ -159,6 +159,9 @@ export function ApertureHero() {
         </div>
 
         <div className="mt-9 flex flex-wrap items-center gap-4">
+          <Link href="/reality-check" className="btn--on-dark">
+            Take the Reality Check
+          </Link>
           <Link href="/who-its-for" className="btn--on-dark">
             See if it&apos;s for you
           </Link>

@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/about", priority: 0.7, changeFrequency: "monthly" },
     { path: "/what-we-believe", priority: 0.7, changeFrequency: "monthly" },
     { path: "/founder", priority: 0.6, changeFrequency: "yearly" },
+    { path: "/reality-check", priority: 0.9, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.8, changeFrequency: "yearly" },
     { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
     { path: "/cookies", priority: 0.3, changeFrequency: "yearly" },

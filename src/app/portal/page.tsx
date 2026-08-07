@@ -37,7 +37,7 @@ export default async function PortalPage() {
 
   const { data: docs } = await supabase
     .from("documents")
-    .select("id, name, size, created_at, path")
+    .select("id, name, size, created_at, path, folder")
     .eq("owner_id", user.id)
     .order("created_at", { ascending: false });
 

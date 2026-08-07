@@ -18,7 +18,11 @@ export type AdminDoc = {
   created_at: string;
   path: string;
   owner_id: string;
+  folder: string | null;
 };
+
+const NEW_FOLDER = "__new__";
+const NO_FOLDER = "__none__";
 
 function formatSize(bytes: number | null) {
   if (!bytes) return "";
@@ -33,11 +37,7 @@ function formatSize(bytes: number | null) {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
 export function AdminDashboard({
@@ -51,9 +51,13 @@ export function AdminDashboard({
 }) {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [owner, setOwner] = useState<string>(adminId); // adminId = "my private documents"
-  const [file, setFile] = useState<File | null>(null);
+  const [owner, setOwner] = useState<string>(adminId);
+  const [folderSel, setFolderSel] = useState<string>(NO_FOLDER);
+  const [newFolder, setNewFolder] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [dragOver, setDragOver] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [signingOut, setSigningOut] = useState(false);
 
@@ -73,44 +77,84 @@ export function AdminDashboard({
     return map;
   }, [docs]);
 
+  // Existing folder names for the currently-selected owner.
+  const ownerFolders = useMemo(() => {
+    const set = new Set<string>();
+    for (const d of docs) if (d.owner_id === owner && d.folder) set.add(d.folder);
+    return [...set].sort((a, b) => a.localeCompare(b));
+  }, [docs, owner]);
+
+  function addFiles(list: FileList | null) {
+    if (!list || list.length === 0) return;
+    setFiles((prev) => [...prev, ...Array.from(list)]);
+  }
+  function removeFile(i: number) {
+    setFiles((prev) => prev.filter((_, idx) => idx !== i));
+  }
+
   async function upload(e: React.FormEvent) {
     e.preventDefault();
-    if (!file) return;
+    if (files.length === 0) return;
+    const folder =
+      folderSel === NEW_FOLDER ? newFolder.trim() || null : folderSel === NO_FOLDER ? null : folderSel;
+
     setBusy(true);
     setError(null);
+    const supabase = createClient();
     try {
-      const supabase = createClient();
-      const ext = file.name.includes(".") ? file.name.slice(file.name.lastIndexOf(".")) : "";
-      const path = `${owner}/${crypto.randomUUID()}${ext}`;
-      const up = await supabase.storage
-        .from("documents")
-        .upload(path, file, { contentType: file.type || "application/octet-stream" });
-      if (up.error) {
-        setError(up.error.message);
-        return;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file) continue;
+        setProgress(`Uploading ${i + 1} of ${files.length}: ${file.name}`);
+        const ext = file.name.includes(".") ? file.name.slice(file.name.lastIndexOf(".")) : "";
+        const path = `${owner}/${crypto.randomUUID()}${ext}`;
+        const up = await supabase.storage
+          .from("documents")
+          .upload(path, file, { contentType: file.type || "application/octet-stream" });
+        if (up.error) {
+          setError(`${file.name}: ${up.error.message}`);
+          setBusy(false);
+          setProgress("");
+          return;
+        }
+        const ins = await supabase.from("documents").insert({
+          owner_id: owner,
+          name: file.name,
+          path,
+          size: file.size,
+          content_type: file.type || null,
+          uploaded_by: adminId,
+          folder,
+        });
+        if (ins.error) {
+          await supabase.storage.from("documents").remove([path]);
+          setError(`${file.name}: ${ins.error.message}`);
+          setBusy(false);
+          setProgress("");
+          return;
+        }
       }
-      const ins = await supabase.from("documents").insert({
-        owner_id: owner,
-        name: file.name,
-        path,
-        size: file.size,
-        content_type: file.type || null,
-        uploaded_by: adminId,
-      });
-      if (ins.error) {
-        // roll back the stored object if the row insert failed
-        await supabase.storage.from("documents").remove([path]);
-        setError(ins.error.message);
-        return;
-      }
-      setFile(null);
+      setFiles([]);
+      setNewFolder("");
+      if (folderSel === NEW_FOLDER) setFolderSel(NO_FOLDER);
       if (fileRef.current) fileRef.current.value = "";
       router.refresh();
     } finally {
       setBusy(false);
+      setProgress("");
     }
   }
 
+  async function openDoc(d: AdminDoc) {
+    const supabase = createClient();
+    const { data } = await supabase.storage.from("documents").createSignedUrl(d.path, 60);
+    if (data?.signedUrl) window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  }
+  async function downloadDoc(d: AdminDoc) {
+    const supabase = createClient();
+    const { data } = await supabase.storage.from("documents").createSignedUrl(d.path, 60, { download: d.name });
+    if (data?.signedUrl) window.location.href = data.signedUrl;
+  }
   async function remove(d: AdminDoc) {
     if (!window.confirm(`Delete "${d.name}"? This can't be undone.`)) return;
     const supabase = createClient();
@@ -127,20 +171,37 @@ export function AdminDashboard({
     router.refresh();
   }
 
-  // Ordered owner groups: admin's own first, then each client.
   const ownerOrder = [adminId, ...clients.map((c) => c.id)];
+
+  // Group an owner's docs by folder (folders sorted; "No folder" last).
+  function byFolder(list: AdminDoc[]): [string | null, AdminDoc[]][] {
+    const map = new Map<string | null, AdminDoc[]>();
+    for (const d of list) {
+      const k = d.folder || null;
+      const arr = map.get(k) ?? [];
+      arr.push(d);
+      map.set(k, arr);
+    }
+    const named = [...map.entries()].filter(([k]) => k !== null).sort((a, b) => (a[0] as string).localeCompare(b[0] as string));
+    const none = map.has(null) ? ([[null, map.get(null)!]] as [string | null, AdminDoc[]][]) : [];
+    return [...named, ...none];
+  }
 
   return (
     <div>
       {/* Upload */}
       <form onSubmit={upload} className="rounded-lg border border-line bg-surface p-6">
-        <p className="text-body-lg font-medium text-ink">Add a document</p>
+        <p className="text-body-lg font-medium text-ink">Add documents</p>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="mb-1.5 block text-small font-medium text-ink">Assign to</span>
             <select
               value={owner}
-              onChange={(e) => setOwner(e.target.value)}
+              onChange={(e) => {
+                setOwner(e.target.value);
+                setFolderSel(NO_FOLDER);
+              }}
               className="w-full rounded-sm border border-line bg-paper px-3 py-2.5 text-body text-ink outline-none focus:border-maroon"
             >
               <option value={adminId}>My private documents</option>
@@ -151,20 +212,97 @@ export function AdminDashboard({
               ))}
             </select>
           </label>
+
           <label className="block">
-            <span className="mb-1.5 block text-small font-medium text-ink">File</span>
-            <input
-              ref={fileRef}
-              type="file"
-              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-              className="w-full rounded-sm border border-line bg-paper px-3 py-2 text-small text-ink file:mr-3 file:rounded-sm file:border-0 file:bg-maroon file:px-3 file:py-1.5 file:text-paper"
-            />
+            <span className="mb-1.5 block text-small font-medium text-ink">Folder</span>
+            <select
+              value={folderSel}
+              onChange={(e) => setFolderSel(e.target.value)}
+              className="w-full rounded-sm border border-line bg-paper px-3 py-2.5 text-body text-ink outline-none focus:border-maroon"
+            >
+              <option value={NO_FOLDER}>No folder</option>
+              {ownerFolders.map((f) => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
+              <option value={NEW_FOLDER}>＋ Create new folder…</option>
+            </select>
+            {folderSel === NEW_FOLDER && (
+              <input
+                type="text"
+                value={newFolder}
+                onChange={(e) => setNewFolder(e.target.value)}
+                placeholder="New folder name"
+                className="mt-2 w-full rounded-sm border border-line bg-paper px-3 py-2 text-body text-ink outline-none focus:border-maroon"
+              />
+            )}
           </label>
         </div>
+
+        {/* Drag & drop zone */}
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            addFiles(e.dataTransfer.files);
+          }}
+          className={
+            "mt-4 rounded-lg border-2 border-dashed p-8 text-center transition-colors " +
+            (dragOver ? "border-maroon bg-maroon/5" : "border-line bg-paper")
+          }
+        >
+          <input
+            ref={fileRef}
+            type="file"
+            multiple
+            onChange={(e) => addFiles(e.target.files)}
+            className="hidden"
+          />
+          <p className="text-body text-ink">Drag &amp; drop files here</p>
+          <p className="mt-1 text-small text-muted">
+            or{" "}
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              className="font-medium text-maroon underline underline-offset-2"
+            >
+              browse your computer
+            </button>
+          </p>
+        </div>
+
+        {files.length > 0 && (
+          <ul className="mt-4 divide-y divide-line rounded-lg border border-line bg-paper">
+            {files.map((f, i) => (
+              <li key={`${f.name}-${i}`} className="flex items-center justify-between gap-3 px-4 py-2.5">
+                <span className="min-w-0 truncate text-small text-ink">
+                  {f.name} <span className="text-muted">· {formatSize(f.size)}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeFile(i)}
+                  className="shrink-0 text-small font-medium text-muted hover:text-maroon"
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
         {error && <p className="mt-3 text-small text-maroon">{error}</p>}
-        <button type="submit" disabled={!file || busy} className="btn mt-4 disabled:opacity-60">
-          {busy ? "Uploading…" : "Upload"}
+        {progress && <p className="mt-3 text-small text-muted">{progress}</p>}
+
+        <button type="submit" disabled={files.length === 0 || busy} className="btn mt-4 disabled:opacity-60">
+          {busy ? "Uploading…" : files.length > 1 ? `Upload ${files.length} files` : "Upload"}
         </button>
+
         {clients.length === 0 && (
           <p className="mt-3 text-small text-muted">
             No client accounts yet. A client appears here once they sign in for the first time at the
@@ -173,7 +311,7 @@ export function AdminDashboard({
         )}
       </form>
 
-      {/* Documents by owner */}
+      {/* Documents by owner → folder */}
       <div className="mt-10 space-y-8">
         {ownerOrder.map((id) => {
           const list = grouped.get(id) ?? [];
@@ -190,26 +328,44 @@ export function AdminDashboard({
                   No documents yet.
                 </p>
               ) : (
-                <ul className="mt-3 divide-y divide-line rounded-lg border border-line bg-paper">
-                  {list.map((d) => (
-                    <li key={d.id} className="flex items-center justify-between gap-4 p-4">
-                      <div className="min-w-0">
-                        <p className="truncate text-body font-medium text-ink">{d.name}</p>
-                        <p className="mt-0.5 text-small text-muted">
-                          {formatDate(d.created_at)}
-                          {formatSize(d.size) ? ` · ${formatSize(d.size)}` : ""}
+                <div className="mt-3 space-y-4">
+                  {byFolder(list).map(([folder, items]) => (
+                    <div key={folder ?? "__nofolder__"}>
+                      {folder && (
+                        <p className="mb-1.5 flex items-center gap-1.5 text-small font-semibold text-maroon">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 4h5l2 3h9v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" />
+                          </svg>
+                          {folder}
                         </p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => remove(d)}
-                        className="shrink-0 text-small font-medium text-muted underline-offset-4 hover:text-maroon hover:underline"
-                      >
-                        Delete
-                      </button>
-                    </li>
+                      )}
+                      <ul className="divide-y divide-line rounded-lg border border-line bg-paper">
+                        {items.map((d) => (
+                          <li key={d.id} className="flex items-center justify-between gap-4 p-4">
+                            <div className="min-w-0">
+                              <p className="truncate text-body font-medium text-ink">{d.name}</p>
+                              <p className="mt-0.5 text-small text-muted">
+                                {formatDate(d.created_at)}
+                                {formatSize(d.size) ? ` · ${formatSize(d.size)}` : ""}
+                              </p>
+                            </div>
+                            <div className="flex shrink-0 items-center gap-3 text-small font-medium">
+                              <button type="button" onClick={() => openDoc(d)} className="text-ink underline-offset-4 hover:text-maroon hover:underline">
+                                Open
+                              </button>
+                              <button type="button" onClick={() => downloadDoc(d)} className="text-ink underline-offset-4 hover:text-maroon hover:underline">
+                                Download
+                              </button>
+                              <button type="button" onClick={() => remove(d)} className="text-muted underline-offset-4 hover:text-maroon hover:underline">
+                                Delete
+                              </button>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
           );

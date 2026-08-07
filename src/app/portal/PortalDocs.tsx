@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -10,6 +10,7 @@ export type PortalDoc = {
   size: number | null;
   created_at: string;
   path: string;
+  folder: string | null;
 };
 
 function formatSize(bytes: number | null) {
@@ -25,11 +26,7 @@ function formatSize(bytes: number | null) {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  return new Date(iso).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
 export function PortalDocs({ docs, email }: { docs: PortalDoc[]; email: string }) {
@@ -37,8 +34,40 @@ export function PortalDocs({ docs, email }: { docs: PortalDoc[]; email: string }
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Group by folder — named folders first (sorted), loose files last.
+  const groups = useMemo(() => {
+    const map = new Map<string | null, PortalDoc[]>();
+    for (const d of docs) {
+      const k = d.folder || null;
+      const arr = map.get(k) ?? [];
+      arr.push(d);
+      map.set(k, arr);
+    }
+    const named = [...map.entries()]
+      .filter(([k]) => k !== null)
+      .sort((a, b) => (a[0] as string).localeCompare(b[0] as string));
+    const none = map.has(null) ? ([[null, map.get(null)!]] as [string | null, PortalDoc[]][]) : [];
+    return [...named, ...none];
+  }, [docs]);
+
+  async function open(d: PortalDoc) {
+    setBusy(d.id + ":open");
+    setError(null);
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase.storage.from("documents").createSignedUrl(d.path, 60);
+      if (error || !data?.signedUrl) {
+        setError("That link couldn't be created. Please try again.");
+        return;
+      }
+      window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function download(d: PortalDoc) {
-    setBusy(d.id);
+    setBusy(d.id + ":dl");
     setError(null);
     try {
       const supabase = createClient();
@@ -72,27 +101,51 @@ export function PortalDocs({ docs, email }: { docs: PortalDoc[]; email: string }
           </p>
         </div>
       ) : (
-        <ul className="divide-y divide-line rounded-lg border border-line bg-paper">
-          {docs.map((d) => (
-            <li key={d.id} className="flex items-center justify-between gap-4 p-4 sm:p-5">
-              <div className="min-w-0">
-                <p className="truncate text-body font-medium text-ink">{d.name}</p>
-                <p className="mt-0.5 text-small text-muted">
-                  {formatDate(d.created_at)}
-                  {formatSize(d.size) ? ` · ${formatSize(d.size)}` : ""}
+        <div className="space-y-6">
+          {groups.map(([folder, items]) => (
+            <div key={folder ?? "__nofolder__"}>
+              {folder && (
+                <p className="mb-2 flex items-center gap-1.5 text-small font-semibold text-maroon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h5l2 3h9v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" />
+                  </svg>
+                  {folder}
                 </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => download(d)}
-                disabled={busy === d.id}
-                className="btn--secondary shrink-0 disabled:opacity-60"
-              >
-                {busy === d.id ? "Preparing…" : "Download"}
-              </button>
-            </li>
+              )}
+              <ul className="divide-y divide-line rounded-lg border border-line bg-paper">
+                {items.map((d) => (
+                  <li key={d.id} className="flex items-center justify-between gap-4 p-4 sm:p-5">
+                    <div className="min-w-0">
+                      <p className="truncate text-body font-medium text-ink">{d.name}</p>
+                      <p className="mt-0.5 text-small text-muted">
+                        {formatDate(d.created_at)}
+                        {formatSize(d.size) ? ` · ${formatSize(d.size)}` : ""}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => open(d)}
+                        disabled={busy === d.id + ":open"}
+                        className="btn--secondary disabled:opacity-60"
+                      >
+                        {busy === d.id + ":open" ? "Opening…" : "Open"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => download(d)}
+                        disabled={busy === d.id + ":dl"}
+                        className="btn disabled:opacity-60"
+                      >
+                        {busy === d.id + ":dl" ? "Preparing…" : "Download"}
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
 
       {error && <p className="mt-4 text-small text-maroon">{error}</p>}

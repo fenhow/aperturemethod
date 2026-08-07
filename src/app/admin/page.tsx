@@ -57,7 +57,7 @@ export default async function AdminPage() {
 
   const { data: docs } = await supabase
     .from("documents")
-    .select("id, name, size, created_at, path, owner_id")
+    .select("id, name, size, created_at, path, owner_id, folder")
     .order("created_at", { ascending: false });
 
   return (

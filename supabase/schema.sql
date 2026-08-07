@@ -147,3 +147,7 @@ alter table public.onboarding_submissions enable row level security;
 drop policy if exists "onboarding_read" on public.onboarding_submissions;
 create policy "onboarding_read" on public.onboarding_submissions
   for select using (owner_id = auth.uid() or public.is_admin());
+
+-- Optional folder label for organizing a client's documents in the portal.
+-- Added after launch; safe to re-run.
+alter table public.documents add column if not exists folder text;

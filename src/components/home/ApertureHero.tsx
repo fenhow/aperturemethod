@@ -84,7 +84,7 @@ export function ApertureHero() {
     <section
       aria-roledescription="carousel"
       aria-label="Featured"
-      className="relative isolate flex min-h-[86vh] items-end overflow-hidden bg-dark text-paper"
+      className="relative isolate flex min-h-[38rem] items-end overflow-hidden bg-dark text-paper md:min-h-[86vh]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => !reduceMotion.current && setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -118,6 +118,7 @@ export function ApertureHero() {
             <Image src={s.image} alt="" fill priority={i === 0} sizes="100vw" className="object-cover" />
           )}
           <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
         </div>
       ))}
 
@@ -144,12 +145,12 @@ export function ApertureHero() {
       </button>
 
       {/* Foreground content */}
-      <Container className="relative z-10 w-full pb-14 pt-36 md:pb-20">
+      <Container className="relative z-10 w-full pb-14 pt-28 md:pb-20 md:pt-36">
         <div className="max-w-2xl" aria-live="polite" aria-atomic="true">
           <p key={`e${index}`} className="eyebrow eyebrow--on-dark mb-5 animate-fade">
             {current.eyebrow}
           </p>
-          <h1 key={`t${index}`} className="text-display font-semibold text-paper animate-fade-up">
+          <h1 key={`t${index}`} className="text-h1 font-semibold text-paper animate-fade-up md:text-display">
             {current.title}
           </h1>
           <p key={`s${index}`} className="mt-6 max-w-xl text-body-lg text-white/75 animate-fade">

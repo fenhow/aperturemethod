@@ -162,13 +162,13 @@ export function ApertureHero() {
           <Link href="/reality-check" className="btn--on-dark">
             Take the Reality Check
           </Link>
-          <Link href="/who-its-for" className="btn--on-dark">
-            See if it&apos;s for you
-          </Link>
           <Link href="#method" className="btn--ghost">
             Explore the five practices →
           </Link>
         </div>
+        <p className="mt-4 text-caption text-white/55">
+          10 questions · about 3 minutes · no email required
+        </p>
 
         {/* Controls */}
         <div className="mt-10 flex items-center gap-4">

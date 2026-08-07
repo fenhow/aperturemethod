@@ -291,10 +291,11 @@ function ReportForm({
   if (state === "sent") {
     return (
       <div className="mt-10 rounded-lg border border-line bg-surface p-6 sm:p-8">
-        <h3 className="text-h4 font-semibold text-ink">On its way.</h3>
+        <h3 className="text-h4 font-semibold text-ink">Got it.</h3>
         <p className="mt-2 text-body text-muted">
-          We will send the written breakdown — every question, your answer, and what the evidenced
-          version of it looks like. No sequence, no drip campaign.
+          Fenwick will send the written breakdown himself — every question, your answer, and what
+          the evidenced version of it looks like. Usually within a day. No sequence, no drip
+          campaign.
         </p>
       </div>
     );
@@ -305,7 +306,8 @@ function ReportForm({
       <h3 className="text-h4 font-semibold text-ink">Want the written breakdown?</h3>
       <p className="mt-2 text-body text-muted">
         Your score is above and it is yours either way. If you want the long version — every
-        question, your answer, and what the evidenced version looks like — we will email it.
+        question, your answer, and what the evidenced version looks like — Fenwick will send it
+        over personally. No sequence, no drip campaign.
       </p>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">

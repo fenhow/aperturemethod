@@ -159,7 +159,7 @@ export function ApertureHero() {
 
         <div className="mt-9 flex flex-wrap items-center gap-4">
           <Link href="/who-its-for" className="btn--on-dark">
-            Is this for me?
+            See if it&apos;s for you
           </Link>
           <Link href="#method" className="btn--ghost">
             Explore the five practices →

@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { FitChecks } from "@/components/who/FitChecks";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
@@ -14,56 +15,6 @@ export const metadata: Metadata = pageMeta({
   path: "/who-its-for",
 });
 
-/** The "big wins" — the goals that bring people here. Each maps to a part of the Method. */
-const wins: { title: string; body: string; tag: string }[] = [
-  {
-    title: "Know exactly where you stand",
-    body: "An honest, outside read of the whole business — and the single thing holding it back.",
-    tag: "Business X-Ray™",
-  },
-  {
-    title: "Find your real profit",
-    body: "Cut past revenue to the truth: what makes money and what quietly loses it — by product, customer, channel, and location.",
-    tag: "Aperture Analytics™",
-  },
-  {
-    title: "Understand your customers",
-    body: "See who's most valuable, who's about to leave, and who's ready to buy more.",
-    tag: "Aperture Intelligence™",
-  },
-  {
-    title: "Map your market",
-    body: "Demand, competitors, and the white space around you — on a real map, not a hunch.",
-    tag: "Intelligence · GIS",
-  },
-  {
-    title: "Take market share",
-    body: "Find the openings your competitors are missing, and the plan to win them.",
-    tag: "Aperture Compass™",
-  },
-  {
-    title: "Plan your next move",
-    body: "Model it before you commit — a new location, a key hire, a price change, a new line.",
-    tag: "Analytics · Compass",
-  },
-  {
-    title: "Grow with confidence",
-    body: "Run the plan against a living scoreboard that shows what's working in real time.",
-    tag: "Aperture Atlas™",
-  },
-  {
-    title: "Get ready to sell or raise",
-    body: "Clean numbers, a story you can defend, and a value you can prove to a buyer or lender.",
-    tag: "Analytics · Intelligence",
-  },
-  {
-    title: "Put AI to work",
-    body: "Add AI where it actually earns its place — with a person in the loop and models that stay yours.",
-    tag: "AI, without the black box",
-  },
-];
-
-/** Entry points — you can start anywhere. */
 const entryPoints: { q: string; a: string; href: string; label: string }[] = [
   {
     q: "“I just want the truth about my business.”",
@@ -128,25 +79,17 @@ export default function WhoItsForPage() {
         </Reveal>
       </Section>
 
-      {/* The big wins */}
+      {/* The big wins — each with a self-check */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
             eyebrow="What you're here to do"
             title="You came for one of these — probably a few."
-            lede="Each one is a real outcome we deliver. Pick the goal that fits today; the Method takes you from there."
+            lede="Pick a goal and take the quick self-check. Every question you can't answer is an insight we can give you."
           />
         </Reveal>
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {wins.map((w, i) => (
-            <Reveal key={w.title} delay={(i % 3) * 60}>
-              <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-all hover:border-maroon hover:shadow-sm">
-                <h3 className="text-h4 font-semibold text-ink">{w.title}</h3>
-                <p className="mt-2 flex-1 text-body text-muted">{w.body}</p>
-                <p className="mt-4 text-small font-semibold text-maroon">{w.tag}</p>
-              </div>
-            </Reveal>
-          ))}
+        <div className="mt-10">
+          <FitChecks />
         </div>
       </Section>
 
@@ -177,10 +120,7 @@ export default function WhoItsForPage() {
       {/* Who we do our best work with */}
       <Section tone="surface">
         <Reveal>
-          <SectionHeading
-            eyebrow="The right fit"
-            title="The businesses we do our best work with."
-          />
+          <SectionHeading eyebrow="The right fit" title="The businesses we do our best work with." />
         </Reveal>
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {fit.map((f, i) => (

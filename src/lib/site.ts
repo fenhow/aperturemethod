@@ -157,6 +157,7 @@ export const megaNav: MegaEntry[] = [
       { label: "Contact", href: "/contact", desc: "Start a conversation" },
     ],
   },
+  { kind: "link", label: "Who It's For", href: "/who-its-for" },
   { kind: "link", label: "New Client", href: "/onboarding" },
 ];
 
@@ -177,6 +178,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "The Aperture Method", href: "/the-aperture-method" },
       { label: "What We Do", href: "/what-we-do" },
       { label: "What You Get", href: "/what-you-get" },
+      { label: "Who It's For", href: "/who-its-for" },
       { label: "AI, Without the Black Box", href: "/ai" },
       { label: "Working Together", href: "/working-together" },
       { label: "Industries", href: "/industries" },

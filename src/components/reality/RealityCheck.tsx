@@ -291,11 +291,19 @@ function ReportForm({
   if (state === "sent") {
     return (
       <div className="mt-10 rounded-lg border border-line bg-surface p-6 sm:p-8">
-        <h3 className="text-h4 font-semibold text-ink">Got it.</h3>
+        <h3 className="text-h4 font-semibold text-ink">Sent. Check your inbox.</h3>
         <p className="mt-2 text-body text-muted">
-          Fenwick will send the written breakdown himself — every question, your answer, and what
-          the evidenced version of it looks like. Usually within a day. No sequence, no drip
-          campaign.
+          Your written breakdown is on its way to{" "}
+          <span className="font-semibold text-ink">{email}</span> — every question, your answer, and
+          what the evidenced version of it looks like.
+        </p>
+        <p className="mt-3 text-body text-ink">
+          <span className="font-semibold">If it is not there in a minute or two, check your spam
+          or promotions folder</span> — first-time senders often land there. Marking it &ldquo;not
+          spam&rdquo; makes sure the reply comes through too.
+        </p>
+        <p className="mt-3 text-caption text-muted">
+          No sequence, no drip campaign. Reply to it and it comes straight to Fenwick.
         </p>
       </div>
     );
@@ -306,8 +314,8 @@ function ReportForm({
       <h3 className="text-h4 font-semibold text-ink">Want the written breakdown?</h3>
       <p className="mt-2 text-body text-muted">
         Your score is above and it is yours either way. If you want the long version — every
-        question, your answer, and what the evidenced version looks like — Fenwick will send it
-        over personally. No sequence, no drip campaign.
+        question, your answer, and what the evidenced version looks like — we will email it to you
+        the moment you hit send. No sequence, no drip campaign.
       </p>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">

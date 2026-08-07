@@ -157,7 +157,6 @@ export const megaNav: MegaEntry[] = [
       { label: "Contact", href: "/contact", desc: "Start a conversation" },
     ],
   },
-  { kind: "link", label: "Who It's For", href: "/who-its-for" },
   { kind: "link", label: "New Client", href: "/onboarding" },
 ];
 

@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
-import { primaryCta } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 /**
@@ -159,8 +158,8 @@ export function ApertureHero() {
         </div>
 
         <div className="mt-9 flex flex-wrap items-center gap-4">
-          <Link href={primaryCta.href} className="btn--on-dark">
-            {primaryCta.label}
+          <Link href="/who-its-for" className="btn--on-dark">
+            Is this for me?
           </Link>
           <Link href="#method" className="btn--ghost">
             Explore the five practices →

@@ -98,6 +98,15 @@ export function Footer() {
             © {year} {siteConfig.legalName} · Founded by {siteConfig.founder}
           </p>
           <div className="flex items-center gap-5">
+            {/* Private area — passphrase-gated, unlinked from the main nav and
+                excluded from the sitemap. rel="nofollow" keeps crawlers off it. */}
+            <Link
+              href="/method-lab"
+              rel="nofollow"
+              className="text-white/60 transition-colors duration-fast hover:text-white"
+            >
+              Method Lab
+            </Link>
             <CookiePreferencesButton className="text-white/60 transition-colors duration-fast hover:text-white" />
             <p>{siteConfig.tagline}</p>
           </div>

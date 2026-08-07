@@ -181,7 +181,10 @@ export function ApertureHero() {
                 aria-label={`Show slide ${i + 1} of ${slides.length}`}
                 onClick={() => goTo(i)}
                 className={cn(
-                  "h-1.5 rounded-full transition-all duration-fast",
+                  // The bar stays 6px tall; the pseudo-element widens the touch
+                  // target to ~30px so a thumb can actually hit it.
+                  "relative h-1.5 rounded-full transition-all duration-fast",
+                  "before:absolute before:inset-x-0 before:-inset-y-3 before:content-['']",
                   i === index ? "w-8 bg-maroon-soft" : "w-4 bg-white/30 hover:bg-white/50"
                 )}
               />

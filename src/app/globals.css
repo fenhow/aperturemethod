@@ -46,6 +46,14 @@
     @apply bg-paper text-body font-sans antialiased;
     font-size: 18px;
     line-height: 1.6;
+    /*
+     * Nothing should ever scroll the page sideways on a phone. `clip` rather
+     * than `hidden` on purpose: `hidden` turns the body into a scroll
+     * container and silently breaks `position: sticky` on the header. The
+     * `hidden` line above it is the fallback for pre-16 Safari.
+     */
+    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   h1,

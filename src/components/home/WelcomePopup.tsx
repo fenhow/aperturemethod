@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { CONSENT_EVENT } from "@/lib/consent";
@@ -19,7 +20,16 @@ import { CONSENT_EVENT } from "@/lib/consent";
 const SEEN_KEY = "aperture-welcome-v1";
 const CONSENT_KEY = "am_cookie_consent_v1";
 
+/**
+ * Pages where the visitor is part-way through something. Interrupting a quiz
+ * or a form with a modal is how you lose the submission — the pop-up never
+ * auto-opens here. The floating "Big Picture" button still does.
+ */
+const NO_AUTO_OPEN = ["/reality-check", "/onboarding", "/contact", "/portal", "/admin", "/method-lab"];
+
 export function WelcomePopup({ delayMs = 4000 }: { delayMs?: number }) {
+  const pathname = usePathname();
+  const suppressed = NO_AUTO_OPEN.some((p) => pathname === p || pathname?.startsWith(`${p}/`));
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [consentReady, setConsentReady] = useState(false);
@@ -50,7 +60,7 @@ export function WelcomePopup({ delayMs = 4000 }: { delayMs?: number }) {
 
   // Auto-open once per visitor after consent is ready.
   useEffect(() => {
-    if (!consentReady) return;
+    if (!consentReady || suppressed) return;
     let seen = false;
     try {
       seen = window.localStorage.getItem(SEEN_KEY) === "1";
@@ -61,7 +71,7 @@ export function WelcomePopup({ delayMs = 4000 }: { delayMs?: number }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const t = window.setTimeout(() => setOpen(true), reduce ? 1200 : delayMs);
     return () => window.clearTimeout(t);
-  }, [consentReady, delayMs]);
+  }, [consentReady, delayMs, suppressed]);
 
   // Escape + scroll lock while open.
   useEffect(() => {

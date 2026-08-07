@@ -14,13 +14,19 @@ import { cn } from "@/lib/utils";
  */
 type Variant = "up" | "down" | "zoom" | "fade" | "left" | "right";
 
+/*
+ * The horizontal variants only apply from `sm` up. On a phone every column is
+ * already full-bleed, so a 32px sideways offset pushes the document wider than
+ * the viewport and the whole page rubber-bands sideways until the section
+ * scrolls into view. Below `sm` they enter vertically instead.
+ */
 const PRE: Record<Variant, string> = {
   up: "translate-y-8",
   down: "-translate-y-8",
   zoom: "scale-[0.96]",
   fade: "",
-  left: "translate-x-8",
-  right: "-translate-x-8",
+  left: "translate-y-8 sm:translate-y-0 sm:translate-x-8",
+  right: "translate-y-8 sm:translate-y-0 sm:-translate-x-8",
 };
 
 export function Reveal({

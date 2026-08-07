@@ -245,11 +245,18 @@ export async function POST(request: Request) {
     );
   }
 
-  // Only accept scores for questions we actually asked.
-  const known = new Set(questions.map((q) => q.id));
+  /*
+   * Only accept scores for questions we actually asked, and only values that
+   * question actually offers. A bare 0–4 range check would let a crafted POST
+   * submit a score no option carries — it would count toward the total while
+   * the report rendered that row as "Not answered".
+   */
+  const allowed = new Map<string, Set<number>>(
+    questions.map((q) => [q.id, new Set<number>(q.options.map((o) => o.score))])
+  );
   const answers: Record<string, number> = {};
   for (const [k, v] of Object.entries(body.answers ?? {})) {
-    if (known.has(k) && typeof v === "number" && v >= 0 && v <= 4) answers[k] = v;
+    if (typeof v === "number" && allowed.get(k)?.has(v)) answers[k] = v;
   }
 
   // Recompute server-side rather than trusting the posted score.

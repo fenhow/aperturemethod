@@ -11,8 +11,13 @@ import { track } from "@/lib/analytics";
  * as the full consultation form.
  */
 
+/*
+ * 16px on phones is not a style choice — iOS Safari zooms the whole page in
+ * when you focus an input smaller than that, and the visitor has to pinch back
+ * out to carry on. The compact 14px is restored from `sm` up.
+ */
 const baseInput =
-  "block w-full rounded-sm border bg-paper px-3 py-2 text-[14px] text-body transition-colors placeholder:text-muted/70 focus:outline-none";
+  "block w-full rounded-sm border bg-paper px-3 py-2 text-[16px] text-body transition-colors placeholder:text-muted/70 focus:outline-none sm:text-[14px]";
 
 export function QuickContactCard() {
   const uid = useId();

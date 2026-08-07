@@ -83,13 +83,24 @@ export function CookieConsent() {
       role="dialog"
       aria-label="Cookie consent"
       tabIndex={-1}
-      className="fixed inset-x-0 bottom-0 z-[90] p-4 focus:outline-none sm:p-6 motion-safe:animate-fade-up"
+      className="fixed inset-x-0 bottom-0 z-[90] p-3 focus:outline-none sm:p-6 motion-safe:animate-fade-up"
     >
-      <div className="mx-auto max-w-3xl rounded-lg border border-line bg-paper p-6 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.25)] sm:p-8">
-        <h2 className="text-h4 font-semibold text-ink">Cookies help us improve your experience.</h2>
-        <p className="mt-3 text-small leading-relaxed text-muted">
-          We use only what we need to run the site, and we ask before setting anything else. You can
-          accept, decline non-essential cookies, or choose by category. Read our{" "}
+      {/*
+       * Sized down hard on phones. At full desktop weight this panel covered
+       * ~70% of an iPhone SE screen and sat on top of the page's primary
+       * button — the first thing a mobile visitor saw was a consent wall.
+       */}
+      <div className="mx-auto max-w-3xl rounded-lg border border-line bg-paper p-5 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.25)] sm:p-8">
+        <h2 className="text-body-lg font-semibold text-ink sm:text-h4">
+          Cookies help us improve your experience.
+        </h2>
+        <p className="mt-2 text-small leading-relaxed text-muted sm:mt-3">
+          We use only what we need to run the site, and we ask before setting anything else.
+          <span className="hidden sm:inline">
+            {" "}
+            You can accept, decline non-essential cookies, or choose by category.
+          </span>{" "}
+          Read our{" "}
           <Link href="/cookies" className="link-inline">
             Cookie Policy
           </Link>{" "}
@@ -132,7 +143,7 @@ export function CookieConsent() {
 
         <div
           className={cn(
-            "mt-6 flex flex-col gap-3 sm:flex-row sm:items-center",
+            "mt-4 flex flex-col gap-3 sm:mt-6 sm:flex-row sm:items-center",
             manage ? "sm:justify-end" : "sm:justify-between"
           )}
         >
@@ -145,18 +156,19 @@ export function CookieConsent() {
               >
                 Manage preferences
               </button>
-              <div className="flex flex-col gap-3 sm:order-2 sm:flex-row">
+              {/* Side by side on phones — stacking them cost two full rows. */}
+              <div className="flex flex-row gap-3 sm:order-2">
                 <button
                   type="button"
                   onClick={() => decide({ functional: false, analytics: false, marketing: false })}
-                  className="btn--secondary"
+                  className="btn--secondary flex-1 justify-center sm:flex-none"
                 >
                   Decline
                 </button>
                 <button
                   type="button"
                   onClick={() => decide({ functional: true, analytics: true, marketing: true })}
-                  className="btn"
+                  className="btn flex-1 justify-center sm:flex-none"
                 >
                   Accept all
                 </button>

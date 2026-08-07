@@ -11,8 +11,11 @@ import { CookiePreferencesButton } from "@/components/consent/CookiePreferencesB
  */
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  // `inline-block` + vertical padding turns a 19px line of text into a ~27px
+  // touch target on a phone. Without it, adjacent footer links are close
+  // enough that a thumb regularly hits the wrong one.
   const className =
-    "text-small text-white/55 transition-colors duration-fast hover:text-white";
+    "inline-block py-1 text-small text-white/55 transition-colors duration-fast hover:text-white";
   if (href.startsWith("http")) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
@@ -52,12 +55,12 @@ export function Footer() {
             <div className="mt-6 text-small leading-relaxed text-white/55">
               <p className="font-semibold text-white/80">Contact Fenwick How</p>
               <p className="mt-1">
-                <a href="mailto:fhow@aperturemethod.com" className="transition-colors duration-fast hover:text-white">
+                <a href="mailto:fhow@aperturemethod.com" className="inline-block py-1 transition-colors duration-fast hover:text-white">
                   fhow@aperturemethod.com
                 </a>
               </p>
               <p>
-                <a href="tel:+17133923923" className="transition-colors duration-fast hover:text-white">
+                <a href="tel:+17133923923" className="inline-block py-1 transition-colors duration-fast hover:text-white">
                   Tel (713) 392-3923
                 </a>
               </p>

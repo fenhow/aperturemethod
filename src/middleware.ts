@@ -22,7 +22,12 @@ export async function middleware(request: NextRequest) {
 
   if (isMethodLab || isMethodLabApi) {
     // The passphrase form and the endpoint that checks it must stay reachable.
-    const isEntry = path === "/method-lab/enter" || path === "/api/method-lab/auth";
+    // Sign-out is allowlisted too: it only ever clears the caller's own cookie,
+    // and it must still work when that cookie has gone stale.
+    const isEntry =
+      path === "/method-lab/enter" ||
+      path === "/api/method-lab/auth" ||
+      path === "/api/method-lab/signout";
     if (isEntry) return NextResponse.next();
 
     const allowed = await hasMethodLabAccess(request.cookies.get(METHOD_LAB_COOKIE)?.value);

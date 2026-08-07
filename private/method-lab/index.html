@@ -19,7 +19,28 @@ body{margin:0;background:var(--white);color:var(--ink);
 img{max-width:100%}
 
 .confbar{background:var(--maroon);color:#fff;font-size:11.5px;letter-spacing:.14em;
-  text-transform:uppercase;text-align:center;padding:7px 12px;font-weight:700}
+  text-transform:uppercase;padding:7px 12px;font-weight:700;
+  position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:14px}
+.confbar .cb-t{flex:1;text-align:center;padding-left:104px}
+.exitform{margin:0;flex:none}
+.exitbtn{font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:#fff;background:transparent;border:1px solid rgba(255,255,255,.5);border-radius:3px;
+  padding:4px 11px;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
+.exitbtn:hover{background:rgba(255,255,255,.16);border-color:#fff}
+.exitbtn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.exitbtn .x{margin-right:6px;font-weight:400}
+.footnav{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:0 0 20px}
+.footnav a.homelink{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  color:var(--maroon);text-decoration:none;border-bottom:1px solid rgba(80,0,0,.3);padding-bottom:2px}
+.footnav a.homelink:hover{border-bottom-color:var(--maroon)}
+.footnav .exitbtn{color:var(--maroon);border-color:rgba(80,0,0,.35)}
+.footnav .exitbtn:hover{background:rgba(80,0,0,.07);border-color:var(--maroon)}
+.footnav .exitnote{font-size:12px;color:var(--lgray);flex-basis:100%;margin-top:-4px}
+@media(max-width:720px){
+  .confbar{font-size:10px;gap:8px;padding:6px 10px}
+  .confbar .cb-t{padding-left:0;text-align:left}
+  .exitbtn{font-size:10px;padding:3px 8px;letter-spacing:.1em}
+}
 
 header{border-bottom:1px solid var(--rule);padding:36px 0 30px;margin-bottom:34px}
 header .logo{height:26px;margin-bottom:26px;display:block}
@@ -235,7 +256,12 @@ footer{border-top:1px solid var(--rule);padding:26px 0 60px;font-size:12.5px;col
 </style>
 </head>
 <body>
-<div class="confbar">Confidential · Internal &amp; invited viewers only · Not for distribution</div>
+<div class="confbar">
+  <span class="cb-t">Confidential · Internal &amp; invited viewers only · Not for distribution</span>
+  <form class="exitform" method="POST" action="/api/method-lab/signout">
+    <button class="exitbtn" type="submit"><span class="x" aria-hidden="true">&#10005;</span>Exit Method Lab</button>
+  </form>
+</div>
 <div class="wrap">
 
 <header>
@@ -353,6 +379,13 @@ footer{border-top:1px solid var(--rule);padding:26px 0 60px;font-size:12.5px;col
 </section>
 
 <footer>
+  <div class="footnav">
+    <a class="homelink" href="https://aperturemethod.com/">&larr; aperturemethod.com</a>
+    <form class="exitform" method="POST" action="/api/method-lab/signout">
+      <button class="exitbtn" type="submit"><span class="x" aria-hidden="true">&#10005;</span>Exit Method Lab</button>
+    </form>
+    <span class="exitnote">Exiting ends this session on this device — the passphrase is required to return.</span>
+  </div>
   The Aperture Method™ · Understand · Quantify · Reveal · Navigate · Perform<br>
   Confidential build reference. Agents execute the documented SOPs; every client-facing figure traces to source;
   Fenwick How reviews, approves, and releases every deliverable.

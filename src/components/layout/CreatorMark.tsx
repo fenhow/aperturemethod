@@ -3,25 +3,25 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { CONSENT_EVENT } from "@/lib/consent";
 
 /**
- * The creator mark — a persistent floating pill carrying Fenwick's signature,
- * linking to /who-its-for.
+ * The persistent self-qualification CTA — a floating maroon pill on every
+ * public page, linking to /who-its-for.
  *
- * Replaces the former "Big Picture" floating button in the same slot, so the
- * site never shows two pieces of floating furniture at once.
+ * Occupies the slot the former "Big Picture" button used, so the site never
+ * shows two pieces of floating furniture at once.
  *
- * Like the button it replaces, it waits for the cookie-consent choice before
- * appearing: the consent bar is full-width at the bottom of the viewport, so
- * showing both at once would stack them.
+ * Waits for the cookie-consent choice before appearing: the consent bar is
+ * full-width at the bottom of the viewport, so showing both at once stacks
+ * them and makes this unclickable.
  */
 
 const CONSENT_KEY = "am_cookie_consent_v1";
 
-/** Pages where the mark is noise: the page it links to, and the signed-in and
- *  part-way-through-a-form areas. */
+/** Everywhere except where it would be noise: the page it already links to,
+ *  and the signed-in / mid-form areas where the visitor is a client, not a
+ *  prospect. (/method-lab is served outside this layout and never sees it.) */
 const HIDDEN_ON = ["/who-its-for", "/portal", "/admin", "/onboarding", "/method-lab"];
 
 export function CreatorMark() {
@@ -55,23 +55,15 @@ export function CreatorMark() {
   return (
     <Link
       href="/who-its-for"
-      aria-label="Created by Fenwick How — see who the Aperture Method is for"
-      className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-ink/95 py-2 pl-4 pr-3.5 shadow-[0_12px_34px_-8px_rgba(0,0,0,0.7)] backdrop-blur-sm transition-colors hover:border-white/45 hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon sm:gap-3 sm:pl-5 sm:pr-4"
+      aria-label="Is the Aperture Method for me? See who it's for"
+      className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-maroon py-3 pl-5 pr-4 text-paper shadow-[0_10px_30px_-8px_rgba(80,0,0,0.55)] ring-1 ring-white/10 transition-colors hover:bg-maroon-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon"
     >
-      <Image
-        src="/fenwick-signature-white.png"
-        alt=""
-        width={600}
-        height={189}
-        className="h-[26px] w-auto opacity-95 sm:h-[32px]"
-        priority={false}
-      />
-      <span className="h-5 w-px bg-white/25" aria-hidden="true" />
-      <span className="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.12em] text-paper/85 transition-colors group-hover:text-paper sm:text-[11px]">
-        Who it&rsquo;s for
-        <span className="ml-1.5 inline-block transition-transform group-hover:translate-x-0.5" aria-hidden="true">
-          &rarr;
-        </span>
+      <span className="whitespace-nowrap text-small font-semibold">Is this for me?</span>
+      <span
+        className="inline-block transition-transform group-hover:translate-x-0.5"
+        aria-hidden="true"
+      >
+        &rarr;
       </span>
     </Link>
   );

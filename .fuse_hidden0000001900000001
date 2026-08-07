@@ -1,14 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // The Method Lab assets live outside `public/` so they can be gated. Trace
-  // them into the serverless bundles that read them at runtime.
-  experimental: {
-    outputFileTracingIncludes: {
-      "/method-lab": ["./private/method-lab/index.html"],
-      "/api/method-lab/download": ["./private/method-lab/downloads/**"],
-    },
-  },
   poweredByHeader: false,
   images: {
     // Modern formats for better Core Web Vitals. Remote CMS/image hosts

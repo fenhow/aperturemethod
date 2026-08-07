@@ -102,9 +102,6 @@ export function Header() {
                 >
                   LinkedIn
                 </a>
-                <Link href="/onboarding" className="font-medium transition-colors hover:text-white">
-                  New Client
-                </Link>
                 <AuthBar />
               </div>
             </div>

@@ -2,7 +2,13 @@ import { redirect } from "next/navigation";
 import { Section } from "@/components/ui/Section";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/env";
-import { AdminDashboard, type AdminClient, type AdminDoc } from "./AdminDashboard";
+import {
+  AdminDashboard,
+  type AdminClient,
+  type AdminDoc,
+  type AdminIntakeSub,
+  type AdminDraft,
+} from "./AdminDashboard";
 
 export const dynamic = "force-dynamic";
 
@@ -60,20 +66,35 @@ export default async function AdminPage() {
     .select("id, name, size, created_at, path, owner_id, folder")
     .order("created_at", { ascending: false });
 
+  // Completed intakes (every submitted questionnaire) + in-progress drafts.
+  const { data: intakeSubs } = await supabase
+    .from("onboarding_submissions")
+    .select("id, company, signer_name, signer_title, signer_email, segments, answers, document_id, created_at")
+    .eq("kind", "intake")
+    .order("created_at", { ascending: false });
+
+  const { data: drafts } = await supabase
+    .from("intake_drafts")
+    .select("token, company, signer_name, email, segments, answers, created_at, updated_at")
+    .eq("completed", false)
+    .order("updated_at", { ascending: false });
+
   return (
     <Section className="pt-28 md:pt-36">
       <div className="mx-auto max-w-3xl">
         <p className="eyebrow mb-3">Admin</p>
-        <h1 className="text-h1 font-semibold text-ink">Documents</h1>
+        <h1 className="text-h1 font-semibold text-ink">Console</h1>
         <p className="mt-4 text-body text-muted">
-          Upload files and assign them to a client, or keep your own private documents. Clients only
-          ever see files assigned to them.
+          Your documents and every client intake in one place. Clients only ever see files assigned
+          to them.
         </p>
         <div className="mt-8">
           <AdminDashboard
             adminId={user.id}
             clients={(clients ?? []) as AdminClient[]}
             docs={(docs ?? []) as AdminDoc[]}
+            intakeSubs={(intakeSubs ?? []) as AdminIntakeSub[]}
+            drafts={(drafts ?? []) as AdminDraft[]}
           />
         </div>
       </div>

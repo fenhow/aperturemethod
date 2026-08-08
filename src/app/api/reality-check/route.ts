@@ -174,7 +174,11 @@ function reportHtml(result: RCResult, answers: Record<string, number>): string {
 }
 
 /** The lead notification Fenwick receives. */
-function ownerHtml(email: string, result: RCResult, answers: Record<string, number>): string {
+function ownerHtml(
+  who: { name: string; company: string; title: string; email: string },
+  result: RCResult,
+  answers: Record<string, number>
+): string {
   const rows = questions
     .map((q) => {
       const v = answers[q.id];
@@ -191,11 +195,16 @@ function ownerHtml(email: string, result: RCResult, answers: Record<string, numb
     })
     .join("");
 
+  const roleLine = [who.title, who.company].filter(Boolean).map(esc).join(" · ");
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:660px">
     <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${MAROON};font-weight:700;margin:0">
       Reality Check &mdash; new lead
     </p>
-    <h2 style="font-size:22px;margin:8px 0 4px">${esc(email)}</h2>
+    <h2 style="font-size:22px;margin:8px 0 2px">${esc(who.name)}</h2>
+    ${roleLine ? `<p style="margin:0 0 2px;color:${INK};font-size:14px">${roleLine}</p>` : ""}
+    <p style="margin:0 0 14px;font-size:14px">
+      <a href="mailto:${esc(who.email)}" style="color:${MAROON};font-weight:600;text-decoration:none">${esc(who.email)}</a>
+    </p>
     <p style="margin:0 0 18px;color:${GRAY};font-size:13px">
       Their copy of the report has been sent. Reply to this message to reach them directly.
     </p>
@@ -220,6 +229,9 @@ function ownerHtml(email: string, result: RCResult, answers: Record<string, numb
 
 export async function POST(request: Request) {
   let body: {
+    name?: string;
+    company?: string;
+    title?: string;
     email?: string;
     website?: string;
     score?: number;
@@ -237,7 +249,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
+  const name = body.name?.trim() ?? "";
+  const company = body.company?.trim() ?? "";
+  const title = body.title?.trim() ?? "";
   const email = body.email?.trim() ?? "";
+  if (!name) {
+    return NextResponse.json(
+      { ok: false, message: "Please add your name so we know who this is." },
+      { status: 422 }
+    );
+  }
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json(
       { ok: false, message: "Please enter a valid email address." },
@@ -298,8 +319,8 @@ export async function POST(request: Request) {
   // Owner notification is best-effort — never fail the visitor over it.
   const toOwner = await sendEmail({
     to: NOTIFY_EMAIL,
-    subject: `Reality Check — ${result.score}/100 (${result.band.name}) — ${email}`,
-    html: ownerHtml(email, result, answers),
+    subject: `Reality Check — ${name}${company ? ` (${company})` : ""} — ${result.score}/100 (${result.band.name})`,
+    html: ownerHtml({ name, company, title, email }, result, answers),
     replyTo: email,
   });
   if (!toOwner.ok) console.error("[reality-check] owner notification failed:", toOwner.error);

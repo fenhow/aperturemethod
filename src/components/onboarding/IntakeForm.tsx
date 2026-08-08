@@ -60,7 +60,8 @@ function CheckGroup({
 
 export function IntakeForm() {
   const [ans, setAns] = useState<Record<string, string>>({});
-  const [selected, setSelected] = useState<string[]>([]);
+  // Full Method (all five) is the default; a client can narrow to fewer.
+  const [selected, setSelected] = useState<string[]>([...ALL_KEYS]);
   const [signature, setSignature] = useState<SignaturePayload | null>(null);
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -261,6 +262,7 @@ export function IntakeForm() {
   );
 
   const chosenSegments = allSegments.filter((s) => selected.includes(s.key));
+  const fullOn = ALL_KEYS.every((k) => selected.includes(k));
 
   return (
     <>
@@ -313,8 +315,49 @@ export function IntakeForm() {
         <fieldset className="space-y-4">
           <legend className="text-h4 font-semibold text-ink">Which parts of the Method are we doing?</legend>
           <p className="text-small text-muted">
-            Everyone answers the shared foundation below. Then choose only the part(s) you&apos;ve engaged —
-            we&apos;ll show just those questions. Doing the Full Method? Select all five.
+            Everyone answers the shared foundation below. The <span className="font-semibold text-ink">Full
+            Method</span> is selected by default — most clients do the complete engagement. Doing just part
+            of it? Deselect it and choose only the part(s) you&apos;ve engaged, and we&apos;ll show just
+            those questions.
+          </p>
+
+          {/* Full Method — primary, default, red-bordered */}
+          <button
+            type="button"
+            onClick={selectFull}
+            className={
+              "flex w-full flex-col rounded-lg border-2 p-5 text-left transition-colors " +
+              (fullOn ? "border-maroon bg-maroon/5" : "border-line hover:border-maroon")
+            }
+          >
+            <span className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-2">
+                <span className="rounded-sm bg-maroon px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-paper">
+                  Recommended
+                </span>
+                <span className="text-body font-semibold text-ink">Full Method — all five</span>
+              </span>
+              <span
+                className={
+                  "flex h-6 w-6 items-center justify-center rounded-[4px] border text-[15px] font-bold " +
+                  (fullOn ? "border-maroon bg-maroon text-paper" : "border-line text-transparent")
+                }
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+            </span>
+            <span className="mt-2 text-small text-muted">
+              The complete engagement — all five phases, in sequence. You get:{" "}
+              <span className="font-semibold text-maroon">
+                {allSegments.map((s) => s.gives).join(" · ")}
+              </span>
+              .
+            </span>
+          </button>
+
+          <p className="pt-1 text-caption font-semibold uppercase tracking-overline text-muted">
+            Or choose individual parts
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             {allSegments.map((s) => {
@@ -342,23 +385,14 @@ export function IntakeForm() {
                     </span>
                   </span>
                   <span className="mt-1 text-body font-semibold text-ink">{s.name}</span>
-                  <span className="mt-1 text-small text-muted">{s.blurb}</span>
+                  <span className="mt-2 inline-block w-fit rounded-sm bg-maroon/10 px-2 py-0.5 text-[12px] font-semibold text-maroon">
+                    You get: {s.gives}
+                  </span>
+                  <span className="mt-2 text-small text-muted">{s.blurb}</span>
                 </button>
               );
             })}
           </div>
-          <button
-            type="button"
-            onClick={selectFull}
-            className={
-              "inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-small font-semibold transition-colors " +
-              (ALL_KEYS.every((k) => selected.includes(k))
-                ? "border-maroon bg-maroon text-paper"
-                : "border-line text-ink hover:border-maroon")
-            }
-          >
-            Full Method — all five
-          </button>
           <FieldError message={errors.segments} />
         </fieldset>
 

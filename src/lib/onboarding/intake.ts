@@ -25,6 +25,7 @@ export type IntakeSegment = {
   verb: string; // e.g. "Understand"
   question: string; // the phase question
   blurb: string;
+  gives: string; // the named deliverable(s) they receive
   sections: IntakeSection[];
 };
 
@@ -144,6 +145,7 @@ export const segments: IntakeSegment[] = [
     question: "What is happening?",
     blurb:
       "A read of the whole business across seven lenses — naming the single biggest thing holding it back and setting your Aperture Score™ baseline.",
+    gives: "Business X-Ray™ + your Aperture Score™",
     sections: [
       { id: "ins-ops", title: "Lens 1 · Operations", fields: [
         T("ins_ops1", "Walk us through how the work actually gets done, start to finish.", 3),
@@ -191,6 +193,7 @@ export const segments: IntakeSegment[] = [
     question: "Why is it happening?",
     blurb:
       "The Profit Map and scenario model — where the money is made and lost, and what happens if you change something. Rough answers are fine; anything you can export is better than anything you can describe.",
+    gives: "Profit Map + scenario model",
     sections: [
       { id: "an-num", title: "How your numbers are kept", fields: [
         T("an_num1", "At what level can you export revenue — per transaction, per day, per month?", 2),
@@ -224,6 +227,7 @@ export const segments: IntakeSegment[] = [
     question: "What opportunities does it reveal?",
     blurb:
       "Your customers, market and competitors mapped onto real geography — where the next customers come from. Addresses are geocoded and then stripped; the analysis layer holds no personal identifying information.",
+    gives: "Market & customer map",
     sections: [
       { id: "int-geo", title: "Your customers, geographically", fields: [
         T("int_geo1", "Can you export customers with addresses or ZIP codes? From which system?", 2),
@@ -254,6 +258,7 @@ export const segments: IntakeSegment[] = [
     question: "Where should we go next?",
     blurb:
       "Every option scored on value, complexity, risk and impact on your constraint, then sequenced into Now / Next / Later. This needs your real limits, not your ideal ones.",
+    gives: "Now / Next / Later growth plan",
     sections: [
       { id: "comp-tab", title: "What's already on the table", fields: [
         T("comp_tab1", "List every move you are considering, however half-formed. We'd rather rule something out with evidence than never see it.", 3),
@@ -280,6 +285,7 @@ export const segments: IntakeSegment[] = [
     question: "How do we sustain and improve results?",
     blurb:
       "A live Scoreboard of the few numbers that matter, wired to your systems, on a cadence. Fewer, better — a dashboard nobody opens is worse than none.",
+    gives: "Live Scoreboard, wired to your systems",
     sections: [
       { id: "atl-watch", title: "What you watch today", fields: [
         T("atl_watch1", "What numbers do you check weekly? Monthly? Where do you look them up?", 2),

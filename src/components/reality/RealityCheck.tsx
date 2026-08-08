@@ -260,6 +260,9 @@ function ReportForm({
   band: string;
   answers: Record<string, number>;
 }) {
+  const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
+  const [title, setTitle] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -267,13 +270,18 @@ function ReportForm({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name.trim()) {
+      setState("error");
+      setMessage("Please add your name so we know who this is.");
+      return;
+    }
     setState("sending");
     setMessage(null);
     try {
       const res = await fetch("/api/reality-check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, website, score, band, answers }),
+        body: JSON.stringify({ name, company, title, email, website, score, band, answers }),
       });
       const data = (await res.json()) as { ok?: boolean; message?: string };
       if (res.ok && data.ok) {
@@ -318,26 +326,66 @@ function ReportForm({
         the moment you hit send. No sequence, no drip campaign.
       </p>
 
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-        <label htmlFor="rc-email" className="sr-only">
-          Email address
-        </label>
-        <input
-          id="rc-email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@company.com"
-          className="w-full rounded-md border border-line bg-paper px-4 py-3 text-body text-ink outline-none transition focus:border-maroon"
-        />
-        <button
-          type="submit"
-          disabled={state === "sending"}
-          className="btn w-full shrink-0 justify-center sm:w-auto sm:px-8"
-        >
-          {state === "sending" ? "Sending…" : "Send it"}
-        </button>
+      <div className="mt-5 space-y-3">
+        <div>
+          <label htmlFor="rc-name" className="sr-only">
+            Your name
+          </label>
+          <input
+            id="rc-name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name *"
+            className="w-full rounded-md border border-line bg-paper px-4 py-3 text-body text-ink outline-none transition focus:border-maroon"
+          />
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <label htmlFor="rc-company" className="sr-only">
+            Company
+          </label>
+          <input
+            id="rc-company"
+            type="text"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            placeholder="Company (optional)"
+            className="w-full rounded-md border border-line bg-paper px-4 py-3 text-body text-ink outline-none transition focus:border-maroon"
+          />
+          <label htmlFor="rc-title" className="sr-only">
+            Title
+          </label>
+          <input
+            id="rc-title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Title (optional)"
+            className="w-full rounded-md border border-line bg-paper px-4 py-3 text-body text-ink outline-none transition focus:border-maroon"
+          />
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <label htmlFor="rc-email" className="sr-only">
+            Email address
+          </label>
+          <input
+            id="rc-email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@company.com *"
+            className="w-full rounded-md border border-line bg-paper px-4 py-3 text-body text-ink outline-none transition focus:border-maroon"
+          />
+          <button
+            type="submit"
+            disabled={state === "sending"}
+            className="btn w-full shrink-0 justify-center sm:w-auto sm:px-8"
+          >
+            {state === "sending" ? "Sending…" : "Send it"}
+          </button>
+        </div>
       </div>
 
       {/* honeypot */}

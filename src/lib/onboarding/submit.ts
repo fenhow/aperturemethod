@@ -2,6 +2,7 @@ import "server-only";
 import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 import { generateOnboardingPdf } from "./pdf";
+import { completeDraft } from "./drafts";
 import type { OnboardingPayload } from "./types";
 import { KIND_LABEL } from "./types";
 
@@ -95,11 +96,17 @@ export async function submitOnboarding(
         signer_title: payload.signerTitle ?? null,
         signer_email: payload.signerEmail,
         answers: payload.answers,
+        segments: payload.segments ?? [],
         signature_type: payload.signature.type,
         consent: payload.consent,
         ip: ctx.ip,
         user_agent: ctx.userAgent,
       });
+
+      // If this intake came from a saved draft, mark it finished + link the PDF.
+      if (payload.kind === "intake" && payload.draftToken) {
+        await completeDraft(payload.draftToken, { documentId, ownerId });
+      }
     } catch (err) {
       console.error("[onboarding] storage pipeline failed:", err);
     }

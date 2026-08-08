@@ -151,3 +151,37 @@ create policy "onboarding_read" on public.onboarding_submissions
 -- Optional folder label for organizing a client's documents in the portal.
 -- Added after launch; safe to re-run.
 alter table public.documents add column if not exists folder text;
+
+-- Which Method segment(s) a submitted intake engaged (e.g. {insights,atlas}).
+-- Added with the questionnaire overhaul; re-runnable.
+alter table public.onboarding_submissions
+  add column if not exists segments text[] not null default '{}';
+
+-- =============================================================================
+-- Intake drafts — save-and-resume for the Intake Questionnaire (no login).
+-- A client can save a partly-filled intake and get a private resume link keyed
+-- by an unguessable token. Written server-side with the service-role key only;
+-- there is deliberately NO RLS grant to anon/authenticated, so a draft can be
+-- reached only by whoever holds the token (via the /api route). Re-runnable.
+-- =============================================================================
+create table if not exists public.intake_drafts (
+  token       uuid primary key default gen_random_uuid(),
+  email       text,
+  company     text,
+  signer_name text,
+  segments    text[] not null default '{}',
+  answers     jsonb  not null default '{}'::jsonb,
+  completed   boolean not null default false,
+  document_id uuid references public.documents (id) on delete set null,
+  owner_id    uuid references public.profiles (id) on delete set null,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+alter table public.intake_drafts enable row level security;
+
+-- Admin may read drafts (to see in-progress intakes); clients never read the
+-- table directly — they resume through the tokened /api route (service role).
+drop policy if exists "intake_drafts_read_admin" on public.intake_drafts;
+create policy "intake_drafts_read_admin" on public.intake_drafts
+  for select using (public.is_admin());

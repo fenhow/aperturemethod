@@ -23,6 +23,10 @@ export type OnboardingPayload = {
   company: string;
   signature: SignaturePayload;
   consent: boolean;
+  /** Intake only — Method segment keys the client is engaging (e.g. ["insights"]). */
+  segments?: string[];
+  /** Intake only — resume-draft token to mark complete on submit. */
+  draftToken?: string;
   /** Honeypot — must be empty. */
   website?: string;
 };
@@ -38,6 +42,8 @@ export function validateOnboarding(p: Partial<OnboardingPayload>): OnboardingErr
   if (!p.company?.trim()) e.company = "Please enter your company / legal name.";
   if (p.kind === "agreement" && !p.signerTitle?.trim())
     e.signerTitle = "Please enter your title.";
+  if (p.kind === "intake" && (!p.segments || p.segments.length === 0))
+    e.segments = "Please choose at least one part of the Method to complete.";
   if (!p.signature || !p.signature.data?.trim())
     e.signature = "Please add your signature.";
   if (!p.consent) e.consent = "Please confirm the statement to continue.";

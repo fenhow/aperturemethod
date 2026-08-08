@@ -59,6 +59,8 @@ export async function POST(request: Request) {
     company: body.company!.trim(),
     signature: body.signature!,
     consent: Boolean(body.consent),
+    segments: Array.isArray(body.segments) ? body.segments : undefined,
+    draftToken: typeof body.draftToken === "string" ? body.draftToken : undefined,
   };
 
   const date = new Date().toLocaleString("en-US", {

@@ -1,44 +1,56 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  intakeSections,
-  intakeConsent,
-  SYSTEM_ROWS,
+  intakeIntro,
+  sharedIntro,
+  sharedSections,
+  segments as allSegments,
+  intakeConsentLine,
   type IntakeField,
-} from "@/lib/onboarding/content";
+  type IntakeSection,
+} from "@/lib/onboarding/intake";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
 import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog } from "./shared";
 
-type Row = { area: string; system: string; available: string; share: string };
-const initialRows: Row[] = SYSTEM_ROWS.map((area) => ({ area, system: "", available: "", share: "" }));
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ALL_KEYS = allSegments.map((s) => s.key);
 
-function Radio({
+function CheckGroup({
   field,
-  value,
-  onChange,
+  selected,
+  onToggle,
 }: {
   field: IntakeField;
-  value: string;
-  onChange: (v: string) => void;
+  selected: string[];
+  onToggle: (opt: string) => void;
 }) {
   return (
-    <div className="mt-3 flex flex-wrap gap-2">
+    <div className="mt-2 flex flex-col gap-2">
       {field.options!.map((opt) => {
-        const sel = opt === value;
+        const on = selected.includes(opt);
         return (
           <button
             type="button"
             key={opt}
-            onClick={() => onChange(sel ? "" : opt)}
+            onClick={() => onToggle(opt)}
             className={
-              "cursor-pointer select-none rounded-sm border px-4 py-2 text-small font-semibold transition-colors " +
-              (sel ? "border-ink bg-ink text-paper" : "border-line text-body hover:border-ink")
+              "flex items-start gap-3 rounded-sm border px-4 py-2.5 text-left text-body transition-colors " +
+              (on ? "border-maroon bg-maroon/5" : "border-line hover:border-ink")
             }
           >
-            {opt}
+            <span
+              className={
+                "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-[3px] border text-[13px] font-bold " +
+                (on ? "border-maroon bg-maroon text-paper" : "border-line text-transparent")
+              }
+              aria-hidden="true"
+            >
+              ✓
+            </span>
+            <span>{opt}</span>
           </button>
         );
       })}
@@ -48,28 +60,139 @@ function Radio({
 
 export function IntakeForm() {
   const [ans, setAns] = useState<Record<string, string>>({});
-  const [rows, setRows] = useState<Row[]>(initialRows);
+  const [selected, setSelected] = useState<string[]>([]);
   const [signature, setSignature] = useState<SignaturePayload | null>(null);
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [errOpen, setErrOpen] = useState(false);
   const [problems, setProblems] = useState<string[]>([]);
+  const [token, setToken] = useState<string | null>(null);
+  const [saveMsg, setSaveMsg] = useState<string>("");
+  const [saving, setSaving] = useState(false);
+  const [loadingDraft, setLoadingDraft] = useState(false);
   const { status, message, submit, download } = useOnboardingSubmit();
   const router = useRouter();
 
   const set = (name: string, v: string) => setAns((a) => ({ ...a, [name]: v }));
-  const setRow = (i: number, key: keyof Row, v: string) =>
-    setRows((rs) => rs.map((r, idx) => (idx === i ? { ...r, [key]: v } : r)));
+
+  const getArr = (name: string): string[] => {
+    try {
+      const v = ans[name];
+      return v ? (JSON.parse(v) as string[]) : [];
+    } catch {
+      return [];
+    }
+  };
+  const toggleInGroup = (name: string, opt: string) => {
+    const cur = getArr(name);
+    const next = cur.includes(opt) ? cur.filter((o) => o !== opt) : [...cur, opt];
+    set(name, JSON.stringify(next));
+  };
+
+  const toggleSegment = (key: string) =>
+    setSelected((s) => (s.includes(key) ? s.filter((k) => k !== key) : [...s, key]));
+  const selectFull = () =>
+    setSelected((s) => (ALL_KEYS.every((k) => s.includes(k)) ? [] : [...ALL_KEYS]));
+
+  // ---- Resume a saved draft from ?draft=<token> -----------------------------
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get("draft");
+    if (!t) return;
+    setLoadingDraft(true);
+    fetch(`/api/intake/draft?token=${encodeURIComponent(t)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.ok && data.draft) {
+          setToken(data.draft.token);
+          setAns(data.draft.answers ?? {});
+          setSelected(data.draft.segments ?? []);
+          if (data.draft.email) set("contact_email", data.draft.email);
+          if (data.draft.signerName) set("contact_name", data.draft.signerName);
+          setSaveMsg("Welcome back — your answers are filled in.");
+        } else if (data?.completed) {
+          setSaveMsg("This intake has already been submitted.");
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoadingDraft(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ---- Silent autosave once a draft token exists ----------------------------
+  const firstAutosave = useRef(true);
+  useEffect(() => {
+    if (!token) return;
+    if (firstAutosave.current) {
+      firstAutosave.current = false;
+      return;
+    }
+    const id = setTimeout(() => {
+      void fetch("/api/intake/draft", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          token,
+          email: ans.contact_email ?? "",
+          company: ans.b_legal ?? "",
+          signerName: ans.contact_name ?? "",
+          segments: selected,
+          answers: ans,
+        }),
+      }).catch(() => {});
+    }, 1200);
+    return () => clearTimeout(id);
+  }, [ans, selected, token]);
+
+  async function saveAndFinishLater() {
+    const email = (ans.contact_email ?? "").trim();
+    if (!EMAIL_RE.test(email)) {
+      setErrors((e) => ({ ...e, contact_email: "Add your email so we can send your resume link." }));
+      setProblems(["Add your email at the top so we can send you a private link to finish later."]);
+      setErrOpen(true);
+      return;
+    }
+    setSaving(true);
+    setSaveMsg("");
+    try {
+      const res = await fetch("/api/intake/draft", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          token,
+          email,
+          company: ans.b_legal ?? "",
+          signerName: ans.contact_name ?? "",
+          segments: selected,
+          answers: ans,
+          sendLink: true,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data?.ok) {
+        if (data.token) setToken(data.token);
+        setSaveMsg(
+          data.emailed
+            ? `Saved. We emailed a private link to ${email} — open it any time to pick up where you left off.`
+            : "Saved. You can return to this link to continue."
+        );
+      } else {
+        setSaveMsg(data?.message ?? "We couldn't save just now. Please try again.");
+      }
+    } catch {
+      setSaveMsg("We couldn't reach the server. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const answers: Record<string, string> = { ...ans, systems_matrix: JSON.stringify(rows) };
     const found: Record<string, string> = {};
-    if (!answers.business_name?.trim()) found.business_name = "Please enter your company name.";
-    if (!answers.first_name?.trim()) found.first_name = "Please enter your first name.";
-    if (!answers.last_name?.trim()) found.last_name = "Please enter your last name.";
-    if (!answers.contact_email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.contact_email.trim()))
+    if (!ans.contact_name?.trim()) found.contact_name = "Please enter your full name.";
+    if (!ans.contact_email?.trim() || !EMAIL_RE.test(ans.contact_email.trim()))
       found.contact_email = "Please enter a valid email.";
+    if (!ans.b_legal?.trim()) found.b_legal = "Please enter your business name.";
+    if (selected.length === 0) found.segments = "Choose at least one part of the Method.";
     if (!signature) found.signature = "Please add your signature.";
     if (!consent) found.consent = "Please confirm the statement.";
     setErrors(found);
@@ -81,159 +204,243 @@ export function IntakeForm() {
 
     const payload: OnboardingPayload = {
       kind: "intake",
-      answers,
-      signerName: `${answers.first_name!.trim()} ${answers.last_name!.trim()}`.trim(),
-      signerTitle: answers.title?.trim() || undefined,
-      signerEmail: answers.contact_email!.trim(),
-      company: answers.business_name!.trim(),
+      answers: ans,
+      signerName: ans.contact_name!.trim(),
+      signerTitle: ans.contact_title?.trim() || undefined,
+      signerEmail: ans.contact_email!.trim(),
+      company: ans.b_legal!.trim(),
       signature: signature!,
       consent,
+      segments: selected,
+      draftToken: token ?? undefined,
       website: "",
     };
     await submit(payload);
   }
 
   const summary: [string, string][] = [
-    ["Name", `${ans.first_name ?? ""} ${ans.last_name ?? ""}`.trim()],
-    ["Company", ans.business_name ?? ""],
-    ["Email", ans.contact_email ?? ""],
+    ["Name", (ans.contact_name ?? "").trim()],
+    ["Company", (ans.b_legal ?? "").trim()],
+    ["Email", (ans.contact_email ?? "").trim()],
+    ["Parts", selected.map((k) => allSegments.find((s) => s.key === k)?.name).filter(Boolean).join(", ")],
   ];
+
+  const renderField = (f: IntakeField) => {
+    const err = errors[f.name];
+    if (f.type === "checkgroup") {
+      return (
+        <div key={f.name}>
+          <p className={labelCls}>{f.label}</p>
+          <CheckGroup field={f} selected={getArr(f.name)} onToggle={(opt) => toggleInGroup(f.name, opt)} />
+        </div>
+      );
+    }
+    const common = {
+      id: f.name,
+      value: ans[f.name] ?? "",
+      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => set(f.name, e.target.value),
+      className: inputCls + (err ? " " + errCls : ""),
+    };
+    return (
+      <div key={f.name}>
+        <label htmlFor={f.name} className={labelCls}>
+          {f.label}
+        </label>
+        {f.type === "textarea" ? <textarea {...common} rows={f.rows ?? 3} /> : <input {...common} type="text" />}
+        <FieldError message={err} />
+      </div>
+    );
+  };
+
+  const renderSection = (section: IntakeSection) => (
+    <fieldset key={section.id} className="space-y-5">
+      <legend className="text-h4 font-semibold text-ink">{section.title}</legend>
+      {section.help && <p className="text-small text-muted">{section.help}</p>}
+      {section.fields.map(renderField)}
+    </fieldset>
+  );
+
+  const chosenSegments = allSegments.filter((s) => selected.includes(s.key));
 
   return (
     <>
-    <form onSubmit={onSubmit} noValidate className="space-y-10">
-      {intakeSections.map((section) => (
-        <fieldset key={section.id} className="space-y-5">
-          <legend className="text-h4 font-semibold text-ink">{section.title}</legend>
-          {section.help && <p className="text-small text-muted">{section.help}</p>}
-
-          {section.fields.map((f) => {
-            if (f.type === "systems") {
-              return (
-                <div key={f.name} className="overflow-hidden rounded-sm border border-line">
-                  <table className="w-full text-small">
-                    <thead className="bg-surface text-left text-muted">
-                      <tr>
-                        <th className="px-3 py-2 font-semibold">Area</th>
-                        <th className="px-3 py-2 font-semibold">System (name)</th>
-                        <th className="px-3 py-2 font-semibold">Data?</th>
-                        <th className="px-3 py-2 font-semibold">Share?</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows.map((r, i) => (
-                        <tr key={r.area} className="border-t border-line align-middle">
-                          <td className="px-3 py-2 text-body">{r.area}</td>
-                          <td className="px-3 py-2">
-                            <input
-                              value={r.system}
-                              onChange={(e) => setRow(i, "system", e.target.value)}
-                              className="w-full rounded-sm border border-line px-2 py-1.5 text-small focus:border-ink focus:outline-none"
-                            />
-                          </td>
-                          {(["available", "share"] as const).map((key) => (
-                            <td key={key} className="px-3 py-2">
-                              <div className="flex gap-1">
-                                {["Yes", "No"].map((opt) => {
-                                  const sel = r[key] === opt;
-                                  return (
-                                    <button
-                                      key={opt}
-                                      type="button"
-                                      onClick={() => setRow(i, key, sel ? "" : opt)}
-                                      className={
-                                        "rounded-sm border px-2 py-1 text-[13px] font-semibold " +
-                                        (sel ? "border-ink bg-ink text-paper" : "border-line text-muted hover:border-ink")
-                                      }
-                                    >
-                                      {opt}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              );
-            }
-
-            const err = errors[f.name];
-            const common = {
-              id: f.name,
-              value: ans[f.name] ?? "",
-              onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-                set(f.name, e.target.value),
-              className: inputCls + (err ? " " + errCls : ""),
-              placeholder: f.placeholder,
-            };
-            return (
-              <div key={f.name}>
-                <label htmlFor={f.name} className={labelCls}>
-                  {f.label}
-                  {f.required && <span className="text-maroon"> *</span>}
-                </label>
-                {f.type === "textarea" ? (
-                  <textarea {...common} rows={f.rows ?? 3} />
-                ) : f.type === "radio" ? (
-                  <Radio field={f} value={ans[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
-                ) : (
-                  <input
-                    {...common}
-                    type={f.type === "email" ? "email" : f.type === "tel" ? "tel" : f.type === "url" ? "url" : "text"}
-                  />
-                )}
-                <FieldError message={err} />
-              </div>
-            );
-          })}
-        </fieldset>
-      ))}
-
-      {/* Consent + signature */}
-      <fieldset className="space-y-5 border-t border-line pt-8">
-        <legend className="text-h4 font-semibold text-ink">7. Consent & signature</legend>
-        <label className="flex items-start gap-3 text-body text-body">
-          <input
-            type="checkbox"
-            checked={consent}
-            onChange={(e) => setConsent(e.target.checked)}
-            className="mt-1 h-5 w-5 shrink-0 accent-maroon"
-          />
-          <span>{intakeConsent}</span>
-        </label>
-        <FieldError message={errors.consent} />
-        <div>
-          <p className={labelCls}>Signature</p>
-          <div className="mt-2">
-            <SignaturePad value={signature} onChange={setSignature} error={errors.signature} />
+      <form onSubmit={onSubmit} noValidate className="space-y-12">
+        {/* Your details */}
+        <fieldset className="space-y-5">
+          <legend className="text-h4 font-semibold text-ink">Your details</legend>
+          <p className="text-small text-muted">
+            So we know who we&apos;re speaking with — and where to send your copy and your resume link.
+          </p>
+          <div>
+            <label htmlFor="contact_name" className={labelCls}>
+              Full name<span className="text-maroon"> *</span>
+            </label>
+            <input
+              id="contact_name"
+              value={ans.contact_name ?? ""}
+              onChange={(e) => set("contact_name", e.target.value)}
+              className={inputCls + (errors.contact_name ? " " + errCls : "")}
+            />
+            <FieldError message={errors.contact_name} />
           </div>
+          <div>
+            <label htmlFor="contact_title" className={labelCls}>
+              Your title
+            </label>
+            <input
+              id="contact_title"
+              value={ans.contact_title ?? ""}
+              onChange={(e) => set("contact_title", e.target.value)}
+              className={inputCls}
+            />
+          </div>
+          <div>
+            <label htmlFor="contact_email" className={labelCls}>
+              Email<span className="text-maroon"> *</span>
+            </label>
+            <input
+              id="contact_email"
+              type="email"
+              value={ans.contact_email ?? ""}
+              onChange={(e) => set("contact_email", e.target.value)}
+              className={inputCls + (errors.contact_email ? " " + errCls : "")}
+            />
+            <FieldError message={errors.contact_email} />
+          </div>
+        </fieldset>
+
+        {/* Which parts of the Method */}
+        <fieldset className="space-y-4">
+          <legend className="text-h4 font-semibold text-ink">Which parts of the Method are we doing?</legend>
+          <p className="text-small text-muted">
+            Everyone answers the shared foundation below. Then choose only the part(s) you&apos;ve engaged —
+            we&apos;ll show just those questions. Doing the Full Method? Select all five.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {allSegments.map((s) => {
+              const on = selected.includes(s.key);
+              return (
+                <button
+                  type="button"
+                  key={s.key}
+                  onClick={() => toggleSegment(s.key)}
+                  className={
+                    "flex flex-col rounded-lg border p-4 text-left transition-colors " +
+                    (on ? "border-maroon bg-maroon/5" : "border-line hover:border-ink")
+                  }
+                >
+                  <span className="flex items-center justify-between">
+                    <span className="text-small font-semibold text-maroon">{s.phase} · {s.verb}</span>
+                    <span
+                      className={
+                        "flex h-5 w-5 items-center justify-center rounded-[3px] border text-[13px] font-bold " +
+                        (on ? "border-maroon bg-maroon text-paper" : "border-line text-transparent")
+                      }
+                      aria-hidden="true"
+                    >
+                      ✓
+                    </span>
+                  </span>
+                  <span className="mt-1 text-body font-semibold text-ink">{s.name}</span>
+                  <span className="mt-1 text-small text-muted">{s.blurb}</span>
+                </button>
+              );
+            })}
+          </div>
+          <button
+            type="button"
+            onClick={selectFull}
+            className={
+              "inline-flex items-center gap-2 rounded-sm border px-4 py-2 text-small font-semibold transition-colors " +
+              (ALL_KEYS.every((k) => selected.includes(k))
+                ? "border-maroon bg-maroon text-paper"
+                : "border-line text-ink hover:border-maroon")
+            }
+          >
+            Full Method — all five
+          </button>
+          <FieldError message={errors.segments} />
+        </fieldset>
+
+        {/* Shared foundation */}
+        <div className="space-y-10 border-t border-line pt-10">
+          <p className="max-w-measure text-body text-muted">{sharedIntro}</p>
+          {sharedSections.map(renderSection)}
         </div>
-      </fieldset>
 
-      {status === "error" && (
-        <p className="rounded-sm border border-maroon bg-maroon/5 p-4 text-small font-medium text-maroon">{message}</p>
-      )}
+        {/* Chosen segments */}
+        {chosenSegments.map((seg) => (
+          <div key={seg.key} className="space-y-10 border-t border-line pt-10">
+            <div>
+              <p className="eyebrow mb-2">{seg.phase} · {seg.verb}</p>
+              <h2 className="text-h3 font-semibold text-ink">{seg.name}</h2>
+              <p className="mt-2 max-w-measure text-body text-muted">{seg.blurb}</p>
+            </div>
+            {seg.sections.map(renderSection)}
+          </div>
+        ))}
 
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="btn w-full justify-center py-4 text-base sm:w-auto sm:px-10 disabled:opacity-60"
-      >
-        {status === "submitting" ? "Submitting…" : "Submit intake form"}
-      </button>
-    </form>
-    <ErrorDialog open={errOpen} problems={problems} onClose={() => setErrOpen(false)} />
-    <SuccessDialog
-      open={status === "success"}
-      title="Intake received"
-      summary={summary}
-      onDownload={download}
-      onHome={() => router.push("/")}
-    />
+        {/* Consent + signature */}
+        <fieldset className="space-y-5 border-t border-line pt-10">
+          <legend className="text-h4 font-semibold text-ink">Consent &amp; signature</legend>
+          <label className="flex items-start gap-3 text-body text-body">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(e) => setConsent(e.target.checked)}
+              className="mt-1 h-5 w-5 shrink-0 accent-maroon"
+            />
+            <span>{intakeConsentLine}</span>
+          </label>
+          <FieldError message={errors.consent} />
+          <div>
+            <p className={labelCls}>Signature</p>
+            <div className="mt-2">
+              <SignaturePad value={signature} onChange={setSignature} error={errors.signature} />
+            </div>
+          </div>
+        </fieldset>
+
+        {status === "error" && (
+          <p className="rounded-sm border border-maroon bg-maroon/5 p-4 text-small font-medium text-maroon">{message}</p>
+        )}
+        {saveMsg && (
+          <p className="rounded-sm border border-line bg-surface p-4 text-small font-medium text-ink">{saveMsg}</p>
+        )}
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            type="submit"
+            disabled={status === "submitting"}
+            className="btn w-full justify-center py-4 text-base sm:w-auto sm:px-10 disabled:opacity-60"
+          >
+            {status === "submitting" ? "Submitting…" : "Submit intake"}
+          </button>
+          <button
+            type="button"
+            onClick={saveAndFinishLater}
+            disabled={saving || loadingDraft}
+            className="btn--secondary w-full justify-center py-4 sm:w-auto sm:px-8 disabled:opacity-60"
+          >
+            {saving ? "Saving…" : "Save & finish later"}
+          </button>
+        </div>
+        <p className="text-small text-muted">
+          Short on time? Save and we&apos;ll email you a private link to finish on any device.
+        </p>
+      </form>
+
+      <ErrorDialog open={errOpen} problems={problems} onClose={() => setErrOpen(false)} />
+      <SuccessDialog
+        open={status === "success"}
+        title="Intake received"
+        summary={summary}
+        onDownload={download}
+        onHome={() => router.push("/")}
+      />
     </>
   );
 }
+
+// Re-exported so the route page can show the intro copy without a second import.
+export const intakeFormIntro = intakeIntro;

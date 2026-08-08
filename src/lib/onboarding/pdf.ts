@@ -2,15 +2,19 @@ import "server-only";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
 import { APERTURE_LOGO_WHITE_HORIZONTAL_B64, APERTURE_ICON_WHITE_B64, FENWICK_SIGNATURE_B64 } from "./logo";
 import {
-  intakeSections,
-  intakeMeta,
-  intakeConsent,
   agreementClauses,
   agreementMeta,
   feeSchedule,
   ESIGN_CONSENT,
-  SYSTEM_ROWS,
 } from "./content";
+import {
+  intakeIntro,
+  sharedSections,
+  segmentByKey,
+  intakeClosing,
+  intakeConsentLine,
+  type IntakeSection,
+} from "./intake";
 import type { OnboardingPayload } from "./types";
 import { KIND_LABEL } from "./types";
 
@@ -278,6 +282,27 @@ class Doc {
       }
     }
   }
+
+  // Fenwick's authorship + signature — printed on the intake so it carries his
+  // name, title and signature as the person who personally reviews the work.
+  authorBlock(note: string) {
+    this.y -= 12;
+    this.ensure(120);
+    this.para(note, { font: this.ital, size: 9.5, color: MUTED, after: 12 });
+    const top = this.y;
+    const sw = 150, sh = sw * (this.fenSig.height / this.fenSig.width);
+    this.page.drawImage(this.fenSig, { x: MARGIN, y: top - sh, width: sw, height: sh });
+    this.y = top - Math.max(sh, 30) - 2;
+    this.page.drawLine({ start: { x: MARGIN, y: this.y + 8 }, end: { x: MARGIN + 240, y: this.y + 8 }, thickness: 0.75, color: INK });
+    this.y -= 8;
+    const rows: [string, string][] = [["Name", "Fenwick How"], ["Title", "Founder"], ["Firm", "The Aperture Method"]];
+    for (const [k, v] of rows) {
+      this.ensure(13);
+      this.page.drawText(k + ":", { x: MARGIN, y: this.y, size: 9, font: this.bold, color: INK });
+      this.page.drawText(san(v), { x: MARGIN + 78, y: this.y, size: 9, font: this.reg, color: INK });
+      this.y -= 13;
+    }
+  }
 }
 
 function fieldValue(answers: Record<string, string>, name: string): string {
@@ -285,33 +310,28 @@ function fieldValue(answers: Record<string, string>, name: string): string {
   return v && v.trim() ? v.trim() : "";
 }
 
-// ------- INTAKE PDF (dense, two-page) -------
+// ------- INTAKE PDF -------
 async function buildIntake(p: OnboardingPayload, meta: Meta): Promise<Uint8Array> {
   const d = new Doc();
-  await d.init(intakeMeta.title, meta);
-  d.para(intakeMeta.subtitle, { font: d.ital, size: 10, color: MUTED, after: 4 });
+  await d.init(intakeIntro.title, meta);
+  d.para(intakeIntro.subtitle, { font: d.ital, size: 10, color: MUTED, after: 6 });
 
-  for (const section of intakeSections) {
+  const draw = (section: IntakeSection) => {
     d.sectionCompact(section.title);
+    if (section.help) d.para(section.help, { size: 8.5, color: MUTED, after: 3 });
     for (const f of section.fields) {
-      if (f.type === "systems") {
-        let rows: Array<{ area: string; system: string; available: string; share: string }> = [];
-        try {
-          rows = JSON.parse(fieldValue(p.answers, f.name) || "[]");
-        } catch { rows = []; }
-        const byArea = new Map(rows.map((r) => [r.area, r]));
-        for (const area of SYSTEM_ROWS) {
-          const r = byArea.get(area);
-          const parts: string[] = [];
-          if (r?.system) parts.push(r.system);
-          if (r?.available) parts.push(`data: ${r.available}`);
-          if (r?.share) parts.push(`share: ${r.share}`);
-          d.kv(area, parts.length ? parts.join(" · ") : "");
-        }
-        continue;
-      }
       const val = fieldValue(p.answers, f.name);
-      if (f.type === "textarea") {
+      if (f.type === "checkgroup") {
+        let items: string[] = [];
+        try { items = JSON.parse(val || "[]"); } catch { items = val ? [val] : []; }
+        d.ensure(12);
+        d.para(f.label, { font: d.bold, size: 9.5, after: 1 });
+        if (items.length) {
+          for (const it of items) d.bullet(it);
+        } else {
+          d.para("—", { size: 9.5, color: MUTED, after: 3 });
+        }
+      } else if (f.type === "textarea") {
         d.ensure(12);
         d.para(f.label, { font: d.bold, size: 9.5, after: 0 });
         d.para(val || "—", { size: 9.5, color: val ? INK : MUTED, gap: 12.5, after: 3 });
@@ -319,15 +339,42 @@ async function buildIntake(p: OnboardingPayload, meta: Meta): Promise<Uint8Array
         d.kv(f.label, val);
       }
     }
+  };
+
+  // Who this is for / signer details
+  d.sectionCompact("Prepared with");
+  d.kv("Name", p.signerName);
+  if (p.signerTitle) d.kv("Title", p.signerTitle);
+  d.kv("Company", p.company);
+  d.kv("Email", p.signerEmail);
+
+  // Shared foundation — everyone answers this once.
+  for (const section of sharedSections) draw(section);
+
+  // Engaged segment(s) only.
+  const keys = p.segments && p.segments.length ? p.segments : [];
+  for (const key of keys) {
+    const seg = segmentByKey[key];
+    if (!seg) continue;
+    d.y -= 6;
+    d.ensure(30);
+    d.para(`${seg.phase} · ${seg.verb}`, { font: d.bold, size: 8, color: GOLD, after: 1 });
+    d.para(seg.name, { font: d.bold, size: 13, color: MAROON, after: 1 });
+    d.para(seg.question, { font: d.ital, size: 9.5, color: MUTED, after: 5 });
+    for (const section of seg.sections) draw(section);
   }
 
-  d.y -= 2;
+  // Fenwick's authorship + signature on the document.
+  d.authorBlock(intakeClosing);
+
+  // Client consent + e-signature.
+  d.y -= 4;
   d.sectionCompact("Consent");
   d.ensure(12);
   const cy = d.y;
   d.page.drawLine({ start: { x: MARGIN, y: cy + 1 }, end: { x: MARGIN + 3, y: cy - 2 }, thickness: 1.2, color: MAROON });
   d.page.drawLine({ start: { x: MARGIN + 3, y: cy - 2 }, end: { x: MARGIN + 8, y: cy + 5 }, thickness: 1.2, color: MAROON });
-  d.para(intakeConsent, { x: MARGIN + 14, size: 8.5, gap: 12, after: 2 });
+  d.para(intakeConsentLine, { x: MARGIN + 14, size: 8.5, gap: 12, after: 2 });
   await d.signatureBlock(p, false);
   d.finalizeFooters();
   return d.doc.save();

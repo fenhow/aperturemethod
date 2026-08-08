@@ -12,20 +12,20 @@ export const metadata: Metadata = pageMeta({
 
 const steps = [
   {
-    href: "/onboarding/intake",
-    step: "Step 1",
-    title: "Client Intake Form",
-    blurb:
-      "Tell us about your business — what you do, what you want answered, and which systems we might draw on. About 10 minutes. It helps us tailor your Business X-Ray before we start.",
-    cta: "Start the intake",
-  },
-  {
     href: "/onboarding/agreement",
-    step: "Step 2",
+    step: "Step 1",
     title: "New Customer Agreement",
     blurb:
-      "Review and e-sign the services agreement — fixed-fee, phase-gated, and plain-language. You'll get a signed PDF for your records the moment you submit.",
+      "First, review and e-sign the services agreement — fixed-fee, phase-gated, and plain-language. You'll get a signed PDF for your records the moment you submit.",
     cta: "Review & sign",
+  },
+  {
+    href: "/onboarding/intake",
+    step: "Step 2",
+    title: "Intake Questionnaire",
+    blurb:
+      "Then tell us about your business — the shared foundation plus the part(s) of the Method you've engaged. Short on time? Save and we'll email you a private link to finish later.",
+    cta: "Start the intake",
   },
 ];
 

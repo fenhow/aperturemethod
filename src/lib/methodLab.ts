@@ -58,6 +58,11 @@ export async function hasMethodLabAccess(cookieValue?: string): Promise<boolean>
 
 /** Files served through the gated download route. Keys keep URLs tidy. */
 export const METHOD_LAB_FILES: Record<string, { file: string; type: string; name: string }> = {
+  force5: {
+    file: "The Aperture Method - Force5 Executive Profile.pdf",
+    type: "application/pdf",
+    name: "The Aperture Method - Force5 Executive Profile.pdf",
+  },
   sops: {
     file: "The Aperture Method - Method SOPs.pdf",
     type: "application/pdf",

@@ -96,6 +96,15 @@ p.lede{font-size:17px;color:var(--ink);max-width:860px}
   letter-spacing:.14em;text-transform:uppercase;color:var(--lgray);font-weight:700}
 .reports:before,.reports:after{content:"";height:1px;background:var(--rule);flex:1}
 .team{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.f5bar{margin-top:22px;border-top:1px solid var(--rule);padding-top:20px;display:flex;
+  align-items:center;gap:22px;flex-wrap:wrap}
+.f5btn{display:inline-flex;align-items:center;gap:10px;background:var(--maroon);color:#fff;
+  text-decoration:none;font-size:14px;font-weight:700;letter-spacing:.01em;padding:13px 22px;
+  border-radius:3px;transition:background .15s;white-space:nowrap}
+.f5btn:hover{background:#6a1414}
+.f5btn .ar{font-weight:400}
+.f5bar .f5note{font-size:13px;color:var(--gray);flex:1;min-width:280px;line-height:1.5}
+.f5bar .f5note b{color:var(--ink);font-weight:600}
 @media(max-width:1000px){.team{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:620px){.team{grid-template-columns:repeat(2,1fr)}}
 .ai{display:inline-block;font-size:9px;letter-spacing:.12em;font-weight:700;background:var(--maroon);
@@ -270,7 +279,7 @@ footer{border-top:1px solid var(--rule);padding:26px 0 60px;font-size:12.5px;col
   </a>
   <div class="eyebrow">The Aperture Method™ · Agent Workflow Map</div>
   <h1>How an engagement runs</h1>
-  <p class="sub">Six SOPs, six specialist agents, one shared data foundation — and one person accountable for
+  <p class="sub">Six SOPs, Force5 and one human, one shared data foundation — and one person accountable for
   every judgment and every deliverable. This map shows what runs, what it produces, who does it, and when.</p>
   <div class="metaline">Version 5 · SOP-anchored · August 2026 · Confidential build reference</div>
 </header>
@@ -302,15 +311,21 @@ footer{border-top:1px solid var(--rule);padding:26px 0 60px;font-size:12.5px;col
 </section>
 
 <section>
-  <h2>The A-Team</h2>
-  <p class="lede">Human-led, AI-enabled. Fenwick How is at the helm — intake and acceptance start every
-  engagement, and every deliverable ends with his signature. Reporting to him are five specialist AI
-  agents, each built to a defined standard of expertise, each executing a documented SOP, each answering
-  to a human gate. Select any one for its credentials, capabilities, tasks, tools, and the specific
-  controls Fenwick holds over it.</p>
+  <h2>Force5</h2>
+  <p class="lede">Human-led, AI-enabled. <b>Force5</b> is what we call the five AI agents that run the
+  Method. Fenwick How is at the helm — intake and acceptance start every engagement, and every deliverable
+  ends with his signature. Reporting to him are five specialists, each built to a defined standard of
+  expertise, each executing a documented SOP, each answering to a human gate. Select any one for its
+  credentials, capabilities, tasks, tools, and the specific controls Fenwick holds over it.</p>
   <div id="leader" style="margin-top:22px"></div>
-  <div class="reports">The five AI agents report to Fenwick</div>
+  <div class="reports">Force5 &middot; the five AI agents report to Fenwick</div>
   <div class="team" id="team"></div>
+  <div class="f5bar">
+    <a class="f5btn" data-f="force5" href="downloads/The Aperture Method - Force5 Executive Profile.pdf" download>
+      View Force5 Executive Profile <span class="ar">&rarr;</span></a>
+    <div class="f5note">The full written profile of all five agents &mdash; <b>credentials, core capabilities,
+    tools, the steps each one runs, and the controls Fenwick holds over it.</b> 14 pages, PDF.</div>
+  </div>
 </section>
 
 <section>

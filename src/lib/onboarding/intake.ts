@@ -58,6 +58,8 @@ export const sharedSections: IntakeSection[] = [
       S("b_employees", "Employees — full-time, part-time, contract"),
       T("b_ownership", "Ownership structure, and who else has a say in decisions", 2),
       S("b_revenue", "Approximate annual revenue (a range is fine)"),
+      S("b_fye", "Financial year end (month)"),
+      T("b_buyers", "Who buys from you — consumers, other businesses, or both? Roughly what split?", 2),
     ],
   },
   {
@@ -182,6 +184,7 @@ export const segments: IntakeSegment[] = [
       { id: "ins-con", title: "The constraint, and what “solved” means", fields: [
         T("ins_con1", "In one sentence: what do you believe is the single biggest thing holding the business back?", 2),
         T("ins_con2", "If that were fixed, what number would move — and by how much, by when? Be specific; this becomes how we measure the engagement.", 2),
+        T("ins_con3", "What is that number today? An approximate figure is fine — this is the baseline we measure the engagement against, and without it there is nothing to compare to.", 2),
       ]},
     ],
   },
@@ -200,6 +203,7 @@ export const segments: IntakeSegment[] = [
         T("an_num2", "Do your accounts separate cost of delivery from overhead? Roughly how?", 2),
         T("an_num3", "Are costs currently allocated to products, services or locations? If so, on what basis?", 2),
         T("an_num4", "Who closes the books, and how confident are you in them?", 2),
+        T("an_num5", "Owner compensation, one-off or unusual costs, and anything personal or related-party running through the business — roughly what, and how much? We adjust for these before analysing so the underlying economics are visible. This is standard practice and not a judgment.", 3),
       ]},
       { id: "an-price", title: "Price and mix", fields: [
         T("an_price1", "List your main products or services and their current prices.", 3),

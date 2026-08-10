@@ -86,6 +86,68 @@ if (!rubric) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// The intake form is where the client meets the lenses first. Its section
+// headings must be the same seven, in the same order, with the same names —
+// otherwise a client reads "Lens 1 · Operations" on the form and "01 Finance"
+// on the site, and the instrument looks improvised.
+// ---------------------------------------------------------------------------
+try {
+  const intake = readFileSync(path.join(root, "src", "lib", "onboarding", "intake.ts"), "utf8");
+  const headings = [...intake.matchAll(/title:\s*"Lens (\d+) · ([^"]+)"/g)].map((m) => ({
+    n: Number(m[1]),
+    name: m[2],
+  }));
+  if (headings.length !== site.length) {
+    problems.push(
+      `intake.ts declares ${headings.length} lens sections; lenses.ts declares ${site.length}.`
+    );
+  } else {
+    headings.forEach((h, i) => {
+      if (h.n !== i + 1) {
+        problems.push(`intake.ts lens headings are misnumbered at position ${i + 1} (found "Lens ${h.n}").`);
+      }
+      if (h.name !== site[i].name) {
+        problems.push(
+          `intake.ts Lens ${i + 1} is "${h.name}"; the canonical order has "${site[i].name}" there.`
+        );
+      }
+    });
+  }
+} catch {
+  problems.push("intake.ts could not be read — the intake form's lens headings went unchecked.");
+}
+
+// ---------------------------------------------------------------------------
+// Retired lens names. These came from an earlier draft that reached a delivered
+// client report; "Marketing & growth engine" was scored as a lens and is not
+// one. Marketing evidence belongs to Customers & Retention.
+// ---------------------------------------------------------------------------
+const RETIRED = [
+  "Marketing & growth engine",
+  "Operations & service delivery",
+  "Leadership & organization",
+  "Market & competitive position",
+  "Process & systems",
+];
+try {
+  const { execSync } = await import("node:child_process");
+  const pattern = RETIRED.join("|");
+  const hits = execSync(
+    `grep -rlF ${RETIRED.map((r) => `-e ${JSON.stringify(r)}`).join(" ")} src || true`,
+    { cwd: root, encoding: "utf8" }
+  )
+    .split("\n")
+    .filter(Boolean)
+    .filter((f) => !f.endsWith("check-lenses.mjs"));
+  void pattern;
+  for (const f of hits) {
+    problems.push(`${f} uses a retired lens name. The seven canonical names are in src/lib/lenses.ts.`);
+  }
+} catch {
+  /* grep unavailable — skip rather than fail the build for the wrong reason */
+}
+
 if (problems.length) {
   console.error("\n  ✗ Seven-lens conformance FAILED\n");
   for (const p of problems) console.error(`    · ${p}`);

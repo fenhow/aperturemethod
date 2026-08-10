@@ -150,13 +150,7 @@ export const segments: IntakeSegment[] = [
       "A read of the whole business across seven lenses — naming the single biggest thing holding it back and setting your Aperture Score™ baseline.",
     gives: "Business X-Ray™ + your Aperture Score™",
     sections: [
-      { id: "ins-ops", title: "Lens 1 · Operations", fields: [
-        T("ins_ops1", "Walk us through how the work actually gets done, start to finish.", 3),
-        T("ins_ops2", "Where does it back up? What is the thing that most often makes everything else wait?", 2),
-        T("ins_ops3", "If demand doubled tomorrow, what breaks first?", 2),
-        T("ins_ops4", "What physically sets your ceiling on volume — chairs, bays, rooms, vehicles, machine hours, staffed hours? How many do you have, and roughly what share is in use in an average week versus your busiest? In a typical month, how many units, jobs or visits do you do, and which months are the peaks and troughs?", 4),
-      ]},
-      { id: "ins-fin", title: "Lens 2 · Finance", fields: [
+      { id: "ins-fin", title: "Lens 1 · Finance", fields: [
         T("ins_fin1", "Do you know which parts of the business make money and which lose it? How confident are you?", 2),
         T("ins_fin2", "What is your cash position like across a typical year — when is it tight?", 2),
         T("ins_fin3", "Which costs have grown fastest, and do you know why?", 2),
@@ -164,32 +158,38 @@ export const segments: IntakeSegment[] = [
         T("ins_fin5", "For your main product or service: what do you charge, and roughly what does it cost you to deliver one? Include the labour and materials that go into that single unit.", 3),
         T("ins_fin6", "Do your accounts separate the cost of delivering the work from general overhead? Are any costs allocated down to individual products, services or locations — and on what basis?", 2),
       ]},
-      { id: "ins-cust", title: "Lens 3 · Customers & retention", fields: [
+      { id: "ins-ops", title: "Lens 2 · Operations", fields: [
+        T("ins_ops1", "Walk us through how the work actually gets done, start to finish.", 3),
+        T("ins_ops2", "Where does it back up? What is the thing that most often makes everything else wait?", 2),
+        T("ins_ops3", "If demand doubled tomorrow, what breaks first?", 2),
+        T("ins_ops4", "What physically sets your ceiling on volume — chairs, bays, rooms, vehicles, machine hours, staffed hours? How many do you have, and roughly what share is in use in an average week versus your busiest? In a typical month, how many units, jobs or visits do you do, and which months are the peaks and troughs?", 4),
+      ]},
+      { id: "ins-cust", title: "Lens 3 · Customers & Retention", fields: [
         T("ins_cust1", "Where do new customers come from today, ranked?", 2),
         T("ins_cust2", "What share of customers come back? How do you know?", 2),
         T("ins_cust3", "Describe your single best customer — not the biggest, the best. What makes them that?", 2),
         T("ins_cust4", "Why do customers leave, when they leave?", 2),
         T("ins_cust5", "What do you spend on marketing in a typical year, and can you break that down by channel or by area? Where do referrals come from?", 3),
       ]},
-      { id: "ins-proc", title: "Lens 4 · Processes", fields: [
-        T("ins_proc1", "Which process, if it ran properly, would change the most?", 2),
-        T("ins_proc2", "What still runs on someone's memory, a spreadsheet, or a piece of paper?", 2),
-      ]},
-      { id: "ins-tech", title: "Lens 5 · Technology & data", fields: [
-        T("ins_tech1", "What can't you see today that you wish you could?", 2),
-        T("ins_tech2", "Where do you not trust your own numbers?", 2),
-        T("ins_tech3", "Which numbers do you check weekly, and which monthly? Where do you go to look each one up?", 2),
-      ]},
-      { id: "ins-lead", title: "Lens 6 · Leadership & team", fields: [
-        T("ins_lead1", "If you took a month off with no contact, what would fall over?", 2),
-        T("ins_lead2", "Which role, filled well, would unlock the most? Which is hardest to hire?", 2),
-        T("ins_lead3", "Think of an initiative here that stalled. What actually stopped it — and who would need to be persuaded for something like it to happen?", 3),
-      ]},
-      { id: "ins-mkt", title: "Lens 7 · Market & competition", fields: [
+      { id: "ins-mkt", title: "Lens 4 · Market & Competition", fields: [
         T("ins_mkt1", "Who do you actually lose to, and on what — price, speed, quality, convenience, relationship?", 2),
         T("ins_mkt2", "What is changing in your market that worries you?", 2),
         T("ins_mkt3", "Roughly how far do customers travel to reach you, and what is the furthest you would call normal? Which areas do you do well in, and which would you expect to and don't?", 3),
         T("ins_mkt4", "Name the competitors that actually cost you business, and where they are. Has anyone opened, closed or expanded near you recently?", 3),
+      ]},
+      { id: "ins-lead", title: "Lens 5 · Leadership & Team", fields: [
+        T("ins_lead1", "If you took a month off with no contact, what would fall over?", 2),
+        T("ins_lead2", "Which role, filled well, would unlock the most? Which is hardest to hire?", 2),
+        T("ins_lead3", "Think of an initiative here that stalled. What actually stopped it — and who would need to be persuaded for something like it to happen?", 3),
+      ]},
+      { id: "ins-proc", title: "Lens 6 · Processes", fields: [
+        T("ins_proc1", "Which process, if it ran properly, would change the most?", 2),
+        T("ins_proc2", "What still runs on someone's memory, a spreadsheet, or a piece of paper?", 2),
+      ]},
+      { id: "ins-tech", title: "Lens 7 · Technology & Data", fields: [
+        T("ins_tech1", "What can't you see today that you wish you could?", 2),
+        T("ins_tech2", "Where do you not trust your own numbers?", 2),
+        T("ins_tech3", "Which numbers do you check weekly, and which monthly? Where do you go to look each one up?", 2),
       ]},
       { id: "ins-con", title: "The constraint, and what “solved” means", fields: [
         T("ins_con1", "In one sentence: what do you believe is the single biggest thing holding the business back?", 2),

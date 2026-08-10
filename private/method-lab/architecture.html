@@ -359,13 +359,18 @@
   <h2 style="font-size:15px">Conflicts — two sources of truth</h2>
   <table>
     <tr><th>Item</th><th>Conflict</th></tr>
-    <tr><td>The seven lenses</td><td class="U">Three different lists exist. SOP 01 · Build Spec Table 16 · and the delivered X-Ray scorecard, which scores "Marketing &amp; growth engine" and never scores "Process &amp; systems"</td></tr>
-    <tr><td>Score weights</td><td class="U">Build Spec: Customers 20 / Ops 15. Live rubric: Customers 18 / Ops 18</td></tr>
     <tr><td>Pricing</td><td class="U">SOW $41,000 bundle / $9,500 entry / $2,950 mo — Contract $25,000 / $2,500 / $1,000 mo</td></tr>
     <tr><td>Atlas vs Live</td><td class="U">Internal name appears in the signed contract, Exhibit A fee table, and the public web intake</td></tr>
     <tr><td>Phase count</td><td class="U">Contract lists 6 · SOW and deliverables show 5 · SOPs numbered 01–06 · deliverables numbered 1–5</td></tr>
     <tr><td>Who runs the readout</td><td class="U">Spec: Fenwick delivers every readout. SOPs: three phases mark readout as AGENT</td></tr>
     <tr><td>Reconciliation tolerance</td><td class="U">Intake accepts 0.5% · X-Ray 0.005 · Analytics 0.0. Marcus must tie to the dollar against a ledger accepted at half a percent</td></tr>
+  </table>
+
+  <h2 style="font-size:15px">Resolved — closed since the first audit</h2>
+  <table>
+    <tr><th>Item</th><th>Resolution</th></tr>
+    <tr><td>The seven lenses</td><td class="E">Ratified. <b>Finance 20 · Operations 18 · Customers &amp; Retention 18 · Market &amp; Competition 14 · Leadership &amp; Team 12 · Processes 10 · Technology &amp; Data 8.</b> One source (<code>rubric.json</code> v1.1.0) with one site-side mirror (<code>src/lib/lenses.ts</code>). "Marketing &amp; growth engine" is retired — marketing evidence scores inside Customers &amp; Retention. The Lumina X-Ray, the kickoff pack, the intake form and the public pages were rebuilt to match.</td></tr>
+    <tr><td>Score weights</td><td class="E">The ratified rubric governs; the Build Spec figures (Customers 20 / Ops 15) are superseded. <code>scripts/check-lenses.mjs</code> runs on <code>prebuild</code> and fails the deploy if the site's names, order or weights drift from the rubric, if the intake form's lens headings disagree, if a retired lens name reappears anywhere in <code>src</code>, or if the rubric is ever un-ratified.</td></tr>
   </table>
 
   <h2 style="font-size:15px">Missing — logically required, absent</h2>

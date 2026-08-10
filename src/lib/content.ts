@@ -23,6 +23,7 @@ export type MethodPhase = {
   line: string; // short one-liner for strips/cards
   description: string; // the full executive description
   deliverable: string; // the tangible artifact(s) inside the product — "what you get"
+  truth?: string; // optional plain-language pull-quote — the owner-level truth this component answers
   frameworks: Framework[]; // the named techniques/frameworks applied in this phase (depth layer)
   cap?: string; // capability tag shown on the parent landing — "MBA", "GIS", "DATA", or a blend
 };
@@ -89,6 +90,8 @@ export const methodPhases: MethodPhase[] = [
     description:
       "Data becomes valuable when it informs decisions. Aperture Analytics transforms financial and operational information into meaningful business intelligence through advanced analysis, financial modeling, forecasting, and scenario planning. This phase identifies the key drivers of profitability, operational efficiency, and long-term value creation.",
     deliverable: "The Profit Map™ + scenario model",
+    truth:
+      "Most owners have plenty of numbers. What they don\u2019t have is anyone who turns them into a decision. That\u2019s the job.",
     frameworks: [
       { name: "Profitability analysis", what: "Shows exactly where you make and lose money — by service, location, or customer." },
       { name: "Cost-structure evaluation", what: "Maps your fixed and variable costs, so you know what scales profitably and what doesn't." },

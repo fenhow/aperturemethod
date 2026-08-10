@@ -97,6 +97,11 @@ export default function ComponentPage({ params }: { params: { component: string 
         <Reveal className="max-w-measure">
           <SectionHeading eyebrow={p.verb} title={`“${p.question}”`} />
           <p className="mt-6 text-body-lg text-body">{p.description}</p>
+          {p.truth && (
+            <p className="mt-10 border-l-2 border-maroon pl-6 text-h4 font-light leading-snug text-ink">
+              {p.truth}
+            </p>
+          )}
         </Reveal>
       </Section>
 

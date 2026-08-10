@@ -91,17 +91,21 @@ export function Modal({
   onClose,
   labelledBy,
   children,
+  scrollToTop = true,
 }: {
   open: boolean;
   onClose: () => void;
   labelledBy?: string;
   children: React.ReactNode;
+  /** Jump the page to the top when opening. Correct for validation errors; wrong for a
+   *  dialog that appears while the client is typing — it would throw away their place. */
+  scrollToTop?: boolean;
 }) {
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (scrollToTop) window.scrollTo({ top: 0, behavior: "smooth" });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -110,7 +114,7 @@ export function Modal({
       document.body.style.overflow = prev;
       document.removeEventListener("keydown", onKey);
     };
-  }, [open, onClose]);
+  }, [open, onClose, scrollToTop]);
 
   if (!open) return null;
   return (
@@ -199,6 +203,128 @@ export function SuccessDialog({
           Done — return home
         </button>
       </div>
+    </Modal>
+  );
+}
+
+
+/** Shown once, the first time a client's answers reach the server.
+ *
+ * The form saves silently from the first keystroke, which is only reassuring if somebody
+ * says so. Without this, a client filling in a hundred questions has no way of knowing
+ * whether closing the tab would cost them the lot — so they either push through in one
+ * exhausting sitting, or abandon it. This is the moment to tell them plainly, hand them
+ * the link back, and offer to email it. */
+export function SavedDialog({
+  open,
+  resumeUrl,
+  email,
+  onEmailChange,
+  onEmailLink,
+  emailing,
+  emailed,
+  onClose,
+}: {
+  open: boolean;
+  resumeUrl: string;
+  email: string;
+  onEmailChange: (v: string) => void;
+  onEmailLink: () => void;
+  emailing: boolean;
+  emailed: boolean;
+  onClose: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+  const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(resumeUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      /* clipboard blocked — the link is visible and selectable anyway */
+    }
+  }
+
+  return (
+    <Modal open={open} onClose={onClose} labelledBy="onb-saved-title" scrollToTop={false}>
+      <div className="flex items-start gap-3">
+        <span
+          className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-maroon text-lg text-paper"
+          aria-hidden="true"
+        >
+          ✓
+        </span>
+        <div>
+          <h3 id="onb-saved-title" className="text-h3 font-semibold text-ink">
+            Your answers are being saved
+          </h3>
+          <p className="mt-2 text-body text-muted">
+            This is a long form and you are not expected to finish it in one go. Everything you
+            type is saved automatically as you go — you can close this page at any point and
+            pick up exactly where you left off.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-md border border-line bg-surface p-4">
+        <p className="text-small font-semibold text-ink">Your private link back</p>
+        <p className="mt-1 text-small text-muted">
+          Bookmark it, or let us email it to you. Anyone with this link can open your answers,
+          so keep it to yourself.
+        </p>
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+          <input
+            readOnly
+            value={resumeUrl}
+            onFocus={(e) => e.currentTarget.select()}
+            className={inputCls + " mt-0 flex-1 text-small"}
+            aria-label="Your private resume link"
+          />
+          <button type="button" onClick={copy} className="btn--secondary shrink-0 justify-center px-5 py-3">
+            {copied ? "Copied" : "Copy"}
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-4">
+        {emailed ? (
+          <p className="text-small font-medium text-ink">
+            ✓ Sent. Check your inbox for the link — it comes from The Aperture Method.
+          </p>
+        ) : (
+          <>
+            <label className={labelCls} htmlFor="onb-saved-email">
+              Email it to me as well
+            </label>
+            <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+              <input
+                id="onb-saved-email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                placeholder="you@yourbusiness.com"
+                value={email}
+                onChange={(e) => onEmailChange(e.target.value)}
+                className={inputCls + " mt-0 flex-1"}
+              />
+              <button
+                type="button"
+                onClick={onEmailLink}
+                disabled={!valid || emailing}
+                className="btn shrink-0 justify-center px-6 py-3 disabled:opacity-50"
+              >
+                {emailing ? "Sending…" : "Send link"}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+
+      <button type="button" onClick={onClose} className="btn mt-6 w-full justify-center py-3.5 sm:w-auto sm:px-10">
+        Got it — keep going
+      </button>
     </Modal>
   );
 }

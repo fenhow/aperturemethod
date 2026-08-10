@@ -13,7 +13,7 @@ import {
 } from "@/lib/onboarding/intake";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
-import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog } from "./shared";
+import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog, SavedDialog } from "./shared";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALL_KEYS = allSegments.map((s) => s.key);
@@ -70,9 +70,12 @@ export function IntakeForm() {
   const [token, setToken] = useState<string | null>(null);
   const [saveMsg, setSaveMsg] = useState<string>("");
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error" | "gone">("idle");
+  const [savedOpen, setSavedOpen] = useState(false);
+  const [linkEmailed, setLinkEmailed] = useState(false);
+  const explained = useRef(false);
   const [saving, setSaving] = useState(false);
   const [loadingDraft, setLoadingDraft] = useState(false);
-  const { status, message, submit, download } = useOnboardingSubmit();
+  const { status, message, result, submit, download } = useOnboardingSubmit();
   const router = useRouter();
 
   const set = (name: string, v: string) => setAns((a) => ({ ...a, [name]: v }));
@@ -102,6 +105,7 @@ export function IntakeForm() {
   // thing this form can do, so it never depends on a single mechanism — and it never
   // waits for the client to press a button before it starts protecting their work.
   const LS_KEY = "aperture-intake-draft-v1";
+  const EXPLAINED_KEY = "aperture-intake-explained-v1";
   const tokenRef = useRef<string | null>(null);
   const dirtyRef = useRef(false);
   const hydrated = useRef(false);
@@ -170,6 +174,27 @@ export function IntakeForm() {
       lastSavedAt.current = Date.now();
       persistLocal();
       setSaveState("saved");
+
+      // Tell the client once, the first time their work reaches us. Not on every save —
+      // that would be nagging — and not when they arrived via a resume link, since they
+      // already know how this works.
+      if (!explained.current) {
+        explained.current = true;
+        let seen = false;
+        try {
+          seen = window.localStorage.getItem(EXPLAINED_KEY) === "1";
+        } catch {
+          /* ignore */
+        }
+        if (!seen) {
+          try {
+            window.localStorage.setItem(EXPLAINED_KEY, "1");
+          } catch {
+            /* ignore */
+          }
+          setSavedOpen(true);
+        }
+      }
       return { ok: true as const, emailed: Boolean(data.emailed) };
     } catch {
       setSaveState("error");
@@ -196,6 +221,7 @@ export function IntakeForm() {
             if (data.draft.signerName) set("contact_name", data.draft.signerName);
             setSaveMsg("Welcome back — your answers are filled in.");
             setSaveState("saved");
+            explained.current = true;
           } else if (data?.completed) {
             setSaveMsg("This intake has already been submitted.");
             setSaveState("gone");
@@ -280,6 +306,17 @@ export function IntakeForm() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function emailLinkFromDialog() {
+    setSaving(true);
+    const res = await saveNow({ sendLink: true });
+    if (res.ok && res.emailed) setLinkEmailed(true);
+    else if (res.ok) {
+      setSaveMsg("Saved, but we couldn't send the email just now. Your link is above — please copy it.");
+      setSavedOpen(false);
+    }
+    setSaving(false);
+  }
 
   async function saveAndFinishLater() {
     const email = (ans.contact_email ?? "").trim();
@@ -563,28 +600,34 @@ export function IntakeForm() {
         {status === "error" && (
           <p className="rounded-sm border border-maroon bg-maroon/5 p-4 text-small font-medium text-maroon">{message}</p>
         )}
-        {/* A persistent, honest save signal. Silence used to mean "we have no idea" —
-            a failing autosave looked exactly like a working one. */}
+        {/* A persistent, honest save signal — FIXED, not in the flow.
+            It first shipped inline above the submit button, which put it ~600px below
+            a 108-question form: autosave fired on the first keystroke at the top and
+            reported success where nobody could see it. A save indicator that scrolls
+            out of view is the same as no indicator. */}
         {saveState !== "idle" && (
-          <p
+          <div
             aria-live="polite"
             className={
-              "flex items-center gap-2 rounded-sm border p-3 text-small font-medium " +
+              "fixed bottom-4 right-4 z-50 flex max-w-[min(22rem,calc(100vw-2rem))] items-start gap-2 " +
+              "rounded-sm border px-3.5 py-2.5 text-small font-medium shadow-lg " +
               (saveState === "error" || saveState === "gone"
-                ? "border-maroon bg-maroon/5 text-maroon"
-                : "border-line bg-surface text-muted")
+                ? "border-maroon bg-maroon text-paper"
+                : "border-line bg-surface text-ink")
             }
           >
-            <span aria-hidden="true">
+            <span aria-hidden="true" className="leading-5">
               {saveState === "saving" ? "⟳" : saveState === "saved" ? "✓" : "!"}
             </span>
-            {saveState === "saving" && "Saving…"}
-            {saveState === "saved" && "Saved. You can close this page and come back to it."}
-            {saveState === "error" &&
-              "Not saved to our server — your answers are being kept in this browser. We'll keep retrying."}
-            {saveState === "gone" &&
-              "This draft is no longer active. Copy your answers somewhere safe before leaving this page."}
-          </p>
+            <span>
+              {saveState === "saving" && "Saving…"}
+              {saveState === "saved" && "Saved. You can close this page and come back to it."}
+              {saveState === "error" &&
+                "Not saved to our server — your answers are being kept in this browser. We'll keep retrying."}
+              {saveState === "gone" &&
+                "This draft is no longer active. Copy your answers somewhere safe before leaving this page."}
+            </span>
+          </div>
         )}
         {saveMsg && (
           <p className="rounded-sm border border-line bg-surface p-4 text-small font-medium text-ink">{saveMsg}</p>
@@ -613,12 +656,31 @@ export function IntakeForm() {
       </form>
 
       <ErrorDialog open={errOpen} problems={problems} onClose={() => setErrOpen(false)} />
+      <SavedDialog
+        open={savedOpen}
+        resumeUrl={token ? `${typeof window === "undefined" ? "" : window.location.origin}/onboarding/intake?draft=${token}` : ""}
+        email={ans.contact_email ?? ""}
+        onEmailChange={(v) => set("contact_email", v)}
+        onEmailLink={emailLinkFromDialog}
+        emailing={saving}
+        emailed={linkEmailed}
+        onClose={() => setSavedOpen(false)}
+      />
       <SuccessDialog
         open={status === "success"}
         title="Intake received"
         summary={summary}
         onDownload={download}
         onHome={() => router.push("/")}
+        note={
+          result?.emailed && result?.stored
+            ? "A signed copy has been emailed to you and saved to your secure client area."
+            : result?.emailed
+              ? "A signed copy has been emailed to you. Please keep it — download it below as well."
+              : result?.stored
+                ? "Saved to your secure client area. Download a signed copy below for your records."
+                : "We have your submission. Please download your signed copy below and keep it — we could not email it."
+        }
       />
     </>
   );

@@ -10,15 +10,11 @@ import { primaryCta } from "@/lib/site";
  * forward: one result (a single component) or the full path (the Method),
  * with Aperture Atlas as the ongoing layer.
  *
- * PRICES are placeholders — swap for Fenwick's real numbers. Set to null to
- * hide a price entirely.
+ * Prices come from src/lib/pricing.ts — the ratified SOW schedule. They used to be
+ * hard-coded here, and the comment that said "placeholders, swap for Fenwick's real
+ * numbers" outlived the real numbers by some months.
  */
-const PRICES = {
-  xray: "$2,500", // Business X-Ray diagnostic (market-informed suggestion)
-  component: "$6,000", // "from", per single component
-  full: "$25,000", // the full Method (from)
-  atlas: "$1,000/mo", // Aperture Atlas, ongoing
-};
+import { PRICES } from "@/lib/pricing";
 
 export function HowItWorks() {
   return (

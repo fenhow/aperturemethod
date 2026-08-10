@@ -357,12 +357,7 @@
   <p class="note">Grouped by kind. Ordered within each by how much damage it does if left alone.</p>
 
   <h2 style="font-size:15px">Conflicts — two sources of truth</h2>
-  <table>
-    <tr><th>Item</th><th>Conflict</th></tr>
-    <tr><td>Pricing</td><td class="U">SOW $41,000 bundle / $9,500 entry / $2,950 mo — Contract $25,000 / $2,500 / $1,000 mo</td></tr>
-    <tr><td>Who runs the readout</td><td class="U">Spec: Fenwick delivers every readout. SOPs: three phases mark readout as AGENT</td></tr>
-    <tr><td>Reconciliation tolerance</td><td class="U">Intake accepts 0.5% · X-Ray 0.005 · Analytics 0.0. Marcus must tie to the dollar against a ledger accepted at half a percent</td></tr>
-  </table>
+  <p class="note">None. Every conflict found in the first audit has been settled; they are recorded below with the decision that closed each one. What remains in this register is missing work, not disagreement.</p>
 
   <h2 style="font-size:15px">Resolved — closed since the first audit</h2>
   <table>
@@ -371,6 +366,9 @@
     <tr><td>Score weights</td><td class="E">The ratified rubric governs; the Build Spec figures (Customers 20 / Ops 15) are superseded. <code>scripts/check-lenses.mjs</code> runs on <code>prebuild</code> and fails the deploy if the site's names, order or weights drift from the rubric, if the intake form's lens headings disagree, if a retired lens name reappears anywhere in <code>src</code>, or if the rubric is ever un-ratified.</td></tr>
     <tr><td>Atlas vs Live</td><td class="E">Settled 10 Aug 2026: <b>Aperture Atlas™</b> is the single name for component 05, used internally and with clients. "Aperture Live" is retired. The website carried the old name in eight files and now does not; the contract, Exhibit A and the intake form needed no change. A build-time guard blocks the retired name from returning.</td></tr>
     <tr><td>Phase count</td><td class="E">Settled: <b>five phases and six SOPs.</b> The Business X-Ray is the fixed-fee entry diagnostic, not a phase — it is what SOP 01 covers, and it is delivered inside Phase 01 when a client engages the full Method. This keeps the five-verb tagline and the 1–5 deliverable numbering honest. Reference §2.1.2. Any artifact saying "six phases" is non-conformant.</td></tr>
+    <tr><td>Pricing</td><td class="E">Settled 10 Aug 2026: <b>the SOW schedule governs.</b> Business X-Ray $9,500 fixed, credited toward the Full Method if the client proceeds within 60 days · Full Method $41,000 ($34,500 after that credit) · Aperture Atlas $2,950/month, 6-month minimum. Exhibit A of the contract was rewritten to match and its "from" floors removed. Individual phase fees are quoted per engagement — the SOW never listed them, so none were invented.</td></tr>
+    <tr><td>Reconciliation tolerance</td><td class="E">Not a conflict — two different thresholds that were being read as one. Reference §7.4: <b>ledger acceptance</b> tolerates aggregate variance of ≤0.5% provided every variance is itemised (a completeness threshold); <b>figure publication</b> tolerates nothing — anything entering a deliverable must reconcile exactly to source. Accepting a ledger does not license an unreconciled figure.</td></tr>
+    <tr><td>Who runs the readout</td><td class="E">Settled: Reference §4.3.3 — <b>every readout is delivered by a person.</b> Agents do not send, present or correspond. The three SOPs that mark readout as AGENT are non-conformant and are tracked for amendment as decision D3, not left as an open question of principle.</td></tr>
   </table>
 
   <h2 style="font-size:15px">Missing — logically required, absent</h2>
@@ -380,7 +378,7 @@
     <tr><td>Ledger / provenance store</td><td class="M">Nothing enforces "every figure traces to source" outside the scoring engine</td></tr>
     <tr><td>Hosted Scoreboard</td><td class="M">Sold as live and wired; delivered as a monthly CSV drop and an HTML mock-up</td></tr>
     <tr><td>Signal Brief · anomaly detection</td><td class="M">Priced and described in the Build Spec; absent from SOP 06 entirely</td></tr>
-    <tr><td>Exhibits A and B</td><td class="M">Blank in the signed contract template — no fee schedule, no record of system access granted</td></tr>
+    <tr><td>Exhibit B</td><td class="M">Blank in the contract template — no record of the systems and data access granted. (Exhibit A now carries the published fee schedule.)</td></tr>
     <tr><td>NDA</td><td class="M">Referenced three times across intake and SOW; no artifact exists</td></tr>
     <tr><td>Readout artifacts</td><td class="M">Every SOP ends in a readout; no deck, agenda or notes template exists for any phase</td></tr>
     <tr><td>Interview guide + record</td><td class="M">SOP 01 requires 3–5 interviews; Lumina shows none</td></tr>

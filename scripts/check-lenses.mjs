@@ -179,6 +179,45 @@ try {
   /* grep unavailable — skip rather than fail the build for the wrong reason */
 }
 
+// ---------------------------------------------------------------------------
+// Fees belong in one file. Three separate files carried their own hard-coded
+// fees and all three were stale — the homepage quoted one number while the
+// contract the client signed quoted another.
+//
+// Only OUR fees are policed, not every currency figure: illustrative amounts in
+// demo data (a customer's lifetime value, a worked example) are legitimate. A
+// file whose money is illustrative declares itself once, at the top, with the
+// marker below — which is a deliberate statement rather than a silent skip.
+// ---------------------------------------------------------------------------
+const ILLUSTRATIVE = "@illustrative-figures";
+try {
+  const { execSync } = await import("node:child_process");
+  const files = execSync(
+    "grep -rlE '\\$[0-9],?[0-9]{3}' --include=*.ts --include=*.tsx src || true",
+    { cwd: root, encoding: "utf8" }
+  )
+    .split("\n")
+    .filter(Boolean)
+    .filter((f) => f !== "src/lib/pricing.ts");
+  for (const f of files) {
+    const src_ = readFileSync(path.join(root, f), "utf8");
+    if (src_.slice(0, 2000).includes(ILLUSTRATIVE)) continue;
+    const lines = src_.split("\n");
+    lines.forEach((line, i) => {
+      const t = line.trim();
+      if (t.startsWith("*") || t.startsWith("//") || t.startsWith("/*")) return;
+      const m = line.match(/\$[0-9],?[0-9]{3}/);
+      if (m) {
+        problems.push(
+          `${f}:${i + 1} hard-codes ${m[0]}. Our fees live in src/lib/pricing.ts; if this figure is illustrative, mark the file with ${ILLUSTRATIVE}.`
+        );
+      }
+    });
+  }
+} catch {
+  /* grep unavailable — skip rather than fail the build for the wrong reason */
+}
+
 if (problems.length) {
   console.error("\n  ✗ Seven-lens conformance FAILED\n");
   for (const p of problems) console.error(`    · ${p}`);

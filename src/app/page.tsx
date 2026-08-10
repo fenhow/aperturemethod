@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { XRAY_FEE, XRAY_CREDIT_TERMS } from "@/lib/pricing";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -74,8 +75,8 @@ export default function Home() {
                   ))}
                 </ul>
                 <p className="mt-4 text-small text-muted">
-                  Fixed fee from <span className="font-semibold text-ink">$2,500</span> · real insight
-                  in its first weeks.
+                  Fixed fee of <span className="font-semibold text-ink">{XRAY_FEE}</span>,
+                  {" "}{XRAY_CREDIT_TERMS} · real insight in its first weeks.
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
                   <Link href={primaryCta.href} className="btn">

@@ -310,15 +310,9 @@ export const agreementClauses: Clause[] = [
   },
 ];
 
-export const feeSchedule = [
-  { phase: "Business X-Ray™", deliverable: "Business X-Ray + Aperture Score", fee: "from $2,500 (fixed)" },
-  { phase: "Aperture Insights™", deliverable: "X-Ray + engagement baseline", fee: "from $6,000" },
-  { phase: "Aperture Analytics™", deliverable: "Profit Map + scenario model", fee: "from $6,000" },
-  { phase: "Aperture Intelligence™", deliverable: "Customer & Market Map + GIS package", fee: "from $6,000" },
-  { phase: "Aperture Compass™", deliverable: "Opportunity Matrix + Focus Plan", fee: "from $6,000" },
-  { phase: "Full Method (bundle)", deliverable: "Insights → Compass, end to end", fee: "from $25,000" },
-  { phase: "Aperture Atlas™ (recurring)", deliverable: "Live Scoreboard + KPI system", fee: "from $1,000 / month" },
-];
+// Exhibit A of the contract the client signs. Defined once in src/lib/pricing.ts and
+// re-exported here so existing importers keep working.
+export { feeSchedule } from "@/lib/pricing";
 
 export const ESIGN_CONSENT =
   "I agree that signing electronically is the legal equivalent of my handwritten signature, that I am authorized to sign on behalf of the company above, and I consent to do business electronically (ESIGN/UETA).";

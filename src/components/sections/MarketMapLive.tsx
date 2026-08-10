@@ -1,3 +1,7 @@
+/**
+ * @illustrative-figures — the dollar amounts in this component are demonstration data
+ * (a sample customer's lifetime value), not Aperture fees. Our fees live in src/lib/pricing.ts.
+ */
 "use client";
 
 import { useEffect, useRef, useState } from "react";

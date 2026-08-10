@@ -13,6 +13,11 @@
  * the rubric's. `scripts/check-lenses.mjs` fails the build if they drift — the site and the
  * instrument cannot disagree without someone being told.
  *
+ * ON THE PEOPLE LENS: Leadership & Team assesses the system that holds capability — dependency,
+ * cover, documentation, structure. It does not assess individuals. We do not appraise, benchmark
+ * pay, or advise on hiring and firing; see Canonical Architecture Reference §2.3. The test a
+ * finding has to pass is whether it would survive being read aloud to the person it is about.
+ *
  * Order is by weight, descending. That is deliberate: it is the honest order of what the
  * Method believes matters in an owner-run business, and reading it top-to-bottom is itself
  * an argument.
@@ -52,9 +57,9 @@ export const LENSES: Lens[] = [
     weight: 0.18,
     question: "If demand doubled tomorrow, what breaks first?",
     lookAt:
-      "The physical ceiling on volume, where work backs up, whether the bottleneck is measured or merely felt, and whether capacity is planned against demand or absorbed by overtime.",
+      "The physical ceiling on volume, where work backs up, whether the bottleneck is measured or merely felt, whether the supply of licensed or qualified people caps what you can bill, and whether capacity is planned against demand or absorbed by overtime.",
     why: "In a place-based business the constraint usually binds physically — chairs, bays, rooms, vehicles, staffed hours. Someone can point at it.",
-    evidence: "Capacity and utilisation, monthly volume, seasonality, and how the work actually flows.",
+    evidence: "Capacity and utilisation, monthly volume, seasonality, how the work actually flows, and any licence or qualification that limits who can do it.",
   },
   {
     id: "customers-retention",
@@ -82,9 +87,9 @@ export const LENSES: Lens[] = [
     weight: 0.12,
     question: "What happens if you take a month off?",
     lookAt:
-      "Key-person dependency, whether roles are defined and filled with capable people, and whether decisions get made and executed or quietly stall.",
-    why: "Key-person risk is existential at this size, and it is the single most common reason an owner-run business cannot be sold. Weighted above Processes for that reason.",
-    evidence: "Who does what, what would fall over, and an initiative that stalled — and why.",
+      "Which jobs only one person can do and what revenue rides on them, whether anyone could cover them tomorrow, whether the work is written down well enough to hand over, how much reports directly to you, and whether decisions get made or quietly stall.",
+    why: "Key-person risk is existential at this size, and it is the single most common reason an owner-run business cannot be sold. We put a number on it — the revenue exposed if a role goes dark for ninety days — because that is the version of the problem a buyer, a lender and a tired owner all understand. Weighted above Processes for that reason.",
+    evidence: "Roles rather than names: who does what, what would stop, who could cover, and what is written down. A staff list by role, and an initiative that stalled.",
   },
   {
     id: "processes",

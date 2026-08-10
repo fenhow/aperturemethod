@@ -113,6 +113,22 @@ export const DATA_ITEMS: DataItem[] = [
     priority: "blocking",
   },
   {
+    id: "staff_roles",
+    label: "Staff list by role, showing who can do what",
+    why: "Roles and cover, not names and appraisals. It is what lets us price key-person risk — the revenue exposed if a role goes dark — instead of just describing it.",
+    segments: ["insights"],
+    satisfiedBy: "Staff list by role, showing who can do what",
+    priority: "blocking",
+  },
+  {
+    id: "quals_register",
+    label: "Licence, certification or qualification register",
+    why: "Where the law or a certification decides who may do the billable work, qualified headcount is a hard ceiling on volume — and the lead time to add one is often the real constraint.",
+    segments: ["insights", "analytics"],
+    satisfiedBy: "Licence, certification or qualification register",
+    priority: "helpful",
+  },
+  {
     id: "marketing_spend",
     label: "Marketing spend by channel or area",
     why: "Turns 'where do customers come from' into a cost per customer you can act on.",

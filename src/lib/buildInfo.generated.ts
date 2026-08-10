@@ -17,14 +17,14 @@ export type BuildInfo = {
 };
 
 export const BUILD: BuildInfo = {
-  commit: "a79d2c382e457f6a4355cc8775fdc463cec70127",
-  shortCommit: "a79d2c3",
+  commit: "8f12ee898a39e57bc1b0678bd00d41b8fb150460",
+  shortCommit: "8f12ee8",
   branch: "main",
   message: "1",
-  builtAt: "2026-08-10T18:53:39.211Z",
+  builtAt: "2026-08-10T19:07:45.559Z",
   env: "development",
   dirty: true,
-  rubricVersion: "1.1.0",
+  rubricVersion: "1.2.0",
   ratified: true,
   lensSignature: "801cb290",
 };

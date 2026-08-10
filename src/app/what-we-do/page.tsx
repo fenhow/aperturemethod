@@ -265,6 +265,15 @@ export default function WhatWeDoPage() {
           capabilities we coordinate when a strategy calls for them. They are not the center of the
           firm, and they never lead an engagement — the strategy does.
         </p>
+        {/* The people boundary, stated plainly. Saying what we will not do makes the analytical
+            claim sharper — and an owner reading this knows exactly what they are buying. */}
+        <p className="mt-4 max-w-measure text-small italic text-muted">
+          And on people: we assess how the business depends on its people — which roles only one
+          person can do, what revenue rides on them, who could cover, and what is written down. We
+          do not appraise individuals, benchmark pay, or advise on hiring and firing. That is HR and
+          employment-law territory, and it is not ours. Every finding we write about your team is
+          one you could read aloud to the person it concerns.
+        </p>
       </Section>
 
       {/* How it fits together */}

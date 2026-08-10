@@ -119,6 +119,8 @@ export const sharedSections: IntakeSection[] = [
           "Transaction-level export (date, amount, customer ID)",
           "Customer list with addresses or ZIP codes",
           "Payroll or headcount by role",
+          "Staff list by role, showing who can do what",
+          "Licence, certification or qualification register",
           "Marketing spend by channel or area",
         ],
       },
@@ -162,6 +164,7 @@ export const segments: IntakeSegment[] = [
         T("ins_ops1", "Walk us through how the work actually gets done, start to finish.", 3),
         T("ins_ops2", "Where does it back up? What is the thing that most often makes everything else wait?", 2),
         T("ins_ops3", "If demand doubled tomorrow, what breaks first?", 2),
+        T("ins_ops5", "Which parts of your work require a licensed, certified or specifically-trained person to perform? How many such people do you have, what share of billable volume depends on them, and how long does it take to get another one qualified?", 4),
         T("ins_ops4", "What physically sets your ceiling on volume — chairs, bays, rooms, vehicles, machine hours, staffed hours? How many do you have, and roughly what share is in use in an average week versus your busiest? In a typical month, how many units, jobs or visits do you do, and which months are the peaks and troughs?", 4),
       ]},
       { id: "ins-cust", title: "Lens 3 · Customers & Retention", fields: [
@@ -181,6 +184,9 @@ export const segments: IntakeSegment[] = [
         T("ins_lead1", "If you took a month off with no contact, what would fall over?", 2),
         T("ins_lead2", "Which role, filled well, would unlock the most? Which is hardest to hire?", 2),
         T("ins_lead3", "Think of an initiative here that stalled. What actually stopped it — and who would need to be persuaded for something like it to happen?", 3),
+        T("ins_lead4", "Which jobs can only one person here do? For each, name the role — not the person — and roughly what share of revenue depends on it. If that role were unavailable for ninety days, what would stop, and what would it cost you?", 4),
+        T("ins_lead5", "For each of those roles, who could cover it tomorrow, and what is written down well enough that someone else could follow it? Where the answer is nobody and nothing, say so — that is the finding.", 3),
+        T("ins_lead6", "How many people report directly to you? Who else has people reporting to them, and how many? Roughly how many staff are there in total, and how has that changed over three years?", 3),
       ]},
       { id: "ins-proc", title: "Lens 6 · Processes", fields: [
         T("ins_proc1", "Which process, if it ran properly, would change the most?", 2),

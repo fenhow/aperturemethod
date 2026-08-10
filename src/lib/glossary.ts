@@ -41,6 +41,7 @@ export const glossary: GlossaryGroup[] = [
     title: "The Deliverables",
     terms: [
       { term: "Business X-Ray™", def: "A seven-lens read of your whole business in one executive picture; names your single biggest constraint." },
+      { term: "Key-person risk", def: "The revenue that depends on work only one person can do. We price it — what stops, and what it costs, if that role goes dark for ninety days — because it is the most common reason an owner-run business cannot be sold." },
       { term: "Aperture Score™", def: "A single, honest score of your business's health — a baseline you can track, re-scored later to prove progress." },
       { term: "Profit Map™", def: "A clear picture of where you make and lose money, plus a scenario and forecast model." },
       { term: "Customer & Market Map™", def: "Who your best customers are, where they are, and where to grow — market and competitors on real geography." },

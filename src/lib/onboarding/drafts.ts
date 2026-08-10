@@ -37,23 +37,35 @@ export const draftsEnabled = serviceRoleConfigured;
 export async function saveDraft(input: DraftInput): Promise<{ ok: boolean; token?: string; error?: string }> {
   if (!serviceRoleConfigured) return { ok: false, error: "not-configured" };
   const admin = createAdminClient();
-  const row = {
-    email: (input.email ?? "").trim() || null,
-    company: (input.company ?? "").trim() || null,
-    signer_name: (input.signerName ?? "").trim() || null,
+
+  // Identity fields are only written when non-empty. Autosave sends them on every
+  // keystroke, so blindly writing "" would wipe the email — the one thing that lets us
+  // re-send a resume link — the moment the client clears that box.
+  const row: Record<string, unknown> = {
     segments: input.segments ?? [],
     answers: input.answers ?? {},
     updated_at: new Date().toISOString(),
   };
+  const email = (input.email ?? "").trim();
+  const company = (input.company ?? "").trim();
+  const signer = (input.signerName ?? "").trim();
+  if (email) row.email = email;
+  if (company) row.company = company;
+  if (signer) row.signer_name = signer;
 
   try {
     if (input.token) {
-      const { error } = await admin
+      // .select() is load-bearing: PostgREST reports NO error when zero rows match, so
+      // without it a stale, mistyped or already-submitted token returns a cheerful
+      // success while every answer is silently discarded.
+      const { data, error } = await admin
         .from("intake_drafts")
         .update(row)
         .eq("token", input.token)
-        .eq("completed", false);
+        .eq("completed", false)
+        .select("token");
       if (error) throw error;
+      if (!data || data.length === 0) return { ok: false, error: "gone" };
       return { ok: true, token: input.token };
     }
     const { data, error } = await admin
@@ -75,10 +87,13 @@ export async function loadDraft(token: string): Promise<DraftRecord | null> {
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("intake_drafts")
-    .select("token,email,company,signer_name,segments,answers,completed")
+    .select("token,email,company,signer_name,segments,answers,completed,expires_at")
     .eq("token", token)
     .maybeSingle();
   if (error || !data) return null;
+  // Abandoned drafts hold revenue, payroll, ownership and named staff. A token pulled
+  // from a two-year-old inbox should not still open one.
+  if (data.expires_at && new Date(data.expires_at as string) < new Date()) return null;
   return {
     token: data.token as string,
     email: (data.email as string) ?? "",

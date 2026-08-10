@@ -157,12 +157,16 @@ export function SuccessDialog({
   summary,
   onDownload,
   onHome,
+  note,
 }: {
   open: boolean;
   title: string;
   summary: [string, string][];
   onDownload: () => void;
   onHome: () => void;
+  /** What actually happened. Defaults to a claim that is true regardless of whether
+   *  storage and email were configured — never assert delivery we cannot confirm. */
+  note?: string;
 }) {
   return (
     <Modal open={open} onClose={onHome} labelledBy="onb-ok-title">
@@ -175,7 +179,7 @@ export function SuccessDialog({
             {title}
           </h3>
           <p className="mt-2 text-body text-muted">
-            A signed copy has been emailed to you and saved to your secure client area.
+            {note ?? "We have your submission. Download your signed copy below and keep it for your records."}
           </p>
         </div>
       </div>

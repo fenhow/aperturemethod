@@ -49,6 +49,19 @@ export async function POST(request: Request) {
     segments: body.segments,
     answers: body.answers,
   });
+  if (!saved.ok && saved.error === "gone") {
+    // The draft no longer exists, expired, or was already submitted. Say so loudly —
+    // the client needs to copy their answers out before they lose them.
+    return NextResponse.json(
+      {
+        ok: false,
+        gone: true,
+        message:
+          "This draft link is no longer active — it may have been submitted already. Please copy your answers somewhere safe before leaving this page.",
+      },
+      { status: 410 }
+    );
+  }
   if (!saved.ok || !saved.token) {
     return NextResponse.json({ ok: false, message: "We couldn't save your progress. Please try again." }, { status: 500 });
   }

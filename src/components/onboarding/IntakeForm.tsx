@@ -69,6 +69,7 @@ export function IntakeForm() {
   const [problems, setProblems] = useState<string[]>([]);
   const [token, setToken] = useState<string | null>(null);
   const [saveMsg, setSaveMsg] = useState<string>("");
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error" | "gone">("idle");
   const [saving, setSaving] = useState(false);
   const [loadingDraft, setLoadingDraft] = useState(false);
   const { status, message, submit, download } = useOnboardingSubmit();
@@ -95,54 +96,190 @@ export function IntakeForm() {
   const selectFull = () =>
     setSelected((s) => (ALL_KEYS.every((k) => s.includes(k)) ? [] : [...ALL_KEYS]));
 
-  // ---- Resume a saved draft from ?draft=<token> -----------------------------
+  // ---- Draft persistence ----------------------------------------------------
+  // Two layers, deliberately. The server is the real store; this browser is the
+  // seatbelt for when it is unreachable. Losing a part-finished intake is the worst
+  // thing this form can do, so it never depends on a single mechanism — and it never
+  // waits for the client to press a button before it starts protecting their work.
+  const LS_KEY = "aperture-intake-draft-v1";
+  const tokenRef = useRef<string | null>(null);
+  const dirtyRef = useRef(false);
+  const hydrated = useRef(false);
+  const lastSavedAt = useRef(0);
+  const stateRef = useRef({ ans, selected });
+  stateRef.current = { ans, selected };
+
+  const hasContent = (a: Record<string, string>) =>
+    Object.values(a).some((v) => (v ?? "").trim() !== "" && v !== "[]");
+
+  const persistLocal = () => {
+    try {
+      window.localStorage.setItem(
+        LS_KEY,
+        JSON.stringify({ ...stateRef.current, token: tokenRef.current, at: Date.now() })
+      );
+    } catch {
+      /* private browsing / quota — the server copy is still the primary */
+    }
+  };
+
+  const buildBody = (extra: Record<string, unknown> = {}) => ({
+    token: tokenRef.current ?? undefined,
+    email: (stateRef.current.ans.contact_email ?? "").trim(),
+    company: stateRef.current.ans.b_legal ?? "",
+    signerName: stateRef.current.ans.contact_name ?? "",
+    segments: stateRef.current.selected,
+    answers: stateRef.current.ans,
+    ...extra,
+  });
+
+  async function saveNow(extra: Record<string, unknown> = {}) {
+    setSaveState("saving");
+    try {
+      const res = await fetch("/api/intake/draft", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(buildBody(extra)),
+      });
+      const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
+
+      if (res.status === 410 || data?.gone) {
+        setSaveState("gone");
+        setSaveMsg(
+          (data?.message as string) ??
+            "This draft link is no longer active. Please copy your answers somewhere safe before leaving."
+        );
+        return { ok: false as const };
+      }
+      if (!res.ok || !data?.ok) {
+        setSaveState("error");
+        return { ok: false as const };
+      }
+
+      const newToken = data.token as string | undefined;
+      if (newToken && newToken !== tokenRef.current) {
+        tokenRef.current = newToken;
+        setToken(newToken);
+        // The tab itself becomes the resume link, so closing it is no longer fatal
+        // even if the client never asks us to email them one.
+        const url = new URL(window.location.href);
+        url.searchParams.set("draft", newToken);
+        window.history.replaceState(null, "", url.toString());
+      }
+      dirtyRef.current = false;
+      lastSavedAt.current = Date.now();
+      persistLocal();
+      setSaveState("saved");
+      return { ok: true as const, emailed: Boolean(data.emailed) };
+    } catch {
+      setSaveState("error");
+      return { ok: false as const };
+    }
+  }
+
+  // Resume from ?draft=<token>, or fall back to whatever this browser still holds.
   useEffect(() => {
     const t = new URLSearchParams(window.location.search).get("draft");
-    if (!t) return;
-    setLoadingDraft(true);
-    fetch(`/api/intake/draft?token=${encodeURIComponent(t)}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data?.ok && data.draft) {
-          setToken(data.draft.token);
-          setAns(data.draft.answers ?? {});
-          setSelected(data.draft.segments ?? []);
-          if (data.draft.email) set("contact_email", data.draft.email);
-          if (data.draft.signerName) set("contact_name", data.draft.signerName);
-          setSaveMsg("Welcome back — your answers are filled in.");
-        } else if (data?.completed) {
-          setSaveMsg("This intake has already been submitted.");
+    if (t) {
+      setLoadingDraft(true);
+      fetch(`/api/intake/draft?token=${encodeURIComponent(t)}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data?.ok && data.draft) {
+            tokenRef.current = data.draft.token;
+            setToken(data.draft.token);
+            setAns(data.draft.answers ?? {});
+            // An empty segments array must never hide sections the client already
+            // answered — the answers survive, but it reads to them as data loss.
+            setSelected(data.draft.segments?.length ? data.draft.segments : [...ALL_KEYS]);
+            if (data.draft.email) set("contact_email", data.draft.email);
+            if (data.draft.signerName) set("contact_name", data.draft.signerName);
+            setSaveMsg("Welcome back — your answers are filled in.");
+            setSaveState("saved");
+          } else if (data?.completed) {
+            setSaveMsg("This intake has already been submitted.");
+            setSaveState("gone");
+          } else {
+            setSaveMsg("We couldn't open that link, but anything you type here will still be saved.");
+          }
+        })
+        .catch(() =>
+          setSaveMsg("We couldn't reach the server. Your answers are being kept in this browser.")
+        )
+        .finally(() => {
+          hydrated.current = true;
+          setLoadingDraft(false);
+        });
+      return;
+    }
+    try {
+      const raw = window.localStorage.getItem(LS_KEY);
+      const cached = raw ? (JSON.parse(raw) as Record<string, unknown>) : null;
+      const cachedAns = cached?.ans as Record<string, string> | undefined;
+      if (cachedAns && hasContent(cachedAns)) {
+        setAns(cachedAns);
+        const seg = cached?.selected as string[] | undefined;
+        if (seg?.length) setSelected(seg);
+        if (cached?.token) {
+          tokenRef.current = cached.token as string;
+          setToken(cached.token as string);
         }
-      })
-      .catch(() => {})
-      .finally(() => setLoadingDraft(false));
+        setSaveMsg("We restored the answers you had in progress on this device.");
+      }
+    } catch {
+      /* ignore a corrupted cache rather than blocking the form */
+    }
+    hydrated.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ---- Silent autosave once a draft token exists ----------------------------
-  const firstAutosave = useRef(true);
+  // Autosave. Not gated on a token: the first keystroke creates the draft, so a client
+  // who fills the whole form in one sitting and closes the tab has still lost nothing.
   useEffect(() => {
-    if (!token) return;
-    if (firstAutosave.current) {
-      firstAutosave.current = false;
-      return;
-    }
-    const id = setTimeout(() => {
-      void fetch("/api/intake/draft", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          token,
-          email: ans.contact_email ?? "",
-          company: ans.b_legal ?? "",
-          signerName: ans.contact_name ?? "",
-          segments: selected,
-          answers: ans,
-        }),
-      }).catch(() => {});
-    }, 1200);
+    if (!hydrated.current || saveState === "gone") return;
+    if (!hasContent(ans)) return;
+    dirtyRef.current = true;
+    persistLocal();
+    // Debounced — but a fast typist never leaves a 1.2s gap, so force a save every 15s
+    // regardless, or a long passage would never reach the server at all.
+    const overdue = Date.now() - lastSavedAt.current > 15000;
+    const id = setTimeout(() => void saveNow(), overdue ? 0 : 1200);
     return () => clearTimeout(id);
-  }, [ans, selected, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ans, selected]);
+
+  // Flush on tab close / hide, and warn before leaving with unsaved work.
+  useEffect(() => {
+    const flush = () => {
+      if (!dirtyRef.current) return;
+      persistLocal();
+      try {
+        navigator.sendBeacon(
+          "/api/intake/draft",
+          new Blob([JSON.stringify(buildBody())], { type: "application/json" })
+        );
+      } catch {
+        /* best effort */
+      }
+    };
+    const onHide = () => {
+      if (document.visibilityState === "hidden") flush();
+    };
+    const onUnload = (e: BeforeUnloadEvent) => {
+      if (!dirtyRef.current) return;
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", onHide);
+    window.addEventListener("beforeunload", onUnload);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", onHide);
+      window.removeEventListener("beforeunload", onUnload);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function saveAndFinishLater() {
     const email = (ans.contact_email ?? "").trim();
@@ -154,36 +291,17 @@ export function IntakeForm() {
     }
     setSaving(true);
     setSaveMsg("");
-    try {
-      const res = await fetch("/api/intake/draft", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          token,
-          email,
-          company: ans.b_legal ?? "",
-          signerName: ans.contact_name ?? "",
-          segments: selected,
-          answers: ans,
-          sendLink: true,
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (data?.ok) {
-        if (data.token) setToken(data.token);
-        setSaveMsg(
-          data.emailed
-            ? `Saved. We emailed a private link to ${email} — open it any time to pick up where you left off.`
-            : "Saved. You can return to this link to continue."
-        );
-      } else {
-        setSaveMsg(data?.message ?? "We couldn't save just now. Please try again.");
-      }
-    } catch {
-      setSaveMsg("We couldn't reach the server. Please try again.");
-    } finally {
-      setSaving(false);
+    const res = await saveNow({ sendLink: true });
+    if (res.ok) {
+      setSaveMsg(
+        res.emailed
+          ? `Saved. We emailed a private link to ${email} — open it any time to pick up where you left off.`
+          : "Saved. This page's address is now your resume link — bookmark it to come back."
+      );
+    } else if (saveState !== "gone") {
+      setSaveMsg("We couldn't reach the server. Your answers are safe in this browser — please try again.");
     }
+    setSaving(false);
   }
 
   async function onSubmit(e: React.FormEvent) {
@@ -201,6 +319,13 @@ export function IntakeForm() {
       setProblems(Object.values(found));
       setErrOpen(true);
       return;
+    }
+
+    dirtyRef.current = false;
+    try {
+      window.localStorage.removeItem(LS_KEY);
+    } catch {
+      /* nothing to clean up */
     }
 
     const payload: OnboardingPayload = {
@@ -437,6 +562,29 @@ export function IntakeForm() {
 
         {status === "error" && (
           <p className="rounded-sm border border-maroon bg-maroon/5 p-4 text-small font-medium text-maroon">{message}</p>
+        )}
+        {/* A persistent, honest save signal. Silence used to mean "we have no idea" —
+            a failing autosave looked exactly like a working one. */}
+        {saveState !== "idle" && (
+          <p
+            aria-live="polite"
+            className={
+              "flex items-center gap-2 rounded-sm border p-3 text-small font-medium " +
+              (saveState === "error" || saveState === "gone"
+                ? "border-maroon bg-maroon/5 text-maroon"
+                : "border-line bg-surface text-muted")
+            }
+          >
+            <span aria-hidden="true">
+              {saveState === "saving" ? "⟳" : saveState === "saved" ? "✓" : "!"}
+            </span>
+            {saveState === "saving" && "Saving…"}
+            {saveState === "saved" && "Saved. You can close this page and come back to it."}
+            {saveState === "error" &&
+              "Not saved to our server — your answers are being kept in this browser. We'll keep retrying."}
+            {saveState === "gone" &&
+              "This draft is no longer active. Copy your answers somewhere safe before leaving this page."}
+          </p>
         )}
         {saveMsg && (
           <p className="rounded-sm border border-line bg-surface p-4 text-small font-medium text-ink">{saveMsg}</p>

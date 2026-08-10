@@ -19,9 +19,17 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
 
 function git(args, fallback = "") {
-  // Read-only plumbing only — nothing here takes an index lock.
+  // --no-optional-locks is not optional here. `git status` refreshes the index and takes
+  // .git/index.lock to do it; if the build is interrupted mid-status the lock is orphaned and
+  // every subsequent git operation fails, including GitHub Desktop, with no obvious cause.
+  // This flag tells git to skip anything that would need to write. (It happened.)
   try {
-    return execSync(`git ${args}`, { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+    return execSync(`git --no-optional-locks ${args}`, {
+      cwd: root,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+      timeout: 5000,
+    }).trim();
   } catch {
     return fallback;
   }

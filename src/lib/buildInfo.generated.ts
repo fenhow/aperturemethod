@@ -17,11 +17,11 @@ export type BuildInfo = {
 };
 
 export const BUILD: BuildInfo = {
-  commit: "5be335a2d2abaa06b0f5dceb590172028e26dfd3",
-  shortCommit: "5be335a",
+  commit: "a79d2c382e457f6a4355cc8775fdc463cec70127",
+  shortCommit: "a79d2c3",
   branch: "main",
   message: "1",
-  builtAt: "2026-08-10T18:49:42.591Z",
+  builtAt: "2026-08-10T18:53:39.211Z",
   env: "development",
   dirty: true,
   rubricVersion: "1.1.0",

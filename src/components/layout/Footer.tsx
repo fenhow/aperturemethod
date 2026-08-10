@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BuildStamp } from "@/components/layout/BuildStamp";
 import { footerNav, siteConfig } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/brand/Logo";
@@ -111,6 +112,9 @@ export function Footer() {
               Method Lab
             </Link>
             <CookiePreferencesButton className="text-white/60 transition-colors duration-fast hover:text-white" />
+            {/* Which build this is. Quiet, but on every page — so "is the deployed site the
+                thing I pushed?" is answered by the site, not by a dashboard. */}
+            <BuildStamp className="text-white/40" />
             <p>{siteConfig.tagline}</p>
           </div>
         </div>

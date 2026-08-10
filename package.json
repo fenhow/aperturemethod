@@ -2,14 +2,15 @@
   "name": "aperture-method-website",
   "version": "0.1.0",
   "private": true,
-  "description": "Aperture Method™ — official website. Next.js (App Router) + TypeScript + Tailwind CSS.",
+  "description": "Aperture Method\u2122 \u2014 official website. Next.js (App Router) + TypeScript + Tailwind CSS.",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/check-lenses.mjs",
+    "prebuild": "node scripts/stamp-build.mjs && node scripts/check-lenses.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sync-rubric": "node scripts/sync-rubric-snapshot.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.4",

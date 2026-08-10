@@ -22,11 +22,19 @@ import path from "node:path";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
 
-// The rubric is the instrument. Point this at wherever it is checked out.
+// The rubric is the instrument, and it lives OUTSIDE this repository — the website is its
+// own git repo, so on Vercel `Force5 Plugin/templates/rubric.json` simply is not there. The
+// old behaviour was to warn and pass, which meant the strongest checks (names match the
+// rubric, rubric is ratified) silently did not run on the only build that ships.
+//
+// So the governing fields are committed here as a snapshot, and the check runs in two tiers:
+//   · always      — lenses.ts must agree with the snapshot
+//   · when local  — the snapshot must agree with the real rubric, or it is stale
 const RUBRIC_CANDIDATES = [
   path.join(root, "..", "Force5 Plugin", "templates", "rubric.json"),
   path.join(root, "rubric.json"),
 ];
+const SNAPSHOT = path.join(root, "src", "lib", "rubric.snapshot.json");
 
 function loadRubric() {
   for (const p of RUBRIC_CANDIDATES) {
@@ -37,6 +45,14 @@ function loadRubric() {
     }
   }
   return null;
+}
+
+function loadSnapshot() {
+  try {
+    return JSON.parse(readFileSync(SNAPSHOT, "utf8"));
+  } catch {
+    return null;
+  }
 }
 
 // Parse lenses.ts without needing a TS toolchain — id, name and weight only.
@@ -51,6 +67,7 @@ function loadSiteLenses() {
 
 const problems = [];
 const site = loadSiteLenses();
+const snapshot = loadSnapshot();
 const rubric = loadRubric();
 
 if (site.length !== 7) {
@@ -62,16 +79,17 @@ if (Math.abs(total - 1) > 1e-9) {
   problems.push(`Weights total ${total.toFixed(4)}, not 1.0 — the Aperture Score is a weighted composite.`);
 }
 
-if (!rubric) {
-  console.warn(
-    "check-lenses: rubric.json not found alongside the site — checked ids and weights only.\n" +
-      "             Place the Force5 Plugin beside aperture-website for the full check."
+if (!snapshot) {
+  problems.push(
+    "src/lib/rubric.snapshot.json is missing. It is what lets this check run on Vercel, where " +
+      "the plugin is not present. Regenerate it with: node scripts/sync-rubric-snapshot.mjs"
   );
 } else {
-  const r = rubric.data.lenses;
+  // Tier 1 — always. The site must match the committed snapshot.
+  const r = snapshot.lenses;
   for (const l of site) {
     if (!(l.id in r)) {
-      problems.push(`lenses.ts has "${l.id}", which is not in the rubric (${rubric.data.rubric_version}).`);
+      problems.push(`lenses.ts has "${l.id}", which is not in the rubric (${snapshot.rubric_version}).`);
     } else if (Math.abs(r[l.id] - l.weight) > 1e-9) {
       problems.push(`Weight mismatch for "${l.id}": site ${l.weight}, rubric ${r[l.id]}.`);
     }
@@ -81,8 +99,34 @@ if (!rubric) {
       problems.push(`Rubric lens "${id}" is missing from lenses.ts — the site under-describes the instrument.`);
     }
   }
-  if (rubric.data.ratified !== true) {
-    problems.push(`Rubric ${rubric.data.rubric_version} is not ratified; the site must not publish its weights.`);
+  for (const l of site) {
+    const expected = snapshot.names?.[l.id];
+    if (expected && expected !== l.name) {
+      problems.push(`Lens "${l.id}" is named "${l.name}" on the site but "${expected}" in the rubric.`);
+    }
+  }
+  if (snapshot.ratified !== true) {
+    problems.push(`Rubric ${snapshot.rubric_version} is not ratified; the site must not publish its weights.`);
+  }
+
+  // Tier 2 — only where the real rubric is reachable. Is the snapshot itself current?
+  if (rubric) {
+    const a = JSON.stringify({
+      v: rubric.data.rubric_version,
+      r: rubric.data.ratified,
+      l: Object.fromEntries(Object.entries(rubric.data.lenses).sort()),
+    });
+    const b = JSON.stringify({
+      v: snapshot.rubric_version,
+      r: snapshot.ratified,
+      l: Object.fromEntries(Object.entries(snapshot.lenses).sort()),
+    });
+    if (a !== b) {
+      problems.push(
+        `src/lib/rubric.snapshot.json is stale — it disagrees with ${path.relative(root, rubric.path)}. ` +
+          "Regenerate it with: node scripts/sync-rubric-snapshot.mjs"
+      );
+    }
   }
 }
 
@@ -229,5 +273,7 @@ if (problems.length) {
 }
 
 console.log(
-  `  ✓ Seven lenses conform${rubric ? ` to rubric ${rubric.data.rubric_version}` : ""} — ids, names and weights agree.`
+  `  ✓ Seven lenses conform to rubric ${snapshot?.rubric_version ?? "?"} ` +
+    `(${rubric ? "verified against the plugin" : "snapshot only — plugin not present"}) ` +
+    "— ids, names and weights agree."
 );

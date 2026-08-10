@@ -1,0 +1,25 @@
+{
+  "_comment": "GENERATED from Force5 Plugin/templates/rubric.json by scripts/sync-rubric-snapshot.mjs. Do not edit by hand — edit the rubric and re-run. This exists so the Vercel build, which does not have the plugin, can still check the published lenses against the instrument.",
+  "rubric_version": "1.1.0",
+  "ratified": true,
+  "ratified_by": "Fenwick How",
+  "ratified_on": "2026-08-10",
+  "lenses": {
+    "customers-retention": 0.18,
+    "finance": 0.2,
+    "leadership-team": 0.12,
+    "market-competition": 0.14,
+    "operations": 0.18,
+    "processes": 0.1,
+    "technology-data": 0.08
+  },
+  "names": {
+    "customers-retention": "Customers & Retention",
+    "finance": "Finance",
+    "leadership-team": "Leadership & Team",
+    "market-competition": "Market & Competition",
+    "operations": "Operations",
+    "processes": "Processes",
+    "technology-data": "Technology & Data"
+  }
+}

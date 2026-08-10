@@ -83,6 +83,11 @@ export const METHOD_LAB_FILES: Record<string, { file: string; type: string; name
     type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     name: "02 Aperture Method - Agent Workflow Map.docx",
   },
+  archpdf: {
+    file: "The Aperture Method - Master Process Architecture.pdf",
+    type: "application/pdf",
+    name: "The Aperture Method - Master Process Architecture.pdf",
+  },
   mappdf: {
     file: "02 Aperture Method - Agent Workflow Map.pdf",
     type: "application/pdf",

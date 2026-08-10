@@ -93,6 +93,16 @@ export const METHOD_LAB_FILES: Record<string, { file: string; type: string; name
     type: "application/pdf",
     name: "The Aperture Method - Master Process Architecture.pdf",
   },
+  registerpdf: {
+    file: "The Aperture Method - Document Register.pdf",
+    type: "application/pdf",
+    name: "The Aperture Method - Document Register.pdf",
+  },
+  rubricpdf: {
+    file: "Aperture Method - Seven-Lens Rubric.pdf",
+    type: "application/pdf",
+    name: "Aperture Method - Seven-Lens Rubric.pdf",
+  },
   mappdf: {
     file: "02 Aperture Method - Agent Workflow Map.pdf",
     type: "application/pdf",

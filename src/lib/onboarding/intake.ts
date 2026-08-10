@@ -123,6 +123,7 @@ export const sharedSections: IntakeSection[] = [
         ],
       },
       T("data_missing", "Anything you know is missing, messy, or that you don't trust — tell us now. Messy data is normal and is not a blocker.", 2),
+      T("data_basis", "Are your accounts kept on a cash or accrual basis? Are all locations and entities in one set of books, or several? Who prepares and closes them — someone in-house or an external accountant?", 3),
     ],
   },
   {
@@ -153,17 +154,22 @@ export const segments: IntakeSegment[] = [
         T("ins_ops1", "Walk us through how the work actually gets done, start to finish.", 3),
         T("ins_ops2", "Where does it back up? What is the thing that most often makes everything else wait?", 2),
         T("ins_ops3", "If demand doubled tomorrow, what breaks first?", 2),
+        T("ins_ops4", "What physically sets your ceiling on volume — chairs, bays, rooms, vehicles, machine hours, staffed hours? How many do you have, and roughly what share is in use in an average week versus your busiest? In a typical month, how many units, jobs or visits do you do, and which months are the peaks and troughs?", 4),
       ]},
       { id: "ins-fin", title: "Lens 2 · Finance", fields: [
         T("ins_fin1", "Do you know which parts of the business make money and which lose it? How confident are you?", 2),
         T("ins_fin2", "What is your cash position like across a typical year — when is it tight?", 2),
         T("ins_fin3", "Which costs have grown fastest, and do you know why?", 2),
+        T("ins_fin4", "How and when do you get paid — on delivery, on terms, deposits, retainers? Roughly how much is owed to you at any one time, and what debt, lease or repayment obligations does the business carry?", 3),
+        T("ins_fin5", "For your main product or service: what do you charge, and roughly what does it cost you to deliver one? Include the labour and materials that go into that single unit.", 3),
+        T("ins_fin6", "Do your accounts separate the cost of delivering the work from general overhead? Are any costs allocated down to individual products, services or locations — and on what basis?", 2),
       ]},
       { id: "ins-cust", title: "Lens 3 · Customers & retention", fields: [
         T("ins_cust1", "Where do new customers come from today, ranked?", 2),
         T("ins_cust2", "What share of customers come back? How do you know?", 2),
         T("ins_cust3", "Describe your single best customer — not the biggest, the best. What makes them that?", 2),
         T("ins_cust4", "Why do customers leave, when they leave?", 2),
+        T("ins_cust5", "What do you spend on marketing in a typical year, and can you break that down by channel or by area? Where do referrals come from?", 3),
       ]},
       { id: "ins-proc", title: "Lens 4 · Processes", fields: [
         T("ins_proc1", "Which process, if it ran properly, would change the most?", 2),
@@ -172,19 +178,24 @@ export const segments: IntakeSegment[] = [
       { id: "ins-tech", title: "Lens 5 · Technology & data", fields: [
         T("ins_tech1", "What can't you see today that you wish you could?", 2),
         T("ins_tech2", "Where do you not trust your own numbers?", 2),
+        T("ins_tech3", "Which numbers do you check weekly, and which monthly? Where do you go to look each one up?", 2),
       ]},
       { id: "ins-lead", title: "Lens 6 · Leadership & team", fields: [
         T("ins_lead1", "If you took a month off with no contact, what would fall over?", 2),
         T("ins_lead2", "Which role, filled well, would unlock the most? Which is hardest to hire?", 2),
+        T("ins_lead3", "Think of an initiative here that stalled. What actually stopped it — and who would need to be persuaded for something like it to happen?", 3),
       ]},
       { id: "ins-mkt", title: "Lens 7 · Market & competition", fields: [
         T("ins_mkt1", "Who do you actually lose to, and on what — price, speed, quality, convenience, relationship?", 2),
         T("ins_mkt2", "What is changing in your market that worries you?", 2),
+        T("ins_mkt3", "Roughly how far do customers travel to reach you, and what is the furthest you would call normal? Which areas do you do well in, and which would you expect to and don't?", 3),
+        T("ins_mkt4", "Name the competitors that actually cost you business, and where they are. Has anyone opened, closed or expanded near you recently?", 3),
       ]},
       { id: "ins-con", title: "The constraint, and what “solved” means", fields: [
         T("ins_con1", "In one sentence: what do you believe is the single biggest thing holding the business back?", 2),
         T("ins_con2", "If that were fixed, what number would move — and by how much, by when? Be specific; this becomes how we measure the engagement.", 2),
         T("ins_con3", "What is that number today? An approximate figure is fine — this is the baseline we measure the engagement against, and without it there is nothing to compare to.", 2),
+        T("ins_con4", "Besides that number, what two or three others would have to move for you to call this engagement a success? For each, roughly where it stands today and where it would need to get to.", 3),
       ]},
     ],
   },
@@ -235,6 +246,7 @@ export const segments: IntakeSegment[] = [
     sections: [
       { id: "int-geo", title: "Your customers, geographically", fields: [
         T("int_geo1", "Can you export customers with addresses or ZIP codes? From which system?", 2),
+        T("int_geo1b", "Can that customer export be joined to purchase history by a shared customer ID? How far back does the history go, and does it hold one row per transaction with a date and amount?", 3),
         T("int_geo2", "Roughly how far do people travel to you? What is the furthest you'd call normal?", 2),
         T("int_geo3", "Are there areas you know you do well in — and areas you'd expect to and don't?", 2),
       ]},

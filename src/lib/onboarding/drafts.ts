@@ -19,6 +19,8 @@ export type DraftInput = {
   signerName?: string;
   segments?: string[];
   answers?: Record<string, string>;
+  /** The personalised data request, recomputed on every save so it tracks their answers. */
+  dataRequest?: unknown[];
 };
 
 export type DraftRecord = {
@@ -46,6 +48,7 @@ export async function saveDraft(input: DraftInput): Promise<{ ok: boolean; token
     answers: input.answers ?? {},
     updated_at: new Date().toISOString(),
   };
+  if (input.dataRequest) row.data_request = input.dataRequest;
   const email = (input.email ?? "").trim();
   const company = (input.company ?? "").trim();
   const signer = (input.signerName ?? "").trim();

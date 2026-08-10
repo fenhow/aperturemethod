@@ -48,6 +48,7 @@ export async function POST(request: Request) {
     signerName: body.signerName,
     segments: body.segments,
     answers: body.answers,
+    dataRequest: body.dataRequest,
   });
   if (!saved.ok && saved.error === "gone") {
     // The draft no longer exists, expired, or was already submitted. Say so loudly —

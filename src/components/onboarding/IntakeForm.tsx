@@ -12,6 +12,7 @@ import {
   type IntakeSection,
 } from "@/lib/onboarding/intake";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
+import { buildDataRequest, outstandingCount } from "@/lib/onboarding/dataRequest";
 import { SignaturePad } from "./SignaturePad";
 import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog, SavedDialog } from "./shared";
 
@@ -113,6 +114,10 @@ export function IntakeForm() {
   const stateRef = useRef({ ans, selected });
   stateRef.current = { ans, selected };
 
+  // Recomputed from their answers, so the list narrows as they tick things off.
+  const dataRequest = buildDataRequest(selected, getArr("data_have"));
+  const stillNeeded = outstandingCount(dataRequest);
+
   const hasContent = (a: Record<string, string>) =>
     Object.values(a).some((v) => (v ?? "").trim() !== "" && v !== "[]");
 
@@ -134,6 +139,16 @@ export function IntakeForm() {
     signerName: stateRef.current.ans.contact_name ?? "",
     segments: stateRef.current.selected,
     answers: stateRef.current.ans,
+    dataRequest: buildDataRequest(
+      stateRef.current.selected,
+      (() => {
+        try {
+          return JSON.parse(stateRef.current.ans.data_have ?? "[]") as string[];
+        } catch {
+          return [];
+        }
+      })(),
+    ),
     ...extra,
   });
 
@@ -569,6 +584,63 @@ export function IntakeForm() {
             {seg.sections.map(renderSection)}
           </div>
         ))}
+
+        {/* What we still need. Placed before the signature deliberately — this is the last
+            thing they read before committing, and it is the difference between an engagement
+            that starts next week and one that stalls waiting on a spreadsheet. */}
+        <fieldset className="space-y-4">
+          <legend className="text-h4 font-semibold text-ink">What we will need from you</legend>
+          <p className="text-body text-muted">
+            Based on what you have told us and the parts of the Method you have chosen. You do
+            not need to gather any of this before sending the form back — we will work out
+            together what is worth the effort of retrieving.
+          </p>
+
+          {dataRequest.filter((i) => i.status === "provided").length > 0 && (
+            <div className="rounded-md border border-line bg-surface p-4">
+              <p className="text-small font-semibold text-ink">
+                You have told us you can share these
+              </p>
+              <ul className="mt-2 space-y-1.5">
+                {dataRequest
+                  .filter((i) => i.status === "provided")
+                  .map((i) => (
+                    <li key={i.id} className="flex gap-2 text-small text-muted">
+                      <span aria-hidden="true" className="text-maroon">✓</span>
+                      <span>{i.label}</span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
+
+          {stillNeeded > 0 && (
+            <div className="rounded-md border border-maroon/40 bg-maroon/5 p-4">
+              <p className="text-small font-semibold text-ink">
+                Still to come — {stillNeeded} item{stillNeeded === 1 ? "" : "s"}
+              </p>
+              <ul className="mt-3 space-y-3">
+                {dataRequest
+                  .filter((i) => i.status === "outstanding")
+                  .map((i) => (
+                    <li key={i.id}>
+                      <p className="text-small font-medium text-ink">
+                        {i.label}
+                        {i.priority === "helpful" && (
+                          <span className="ml-2 text-muted">(helpful, not essential)</span>
+                        )}
+                      </p>
+                      <p className="mt-0.5 text-small text-muted">{i.why}</p>
+                    </li>
+                  ))}
+              </ul>
+              <p className="mt-4 text-small text-muted">
+                Send what you have to hand — messy or partial is normal and is not a blocker.
+                We will come back with a short, specific list of anything still worth chasing.
+              </p>
+            </div>
+          )}
+        </fieldset>
 
         {/* Consent + signature */}
         <fieldset className="space-y-5 border-t border-line pt-10">

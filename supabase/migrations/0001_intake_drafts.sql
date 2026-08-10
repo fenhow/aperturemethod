@@ -1,11 +1,16 @@
 -- The Aperture Method — onboarding schema.
 --
--- This did not exist in the repository. Every table below was created by hand in the
--- Supabase dashboard, which meant a clean clone could not run save-and-resume and nobody
--- could verify the token column was actually unguessable. Committing it makes the
--- environment reproducible and the security property auditable.
+-- This did not exist in the repository. Every table was created by hand in the Supabase
+-- dashboard, which meant a clean clone could not run save-and-resume and nobody could
+-- verify the token column was actually unguessable.
 --
--- Run:  supabase db push        (or paste into the SQL editor)
+-- SAFE TO RUN ON AN EXISTING DATABASE. Every statement is idempotent, and the ALTERs
+-- below matter more than the CREATEs: `create table if not exists` silently skips a table
+-- that already exists, so a hand-made table would never gain the new columns the app now
+-- expects. Running this twice is harmless.
+--
+-- Run:  Supabase Dashboard -> SQL Editor -> paste -> Run
+--   or: supabase db push
 
 create extension if not exists "pgcrypto";
 
@@ -24,18 +29,38 @@ create table if not exists public.intake_drafts (
   owner_id     uuid,
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now(),
-  -- abandoned drafts hold revenue, payroll, ownership and named staff. They should not
-  -- live forever, and a token pulled from an old inbox should stop working.
   expires_at   timestamptz not null default now() + interval '180 days'
 );
+
+-- Bring an existing hand-made table up to spec. Without these, the app selects columns
+-- that do not exist and every resume silently returns "draft not found".
+alter table public.intake_drafts add column if not exists email       text;
+alter table public.intake_drafts add column if not exists company     text;
+alter table public.intake_drafts add column if not exists signer_name text;
+alter table public.intake_drafts add column if not exists segments    jsonb not null default '[]'::jsonb;
+alter table public.intake_drafts add column if not exists answers     jsonb not null default '{}'::jsonb;
+alter table public.intake_drafts add column if not exists completed   boolean not null default false;
+alter table public.intake_drafts add column if not exists document_id uuid;
+alter table public.intake_drafts add column if not exists owner_id    uuid;
+alter table public.intake_drafts add column if not exists created_at  timestamptz not null default now();
+alter table public.intake_drafts add column if not exists updated_at  timestamptz not null default now();
+alter table public.intake_drafts add column if not exists expires_at  timestamptz not null default now() + interval '180 days';
+
+-- Existing rows created before expires_at existed would otherwise inherit NULL and be
+-- treated as live forever. Give them the standard window from their last update.
+update public.intake_drafts
+   set expires_at = coalesce(updated_at, created_at, now()) + interval '180 days'
+ where expires_at is null;
+
+-- The token must be unguessable. If this table was created by hand with a serial or text
+-- id, every client draft is enumerable — this makes the default explicit and auditable.
+alter table public.intake_drafts alter column token set default gen_random_uuid();
 
 create index if not exists intake_drafts_email_idx      on public.intake_drafts (email);
 create index if not exists intake_drafts_expires_idx    on public.intake_drafts (expires_at);
 create index if not exists intake_drafts_incomplete_idx on public.intake_drafts (completed)
   where completed = false;
 
--- updated_at is the concurrency token: the app should send the value it last saw and
--- refuse the write if it has moved, so two open tabs cannot clobber each other.
 create or replace function public.touch_updated_at() returns trigger
 language plpgsql as $$
 begin
@@ -50,8 +75,9 @@ create trigger intake_drafts_touch
 
 -- Service-role only. There is no login on this flow — possession of the token is the
 -- entire authorisation model — so anon must never reach the table directly.
+-- The app's own reads/writes use the service-role client, which bypasses RLS, so turning
+-- this on does not affect the intake form.
 alter table public.intake_drafts enable row level security;
--- (deliberately no anon/authenticated policy: all access goes through the server route)
 
 -- ----------------------------------------------------------- submissions
 create table if not exists public.onboarding_submissions (
@@ -69,12 +95,12 @@ alter table public.onboarding_submissions enable row level security;
 
 -- -------------------------------------------------------------- documents
 create table if not exists public.documents (
-  id          uuid primary key default gen_random_uuid(),
-  owner_id    uuid,
-  kind        text not null,
-  title       text,
+  id           uuid primary key default gen_random_uuid(),
+  owner_id     uuid,
+  kind         text not null,
+  title        text,
   storage_path text not null,
-  created_at  timestamptz not null default now()
+  created_at   timestamptz not null default now()
 );
 alter table public.documents enable row level security;
 
@@ -84,13 +110,13 @@ create policy documents_own on public.documents
   for select to authenticated using (owner_id = auth.uid());
 
 -- ---------------------------------------------------------------- storage
--- Private bucket for generated intake and agreement PDFs.
 insert into storage.buckets (id, name, public)
 values ('documents', 'documents', false)
 on conflict (id) do nothing;
 
 -- ---------------------------------------------------------------- hygiene
--- Purge expired drafts and long-completed ones. Schedule via pg_cron or an edge function.
+-- Abandoned drafts hold revenue, payroll, ownership structure and named staff. They
+-- should not live forever, and a token pulled from an old inbox should stop working.
 create or replace function public.purge_stale_intake_drafts() returns integer
 language plpgsql security definer as $$
 declare n integer;
@@ -101,3 +127,24 @@ begin
   get diagnostics n = row_count;
   return n;
 end $$;
+
+-- ------------------------------------------------------------ verify me
+-- Run this after the migration. Every row should say 'ok'.
+--
+--   select 'expires_at'  as check,
+--          case when exists (select 1 from information_schema.columns
+--            where table_name='intake_drafts' and column_name='expires_at')
+--          then 'ok' else 'MISSING' end
+--   union all
+--   select 'token is uuid',
+--          case when (select data_type from information_schema.columns
+--            where table_name='intake_drafts' and column_name='token') = 'uuid'
+--          then 'ok' else 'NOT UUID — drafts may be enumerable' end
+--   union all
+--   select 'rls on',
+--          case when (select relrowsecurity from pg_class where relname='intake_drafts')
+--          then 'ok' else 'OFF' end
+--   union all
+--   select 'documents bucket',
+--          case when exists (select 1 from storage.buckets where id='documents')
+--          then 'ok' else 'MISSING' end;

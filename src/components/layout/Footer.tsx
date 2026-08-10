@@ -112,11 +112,15 @@ export function Footer() {
               Method Lab
             </Link>
             <CookiePreferencesButton className="text-white/60 transition-colors duration-fast hover:text-white" />
-            {/* Which build this is. Quiet, but on every page — so "is the deployed site the
-                thing I pushed?" is answered by the site, not by a dashboard. */}
-            <BuildStamp className="text-white/40" />
             <p>{siteConfig.tagline}</p>
           </div>
+        </div>
+
+        {/* Build stamp — its own hairline row, centred, deliberately the quietest thing on
+            the page. It answers "is the deployed site the thing I pushed?" without asking a
+            visitor to care. Full detail is one click away at /version. */}
+        <div className="border-t border-white/10 py-5 text-center">
+          <BuildStamp className="text-[11px] leading-none tracking-wide text-white/25" />
         </div>
       </Container>
     </footer>

@@ -41,7 +41,7 @@ export const methodPhases: MethodPhase[] = [
       "Every successful transformation begins with clarity. Aperture Insights provides a comprehensive assessment of your organization by examining operations, financial performance, leadership, customers, processes, technology, and market position. The result is an executive-level understanding of where your business stands today, what is working, and where the greatest opportunities and risks exist.",
     deliverable: "The Business X-Ray™ + Aperture Score™",
     frameworks: [
-      { name: "Seven-lens Business X-Ray", what: "A structured look at your whole business across seven angles — operations, finance, customers, and more — so nothing important gets missed." },
+      { name: "Seven-lens Business X-Ray", what: "A structured look at your whole business across all seven lenses — finance, operations, customers & retention, market & competition, leadership & team, processes, technology & data — so nothing important gets missed." },
       { name: "MECE problem structuring", what: "Breaking a messy problem into clear, non-overlapping parts, so every piece gets addressed and nothing is double-counted." },
       { name: "SCQA framing", what: "A simple way to pin down the real question — Situation, Complication, Question, Answer — so we solve the actual problem, not a symptom." },
       { name: "SWOT analysis", what: "An honest inventory of your strengths, weaknesses, opportunities, and threats — the clear starting picture." },

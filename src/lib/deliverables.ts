@@ -3,7 +3,11 @@
  * each explained plainly (what it is + how we get it). Grouped by the component
  * that produces them. Powers /deliverables and /deliverables/[slug], and is
  * cross-linked from the component pages.
+ *
+ * Lens names come from `lenses.ts` — the single source. Do not retype them here.
  */
+
+import { lensNamesSentence } from "./lenses";
 
 export type Deliverable = {
   slug: string;
@@ -28,7 +32,7 @@ export const deliverables: Deliverable[] = [
     cap: "MBA",
     tagline: "A seven-lens read of your whole business, in one executive picture.",
     whatItIs:
-      "A structured, seven-lens assessment of your entire business — operations, finances, customers, processes, technology, leadership, and market — pulled together into one clear executive picture. It shows what's working, what's holding you back, and names your single biggest constraint.",
+      `A structured, seven-lens assessment of your entire business — ${lensNamesSentence} — pulled together into one clear executive picture. It shows what's working, what's holding you back, and names your single biggest constraint.`,
     howWeGetIt:
       "We use the data you already have plus a few short interviews, then run a set of diagnostics across all seven lenses and translate the findings into plain language. No lengthy questionnaires — it delivers real insight in its first weeks.",
     inside: [

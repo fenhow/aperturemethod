@@ -5,6 +5,7 @@
   "description": "Aperture Method™ — official website. Next.js (App Router) + TypeScript + Tailwind CSS.",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-lenses.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

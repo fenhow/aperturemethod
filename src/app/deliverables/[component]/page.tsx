@@ -8,6 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { deliverables, deliverableBySlug } from "@/lib/deliverables";
+import { SevenLenses } from "@/components/sections/SevenLenses";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
@@ -100,6 +101,8 @@ export default function DeliverablePage({ params }: { params: { component: strin
           </Reveal>
         </div>
       </Section>
+
+      {(d.slug === "business-x-ray" || d.slug === "aperture-score") && <SevenLenses />}
 
       {/* What's inside */}
       <Section>

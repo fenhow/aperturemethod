@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Aperture Method™ — Canonical Architecture Reference</title>
+<style>
+  :root{
+    --ink:#0A0A0A;          /* tailwind ink */
+    --crimson:#500000;      /* brand maroon — primary */
+    --deep:#6A1414;         /* deeper maroon */
+    --lift:#8C2B2B;         /* maroon.light — accents */
+    --onDark:#C9756C;       /* maroon.onDark — AA on dark */
+    --gold:#C9A24B;         /* brand gold */
+    --muted:#6B6B6B;
+    --hair:#E6E6E6;
+    --paper:#FFFFFF;
+    --wash:#F5F5F4;         /* surface */
+    --warm:#F4F2EE;
+    --dark:#0A0A0A;
+    --teal:#3F7F7A;
+    --amber:#C9A24B;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+       font:15px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 56px 90px}
+
+  /* ── cover ── */
+  .cover{min-height:96vh;display:flex;flex-direction:column;justify-content:center;
+         background:var(--dark);color:#fff;padding:64px 72px;page-break-after:always;
+         background-image:radial-gradient(120% 90% at 82% 12%, rgba(80,0,0,.55) 0%, rgba(10,10,10,0) 62%)}
+  .cover .logo{height:34px;width:auto;margin-bottom:64px;opacity:.96}
+  .cover .eyebrow{color:var(--gold)}
+  .cover h1{color:#fff}
+  .cover .rule{background:var(--gold)}
+  .cover .lede{color:#D6D2CE}
+  .cover .meta{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.14)}
+  .cover .meta div{background:rgba(10,10,10,.55)}
+  .cover .meta b{color:#9A9490}
+  .cover .meta span{color:#fff}
+  .cover .status{border-left-color:var(--gold);background:rgba(201,162,75,.09);color:#D6D2CE}
+  .eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--crimson);font-weight:700}
+  .cover h1{font-size:52px;line-height:1.05;font-weight:300;letter-spacing:-.02em;margin:18px 0 0}
+  .cover h1 b{font-weight:700;display:block}
+  .rule{width:88px;height:2px;background:var(--crimson);margin:26px 0}
+  .cover .lede{font-size:17px;line-height:1.6;color:#D6D2CE;max-width:62ch;margin:0 0 30px}
+  .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;
+        background:var(--hair);border:1px solid var(--hair);max-width:820px}
+  .meta div{background:var(--paper);padding:12px 15px}
+  .meta b{display:block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .meta span{font-size:13.5px;font-weight:600}
+  .status{margin-top:26px;border-left:3px solid var(--gold);background:#FBF7EE;padding:14px 20px;
+          font-size:13.5px;max-width:820px}
+
+  /* ── structure ── */
+  h2{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--crimson);
+     font-weight:700;margin:56px 0 6px;padding-top:26px;border-top:1px solid var(--hair)}
+  h2:first-of-type{border-top:0}
+  h3{font-size:23px;font-weight:400;margin:2px 0 16px;letter-spacing:-.01em}
+  h4{font-size:14.5px;font-weight:700;margin:26px 0 8px}
+  p{margin:0 0 13px;max-width:80ch}
+  .note{color:var(--muted);font-size:13.5px;max-width:80ch}
+
+  .cl{display:grid;grid-template-columns:58px 1fr;gap:0 16px;margin:0 0 11px;max-width:86ch}
+  .cl .n{font-size:12px;font-weight:700;color:var(--crimson);padding-top:2px;font-variant-numeric:tabular-nums}
+  .cl p{margin:0}
+  .must{font-weight:700}
+  code{font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--wash);
+       padding:1px 5px;border-radius:3px;border:1px solid var(--hair)}
+
+  table{border-collapse:collapse;width:100%;margin:14px 0 22px;font-size:13px}
+  th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+  th{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+     font-weight:700;background:var(--wash)}
+  td.k{font-weight:700;white-space:nowrap}
+  .E{color:var(--teal);font-weight:700} .P{color:var(--amber);font-weight:700}
+  .M{color:var(--crimson);font-weight:700} .U{color:var(--muted);font-weight:700}
+
+  .callout{border:1px solid var(--hair);border-left:3px solid var(--crimson);background:var(--wash);
+           padding:15px 20px;margin:18px 0;font-size:13.5px;max-width:84ch}
+  .callout b{display:block;margin-bottom:4px}
+  .open{border-left-color:var(--gold);background:#FBF7EE}
+
+  ol.toc{list-style:none;padding:0;columns:2;column-gap:52px;font-size:14px}
+  ol.toc li{padding:5px 0;break-inside:avoid;border-bottom:1px solid var(--hair)}
+  ol.toc b{display:inline-block;width:30px;color:var(--crimson);font-size:12px}
+
+  footer{border-top:1px solid var(--hair);padding:20px 56px;max-width:1080px;margin:0 auto;
+         color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+
+  @media print{
+    body{font-size:11.5px}
+    .cover{min-height:auto;padding:44px 40px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .wrap{padding:0 0 20px;max-width:none}
+    .cover{min-height:auto;padding:0;page-break-after:always}
+    .cover h1{font-size:40px}
+    h2{page-break-after:avoid;margin-top:30px}
+    h3,h4{page-break-after:avoid}
+    table,.callout,.cl,.meta{page-break-inside:avoid}
+    .sec{page-break-before:always}
+    footer{padding:14px 0}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img class="logo" alt="The Aperture Method" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtAAAABRCAYAAAD7JJHIAAA+BklEQVR4nO2deZwkVZH4v1HVBzPDONxyLAoKuKscCut6oAgieIEwcigLuuqC7KL+kBW8UIcRZL0QZVcUWUEBUUFAQGAVlEN0QXBFYQHlVhBEbmaG6e6qit8f8WLydXZWdR1Z3TUz7/v55Ke6srMyX74zXryIeJBIJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJRGKVRGY7AQXIIpBbQR7Ope9qqAMKoKrVcFoBFRGd4XQmEolEIpFIJBKzguwH1dfA0CKotPMDVZ0i+KtqRVWHVLVa9P9EIpFIJBKJRKIMZk3QXASVq6ByNdTi83vBWhV4LuGowAYKzwLWbMDnfijyB1RR1TcBo8DdwL0i8mR8H1UdAhoi0piZN0okEolEIpFIrA7MtAAt+0HlXGgQTDH2gLkj8DJgF+DVwJYCm1RD4hQYAZbBLXO33fbl37n55qWNRuNvgd8Bw+G+9wN3AVcDVwHXicgzsEJbXRGR+oy9ZSKRSCQSiURilWXGBOj9oHqu2TADsA/8PXAgsIfAFlVMWG6wQrquSzhVAa3DKy+oVv+Xeh1VvRB4CzCOydd57gAuAb4jIjf6SVWtJkE6kUgkEolEItELMyFAyyKQxSYXyz7wFoH3K+w6BFIHGiYo1xVELE0VMCF6BKrj8M0LqtWDg/D8RuBSTBivhHdwjbYCrrwOt+AK4KsiciGscD5sJKfDRCKRSCQSiUQ39FWAjrXOC2G3CnyqCq8CM3xW+59IsfNgI5hwPDEyZ842L1i27KED77hjeMstt7wB2Nr+1dTp0AXqanTuGuA4EbkckjY6kUgkEolEItEd/RKg3da5vhD+pgLHV+AdAkwE4VYy7XEhCvVR0z4feX61egL1OrVa7YPVavVETPCuNvvt5NuY5ptM2D4DOFpE7k/a6EQikUgkEolEp/RDgK6oCci6D+yv8JVh2HACGuH8tIKvQmMIKnW4bf5rXrP9ZjvvPH7MMcdsANwCrENr7XMz6mSC9IPA4SJyroe8S0J0IpFIJBKJRKIdShWgF0FlMTQWQeVm+OIQHNEA6uYQ2I7GGDDt8zBUa/CW86vVi4Pt89eBQ2lf+9yM+PdfBo4UkbqqVlLIu0QikUgkEonEdJQmQLvw/GZYexS+MwJvHDPzCZrYOBfijoNjcOkPq9U3U6/L+Pj49sPDw9eRmX30mm4XlCvAZcCBIvJ4EqITiUQikUgkEtNRigDtwvNC2KgKF1bhpeNQExjq8FYKaAXGFf7+B6q3ioiq6k+B19K79jnPBBZL+lfAW0TkL0mITiQSiZmn1Q6yM2Fi1+/n93uH3E7SOBu79XaTh0Xp7EddmKnndJCWWFEYRxXzT52N9HVbb1ZVE9meG1EkPG8gcMUwbDMOE5JtctI27jg4Bl+6oFr9EPU6WqvtT7X6fcoXnp0aJuj/FthdRB4eBCE6VNR231fLjijS4fPz+B44kIUXLKXBq2olpEvpbxQZFZHatBdZejq1x3f6kk9hF86ZHiC9POqt2k5IWyvqJbx/HMqy8JJ220sb6W0XL9tS+5XwrhX63x4aKWpRItEfonGkk77Jf7NS7LgcvyMlygSzSa8dbgXgIJizDH46DC/rUvMMtmGKKDw0d/78bc546qnHH3nkkXnrrbfeTcDmdOc42C4uRF8H7AosZxUo3EEjDPaQIp+0JOXTqo2XbxJIJ6OqoxSPSSIiz6iq9LM9qOoaTJ7UxglYXsL95xTduwQEmGhnwh+lZY0+pKMZgo2nHedhLs8EGO9HuwkKozVyz1re7/63qC8I5zYBNgbWAuZ4eoAnsSAI94vIePSbit2mv31KeM4o7dfjGi2UIuFdu1IsRONk4b+ZLDNOGUt9l+pm/2+HnrQri4DF0FgKZ4z0JjyjoFWo1GDRmcuWPXqmCKp6BPA8+qd9doawgn45cIaI7BsKZ8YHOB8kVHUB8BGyylo0sDSwCnCXiJxcxgATPX8+cCSwZovnF9HATGOWAn8F7sW2Wb8330l00th9VUBVdwVeR/buZePv+ghwkohMFOVrlJ43dpkexXbSfAZ4FPgjlk/3iciy6DkdhVoM178f2JDOyq1X/P0vEJFfxas4UZ2ah9WpZ+XSFr/bKSJyRzerQNFz3glsx9Qy8e9XicjFzZ4R3WcE+BCwHp3nZR0r36eAh4G7sTbwR6/33oF3M+hFaTwA2LbgXcvC3/sO4HQodzk2akcvB84hewfP6xowpKqniMiny47f7+0L2BH4bvRsf34dqKrqsSLy9R76rdOB3Sl/LPNyf1JVdwlmiIXjgKddVQ8BjiFTHPUTF2REVd8hIldOl4dRnp0GvJ7JEbQeCO+5tNfxLjJHqAA/ImtHfu43qrqXnyu73od7el+wCfauuwD/AGwEzG/y86XAw6r6a+Aq4L9F5K7onaRMjXSuP7wM+Fva6288jPAyVX0UeADrB38H/FpEfh+9v+dH2+lusx02vSaUZ099SdeNJzLdWDwCb53oTXiuD1nM5xu3XbTo9K2h8tGPfvS52ODVr4EhjwvR+6jq0SLymVnabKWqqnVgN+Bjbf6moaoXiMiDJQjRroF5LvCpHu4TMwHcpqo/B84XkZ955BPa1/RXsLpwCPC2ktI1HecAf6JYK+XpOQzYo6TnKXCXqt4IXARcIiJPQTaoNP1hVu4LgC/QhQlVSbhPQSxsev5thg3crfg9Jqx5/nbDJ4AtW/z/RcDFTC8Qrwsc32UailimqrcBV2Lt4H+ATtuB43n6CeCFJaaxGX8Gzmw2oewBL4ONgU1bXPdeVf0S0LPgNCUBJhy8B/ibFpdt4Zd3eHtP53bYO/aLjbG2/xeaaNHJ0r5Fn9PSDM/f6fKwVZ6tjyl1lpaRoFD2FeDFmNIhnw6fdJSmiIjlClV9BdkYslbB5XUma8UrwDxsVX5zYF+sX/kxcLKIXGG37YvsMoJNMtYr4V51Vf0dNnE5V0RuhukVRj4OLl26dJPRoaHvV6vVubVaTYGnEamgOm9odFQmJiZuGYavMzx8XKNep1Kvf5CRkZvJJseNiYmJlw5Xq59tALVa7fDR0dGbO1XcdCtAC695TYWrr24IbBemmNJDDZOgaz9q8XHH1ajXOeaYYz6Daap8y+6ZoIoJ0Z9W1atF5NpZsIfW0KgXhrRMpyWoYxV7d1U9g+wdeqXBig0ju9ZiemUdxhretsD7VPU64PMicgFMEv7aYSkmkPd7VaLdDnoJ7ZVTKzyfKtjgtgXwduA+tfCN/xE0Lu12io9QTifXCV4ez7S4RoExim3YPf/GC37XKU+E++Un357GJW3eR8O1vrTbSzuoAHOBHcJxpKpeA3xWRC6DjtuB8wTWHvqtgX68D/eO8XfIv4dg5bYJ8CYROSfYpffcx4X8rqvqesBbyDRmcTl7nRnr8XHLwr3z/VavEwEvnxrta9OeCde222c1q/ftpt3fudO2HeeZR+Dyc2Xj94010MuaX9458YqTqm4FHAvsH13iwnKzCZBrTCV3zVxgIbBQVS/DNor7TZcT85avwOR8yq/uNSO/0uj+VS8Jx0dV9YeYTHAjtFQYKUCj0aip6h0N04oPDY2O7j8xNrZM4LxGozEqqvfUVJ89BLtUqlVqjcb/GxY5ONJ06/jy5R9geHiXClBpNNbNpbUtuh3wdfHVV9dUVRaKfKhm23SvoV0MMpqFrfveD6vVq0LM51djWsYavWmiusEL+RuqugOwvGyNR9MHZx362pgGegiraO3k6UIR+baqlplXQ5RjBqDRIZipzPlB4H+/iDzdwUSlggnkQn+WHz2N7d67El1bRnp8G3qwVYB/Bw5Q1UOCaUQ7QvQQlkczacLheTadEOd1uihtZTk/VsO9ioSxKp0JmkP0px1UgJ2AnVT1G8ARIrKsiwl7FSvrfk0oPQ/7OVmFybvF5svH8/092KpQWX2cKxv2wlYbivLQ378MfyF3oOrHRKdK+2W0RofX94o/Z6TD3+XzLK4jZZN3Bu/FOXwKrsEO4/t7sVVCN2WL+6lOnPddmI4nfm8EdlbVT4rICeHZZSoB43zJ59d0xBMU7wcbWP+1H7CXqp4EHNNMYeRy2Pz58/8CvNvPjy9fvjMitwyPjr7Tz00sX/5GoF6fmKigunDJkiWfEJGHAFR14/rExJ6Nep2KacO7mpB3Z3JhleHZITF3LYQTh+Ho8Q43TAG0AlKDp9ccHf044+Oo6lzgZEquwB3gz/w74DgR+ZDOnD20m2/sii1VtaNVcgF7Z1V9tgxmKL7YphCyvHwnsIWq7gE8MVMTlQEnLm/XOGwL/FRV9xWRH8+SaVGid4ragQDvBbYK9pZPp3YwBReiXquqfysit5fUx/nv30nvmuBuUMw+PhaEurlHFXMue7rN39yDOaLVaD1eu/Z/AcX2uI9jGkkvn1ZpBDMDir+vFkTmH6Kq/4mZbEA2YfOy97JYDtwK3Anch5WtYgL3c4GtMDO00XB9PMmrY06HX1TV7YCDRWS8z33KGHB7wfkqNmmaj62IDjNVa+3KlEa49khgF1U9UER+32qsCytRCsydGBsbEhhV1Sr33jvMZpuN18bGBKg2Go3/HR4d3V5rtQOAEwEmJiYOGh4eXlAbG7u5MjKyDV1OkDsSoH1JANga+O4TTzzx6hNPPPHJO7/znc8vu/POg6rwnEYHS4kKjRGoLocTzhofv2eR3X8Es72doLdZf36ZoxvGIyeTmcDNN97q39v4TdzJ7Q6cyexp7WNck1o0EfKOYgJ4Jea8swdmu1VG5Ile3j1eQitLezvd4OLag7ymy7W6dczu71xV3VFEprPV8nu28w55oa6IdvIz1i6sjjQr43bbwc7AWcDeAKpaltOSa3q6JdYYzRbexw1jwu7H6bFtRo5q22F9EMycwsbb5VLg1ZgTcS9jlWARI5ZCc0csyaJ0fAP4QRvPc5Oqj2IO7W7y4YLfBzFfDV8BaZW+uog8EdKx2kz+3akvHGdhpnk+cXHFnPcD1wHfBn4sIvdMc9/nYdrmd2MmYUT3csXLO4C1VXU/TJYpOx6zy3r3YqYYeXy1eC6wNmaz/Q/Ynh6vIpsA5NO9A3Clqu4pIr9uIUTXg7zk/1MRqeuNN1Zk880bE8880wiJ+EFtYmJdhoY+EDTcUpuYOGxifPwOEbkAkW0YGuqqTnaqgZbQ6XwIeNGCBQuOXLx48dFUq08thKMrcFYdGu30bAqNIaiMwz3DcMIi1cpi0MXWyC7o+E1WciLzjXUx8w2Y2qE3E4h8kFyICdAzLcgUpSnWbLiAmL9uGBMeXg8cLiInlKTtL2MgHKUcW3JoPdjnlyWLJqCeJ/OBU1R1J8xxtEir0MDSXqYw0M69Ol2eXdVoVsadtIM9gfdKiPZAOate7UyQWuFl79qe2cLf4QBV/QzmONWLVs3vdyCZA3m/I1LkUeCvLljOFCHPHm33elVt5g/y5EynfSWkKiI1VT0VE5598zbIBMd7sYAB34/rs2Zh2ibZEItIXUTuBr6qqqcA/wQchzlB+j2HwrP2AE4XkQNUtVqSgmoKTe5ZD8dy4DEsytQVwPGq+nfAu4B/IfN183TXsCgkl6jqTiLyh25WnGqgQ0C90fijwKnDo6PHTUxMbA8MDw8PP3dibOyoqG53lSdtdxjhBerhxd+OvfARwY71D8DZ+4gcOgyvnmjPlEMrUKnDx86FJfvZ9R72qlfbrArwbCbbk/bCIwRhqo/LIG6+8VpsuaNIkGo1SAu29LGB9H8zGE/bccAlmMC2YhYYvm+ERQd4A7B99L/8O3i5f0xVzxCRv3aZdr/3A8ARZMuineJLaY8BD0FnoXUiPI/uwGw3i54zgpX184HXYKY7wzQXomvAK4C3BmeqFUJWVC+fxLSYG4Trm+VBBetg30bWnvPOTYI5HP0rtjzcaqnWtazXR++/KuP5dTJwBmZXmhd452HOb1tjk8RW0TK8HXxCVc8Wkad6FBC9Dv0a+AyZhqdTFBsn7guCwEybl3g9rGD5uxnwBhE5r1tnwkhZMY8soo+3t5n0GwAYjrSUPeVrJ+Wi7UWV8PxtNh4Pabbh1rSTvdXNLCloTmtq4XgPplh4vhA4JIx7Eup0Q0RablwUrAEqYVXhm6p6BaY8e3V0b5+Yv11V/09EjuuXOWob9SnWxNdF5DbgI2rhHU/ClIaxEF3HZLhzVHVHoOM48ENDQ3atyOjw6Oi3gcWoflgbjWpdRIfHx781MTLyztZ3meYZHVzrGfQ+TEAaw2xtPicie6uqKHy4DtfKNB2QQn3YwtZddQGcsx9Uz40KtZclnlCxGsBXsGXR6ey8WuERLr4uIh/rsy10bL6RdyxwlmHvMpo770ucawG7qerZ9NeMwyvxzSJyXcsLVT+BDVInY8s4+QHKB8Z1MUHuP+gu7X7fJ0Xk3A5/20+eFpFr27jus8Fp9WvAS2k+gVKsMz6HggE3dDBXtZs4NW/wtxfdKzABfEc62KQhSseqjL/f70Xk+pZXAmre4u8GvoQJ23nNsLeDTTCt0dn0FlHH0/cnCdFuymAWyrVoLHkPcB7d92+e17sDz2GqE9dM4v3+jOZtO89Sk1hUVZtOmv3/q0F774hI4fhi4LNYfXN5ywXFs4B3hjwcCn1sW+09KHVc4TgkIvep6u6YQL47WZ12YXSxql4hItf1w4emjfKf9P9oAnC7qr4eG/ffR5Y33vdtBxwvIodPI381raNVmCci908sX/6L4dHRfQEmxsZ+MvSsZz0yvnz53Ba/nZb2bJWzyrAOWdgVt3vaS1VfLyJ6QbV6XQO+PQwVbfGiAtKAWh2O6iXxTZBQOU4A1sE0cet2eWyACaUHq+raksUuLpUC8428J66HkzudTDgqyl/FonG4AN5v5qhqRVVHw/JQfAyF2bSIyPeAfTBhzNNZlPa9w9+9pL0apWeoIF1tHz2kIaaSy5OiZw2FTu3XmF3bvVgdyOeD20i/QlU3DOZUU+pjm+83Gt5xzjTpF8yOrt38nGkBZLYZbdEG4nYwISKnYEuWzTT5bor15uh7rwyHdAy3UXatjtlw6H4G23gBshUOBXZV1a2a1f828Hz9JzJlhfMnyjPdSqyGeB8Y6uZ/kJm3eZ9eBX6GTaglyFdd17mg5a6K7fS4L3ALmRLK++MKcFLoi3S2++mgYa+FMUhE5P3AaUxezfC/36eqOwQZqdm43Ox9pCFSCTLWKdHFp6iqNHqMsNNu5+PX7YFFh8jHZv68qo4sqtUqQ3PmfGoCHq80WZJSaAyb6cZpF8GNee1zr3gmi8gvgVPDaRdAuzlq2DL7m8K9+jGQVEKF3pUsnFJeOyXYUvGl4Vw+b/2aXVR1/TC49LuRNMJMuB7ssuKjFjoFVdUREbkS+D6ZtjzGtXFbq+q6PaZdPT1N0tX20eXzpxDdr9mzaqHejojIo9jkr6j9+Lk1MbMAP1f4vGnezT/bmax0kp+rmybKt6FtVbY1WKEpOhO4geJVFm/DW4dry9jAQctoCzLDsfDD5zjWh/t37ztGMQcp6LA/1sx5cDNsB9FYWbEU62NnY7KQWHVwE8S3Ys5yrlX1NvQo8C7vF8poW5Hc8zTWNnzbdDdJrGMrm/uH5w1EHfdxNkw2DgNuIssr7/uqZJu6dTy+VCqVuohodWTkotr4+J8nxsbuHhodvUxEtNKj7NluJnoBu3mB4wWzLfAvi0Ua546PP9CAfx8yLXS+YmjVwtY9ChyzCCrn9scxRUOBHIPZssbLc50eYGnsJDJGx+kNgofnb/wMr+wPAf8LXE02i43xwWUdbGCg4JoZx7XhoTzOC6fz9c41S+uT7Ty1umkyAWpBYPoZk0P8xHiDf074XB3zaaXDJxahfK8Ip/P9o5flxtgkaXVnPuZj8X9k2jvvO/5RLeRpp5MM//3bMBt133BHgWvDMdNRjBKrFj7efZjJJou+inKciPwpTJJLq2dBiB4SkZswu+K4HrvyxcPyDkz9doFeRMawyC4+5rnwr8CbVHXreNUpUtaMqcjr6hZfG3bYoQYwNDR03cTExCueGRs7J1y/ZEh157pZTDwDMFyvn87ExMuHh4dvidLSNtMK0EH13VAz33gVU6MGuPDzqSVLlmy4qFarDL/85f85AbflhWiFRhUqDfjMBfDgrcXL1D0TMkFE5M+YA00vHaJrhXZS1bVK0gqtIMrfdZmqEYEs3VeEGeutwG0U551XqIW577ONa6rvIBsE82nzjsZ30FsdBUOfSD2KTfxaURSXNTHghPK9z782uWxNpvo5rI5UsK2pzwjfve9oAM/DbD2hTUVB6LfrYRn7wHBaos9v0f4ulYnEFIIWWDFZ6aVkQrMrRO4DTg1CYD/8qXz19gRsHHEB1Mfc7YFXidldz7qCzZHMDOVq4CdMltncfvwfw/dK7rf10dHR36yxxhq3he8aPp8aGRm5bv78+Q9DkLXWWOOOOXPm3Lnit/Pm/VlGRq4PmnvoUGZqRwPt17wUMy/IO4G5ILfuvHnzPrVYpHHuDTc8A3xEomVotbB11Qm4ZQi+GrTP/ZwF+Uzlq5gGo9tZl1e89YC/j86VhduNvg7L33jpgujvCwFEZAK4LJzLv483iF1Vdb2yhf0SeJLpt3OdOxMJGXBqZPbizRiUyVGifVZoTNq8LmH9wVnYkrSH0vPjPdKZv4f32zsC2zB5l8UnsZjGSfOfKIO3h89G7vMMsXjdlX6Yu0Xa3IexWN+QCeqehv2n/HBACPLKN3Knvd2+OQj9U+Sa4IdSyZ2T2C8nTBomXZe/plPaEQT9xi+DFYGui+7TAA7WsbHtqdfl/Gr14gm4bASqOYfCj5wL47eWELanZaKtckpYFvhION3t8+rhty/z2/eYvBiPy7gPUx1afAnjMeDK6PyPwmcrM45dNQsxNCi0s9XzahNkvwCvV3Ox2JitrmkWmzUxuEhok+uG7836o2VMP9FcXZgrIg8C/x2+u/+NYBGHtpAOnAlDX/tP4WuDrL+5UESWYRFSEomO0SwYwDCZGaXXSzd3/WHoA/o6SQ7P+H4uDf65m6oOD6CCzWWhq7DQwa499zS+CNjSZbv4h2JOiY3cOc375eSvK7qmE9rpdPxhL2Fq6KUV6cBedJiRkc+rKlqryRB8pA5jAjoMlRpcfD5cWrbjYDMiw/pLMKGz2zB0/t4ez7gUzXlkvrEeFv+5yHxDgatE5NFoyeUGbDvWZmYccTSOQdBmueCwEc033PB69WSJz5Mww2zrKOG5vSJBENgKs8/Mr0ZA1mbvD5+DUL6J9nATne2b/T98PkiJpgTdtIUBaQ/AivS7Q7gLzzVM2D0wOt/yHmE8WA/YK5yukq0wnj5L79xVXzVI5ZNYgZfJCzETIz/n/fjdWOjXfkfJckH0V9i+CF7HPX2bA3+bS/Os4xpiEXkMi18PWd65I6b3nQPhBDltIqLZ/VZ+qsmlLpzuCuwrInputXpzDU4egaE6LNWgCZ6lIL0fwZYBu5n9+Ttv5UJvSWny/HfzjaLNPwS4OOpkq0FTcnn4f5EZh2Aa6HUHZJYpoUG7Br/Zey7HbB6he8FQRWQizCwb4bOto8vnlYJmcTEbwD/76fxlWD4tBW5uck1iAIk0PhtioQp9dSnGJ8y3iMhEZE/ZC94G6p20hdluDxEuDPwU8//w1U7vOw9S1TWY3pnQ83pvbIXOI9BUMM//X4TnzPQKmJdPR31VEDZmu1+fLXwZvuJL8t0c8X3KSlf43IZMHoqVXL8usV03JRJEl2KBB2CyIDpEtqnTQAiiEZ4eF6A199lqM6oZZ9pZe/hzXdpz7nLh9Hh98MF5i2q1ytwFC46dgCUK3/wh3LZf91rgroi00Ldim3n04lC4Ptb5truTU7sURfjwAXYJ5kDos1Z/7sXhs2izjQZWXq8N6Zy1RhK05o3guPOecDqfd14e92EzZuheMBxS1Y1UdX1V3SB8tnv0I59Es1jAQ/53dFRDZ9cInes7sQgBRZFWXMD6pYj82X/XhzQn2qfSomyHfNUolO0wpkldm6m+JJCtdF1Meayhquuo6rM7aAcbBE3tIOAOQWOYk5+f8358Cyx2PrQ2V/Mx551M7VvOCL4ls0ElaJT9s23t8wBNcmaapaG/rPuSfJeH/36MchURrt3N3/O28DkTEx8fy27NpcU/XzADaeiFO3PfY+05DIjiaLqdCF0gXgdY0Mb93LN0Czbc8N8WixxLtfr43nCQ2kxI+uw42AzXon8GOADbM76TWIheeAuwvHiUHm24c0uKRWHnXID6pYjc78KS6opdoX4OPIxt9pIfjF3QXigi52rTjaR6phIEhKpOfYhg2hWP83gCkx13Yjy914rImHa3U5Lf8/nY1vKd4MtDhwOndfn8ZkxIG0HyVXVzLA7mh1pdhuXT18P31VUDNUg8LdPsIBYE7NdgYTVfRfM2UMEmkb7i1NOGQuHztZi5V7t93QonPVXdQ0SuLbk99MLZwCexCDSxQuE9InKxqhbml6dfVbcDXhlOuynIU9h2wb5KNhPEvg6XY3Wnk/HEu9sPi8iVq9lEugK8WFUfp3c/Kv/9EM1NCzvB05IPMeqffyrhGZ3SLOLPpjOdkDbxPHwofOYnxRvlrptV2t3K28MqFWlN8rhm4EhVPfOYY4754+Jjj72Qxuy179i2RlU/hWmBOkmQv/MalBc+rBI6/N0wjZQLcXliTXMjvEtVRJ5U1Z9RrK30weF1ajsoPt6nAWJJGFibDq6qujXg23k3m7R4es8sIU0VOvek93q9YfhehmDq99hIVf+tyf/nAs/GJhbb0zrdNay9/hS4INTnQRBqVle8Hr9RVecwdWWrik24NwdeTLb02KwN1LHdXT8pIk+XKLQO0dwhdTrWnf6SmUEtvu0DqnohcBCT+7zdVXVzEbmniTDpbfEgJm+PPgRcHFZzRph5x80qtlVxt7wQcy5fHSbS/o7zyHbjLROvS2XEAM+3G0/7I+FzJoQ/f8YjTf6/zgykoReeCJ/5uu3y10ohQHviPSZpOwK0a06eBXxm8eLFB55yyinDhx56qO8GOFu4Fvp04L1YWL5mQmvh77HGFW/L2Qtux5bfnAYy840xMu/zuFH7Mt5FZOFyYrwTWB8z4zifyQNHr/i7v1lVF2D1w9On2PbQm2GCw46YYNBMcIgFw2tKEgw7rWeehjKXcT2PNsFicrZDs/ro6fszcHDvSUuUgNflPcMxHa7ZzbcBxcp3GDhNRM7sg8a30/bg9XCQtrT2Pu+/MMdBN3epYRPRA4HjyAlAQXFQU9U1ycJ3xWXwrZLN8Tqlm3L28lk+3YWrKIMUWaqIfCQXr1+zUV7+zLw23NM4EIJohKdnPHfO013GSkFptKuB7rSDcVOOA1T16yLy89leBoy00HVVPYosLFw7k4KYnu1kNYu+sT5Z9I34vq5duVFE7tSpjov18D5XYlErFtDajOO8AhOLXvC0vjsc09FMMPT3XAYcUaJjTKf3kOgoGxeQ/Dka/R0/3+PRxnh7GcKW4vYWkXtXsyXbQcdDoeWXk+MBy8s3LnN3WBvChOezgEPDJL/ssh2k9tAtnifXAr/BVmw8pB3AO1T1C8B4brWtqqp1bKXvOWR+BFVsf4CrcvefaboRBr0uDZeclpWFfsgRZQjlRX17zGzIP83SMmiCc7sMVLo7sYvrhHjw+EKwkx2EF2+oecNfDXyP7jZXKeM9vLHuRuYRnh9cITPfmNS4o8nAQ8Avwun8e8SxUteW/kTjcOGh6KiRxc8u6pzieK4Hi8jNYZLV60DmAms3Rz/qqA90w2TCkv/th0dOid+BcL6KbaLzKhG5qaQ8SpRHhallG5evh0qL8cntEGaDe5SIvIPQXko2tRq09tAtCrgS5vTovE84tgJ2DXk3SRkRzr2LbBXAOTPYr8/m+DSBadsmOjj8+ul2K11VqfbhKAPvw/MbJXndmlPSczoh/0xPi6dxkCbJMFVDHp+DcleJe2Y6DXQvme3RNl4G/JOIlO2c1TGhI50IWp6jgT0wm6p2TVMgy4teOlz/7b5N/u95d1kQeos0s9WgVL4YeFPBPXwVYANgZ1X9YXSuLDrVxseOP1UsHNshIvLdEuuGCyad4Nf3Y/tkf+eYvDYyj2szrwROEpELwULdJbvngcM1mk47UW8qmPDzA+BEEbm9j5EVemkPg6bh9HZ0DrAYUz54+6pgUX4uDee8vTRUdTMyR20vn6XAd6P7zqQgEYejfBXmlO6xejvhAbBIU6WmbrBpALdT7jgm2ASsLPOAx3PfvVzXj57Xb/wZzTZtGvTJ11rh09u2p//J8NmrA2kptNuxPo0Jju06Ejr+kseq6gXAkzPs7QxMCjm3KfBiEbkIuEdVv4h1xNPZQvs7j9HjBgdR9I0NgF3C6bz5RgX4rYj8Lpwr6iwmwv0uw+yc1mBq2bjGZaGIXNCHaBytbhiHzXGtUGymcAWmebupJOHZ3/0xLNyVD4rtvLSn76LwvUwNr08W2sHL/jpsYnELrKi/eTOexGBQJCw36yO9Li4GviG2wx59Uix4XbobOJ/OBhzB+pdfRfeadYIwXBWRh1X1POAQJvfdb1DV54rIfZrF921gDsxzyaJdAFwmIn+MhOzZsKttAHeJyNOz8OyVjXjSsaOIPFHqzVXvxhx+y6jrHm1Dc5+blXDvTvGIIPm2PxsRQdrB2+fG4TPvO/VQ7rpZpV0N9GOY5L9Bh/d3jefGwMdF5KjQUc30jDm2fX6Xqm6KLZ1+CYsL+jzaC2v3BKYtgO5nP+6c83pslpUX3j0dP1XVudikpciZx20UH8GCju/I1Ggcbhqwu6ouCJE7ypzATKdFzfM48DPgVBH5MZQqPHgH+6CItAoFNy0lC6pLAZ8IuRCzPcXOqP7/LYHlQXAeFpFxBmC2vRIxE3HPvb7dhzl3urA2H9iaYiHa2+d2IvJgiPxQ65MG0evLb0XkqF5uNNMKj2nwtHwTc6j1Pq6GrSb+I/Dv4XxNLfb2QeE3cb1wM5DZHojnqOpSutCorcYT6hFXKlBOGLthyo289Psm57cJnzNRbv4Mj/ecf798GgeNfJxqL+e7w+dst1tgGgE66jgfBf5Kcczh6fCB5X2qepqI3DaTphxRDNAXYg5v84BPiMiRwBJV/Ti2Z3yrSu3v/FfC0kcPg4r/7q1N/u8C8LuA/Zhee1knW6Yp2lSljoVK2xmzpS3TjONpzAEw3rPenaOewerNn4A7MK3qr0TkAZikVS27Hgyp7UzWaWxVMHvJsjo3nwj9XkReGf9DVY/AJm8eXcOR8Lt1MaeyHQk7rA2YENNPujYbiPKoXcVAL7gD4JdE5KQVNzaB7TpskpSflLvyYKGq/quIfG0GNJ8janGou3FOrA9avQvaYsG049cBL2eqM+EXyRytdySb0BCu+wMW9QdmX7ve8HcatLweYDyCVU+TO/99iQ72XpduYbLvj8tL/6Cqc0VkWT/LOwpSsAbwkigNivVZNbJNXWa7/ufx9OwQPiX3eRsDxLQmHNES1x+AF9GdQ2EDM2b/HPCWjlNZDp/DhOca8H5VPR3bpecHmK3pLjQ35fB3viNy4Ou44kXmGxtiAi0UC71g9lLr0xnNlo0VWIgJ0GXg+fQhLHbzHDItuTst1aVgd6+wtOqCcz86EMW0erUBGZR8u1jIyvokbHL0CqbWOZ/gvAw4XES+FASgQQop1i3uXNpKaJzbzY29rINWNx9GKk+Z4aRGQ/kOYQP7hKoehkWL8EErbpcuyB6vqpcAf+pzVBUNbWFVitxSDe/0X1gbgixf/w54ra9wYSuMkCkNKsDZYhs2DUkbmxwlEm3iY83NmOLIo7543dwEeIXa/g1l+yPF+B4TLw5pcBNFN2u8F7Mjj9M860SC/4ZY2iGzf/aV+/8N5weiL2tnqdOv+Q1TvZjbxaNd7KmqbwpCZN9tziLt8x6Yw6BHuxgFPheEKwWOwmz+mmks/TovvG6XiKtBe7IbmflGqzAzjTaPVmWSN+MoMxrHMhFZDjwhIk+HY4mILHfhWW2L2vyW1auT0wvhnT1iiYb3P4zmDqne2S1W1a1cAJq5FPeNMabfrMID/HfbsS9g+o1DyrQ51VC2vhX7kIhcD3yZ4ig/3sesBfxn6IMGYjlyJcL7jwuAv5CtgHle/zOAqj6bTGHj/hfLsdUdGJBBOLFqINkmZ89gSrm4Trrw+o4ZUOq44mhvslVoT4MCPxOR8ZDWgRGgiTZGYrJ85Hl4K3CXTg3rO2u0Myh7Bl9PZw5Rzfhc0BIVRZYojSh6xSjw2XDa01/HNgHZQ0RURH4NnEbzZU4XQt2ppttK5yGV9mnjHu4t3s4xnS1yA9sCc6dwrixhzCcEQ6oqRUcQHmsiUh+USj+b+ORRRG4CPk9WHyddhtWPNYGvRudWVmIP6mZOuP5+z+3yGfHKzbq5c/l0PNDk/2VQD5OdYzDTpSIh2st8T1U9aKYUCqsKkaDyOGZ+B5NXct6sqs/C/EzWJQunCXC5iNy1imnkE4PH95gckccnefuq6vPINnYrlTAeN1R1PlNt/11WOLfs55aEt9FDm5y/VLKwkwNBOwXoncyNmMNat4b7vmSxNfC+0Hn1U6vmHeT7MNOT2E7OB87PqeqcUJEXUxxOyDVEjwI3hHPdmG+4KYzbIzcLd9VtzFaPu1z4eDIzjjLxmLUaJiJTjpKft6rgnee/Y/ZyQzQXsl6nqoeszEKWZBvkPMH029m+wAeBTh8TfvdCsrzLC8j+/a4O791+IoJGWUSWYn0PFK/c+TueEPqEvgyoqwGnk5kFubZtLuZguC9ZvrvT2emRA1oiUSrRCu+VmMbU66S393nAMTI1XnlZ+D4Bh2AmIy73eBpuwXb87Yf/UdeElbu6qu4JvJLM4drNNyaAs8PlAzPxnbYAo9n+Y5hdX7ws0c3zGsDRqroRpiHuxyysEu69MRbvOS+se4V6IXBY0JI+CBzL5CUDyJY9rhGRx4Mg3O0EAuAN2DJz0QDvRv7dHs0ELJ95vl5V55dsxpHokEjIegYTsryONTPl+KyqPoeVW8jydnNr+F70rmCT3Y1hRTtum3D/3Zrc3zviBjaIQJ864miV4XJsZatIC+0T9Q2wWNDJlKMDQh5XwkrOz8PpGlm+fhJbCnZhuYLZfrpt9MAMwolVjoqIjGGO4nGb9on9O1R1z2Ca12mM9qaE9lBTizL2cabKPQJ8WSyq08CMI6Gfrwet+YlM7rvd9OXHYputDdTKUadbeZ+H2dV0awsNWZSBRSLyL33Sqrmz3mKynf6KnPUawMdV9btYfMGvYZqLrZm8JChYLFXozpud6DfNom/4c04A7sTCnLWbxxXMtu+NwF4UN5wGJpjspKqX0l8nhsQ0RELWNar6NUyQzjsUermtA3xFRBauxAK09yG/xOLyFmlk61gYuL1E5OTQN0zb1qIJ81pY/Yepk0kXUO8mC+HUzxUSn+x8GJs0b0TzqBwHqOr3ReRCneXNplYyvE6dijmBx+Zsa0XXeb6fHSIgJOfBRN+IFFRnAh8AtiPr230F/zRV3VFE/qC2O3JPO+zlxoXTyEyXfJz3revPGiTts/fxQVF7GvB8svR6/6zAceHvgVIytCtA+yB2KWbKsG6La9t95qGq+i0Rua7MQSNyHHwpFgqumamIV6x1gE+LyMHAuKp+GHtPyJYRHgYuic51mqbYu3Tn6PmOp/F+sfB6XaGq1wN7Nvm3P2OhiFyi5W+qMigIZput2LJ+Ty/a547GhayjgTdj9r9FQlYN2FtVD5Byd22cSbzdXEEWvi+vdfXB5ShVPUtEnlILC1crWvUJg1QF0/hMqOonsZCNRdF0PF8vDxEY+pqHkkXreVRVP4jtnlfUd/g7/4eqXoNtNlWmlkXCIFUpYdVJS0xXGXhaLsaiHmzK5J3L/H2rmPNqch5MzBSV4Kh3OLb3gSsdXQG3HvAjVX2DiNwdNNFdhY2MJ4RqkWlex2Qh1O95hPd9zLLyLPRFHk2nqqqnYCZXcWhXDxX6DRG5fhDHvba0WZLtAPUYFsD+CUyofLTL42EsnvKRoTBLleZC4XyB4kE6xjVc71LVfwiC7mXYjnRudwPw/WC+Ue1yAHFnu9djEQLy5ht+z5+oRa0YVYtc0ckxjM0wf0+xljzerWvNVdiMoy4iY8Fp0Z0Xuz76mdDIlONJ4P/R3L/ABYIvRfayK1XZhT6kgsXx/AXFpmD+npsB3w3mRhNuQx06Wj8qwc6+LlnouCOYuplQ/t5n9ukVpxCtMpyLrWAVDVzeVjfFIgP5kmVZTHge9doWBkx4js0LlzDVPtLz0PP7KrE9CAZqCTixahK1/auxIAZxKFJX3m0J/FxVXxvGKg1j+bST3ag/dLON+ap6NhaBJna0cyH0JBG5fDaEUM2CCqyIyBX67pqqvgD475BuT2uc7juAD/sq40ymux06sb/xQfsTWIimXomjTPS0lapXiEj7fADwGqbfohsy28gvADuHd/woZks5goXeOjm6tht8ieKtNLd1BbgoCBod704WvfslWCzUZmYcmwCvVtX/JtNurgp4h7NAVfejdYjA6XBb9EewgbdvA27U0V6sqt8BDqR5bOgNgRNE5KBB0CJ0ga/EfAVrn0W4QPkm4Jeq+llMa/wwufcNJhvbYyEBPbJNkVLA8/MKEfmfMOjMVN5p6FMOx8wMFtDcJ+MQVT1HRK4oYaDzur+pqi5k8pJop3h7uEdEbtDBiK/ueDq+hU2ghile2Tg9/N2tCV6/cOdXKWFVUMgcuxOzj8s1n8TMQt+CKeWGyZR3G2OKsxOwvv1h/3H4bdEY5ppql3vegEV02obJQqg/6ypsVa8tk7huaCbwy+RgAiuUJqq6Gebo+AHMbC8e8/zvJ4H9xXZQHsiJb9sCdJQJE8CD/UlO92gWtm4+cDytNc8xLojsBBwgImcDt6nql4GPAWeIyO3dDmiamW9sRBZ9IxaOfNB/GLg6nOulolwIHEnxxMG1WwtF5DItocceILysN8GWy8tgGWaT9VCfG7CGGfaR2MRtfZqbchwYhKyLBnFJqxVhslDBVniuwdpc0SQ3jthzFvCYqt6O7QS6FNsoZR2sbDYNv2nW3r2O1zHHmhklWr27X1U/AnyD4rCFnvaTVfUlwDM9Cqped3Yg89/oldtU9UW+IjAIgpqvbIQ++gps4uV1ylcjHiAzwRu09jIm2X4EvTLr5ZHICO3Ex4wDMFOj15JpiH0yV8V8JQ5U1TMwX7ObWvXtqrpBuNd7yByn477UheffAPuJmZN0GwBhOlpO2oJsthbWX78E89XalSxef5xuN+FYArxVRG4a5HGuKw/QMJNxDW23+HJ1LwWqWCX5GfB06EyPxJaA29E+59PyGVW9GBukv4g5JH3JhfMu0+iCT2y+EafLv/9MRJ7oQVDz39yALXtsSbGmSzAzjnkisnRQBsKS6VXQdWFsRryVIyHroVB/z6DY8dWXsU5Ss5d9alBn5q0IgvRh2FbM8yj2U4i1JetgoY2KcK1Gs7Zew/qIRUF7OhudsWui/gt4OzbwNVtl2BLzyfhQSasMZQhnXj4+AR+0/sLTdiomQPtkxNP9fRF5WgfHedDTNwe4WFXH6S1ffRX1SeBfROThVbRfX+mQzBdimaruhZmQ7Y2VWV7rugmmtPsocLuq3gTcg5m71rF9ATbEFAvbMHnTqTjKkMtFv8CE0Ef6NE54PX6Oql5e8P8KVsfXxvzm8jsr+xgXp3sIe+cDZEDtnmM6FqAjU4HXAx8sP0kdczMW4qShqs8H/o3mjoPN8MFrM+AoEfkUpvXaFfhLjxqC6aJvuPbpIs2cojqu6G4/JeYkcCm2ZFwkQLu95auwkE6rYjSOXoVeF6BnzM44MuU4U1XfhjkVNhOyngt8VvoXxaZvRBrD/1PVd2OrBbGneIyXY7PQmd5emq22NLCB5EwR+XQ/lzBbEdqmhs/DsB1NR5mqNfd8+KCqnicivyzJlKOMejzI0V/cn+PHWASjLcgmVXVsQgqDZboBNv7uVPI9j8dWMwdxorNaEvV5S1R1Hyxc7seYHK/eTazcBOPvwtEK7xe8bcYOeN8EPiAiz/RRyeL9ylzMcbEdauTMd6PvYOPB4UGZNNDCM3TXKbot9Mex/dQbWKY0ZvjwjUMOE5FlIW3HY7O0bmKqemH+m6o+L8zgH+plFu8VN5hvuM1nnOex5uCnsV1Tt48MnxeGz2aCBZS/qUqid9xe9v9hdaJoEPRO972quqsL3jOczp6INO4/wGy+x8hWapoJytWCo6j/UrJ4wEOYycS7g+lIo5f23AvRO/8e+DTNt/n2weRraruoep1Y1Skql7bKKpSpb6HskTbcAfxaEfltB0JEs2f2Wm+a/b5ewuFj4Tj98WnpV55089x+PbOvzwrt323Uj8ZWoa4n68dcSRD/nd8kLf47djZ2M9AhbJOoA0Tk4D4Jz83yqd26GlseeL9ewfJioYi8bWURnqELAVombwIRb7kYzyr6fbiq/3sici2Aqu4C7E9nphuTXi3cdx7wRck8YnsZvDx/dwv3HWNyQ/AO7+qw7NarjZI3lP/BlkHiTtUPb5i7qeocaR2NY7qdD2dDGGlgg2MtfPbjqEWf7aSnm90hpxA6uoqI3A18Cqs/+fKLj6+o6hr0FpXDBc5WR+lEGvfvYpPLX2Nt2ieyXldbrf74/+LrJdznYeC9InKo36fLtlVmG3BTjhOwnV2rWJ+Qb5/LgW2x1bDpVtPqzFx76OeA5n127HAUa6amw/u+M4BnsDqQdx7sNB3x0euGF3FIsfgoc1x057Sy8WhW8eHv1E/yYdhc4dSPCWVR+ZT6fu5QF/q9q4BXA+/GhMdYmPT3iwVkjc7Fspb/5g7MjnoHEfmehkgeJQvPsaY8XxeK6mOR0qNK1s8/BvwAc67cUUR+GKV74IVn6LJTiLQp16jqImxJIl4+6CfesT4FfCJolipYFI0y7g3w2/DZq8bKK+97yCpPjOfXReGzK/MNJ2qcy4NDzSEtLn8eZsj/I4rNOHxGW4SfH+42rT0wLzx3Jp7dTrzzNcl2gixirU4eGGmU/xObEO5YcJk/60XYZO/9PdjLrkHr9K/dxT3bIhKir1fVV2L19TBsh9C8wJM344iFq/jvB4DvYmGb/hT6h26FZ8HKtwjPr9G2b2btE7HwTf+K+SsU/d7vfayq/kREftVCI7MWM9cO1+rjvZeEz7iPnMCE4WmJlsnvCX4s+wN/Jutb220b+XR43j7V5u+nJA2ru0vIJndl44LWOOa/Uza+GuZ54e+wpPjynmmVZ89g71kKkX/TUqY6+C+lDyFDo35vAose8y1V3Qmzjd4Z6//a6VfuxJRlF2BmrMsgM7MtM82BGuZYn8+n6RjD6tBfsXjtv8H8X/5HRP7qF60sWueYrhtzVAmOC17jb2VmhGi3bfuCiNwLoKqHYN7m3WqfIUv7eSKyuKSlDx+0z8Q0bLE2yScCdUyIhXI0PP7MrwJPR8/J/x+sAebP+d/3YUvNeZOY+FqPGjITld7L4lRMu96pnXsn+Ps+HA4/V5Sek4E/FKTHv98CK6KxtCvEaRAI/hl4b8G9/f6C+QDE6WkXv/58zNEj/wzPg79gnV9fkGxL5nHgq6p6KqaRfhPmOLg5mZCYb9sNLCb9/ZgW5wosVN1jUEqH/ChmqrYeU9uR5/+Pou/TEr3vjar6LkzTXFS+/rwl0ff8/8F26Gp2j7LwtNzuS9FlmcJE5XMV5hwVx+5f5n18u+YXQdj5V8yc70kReTz8vmV6W6TDuTtc1+mKjN/jQMwBrF+rdgIsDyZC7eZX6xtm7/o1IO8k1sBMOPux2ZTn0UFMzjMBnhKRJ8Jze8rL6Pe14NO1Tu5Zj3ZR3u0+21d+K2Ix1q/BIhOhqptjdvzPxzaGmoe17eVYn3Qftt/DPZH5KpptxlJqeXg+BcXcrphSZbq8F7JVtTFsMvJ4Pj+DgkMwZeVKJTxDj0shmm0fOQf4KfAy+itE+6B1FxYOZRlW6X9H1tC6GUQ8zddhWtnldK+1SiQSHRIPJrnza2OxUtfD+plhrL0ux4TnBySKnRp+U4WB2zVvEilKwsyQ8jkx6ETBAzqejET+L7Pm39EJOX+dlSLNreh5aSJylNsAm6VuSxaDsGxcw7xfcEBCVU/EooF0q332tP4O2C2yRS5t8NXmAdGdrrbwnOaZbtrSiqbPDY16uvwsPd3TEd7L7bD67Vyl02kg2shn7XZm3WYZdn3/dp/RLy1MEdFgIp08t18DSdDqtKLRbV/RRr8A07SxcA/3C+l3e+irlihSyKygm7wNdUh6+H2hc2ov9SpOUz/px6SxWdr7PUGdyec2KfO+v2NBOvydW9WXFfbHszT+dvVT6H3VYJXEM1VVN1TVG9QY13Kphc8rwrNEVbdW1eWqWlfVRhf3nAif16vqhvG7JBKJ2UezLWB9C++h6O9pt7xNJBKJRGKg0UyIXltVL4uE3noXgm2eRrjPuKq+xAdNVb00ek4n1KN0XaK2TJyE50QikUgkEonEzKKZEF1V1S9HAmunAm4e//3J0bPe0uW9J6K/T9AszUl4TiQSiUQikUjMPBotq6rq/qr6YBBW610Iu/67hqr+VVWfHe4/R1Vvi/7fDrE2/M+qul9Io2haBk4kEolEIpFIzCZBKK2GvzdV1W/nBOJOBGm/9gPR/Y/K/a8ZDZ1qRvJtVf2bcJ9qEp4TiUQikUgkEgODRiFLVHV3Vb2mQDhupUF2Afm3qjqipn3eRFUf08l2zHmKhPRrVHW3orQlEolEIpFIJBIDgwYv+ujvvVT1Jzo5akZDzTY5Fqhde6xqQc79fqflhOtYYJ4ouO/lavbSblaSPPcTiUQikUgkEoNPXuOrqi9VczS8o4kWeSx8XhD9Zge1sHVjkcBdxB2qeqKq/n2rNCQSiUQikUgkEp0y45rYIMSu2OxAVecCL8e2790J28Lyb8Ll49jGLH/AtrO8HtsnPs8DwB3Az4ErgeujfeELdzhLJBKJRCKRSCS6YdZMGYJZhxRs3bsA2Ax4HrBcRC4L518AfBhYAjwFPIztCX8f8EcReTx3nyF62CUskUgkEolEIpEoYtZtgTXaupcCgVdVpZ3tHzXbklhZBfZYTyQSiUQikUgMJrMuQOfRyXvB4xrqcD5vwzxre8InEolEIpFIJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJRCKRSCRWIf4/moMa3zXQhogAAAAASUVORK5CYII=">
+  <div class="eyebrow">The Aperture Method™ · Governing Document</div>
+  <h1>Canonical<b>Architecture Reference</b></h1>
+  <div class="rule"></div>
+  <p class="lede">The authoritative definition of the Aperture Method's architecture. Every future
+  form, agent, assessment, model, deliverable and analytical method is placed against this document.
+  Where any other artifact disagrees with it, this document governs.</p>
+  <div class="meta">
+    <div><b>Version</b><span>1.1</span></div>
+    <div><b>Effective</b><span>10 August 2026</span></div>
+    <div><b>Owner</b><span>Fenwick How</span></div>
+    <div><b>Status</b><span>Adopted · living</span></div>
+    <div><b>Review</b><span>On material change</span></div>
+    <div><b>Classification</b><span>Confidential</span></div>
+  </div>
+  <div class="status"><b>This is a living document.</b> It is expected to change as the Method is
+  built out. Clauses marked <span class="U">OPEN</span> record decisions that have not yet been made;
+  they are part of the record, not omissions from it. Amendment procedure is at §13.</div>
+</div>
+
+<div class="wrap">
+
+<h2>Contents</h2>
+<ol class="toc">
+  <li><b>1</b> Purpose, scope and authority</li>
+  <li><b>2</b> Canonical vocabulary</li>
+  <li><b>3</b> Object taxonomy</li>
+  <li><b>4</b> The Force5 agent layer</li>
+  <li><b>5</b> The engagement spine</li>
+  <li><b>6</b> Phase contracts</li>
+  <li><b>7</b> The evidence standard</li>
+  <li><b>8</b> The gate register</li>
+  <li><b>9</b> Load-bearing objects</li>
+  <li><b>10</b> Scoring authority</li>
+  <li><b>11</b> Placement rules</li>
+  <li><b>12</b> Change control</li>
+  <li><b>13</b> Open decisions</li>
+</ol>
+
+<!-- ─────────────────────────────────────────────── 1 -->
+<section class="sec">
+<h2>Section 1</h2>
+<h3>Purpose, scope and authority</h3>
+
+<div class="cl"><div class="n">1.1</div><p>This document defines the architecture of The Aperture Method™: its objects, phases, contracts, gates and evidence standard. Its purpose is to give every future addition a defined place, so that the Method grows by extension rather than by accretion.</p></div>
+<div class="cl"><div class="n">1.2</div><p>It governs the SOPs, the agent definitions, the intake instruments, the scoring rubric, the deliverable set, the commercial documents and the codebase. It does not govern commercial terms, pricing or legal drafting.</p></div>
+<div class="cl"><div class="n">1.3</div><p><span class="must">Precedence.</span> Where artifacts conflict, authority runs in this order: <b>(a)</b> this document; <b>(b)</b> the Method SOPs; <b>(c)</b> the Agent Build Spec; <b>(d)</b> marketing and commercial material. A conflict resolved here <span class="must">MUST</span> be corrected at source in the losing artifact; this document is not a place to hide a contradiction.</p></div>
+<div class="cl"><div class="n">1.4</div><p><span class="must">Normative language.</span> <b>MUST</b> is a requirement; non-conformance is a defect. <b>SHOULD</b> is a strong default; departure must be recorded with a reason. <b>MAY</b> is discretionary.</p></div>
+<div class="cl"><div class="n">1.5</div><p>The companion <i>Master Process Architecture</i> is descriptive — it shows the system as built at a point in time. This document is normative — it states what the system must be. Where the map shows something this document forbids, the map is reporting a defect, not granting permission.</p></div>
+
+<div class="callout"><b>The governing principle</b>
+Human-led, AI-enabled. Automation compresses the mechanical work — reading, reconciling, modelling,
+mapping, monitoring. Judgment, context and accountability remain with a named person. Agents produce
+findings; only a person produces conclusions. No clause in this document may be read to permit
+otherwise.</div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 2 -->
+<section class="sec">
+<h2>Section 2</h2>
+<h3>Canonical vocabulary</h3>
+<p class="note">Three naming conflicts were found in circulation. This section resolves them. These names are canonical; no other name for the same object may appear in any artifact.</p>
+
+<h4>2.1 Modules</h4>
+<table>
+  <tr><th>Phase</th><th>Client-facing name</th><th>Verb</th><th>Internal agent</th><th>SOP</th></tr>
+  <tr><td class="k">—</td><td>Business X-Ray™</td><td>Diagnose</td><td>Lena</td><td>01</td></tr>
+  <tr><td class="k">01</td><td>Aperture Insights™</td><td>Understand</td><td>Lena</td><td>02</td></tr>
+  <tr><td class="k">02</td><td>Aperture Analytics™</td><td>Quantify</td><td>Marcus</td><td>03</td></tr>
+  <tr><td class="k">03</td><td>Aperture Intelligence™</td><td>Reveal</td><td>Natalie</td><td>04</td></tr>
+  <tr><td class="k">04</td><td>Aperture Compass™</td><td>Navigate</td><td>Aria</td><td>05</td></tr>
+  <tr><td class="k">05</td><td>Aperture Live™</td><td>Perform</td><td>Thomas</td><td>06</td></tr>
+</table>
+
+<div class="cl"><div class="n">2.1.1</div><p><span class="must">Aperture Live™ is the canonical name of Phase 05.</span> "Aperture Atlas" is the internal SOP title only. It <span class="must">MUST NOT</span> appear in any client-facing artifact. It currently appears in the New Customer Contract Agreement and in the public intake form; both are non-conformant and must be corrected.</p></div>
+<div class="cl"><div class="n">2.1.2</div><p><span class="must">There are five phases and six SOPs.</span> The Business X-Ray is a product, not a phase: it is the fixed-fee wedge, and when a client engages the Method it is delivered inside Phase 01. Any artifact stating "six phases" is non-conformant.</p></div>
+<div class="cl"><div class="n">2.1.3</div><p>Agent identities are internal. Clients engage modules, not names. Agent names <span class="must">MUST NOT</span> appear in any client-facing artifact, including document metadata, sheet tabs, chart titles, alt text and filenames.</p></div>
+
+<h4>2.2 The seven lenses</h4>
+<p class="note">Three different lens sets were found: the SOP 01 list, the Build Spec list with different weights, and a third set scored in a delivered X-Ray. The SOP 01 list is canonical and is what the scoring engine implements.</p>
+<table>
+  <tr><th>#</th><th>Lens</th><th>Key</th><th>Weight</th><th>Covers</th></tr>
+  <tr><td>1</td><td class="k">Finance</td><td><code>finance</code></td><td>20%</td><td>Margin, cash, unit economics, working capital</td></tr>
+  <tr><td>2</td><td class="k">Operations</td><td><code>operations</code></td><td>18%</td><td>Capacity, throughput, bottlenecks</td></tr>
+  <tr><td>3</td><td class="k">Customers &amp; Retention</td><td><code>customers-retention</code></td><td>18%</td><td>Acquisition, repeat behaviour, lifetime value</td></tr>
+  <tr><td>4</td><td class="k">Market &amp; Competition</td><td><code>market-competition</code></td><td>14%</td><td>Position, demand, local dynamics</td></tr>
+  <tr><td>5</td><td class="k">Leadership &amp; Team</td><td><code>leadership-team</code></td><td>12%</td><td>Key-person risk, roles, capability</td></tr>
+  <tr><td>6</td><td class="k">Processes</td><td><code>processes</code></td><td>10%</td><td>How work gets done; where it breaks</td></tr>
+  <tr><td>7</td><td class="k">Technology &amp; Data</td><td><code>technology-data</code></td><td>8%</td><td>Systems, data quality, automation</td></tr>
+</table>
+<div class="cl"><div class="n">2.2.1</div><p>"Marketing &amp; growth engine" is <span class="must">not</span> a lens. Marketing evidence is scored under Customers &amp; Retention (acquisition) and Market &amp; Competition (position).</p></div>
+<div class="cl"><div class="n">2.2.2</div><p>Any change to the lens set, its sub-criteria or its weights is a rubric version change and is governed by §10.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 3 -->
+<section class="sec">
+<h2>Section 3</h2>
+<h3>Object taxonomy</h3>
+<p class="note">Everything in the Method is exactly one of six object types. An artifact that cannot be typed has not been designed yet.</p>
+
+<table>
+  <tr><th>Type</th><th>Definition</th><th>Must declare</th></tr>
+  <tr><td class="k">Input</td><td>Something the client supplies: a document, a data export, system access, or a person's time.</td><td>Which phase needs it · blocking or helpful · the intake question that collects it</td></tr>
+  <tr><td class="k">Method</td><td>An analytical technique applied to inputs: a calculation, model, rubric or framework.</td><td>Discipline · phase · inputs consumed · output produced · the evidence class it yields</td></tr>
+  <tr><td class="k">Agent</td><td>An automated worker executing a defined SOP within a fixed tool allowlist.</td><td>Phase · tool allowlist · refusal rules · which steps are human</td></tr>
+  <tr><td class="k">Output</td><td>An internal artifact: a score, a finding, a dataset, a model. Not sent to a client.</td><td>Producing tool · evidence refs · consumers</td></tr>
+  <tr><td class="k">Deliverable</td><td>An artifact the client receives and keeps.</td><td>Phase · format · the gate it must pass · the pre-delivery check</td></tr>
+  <tr><td class="k">Gate</td><td>A point where work stops until a named human decides.</td><td>Who decides · what evidence they see · what the two outcomes are</td></tr>
+</table>
+
+<div class="cl"><div class="n">3.1</div><p>Every Method <span class="must">MUST</span> declare the inputs it consumes, and every declared input <span class="must">MUST</span> have a collection route — an intake question, a data request item, or a system connection. A method with no collection route is not yet part of the architecture.</p></div>
+<div class="cl"><div class="n">3.2</div><p>Every Input <span class="must">MUST</span> have at least one consumer. An input collected but consumed by nothing is a burden placed on the client for no return and <span class="must">SHOULD</span> be removed or wired.</p></div>
+<div class="cl"><div class="n">3.3</div><p>Every Agent tool allowlist is closed. A capability named in an agent's description but absent from its allowlist is <span class="must">not callable</span> and <span class="must">MUST NOT</span> be advertised as available.</p></div>
+<div class="cl"><div class="n">3.4</div><p>Every Deliverable <span class="must">MUST</span> pass the pre-delivery check before release, including the internal-identity scrub of §2.1.3.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 4 -->
+<section class="sec">
+<h2>Section 4</h2>
+<h3>The Force5 agent layer</h3>
+<p class="note">Force5 is the internal name for the five specialist agents that execute the SOPs. They are a labour layer, not a decision layer. This section is their constitution.</p>
+
+<h4>4.1 What the agent layer is</h4>
+<div class="cl"><div class="n">4.1.1</div><p>Each agent owns exactly one phase, holds one standard of evidence, and hands typed findings to the next. The Method executes as a <b>sequence, not a swarm</b>.</p></div>
+<div class="cl"><div class="n">4.1.2</div><p>Agents compress the mechanical work — reading, reconciling, modelling, mapping, monitoring. They <span class="must">MUST NOT</span> close the loop themselves. Every phase ends at a human gate (§8).</p></div>
+<div class="cl"><div class="n">4.1.3</div><p>Agent identities are internal (§2.1.3). Clients engage the Aperture modules. No agent name, and no reference to "Force5", may appear in a client-facing artifact.</p></div>
+
+<h4>4.2 The roster</h4>
+<table>
+  <tr><th>Agent</th><th>Module</th><th>Owns</th><th>Standard of evidence</th></tr>
+  <tr><td class="k">Lena<br><span style="font-weight:400;color:var(--muted)">The Strategist</span></td><td>Aperture Insights™</td><td>Seven-lens diagnostic · Aperture Score · constraint candidates</td><td>Refuses to render an uncited figure. Proposes constraints; never names one.</td></tr>
+  <tr><td class="k">Marcus<br><span style="font-weight:400;color:var(--muted)">The Analyst</span></td><td>Aperture Analytics™</td><td>Financial model · Profit Map · scenarios</td><td>Never does arithmetic in prose. Reconciles to the dollar or reports the break.</td></tr>
+  <tr><td class="k">Natalie<br><span style="font-weight:400;color:var(--muted)">The Explorer</span></td><td>Aperture Intelligence™</td><td>Geocoding · segments · trade areas · site selection</td><td>Never sees a street address. PII drops before analysis begins.</td></tr>
+  <tr><td class="k">Aria<br><span style="font-weight:400;color:var(--muted)">The Navigator</span></td><td>Aperture Compass™</td><td>Opportunity Matrix · sequencing · Focus Plan</td><td>Every entry cites its upstream finding, or it does not render.</td></tr>
+  <tr><td class="k">Thomas<br><span style="font-weight:400;color:var(--muted)">The Operator</span></td><td>Aperture Live™</td><td>KPIs · Scoreboard · re-score · monthly brief</td><td>Escalates; never acts. Every dashboard value reconciles to source.</td></tr>
+</table>
+
+<h4>4.3 The agent constitution</h4>
+<p class="note">These rules bind every agent. They are not style guidance; they are the terms on which automation is permitted to touch client work at all.</p>
+<div class="cl"><div class="n">4.3.1</div><p><span class="must">Closed allowlist.</span> Each agent may call only the tools on its list. A capability named in an agent's description but absent from its allowlist is not callable and <span class="must">MUST NOT</span> be advertised.</p></div>
+<div class="cl"><div class="n">4.3.2</div><p><span class="must">No gate may be closed by an agent.</span> Where a step is hybrid, the agent proposes and a person disposes.</p></div>
+<div class="cl"><div class="n">4.3.3</div><p><span class="must">No client contact.</span> Agents do not send, present, or correspond. Every readout is delivered by a person.</p></div>
+<div class="cl"><div class="n">4.3.4</div><p><span class="must">Findings, never conclusions.</span> An agent surfaces what the evidence shows. What it means, and what to do, is a human output.</p></div>
+<div class="cl"><div class="n">4.3.5</div><p><span class="must">Refusal is correct behaviour.</span> An agent that cannot meet its evidence standard <span class="must">MUST</span> stop and say so. A blocked state is a legitimate terminal state; a plausible answer produced without evidence is a defect, not a service.</p></div>
+<div class="cl"><div class="n">4.3.6</div><p><span class="must">No rubric authorship.</span> Agents read the rubric, the weights and the criteria. They <span class="must">MUST NOT</span> invent, adjust or extend them (§10).</p></div>
+<div class="cl"><div class="n">4.3.7</div><p><span class="must">Provenance.</span> Every figure an agent emits carries its evidence references and the tool that produced it (§8).</p></div>
+
+<h4>4.4 Tool allowlists</h4>
+<p class="note">Status: <span class="E">●</span> implemented · <span class="M">○</span> contract defined, body not built.</p>
+<table>
+  <tr><th>Agent</th><th>Tools</th><th>Built</th></tr>
+  <tr><td class="k">Lena</td><td><code>scoring.score_lens</code> <span class="E">●</span> · <code>scoring.compute_aperture_score</code> <span class="E">●</span> · <code>benchmarks.lookup</code> <span class="M">○</span> · <code>constraints.propose</code> <span class="M">○</span> · <code>interviews.triangulate</code> <span class="M">○</span> · <code>measures.baseline</code> <span class="M">○</span> · <code>render.insights_doc</code> <span class="M">○</span></td><td>2 / 7</td></tr>
+  <tr><td class="k">Marcus</td><td><code>build_financials</code> · <code>build_profitmap</code> · <code>allocations.propose</code> · <code>pareto.rank_drivers</code> · <code>breakeven.sensitivity</code> · <code>scenario.run</code> · <code>recalc</code> · <code>render.analytics_doc</code> — all <span class="M">○</span></td><td>0 / 8</td></tr>
+  <tr><td class="k">Natalie</td><td><code>geocode</code> · <code>segments.clv</code> · <code>gis_analysis</code> · <code>gis_layers</code> · <code>demographics.overlay</code> · <code>syncpoint.query</code> · <code>site_model.score</code> · <code>render.intelligence_doc</code> — all <span class="M">○</span></td><td>0 / 8</td></tr>
+  <tr><td class="k">Aria</td><td><code>opportunities.consolidate</code> · <code>matrix.score</code> · <code>scenario.stress_test</code> · <code>sequencer.order</code> · <code>render.compass_doc</code> — all <span class="M">○</span></td><td>0 / 5</td></tr>
+  <tr><td class="k">Thomas</td><td><code>kpi.define</code> · <code>pipelines.wire</code> · <code>feed.validate</code> · <code>build_dashboard</code> · <code>anomaly.detect</code> · <code>scoring.compute_aperture_score</code> <span class="E">●</span> · <code>render.signal_brief</code> — rest <span class="M">○</span></td><td>1 / 7</td></tr>
+</table>
+<div class="cl"><div class="n">4.4.1</div><p>Until a tool is built, its work is performed by a person. An unbuilt tool is not a missing feature — it is unautomated labour, and it is where the Method depends on Fenwick rather than on the system.</p></div>
+
+<h4>4.5 Human steps, by phase</h4>
+<p class="note">These are canonical. Where an SOP omits one, the SOP is non-conformant (see §6).</p>
+<table>
+  <tr><th>Phase</th><th>Steps that must be performed by a person</th></tr>
+  <tr><td class="k">X-Ray + 01</td><td>Kickoff and data request · every interview · naming the binding constraint · the readout</td></tr>
+  <tr><td class="k">02 Analytics</td><td>Approving the cost-allocation basis before computation · specifying which scenarios are modelled · the readout</td></tr>
+  <tr><td class="k">03 Intelligence</td><td>Approving trade-area parameters and scoring criteria before ranking · owning and presenting every site recommendation</td></tr>
+  <tr><td class="k">04 Compass</td><td>Agreeing criteria and weights with the owner · owning the sequence that goes to a board · the readout</td></tr>
+  <tr><td class="k">05 Aperture Live</td><td>Approving every KPI definition and threshold · setting the cadence · reading every brief before the client does</td></tr>
+</table>
+
+<div class="callout"><b>Why the constitution is short</b>
+Every rule in §4.3 exists to protect one thing: that a client is buying a person's judgment,
+supported by machinery, rather than machinery wearing a person's name. An agent layer that closes
+gates, contacts clients or states conclusions is a different product with a different risk profile,
+and it is not this one.</div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 5 -->
+<section class="sec">
+<h2>Section 5</h2>
+<h3>The engagement spine</h3>
+
+<div class="cl"><div class="n">5.1</div><p>The canonical sequence is: <b>Commercial acceptance → Intake → Data collection → Ledger → Business X-Ray → Phase 01 → Phases 02 and 03 → Phase 04 → Phase 05 → loop.</b></p></div>
+<div class="cl"><div class="n">5.2</div><p>Phases 02 and 03 <span class="must">MAY</span> run concurrently. Both consume Phase 01's typed questions and neither depends on the other.</p></div>
+<div class="cl"><div class="n">5.3</div><p>Phase 04 <span class="must">MUST NOT</span> begin until at least one of Phases 02 or 03 has been gated. It scores what those phases produce; with neither, it has nothing to score.</p></div>
+<div class="cl"><div class="n">5.4</div><p>Phase 05 <span class="must">MUST NOT</span> begin without an approved Focus Plan and agreed success measures. A Scoreboard built without them measures activity rather than strategy.</p></div>
+<div class="cl"><div class="n">5.5</div><p><span class="must">Standalone purchase.</span> Any module <span class="must">MAY</span> be sold alone. When a module runs without its normal upstream input, it <span class="must">MUST</span> declare the substitution on the face of the deliverable — for example: <i>"Derived from financials — not owner-validated."</i> Silent degradation is prohibited.</p></div>
+<div class="cl"><div class="n">5.6</div><p>Every phase ends at a gate (§8). A phase <span class="must">MUST NOT</span> begin on ungated inputs.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 5 -->
+<section class="sec">
+<h2>Section 6</h2>
+<h3>Phase contracts</h3>
+<p class="note">Each phase is an interface. It states what it requires, what it guarantees, and what it hands on. A phase that cannot meet its guarantee stops at its gate and says so.</p>
+
+<h4>5.1 Business X-Ray™ + Phase 01 · Insights</h4>
+<table>
+  <tr><th>Requires</th><td>P&amp;L 3yr + YTD · balance sheet 3yr · revenue by product and location · payroll by role · capacity and volume · payment terms and debt · 3–5 interviews · read-only accounting access</td></tr>
+  <tr><th>Guarantees</th><td>Seven lenses scored against the ratified rubric with evidence · a baseline Aperture Score with stamped version · ranked constraint candidates with confirming <i>and</i> disconfirming evidence · a prescription of components in order</td></tr>
+  <tr><th>Hands on</th><td>The named constraint · 3–5 success measures with baselines · typed questions to Phases 02–04</td></tr>
+  <tr><th>Human steps</th><td>Kickoff and data request · all interviews · naming the constraint · the readout</td></tr>
+</table>
+
+<h4>5.2 Phase 02 · Analytics</h4>
+<table>
+  <tr><th>Requires</th><td>Transaction-level export · chart of accounts · owner compensation and add-backs · price list · volume by product, location and month · accounting basis</td></tr>
+  <tr><th>Guarantees</th><td>A model reconciling to the P&amp;L exactly · contribution and fully-absorbed profit reported separately · an approved and documented allocation basis · driver-based scenarios with stated assumptions · independent recomputation passed</td></tr>
+  <tr><th>Hands on</th><td>Shortlisted moves with size, confidence and failure conditions · the scenario model</td></tr>
+  <tr><th>Human steps</th><td>Approve the allocation basis <b>before</b> any figure is computed on it · specify which scenarios are modelled · the readout</td></tr>
+</table>
+
+<h4>5.3 Phase 03 · Intelligence</h4>
+<table>
+  <tr><th>Requires</th><td>Customer records with addresses or ZIPs · purchase history joinable by customer ID · location list · marketing spend by area · competitor set</td></tr>
+  <tr><th>Guarantees</th><td>Geocoding performed locally with street-level PII dropped before analysis · match rate reported with the concentration of misses · penetration computed over addressable households · observed, modelled and estimated separately symbolised · ranking sensitivity to parameters stated</td></tr>
+  <tr><th>Hands on</th><td>Ranked areas and sites with geography, size, vintage and confidence</td></tr>
+  <tr><th>Human steps</th><td>Approve trade-area parameters and scoring criteria <b>before</b> any ranking · own and present every site recommendation</td></tr>
+</table>
+
+<h4>5.4 Phase 04 · Compass</h4>
+<table>
+  <tr><th>Requires</th><td>A named constraint · agreed success measures · shortlisted moves from 02 and/or 03 · owner limits on capital, capacity, risk and timing</td></tr>
+  <tr><th>Guarantees</th><td>Every matrix row cites its upstream finding · criteria and weights agreed before scoring and stamped · constraint-first sequencing with expansion last · displacement stated for every "Now" item · a one-page Focus Plan</td></tr>
+  <tr><th>Hands on</th><td>Approved initiatives with intended outcomes and the measures that would show them working</td></tr>
+  <tr><th>Human steps</th><td>Agree criteria and weights with the owner · own the sequence that goes to a board · the readout</td></tr>
+</table>
+
+<h4>5.5 Phase 05 · Aperture Live</h4>
+<table>
+  <tr><th>Requires</th><td>Approved Focus Plan · success measures · live system connections with authorisation · Aperture Score baseline</td></tr>
+  <tr><th>Guarantees</th><td>Every KPI traces to an approved initiative and has a named human owner · every dashboard value reconciles to its source on build and refresh · re-scoring uses the stored rubric version · the client can operate the Scoreboard themselves</td></tr>
+  <tr><th>Hands on</th><td>Deviations routed back to the phase that can diagnose them · re-opened constraint candidates</td></tr>
+  <tr><th>Human steps</th><td>Approve every KPI definition and threshold · set the cadence · read every brief before the client does</td></tr>
+</table>
+
+<div class="callout open"><b>Non-conformance on record</b>
+Phases 02, 03 and 04 currently contain no human step in their written SOPs, while the Build Spec
+assigns Fenwick approval duties in all three. The human steps stated in 5.2–5.4 above are canonical;
+the SOPs must be amended to carry them.</div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 6 -->
+<section class="sec">
+<h2>Section 7</h2>
+<h3>The evidence standard</h3>
+
+<div class="cl"><div class="n">7.1</div><p>Every figure in every deliverable <span class="must">MUST</span> carry an evidence reference resolving to a ledger entry.</p></div>
+<div class="cl"><div class="n">7.2</div><p>Every figure <span class="must">MUST</span> be produced by a tool that can be re-run. A number produced by reasoning is not evidence and <span class="must">MUST NOT</span> be published.</p></div>
+<div class="cl"><div class="n">7.3</div><p>Every value carries exactly one class:</p></div>
+<table>
+  <tr><th>Class</th><th>Meaning</th><th>May support a score</th></tr>
+  <tr><td class="k">Measured</td><td>From a client system or document</td><td>Yes</td></tr>
+  <tr><td class="k">Derived</td><td>Computed by a named tool from measured inputs</td><td>Yes</td></tr>
+  <tr><td class="k">Assumed</td><td>A judgment input; cites who set it and on what basis</td><td>Only where the rubric permits</td></tr>
+  <tr><td class="k">Claimed</td><td>Asserted in interview, not yet corroborated</td><td>No, until promoted</td></tr>
+</table>
+<div class="cl"><div class="n">7.4</div><p><span class="must">Reconciliation.</span> Two thresholds exist and <span class="must">MUST NOT</span> be confused. <b>Ledger acceptance</b> tolerates aggregate variance of ≤0.5% provided every variance is itemised — it is a completeness threshold. <b>Figure publication</b> tolerates nothing: any figure entering a deliverable must reconcile exactly to its source. Accepting a ledger does not license an unreconciled figure.</p></div>
+<div class="cl"><div class="n">7.5</div><p>Insufficient evidence is a finding. A lens, criterion or figure that cannot be evidenced <span class="must">MUST</span> be marked insufficient and <span class="must">MUST NOT</span> be estimated. Insufficient is never scored as zero, and its weight is never redistributed.</p></div>
+<div class="cl"><div class="n">7.6</div><p>Ledger references are append-only. A superseded entry is retained and marked; a restatement by the client is itself a finding.</p></div>
+<div class="cl"><div class="n">7.7</div><p>Confidence is recorded separately from score. A well-evidenced 40 and a thinly-evidenced 40 are different findings.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 7 -->
+<section class="sec">
+<h2>Section 8</h2>
+<h3>The gate register</h3>
+<p class="note">"Seven gates" was referenced across the source material but never enumerated. This is the enumeration. A gate is blocking unless marked advisory.</p>
+
+<table>
+  <tr><th>Gate</th><th>Name</th><th>Decided by</th><th>Passes when</th></tr>
+  <tr><td class="k">G1</td><td>Scope accepted</td><td>Fenwick + client</td><td>Scope, exclusions, fee and timeline are signed. Exclusions are recorded explicitly.</td></tr>
+  <tr><td class="k">G2</td><td>Ledger accepted</td><td>Fenwick</td><td>Sources ingested, reconciled within tolerance, every variance itemised, gaps recorded. <b>Nothing downstream runs until this passes.</b></td></tr>
+  <tr><td class="k">G3</td><td>Constraint named</td><td>Fenwick, then owner</td><td>One constraint named from ranked candidates, agreed with the owner in writing.</td></tr>
+  <tr><td class="k">G4</td><td>Basis approved</td><td>Fenwick</td><td>Phase-specific judgment inputs approved <i>before</i> computation: allocation basis (02), trade-area parameters and scoring criteria (03), matrix criteria and weights (04), KPI definitions and thresholds (05).</td></tr>
+  <tr><td class="k">G5</td><td>Phase output accepted</td><td>Fenwick</td><td>Guarantees in the phase contract met; recomputation and reconciliation passed; insufficiencies marked.</td></tr>
+  <tr><td class="k">G6</td><td>Deliverable released</td><td>Fenwick</td><td>Pre-delivery check clean, including the internal-identity scrub. Reviewed, edited and signed by a person.</td></tr>
+  <tr><td class="k">G7</td><td>Continue or close</td><td>Client</td><td>Client decides the next component, or moves to Aperture Live, or closes. Decision and reasoning recorded.</td></tr>
+</table>
+
+<div class="cl"><div class="n">8.1</div><p>Each gate <span class="must">MUST</span> produce a record: who decided, when, on what evidence, and the reasoning. On a retainer, the reasoning is what makes the Scoreboard interpretable a year later.</p></div>
+<div class="cl"><div class="n">8.2</div><p>A blocked state is a legitimate terminal state. Partial artifacts <span class="must">MUST NOT</span> be released to work around a gate.</p></div>
+<div class="cl"><div class="n">8.3</div><p>Agents <span class="must">MUST NOT</span> close a gate. Where a step is marked hybrid, the agent produces a proposal and a person disposes of it.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 8 -->
+<section class="sec">
+<h2>Section 9</h2>
+<h3>Load-bearing objects</h3>
+<p class="note">Four objects are consumed by three or more downstream components. If one is wrong, everything after it is wrong and nothing will say so. Each requires a defined home, not a mention in prose.</p>
+
+<table>
+  <tr><th>Object</th><th>Consumers</th><th>Requirement</th></tr>
+  <tr><td class="k">The constraint</td><td>Insights validation · Analytics tie-back · Compass scoring · Compass sequencing · Live KPI selection</td><td><span class="must">MUST</span> be a recorded artifact with its evidence, its disconfirming evidence, and the date the owner agreed it. Not prose.</td></tr>
+  <tr><td class="k">Success measures</td><td>Live KPIs · re-score baseline · Compass inputs · Focus Plan · Scoreboard</td><td>3–5 measures, each with unit, baseline value, target range, cadence and owner. <span class="must">MUST</span> be structured, not narrative.</td></tr>
+  <tr><td class="k">Rubric version</td><td>Every lens score · every composite · every future re-score</td><td><span class="must">MUST</span> be stamped on every score. Re-scoring uses the stored version. See §10.</td></tr>
+  <tr><td class="k">The ledger</td><td>Every phase, every agent</td><td><span class="must">MUST</span> be a single append-only store per engagement, holding every figure's source, class and provenance.</td></tr>
+</table>
+
+<div class="cl"><div class="n">9.1</div><p>A load-bearing object <span class="must">MUST NOT</span> exist only inside a document. If it cannot be read by a tool, it cannot be enforced, and the guarantees in §6 and §7 become aspirations.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 9 -->
+<section class="sec">
+<h2>Section 10</h2>
+<h3>Scoring authority</h3>
+
+<div class="cl"><div class="n">10.1</div><p>The rubric — lenses, sub-criteria, anchors and weights — is the practice's intellectual property. Agents read it; they <span class="must">MUST NOT</span> invent, adjust or extend it.</p></div>
+<div class="cl"><div class="n">10.2</div><p>An unratified rubric <span class="must">MUST NOT</span> produce a client-facing Aperture Score. This is enforced in code, not by discipline.</p></div>
+<div class="cl"><div class="n">10.3</div><p>Sub-criteria are scored 0–100 against anchor descriptions at 20, 50 and 80. A lens score is the mean of its scored sub-criteria. The Aperture Score is the weighted mean of lens scores.</p></div>
+<div class="cl"><div class="n">10.4</div><p>Below 70% coverage no composite is published. The deliverable in that case is a data request.</p></div>
+<div class="cl"><div class="n">10.5</div><p><span class="must">Comparability.</span> Re-scoring <span class="must">MUST</span> use the stored rubric version and weights, never the current ones. Where the rubric changes, history is either restated explicitly or labelled non-comparable. Silent mixing of versions is prohibited — it destroys the only thing a baseline is for.</p></div>
+<div class="cl"><div class="n">10.6</div><p>Rubric changes are versioned semantically: a weight or lens change is a major version; a sub-criterion or anchor rewording is a minor version.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 10 -->
+<section class="sec">
+<h2>Section 11</h2>
+<h3>Placement rules</h3>
+<p class="note">This is the operative section. Anything new — a form, an agent, an assessment, a model, a deliverable, an MBA-level method — is placed by answering these questions in order. If any answer is unavailable, the thing is not ready to be built.</p>
+
+<h4>10.1 The placement procedure</h4>
+<div class="cl"><div class="n">1</div><p><b>What type is it?</b> One of the six in §3. If it is two things, it is two objects and must be split.</p></div>
+<div class="cl"><div class="n">2</div><p><b>Which phase owns it?</b> Exactly one phase owns it. Others may consume it. If no phase owns it, it belongs to a cross-cutting layer and must be declared as such.</p></div>
+<div class="cl"><div class="n">3</div><p><b>What does it consume?</b> Every input named, and for each: the collection route that already exists, or the new intake question required. A method whose inputs are not collected is not yet buildable.</p></div>
+<div class="cl"><div class="n">4</div><p><b>What does it produce?</b> The output object, its evidence class, and every downstream consumer. An output with no consumer is not an output.</p></div>
+<div class="cl"><div class="n">5</div><p><b>Which gate does it pass?</b> Name the gate from §7 and who decides. If it requires a judgment input, that input passes G4 <i>before</i> computation.</p></div>
+<div class="cl"><div class="n">6</div><p><b>What does it displace?</b> Does it duplicate or supersede something? Retire the predecessor in the same change; do not leave both.</p></div>
+<div class="cl"><div class="n">7</div><p><b>How is it evidenced?</b> The tool that produces it, and how a hostile reader would trace its figures to source.</p></div>
+<div class="cl"><div class="n">8</div><p><b>Register it.</b> Amend this document and the Master Process Architecture in the same change.</p></div>
+
+<h4>10.2 Placing a new analytical method</h4>
+<p class="note">The Method's differentiation rests on applying graduate-level quantitative work to businesses that cannot otherwise buy it. That claim is only defensible where the work is actually done.</p>
+<div class="cl"><div class="n">11.2.1</div><p>A method <span class="must">MUST</span> declare: its discipline; the phase that owns it; the inputs it requires; the output it produces; the decision it informs; and the evidence class of that output.</p></div>
+<div class="cl"><div class="n">11.2.2</div><p>A method <span class="must">MUST NOT</span> be advertised as applied until it has appeared in a delivered client artifact with its working shown. Until then it is <b>catalogued</b>, not applied, and <span class="must">MUST</span> be labelled as such in internal material.</p></div>
+<div class="cl"><div class="n">11.2.3</div><p>A method <span class="must">MUST NOT</span> be included whose inputs the intake does not collect. Adding the method and the question is one change, not two.</p></div>
+<div class="cl"><div class="n">11.2.4</div><p>Sophistication is not a justification. A method earns its place by changing a decision the owner would otherwise make differently — not by being advanced.</p></div>
+
+<h4>10.3 Placing a new client input</h4>
+<div class="cl"><div class="n">11.3.1</div><p>Every new question <span class="must">MUST</span> name its consumer — a rubric sub-criterion, an SOP step, or a named method — before it is added to any instrument.</p></div>
+<div class="cl"><div class="n">11.3.2</div><p>Every input is classified <b>blocking</b> or <b>helpful</b>, and carries a plain-language reason the client can read.</p></div>
+<div class="cl"><div class="n">11.3.3</div><p>References between instruments and the rubric <span class="must">MUST</span> use stable identifiers, never positional numbering. Positional references break silently when a question is inserted.</p></div>
+
+<h4>10.4 Placing a new deliverable</h4>
+<div class="cl"><div class="n">11.4.1</div><p>A deliverable <span class="must">MUST</span> name the phase, the executive question it answers, the gate it passes, and the format the client keeps.</p></div>
+<div class="cl"><div class="n">11.4.2</div><p>If it cannot be traced to an existing phase contract's guarantee, either the contract is amended or the deliverable is not in scope.</p></div>
+
+<h4>10.5 Placing a new agent or tool</h4>
+<div class="cl"><div class="n">11.5.1</div><p>A tool <span class="must">MUST</span> be added to exactly one agent's allowlist, with a documented contract and its refusal conditions.</p></div>
+<div class="cl"><div class="n">11.5.2</div><p>An agent <span class="must">MUST NOT</span> gain a capability that closes a gate, contacts a client, or states a conclusion.</p></div>
+</section>
+
+<!-- ─────────────────────────────────────────────── 11 -->
+<section class="sec">
+<h2>Section 12</h2>
+<h3>Change control</h3>
+
+<div class="cl"><div class="n">12.1</div><p>This document is amended by Fenwick How. No other artifact may contradict it; a contradiction is a defect in that artifact.</p></div>
+<div class="cl"><div class="n">12.2</div><p>Versioning: <b>major</b> for a change to phases, object types, gates or the evidence standard; <b>minor</b> for a phase contract, placement rule or vocabulary change; <b>patch</b> for clarification without behavioural effect.</p></div>
+<div class="cl"><div class="n">12.3</div><p>Every amendment <span class="must">MUST</span> record what changed, why, and which artifacts must be updated to conform.</p></div>
+<div class="cl"><div class="n">12.4</div><p>An amendment affecting the rubric, the evidence standard or a gate <span class="must">MUST</span> state its effect on engagements already in flight, including whether prior scores remain comparable.</p></div>
+<div class="cl"><div class="n">12.5</div><p>The Master Process Architecture <span class="must">SHOULD</span> be regenerated with each amendment so the descriptive and normative views do not drift.</p></div>
+
+<h4>Amendment record</h4>
+<table>
+  <tr><th>Version</th><th>Date</th><th>Change</th></tr>
+  <tr><td class="k">1.1</td><td>10 Aug 2026</td><td>Adds §4, the Force5 agent layer and its constitution. Applies the brand system.</td></tr>
+  <tr><td class="k">1.0</td><td>10 Aug 2026</td><td>Initial adoption. Resolves module naming, phase count, the lens set and the reconciliation tolerances. Enumerates the seven gates for the first time. Establishes the placement procedure.</td></tr>
+</table>
+</section>
+
+<!-- ─────────────────────────────────────────────── 12 -->
+<section class="sec">
+<h2>Section 13</h2>
+<h3>Open decisions</h3>
+<p class="note">Recorded, owned and dated. An open decision is not a gap in this document; it is a decision that has not yet been made, held where it can be seen.</p>
+
+<table>
+  <tr><th>#</th><th>Decision</th><th>Blocks</th><th>Status</th></tr>
+  <tr><td class="k">D1</td><td>Reconcile the two published fee schedules. The SOW and the Contract carry different numbers for the same services.</td><td>Any proposal issued from either template</td><td class="M">Open · commercial</td></tr>
+  <tr><td class="k">D2</td><td>Correct "Aperture Atlas" to "Aperture Live" in the contract, Exhibit A and the public intake form.</td><td>Client-facing conformance with §2.1.1</td><td class="M">Open · editorial</td></tr>
+  <tr><td class="k">D3</td><td>Amend SOPs 03, 04 and 05 to carry the human steps stated in §6.2–6.4.</td><td>Gate G4 conformance</td><td class="M">Open · procedural</td></tr>
+  <tr><td class="k">D4</td><td>Define the Compass matrix criteria and weights, and version them.</td><td>Phase 04 reproducibility</td><td class="M">Open · IP</td></tr>
+  <tr><td class="k">D5</td><td>Complete sub-criteria to 4–6 per lens. Three lenses currently carry three.</td><td>Rubric v2</td><td class="P">Partial</td></tr>
+  <tr><td class="k">D6</td><td>Decide whether the Signal Brief and anomaly detection are in scope for Phase 05. Both are specified and priced but absent from SOP 06.</td><td>Aperture Live scope and pricing</td><td class="U">Unclear</td></tr>
+  <tr><td class="k">D7</td><td>Confirm whether the hosted Scoreboard is delivered or specified. Currently sold as live, delivered as a data feed.</td><td>Phase 05 guarantee in §5.5</td><td class="M">Open · material</td></tr>
+  <tr><td class="k">D8</td><td>Add a Business X-Ray segment to the intake form. The wedge has no intake path.</td><td>The most common single purchase</td><td class="M">Open</td></tr>
+  <tr><td class="k">D9</td><td>Adopt or discard SOP 00 (Intake). If adopted, X-Ray Step 2 duplicates it.</td><td>Documentation set</td><td class="U">Unclear</td></tr>
+  <tr><td class="k">D10</td><td>Confirm SyncPoint AI terms — query limits, cost, redistribution rights.</td><td>Phase 03 external data</td><td class="M">Open · commercial</td></tr>
+</table>
+
+<div class="callout"><b>How to close one</b>
+Make the decision, amend the affected artifacts in the same change, move the row to the amendment
+record at §11, and regenerate the Master Process Architecture. A decision closed in conversation but
+not written here is not closed.</div>
+</section>
+
+<div style="margin-top:54px;padding-top:22px;border-top:1px solid var(--hair);max-width:420px">
+  <img alt="Fenwick How" style="height:52px;width:auto;display:block;margin-bottom:6px"
+       src="data:image/png;base64,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">
+  <div style="font-size:13px;font-weight:700">Fenwick How</div>
+  <div style="font-size:12px;color:var(--muted)">Founder · Architect &amp; Managing Principal</div>
+  <div style="font-size:11px;color:var(--muted);margin-top:8px">Adopted 10 August 2026</div>
+</div>
+</div>
+
+<footer>The Aperture Method™ · Canonical Architecture Reference v1.1 · Confidential · Fenwick How · 10 August 2026</footer>
+</body>
+</html>

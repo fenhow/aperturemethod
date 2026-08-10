@@ -318,27 +318,21 @@ export function IntakeForm() {
     setSaving(false);
   }
 
+  /** Save now and hand over the resume link. The dialog collects the email if they want it
+   *  posted to them — asking for an address before showing them anything is friction for no
+   *  reason, since the link works without one. */
   async function saveAndFinishLater() {
-    const email = (ans.contact_email ?? "").trim();
-    if (!EMAIL_RE.test(email)) {
-      setErrors((e) => ({ ...e, contact_email: "Add your email so we can send your resume link." }));
-      setProblems(["Add your email at the top so we can send you a private link to finish later."]);
-      setErrOpen(true);
-      return;
-    }
     setSaving(true);
     setSaveMsg("");
-    const res = await saveNow({ sendLink: true });
-    if (res.ok) {
-      setSaveMsg(
-        res.emailed
-          ? `Saved. We emailed a private link to ${email} — open it any time to pick up where you left off.`
-          : "Saved. This page's address is now your resume link — bookmark it to come back."
-      );
-    } else if (saveState !== "gone") {
-      setSaveMsg("We couldn't reach the server. Your answers are safe in this browser — please try again.");
-    }
+    const res = await saveNow();
     setSaving(false);
+    if (res.ok) {
+      setSavedOpen(true);
+    } else if (saveState !== "gone") {
+      setSaveMsg(
+        "We couldn't reach the server just now. Your answers are safe in this browser — please try again in a moment."
+      );
+    }
   }
 
   async function onSubmit(e: React.FormEvent) {
@@ -605,29 +599,49 @@ export function IntakeForm() {
             a 108-question form: autosave fired on the first keystroke at the top and
             reported success where nobody could see it. A save indicator that scrolls
             out of view is the same as no indicator. */}
+        {/* Floating save signal. Once there is a draft to return to, it also becomes the
+            way back into the explainer — a one-time popup is easy to miss, and the client
+            should never have to hunt for their own resume link. */}
         {saveState !== "idle" && (
-          <div
-            aria-live="polite"
-            className={
-              "fixed bottom-4 right-4 z-50 flex max-w-[min(22rem,calc(100vw-2rem))] items-start gap-2 " +
-              "rounded-sm border px-3.5 py-2.5 text-small font-medium shadow-lg " +
-              (saveState === "error" || saveState === "gone"
-                ? "border-maroon bg-maroon text-paper"
-                : "border-line bg-surface text-ink")
-            }
-          >
-            <span aria-hidden="true" className="leading-5">
-              {saveState === "saving" ? "⟳" : saveState === "saved" ? "✓" : "!"}
-            </span>
-            <span>
-              {saveState === "saving" && "Saving…"}
-              {saveState === "saved" && "Saved. You can close this page and come back to it."}
-              {saveState === "error" &&
-                "Not saved to our server — your answers are being kept in this browser. We'll keep retrying."}
-              {saveState === "gone" &&
-                "This draft is no longer active. Copy your answers somewhere safe before leaving this page."}
-            </span>
-          </div>
+          saveState === "saved" && token ? (
+            <button
+              type="button"
+              onClick={() => setSavedOpen(true)}
+              aria-live="polite"
+              className="fixed bottom-4 right-4 z-50 flex max-w-[min(22rem,calc(100vw-2rem))] items-start gap-2
+                         rounded-sm border border-line bg-surface px-3.5 py-2.5 text-left text-small
+                         font-medium text-ink shadow-lg transition-colors hover:border-ink"
+            >
+              <span aria-hidden="true" className="leading-5">✓</span>
+              <span>
+                Saved. You can close this page and come back to it.
+                <span className="mt-0.5 block text-maroon underline">Get my link →</span>
+              </span>
+            </button>
+          ) : (
+            <div
+              aria-live="polite"
+              className={
+                "fixed bottom-4 right-4 z-50 flex max-w-[min(22rem,calc(100vw-2rem))] items-start gap-2 " +
+                "rounded-sm border px-3.5 py-2.5 text-small font-medium shadow-lg " +
+                (saveState === "error" || saveState === "gone"
+                  ? "border-maroon bg-maroon text-paper"
+                  : "border-line bg-surface text-ink")
+              }
+            >
+              <span aria-hidden="true" className="leading-5">
+                {saveState === "saving" ? "⟳" : saveState === "saved" ? "✓" : "!"}
+              </span>
+              <span>
+                {saveState === "saving" && "Saving…"}
+                {saveState === "saved" && "Saved. You can close this page and come back to it."}
+                {saveState === "error" &&
+                  "Not saved to our server — your answers are being kept in this browser. We'll keep retrying."}
+                {saveState === "gone" &&
+                  "This draft is no longer active. Copy your answers somewhere safe before leaving this page."}
+              </span>
+            </div>
+          )
         )}
         {saveMsg && (
           <p className="rounded-sm border border-line bg-surface p-4 text-small font-medium text-ink">{saveMsg}</p>

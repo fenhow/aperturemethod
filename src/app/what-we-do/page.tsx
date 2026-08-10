@@ -127,7 +127,7 @@ const capabilities: Capability[] = [
       "The Aperture platform and dashboards, working automations, and a practical modernization roadmap.",
     outcomes:
       "Less manual work; better forecasts and decisions surfaced where your team already works. AI supports decisions; people make them — every output is reviewed.",
-    meta: "Across Aperture Intelligence and Aperture Live · Especially trades, healthcare, distribution",
+    meta: "Across Aperture Intelligence and Aperture Atlas · Especially trades, healthcare, distribution",
     cta: "Modernize with a plan",
   },
   {
@@ -144,7 +144,7 @@ const capabilities: Capability[] = [
       "The Scoreboard, a steady operating rhythm, quarterly performance reviews, and playbooks that outlast the engagement.",
     outcomes:
       "Results that show up in your numbers, and the capability to sustain them without us.",
-    meta: "Aperture Live · Relevant to every industry",
+    meta: "Aperture Atlas · Relevant to every industry",
     cta: "Make the plan real",
   },
 ];

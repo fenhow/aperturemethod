@@ -64,7 +64,7 @@ const journey: Step[] = [
   },
   {
     n: "05",
-    name: "Aperture Live",
+    name: "Aperture Atlas",
     sub: "Manage & improve performance",
     duration: "Ongoing · 3–12 months",
     what: "We stand up executive dashboards, KPIs, and automated reporting so leadership can monitor performance in real time, measure progress against the plan, and keep improving.",
@@ -90,11 +90,11 @@ const scoreParts: string[] = [
 const faqs = [
   {
     q: "How long does the whole thing take?",
-    a: "The analysis phases — Aperture Insights through Aperture Compass — typically run about six to ten weeks end to end, and the Business X-Ray delivers real insight in its first couple of weeks. Aperture Live then continues for as long as it's earning its place.",
+    a: "The analysis phases — Aperture Insights through Aperture Compass — typically run about six to ten weeks end to end, and the Business X-Ray delivers real insight in its first couple of weeks. Aperture Atlas then continues for as long as it's earning its place.",
   },
   {
     q: "How much of my team's time will it cost?",
-    a: "Very little early on — a few interviews and access to data you already have. Aperture Compass asks for a bit more of your judgment in the decision workshops, and Aperture Live is a genuine partnership, but even then your team stays focused on running the business.",
+    a: "Very little early on — a few interviews and access to data you already have. Aperture Compass asks for a bit more of your judgment in the decision workshops, and Aperture Atlas is a genuine partnership, but even then your team stays focused on running the business.",
   },
   {
     q: "Do I have to do all five steps?",
@@ -102,7 +102,7 @@ const faqs = [
   },
   {
     q: "Is it really a straight line?",
-    a: "It's a loop, not a line. Fresh data from Aperture Live re-opens Aperture Insights on the next constraint, so the method keeps compounding rather than ending at a report.",
+    a: "It's a loop, not a line. Fresh data from Aperture Atlas re-opens Aperture Insights on the next constraint, so the method keeps compounding rather than ending at a report.",
   },
   {
     q: "Do we need clean, perfect data?",
@@ -220,7 +220,7 @@ export default function WorkingTogetherPage() {
           <SectionHeading
             eyebrow="At a glance"
             title="Roughly six to ten weeks to a plan — then partnership."
-            lede="The analysis phases move quickly. Aperture Live is where the work becomes results, and it lasts as long as it keeps earning its place."
+            lede="The analysis phases move quickly. Aperture Atlas is where the work becomes results, and it lasts as long as it keeps earning its place."
           />
         </Reveal>
         <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded border border-line bg-line lg:grid-cols-5">
@@ -306,7 +306,7 @@ export default function WorkingTogetherPage() {
 
         <Reveal className="mt-10 max-w-measure">
           <p className="text-body-lg text-body">
-            And then it loops. Fresh data from Aperture Live re-opens Aperture Insights on the next constraint, so the
+            And then it loops. Fresh data from Aperture Atlas re-opens Aperture Insights on the next constraint, so the
             method keeps compounding — each pass a little sharper than the last.
           </p>
         </Reveal>

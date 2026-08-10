@@ -55,12 +55,12 @@ const uses: { h: string; p: string; phase: string }[] = [
   {
     h: "Automate the busywork",
     p: "Quoting, scheduling, data entry, follow-ups, reporting — the repetitive work that eats your team's week, handled so they can focus on customers.",
-    phase: "Aperture Live",
+    phase: "Aperture Atlas",
   },
   {
     h: "Answer customers faster",
     p: "Assistants and workflows that help you respond quickly and consistently, so service keeps up as you grow — with a person in the loop.",
-    phase: "Aperture Live",
+    phase: "Aperture Atlas",
   },
   {
     h: "Forecast demand and revenue",

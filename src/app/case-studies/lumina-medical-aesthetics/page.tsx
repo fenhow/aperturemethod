@@ -82,7 +82,7 @@ const phases: Phase[] = [
   },
   {
     n: "05",
-    product: "Aperture Live",
+    product: "Aperture Atlas",
     verb: "Perform",
     question: "How do we sustain and improve results?",
     found:
@@ -100,7 +100,7 @@ const PHASE_SLUG: Record<string, string> = {
   "Aperture Analytics": "analytics",
   "Aperture Intelligence": "intelligence",
   "Aperture Compass": "compass",
-  "Aperture Live": "atlas",
+  "Aperture Atlas": "atlas",
 };
 
 function IllustrativeTag() {

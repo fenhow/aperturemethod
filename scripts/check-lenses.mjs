@@ -148,12 +148,43 @@ try {
   /* grep unavailable — skip rather than fail the build for the wrong reason */
 }
 
+// ---------------------------------------------------------------------------
+// Retired product names. "Aperture Live" was the old public name for component
+// 05; Atlas is now the single name, used internally and with clients. Comment
+// lines are exempt so the code can explain the retirement without tripping it.
+// ---------------------------------------------------------------------------
+const RETIRED_PRODUCTS = ["Aperture Live"];
+try {
+  const { execSync } = await import("node:child_process");
+  const files = execSync("grep -rl --include=*.ts --include=*.tsx -e 'Aperture Live' src || true", {
+    cwd: root,
+    encoding: "utf8",
+  })
+    .split("\n")
+    .filter(Boolean);
+  for (const f of files) {
+    const lines = readFileSync(path.join(root, f), "utf8").split("\n");
+    lines.forEach((line, i) => {
+      const t = line.trim();
+      const isComment = t.startsWith("*") || t.startsWith("//") || t.startsWith("/*");
+      if (isComment) return;
+      for (const name of RETIRED_PRODUCTS) {
+        if (line.includes(name)) {
+          problems.push(`${f}:${i + 1} uses the retired product name "${name}" — component 05 is Aperture Atlas.`);
+        }
+      }
+    });
+  }
+} catch {
+  /* grep unavailable — skip rather than fail the build for the wrong reason */
+}
+
 if (problems.length) {
   console.error("\n  ✗ Seven-lens conformance FAILED\n");
   for (const p of problems) console.error(`    · ${p}`);
   console.error(
-    "\n  The site and the scoring instrument must agree. Fix src/lib/lenses.ts or the rubric,\n" +
-      "  then update Canonical Architecture Reference §2.2 to match.\n"
+    "\n  The site, the scoring instrument and the product names must agree. Fix src/lib/lenses.ts,\n" +
+      "  src/lib/content.ts or the rubric, then update the Canonical Architecture Reference to match.\n"
   );
   process.exit(1);
 }

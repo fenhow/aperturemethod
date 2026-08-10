@@ -85,7 +85,7 @@ const deliverables: Deliverable[] = [
   },
   {
     n: "05",
-    product: "Aperture Live",
+    product: "Aperture Atlas",
     question: "How do we sustain and improve results?",
     get: (
       <>
@@ -95,7 +95,7 @@ const deliverables: Deliverable[] = [
     ),
     outcome: "You watch the strategy show up in your numbers, quarter after quarter.",
     img: "/deliverables/06_live_scoreboard.jpg",
-    alt: "Aperture Live deliverable — the Scoreboard and KPI dashboard for Lumina Medical Aesthetics",
+    alt: "Aperture Atlas deliverable — the Scoreboard and KPI dashboard for Lumina Medical Aesthetics",
   },
 ];
 

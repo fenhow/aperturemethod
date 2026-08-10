@@ -52,11 +52,11 @@ const dataPrinciples = [
 const faqs = [
   {
     q: "How long does it take?",
-    a: "Aperture Insights and Aperture Analytics typically run a few weeks each; Aperture Intelligence stands up in two to three; Aperture Compass is one to two. Aperture Live is ongoing for as long as it's earning its place. The Business X-Ray delivers real insight in its first weeks.",
+    a: "Aperture Insights and Aperture Analytics typically run a few weeks each; Aperture Intelligence stands up in two to three; Aperture Compass is one to two. Aperture Atlas is ongoing for as long as it's earning its place. The Business X-Ray delivers real insight in its first weeks.",
   },
   {
     q: "How much of my team's time will it take?",
-    a: "Very little early on — a few interviews and access to data you already have. Aperture Live is a genuine partnership, but even then your team stays focused on running the business.",
+    a: "Very little early on — a few interviews and access to data you already have. Aperture Atlas is a genuine partnership, but even then your team stays focused on running the business.",
   },
   {
     q: "Do we need clean, perfect data?",
@@ -114,7 +114,7 @@ export default function TheApertureMethodPage() {
           <p className="mt-6 text-body-lg text-body">{methodSummary}</p>
           <p className="mt-5 text-body-lg text-body">
             Five named phase-products — Aperture Insights, Aperture Analytics, Aperture Intelligence,
-            Aperture Compass, and Aperture Live — with a continuous intelligence layer, the Aperture
+            Aperture Compass, and Aperture Atlas — with a continuous intelligence layer, the Aperture
             platform, running through all of it. The whole thing is designed to end not with a report,
             but with decisions in motion and results in your numbers.
           </p>
@@ -193,7 +193,7 @@ export default function TheApertureMethodPage() {
             <p className="text-body-lg text-body">
               Engagements are fixed-fee and phase-gated. You see the price, and you decide whether to
               continue at each gate — so you&apos;re never locked into an open-ended commitment. The work
-              is senior-led from start to finish. In Aperture Live, we move to a light recurring cadence, and
+              is senior-led from start to finish. In Aperture Atlas, we move to a light recurring cadence, and
               we deliberately hand over the models, dashboards, and playbooks. Most clients start with
               the Business X-Ray.
             </p>

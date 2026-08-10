@@ -11,7 +11,7 @@ const PHASES = [
   "Aperture Analytics",
   "Aperture Intelligence",
   "Aperture Compass",
-  "Aperture Live",
+  "Aperture Atlas",
 ];
 
 function renderBody(body: string) {

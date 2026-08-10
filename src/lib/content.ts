@@ -27,6 +27,32 @@ export type MethodPhase = {
   cap?: string; // capability tag shown on the parent landing — "MBA", "GIS", "DATA", or a blend
 };
 
+/**
+ * Component 05 — Aperture Atlas™, the platform the methodology culminates in.
+ * Declared separately so it can be exported by name as well as sitting in the arc.
+ */
+const componentFive: MethodPhase = {
+    n: "05",
+    product: "Aperture Atlas",
+    short: "Atlas",
+    verb: "Perform",
+    heading: "The Living Intelligence Platform",
+    question: "How do we run — and keep improving — the business?",
+    line: "Your performance and your market on one live, visual platform — always current, and yours to keep.",
+    description:
+      "The methodology culminates in a living system. Aperture Atlas is the Geographic Intelligence Platform where the whole engagement stays alive — your KPIs and Scoreboard, your Market Maps, drive-time trade areas, and forecasts on one interactive, always-current dashboard. It is where performance management meets geographic intelligence: the tool you run the business from long after the engagement ends. Improvement is continuous, not a one-time project: the platform carries the executive dashboards, KPIs and automated reporting that let leadership see performance in real time and measure progress against the plan.",
+    deliverable: "The Aperture Atlas™ platform — a live Scoreboard, Market Maps & forecasts, plus a re-scored Aperture Score™ to prove progress",
+    frameworks: [
+      { name: "Aperture Atlas™ dashboard", what: "Your always-on executive dashboard — the metrics that matter, pulled into one live view so you can see performance in real time and act on it." },
+      { name: "OKRs & KPI management", what: "Sets clear objectives and the few numbers that prove you're hitting them." },
+      { name: "Executive dashboards & scorecards", what: "A live, at-a-glance view of the metrics that matter, so you always know where you stand." },
+      { name: "Project governance", what: "Light structure to keep initiatives on track, on time, and accountable." },
+      { name: "Agile (Scrum / Kanban)", what: "Delivers in small, steady increments so you see progress fast and can adjust course." },
+      { name: "Lean & Six Sigma", what: "Proven methods to cut waste and reduce errors in how the work actually gets done." },
+      { name: "Continuous improvement", what: "A habit of small, ongoing refinements so performance keeps climbing after the project ends." },
+    ],
+  };
+
 /** A named technique plus a plain-language note on what it does for the client. */
 export type Framework = { name: string; what: string };
 
@@ -116,27 +142,7 @@ export const methodPhases: MethodPhase[] = [
       { name: "Now / Next / Later roadmapping", what: "Sequences the work into what to do now, next, and later — a clear order of operations." },
     ],
   },
-  {
-    n: "05",
-    product: "Aperture Live",
-    short: "Live",
-    verb: "Perform",
-    heading: "Manage & Improve Performance",
-    question: "How do we sustain and improve results?",
-    line: "Executive dashboards and KPIs that keep performance improving.",
-    description:
-      "Business improvement is a continuous process, not a one-time project. Aperture Live provides executive dashboards, key performance indicators, automated reporting, and ongoing business intelligence that allow leadership to monitor performance in real time, measure progress against strategic objectives, and make informed decisions with confidence.",
-    deliverable: "The Scoreboard™ + KPI system, plus a re-scored Aperture Score™ to prove progress",
-    frameworks: [
-      { name: "Aperture Dashboard™ Live", what: "Your always-on executive dashboard — the metrics that matter, pulled into one live view so you can see performance in real time and act on it." },
-      { name: "OKRs & KPI management", what: "Sets clear objectives and the few numbers that prove you're hitting them." },
-      { name: "Executive dashboards & scorecards", what: "A live, at-a-glance view of the metrics that matter, so you always know where you stand." },
-      { name: "Project governance", what: "Light structure to keep initiatives on track, on time, and accountable." },
-      { name: "Agile (Scrum / Kanban)", what: "Delivers in small, steady increments so you see progress fast and can adjust course." },
-      { name: "Lean & Six Sigma", what: "Proven methods to cut waste and reduce errors in how the work actually gets done." },
-      { name: "Continuous improvement", what: "A habit of small, ongoing refinements so performance keeps climbing after the project ends." },
-    ],
-  },
+  componentFive,
 ];
 
 /**
@@ -147,48 +153,31 @@ const CAP: Record<string, string> = {
   Analytics: "MBA",
   Intelligence: "MBA · GIS",
   Compass: "MBA · GIS",
+  Atlas: "GIS · DATA",
 };
 
 /**
- * Aperture Atlas™ — the fifth component and the platform. Aperture Live
- * (performance management) is now MERGED into Atlas: one living, visual
- * Geographic Intelligence Platform that carries both your ongoing performance
- * (Scoreboard/KPIs) and your market/geographic intelligence. This is the home
- * of the platform (formerly discoveraperture.com / SyncPoint AI) and the
- * culmination of the methodology. Keeps the "Perform" verb so the signature
- * tagline is unchanged.
+ * Aperture Atlas™ — the fifth component and the platform. Performance management
+ * (formerly marketed as "Aperture Live") and geographic intelligence are one thing:
+ * a living, visual Geographic Intelligence Platform carrying the Scoreboard, the KPIs,
+ * the Market Maps and the forecasts. This is the home of the platform (formerly
+ * discoveraperture.com / SyncPoint AI) and the culmination of the methodology. It keeps
+ * the "Perform" verb, so the signature tagline is unchanged.
+ *
+ * "Aperture Live" is RETIRED as of 2026-08-10 — one name, used internally and with
+ * clients. `scripts/check-lenses.mjs` fails the build if it reappears in `src`.
  */
-export const atlasPractice: MethodPhase = {
-  n: "05",
-  product: "Aperture Atlas",
-  short: "Atlas",
-  verb: "Perform",
-  heading: "The Living Intelligence Platform",
-  question: "How do we run — and keep improving — the business?",
-  line: "Your performance and your market on one live, visual platform — always current, and yours to keep.",
-  description:
-    "The methodology culminates in a living system. Aperture Atlas is the Geographic Intelligence Platform where the whole engagement stays alive — your KPIs and Scoreboard, your Market Maps, drive-time trade areas, and forecasts on one interactive, always-current dashboard. It is where performance management meets geographic intelligence: the tool you run the business from long after the engagement ends.",
-  deliverable: "The Aperture Atlas™ platform — a live Scoreboard, Market Maps & forecasts, yours to keep",
-  frameworks: [],
-  cap: "GIS · DATA",
-};
+export const atlasPractice: MethodPhase = { ...componentFive, cap: CAP.Atlas };
 
 /**
  * The FIVE components of The Aperture Method™, in arc order, tagged with the
- * capability that powers each (MBA → GIS → DATA). Used by the parent landing
- * page. Aperture Live has been merged into Aperture Atlas (component 05). The
- * core `methodPhases` above is left untouched for the existing Method pages
- * (which still reference the pre-merge "Aperture Live" — rename later).
+ * capability that powers each (MBA → GIS → DATA).
  */
-export const aperturePractices: MethodPhase[] = [
-  ...methodPhases.slice(0, 4).map((p) => ({ ...p, cap: CAP[p.short] })),
-  atlasPractice,
-];
+export const aperturePractices: MethodPhase[] = methodPhases.map((p) => ({
+  ...p,
+  cap: CAP[p.short],
+}));
 
-/**
- * "The Aperture Difference" — positioning block (Fenwick-supplied, July 2026).
- * Verbs corrected to the approved tagline (Reveal / Navigate / Perform).
- */
 export const apertureDifference = {
   eyebrow: "The Aperture Difference",
   them: "Most consulting firms deliver recommendations.",

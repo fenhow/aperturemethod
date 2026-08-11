@@ -50,14 +50,14 @@ export default function Home() {
             <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
               {/* Left — what the X-Ray is, with ways to explore before booking */}
               <div>
-                <p className="eyebrow">Start here</p>
+                <p className="eyebrow">Start here · Aperture Insights™</p>
                 <p className="mt-2 text-h3 font-semibold text-ink">
                   Not sure where to start? Begin with a Business X-Ray&trade;.
                 </p>
                 <p className="mt-3 text-body text-muted">
-                  A fixed-fee diagnostic that reads your whole business across seven lenses, names your
-                  #1 constraint, and prescribes exactly which components will move the needle — one, a
-                  few, or all five.
+                  A fixed-fee read of your whole business across seven lenses. Broad by design rather
+                  than deep: it names your likely #1 constraint and tells you exactly where the digging
+                  needs to happen — the numbers, the market, or the plan.
                 </p>
                 <ul className="mt-5 space-y-2">
                   {[

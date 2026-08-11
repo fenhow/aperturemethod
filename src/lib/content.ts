@@ -65,10 +65,12 @@ export const methodPhases: MethodPhase[] = [
     verb: "Understand",
     heading: "Understand the Business",
     question: "What is happening?",
-    line: "A comprehensive executive assessment of where your business stands today.",
+    line: "A seven-lens read of where your business stands today — broad by design, and the way in.",
     description:
-      `Every successful transformation begins with clarity. Aperture Insights provides a comprehensive assessment of your organization by examining the same seven lenses in the same order every time — ${lensNamesSentence}. The result is an executive-level understanding of where your business stands today, what is working, and where the greatest opportunities and risks exist.`,
+      `Every successful transformation begins with clarity. Aperture Insights reads your whole business through the same seven lenses in the same order every time — ${lensNamesSentence}. It is deliberately broad rather than deep: enough to show you what is working, name your likely biggest constraint, and give you an honest score to measure from. What it does not do is the heavy analysis — it tells you precisely where that digging is warranted, and the depth is bought in the components that follow.`,
     deliverable: "The Business X-Ray™ + Aperture Score™",
+    truth:
+      "You don\u2019t need a hundred-page report to start. You need to know which problem is the one actually holding you back \u2014 and where to look next.",
     frameworks: [
       { name: "Seven-lens Business X-Ray", what: `A structured look at your whole business across all seven lenses — ${lensNamesSentence} — so nothing important gets missed.` },
       { name: "MECE problem structuring", what: "Breaking a messy problem into clear, non-overlapping parts, so every piece gets addressed and nothing is double-counted." },

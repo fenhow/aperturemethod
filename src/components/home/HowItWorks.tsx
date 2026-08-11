@@ -32,13 +32,15 @@ export function HowItWorks() {
         <div className="overflow-hidden rounded-2xl border border-maroon/30 bg-surface">
           <div className="flex flex-col gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-10">
             <div className="max-w-2xl">
-              <p className="eyebrow">Step 01 · Start here</p>
+              <p className="eyebrow">Step 01 · Aperture Insights™ · Start here</p>
               <h3 className="mt-2 text-h3 font-semibold text-ink">
-                Not sure where to start? Begin with a Business X-Ray.
+                Start with the Business X-Ray.
               </h3>
               <p className="mt-3 text-body text-muted">
-                A fixed-fee diagnostic that finds your #1 constraint and prescribes exactly which
-                components will move the needle — one, a few, or all five. No guessing, no risk.
+                A seven-lens read of where your business stands today — broad by design, not deep.
+                It names your likely #1 constraint, gives you an Aperture Score to measure from,
+                and tells you exactly where the digging needs to happen. The way in, and the whole
+                of Step 01.
               </p>
             </div>
             <div className="shrink-0 md:text-right">
@@ -62,11 +64,12 @@ export function HowItWorks() {
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <Reveal variant="up" delay={120}>
           <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-8 hover-lift">
-            <p className="eyebrow">Step 02 · One result</p>
+            <p className="eyebrow">Step 02 · Go deep on one</p>
             <h3 className="mt-2 text-h4 font-semibold text-ink">Take a single component.</h3>
             <p className="mt-3 flex-1 text-body text-muted">
-              Engage one component as a fixed-fee project — when you already know the one thing you
-              need (the numbers, the market, the plan). Complete on its own.
+              This is where the depth lives. Engage Analytics, Intelligence or Compass as a
+              fixed-fee project — the numbers, the market, or the plan — when you already know
+              which one you need. Complete on its own.
             </p>
             {PRICES.component && (
               <p className="mt-6 text-small uppercase tracking-overline text-muted">
@@ -74,7 +77,7 @@ export function HowItWorks() {
                 <span className="text-h4 font-semibold normal-case tracking-normal text-ink">
                   {PRICES.component}
                 </span>{" "}
-                per component
+                per deep component
               </p>
             )}
             <Link href="#method" className="link-arrow mt-4">

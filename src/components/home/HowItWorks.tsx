@@ -44,7 +44,7 @@ export function HowItWorks() {
             <div className="shrink-0 md:text-right">
               {PRICES.xray && (
                 <p className="text-small uppercase tracking-overline text-muted">
-                  Fixed fee · from{" "}
+                  Fixed fee ·{" "}
                   <span className="text-h4 font-semibold normal-case tracking-normal text-maroon">
                     {PRICES.xray}
                   </span>

@@ -13,6 +13,12 @@
  * too — `scripts/check-lenses.mjs` fails the build if a currency figure is hard-coded
  * anywhere else in `src`, but it cannot read the Word document.
  *
+ * REVISED 11 August 2026 (Fenwick, after the "Where the Money Is" proposal): the X-Ray moved
+ * $2,500 → $4,500 — the entry fee's job is to QUALIFY, and the free /reality-check quiz is the
+ * top-of-funnel, so the X-Ray must not be priced as a lead magnet. It also makes the credit a
+ * real closing device ($20,500 rather than $25,000). Atlas was tiered by location count, an
+ * annual prepay added, and the Site Selection Study introduced as a value-priced standalone.
+ *
  * RESET 10 August 2026 (Fenwick, this file + both Word documents changed together): the
  * schedule was re-based for the $1–20M owner-run ICP — X-Ray $9,500 → $2,500, full Method
  * $41,000 → $25,000, Atlas $2,950 → $900/mo — and the per-component fee, previously withheld,
@@ -21,16 +27,40 @@
  */
 
 /** The Business X-Ray — the fixed-fee entry diagnostic. */
-export const XRAY_FEE = "$2,500";
+export const XRAY_FEE = "$4,500";
 
 /** The full Method, Insights through Compass. Atlas is billed separately. */
 export const FULL_METHOD_FEE = "$25,000";
 
 /** What remains of the full Method once the X-Ray fee is credited. */
-export const FULL_METHOD_AFTER_CREDIT = "$22,500";
+export const FULL_METHOD_AFTER_CREDIT = "$20,500";
 
-/** Aperture Atlas, the ongoing platform layer. */
+/**
+ * Aperture Atlas, the ongoing platform layer — tiered by location count as of the
+ * 11 Aug 2026 decision. ATLAS_FEE is the ENTRY tier and is what "from" copy quotes;
+ * never present it as the only price.
+ */
 export const ATLAS_FEE = "$900/mo";
+
+/** The Atlas tiers. A single-location owner and a five-site scaler get very different
+ *  value from the same maps; one price for both left money on the table at the top and
+ *  was a barrier at the bottom. */
+export const ATLAS_TIERS = [
+  { label: "Single location", fee: "$900/mo" },
+  { label: "2–4 locations", fee: "$1,500/mo" },
+  { label: "5+ locations", fee: "$2,500/mo" },
+] as const;
+
+/** Annual prepay — a cash device, and mostly a retention device. */
+export const ATLAS_PREPAY_TERMS = "pay annually and get 12 months for the price of 10";
+
+/**
+ * The Site Selection Study — sold on the value of the decision, not on effort.
+ * An owner signing a ten-year lease is making a six-figure commitment; this is the one
+ * capability no CPA or agency in their orbit can offer at all. Deliberately NOT a
+ * component fee, and deliberately above one.
+ */
+export const SITE_SELECTION_FEE = "$18,000";
 
 /**
  * A single component, taken on its own. Published as of the 10 Aug 2026 reset.
@@ -47,6 +77,8 @@ export const COMPONENT_FEE: string | null = "$8,000";
 export const XRAY_CREDIT_TERMS =
   "credited toward the full Method if you proceed within 60 days";
 export const ATLAS_TERMS = "6-month minimum, 30 days' notice thereafter";
+export const SITE_SELECTION_TERMS =
+  "fixed fee, per site-selection question — scoped to the candidate market before you commit";
 
 /** Shown on the homepage and the How-it-works path. Set a value to null to hide it. */
 export const PRICES = {
@@ -54,6 +86,7 @@ export const PRICES = {
   component: COMPONENT_FEE,
   full: FULL_METHOD_FEE,
   atlas: ATLAS_FEE,
+  siteSelection: SITE_SELECTION_FEE,
 };
 
 /**
@@ -76,8 +109,28 @@ export const feeSchedule = [
     fee: `${FULL_METHOD_FEE} (${FULL_METHOD_AFTER_CREDIT} after the X-Ray credit)`,
   },
   {
+    phase: "Site Selection Study",
+    deliverable: "Candidate-site scoring + trade-area & drive-time modelling (standalone)",
+    fee: `${SITE_SELECTION_FEE} fixed`,
+  },
+  {
     phase: "Aperture Atlas™ (recurring)",
-    deliverable: `Live Scoreboard + KPI system — ${ATLAS_TERMS}`,
-    fee: `${ATLAS_FEE.replace("/mo", " / month")}`,
+    deliverable: `Live Scoreboard + KPI system, single location — ${ATLAS_TERMS}`,
+    fee: `${ATLAS_TIERS[0].fee.replace("/mo", " / month")}`,
+  },
+  {
+    phase: "Aperture Atlas™ · 2–4 locations",
+    deliverable: `Live Scoreboard + KPI system, 2–4 locations — ${ATLAS_TERMS}`,
+    fee: `${ATLAS_TIERS[1].fee.replace("/mo", " / month")}`,
+  },
+  {
+    phase: "Aperture Atlas™ · 5+ locations",
+    deliverable: `Live Scoreboard + KPI system, 5+ locations — ${ATLAS_TERMS}`,
+    fee: `${ATLAS_TIERS[2].fee.replace("/mo", " / month")}`,
+  },
+  {
+    phase: "Aperture Atlas™ · annual prepay",
+    deliverable: `Any Atlas tier, paid annually in advance — ${ATLAS_PREPAY_TERMS}`,
+    fee: "10 × the monthly tier",
   },
 ];

@@ -131,10 +131,10 @@ const DIR = "/look-closer";
 
 export const lookCloserPacket: PacketItem[] = [
   {
-    file: `${DIR}/look-closer-one-page.pdf`,
-    title: "One-page overview",
-    blurb: "The single sheet to forward to a principal, department head or CTE director. What the session is, what it costs (nothing), and how to book it.",
-    pages: "1 page · PDF",
+    file: `${DIR}/look-closer-overview.pdf`,
+    title: "Program overview",
+    blurb: "Two pages to forward to a principal, department head or CTE director — what the session teaches, how the period runs, who I am, and what I'll need from you.",
+    pages: "2 pages · PDF",
     gated: false,
   },
   {

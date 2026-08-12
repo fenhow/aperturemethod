@@ -168,6 +168,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "What We Believe", href: "/what-we-believe" },
       { label: "Insights", href: "/insights" },
+      { label: "Look Closer — for schools", href: "/look-closer" },
       { label: "Contact", href: "/contact" },
     ],
   },

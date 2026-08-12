@@ -13,7 +13,10 @@ export type AnalyticsEvent =
   | "newsletter_submit"
   | "newsletter_success"
   | "newsletter_error"
-  | "cta_click";
+  | "cta_click"
+  | "look_closer_unlock_submit"
+  | "look_closer_unlock_success"
+  | "look_closer_download";
 
 type Props = Record<string, string | number | boolean | undefined>;
 

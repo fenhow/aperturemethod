@@ -14,6 +14,7 @@ import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
 import { QuickContactCard } from "@/components/forms/QuickContactCard";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
+import { LookCloserBand } from "@/components/education/LookCloserBand";
 
 const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 import { aperturePractices } from "@/lib/content";
@@ -236,6 +237,9 @@ export default function Home() {
 
       {/* The book — in progress */}
       <BookSection />
+
+      {/* Look Closer — the free classroom session (community, not commercial) */}
+      <LookCloserBand />
 
       {/* Final CTA */}
       <Section tone="dark" className="border-t border-white/10">

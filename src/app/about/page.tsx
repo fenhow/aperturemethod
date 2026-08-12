@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { LookCloserBand } from "@/components/education/LookCloserBand";
 import { Reveal } from "@/components/ui/Reveal";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
@@ -148,6 +149,9 @@ export default function AboutPage() {
           </p>
         </Reveal>
       </Section>
+
+      {/* Look Closer — the free classroom session */}
+      <LookCloserBand tone="paper" />
 
       {/* Final CTA */}
       <Section tone="dark">

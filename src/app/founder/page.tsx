@@ -178,12 +178,11 @@ export default function FounderPage() {
             Fifty minutes, thirty students, one real business.
           </h2>
           <p className="mt-6 text-body-lg text-body">
-            I teach a free session in local schools called{" "}
+            I run a free guest-speaker session for schools called{" "}
             <span className="font-semibold text-ink">Look Closer</span>. Students get a card
-            describing a business a few streets away and fifteen minutes to work out the one thing
-            holding it back — the same question I get paid to answer, handed to grades 8–12 for
-            nothing. No fee, nothing sold, and the whole packet is free for any teacher to run
-            without me in the room.
+            describing a real business and fifteen minutes to work out the one thing holding it back
+            — the same question I get paid to answer, handed to grades 8–12 for nothing. No fee,
+            nothing sold to students, and I&apos;ll come to any school that will have me.
           </p>
           <p className="mt-8">
             <LinkArrow href="/look-closer">See the session</LinkArrow>

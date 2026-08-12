@@ -11,9 +11,15 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  let body: { email?: string; website?: string; source?: string };
+  let body: { email?: string; website?: string; source?: string; name?: string; org?: string };
   try {
-    body = (await request.json()) as { email?: string; website?: string; source?: string };
+    body = (await request.json()) as {
+      email?: string;
+      website?: string;
+      source?: string;
+      name?: string;
+      org?: string;
+    };
   } catch {
     return NextResponse.json({ ok: false, message: "Invalid request." }, { status: 400 });
   }
@@ -32,7 +38,14 @@ export async function POST(request: Request) {
   }
 
   const source = typeof body.source === "string" && body.source.trim() ? body.source.trim().slice(0, 64) : "in-focus";
-  const record = { email, receivedAt: new Date().toISOString(), source: `website:${source}` };
+  const clean = (v?: string) => (typeof v === "string" ? v.trim().slice(0, 120) : "");
+  const record = {
+    email,
+    name: clean(body.name) || undefined,
+    org: clean(body.org) || undefined,
+    receivedAt: new Date().toISOString(),
+    source: `website:${source}`,
+  };
   const webhook = process.env.NEWSLETTER_WEBHOOK_URL;
   if (webhook) {
     try {

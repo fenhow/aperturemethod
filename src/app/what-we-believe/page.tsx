@@ -232,10 +232,10 @@ export default function WhatWeBelievePage() {
               </p>
               <p>
                 So we built <span className="font-semibold text-ink">Look Closer</span>, a
-                fifty-minute session for grades 8–12. Students get a card describing a real-looking
-                business in The Woodlands and fifteen minutes to find the one thing holding it back.
-                There is no fee, nothing is sold to students, and the entire packet is free for any
-                teacher to download and run without us.
+                fifty-minute guest-speaker session for grades 8–12. Students get a card describing a
+                real business and fifteen minutes to find the one thing holding it back. Fenwick
+                runs it himself, at any school that will have him. There is no fee and nothing is
+                sold to students.
               </p>
               <p className="text-body text-muted">
                 It is not aimed only at future founders. Almost every student in that room will spend

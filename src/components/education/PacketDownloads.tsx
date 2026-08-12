@@ -8,12 +8,14 @@ import { lookCloserPacket } from "@/lib/lookCloser";
 const STORAGE_KEY = "aperture:look-closer:unlocked";
 
 /**
- * Download block for the Look Closer packet.
+ * The materials block on /look-closer.
  *
- * The one-page overview is always open — it is the sheet a teacher forwards to
- * a principal, and a forward that hits a form goes nowhere. Everything else
- * asks for an email once; the choice lives on each item's `gated` flag in
- * `lib/lookCloser.ts`, so opening the whole packet up later is a one-line edit.
+ * This is a preview, not a DIY kit — Fenwick runs the session himself, and a
+ * teacher looks at these so they know exactly what will be handed to their
+ * students before they give up a period. The one-page overview stays open
+ * because it is the sheet a teacher forwards to a principal, and a forward that
+ * lands on a form goes nowhere. Everything else asks once for name, school and
+ * email; the choice lives on each item's `gated` flag in `lib/lookCloser.ts`.
  */
 export function PacketDownloads() {
   const uid = useId();
@@ -21,8 +23,6 @@ export function PacketDownloads() {
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [message, setMessage] = useState("");
 
-  // Remember the teacher who already gave us an email, so a second visit (or a
-  // second file) doesn't ask again.
   useEffect(() => {
     try {
       if (window.localStorage.getItem(STORAGE_KEY) === "1") setUnlocked(true);
@@ -34,9 +34,21 @@ export function PacketDownloads() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
+    const name = String(fd.get("name") ?? "").trim();
+    const school = String(fd.get("school") ?? "").trim();
     const email = String(fd.get("email") ?? "").trim();
     const website = String(fd.get("website") ?? "");
 
+    if (!name) {
+      setStatus("error");
+      setMessage("Please add your name.");
+      return;
+    }
+    if (!school) {
+      setStatus("error");
+      setMessage("Please add your school.");
+      return;
+    }
     if (!EMAIL_RE.test(email)) {
       setStatus("error");
       setMessage("Please enter a valid email address.");
@@ -49,7 +61,7 @@ export function PacketDownloads() {
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, website, source: "look-closer-packet" }),
+        body: JSON.stringify({ email, name, org: school, website, source: "look-closer-materials" }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; message?: string };
       if (res.ok && data.ok) {
@@ -73,6 +85,9 @@ export function PacketDownloads() {
 
   const errId = `${uid}-error`;
   const hasError = status === "error";
+  const field =
+    "mt-2 h-12 w-full rounded-sm border border-white/20 bg-white/5 px-4 text-[16px] text-paper placeholder:text-white/35 focus:border-white focus:outline-none";
+  const label = "block text-small font-medium text-white/70";
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
@@ -94,11 +109,12 @@ export function PacketDownloads() {
                 {open ? (
                   <a
                     href={item.file}
-                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => track("look_closer_download", { file: item.title })}
                     className="link-arrow text-paper hover:text-maroon-soft"
                   >
-                    Download
+                    Open the PDF
                     <svg
                       className="arrow h-[1.05em] w-[1.05em]"
                       viewBox="0 0 24 24"
@@ -111,7 +127,7 @@ export function PacketDownloads() {
                     </svg>
                   </a>
                 ) : (
-                  <p className="text-small text-white/40">Add your email to open this file →</p>
+                  <p className="text-small text-white/40">Add your details to open this →</p>
                 )}
               </div>
             </li>
@@ -127,13 +143,14 @@ export function PacketDownloads() {
             aria-live="polite"
             className="rounded-lg border border-white/20 bg-white/5 p-6"
           >
-            <p className="text-body-lg font-semibold text-paper">The packet is open.</p>
+            <p className="text-body-lg font-semibold text-paper">Everything&apos;s open.</p>
             <p className="mt-2 text-body text-white/65">
-              Everything is yours to print, copy and change. You do not need to tell us you used it,
-              and you do not need us in the room.
+              Read anything you like. If something in there wouldn&apos;t work for your class — a
+              business you&apos;d rather swap, a number you want simplified — tell me and I&apos;ll
+              change it before I come.
             </p>
             <p className="mt-4 text-small text-white/45">
-              If you&apos;d rather we came and ran it, email{" "}
+              To pick a date, email{" "}
               <a href="mailto:hello@aperturemethod.com" className="text-paper underline underline-offset-4">
                 hello@aperturemethod.com
               </a>
@@ -144,28 +161,52 @@ export function PacketDownloads() {
           <form
             onSubmit={onSubmit}
             noValidate
-            aria-label="Get the Look Closer packet"
+            aria-label="See the Look Closer materials"
             className="rounded-lg border border-white/20 bg-white/5 p-6"
           >
-            <p className="text-body-lg font-semibold text-paper">One email and it&apos;s yours.</p>
+            <p className="text-body-lg font-semibold text-paper">Have a look at everything.</p>
             <p className="mt-2 text-body text-white/65">
-              We ask so we can send you the new business cards as we write them — and so we know
-              which schools are using this. Nothing else, and never to your students.
+              Tell me who you are and I&apos;ll open the full set. I ask so I know which schools are
+              interested and can reach you about a date — nothing else, and never anything to your
+              students.
             </p>
 
-            <label htmlFor={`${uid}-email`} className="mt-5 block text-small font-medium text-white/70">
-              Your email
-            </label>
-            <input
-              id={`${uid}-email`}
-              type="email"
-              name="email"
-              autoComplete="email"
-              placeholder="you@yourschool.edu"
-              aria-invalid={hasError || undefined}
-              aria-describedby={hasError ? errId : undefined}
-              className="mt-2 h-12 w-full rounded-sm border border-white/20 bg-white/5 px-4 text-[16px] text-paper placeholder:text-white/35 focus:border-white focus:outline-none"
-            />
+            <div className="mt-5 space-y-4">
+              <div>
+                <label htmlFor={`${uid}-name`} className={label}>
+                  Your name
+                </label>
+                <input id={`${uid}-name`} name="name" type="text" autoComplete="name" placeholder="Jane Alvarez" className={field} />
+              </div>
+              <div>
+                <label htmlFor={`${uid}-school`} className={label}>
+                  School
+                </label>
+                <input
+                  id={`${uid}-school`}
+                  name="school"
+                  type="text"
+                  autoComplete="organization"
+                  placeholder="Roosevelt High School"
+                  className={field}
+                />
+              </div>
+              <div>
+                <label htmlFor={`${uid}-email`} className={label}>
+                  Email
+                </label>
+                <input
+                  id={`${uid}-email`}
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@yourschool.edu"
+                  aria-invalid={hasError || undefined}
+                  aria-describedby={hasError ? errId : undefined}
+                  className={field}
+                />
+              </div>
+            </div>
 
             {/* Honeypot */}
             <div
@@ -176,8 +217,8 @@ export function PacketDownloads() {
               <input id={`${uid}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
             </div>
 
-            <button type="submit" className="btn--on-dark mt-4 h-12 w-full" disabled={status === "submitting"}>
-              {status === "submitting" ? "Opening…" : "Open the packet"}
+            <button type="submit" className="btn--on-dark mt-5 h-12 w-full" disabled={status === "submitting"}>
+              {status === "submitting" ? "Opening…" : "Show me the materials"}
             </button>
 
             {hasError && (

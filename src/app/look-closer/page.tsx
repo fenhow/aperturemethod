@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -17,7 +18,28 @@ export const metadata: Metadata = pageMeta({
   description:
     "A free 50-minute classroom session for grades 8–12 in The Woodlands. Students get a real-looking local business and fifteen minutes to find the one thing holding it back. The whole packet — lesson plan, business cards, worksheet and answer key — is free for any teacher to download and run.",
   path: "/look-closer",
+  image: "/look-closer/look-closer-og.png",
 });
+
+
+const trust: { title: string; body: string }[] = [
+  {
+    title: "Whatever screening your district requires",
+    body: "Fingerprinting, volunteer clearance, visitor background check — tell me what Conroe ISD or your campus needs and how long it takes, and I'll start it before we pick a date.",
+  },
+  {
+    title: "I come alone, and nothing leaves the room",
+    body: "No crew and no camera. I don't photograph students, I don't post about the visit, and nothing is collected from anyone in the room — no sign-ups, no emails, no handouts to take home and sign.",
+  },
+  {
+    title: "You see every page before I walk in",
+    body: "The full packet goes to you ahead of time. If you want a business card changed, a number simplified, or a whole section cut, we change it. It's your classroom.",
+  },
+  {
+    title: "Local, not a vendor",
+    body: "I live in The Woodlands. These aren't schools I found on a map — they're the ones down the road. Happy to get on a call with you or your department head first, with no date on the calendar.",
+  },
+];
 
 const bring: { us: string; you: string }[] = [
   { us: "A facilitator who runs the full period", you: "Fifty minutes of class time" },
@@ -190,6 +212,70 @@ export default function LookCloserPage() {
         <div className="mt-12">
           <PacketDownloads />
         </div>
+      </Section>
+
+
+      {/* Who's coming */}
+      <Section tone="surface" id="who">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+          <Reveal variant="right">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-line">
+              <Image
+                src="/fenwick-how.jpg"
+                alt="Fenwick How, founder of The Aperture Method"
+                fill
+                sizes="(max-width: 1024px) 100vw, 34vw"
+                className="object-cover object-center"
+              />
+            </div>
+          </Reveal>
+
+          <Reveal variant="left" delay={100}>
+            <p className="eyebrow mb-4">Who&apos;s coming to your classroom</p>
+            <h2 className="text-h2 font-semibold text-ink">Fenwick How</h2>
+            <p className="mt-2 text-body-lg text-maroon">
+              Founder, The Aperture Method™ · The Woodlands, Texas
+            </p>
+            <div className="mt-6 space-y-5 text-body-lg text-body">
+              <p>
+                I run a business intelligence firm here in town. My work is sitting down with people
+                who own companies — a fabricator, a clinic, a distributor — and finding the one thing
+                that is quietly holding the whole business back. It is unglamorous, it is mostly
+                arithmetic, and almost nobody is ever taught how to do it.
+              </p>
+              <p>
+                I live here, and my family is here. These aren&apos;t schools I found on a map. The
+                students in them will be running, working in and buying from the businesses in this
+                county in fifteen years, and I would rather they learned to look at one properly
+                before then.
+              </p>
+              <p>
+                I get nothing out of the visit. No fee, nothing sold, and I&apos;m not there to talk
+                about my firm — that&apos;s one minute at the end, if anyone asks. I&apos;m there
+                because I get to hand thirty teenagers a real problem and watch them take it apart.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+
+        <Reveal delay={140} className="mt-14">
+          <h3 className="text-h3 font-semibold text-ink">Before you say yes</h3>
+          <p className="mt-3 max-w-measure text-body text-muted">
+            You&apos;re deciding whether to put a stranger in a room with thirty of your students.
+            Here are the answers to the questions you&apos;d otherwise have to ask.
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            {trust.map((t, i) => (
+              <div key={t.title} className="rounded-lg border border-line bg-paper p-6">
+                <p className="text-overline uppercase tracking-overline text-maroon">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h4 className="mt-3 text-h4 font-semibold text-ink">{t.title}</h4>
+                <p className="mt-3 text-body text-muted">{t.body}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </Section>
 
       {/* Bring it to your school */}

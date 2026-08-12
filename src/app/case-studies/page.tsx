@@ -12,7 +12,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "Case Studies",
   description:
-    "Representative examples of the problems we solve and how The Aperture Method addresses them, across the industries we serve. Illustrative scenarios, clearly labeled.",
+    "Representative examples of the problems we solve and how The Aperture Method addresses them. Illustrative scenarios, clearly labeled.",
   path: "/case-studies",
 });
 
@@ -80,14 +80,6 @@ export default function CaseStudiesPage() {
             <Reveal key={ind.slug} variant="up" delay={(i % 2) * 90} className="flex flex-col">
               <p className="eyebrow mb-3">{ind.name}</p>
               <CaseStudy title={ind.caseStudy.title} body={ind.caseStudy.body} className="flex-1 bg-paper" />
-              <p className="mt-3">
-                <Link
-                  href={ind.href}
-                  className="text-[15px] font-semibold text-ink transition-colors hover:text-maroon"
-                >
-                  How we help {ind.name.toLowerCase()} →
-                </Link>
-              </p>
             </Reveal>
           ))}
         </div>

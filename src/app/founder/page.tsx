@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { LinkArrow } from "@/components/ui/LinkArrow";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { primaryCta } from "@/lib/site";
 import { pageMeta, ldPerson, ldBreadcrumb } from "@/lib/seo";
@@ -167,6 +168,27 @@ export default function FounderPage() {
             </Reveal>
           ))}
         </dl>
+      </Section>
+
+      {/* Look Closer */}
+      <Section>
+        <Reveal className="max-w-measure">
+          <p className="eyebrow mb-4">Outside the work</p>
+          <h2 className="text-h2 font-semibold heading-gradient">
+            Fifty minutes, thirty students, one real business.
+          </h2>
+          <p className="mt-6 text-body-lg text-body">
+            I teach a free session in local schools called{" "}
+            <span className="font-semibold text-ink">Look Closer</span>. Students get a card
+            describing a business a few streets away and fifteen minutes to work out the one thing
+            holding it back — the same question I get paid to answer, handed to grades 8–12 for
+            nothing. No fee, nothing sold, and the whole packet is free for any teacher to run
+            without me in the room.
+          </p>
+          <p className="mt-8">
+            <LinkArrow href="/look-closer">See the session</LinkArrow>
+          </p>
+        </Reveal>
       </Section>
 
       {/* Final CTA */}

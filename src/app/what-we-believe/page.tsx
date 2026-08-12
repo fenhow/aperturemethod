@@ -214,6 +214,42 @@ export default function WhatWeBelievePage() {
         </Reveal>
       </Section>
 
+      {/* Look Closer — belief, put into practice */}
+      <Section>
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+          <Reveal>
+            <p className="eyebrow mb-4">Belief, put into practice</p>
+            <h2 className="text-h2 font-semibold heading-gradient">
+              We teach this free to teenagers.
+            </h2>
+          </Reveal>
+          <Reveal variant="left" delay={100}>
+            <div className="space-y-5 text-body-lg text-body">
+              <p>
+                We believe the ability to look at a business and see what is actually holding it back
+                is a skill, not a gift — which means it can be taught, and it should be taught to
+                people long before they own anything.
+              </p>
+              <p>
+                So we built <span className="font-semibold text-ink">Look Closer</span>, a
+                fifty-minute session for grades 8–12. Students get a card describing a real-looking
+                business in The Woodlands and fifteen minutes to find the one thing holding it back.
+                There is no fee, nothing is sold to students, and the entire packet is free for any
+                teacher to download and run without us.
+              </p>
+              <p className="text-body text-muted">
+                It is not aimed only at future founders. Almost every student in that room will spend
+                their life inside a business — working in one, managing one, buying from one. They
+                should all know how one works.
+              </p>
+            </div>
+            <p className="mt-8">
+              <LinkArrow href="/look-closer">See the session</LinkArrow>
+            </p>
+          </Reveal>
+        </div>
+      </Section>
+
       {/* Final CTA */}
       <Section>
         <Reveal variant="zoom">

@@ -22,6 +22,15 @@ const nextConfig = {
   },
   // Emit a Vary header so compression is negotiated per client (gzip/br).
   compress: true,
+  async redirects() {
+    // Industries pages retired (Aug 2026) — the firm is deliberately
+    // industry-agnostic. 301 so any existing links and search equity land on
+    // the page that answers the same question.
+    return [
+      { source: "/industries", destination: "/who-its-for", permanent: true },
+      { source: "/industries/:slug", destination: "/who-its-for", permanent: true },
+    ];
+  },
   async headers() {
     // Baseline security headers. Content-Security-Policy is added in the SEO/
     // hardening stage once all third-party origins (analytics, consent, CMS,

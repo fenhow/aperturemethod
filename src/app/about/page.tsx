@@ -142,10 +142,10 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="Who we serve"
             title="Owner-run and family-owned businesses."
-            lede="In industrial and manufacturing, retail and consumer, professional services, and healthcare — and data-rich companies in other sectors ready to run on evidence."
+            lede="Roughly $1M to $20M in revenue, in any sector. The constraint holding back a fabricator and the one holding back a clinic look different on the surface and identical underneath — which is why we don't sort our clients by industry."
           />
           <p className="mt-8">
-            <LinkArrow href="/industries">See the industries we serve</LinkArrow>
+            <LinkArrow href="/who-its-for">See whether it&apos;s a fit</LinkArrow>
           </p>
         </Reveal>
       </Section>

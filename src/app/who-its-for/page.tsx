@@ -52,8 +52,8 @@ const fit: { title: string; body: string }[] = [
     body: "Roughly $1M to $20M in revenue, from one strong location to many. You already generate data — even if it's messy.",
   },
   {
-    title: "Across industries",
-    body: "Retail & consumer, professional services, healthcare practices, industrial & manufacturing, trades, and distribution — and if you don't see yours, we very likely still work with you.",
+    title: "Any industry",
+    body: "Retail, professional services, healthcare practices, manufacturing, trades, distribution — and plenty we haven't listed. We don't sort clients by sector, because the constraint holding a business back rarely cares what the business sells.",
   },
   {
     title: "Ready to act",

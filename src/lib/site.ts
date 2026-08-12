@@ -105,24 +105,6 @@ export const megaNav: MegaEntry[] = [
   },
   {
     kind: "group",
-    label: "Industries",
-    href: "/industries",
-    hub: {
-      eyebrow: "Who we help",
-      title: "Examples, not limits",
-      blurb:
-        "Sectors we know well — but if you don't see yours, we very likely still work with you.",
-      linkLabel: "See all industries",
-    },
-    links: [
-      { label: "Industrial & Manufacturing", href: "/industries/industrial-manufacturing", desc: "Owner-run makers & fabricators" },
-      { label: "Retail & Consumer", href: "/industries/retail-consumer", desc: "Multi-location & consumer brands" },
-      { label: "Professional Services", href: "/industries/professional-services", desc: "Founder-led firms & practices" },
-      { label: "Healthcare Practices", href: "/industries/healthcare", desc: "Clinician-owned practices" },
-    ],
-  },
-  {
-    kind: "group",
     label: "Case Studies",
     href: "/case-studies/lumina-medical-aesthetics",
     hub: {
@@ -153,6 +135,7 @@ export const megaNav: MegaEntry[] = [
     links: [
       { label: "About", href: "/about", desc: "Who's behind the Method" },
       { label: "What We Believe", href: "/what-we-believe", desc: "The principles we work by" },
+      { label: "Look Closer — for schools", href: "/look-closer", desc: "The free session we teach locally" },
       { label: "Insights", href: "/insights", desc: "Plain thinking, by the numbers" },
       { label: "Contact", href: "/contact", desc: "Start a conversation" },
     ],
@@ -168,7 +151,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "What We Believe", href: "/what-we-believe" },
       { label: "Insights", href: "/insights" },
-      { label: "Look Closer — for schools", href: "/look-closer" },
+      { label: "Look Closer — free for schools", href: "/look-closer" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -181,7 +164,6 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "Who It's For", href: "/who-its-for" },
       { label: "AI, Without the Black Box", href: "/ai" },
       { label: "Working Together", href: "/working-together" },
-      { label: "Industries", href: "/industries" },
       { label: "Case Studies", href: "/case-studies" },
     ],
   },

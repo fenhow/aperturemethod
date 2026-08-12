@@ -24,17 +24,20 @@ export const lookCloser = {
   fits: "Economics · Principles of Business, Marketing & Finance · Entrepreneurship · Money Matters and personal financial literacy · career exploration and advisory · DECA and FBLA chapters",
 } as const;
 
-/** The three ideas underneath the takeaway. Never more than three. */
-export const lookCloserIdeas: { title: string; body: string }[] = [
+/** The three ideas the session teaches. Never more than three. */
+export const lookCloserIdeas: { label: string; title: string; body: string }[] = [
   {
+    label: "The bottleneck",
     title: "Every business has one thing holding it back.",
     body: "Find that one thing and you can fix the whole business. It is as true of a lemonade stand as it is of a company with four thousand employees.",
   },
   {
+    label: "Busy is not paid",
     title: "Being busy and making money are not the same thing.",
     body: "Most adults have never separated these two. One card in the set does nothing but take that idea apart, slowly, with a lawn mower.",
   },
   {
+    label: "Counting beats talent",
     title: "You find it by counting, not by being a genius.",
     body: "Counting is free, it takes no talent, and almost nobody does it. That is the whole trade, and a fifteen-year-old can start today.",
   },

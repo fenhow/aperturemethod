@@ -91,8 +91,31 @@ export default function LookCloserPage() {
         </Reveal>
       </Section>
 
-      {/* Why */}
+      {/* What the session teaches — the three ideas, up front */}
       <Section tone="surface">
+        <Reveal>
+          <SectionHeading
+            eyebrow="What the session teaches"
+            title="Three ideas, and never more than three."
+            lede="A room does not remember more things because you said more things. These are the three a student can still use in ten years."
+          />
+        </Reveal>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {lookCloserIdeas.map((idea, i) => (
+            <Reveal key={idea.title} variant="up" delay={(i % 3) * 90} className="h-full">
+              <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
+                <p className="text-h3 font-semibold text-maroon">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="mt-4 text-h4 font-semibold text-ink">{idea.title}</h3>
+                <p className="mt-3 text-small uppercase tracking-overline text-maroon">{idea.label}</p>
+                <p className="mt-4 text-body text-muted">{idea.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      {/* Why */}
+      <Section>
         <div className="grid gap-10 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
           <Reveal>
             <SectionHeading eyebrow="Why I do this" title="Nobody teaches you how to look at a business." />
@@ -124,7 +147,7 @@ export default function LookCloserPage() {
       {/* The takeaway */}
       <Section tone="dark">
         <Reveal className="max-w-measure">
-          <p className="eyebrow eyebrow--on-dark mb-5">What they walk away with</p>
+          <p className="eyebrow eyebrow--on-dark mb-5">And the one thing they walk away with</p>
           <blockquote className="text-h1 font-semibold leading-[1.1] text-paper">
             &ldquo;{lookCloser.takeaway}&rdquo;
           </blockquote>
@@ -137,19 +160,6 @@ export default function LookCloserPage() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {lookCloserIdeas.map((idea, i) => (
-            <Reveal key={idea.title} variant="up" delay={i * 80} className="h-full">
-              <div className="group h-full rounded-lg border border-white/10 bg-white/[0.03] p-6 transition-[border-color,background-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon-soft/60 hover:bg-white/[0.06] hover:shadow-[0_0_30px_-6px_rgba(140,43,43,0.65),0_0_0_1px_rgba(181,84,79,0.35)] motion-reduce:hover:translate-y-0">
-                <p className="text-overline uppercase tracking-overline text-maroon-onDark transition-colors duration-300 group-hover:text-maroon-soft">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-3 text-h4 font-semibold text-paper">{idea.title}</h3>
-                <p className="mt-3 text-body text-white/65">{idea.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </Section>
 
       {/* Run of show */}
@@ -189,11 +199,11 @@ export default function LookCloserPage() {
         </Reveal>
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {lookCloserCards.map((c, i) => (
-            <Reveal key={c.name} variant="up" delay={(i % 3) * 80}>
-              <div className="h-full rounded-lg border border-line bg-paper p-6">
+            <Reveal key={c.name} variant="up" delay={(i % 3) * 80} className="h-full">
+              <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
                 <h3 className="text-h4 font-semibold text-ink">{c.name}</h3>
-                <p className="mt-1 text-small uppercase tracking-overline text-maroon">{c.where}</p>
-                <p className="mt-4 text-body text-muted">{c.teaser}</p>
+                <p className="mt-3 text-small uppercase tracking-overline text-maroon">{c.where}</p>
+                <p className="mt-5 text-body text-muted">{c.teaser}</p>
               </div>
             </Reveal>
           ))}
@@ -325,13 +335,13 @@ export default function LookCloserPage() {
         </Reveal>
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {trust.map((t, i) => (
-            <Reveal key={t.title} variant="up" delay={(i % 2) * 80}>
-              <div className="h-full rounded-lg border border-line bg-surface p-6">
+            <Reveal key={t.title} variant="up" delay={(i % 2) * 80} className="h-full">
+              <div className="flex h-full flex-col rounded-lg border border-line bg-surface p-6 sm:p-7">
                 <p className="text-overline uppercase tracking-overline text-maroon">
                   {String(i + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-3 text-h4 font-semibold text-ink">{t.title}</h3>
-                <p className="mt-3 text-body text-muted">{t.body}</p>
+                <h3 className="mt-4 text-h4 font-semibold text-ink">{t.title}</h3>
+                <p className="mt-4 text-body text-muted">{t.body}</p>
               </div>
             </Reveal>
           ))}

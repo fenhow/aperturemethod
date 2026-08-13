@@ -24,6 +24,7 @@ export type MethodPhase = {
   description: string; // the full executive description
   deliverable: string; // the tangible artifact(s) inside the product — "what you get"
   truth?: string; // optional plain-language pull-quote — the owner-level truth this component answers
+  forYou?: string[]; // "this is you if…" — symptoms in the owner's own words, not benefits
   frameworks: Framework[]; // the named techniques/frameworks applied in this phase (depth layer)
   cap?: string; // capability tag shown on the parent landing — "MBA", "GIS", "DATA", or a blend
 };
@@ -43,6 +44,11 @@ const componentFive: MethodPhase = {
     description:
       "The methodology culminates in a living system. Aperture Atlas is the Geographic Intelligence Platform where the whole engagement stays alive — your KPIs and Scoreboard, your Market Maps, drive-time trade areas, and forecasts on one interactive, always-current dashboard. It is where performance management meets geographic intelligence: the tool you run the business from long after the engagement ends. Improvement is continuous, not a one-time project: the platform carries the executive dashboards, KPIs and automated reporting that let leadership see performance in real time and measure progress against the plan.",
     deliverable: "The Aperture Atlas™ platform — a live Scoreboard, Market Maps & forecasts, plus a re-scored Aperture Score™ to prove progress",
+    forYou: [
+      "The strategy is set and you need to know whether it's actually working",
+      "You're running the business on gut feel and month-old reports",
+      "You want the numbers in one live place instead of five spreadsheets",
+    ],
     frameworks: [
       { name: "Aperture Atlas™ dashboard", what: "Your always-on executive dashboard — the metrics that matter, pulled into one live view so you can see performance in real time and act on it." },
       { name: "OKRs & KPI management", what: "Sets clear objectives and the few numbers that prove you're hitting them." },
@@ -69,6 +75,11 @@ export const methodPhases: MethodPhase[] = [
     description:
       `Every successful transformation begins with clarity. Aperture Insights reads your whole business through the same seven lenses in the same order every time — ${lensNamesSentence}. It is deliberately broad rather than deep: enough to show you what is working, name your likely biggest constraint, and give you an honest score to measure from. What it does not do is the heavy analysis — it tells you precisely where that digging is warranted, and the depth is bought in the components that follow.`,
     deliverable: "The Business X-Ray™ + Aperture Score™",
+    forYou: [
+      "You know something is off, but not what is actually causing it",
+      "You're about to invest, hire or expand and want an honest read first",
+      "Nobody has looked at the whole business at once in years",
+    ],
     truth:
       "You don\u2019t need a hundred-page report to start. You need to know which problem is the one actually holding you back \u2014 and where to look next.",
     frameworks: [
@@ -92,6 +103,11 @@ export const methodPhases: MethodPhase[] = [
     description:
       "Data becomes valuable when it informs decisions. Aperture Analytics transforms financial and operational information into meaningful business intelligence through advanced analysis, financial modeling, forecasting, and scenario planning. This phase identifies the key drivers of profitability, operational efficiency, and long-term value creation.",
     deliverable: "The Profit Map™ + scenario model",
+    forYou: [
+      "You're busy and growing, but the profit isn't showing up",
+      "You don't know which products, locations or customers actually make money",
+      "You want to test a price, a hire or an expansion before you commit to it",
+    ],
     truth:
       "Most owners have plenty of numbers. What they don\u2019t have is anyone who turns them into a decision. That\u2019s the job.",
     frameworks: [
@@ -115,6 +131,11 @@ export const methodPhases: MethodPhase[] = [
     description:
       "Understanding your customers is essential to sustainable growth. Aperture Intelligence combines customer analytics, demographic data, geographic intelligence (GIS), market trends, and competitive insights to reveal who your customers are, where they are, how they behave, and where the greatest growth opportunities exist. This transforms raw data into actionable strategic intelligence.",
     deliverable: "The Customer & Market Map™ + GIS trade-area analysis",
+    forYou: [
+      "You don't really know who your best customers are or where they come from",
+      "You're considering a second location and don't want to guess",
+      "You're spending on marketing without knowing where the demand actually is",
+    ],
     frameworks: [
       { name: "Porter's Five Forces", what: "A read on the competitive pressures in your market, so you know where power and profit really sit." },
       { name: "PESTLE analysis", what: "Scans the outside forces — economic, tech, legal, and more — that could help or hurt you." },
@@ -138,6 +159,11 @@ export const methodPhases: MethodPhase[] = [
     description:
       "Insights only create value when they become action. Aperture Compass converts analysis into a prioritized strategic roadmap that aligns business objectives with measurable initiatives. Opportunities are evaluated based on value, complexity, risk, and organizational impact, creating a clear execution plan focused on the initiatives that will deliver the greatest return.",
     deliverable: "The Opportunity Matrix™ + Focus Plan™ (Now / Next / Later)",
+    forYou: [
+      "You have more ideas than you have time or money",
+      "Your team disagrees on what matters most right now",
+      "You need a plan you can defend to a bank, a board or your family",
+    ],
     frameworks: [
       { name: "Strategic option generation", what: "Deliberately widens the set of moves you could make, so you're not choosing from just one or two." },
       { name: "Weighted decision matrices", what: "Scores options against what matters most to you, so the best choice is clear and defensible." },

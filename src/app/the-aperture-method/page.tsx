@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Faq } from "@/components/ui/Faq";
 import { Reveal } from "@/components/ui/Reveal";
-import { MethodExplorer } from "@/components/sections/MethodExplorer";
+import { ApertureIris } from "@/components/sections/ApertureIris";
 import { MethodFrameworks } from "@/components/sections/MethodFrameworks";
 import { MethodFlow } from "@/components/sections/MethodFlow";
 import { ApertureDifference } from "@/components/sections/ApertureDifference";
@@ -163,11 +163,11 @@ export default function TheApertureMethodPage() {
           <SectionHeading
             eyebrow="The framework"
             title="Five phases. One continuous picture."
-            lede="Like the blades of an aperture, each phase opens the view a little more — until the whole business is in focus. Select a step."
+            lede="Like the blades of an aperture, each phase opens the view a little more — until the whole business is in focus. Open a blade to see what it is, who it\u2019s for, and what you walk away with."
           />
         </Reveal>
         <Reveal variant="zoom" delay={100} className="mt-12">
-          <MethodExplorer />
+          <ApertureIris />
         </Reveal>
         <Reveal className="mt-8">
           <Link href="/what-you-get" className="btn--secondary">

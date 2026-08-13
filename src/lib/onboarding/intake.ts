@@ -159,6 +159,7 @@ export const segments: IntakeSegment[] = [
         T("ins_fin4", "How and when do you get paid — on delivery, on terms, deposits, retainers? Roughly how much is owed to you at any one time, and what debt, lease or repayment obligations does the business carry?", 3),
         T("ins_fin5", "For your main product or service: what do you charge, and roughly what does it cost you to deliver one? Include the labour and materials that go into that single unit.", 3),
         T("ins_fin6", "Do your accounts separate the cost of delivering the work from general overhead? Are any costs allocated down to individual products, services or locations — and on what basis?", 2),
+        T("ins_fin7", "Do you hold inventory, stock or materials? Roughly what is it worth at any one time, and how long does a typical item sit before it is used or sold? What payment terms do your main suppliers give you, and do you actually take them?", 3),
       ]},
       { id: "ins-ops", title: "Lens 2 · Operations", fields: [
         T("ins_ops1", "Walk us through how the work actually gets done, start to finish.", 3),
@@ -166,6 +167,7 @@ export const segments: IntakeSegment[] = [
         T("ins_ops3", "If demand doubled tomorrow, what breaks first?", 2),
         T("ins_ops5", "Which parts of your work require a licensed, certified or specifically-trained person to perform? How many such people do you have, what share of billable volume depends on them, and how long does it take to get another one qualified?", 4),
         T("ins_ops4", "What physically sets your ceiling on volume — chairs, bays, rooms, vehicles, machine hours, staffed hours? How many do you have, and roughly what share is in use in an average week versus your busiest? In a typical month, how many units, jobs or visits do you do, and which months are the peaks and troughs?", 4),
+        T("ins_ops6", "Which suppliers, subcontractors or platforms would hurt most if they raised their price, changed their terms or stopped serving you tomorrow? Roughly what share of your cost or your volume runs through the largest one, and how long would it take you to replace them?", 3),
       ]},
       { id: "ins-cust", title: "Lens 3 · Customers & Retention", fields: [
         T("ins_cust1", "Where do new customers come from today, ranked?", 2),
@@ -179,6 +181,7 @@ export const segments: IntakeSegment[] = [
         T("ins_mkt2", "What is changing in your market that worries you?", 2),
         T("ins_mkt3", "Roughly how far do customers travel to reach you, and what is the furthest you would call normal? Which areas do you do well in, and which would you expect to and don't?", 3),
         T("ins_mkt4", "Name the competitors that actually cost you business, and where they are. Has anyone opened, closed or expanded near you recently?", 3),
+        T("ins_mkt5", "If a well-funded competitor opened across the road tomorrow and set out to copy you, what would they find hardest to reproduce — and roughly how long would it take them? If the honest answer is \"not much, and quickly\", say that; it is a more useful place to start than a strength nobody can name.", 3),
       ]},
       { id: "ins-lead", title: "Lens 5 · Leadership & Team", fields: [
         T("ins_lead1", "If you took a month off with no contact, what would fall over?", 2),

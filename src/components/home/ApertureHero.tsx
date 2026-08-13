@@ -167,7 +167,7 @@ export function ApertureHero() {
           </Link>
         </div>
         <p className="mt-4 text-caption text-white/55">
-          10 questions · about 3 minutes · no email required
+          11 questions · about 3 minutes · no email required
         </p>
 
         {/* Controls */}

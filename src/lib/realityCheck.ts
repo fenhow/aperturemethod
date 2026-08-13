@@ -1,5 +1,5 @@
 /**
- * The Reality Check — a ten-question self-assessment of how well an owner
+ * The Reality Check — an eleven-question self-assessment of how well an owner
  * actually knows their own business.
  *
  * Design rule: every question must be unanswerable without real knowledge.
@@ -83,6 +83,25 @@ export const questions: RCQuestion[] = [
       headline: "You do not know how concentrated your revenue is.",
       body: "Concentration is the single risk a buyer, a lender or a bad quarter finds first. It also quietly dictates how much pricing power you actually have — and owners routinely underestimate their own number by a wide margin.",
       cost: "It is a one-afternoon calculation that changes how you think about risk, pricing and valuation.",
+    },
+  },
+  {
+    id: "cash-cycle",
+    area: "The cash cycle",
+    component: "Aperture Analytics™",
+    prompt:
+      "How many days pass between paying for something and getting paid for it?",
+    note: "Money out to money in — the cash conversion cycle. A number of days, not a feeling about cash flow.",
+    options: [
+      { label: "I know the number, and I track which way it is moving", score: 4 },
+      { label: "I have worked it out at some point", score: 2 },
+      { label: "I know when cash is tight, but not the number", score: 1 },
+      { label: "I have never calculated it", score: 0 },
+    ],
+    blindSpot: {
+      headline: "You have cash locked in the operating cycle and no measure of how much.",
+      body: "Almost every owner knows when cash is tight. Very few know the number of days causing it, which is what makes it fixable — receivables, stock and supplier terms are three separate levers, and they respond to different things. Until the cycle is split into its parts, tight cash looks like one problem instead of three.",
+      cost: "Roughly one day of revenue is tied up for each day in the cycle. Pulling fifteen days out of a $5M business releases about a year's profit in cash — with no borrowing and no new customers.",
     },
   },
   {
@@ -215,6 +234,7 @@ export const questions: RCQuestion[] = [
 const priority = [
   "constraint",
   "profit-by-line",
+  "cash-cycle",
   "retention",
   "concentration",
   "kpis",

@@ -4,7 +4,6 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
-import { MethodAperture } from "@/components/sections/MethodAperture";
 import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { ApertureHero } from "@/components/home/ApertureHero";
@@ -32,7 +31,7 @@ export default function Home() {
     <>
       <ApertureHero />
 
-      {/* One methodology. Six components. */}
+      {/* One methodology, five components — the MBA → GIS → DATA arc + the X-Ray front door */}
       <Section>
         <Reveal className="max-w-measure">
           <SectionHeading
@@ -133,22 +132,9 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* The six components — the aperture dial */}
+      {/* Start anywhere — the selectable menu. Carries the #method anchor that the
+          hero and How-it-works link to, since the aperture dial above it was removed. */}
       <Section tone="surface" id="method">
-        <Reveal>
-          <SectionHeading
-            eyebrow="The five components"
-            title="See how the Method works."
-            lede="Each component answers one executive question and produces a tangible deliverable — and each is powered by MBA-grade analytics, spatial intelligence, or live data. Run them in sequence and it becomes The Aperture Method™."
-          />
-        </Reveal>
-        <Reveal variant="zoom" delay={120} className="mt-12">
-          <MethodAperture phases={aperturePractices} />
-        </Reveal>
-      </Section>
-
-      {/* Start anywhere — the selectable menu */}
-      <Section>
         <Reveal>
           <SectionHeading
             eyebrow="Start anywhere"

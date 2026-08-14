@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { XRAY_FEE, XRAY_CREDIT_TERMS } from "@/lib/pricing";
+import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -30,6 +31,26 @@ export default function Home() {
   return (
     <>
       <ApertureHero />
+
+      {/* Plain-English strip — the "what is this company" answer, stated once, in
+          words an owner would use. Deliberately the first thing under the hero:
+          it catches the scanner who skipped the headline, and it lets a
+          wrong-fit visitor disqualify themselves early, which is a feature. */}
+      <div className="border-b border-line bg-surface">
+        <Container>
+          <div className="flex flex-col gap-4 py-7 md:flex-row md:items-start md:gap-10 md:py-8">
+            <p className="eyebrow shrink-0 md:pt-1">In plain English</p>
+            <p className="max-w-measure text-base text-body">
+              We dig into your numbers, your customers and your market, tell you where the money
+              actually is, and give you a live dashboard to run the business from.{" "}
+              <span className="font-semibold text-ink">
+                Built for owner-run companies doing $1M–$20M
+              </span>{" "}
+              — done for you, in language you can act on.
+            </p>
+          </div>
+        </Container>
+      </div>
 
       {/* One methodology, five components — the MBA → GIS → DATA arc + the X-Ray front door */}
       <Section>

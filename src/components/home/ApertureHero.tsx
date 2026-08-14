@@ -18,8 +18,8 @@ type Slide = { eyebrow: string; title: string; sub: string; image: string; video
 
 const slides: Slide[] = [
   {
-    eyebrow: "One firm. One lens. Total clarity.",
-    title: "Know your business. Know your market. Grow with confidence.",
+    eyebrow: "Analytics, AI & strategy for owner-run businesses",
+    title: "Big-company intelligence, built for your business.",
     sub: "Your fractional intelligence department — the business and marketing intelligence big companies rely on, right-sized for owner-run businesses, in plain language, and done for you.",
     image: "/hero/hero-3-v7.jpg",
   },
@@ -45,6 +45,13 @@ const slides: Slide[] = [
 ];
 
 const INTERVAL = 9000;
+/**
+ * Slide 1 is the anchor — it is the only slide that says what the company IS,
+ * so it holds longer on first view and the auto-rotation never cycles back to
+ * it. The other three rotate beneath it as proof of range. A visitor can never
+ * land on "AI" as their first impression of the business.
+ */
+const ANCHOR_INTERVAL = 15000;
 
 export function ApertureHero() {
   const [index, setIndex] = useState(0);
@@ -66,9 +73,12 @@ export function ApertureHero() {
 
   useEffect(() => {
     if (paused) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % slides.length), INTERVAL);
-    return () => window.clearInterval(id);
-  }, [paused]);
+    const id = window.setTimeout(
+      () => setIndex((i) => (i >= slides.length - 1 ? 1 : i + 1)),
+      index === 0 ? ANCHOR_INTERVAL : INTERVAL,
+    );
+    return () => window.clearTimeout(id);
+  }, [paused, index]);
 
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {

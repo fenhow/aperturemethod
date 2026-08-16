@@ -84,6 +84,14 @@ export default function ComponentPage({ params }: { params: { component: string 
               <Link href={primaryCta.href} className="btn--on-dark">
                 {primaryCta.label}
               </Link>
+              {/* Published proof, above the fold. A phase with work anyone can
+                  read in full should say so before it describes itself. Only
+                  Analytics carries `proof` today; the rest render two buttons. */}
+              {p.proof && (
+                <Link href={p.proof.href} className="btn--ghost">
+                  See the reports →
+                </Link>
+              )}
               <Link href="/the-aperture-method" className="btn--ghost">
                 See the full Method →
               </Link>

@@ -134,6 +134,33 @@ export default function ComponentPage({ params }: { params: { component: string 
         </div>
       </Section>
 
+      {/* Published proof — work you can read in full, not a description of work.
+          Currently only Aperture Analytics carries this; the field is optional. */}
+      {p.proof && (
+        <Section tone="surface">
+          <Reveal className="max-w-measure">
+            <SectionHeading
+              eyebrow={p.proof.eyebrow}
+              title={p.proof.title}
+              lede={p.proof.lead}
+            />
+          </Reveal>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {p.proof.points.map((pt, i) => (
+              <Reveal key={pt.label} variant="up" delay={(i % 3) * 70}>
+                <div className="h-full rounded-lg border border-line bg-paper p-6">
+                  <h3 className="text-h4 font-semibold text-ink">{pt.label}</h3>
+                  <p className="mt-2 text-small text-muted">{pt.what}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mt-10">
+            <LinkArrow href={p.proof.href}>{p.proof.linkLabel}</LinkArrow>
+          </Reveal>
+        </Section>
+      )}
+
       {/* Frameworks (analytical components) */}
       {!isAtlas && p.frameworks.length > 0 && (
         <Section>

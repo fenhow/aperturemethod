@@ -27,6 +27,18 @@ export type MethodPhase = {
   forYou?: string[]; // "this is you if…" — symptoms in the owner's own words, not benefits
   frameworks: Framework[]; // the named techniques/frameworks applied in this phase (depth layer)
   cap?: string; // capability tag shown on the parent landing — "MBA", "GIS", "DATA", or a blend
+  /**
+   * Published proof for this phase — work anyone can read in full, rather than a
+   * description of work. Optional, because most phases do not have it yet.
+   */
+  proof?: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    points: { label: string; what: string }[];
+    href: string;
+    linkLabel: string;
+  };
 };
 
 /**
@@ -110,6 +122,31 @@ export const methodPhases: MethodPhase[] = [
     ],
     truth:
       "Most owners have plenty of numbers. What they don\u2019t have is anyone who turns them into a decision. That\u2019s the job.",
+    proof: {
+      eyebrow: "Published in full",
+      title: "Two companies. One method. Completely different questions.",
+      lead:
+        "Two complete analyses, published with nothing held back — a listed retailer with forty billion in revenue and an audited 10-K, and an owner-managed fabricator with eighteen million and a set of reviewed accounts. Read side by side they make a point that is hard to make in the abstract: the analysis has to change when the entity does, and most financial analysis quietly refuses to.",
+      points: [
+        {
+          label: "It is not public versus private that breaks a comparison",
+          what:
+            "It is tax status. A pass-through pays no entity-level tax, so its net margin sits structurally higher than an identical C corporation\u2019s. Compare on operating margin and EBITDA, or not at all \u2014 and nothing in either set of statements warns you the comparison has already failed.",
+        },
+        {
+          label: "What reported earnings actually represent",
+          what:
+            "In an owner-managed business the owner sets their own pay and rents the building to themselves. Reported earnings reflect a personal tax decision as much as the cost of running the business, so the analysis normalises them \u2014 with an evidence grade on every add-back.",
+        },
+        {
+          label: "How value gets established",
+          what:
+            "Observed for a listed company: market capitalisation and multiples read off the market. Constructed for a private one: normalised earnings times an evidenced multiple range, less net debt \u2014 and the range is the answer, not the midpoint.",
+        },
+      ],
+      href: "/method-lab/financial-analysis-workbench",
+      linkLabel: "Read both reports \u2014 43 pages each, free, no email",
+    },
     frameworks: [
       { name: "Profitability analysis", what: "Shows exactly where you make and lose money — by service, location, or customer." },
       { name: "Cost-structure evaluation", what: "Maps your fixed and variable costs, so you know what scales profitably and what doesn't." },

@@ -616,6 +616,19 @@ h4.fgroup:first-child{margin-top:4px}
       <button class="btn ghost" onclick="loadPrivateDemo()">Private worked example</button>
       <button class="btn ghost" onclick="resetAll()">Reset everything</button>
     </div>
+
+    <h3 style="margin-top:26px">Saved engagements</h3>
+    <p class="lede">Work is kept on this machine as you type, and synced to the engagement
+      library so it can be reopened anywhere. The <code>.aperture.json</code> file above still
+      works and is still the archival copy for a client folder.</p>
+    <p class="lede" id="saveState" style="font-weight:600">&nbsp;</p>
+    <div class="btnrow">
+      <button class="btn" onclick="syncNow()">Save to library now</button>
+      <button class="btn ghost" onclick="renderLibrary()">Refresh list</button>
+      <button class="btn ghost" onclick="newEngagement()">Start a new engagement</button>
+      <button class="btn ghost" onclick="duplicateEngagement()">Duplicate this one</button>
+    </div>
+    <div id="library" style="margin-top:14px"></div>
   </div>
 </section>
 
@@ -4218,6 +4231,165 @@ function saveSession(){
   dl(new Blob([JSON.stringify(S,null,1)],{type:'application/json'}),slug()+'.aperture.json');
   toast('Session saved');
 }
+/* ---------- 20b. PERSISTENCE -------------------------------------------
+   Local-first, then synced.
+
+   The browser copy is written on a short debounce and is what protects against
+   a closed tab, a crash or a flat battery — it never depends on the network.
+   The library copy is written on a longer debounce and is what lets an
+   engagement be reopened on another machine.
+
+   Order matters: local first, always. A sync failure must degrade to
+   "saved on this machine", never to lost work.                                */
+
+const LS_KEY   = 'aperture.analytics.session.v1';
+const LS_META  = 'aperture.analytics.session.meta.v1';
+let   _lsTimer = null, _syncTimer = null, _syncing = false, _lastSynced = null;
+
+function saveLocalNow(){
+  try{
+    localStorage.setItem(LS_KEY, JSON.stringify(S));
+    localStorage.setItem(LS_META, JSON.stringify({
+      company:S.meta.company||'', code:S.meta.code||'', at:new Date().toISOString()
+    }));
+    return true;
+  }catch(e){ return false; }   /* quota or private mode — the file export still works */
+}
+function clearLocal(){ try{ localStorage.removeItem(LS_KEY); localStorage.removeItem(LS_META); }catch(e){} }
+
+/* Called by any edit. Cheap, debounced, and safe to call in a tight loop. */
+function markDirty(){
+  clearTimeout(_lsTimer);
+  _lsTimer = setTimeout(()=>{ saveLocalNow(); paintSaveState('local'); }, 800);
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(()=>{ syncToServer(); }, 6000);
+}
+
+function paintSaveState(kind, extra){
+  const el = document.getElementById('saveState'); if(!el) return;
+  const t = new Date().toLocaleTimeString();
+  if(kind==='local')   el.innerHTML = 'Saved on this machine at '+t+' \u00b7 not yet in the library';
+  if(kind==='synced')  el.innerHTML = 'In the engagement library \u00b7 '+t;
+  if(kind==='syncing') el.innerHTML = 'Saving to the library\u2026';
+  if(kind==='offline') el.innerHTML = 'Saved on this machine \u00b7 library unreachable'+(extra?' ('+esc(extra)+')':'');
+  if(kind==='off')     el.innerHTML = 'Saved on this machine \u00b7 library not configured on this deployment';
+}
+
+async function syncToServer(){
+  if(_syncing) return;
+  const body = {
+    id: S.meta.serverId || null,
+    slug: slug(),
+    company: S.meta.company || null,
+    code: S.meta.code || null,
+    entity_status: (S.entity && S.entity.ownership) || null,
+    release: (document.getElementById('m_release')||{}).value || 'confidential',
+    analyst: S.meta.analyst || null,
+    schema_version: 1,
+    state: S
+  };
+  _syncing = true; paintSaveState('syncing');
+  try{
+    const r = await fetch('/api/workbench/engagements', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+    });
+    if(r.status===503){ paintSaveState('off'); return; }
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j = await r.json();
+    if(j && j.id){ S.meta.serverId = j.id; saveLocalNow(); }
+    _lastSynced = new Date(); paintSaveState('synced');
+  }catch(err){
+    paintSaveState('offline', err.message);
+  }finally{ _syncing = false; }
+}
+function syncNow(){ saveLocalNow(); syncToServer(); }
+
+async function renderLibrary(){
+  const box = document.getElementById('library'); if(!box) return;
+  box.innerHTML = '<p class="lede">Loading\u2026</p>';
+  try{
+    const r = await fetch('/api/workbench/engagements');
+    if(r.status===404){ box.innerHTML='<p class="lede">The library is only available inside the Method Lab.</p>'; return; }
+    const j = await r.json();
+    if(j.configured===false){ box.innerHTML='<p class="lede">No library on this deployment \u2014 work is saved on this machine and to session files.</p>'; return; }
+    const rows = j.engagements||[];
+    if(!rows.length){ box.innerHTML='<p class="lede">No saved engagements yet.</p>'; return; }
+    box.innerHTML = '<table class="tbl"><thead><tr><th>Engagement</th><th>Code</th><th>Entity</th><th>Last saved</th><th></th></tr></thead><tbody>'+
+      rows.map(e=>{
+        const when = e.updated_at ? new Date(e.updated_at).toLocaleString() : '';
+        const here = (e.id===S.meta.serverId) ? ' \u00b7 open now' : '';
+        return '<tr><td><b>'+esc(e.company||'Untitled')+'</b>'+here+'</td>'+
+          '<td>'+esc(e.code||'')+'</td>'+
+          '<td>'+esc(e.entity_status==='public'?'Public':(e.entity_status?'Private':''))+'</td>'+
+          '<td>'+esc(when)+'</td>'+
+          '<td style="white-space:nowrap">'+
+            '<button class="btn ghost" onclick="openEngagement(\''+e.id+'\')">Open</button> '+
+            '<button class="btn ghost" onclick="archiveEngagement(\''+e.id+'\')">Archive</button>'+
+          '</td></tr>';
+      }).join('')+'</tbody></table>';
+  }catch(err){
+    box.innerHTML = '<p class="lede">Could not reach the library: '+esc(err.message)+'</p>';
+  }
+}
+
+async function openEngagement(id){
+  const touched=['bs','is','cf'].some(k=>S.rows[k].some(r=>r.values.some(v=>v!=null)));
+  if(touched && !confirm('Open a different engagement? The one on screen is saved, but it will be replaced here.')) return;
+  try{
+    const r = await fetch('/api/workbench/engagements/'+id);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const row = await r.json();
+    S = migrate(row.state||{});
+    S.meta.serverId = row.id;
+    applyState(); saveLocalNow(); paintSaveState('synced');
+    toast('Engagement opened'); status('Opened <b>'+esc(S.meta.company||'engagement')+'</b>.');
+    go('statements'); renderLibrary();
+  }catch(err){ toast('Could not open: '+err.message); }
+}
+
+async function archiveEngagement(id){
+  if(!confirm('Archive this engagement? It leaves the list but is not destroyed.')) return;
+  try{
+    const r = await fetch('/api/workbench/engagements/'+id,{method:'DELETE'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    if(S.meta.serverId===id) S.meta.serverId=null;
+    toast('Archived'); renderLibrary();
+  }catch(err){ toast('Could not archive: '+err.message); }
+}
+
+function newEngagement(){
+  if(!confirm('Start a new engagement? The current one is already saved.')) return;
+  S = blankState(); applyState(); clearLocal(); go('setup');
+  status('New engagement. Start in Setup.'); paintSaveState('local');
+}
+
+/* A duplicate keeps the numbers and drops the server identity, so the next save
+   creates a second engagement rather than overwriting the one it came from. */
+function duplicateEngagement(){
+  S.meta.serverId = null;
+  S.meta.company  = (S.meta.company||'Untitled')+' (copy)';
+  S.meta.code     = '';
+  applyState(); saveLocalNow(); syncToServer();
+  toast('Duplicated'); status('Working on a copy \u2014 rename it in Setup.');
+}
+
+/* Restore whatever the browser was holding, so a crash costs nothing. */
+function restoreLocal(){
+  try{
+    const raw = localStorage.getItem(LS_KEY); if(!raw) return false;
+    const meta = JSON.parse(localStorage.getItem(LS_META)||'{}');
+    S = migrate(JSON.parse(raw)); applyState();
+    const when = meta.at ? new Date(meta.at).toLocaleString() : 'earlier';
+    status('Restored <b>'+esc(S.meta.company||'your last session')+'</b> from this machine, saved '+esc(when)+'.');
+    paintSaveState('local');
+    return true;
+  }catch(e){ return false; }
+}
+
+/* One listener covers the whole app: it is forms all the way down. */
+document.addEventListener('input',  markDirty, true);
+document.addEventListener('change', markDirty, true);
+
 function exportCSV(){
   const st=S.ui.stmt;
   const rows=[[STMT_NAMES[st]+' ('+(UNIT_LABEL[S.meta.units])+')',...disp().map(periodLabel)]];
@@ -4524,6 +4696,9 @@ function loadDemoData(D,kind){
 $('mastLogo').src=BRAND.logoWhite;
 bindMeta();
 applyState();
+/* Anything the browser was holding wins over a blank sheet. */
+restoreLocal();
+renderLibrary();
 updateMast();
 renderPeriods();
 renderNotes();

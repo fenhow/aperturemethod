@@ -113,7 +113,12 @@ export const sharedSections: IntakeSection[] = [
         type: "checkgroup",
         options: [
           "Profit & loss statements, last 3 years plus year-to-date",
-          "Balance sheet, last 3 years",
+          "Balance sheets, last 4 period ends",
+          "Cash flow statements, last 3 years",
+          "The accountant's report that came with the statements",
+          "Business tax returns, last 3 years",
+          "Debt and lease schedule",
+          "Fixed asset or depreciation schedule",
           "Revenue broken out by product or service",
           "Revenue broken out by location",
           "Transaction-level export (date, amount, customer ID)",

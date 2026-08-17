@@ -11,14 +11,14 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "What We Believe",
   description:
-    "The beliefs behind The Aperture Method — that clarity creates better decisions, strategy should lead to action, data should create understanding, and technology should support judgment.",
+    "The beliefs behind The Aperture Method: that clarity creates better decisions, strategy should lead to action, data should create understanding, and technology should support judgment.",
   path: "/what-we-believe",
 });
 
 const beliefs = [
   {
     h: "Clarity creates better decisions.",
-    p: "Businesses rarely fail because leaders don't care. They struggle because complexity obscures opportunity. Growth slows, margins tighten, customers change, operations turn reactive, and data accumulates faster than it can be understood. The answers often already exist inside the business — they simply haven't been brought into focus.",
+    p: "Businesses rarely fail because leaders don't care. They struggle because complexity obscures opportunity. Growth slows, margins tighten, customers change, operations turn reactive, and data accumulates faster than it can be understood. The answers often already exist inside the business; they simply haven't been brought into focus.",
   },
   {
     h: "Strategy should lead to action.",
@@ -26,15 +26,15 @@ const beliefs = [
   },
   {
     h: "Data should create understanding.",
-    p: "Businesses have never had more information available, yet many leaders have never felt less certain. Analytics should reduce complexity, not create it. Data is valuable only when it helps people make better decisions — our responsibility is to transform information into insight leaders can actually use.",
+    p: "Businesses have never had more information available, yet many leaders have never felt less certain. Analytics should reduce complexity, not create it. Data is valuable only when it helps people make better decisions. Our responsibility is to transform information into insight leaders can actually use.",
   },
   {
     h: "Technology should support judgment.",
-    p: "AI, automation, and business intelligence are changing how organizations operate. They are powerful tools — but they remain tools. Technology should enhance executive judgment, not replace it. We use modern analytical capability where it improves understanding and strengthens decisions, while recognizing that lasting success still depends on experienced leadership.",
+    p: "AI, automation, and business intelligence are changing how organizations operate. They are powerful tools, but they remain tools. Technology should enhance executive judgment, not replace it. We use modern analytical capability where it improves understanding and strengthens decisions, while recognizing that lasting success still depends on experienced leadership.",
   },
   {
     h: "Every business has untapped potential.",
-    p: "Every organization has opportunities that remain unseen — sometimes operational, sometimes financial, sometimes strategic, sometimes hidden inside customer behavior or buried in years of historical data. Our work is to uncover those opportunities, evaluate them objectively, and help leadership turn them into measurable results.",
+    p: "Every organization has opportunities that remain unseen: sometimes operational, sometimes financial, sometimes strategic, sometimes hidden inside customer behavior or buried in years of historical data. Our work is to uncover those opportunities, evaluate them objectively, and help leadership turn them into measurable results.",
   },
 ];
 
@@ -62,7 +62,7 @@ export default function WhatWeBelievePage() {
           <p className="eyebrow mb-5">About The Aperture Method™</p>
           <h1 className="heading-gradient text-display font-semibold">Bringing business into focus.</h1>
           <p className="mt-8 text-body-lg text-body">
-            Every organization generates information — financial reports, customer behavior,
+            Every organization generates information: financial reports, customer behavior,
             operational metrics, market trends, employee insight, competitive pressures. The challenge
             isn&apos;t collecting more data. The challenge is understanding what it means.
           </p>
@@ -70,7 +70,7 @@ export default function WhatWeBelievePage() {
             We believe better businesses are built through clarity. Before strategy can succeed, leaders
             must clearly understand where they are, what the evidence is telling them, and where the
             greatest opportunities exist. Our role is to help leadership teams see their business with
-            greater precision — connecting information, experience, analytics, and practical judgment
+            greater precision, connecting information, experience, analytics, and practical judgment
             into a clear path forward. Because when the picture becomes clear, better decisions follow.
           </p>
         </Reveal>
@@ -82,7 +82,7 @@ export default function WhatWeBelievePage() {
           <SectionHeading
             eyebrow="What we believe"
             title="Clarity creates better decisions."
-            lede="Five beliefs shape every engagement — the foundation of how we work."
+            lede="Five beliefs shape every engagement, the foundation of how we work."
           />
         </Reveal>
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
@@ -119,7 +119,7 @@ export default function WhatWeBelievePage() {
             <p className="text-body-lg text-body">
               The Aperture Method is more than a consulting engagement. It is a structured methodology
               for understanding a business before attempting to improve it. Rather than beginning with
-              assumptions, we begin with evidence — studying the organization, its customers, operations,
+              assumptions, we begin with evidence, studying the organization, its customers, operations,
               financial performance, market position, and strategic objectives to build a complete
               picture of the business.
             </p>
@@ -168,7 +168,7 @@ export default function WhatWeBelievePage() {
           <p className="mt-6 text-body-lg text-body">
             The Aperture Method was founded by Fenwick How after years of leading businesses, developing
             companies, managing complex initiatives, and solving operational challenges across multiple
-            industries — spanning entrepreneurship, operations, project leadership, analytics,
+            industries, spanning entrepreneurship, operations, project leadership, analytics,
             technology, energy, and water infrastructure. He holds a Bachelor of Business Administration
             in Project Management, is a certified Project Management Professional (PMP), and is currently
             pursuing an MBA at Texas A&amp;M University&apos;s Mays Business School.
@@ -195,7 +195,7 @@ export default function WhatWeBelievePage() {
       <Section tone="dark">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow eyebrow--on-dark mb-5">Our commitment</p>
-          <h2 className="text-h2 font-semibold text-paper">What we don&apos;t believe — and what we do.</h2>
+          <h2 className="text-h2 font-semibold text-paper">What we don&apos;t believe, and what we do.</h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {commitments.map((c) => (
               <span
@@ -214,7 +214,7 @@ export default function WhatWeBelievePage() {
         </Reveal>
       </Section>
 
-      {/* Look Closer — belief, put into practice */}
+      {/* Look Closer: belief, put into practice */}
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <Reveal>
@@ -227,7 +227,7 @@ export default function WhatWeBelievePage() {
             <div className="space-y-5 text-body-lg text-body">
               <p>
                 We believe the ability to look at a business and see what is actually holding it back
-                is a skill, not a gift — which means it can be taught, and it should be taught to
+                is a skill, not a gift, which means it can be taught, and it should be taught to
                 people long before they own anything.
               </p>
               <p>
@@ -239,7 +239,7 @@ export default function WhatWeBelievePage() {
               </p>
               <p className="text-body text-muted">
                 It is not aimed only at future founders. Almost every student in that room will spend
-                their life inside a business — working in one, managing one, buying from one. They
+                their life inside a business: working in one, managing one, buying from one. They
                 should all know how one works.
               </p>
             </div>
@@ -257,7 +257,7 @@ export default function WhatWeBelievePage() {
             <div className="max-w-2xl">
               <h2 className="heading-gradient text-h2 font-semibold">Let&apos;s bring your business into focus.</h2>
               <p className="mt-4 text-body-lg text-muted">
-                Start with a Business X-Ray — a fixed-fee, low-risk first step.
+                Start with a Business X-Ray, a fixed-fee, low-risk first step.
               </p>
             </div>
             <Link href={primaryCta.href} className="btn shrink-0">

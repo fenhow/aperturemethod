@@ -10,7 +10,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "Insights",
   description:
-    "Plain, practical thinking on running an owner-run business by the numbers — profit and pricing, customers, practical AI, growth, and the owner's seat.",
+    "Plain, practical thinking on running an owner-run business by the numbers: profit and pricing, customers, practical AI, growth, and the owner's seat.",
   path: "/insights",
 });
 
@@ -28,8 +28,7 @@ export default function InsightsPage() {
             Plain thinking on running a business by the numbers.
           </h1>
           <p className="mt-6 text-body-lg text-body">
-            Practical articles on pricing, customers, and using the data you already have to decide —
-            no jargon, no hype. If you read one, change one thing, and never hire us, it did its job.
+            Practical articles on pricing, customers, and using the data you already have to decide. No jargon, no hype. If you read one, change one thing, and never hire us, it did its job.
           </p>
         </Reveal>
       </Section>
@@ -57,7 +56,7 @@ export default function InsightsPage() {
           href={`/insights/${featured.slug}`}
           className="group grid gap-8 overflow-hidden rounded border border-line hover-lift lg:grid-cols-2"
         >
-          <ImagePlaceholder id={`INSIGHTS-FEATURED-${featured.slug}`} ratio="aspect-[16/10] lg:aspect-auto lg:h-full" label={`${featured.title} — image`} />
+          <ImagePlaceholder id={`INSIGHTS-FEATURED-${featured.slug}`} ratio="aspect-[16/10] lg:aspect-auto lg:h-full" label={`${featured.title} image`} />
           <div className="flex flex-col justify-center p-8">
             <p className="eyebrow">{featured.pillar}</p>
             <h2 className="mt-3 text-h2 font-semibold text-ink group-hover:text-maroon">{featured.title}</h2>
@@ -77,7 +76,7 @@ export default function InsightsPage() {
                 href={`/insights/${a.slug}`}
                 className="group flex h-full flex-col overflow-hidden rounded border border-line hover-lift sm:flex-row"
               >
-                <ImagePlaceholder id={`INSIGHTS-${a.slug}`} ratio="aspect-[16/10] sm:aspect-auto sm:w-48 sm:shrink-0" label={`${a.title} — image`} />
+                <ImagePlaceholder id={`INSIGHTS-${a.slug}`} ratio="aspect-[16/10] sm:aspect-auto sm:w-48 sm:shrink-0" label={`${a.title} image`} />
                 <div className="flex flex-1 flex-col justify-center p-6">
                   <p className="eyebrow">{a.pillar}</p>
                   <h3 className="mt-2 text-h4 font-semibold text-ink group-hover:text-maroon">{a.title}</h3>
@@ -91,7 +90,7 @@ export default function InsightsPage() {
         </div>
       </Section>
 
-      {/* Newsletter — "In Focus" */}
+      {/* Newsletter: "In Focus" */}
       <Section tone="dark" className="py-section-sm">
         <Reveal className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
@@ -100,7 +99,7 @@ export default function InsightsPage() {
               One practical idea for your business, about once a month.
             </h2>
             <p className="mt-3 text-body text-white/70">
-              A short note from Fenwick — one idea you can use, one number worth knowing, one link worth
+              A short note from Fenwick: one idea you can use, one number worth knowing, one link worth
               your time. No spam, unsubscribe anytime.
             </p>
           </div>

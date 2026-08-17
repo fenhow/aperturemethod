@@ -123,7 +123,7 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
           <div className="absolute inset-[6%] rounded-full border border-line/70" />
           <div className="absolute inset-[19%] rounded-full border border-line/50" />
 
-          {/* Center mark — rotates so the maroon blade points to the active step */}
+          {/* Center mark rotates so the maroon blade points to the active step */}
           <button
             type="button"
             onClick={() => go(1)}
@@ -177,7 +177,7 @@ export function MethodAperture({ phases = methodPhases }: { phases?: MethodPhase
                   type="button"
                   onClick={() => select(i)}
                   aria-pressed={isActive}
-                  aria-label={`Step ${p.n}: ${p.product} — ${p.verb}`}
+                  aria-label={`Step ${p.n}: ${p.product}, ${p.verb}`}
                   className={cn(
                     "relative grid h-14 w-14 place-items-center rounded-full border text-[17px] font-semibold tabular-nums transition-all duration-300",
                     isActive

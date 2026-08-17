@@ -1,5 +1,5 @@
 /**
- * @illustrative-figures — the dollar amounts in this component are demonstration data
+ * @illustrative-figures: the dollar amounts in this component are demonstration data
  * (a sample customer's lifetime value), not Aperture fees. Our fees live in src/lib/pricing.ts.
  */
 "use client";
@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Interactive "Market Map" — a restrained, editorial illustration of spatial
+ * Interactive "Market Map": a restrained, editorial illustration of spatial
  * intelligence (GIS) that behaves like a live analytics instrument:
  *  - radar sweep, cycling analysis readout, live forecast panel;
  *  - demographic labels fading over customer clusters;
@@ -35,41 +35,41 @@ const CHIPS: { px: number; py: number; lx: number; ly: number; title: string; in
   {
     px: 272, py: 106, lx: 250, ly: 56,
     title: "Core customer",
-    info: "A young professional in your trade area — mid-income and digitally engaged. Segments like this respond to loyalty offers and drive the bulk of repeat visits.",
+    info: "A young professional in your trade area, mid-income and digitally engaged. Segments like this respond to loyalty offers and drive the bulk of repeat visits.",
     values: ["Female · 26", "Male · 41", "HH $88k", "Age 34"],
   },
   {
     px: 232, py: 150, lx: 150, ly: 116,
     title: "High-value loyalist",
-    info: "Your most valuable repeat customers — worth roughly $1,240 over their lifetime. Keeping them loyal costs far less than winning new ones.",
+    info: "Your most valuable repeat customers, worth roughly $1,240 over their lifetime. Keeping them loyal costs far less than winning new ones.",
     values: ["$1,240 LTV", "Loyal", "2.3 mi", "4 visits"],
   },
   {
     px: 430, py: 90, lx: 430, ly: 48,
     title: "High-intent prospect",
-    info: "A new mover with strong household income and clear buying signals — prime for a first-visit offer before a competitor captures them.",
+    info: "A new mover with strong household income and clear buying signals, prime for a first-visit offer before a competitor captures them.",
     values: ["Male · 47", "High intent", "HH $102k", "New mover"],
   },
   {
     px: 590, py: 178, lx: 636, ly: 156,
     title: "At-risk customer",
-    info: "Spend per visit and frequency are slipping — a churn-risk flag so you can win them back with a targeted offer before they're gone.",
+    info: "Spend per visit and frequency are slipping, a churn-risk flag so you can win them back with a targeted offer before they're gone.",
     values: ["Female · 38", "Churn risk", "$58 / visit", "Visits ↓"],
   },
   {
     px: 205, py: 250, lx: 152, ly: 268,
     title: "Emerging segment",
-    info: "An older, established household nearby — steady, reliable spenders who are often overlooked and worth targeting for growth.",
+    info: "An older, established household nearby: steady, reliable spenders who are often overlooked and worth targeting for growth.",
     values: ["Male · 63", "HH $71k", "Age 51", "Female · 29"],
   },
 ];
 
 // Clickable map features. (x, y) is BOTH the visible node and the centre of the
-// click target — so a click always lands on the "+".
+// click target, so a click always lands on the "+".
 const POIS: Poi[] = [
   { title: "Primary location", info: "Your business, anchored to its trade area and drive-time reach.", x: 300, y: 128 },
   { title: "Opportunity zone", info: "An underserved cluster where demand outpaces local competition.", x: 553, y: 200 },
-  { title: "Customer hot-spot", info: "Where your most valuable customers concentrate — measured by value, not just volume.", x: 322, y: 176 },
+  { title: "Customer hot-spot", info: "Where your most valuable customers concentrate, measured by value, not just volume.", x: 322, y: 176 },
   { title: "Drive-time rings", info: "5-, 10-, and 15-minute reach from your front door.", x: 196, y: 126 },
 ];
 
@@ -80,21 +80,21 @@ const COMPETITOR = {
 };
 
 const TECH: { name: string; info: string }[] = [
-  { name: "Regression", info: "Isolates which factors actually move a result — like what drives a sale — and by how much. It tells you which levers are worth pulling, so you invest where it counts instead of guessing." },
+  { name: "Regression", info: "Isolates which factors actually move a result, like what drives a sale, and by how much. It tells you which levers are worth pulling, so you invest where it counts instead of guessing." },
   { name: "Forecasting", info: "Projects demand, revenue, and cost from your history and market signals. You can staff, stock, and budget ahead of what's coming instead of always reacting to it." },
   { name: "Lifetime value", info: "Estimates what a customer is worth over the whole relationship, not one sale. It tells you how much it's worth spending to win and keep the right customers." },
   { name: "Segmentation", info: "Groups your customers by behavior and value. Your marketing and offers reach the right people with the right message instead of everyone at once." },
   { name: "Cohort analysis", info: "Follows groups of customers over time to reveal who stays, who leaves, and when. It points to exactly what to fix to keep customers longer." },
   { name: "EBITDA margin", info: "Shows core operating profitability, stripped of financing and accounting noise. You see how much each part of the business truly earns, and where margin leaks." },
   { name: "Break-even", info: "Pinpoints the sales volume where you finally cover your costs. It's the number every location, product, or price change has to clear to make money." },
-  { name: "Elasticity", info: "Measures how demand responds to price. You can raise prices where it won't cost you volume — and know where holding the line protects sales." },
+  { name: "Elasticity", info: "Measures how demand responds to price. You can raise prices where it won't cost you volume, and know where holding the line protects sales." },
   { name: "Optimization", info: "Finds the best mix of price, spend, and inventory within your real constraints. Limited time and money go where they return the most." },
   { name: "Propensity score", info: "Ranks each customer by how likely they are to buy, churn, or upgrade next. Your team spends its effort where it will actually pay off." },
   { name: "Hot-spot analysis", info: "Maps where demand clusters most densely across your market. You aim marketing, staffing, and expansion at where the customers actually are." },
   { name: "Sensitivity", info: "Tests how the outcome shifts when a key assumption changes. You learn which risks matter most and how much room for error you really have." },
 ];
 
-// Everyday context signals — cycled to show the breadth of what we watch.
+// Everyday context signals, cycled to show the breadth of what we watch.
 const SIGNALS: { k: string; v: string }[] = [
   { k: "LOCAL TIME", v: "3:42 PM" },
   { k: "WEATHER", v: "Clear · 72°F" },
@@ -221,7 +221,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
 
   const openPoi = (p: Poi) => setPopup({ title: p.title, lines: wrap(p.info), ax: p.x, ay: p.y });
 
-  // The single, consistent "clickable" marker used for every interactive point —
+  // The single, consistent "clickable" marker used for every interactive point:
   // same size and colour everywhere, with a gently pulsing halo so it reads as a
   // button. Brighter coral than the static data so it clearly stands out.
   const Node = ({ x, y }: { x: number; y: number }) => (
@@ -324,13 +324,13 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         </g>
       ))}
 
-      {/* demographic labels — each a clickable customer profile */}
+      {/* demographic labels, each a clickable customer profile */}
       {CHIPS.map((c, i) => (
         <g
           key={i}
           role="button"
           tabIndex={0}
-          aria-label={`${c.title} — details`}
+          aria-label={`${c.title}, details`}
           style={{ cursor: "pointer" }}
           onClick={(e) => {
             e.stopPropagation();
@@ -358,7 +358,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
       <g
         role="button"
         tabIndex={0}
-        aria-label="Competitor — details"
+        aria-label="Competitor, details"
         style={{ cursor: "pointer" }}
         onClick={(e) => {
           e.stopPropagation();
@@ -390,13 +390,13 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         <circle r="2.2" fill={accent} opacity="0.85" />
       </g>
 
-      {/* clickable feature nodes — hit target centred on the node */}
+      {/* clickable feature nodes, hit target centred on the node */}
       {POIS.map((p) => (
         <g
           key={p.title}
           role="button"
           tabIndex={0}
-          aria-label={`${p.title} — details`}
+          aria-label={`${p.title}, details`}
           style={{ cursor: "pointer" }}
           onClick={(e) => {
             e.stopPropagation();
@@ -414,11 +414,11 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         </g>
       ))}
 
-      {/* analysis readout — top left, clickable */}
+      {/* analysis readout, top left, clickable */}
       <g
         role="button"
         tabIndex={0}
-        aria-label={`Analytics: ${tech.name} — what it means`}
+        aria-label={`Analytics: ${tech.name}, what it means`}
         style={{ cursor: "pointer" }}
         transform="translate(20 20)"
         onClick={(e) => {
@@ -443,7 +443,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         <Node x={243} y={0} />
       </g>
 
-      {/* pause / play — top right */}
+      {/* pause / play, top right */}
       {!reduced && (
         <g
           role="button"
@@ -477,7 +477,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         </g>
       )}
 
-      {/* live signals — bottom centre, content centred */}
+      {/* live signals, bottom centre, content centred */}
       <g transform="translate(294 298)">
         <rect x="0" y="0" width="212" height="46" rx="6" fill={panel} stroke={hair} />
         <circle cx="14" cy="23" r="2.6" fill={upColor}>

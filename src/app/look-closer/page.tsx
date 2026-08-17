@@ -14,9 +14,9 @@ import {
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Look Closer — a free guest-speaker session for schools",
+  title: "Look Closer: a free guest-speaker session for schools",
   description:
-    "A free 50-minute guest-speaker session for grades 8–12 — economics, business, entrepreneurship and career classes. Students get a real-looking business and fifteen minutes to find the one thing holding it back. No fee, nothing sold to students.",
+    "A free 50-minute guest-speaker session for grades 8–12: economics, business, entrepreneurship and career classes. Students get a real-looking business and fifteen minutes to find the one thing holding it back. No fee, nothing sold to students.",
   path: "/look-closer",
   image: "/look-closer/look-closer-og.png",
 });
@@ -31,11 +31,11 @@ const stats: { n: string; l: string }[] = [
 const trust: { title: string; body: string }[] = [
   {
     title: "Whatever screening your district requires",
-    body: "Fingerprinting, volunteer clearance, visitor background check — tell me what your district or campus needs and how long it takes, and I'll start it before we pick a date.",
+    body: "Fingerprinting, volunteer clearance, visitor background check. Tell me what your district or campus needs and how long it takes, and I'll start it before we pick a date.",
   },
   {
     title: "I come alone, and nothing leaves the room",
-    body: "No crew and no camera. I don't photograph students, I don't post about the visit, and nothing is collected from anyone in the room — no sign-ups, no emails, no handouts to take home and sign.",
+    body: "No crew and no camera. I don't photograph students, I don't post about the visit, and nothing is collected from anyone in the room: no sign-ups, no emails, no handouts to take home and sign.",
   },
   {
     title: "You see every page before I walk in",
@@ -64,7 +64,7 @@ export default function LookCloserPage() {
           <p className="mt-6 text-body-lg text-body">{lookCloser.tagline}</p>
           <p className="mt-5 text-body-lg text-muted">
             I come to your classroom for one period. Teams of three each get a card describing a real
-            business — a waffle window, a barbershop, a lawn crew two seniors run on Saturdays — and
+            business, a waffle window, a barbershop, a lawn crew two seniors run on Saturdays, and
             fifteen minutes to work out the one thing holding it back. It is the same question I get
             paid to answer for business owners, handed to {lookCloser.grades.toLowerCase()} for
             nothing.
@@ -85,13 +85,13 @@ export default function LookCloserPage() {
         <Reveal delay={180} className="mt-8">
           <p className="max-w-measure text-body text-muted">
             <span className="font-semibold text-ink">Where it fits:</span> {lookCloser.fits}. No prior
-            business coursework is assumed — the arithmetic is multiplication and division, done
+            business coursework is assumed: the arithmetic is multiplication and division, done
             deliberately slowly.
           </p>
         </Reveal>
       </Section>
 
-      {/* What the session teaches — the three ideas, up front */}
+      {/* What the session teaches: the three ideas, up front */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
@@ -124,7 +124,7 @@ export default function LookCloserPage() {
             <div className="space-y-5 text-body-lg text-body">
               <p>
                 Most people meet their first real business as an employee, and by then it is already
-                a mystery — decisions arrive from somewhere above and nobody explains why. Most
+                a mystery: decisions arrive from somewhere above and nobody explains why. Most
                 owners are no better off. I spend my working life with people whose life savings are
                 inside a building they cannot see clearly.
               </p>
@@ -136,8 +136,7 @@ export default function LookCloserPage() {
               </p>
               <p>
                 So I built the session I wish someone had run for me, and I give it away. If a
-                student walks out knowing that a business is a thing you can look at and figure out —
-                rather than a thing that happens to you — the hour did its job.
+                student walks out knowing that a business is a thing you can look at and figure out, rather than a thing that happens to you, the hour did its job.
               </p>
             </div>
           </Reveal>
@@ -152,7 +151,7 @@ export default function LookCloserPage() {
             &ldquo;{lookCloser.takeaway}&rdquo;
           </blockquote>
           <p className="mt-6 text-body-lg text-white/70">
-            One belief, in the student&apos;s own voice — not a framework and not a worksheet they
+            One belief, in the student&apos;s own voice, not a framework and not a worksheet they
             will have lost by Friday. A class period cannot teach a skill; skills need practice. What
             it can do is change what a student believes is available to them, and the only way to do
             that is to let them earn it. So I keep my part short and hand the room over. Most of the
@@ -168,7 +167,7 @@ export default function LookCloserPage() {
           <SectionHeading
             eyebrow="The fifty minutes"
             title="What actually happens in the room."
-            lede="The students do the work for most of the period. That ratio is the entire design — anything that eats into it gets cut, including my own good stories."
+            lede="The students do the work for most of the period. That ratio is the entire design; anything that eats into it gets cut, including my own good stories."
           />
         </Reveal>
         <div className="mt-12 border-t border-line">
@@ -194,7 +193,7 @@ export default function LookCloserPage() {
           <SectionHeading
             eyebrow="The six businesses"
             title="Invented businesses. Real streets."
-            lede="Each one is broken in a different way, so no two teams reach the same answer. Five of the six punish the reflex answer — “they should advertise more” — and exactly one rewards it. That reversal is the most useful eight seconds of the hour."
+            lede="Each one is broken in a different way, so no two teams reach the same answer. Five of the six punish the reflex answer, “they should advertise more”, and exactly one rewards it. That reversal is the most useful eight seconds of the hour."
           />
         </Reveal>
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -213,7 +212,7 @@ export default function LookCloserPage() {
             <p>
               <span className="font-semibold text-ink">I rewrite these for your town.</span> The
               cards land hardest when they describe streets your students have actually stood on, so
-              before I come I swap the locations — and often the businesses — for ones a few minutes
+              before I come I swap the locations, and often the businesses, for ones a few minutes
               from your building.
             </p>
             <p>
@@ -248,7 +247,7 @@ export default function LookCloserPage() {
             <div className="mt-6 space-y-5 text-body-lg text-body">
               <p>
                 I have started and run several businesses across a few different industries, and
-                spent years inside other people&apos;s — in operations, projects and analytics. These
+                spent years inside other people&apos;s, in operations, projects and analytics. These
                 days I run a business intelligence firm. The work is sitting down with someone who
                 owns a company and finding the one thing quietly holding the whole thing back. It is
                 unglamorous, it is mostly arithmetic, and almost nobody is ever taught how to do it.
@@ -259,12 +258,12 @@ export default function LookCloserPage() {
               </p>
               <p>
                 I get nothing out of the visit. No fee, nothing sold, and I&apos;m not there to talk
-                about my firm — that&apos;s one minute at the end, if anyone asks. I&apos;m there
+                about my firm. That&apos;s one minute at the end, if anyone asks. I&apos;m there
                 because I get to hand thirty teenagers a real problem and watch them take it apart.
               </p>
               <p className="text-body text-muted">
                 I&apos;m based in The Woodlands, Texas, and I&apos;ll come to any school that will
-                have me. If it&apos;s a long way we&apos;ll work out the travel together — the
+                have me. If it&apos;s a long way we&apos;ll work out the travel together, the
                 session itself is free either way.
               </p>
             </div>
@@ -356,7 +355,7 @@ export default function LookCloserPage() {
             See exactly what your students will be handed.
           </h2>
           <p className="mt-6 text-body-lg text-white/70">
-            Nothing about this session is a surprise. Below is the whole set — the cards, the
+            Nothing about this session is a surprise. Below is the whole set: the cards, the
             worksheet, the lesson plan I run from and the answer key. Read any of it before you give
             up a period, and tell me if you&apos;d change something.
           </p>
@@ -416,7 +415,7 @@ export default function LookCloserPage() {
                   your students will be handed.
                 </p>
                 <Link
-                  href="mailto:hello@aperturemethod.com?subject=Look%20Closer%20—%20classroom%20visit"
+                  href="mailto:hello@aperturemethod.com?subject=Look%20Closer%20classroom%20visit"
                   className="btn mt-6"
                 >
                   Email me about a visit
@@ -434,7 +433,7 @@ export default function LookCloserPage() {
             Fifteen minutes ago, none of them had ever looked at a business.
           </h2>
           <p className="mt-5 text-body-lg text-white/70">
-            Then they found the thing that was wrong with one, and they were right — while the person
+            Then they found the thing that was wrong with one, and they were right, while the person
             who owns it has been standing inside it every day for six years. That is the moment
             worth driving for.
           </p>

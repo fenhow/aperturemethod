@@ -10,9 +10,9 @@ import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "What You Get — The Deliverables",
+  title: "What You Get: The Deliverables",
   description:
-    "See the tangible deliverables of an Aperture Method engagement — the Business X-Ray, Profit Map, Customer & Market Map, Opportunity Matrix, and live Scoreboard — shown end to end with an illustrative example.",
+    "See the tangible deliverables of an Aperture Method engagement, the Business X-Ray, Profit Map, Customer & Market Map, Opportunity Matrix, and live Scoreboard, shown end to end with an illustrative example.",
   path: "/what-you-get",
 });
 
@@ -33,13 +33,13 @@ const deliverables: Deliverable[] = [
     question: "What is happening?",
     get: (
       <>
-        the Business X-Ray&trade; + Aperture Score&trade; — a whole-business diagnostic that names your
+        the Business X-Ray&trade; + Aperture Score&trade;, a whole-business diagnostic that names your
         single biggest constraint.
       </>
     ),
     outcome: "You know exactly where you stand, and the one thing to fix first.",
     img: "/deliverables/02_insights_aperture_score.jpg",
-    alt: "Aperture Insights deliverable — the Business X-Ray and Aperture Score report page for Lumina Medical Aesthetics",
+    alt: "Aperture Insights deliverable: the Business X-Ray and Aperture Score report page for Lumina Medical Aesthetics",
   },
   {
     n: "02",
@@ -51,9 +51,9 @@ const deliverables: Deliverable[] = [
         which move pays off most.
       </>
     ),
-    outcome: "You see profit by service, provider, and location — and what to do about it.",
+    outcome: "You see profit by service, provider, and location, and what to do about it.",
     img: "/deliverables/03_analytics_scenario_model.jpg",
-    alt: "Aperture Analytics deliverable — the Profit Map and scenario model report page for Lumina Medical Aesthetics",
+    alt: "Aperture Analytics deliverable: the Profit Map and scenario model report page for Lumina Medical Aesthetics",
   },
   {
     n: "03",
@@ -61,13 +61,13 @@ const deliverables: Deliverable[] = [
     question: "What opportunities does it reveal?",
     get: (
       <>
-        the Customer &amp; Market Map&trade; + a full ArcGIS layer package — your patients mapped, trade
+        the Customer &amp; Market Map&trade; + a full ArcGIS layer package: your patients mapped, trade
         areas, and a data-backed answer to &ldquo;where do we grow next?&rdquo;
       </>
     ),
-    outcome: "You know who your best customers are — and where the next ones live.",
+    outcome: "You know who your best customers are, and where the next ones live.",
     img: "/deliverables/04_intelligence_site_selection.jpg",
-    alt: "Aperture Intelligence deliverable — the Customer & Market Map and site-selection analysis for Lumina Medical Aesthetics",
+    alt: "Aperture Intelligence deliverable: the Customer & Market Map and site-selection analysis for Lumina Medical Aesthetics",
   },
   {
     n: "04",
@@ -75,13 +75,13 @@ const deliverables: Deliverable[] = [
     question: "Where should we go next?",
     get: (
       <>
-        the Opportunity Matrix&trade; + a Now / Next / Later Focus Plan&trade; — every opportunity scored
+        the Opportunity Matrix&trade; + a Now / Next / Later Focus Plan&trade;: every opportunity scored
         and sequenced.
       </>
     ),
-    outcome: "You have a prioritized, board-ready plan — not a list of ideas.",
+    outcome: "You have a prioritized, board-ready plan, not a list of ideas.",
     img: "/deliverables/05_compass_opportunity_matrix.jpg",
-    alt: "Aperture Compass deliverable — the Opportunity Matrix and Focus Plan for Lumina Medical Aesthetics",
+    alt: "Aperture Compass deliverable: the Opportunity Matrix and Focus Plan for Lumina Medical Aesthetics",
   },
   {
     n: "05",
@@ -89,13 +89,13 @@ const deliverables: Deliverable[] = [
     question: "How do we sustain and improve results?",
     get: (
       <>
-        the Scoreboard&trade; + KPI system — a live executive dashboard and a re-scored Aperture Score
+        the Scoreboard&trade; + KPI system, a live executive dashboard and a re-scored Aperture Score
         that proves progress.
       </>
     ),
     outcome: "You watch the strategy show up in your numbers, quarter after quarter.",
     img: "/deliverables/06_live_scoreboard.jpg",
-    alt: "Aperture Atlas deliverable — the Scoreboard and KPI dashboard for Lumina Medical Aesthetics",
+    alt: "Aperture Atlas deliverable: the Scoreboard and KPI dashboard for Lumina Medical Aesthetics",
   },
 ];
 
@@ -134,14 +134,14 @@ export default function WhatYouGetPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-body-lg text-white/75">
             Every Aperture Method&trade; engagement produces a complete, reconciled set of executive
-            deliverables — not a slide deck of opinions. Here&apos;s exactly what lands on your desk.
+            deliverables, not a slide deck of opinions. Here&apos;s exactly what lands on your desk.
           </p>
           <p className="mt-7 text-h4 font-semibold text-paper">{methodTagline}</p>
           <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
             <DocumentLightbox
               href={exampleReport.href}
-              title="The Aperture Method — Example Report · Lumina Medical Aesthetics"
-              triggerLabel="See the example report — full screen"
+              title="The Aperture Method: Example Report · Lumina Medical Aesthetics"
+              triggerLabel="See the example report, full screen"
               triggerClassName="btn--on-dark inline-flex items-center gap-2.5"
             />
             <span className="text-small text-white/50">PDF · {exampleReport.pages} pages · illustrative</span>
@@ -206,8 +206,8 @@ export default function WhatYouGetPage() {
           </h2>
           <p className="mt-6 text-body-lg text-white/75">
             Marketing companies optimize ad clicks. Bookkeepers record the past. We apply graduate-level
-            (MBA) business science — financial modeling, marketing science, spatial econometrics,
-            forecasting, optimization — to reveal where the profit and opportunities truly are. The tools
+            (MBA) business science: financial modeling, marketing science, spatial econometrics,
+            forecasting, optimization, to reveal where the profit and opportunities truly are. The tools
             are commodities; the thinking is the product.
           </p>
         </Reveal>
@@ -255,7 +255,7 @@ export default function WhatYouGetPage() {
                 This is one engagement, shown end to end.
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                Yours starts with a single low-risk step — the Business X-Ray. Everything above follows
+                Yours starts with a single low-risk step: the Business X-Ray. Everything above follows
                 from it, only as the value becomes obvious.
               </p>
               <p className="mt-5">
@@ -272,7 +272,7 @@ export default function WhatYouGetPage() {
             </Link>
           </div>
           <p className="mt-10 text-small text-white/45">
-            Illustrative — Lumina Medical Aesthetics is a fictional company; figures are synthetic. Not a
+            Illustrative: Lumina Medical Aesthetics is a fictional company; figures are synthetic. Not a
             representation of actual client results.
           </p>
         </Reveal>

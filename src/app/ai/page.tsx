@@ -8,9 +8,9 @@ import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "AI for Your Business — Understand, Implement, Use",
+  title: "AI for Your Business: Understand, Implement, Use",
   description:
-    "AI is becoming table stakes. The Aperture Method helps owner-run businesses understand it, implement what fits, and actually use it to keep pace with their market — in plain language, with nothing you can't see inside.",
+    "AI is becoming table stakes. The Aperture Method helps owner-run businesses understand it, implement what fits, and actually use it to keep pace with their market, in plain language, with nothing you can't see inside.",
   path: "/ai",
 });
 
@@ -18,24 +18,24 @@ const stages: { n: string; h: string; p: string }[] = [
   {
     n: "01",
     h: "Understand",
-    p: "We cut through the hype and the fear. In plain language, you'll learn what AI can — and can't — do for a business like yours, and how it's already reshaping your industry.",
+    p: "We cut through the hype and the fear. In plain language, you'll learn what AI can and can't do for a business like yours, and how it's already reshaping your industry.",
   },
   {
     n: "02",
     h: "Implement",
-    p: "We set up the tools, automations, and models that actually fit your business — built on your data and wired into how you already work, without a big, risky IT project.",
+    p: "We set up the tools, automations, and models that actually fit your business, built on your data and wired into how you already work, without a big, risky IT project.",
   },
   {
     n: "03",
     h: "Use",
-    p: "We get your team using it week to week, not just admiring it in a demo — and we keep it current as the tools, your competitors, and your market keep moving.",
+    p: "We get your team using it week to week, not just admiring it in a demo, and we keep it current as the tools, your competitors, and your market keep moving.",
   },
 ];
 
 const principles = [
   {
     h: "Only where it pays off",
-    p: "We don't add AI for its own sake. It goes in when it genuinely beats the alternative — and stays out when a simpler tool wins.",
+    p: "We don't add AI for its own sake. It goes in when it genuinely beats the alternative, and stays out when a simpler tool wins.",
   },
   {
     h: "No black boxes",
@@ -47,19 +47,19 @@ const principles = [
   },
   {
     h: "Yours to keep",
-    p: "The tools and models we build on your data belong to you — never locked inside someone else's platform, never dependent on us to run.",
+    p: "The tools and models we build on your data belong to you, never locked inside someone else's platform, never dependent on us to run.",
   },
 ];
 
 const uses: { h: string; p: string; phase: string }[] = [
   {
     h: "Automate the busywork",
-    p: "Quoting, scheduling, data entry, follow-ups, reporting — the repetitive work that eats your team's week, handled so they can focus on customers.",
+    p: "Quoting, scheduling, data entry, follow-ups, reporting: the repetitive work that eats your team's week, handled so they can focus on customers.",
     phase: "Aperture Atlas",
   },
   {
     h: "Answer customers faster",
-    p: "Assistants and workflows that help you respond quickly and consistently, so service keeps up as you grow — with a person in the loop.",
+    p: "Assistants and workflows that help you respond quickly and consistently, so service keeps up as you grow, with a person in the loop.",
     phase: "Aperture Atlas",
   },
   {
@@ -68,7 +68,7 @@ const uses: { h: string; p: string; phase: string }[] = [
     phase: "Aperture Analytics",
   },
   {
-    h: "See who's likely to leave — or buy more",
+    h: "See who's likely to leave, or buy more",
     p: "Scoring customers by their likelihood to churn or grow, so your attention and offers go where they'll actually move the needle.",
     phase: "Aperture Intelligence",
   },
@@ -89,15 +89,15 @@ const wont = [
 const faqs = [
   {
     q: "Are we behind if we haven't started with AI yet?",
-    a: "Not really — most owner-run businesses haven't. What matters is starting deliberately before your market forces you to. We help you catch up quickly, on your terms, without the panic-buying that trips a lot of companies up.",
+    a: "Not really. Most owner-run businesses haven't. What matters is starting deliberately before your market forces you to. We help you catch up quickly, on your terms, without the panic-buying that trips a lot of companies up.",
   },
   {
     q: "Isn't AI just for big companies?",
-    a: "Not anymore. The same capabilities large firms use are now within reach at your size — the hard part is knowing which ones are worth it and how to wire them into your business. That's exactly what we do.",
+    a: "Not anymore. The same capabilities large firms use are now within reach at your size. The hard part is knowing which ones are worth it and how to wire them into your business. That's exactly what we do.",
   },
   {
     q: "Will AI replace my team or my judgment?",
-    a: "No. It takes the repetitive work off their plate and hands you better information — so your people spend more time on judgment, relationships, and running the business. A person reviews every output before it reaches you.",
+    a: "No. It takes the repetitive work off their plate and hands you better information, so your people spend more time on judgment, relationships, and running the business. A person reviews every output before it reaches you.",
   },
   {
     q: "Is my data safe? Do you train models on it?",
@@ -105,7 +105,7 @@ const faqs = [
   },
   {
     q: "We don't have much data. Can AI still help?",
-    a: "Often, yes — a lot of useful AI is about saving time and reducing friction, not crunching big datasets. Where data matters, we're honest about the limits and lean on methods that stay reliable at your scale.",
+    a: "Often, yes: a lot of useful AI is about saving time and reducing friction, not crunching big datasets. Where data matters, we're honest about the limits and lean on methods that stay reliable at your scale.",
   },
 ];
 
@@ -117,11 +117,11 @@ export default function AiPage() {
         <Reveal>
           <p className="eyebrow eyebrow--on-dark mb-5">AI, made usable</p>
           <h1 className="max-w-4xl text-display font-semibold text-paper">
-            Bring AI into your business — without the hype or the fear.
+            Bring AI into your business, without the hype or the fear.
           </h1>
           <p className="mt-6 max-w-2xl text-body-lg text-white/75">
             AI is fast becoming table stakes. We help you understand it, put it to work, and keep pace
-            with your market — built into The Aperture Method, in plain language, with nothing you
+            with your market, built into The Aperture Method, in plain language, with nothing you
             can&apos;t see inside.
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
@@ -142,12 +142,11 @@ export default function AiPage() {
           <p className="mt-6 text-body-lg text-body">
             Your industry is already changing. Competitors are automating, customers expect faster and
             smarter service, and the tools get better every month. For most owners the question
-            isn&apos;t whether AI matters — it&apos;s knowing where to start without wasting money or
+            isn&apos;t whether AI matters; it&apos;s knowing where to start without wasting money or
             betting on hype.
           </p>
           <p className="mt-5 text-body-lg text-body">
-            That&apos;s the gap we close. We help you adopt AI deliberately and confidently —
-            understanding what&apos;s real, implementing what fits, and actually using it day to day — so
+            That&apos;s the gap we close. We help you adopt AI deliberately and confidently, understanding what&apos;s real, implementing what fits, and actually using it day to day, so
             you keep pace and hold your edge instead of quietly falling behind.
           </p>
         </Reveal>
@@ -159,7 +158,7 @@ export default function AiPage() {
           <SectionHeading
             eyebrow="Understand · Implement · Use"
             title="From 'we should probably do something with AI' to using it every week."
-            lede="We don't drop a tool on your desk and wish you luck. We walk you through adoption in three plain steps — as part of the Method, not a side project."
+            lede="We don't drop a tool on your desk and wish you luck. We walk you through adoption in three plain steps, as part of the Method, not a side project."
           />
         </Reveal>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
@@ -183,7 +182,7 @@ export default function AiPage() {
           <SectionHeading
             eyebrow="In practice"
             title="Practical ways AI shows up in your business."
-            lede="Not a science project — specific, useful jobs that save time or sharpen a decision, introduced where they fit in the Method."
+            lede="Not a science project: specific, useful jobs that save time or sharpen a decision, introduced where they fit in the Method."
           />
         </Reveal>
         <div className="mt-12 space-y-5">
@@ -205,7 +204,7 @@ export default function AiPage() {
         </div>
       </Section>
 
-      {/* How we keep it honest — principles */}
+      {/* How we keep it honest: principles */}
       <Section id="trust" tone="surface">
         <Reveal>
           <SectionHeading eyebrow="Safe and simple" title="And we keep it honest the whole way." />
@@ -256,11 +255,11 @@ export default function AiPage() {
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
             <div className="max-w-2xl">
               <h2 className="text-h2 font-semibold text-paper">
-                Ready to put AI to work — the right way?
+                Ready to put AI to work, the right way?
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
                 Start with a Business X-Ray. We&apos;ll show you where AI can help your business keep
-                pace and hold its edge — in plain language, with nothing you can&apos;t see inside.
+                pace and hold its edge, in plain language, with nothing you can&apos;t see inside.
               </p>
             </div>
             <Link href={primaryCta.href} className="btn--on-dark shrink-0">

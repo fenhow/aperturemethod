@@ -142,7 +142,7 @@ export function ContactForm() {
       >
         {isConsultation ? (
           <>
-            <h3 className="text-h3 font-semibold text-ink">Thank you — your message is in.</h3>
+            <h3 className="text-h3 font-semibold text-ink">Thank you. Your message is in.</h3>
             <p className="mt-4 text-body-lg text-body">
               Fenwick reads every one of these personally and will reply within one business day,
               usually sooner. Prefer to skip the wait?{" "}
@@ -153,7 +153,7 @@ export function ContactForm() {
           </>
         ) : (
           <>
-            <h3 className="text-h3 font-semibold text-ink">Thanks — we&apos;ve got it.</h3>
+            <h3 className="text-h3 font-semibold text-ink">Thanks. We&apos;ve got it.</h3>
             <p className="mt-4 text-body-lg text-body">
               We&apos;ll route your note to the right person and be in touch. For anything
               time-sensitive:{" "}
@@ -393,7 +393,7 @@ export function ContactForm() {
         </div>
       )}
 
-      {/* Newsletter opt-in — separate, unchecked */}
+      {/* Newsletter opt-in, separate, unchecked */}
       <label className="flex cursor-pointer items-start gap-3">
         <input
           type="checkbox"
@@ -405,7 +405,7 @@ export function ContactForm() {
         </span>
       </label>
 
-      {/* Honeypot — hidden from users and assistive tech (clip technique: no
+      {/* Honeypot, hidden from users and assistive tech (clip technique: no
           off-screen positioning, so it can never cause horizontal scroll on mobile) */}
       <div
         aria-hidden="true"

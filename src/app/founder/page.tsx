@@ -10,9 +10,9 @@ import { primaryCta } from "@/lib/site";
 import { pageMeta, ldPerson, ldBreadcrumb } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Fenwick How — Founder",
+  title: "Fenwick How, Founder",
   description:
-    "Fenwick How is the founder of The Aperture Method — an entrepreneur and operator bringing big-company analytics and strategy to owner-run businesses. BBA in Project Management, certified PMP, and pursuing an MBA at Texas A&M.",
+    "Fenwick How is the founder of The Aperture Method, an entrepreneur and operator bringing big-company analytics and strategy to owner-run businesses. BBA in Project Management, certified PMP, and pursuing an MBA at Texas A&M.",
   path: "/founder",
   type: "article",
 });
@@ -69,16 +69,16 @@ export default function FounderPage() {
             <p className="mt-2 text-body-lg text-muted">Founder, The Aperture Method™</p>
             <p className="mt-6 text-body-lg text-body">
               Fenwick How is the founder of The Aperture Method. An entrepreneur and operator, he has focused
-              his work on creating and developing companies and leading complex initiatives — the kind
+              his work on creating and developing companies and leading complex initiatives, the kind
               that require turning an ambitious idea into a structured, working plan. His experience
               spans consulting, operations, projects, analytics, technology, and business development,
               across sectors including energy and water. He is a practical problem-solver, drawn to the
               point where strategy meets execution. He holds a Bachelor of Business Administration in
               Project Management, is a certified Project Management Professional (PMP), and is currently
-              pursuing an MBA at Texas A&amp;M — pairing that hands-on experience with formal quantitative
+              pursuing an MBA at Texas A&amp;M, pairing that hands-on experience with formal quantitative
               and strategic training. He
               founded The Aperture Method to bring the analytics and rigor larger companies take for granted
-              to the owner-run businesses that need them most — and to stay until the work is working.
+              to the owner-run businesses that need them most, and to stay until the work is working.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link href={primaryCta.href} className="btn">
@@ -116,12 +116,12 @@ export default function FounderPage() {
         <Reveal className="max-w-measure">
           <SectionHeading title="Why I created The Aperture Method." />
           <p className="mt-6 text-body-lg text-body">
-            Capable, established businesses — often family-owned — were making their most important
+            Capable, established businesses, often family-owned, were making their most important
             decisions with far less than they deserved. The analytics, customer intelligence, and
             technology that large companies treat as ordinary were out of reach: too expensive, too
             complex, or aimed at a company several sizes larger. I created The Aperture Method to bring that
-            capability down to them — in plain language, at a fair and fixed price, delivered by a senior
-            partner — and to stay through execution, because a strategy that never gets implemented helps
+            capability down to them, in plain language, at a fair and fixed price, delivered by a senior
+            partner, and to stay through execution, because a strategy that never gets implemented helps
             no one.
           </p>
         </Reveal>
@@ -180,8 +180,8 @@ export default function FounderPage() {
           <p className="mt-6 text-body-lg text-body">
             I run a free guest-speaker session for schools called{" "}
             <span className="font-semibold text-ink">Look Closer</span>. Students get a card
-            describing a real business and fifteen minutes to work out the one thing holding it back
-            — the same question I get paid to answer, handed to grades 8–12 for nothing. No fee,
+            describing a real business and fifteen minutes to work out the one thing holding it back,
+            the same question I get paid to answer, handed to grades 8–12 for nothing. No fee,
             nothing sold to students, and I&apos;ll come to any school that will have me.
           </p>
           <p className="mt-8">
@@ -197,7 +197,7 @@ export default function FounderPage() {
             <div className="max-w-2xl">
               <h2 className="text-h2 font-semibold text-paper">Work with the person doing the work.</h2>
               <p className="mt-4 text-body-lg text-white/70">
-                Start with the Business X-Ray — a fixed-fee, low-risk first step.
+                Start with the Business X-Ray, a fixed-fee, low-risk first step.
               </p>
             </div>
             <Link href={primaryCta.href} className="btn--on-dark shrink-0">

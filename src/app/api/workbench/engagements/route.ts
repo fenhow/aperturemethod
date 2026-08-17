@@ -3,7 +3,7 @@ import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
 import { workbenchAuthorised } from "@/lib/workbenchAuth";
 
 /**
- * Aperture Analytics workbench — engagement list and upsert.
+ * Aperture Analytics workbench: engagement list and upsert.
  *
  * Never confirms that anything exists to an unauthorised caller: a failed gate
  * returns 404, not 401, so the endpoint is indistinguishable from a typo.
@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 const TABLE = "analytics_engagements";
 const notFound = () => new NextResponse("Not found", { status: 404 });
 
-/** Fields the list view needs — deliberately never the whole `state` blob. */
+/** Fields the list view needs, deliberately never the whole `state` blob. */
 const LIST_COLUMNS =
   "id, slug, company, code, entity_status, release, analyst, updated_at, created_at, archived";
 
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
   const id = str(body.id);
 
   // An id present means "update the engagement I already have open". Absent means
-  // a new one — the server mints the id so two tabs can never collide on it.
+  // a new one; the server mints the id so two tabs can never collide on it.
   const query = id
     ? db.from(TABLE).update(row).eq("id", id).select("id, updated_at").maybeSingle()
     : db.from(TABLE).insert(row).select("id, updated_at").single();

@@ -1,5 +1,5 @@
 /**
- * Look Closer — the free guest-speaker session Fenwick runs for schools.
+ * Look Closer, the free guest-speaker session Fenwick runs for schools.
  *
  * Deliberately NOT part of the commercial content model. It is given away: no
  * fee, nothing sold to students, no student data collected. Content lives here
@@ -73,7 +73,7 @@ export const lookCloserRunOfShow: { time: string; title: string; body: string }[
   {
     time: "45–50",
     title: "The close",
-    body: "It is a real job that real people get paid for — and three things students can start doing this week without permission from anyone.",
+    body: "It is a real job that real people get paid for, and three things students can start doing this week without permission from anyone.",
   },
 ];
 
@@ -133,14 +133,14 @@ export const lookCloserPacket: PacketItem[] = [
   {
     file: `${DIR}/look-closer-overview.pdf`,
     title: "Program overview",
-    blurb: "Two pages to forward to a principal, department head or CTE director — what the session teaches, how the period runs, who I am, and what I'll need from you.",
+    blurb: "Two pages to forward to a principal, department head or CTE director: what the session teaches, how the period runs, who I am, and what I'll need from you.",
     pages: "2 pages · PDF",
     gated: false,
   },
   {
     file: `${DIR}/look-closer-business-cards.pdf`,
     title: "The six business cards",
-    blurb: "One business per page — exactly what your students are handed. Everything a team needs is on the card; there is no missing information and no trick.",
+    blurb: "One business per page: exactly what your students are handed. Everything a team needs is on the card; there is no missing information and no trick.",
     pages: "8 pages · PDF",
     gated: true,
   },
@@ -154,14 +154,14 @@ export const lookCloserPacket: PacketItem[] = [
   {
     file: `${DIR}/look-closer-facilitator-guide.pdf`,
     title: "The lesson plan I run from",
-    blurb: "Minute by minute, what goes on the board, the wrong answers I expect and what I say back — so you know how the period will go before you hand it to me.",
+    blurb: "Minute by minute, what goes on the board, the wrong answers I expect and what I say back, so you know how the period will go before you hand it to me.",
     pages: "12 pages · PDF",
     gated: true,
   },
   {
     file: `${DIR}/look-closer-answer-key.pdf`,
     title: "Answer key",
-    blurb: "What each card is really about, the arithmetic behind it, and what the fix is worth per year — so you can follow along, or push a team further than I do.",
+    blurb: "What each card is really about, the arithmetic behind it, and what the fix is worth per year, so you can follow along, or push a team further than I do.",
     pages: "10 pages · PDF",
     gated: true,
   },

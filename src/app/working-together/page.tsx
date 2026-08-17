@@ -9,9 +9,9 @@ import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Working Together — What the Engagement Looks Like",
+  title: "Working Together: What the Engagement Looks Like",
   description:
-    "A step-by-step walk through what it's like to run The Aperture Method on your business — each phase, what happens in it, how long it takes, what you get, and exactly what's asked of you.",
+    "A step-by-step walk through what it's like to run The Aperture Method on your business: each phase, what happens in it, how long it takes, what you get, and exactly what's asked of you.",
   path: "/working-together",
 });
 
@@ -31,7 +31,7 @@ const journey: Step[] = [
     name: "Aperture Insights",
     sub: "Understand the business",
     duration: "2–3 weeks",
-    what: "We get the whole business into focus — how it runs, how it's performing, and the single constraint holding it back most. This is the Business X-Ray, and it's where most clients begin.",
+    what: "We get the whole business into focus: how it runs, how it's performing, and the single constraint holding it back most. This is the Business X-Ray, and it's where most clients begin.",
     get: "Your Business X-Ray and Aperture Score, plus a clear read on the #1 thing to fix first.",
     your: "Two or three short interviews (a couple of hours total) and access to financials and reports you already have. No prep, no new spreadsheets.",
   },
@@ -40,7 +40,7 @@ const journey: Step[] = [
     name: "Aperture Analytics",
     sub: "Quantify the business",
     duration: "2–4 weeks",
-    what: "We apply advanced analysis, financial modeling, forecasting, and scenario planning to show exactly where you make and lose money — and what really drives profitability.",
+    what: "We apply advanced analysis, financial modeling, forecasting, and scenario planning to show exactly where you make and lose money, and what really drives profitability.",
     get: "Your Profit Map and a scenario model you keep and can re-run as things change.",
     your: "One working session to validate assumptions, plus sales and cost data exports. We handle the analysis; you sanity-check the story it tells.",
   },
@@ -58,9 +58,9 @@ const journey: Step[] = [
     name: "Aperture Compass",
     sub: "Determine the strategic direction",
     duration: "1–2 weeks",
-    what: "We convert the analysis into a prioritized roadmap — evaluating opportunities by value, complexity, risk, and impact, and sequencing them Now, Next, Later into a plan you own.",
+    what: "We convert the analysis into a prioritized roadmap, evaluating opportunities by value, complexity, risk, and impact, and sequencing them Now, Next, Later into a plan you own.",
     get: "Your Opportunity Matrix and Focus Plan, with targets set against real numbers.",
-    your: "One or two decision workshops. This is where your judgment matters most — you make the calls; we bring the evidence and the trade-offs.",
+    your: "One or two decision workshops. This is where your judgment matters most: you make the calls; we bring the evidence and the trade-offs.",
   },
   {
     n: "05",
@@ -83,22 +83,22 @@ const xrayParts: { h: string; p: string }[] = [
 
 const scoreParts: string[] = [
   "A single 0–100 read on how well-positioned your business is right now.",
-  "Built from a handful of dimensions — profitability, customers, operations, market position, and readiness to grow.",
+  "Built from a handful of dimensions: profitability, customers, operations, market position, and readiness to grow.",
   "A baseline you can re-measure at any point, so progress is visible, not just felt.",
 ];
 
 const faqs = [
   {
     q: "How long does the whole thing take?",
-    a: "The analysis phases — Aperture Insights through Aperture Compass — typically run about six to ten weeks end to end, and the Business X-Ray delivers real insight in its first couple of weeks. Aperture Atlas then continues for as long as it's earning its place.",
+    a: "The analysis phases, Aperture Insights through Aperture Compass, typically run about six to ten weeks end to end, and the Business X-Ray delivers real insight in its first couple of weeks. Aperture Atlas then continues for as long as it's earning its place.",
   },
   {
     q: "How much of my team's time will it cost?",
-    a: "Very little early on — a few interviews and access to data you already have. Aperture Compass asks for a bit more of your judgment in the decision workshops, and Aperture Atlas is a genuine partnership, but even then your team stays focused on running the business.",
+    a: "Very little early on: a few interviews and access to data you already have. Aperture Compass asks for a bit more of your judgment in the decision workshops, and Aperture Atlas is a genuine partnership, but even then your team stays focused on running the business.",
   },
   {
     q: "Do I have to do all five steps?",
-    a: "No. Each phase is gated — you see what you'll get and decide whether to continue. Most clients start with the Business X-Ray and keep going because the value is obvious, but you're never locked into the whole path up front.",
+    a: "No. Each phase is gated: you see what you'll get and decide whether to continue. Most clients start with the Business X-Ray and keep going because the value is obvious, but you're never locked into the whole path up front.",
   },
   {
     q: "Is it really a straight line?",
@@ -121,7 +121,7 @@ export default function WorkingTogetherPage() {
             What it&apos;s like to run The Aperture Method&trade; on your business.
           </h1>
           <p className="mt-6 max-w-2xl text-body-lg text-white/75">
-            Here&apos;s the whole path, step by step — what happens in each phase, how long it takes,
+            Here&apos;s the whole path, step by step: what happens in each phase, how long it takes,
             what you walk away with, and exactly what&apos;s asked of you. No mystery, no open-ended
             commitment. You&apos;ll always know where you are and what comes next.
           </p>
@@ -141,8 +141,8 @@ export default function WorkingTogetherPage() {
         <Reveal className="max-w-measure">
           <SectionHeading title="The shape of an engagement." />
           <p className="mt-6 text-body-lg text-body">
-            Every engagement follows the same five phases — Understand, Quantify, Reveal, Navigate,
-            Perform — with the Aperture platform running underneath the whole way. Each phase is
+            Every engagement follows the same five phases, Understand, Quantify, Reveal, Navigate,
+            Perform, with the Aperture platform running underneath the whole way. Each phase is
             fixed-fee and phase-gated: you see the value, then decide whether to continue. Almost
             everyone starts small, with the Business X-Ray, and keeps going because the picture keeps
             getting clearer.
@@ -150,7 +150,7 @@ export default function WorkingTogetherPage() {
         </Reveal>
       </Section>
 
-      {/* Start here — the two things everyone begins with */}
+      {/* Start here: the two things everyone begins with */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
@@ -169,7 +169,7 @@ export default function WorkingTogetherPage() {
                 </span>
               </div>
               <p className="mt-4 text-body text-body">
-                A structured diagnostic of the whole business — the low-risk way most clients start. It
+                A structured diagnostic of the whole business, the low-risk way most clients start. It
                 consists of five things:
               </p>
               <ul className="mt-5 space-y-3">
@@ -177,7 +177,7 @@ export default function WorkingTogetherPage() {
                   <li key={p.h} className="flex gap-3">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-maroon" aria-hidden="true" />
                     <span className="text-body text-body">
-                      <span className="font-semibold text-ink">{p.h}</span> — {p.p}
+                      <span className="font-semibold text-ink">{p.h}</span>: {p.p}
                     </span>
                   </li>
                 ))}
@@ -193,7 +193,7 @@ export default function WorkingTogetherPage() {
                 </span>
               </div>
               <p className="mt-4 text-body text-body">
-                The single number the X-Ray produces — a plain-language read you can track over time:
+                The single number the X-Ray produces, a plain-language read you can track over time:
               </p>
               <ul className="mt-5 space-y-3">
                 {scoreParts.map((p) => (
@@ -205,7 +205,7 @@ export default function WorkingTogetherPage() {
               </ul>
               <div className="mt-7 rounded bg-surface p-5">
                 <p className="text-small text-muted">
-                  Think of it as a credit score for how well-positioned your business is — one number
+                  Think of it as a credit score for how well-positioned your business is, one number
                   everyone can rally around, and the number the whole engagement is designed to move.
                 </p>
               </div>
@@ -219,7 +219,7 @@ export default function WorkingTogetherPage() {
         <Reveal>
           <SectionHeading
             eyebrow="At a glance"
-            title="Roughly six to ten weeks to a plan — then partnership."
+            title="Roughly six to ten weeks to a plan, then partnership."
             lede="The analysis phases move quickly. Aperture Atlas is where the work becomes results, and it lasts as long as it keeps earning its place."
           />
         </Reveal>
@@ -246,7 +246,7 @@ export default function WorkingTogetherPage() {
           <SectionHeading
             eyebrow="The path, step by step"
             title="Five phases. One clear walk from data to done."
-            lede="Like the blades of an aperture, each phase opens the view a little more — until the whole business is in focus."
+            lede="Like the blades of an aperture, each phase opens the view a little more, until the whole business is in focus."
           />
         </Reveal>
 
@@ -307,7 +307,7 @@ export default function WorkingTogetherPage() {
         <Reveal className="mt-10 max-w-measure">
           <p className="text-body-lg text-body">
             And then it loops. Fresh data from Aperture Atlas re-opens Aperture Insights on the next constraint, so the
-            method keeps compounding — each pass a little sharper than the last.
+            method keeps compounding, each pass a little sharper than the last.
           </p>
         </Reveal>
       </Section>
@@ -318,12 +318,12 @@ export default function WorkingTogetherPage() {
           <SectionHeading title="What stays true the whole way." />
           <div className="space-y-5">
             <p className="text-body-lg text-body">
-              It&apos;s senior-led from start to finish — the person who scopes the work does the work.
+              It&apos;s senior-led from start to finish: the person who scopes the work does the work.
               You see the price before each phase and decide whether to continue, so you&apos;re never
               locked into an open-ended commitment.
             </p>
             <p className="text-body-lg text-body">
-              Everything we build on your data — models, dashboards, playbooks — is yours to keep. We
+              Everything we build on your data, models, dashboards, playbooks, is yours to keep. We
               deliberately hand it over, along with the ability to keep using it, so you finish stronger
               and more self-sufficient than you started.
             </p>
@@ -345,10 +345,10 @@ export default function WorkingTogetherPage() {
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
             <div className="max-w-2xl">
               <h2 className="text-h2 font-semibold text-paper">
-                Start where it&apos;s easiest — the Business X-Ray.
+                Start where it&apos;s easiest: the Business X-Ray.
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                A fixed-fee, low-risk first step that shows you where the opportunity is — before you
+                A fixed-fee, low-risk first step that shows you where the opportunity is, before you
                 commit to the rest of the path.
               </p>
             </div>

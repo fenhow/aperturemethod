@@ -5,7 +5,7 @@ import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 import { siteConfig } from "@/lib/site";
 
 /**
- * Reality Check — the written breakdown.
+ * Reality Check: the written breakdown.
  *
  * The score is always shown on screen. When someone asks for the long version
  * we send it to them immediately, and send Fenwick a copy as a lead
@@ -144,7 +144,7 @@ function reportHtml(result: RCResult, answers: Record<string, number>): string {
         <h2 style="font-size:18px;margin:0 0 10px;color:${INK}">What this is, and what it is not</h2>
         <p style="font-size:15px;line-height:1.6;color:${GRAY};margin:0 0 18px">
           This is a self-assessment. It tells you what you do not currently know. The Business
-          X-Ray&trade; is the diagnostic that answers it &mdash; a seven-lens read of the whole
+          X-Ray&trade; is the diagnostic that answers it: a seven-lens read of the whole
           business, the named constraint with the evidence behind it, and a baseline Aperture
           Score&trade; you can track. Two to three weeks, fixed fee, senior-led.
         </p>
@@ -162,7 +162,7 @@ function reportHtml(result: RCResult, answers: Record<string, number>): string {
     </table>
 
     <p style="font-size:14px;line-height:1.6;color:${INK};margin:0 0 26px">
-      If anything here surprised you, reply to this message &mdash; it comes straight to me.<br>
+      If anything here surprised you, reply to this message; it comes straight to me.<br>
       <span style="color:${GRAY}">Fenwick How &middot; Founder, The Aperture Method</span>
     </p>
 
@@ -198,7 +198,7 @@ function ownerHtml(
   const roleLine = [who.title, who.company].filter(Boolean).map(esc).join(" · ");
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:660px">
     <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${MAROON};font-weight:700;margin:0">
-      Reality Check &mdash; new lead
+      Reality Check: new lead
     </p>
     <h2 style="font-size:22px;margin:8px 0 2px">${esc(who.name)}</h2>
     ${roleLine ? `<p style="margin:0 0 2px;color:${INK};font-size:14px">${roleLine}</p>` : ""}
@@ -209,7 +209,7 @@ function ownerHtml(
       Their copy of the report has been sent. Reply to this message to reach them directly.
     </p>
     <p style="font-size:16px;margin:0 0 6px">
-      <strong>${result.score}/100 &mdash; ${esc(result.band.name)}</strong>
+      <strong>${result.score}/100 &middot; ${esc(result.band.name)}</strong>
     </p>
     <p style="font-size:15px;margin:0 0 6px">
       Could not answer with confidence: <strong>${result.gaps.length} of ${questions.length}</strong>
@@ -217,10 +217,10 @@ function ownerHtml(
     <p style="font-size:15px;margin:0 0 18px">
       ${
         result.blindSpot
-          ? `Biggest blind spot: <strong>${esc(result.blindSpot.area)}</strong> &mdash; ${esc(
+          ? `Biggest blind spot: <strong>${esc(result.blindSpot.area)}</strong>, ${esc(
               result.blindSpot.blindSpot.headline
             )} <span style="color:${GRAY}">(${esc(result.blindSpot.component)})</span>`
-          : `<span style="color:${GRAY}">No blind spot &mdash; full marks throughout.</span>`
+          : `<span style="color:${GRAY}">No blind spot: full marks throughout.</span>`
       }
     </p>
     <table style="border-collapse:collapse;width:100%;border-top:2px solid ${INK}">${rows}</table>
@@ -244,7 +244,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Invalid request." }, { status: 400 });
   }
 
-  // Honeypot — accept silently so bots learn nothing.
+  // Honeypot: accept silently so bots learn nothing.
   if (body.website && body.website.trim() !== "") {
     return NextResponse.json({ ok: true });
   }
@@ -269,7 +269,7 @@ export async function POST(request: Request) {
   /*
    * Only accept scores for questions we actually asked, and only values that
    * question actually offers. A bare 0–4 range check would let a crafted POST
-   * submit a score no option carries — it would count toward the total while
+   * submit a score no option carries; it would count toward the total while
    * the report rendered that row as "Not answered".
    */
   const allowed = new Map<string, Set<number>>(
@@ -294,16 +294,16 @@ export async function POST(request: Request) {
       {
         ok: false,
         message:
-          "We could not send that just now. Your score is above and it is yours to keep — please email us and we will send the breakdown over.",
+          "We could not send that just now. Your score is above and it is yours to keep. Please email us and we will send the breakdown over.",
       },
       { status: 503 }
     );
   }
 
-  // The visitor's copy is the one that matters — send it first.
+  // The visitor's copy is the one that matters. Send it first.
   const toVisitor = await sendEmail({
     to: email,
-    subject: `Your Reality Check — ${result.score}/100, ${result.band.name}`,
+    subject: `Your Reality Check: ${result.score}/100, ${result.band.name}`,
     html: reportHtml(result, answers),
     replyTo: NOTIFY_EMAIL,
   });
@@ -316,10 +316,10 @@ export async function POST(request: Request) {
     );
   }
 
-  // Owner notification is best-effort — never fail the visitor over it.
+  // Owner notification is best-effort. Never fail the visitor over it.
   const toOwner = await sendEmail({
     to: NOTIFY_EMAIL,
-    subject: `Reality Check — ${name}${company ? ` (${company})` : ""} — ${result.score}/100 (${result.band.name})`,
+    subject: `Reality Check: ${name}${company ? ` (${company})` : ""}, ${result.score}/100 (${result.band.name})`,
     html: ownerHtml({ name, company, title, email }, result, answers),
     replyTo: email,
   });

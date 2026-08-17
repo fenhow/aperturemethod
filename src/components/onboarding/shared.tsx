@@ -98,7 +98,7 @@ export function Modal({
   labelledBy?: string;
   children: React.ReactNode;
   /** Jump the page to the top when opening. Correct for validation errors; wrong for a
-   *  dialog that appears while the client is typing — it would throw away their place. */
+   *  dialog that appears while the client is typing: it would throw away their place. */
   scrollToTop?: boolean;
 }) {
   useEffect(() => {
@@ -153,7 +153,7 @@ export function ErrorDialog({
   );
 }
 
-/** Confirmation popup shown after a successful submit — summarizes the signed
+/** Confirmation popup shown after a successful submit. Summarizes the signed
  * data, offers the PDF, and returns to the home page. */
 export function SuccessDialog({
   open,
@@ -169,7 +169,7 @@ export function SuccessDialog({
   onDownload: () => void;
   onHome: () => void;
   /** What actually happened. Defaults to a claim that is true regardless of whether
-   *  storage and email were configured — never assert delivery we cannot confirm. */
+   *  storage and email were configured; never assert delivery we cannot confirm. */
   note?: string;
 }) {
   return (
@@ -200,7 +200,7 @@ export function SuccessDialog({
           Download PDF
         </button>
         <button type="button" onClick={onHome} className="btn w-full justify-center py-3.5 sm:w-auto sm:px-8">
-          Done — return home
+          Done, return home
         </button>
       </div>
     </Modal>
@@ -212,7 +212,7 @@ export function SuccessDialog({
  *
  * The form saves silently from the first keystroke, which is only reassuring if somebody
  * says so. Without this, a client filling in a hundred questions has no way of knowing
- * whether closing the tab would cost them the lot — so they either push through in one
+ * whether closing the tab would cost them the lot, so they either push through in one
  * exhausting sitting, or abandon it. This is the moment to tell them plainly, hand them
  * the link back, and offer to email it. */
 export function SavedDialog({
@@ -243,7 +243,7 @@ export function SavedDialog({
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      /* clipboard blocked — the link is visible and selectable anyway */
+      /* clipboard blocked: the link is visible and selectable anyway */
     }
   }
 
@@ -262,7 +262,7 @@ export function SavedDialog({
           </h3>
           <p className="mt-2 text-body text-muted">
             This is a long form and you are not expected to finish it in one go. Everything you
-            type is saved automatically as you go — you can close this page at any point and
+            type is saved automatically as you go. You can close this page at any point and
             pick up exactly where you left off.
           </p>
         </div>
@@ -291,7 +291,7 @@ export function SavedDialog({
       <div className="mt-4">
         {emailed ? (
           <p className="text-small font-medium text-ink">
-            ✓ Sent. Check your inbox for the link — it comes from The Aperture Method.
+            ✓ Sent. Check your inbox for the link. It comes from The Aperture Method.
           </p>
         ) : (
           <>
@@ -323,7 +323,7 @@ export function SavedDialog({
       </div>
 
       <button type="button" onClick={onClose} className="btn mt-6 w-full justify-center py-3.5 sm:w-auto sm:px-10">
-        Got it — keep going
+        Got it, keep going
       </button>
     </Modal>
   );

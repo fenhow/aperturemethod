@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = pageMeta({
   title: "Privacy Policy",
   description:
-    "How The Aperture Method collects, uses, and protects the information you share with us — and the choices you have.",
+    "How The Aperture Method collects, uses, and protects the information you share with us, and the choices you have.",
   path: "/privacy",
 });
 
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
       </LegalP>
       <LegalUL
         items={[
-          "Details you submit through our contact or consultation forms — your name, work email, company, role, and what you tell us about your business.",
+          "Details you submit through our contact or consultation forms: your name, work email, company, role, and what you tell us about your business.",
           "If you subscribe to Insights, your email address.",
           "Standard technical data such as your browser type, device, and pages visited, gathered through privacy-respecting analytics.",
         ]}
@@ -40,8 +40,8 @@ export default function PrivacyPage() {
 
       <LegalH2>How we share it</LegalH2>
       <LegalP>
-        We share information only with the service providers that help us operate — for example, our
-        email, scheduling, and analytics tools — and only as needed to provide those services. Those
+        We share information only with the service providers that help us operate, for example, our
+        email, scheduling, and analytics tools, and only as needed to provide those services. Those
         providers are bound to protect your information. We may also disclose information if required
         by law.
       </LegalP>

@@ -5,12 +5,12 @@ import { Reveal } from "@/components/ui/Reveal";
 import { primaryCta } from "@/lib/site";
 
 /**
- * "How it works" — the engagement model. Opens with the default door (a
+ * "How it works": the engagement model. Opens with the default door (a
  * fixed-fee Business X-Ray that routes the undecided), then the two ways
  * forward: one result (a single component) or the full path (the Method),
  * with Aperture Atlas as the ongoing layer.
  *
- * Prices come from src/lib/pricing.ts — the ratified SOW schedule. They used to be
+ * Prices come from src/lib/pricing.ts, the ratified SOW schedule. They used to be
  * hard-coded here, and the comment that said "placeholders, swap for Fenwick's real
  * numbers" outlived the real numbers by some months.
  */
@@ -23,11 +23,11 @@ export function HowItWorks() {
         <SectionHeading
           eyebrow="How it works"
           title="Start with clarity. End with a system you run the business from."
-          lede="Every engagement starts the same way — a low-risk diagnostic that shows you exactly what you need. From there, take one result or the full path. Either way you finish in the same place: Aperture Atlas, your live intelligence platform. You work with the same senior partner throughout."
+          lede="Every engagement starts the same way: a low-risk diagnostic that shows you exactly what you need. From there, take one result or the full path. Either way you finish in the same place: Aperture Atlas, your live intelligence platform. You work with the same senior partner throughout."
         />
       </Reveal>
 
-      {/* Default door — the Business X-Ray */}
+      {/* Default door: the Business X-Ray */}
       <Reveal variant="up" delay={80} className="mt-10">
         <div className="overflow-hidden rounded-2xl border border-maroon/30 bg-surface">
           <div className="flex flex-col gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-10">
@@ -37,7 +37,7 @@ export function HowItWorks() {
                 Start with the Business X-Ray.
               </h3>
               <p className="mt-3 text-body text-muted">
-                A seven-lens read of where your business stands today — broad by design, not deep.
+                A seven-lens read of where your business stands today, broad by design, not deep.
                 It names your likely #1 constraint, gives you an Aperture Score to measure from,
                 and tells you exactly where the digging needs to happen. The way in, and the whole
                 of Step 01.
@@ -68,7 +68,7 @@ export function HowItWorks() {
             <h3 className="mt-2 text-h4 font-semibold text-ink">Take a single component.</h3>
             <p className="mt-3 flex-1 text-body text-muted">
               This is where the depth lives. Engage Analytics, Intelligence or Compass as a
-              fixed-fee project — the numbers, the market, or the plan — when you already know
+              fixed-fee project, the numbers, the market, or the plan, when you already know
               which one you need. Complete on its own.
             </p>
             {PRICES.component && (
@@ -94,7 +94,7 @@ export function HowItWorks() {
             <p className="eyebrow eyebrow--on-dark">Step 02 · The full path</p>
             <h3 className="mt-2 text-h4 font-semibold text-paper">Run the whole Method.</h3>
             <p className="mt-3 flex-1 text-body text-white/70">
-              All five components in sequence — from the first honest assessment to a living platform
+              All five components in sequence, from the first honest assessment to a living platform
               you run the business from. The complete transformation.
             </p>
             {PRICES.full && (
@@ -113,7 +113,7 @@ export function HowItWorks() {
         </Reveal>
       </div>
 
-      {/* Step 03 — the destination */}
+      {/* Step 03: the destination */}
       <Reveal variant="up" delay={140} className="mt-6">
         <div className="overflow-hidden rounded-2xl border border-maroon/30 bg-surface">
           <div className="flex flex-col gap-8 p-8 md:p-10">
@@ -123,7 +123,7 @@ export function HowItWorks() {
                 Then you run the business from Aperture Atlas™.
               </h3>
               <p className="mt-3 text-body text-muted">
-                A project ends. A system doesn&apos;t. Atlas is your live platform — the Scoreboard,
+                A project ends. A system doesn&apos;t. Atlas is your live platform: the Scoreboard,
                 your Market Maps, drive-time trade areas and forecasts, always current. It is where
                 the whole engagement stays alive, and it is the point of the exercise.
               </p>
@@ -153,14 +153,14 @@ export function HowItWorks() {
         </div>
       </Reveal>
 
-      {/* Standalone — the high-stakes spatial question */}
+      {/* Standalone: the high-stakes spatial question */}
       {PRICES.siteSelection && (
         <Reveal delay={160} className="mt-6">
           <div className="flex flex-col items-start justify-between gap-3 rounded-lg border border-dashed border-line px-6 py-5 sm:flex-row sm:items-center">
             <p className="text-body text-muted">
               <span className="font-semibold text-ink">Signing a lease?</span> A standalone{" "}
               <span className="font-semibold text-ink">Site Selection Study</span> scores candidate
-              sites on real geography — trade areas, drive times and demand — before you commit.{" "}
+              sites on real geography, trade areas, drive times and demand, before you commit.{" "}
               <span className="text-muted">Fixed fee, {PRICES.siteSelection}.</span>
             </p>
             <Link href="/method/intelligence" className="link-arrow shrink-0">
@@ -174,7 +174,7 @@ export function HowItWorks() {
       )}
 
       <p className="mt-6 text-small text-muted">
-        Indicative pricing — every engagement is fixed-fee and scoped to your business before you
+        Indicative pricing: every engagement is fixed-fee and scoped to your business before you
         commit.
       </p>
     </Section>

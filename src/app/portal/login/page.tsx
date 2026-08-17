@@ -57,7 +57,7 @@ export default function PortalLoginPage() {
         ) : (
           <>
             <p className="mt-4 text-body text-muted">
-              Enter your email and we&apos;ll send you a one-time sign-in link — no password to
+              Enter your email and we&apos;ll send you a one-time sign-in link, no password to
               remember.
             </p>
             <form onSubmit={onSubmit} className="mt-6 space-y-4">

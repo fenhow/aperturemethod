@@ -15,7 +15,7 @@ import { pageMeta } from "@/lib/seo";
 const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
 /**
- * Deliverable detail pages — one per named artifact (Business X-Ray, Aperture
+ * Deliverable detail pages, one per named artifact (Business X-Ray, Aperture
  * Score, Profit Map, …). Each explains, plainly, WHAT IT IS and HOW WE GET IT.
  * Data-driven from `deliverables`. Route param is `component` (the slug).
  */
@@ -32,7 +32,7 @@ export function generateMetadata({
   const d = deliverableBySlug(params.component);
   if (!d) return {};
   return pageMeta({
-    title: `${d.name}™ — ${d.tagline}`,
+    title: `${d.name}™: ${d.tagline}`,
     description: d.whatItIs.slice(0, 155),
     path: `/deliverables/${d.slug}`,
   });
@@ -119,18 +119,18 @@ export default function DeliverablePage({ params }: { params: { component: strin
             </Reveal>
           ))}
         </div>
-        {/* See the real thing — opens the example report to this deliverable */}
+        {/* See the real thing: opens the example report to this deliverable */}
         <div className="mt-10 rounded-xl border border-line bg-surface p-6 sm:p-7">
           <p className="text-h4 font-semibold text-ink">See a real {d.name}™.</p>
           <p className="mt-2 max-w-measure text-body text-muted">
-            Open the example report straight to this deliverable — produced end to end for Lumina
+            Open the example report straight to this deliverable, produced end to end for Lumina
             Medical Aesthetics, an illustrative business.
           </p>
           <div className="mt-5">
             <DocumentLightbox
               href={EXAMPLE_REPORT}
               page={d.reportPage}
-              title={`Example Report · ${d.name} — Lumina Medical Aesthetics`}
+              title={`Example Report · ${d.name}, Lumina Medical Aesthetics`}
               triggerLabel={`Open the report to the ${d.name}`}
               triggerClassName="btn inline-flex items-center gap-2.5"
             />
@@ -152,7 +152,7 @@ export default function DeliverablePage({ params }: { params: { component: strin
                 Want the {d.name}™ for your business?
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                It starts with a Business X-Ray — a fixed-fee diagnostic that shows you exactly which
+                It starts with a Business X-Ray, a fixed-fee diagnostic that shows you exactly which
                 components you need.
               </p>
             </div>

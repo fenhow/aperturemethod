@@ -81,7 +81,7 @@ export function NewsletterForm() {
             className="h-12 w-full rounded-sm border border-white/20 bg-white/5 px-4 text-[16px] text-paper placeholder:text-white/40 focus:border-white focus:outline-none"
           />
         </div>
-        {/* Honeypot (clip technique — never affects layout or horizontal scroll) */}
+        {/* Honeypot (clip technique: never affects layout or horizontal scroll) */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -m-px h-px w-px overflow-hidden border-0 p-0 [clip:rect(0,0,0,0)]"

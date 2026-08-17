@@ -135,12 +135,12 @@ function PreviewModal({ d, onClose }: { d: Deliverable; onClose: () => void }) {
               <DocumentLightbox
                 href={EXAMPLE_REPORT}
                 page={d.reportPage}
-                title={`Example Report · ${d.name} — Lumina Medical Aesthetics`}
-                triggerLabel={`See the ${d.name} in the example report — full screen`}
+                title={`Example Report · ${d.name}, Lumina Medical Aesthetics`}
+                triggerLabel={`See the ${d.name} in the example report, full screen`}
                 triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"
               />
               <p className="mt-2 text-small text-muted">
-                Opens the example report straight to this deliverable — produced for a real
+                Opens the example report straight to this deliverable, produced for a real
                 (illustrative) business. You can page through the rest from there.
               </p>
             </div>

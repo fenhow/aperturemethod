@@ -9,7 +9,7 @@ import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Case Study — Lumina Medical Aesthetics",
+  title: "Case Study: Lumina Medical Aesthetics",
   description:
     "A full Aperture Method engagement, start to finish: how we found the constraint holding a growing med-spa's profit flat, what each phase produced, and the plan that followed. Illustrative example with the complete report.",
   path: "/case-studies/lumina-medical-aesthetics",
@@ -53,7 +53,7 @@ const phases: Phase[] = [
     verb: "Quantify",
     question: "Why is it happening?",
     found:
-      "The Profit Map showed the profit is real but concentrated — a few services and the flagship location carry the business, while margin leaks into winning new patients who don't come back. A live scenario model then weighed the real choice on the table: fix retention, or open a fourth location.",
+      "The Profit Map showed the profit is real but concentrated: a few services and the flagship location carry the business, while margin leaks into winning new patients who don't come back. A live scenario model then weighed the real choice on the table: fix retention, or open a fourth location.",
     deliverable: "Profit Map™ + scenario model",
     img: "/deliverables/03_analytics_scenario_model.jpg",
     alt: "The Profit Map and scenario model report page for Lumina Medical Aesthetics",
@@ -64,7 +64,7 @@ const phases: Phase[] = [
     verb: "Reveal",
     question: "What opportunities does it reveal?",
     found:
-      "Mapping Lumina's own patients revealed where the best customers cluster and where demand goes unmet. The newest clinic is still building its base, and the strongest untapped trade area is the Energy Corridor — a data-backed answer to 'where do we grow next?'",
+      "Mapping Lumina's own patients revealed where the best customers cluster and where demand goes unmet. The newest clinic is still building its base, and the strongest untapped trade area is the Energy Corridor, a data-backed answer to 'where do we grow next?'",
     deliverable: "Customer & Market Map™ + GIS package",
     img: "/deliverables/04_intelligence_site_selection.jpg",
     alt: "The Customer & Market Map and site-selection analysis for Lumina Medical Aesthetics",
@@ -75,7 +75,7 @@ const phases: Phase[] = [
     verb: "Navigate",
     question: "Where should we go next?",
     found:
-      "Every opportunity from the diagnostic, the Profit Map, and the map was scored on impact, effort, cost, and confidence, then sequenced into a Now / Next / Later plan — retention first, expansion only once the numbers support it. Not a list of ideas; a board-ready order of operations.",
+      "Every opportunity from the diagnostic, the Profit Map, and the map was scored on impact, effort, cost, and confidence, then sequenced into a Now / Next / Later plan: retention first, expansion only once the numbers support it. Not a list of ideas; a board-ready order of operations.",
     deliverable: "Opportunity Matrix™ + Focus Plan™",
     img: "/deliverables/05_compass_opportunity_matrix.jpg",
     alt: "The Opportunity Matrix and Focus Plan for Lumina Medical Aesthetics",
@@ -86,7 +86,7 @@ const phases: Phase[] = [
     verb: "Perform",
     question: "How do we sustain and improve results?",
     found:
-      "A live executive Scoreboard tracks the few numbers that actually move the business, and a re-scored Aperture Score proves the strategy is showing up in the P&L — quarter after quarter, not just in a one-time report.",
+      "A live executive Scoreboard tracks the few numbers that actually move the business, and a re-scored Aperture Score proves the strategy is showing up in the P&L, quarter after quarter, not just in a one-time report.",
     deliverable: "Scoreboard™ + KPI system",
     img: "/deliverables/06_live_scoreboard.jpg",
     alt: "The Scoreboard and KPI dashboard for Lumina Medical Aesthetics",
@@ -116,8 +116,8 @@ function ReportButton({ onDark = false }: { onDark?: boolean }) {
   return (
     <DocumentLightbox
       href={REPORT}
-      title="The Aperture Method — Example Report · Lumina Medical Aesthetics"
-      triggerLabel="Read the full report — full screen"
+      title="The Aperture Method: Example Report · Lumina Medical Aesthetics"
+      triggerLabel="Read the full report, full screen"
       triggerClassName={
         onDark ? "btn--on-dark inline-flex items-center gap-2.5" : "btn inline-flex items-center gap-2.5"
       }
@@ -135,7 +135,7 @@ export default function LuminaCaseStudyPage() {
             <p className="eyebrow eyebrow--on-dark mb-5">Case study · Illustrative</p>
             <h1 className="text-display font-semibold text-paper">Lumina Medical Aesthetics</h1>
             <p className="mt-6 max-w-xl text-body-lg text-white/75">
-              A complete Aperture Method™ engagement, start to finish — how we found the one thing
+              A complete Aperture Method™ engagement, start to finish: how we found the one thing
               holding a fast-growing med-spa&apos;s profit flat, what each phase produced, and the plan that
               followed.
             </p>
@@ -148,7 +148,7 @@ export default function LuminaCaseStudyPage() {
             <figure className="relative overflow-hidden rounded-lg ring-1 ring-white/10">
               <Image
                 src="/lumina-v2.jpg"
-                alt="Lumina Medical Aesthetics — an illustrative med-spa"
+                alt="Lumina Medical Aesthetics, an illustrative med-spa"
                 width={1120}
                 height={745}
                 sizes="(max-width: 1024px) 100vw, 45vw"
@@ -168,8 +168,8 @@ export default function LuminaCaseStudyPage() {
         <Reveal className="max-w-measure">
           <SectionHeading
             eyebrow="The situation"
-            title="Growing fast — and no more profitable for it."
-            lede="Lumina had done the hard part: demand was strong and revenue was climbing. But the owner couldn't see why all that growth wasn't reaching the bottom line — or whether the answer was to expand."
+            title="Growing fast, and no more profitable for it."
+            lede="Lumina had done the hard part: demand was strong and revenue was climbing. But the owner couldn't see why all that growth wasn't reaching the bottom line, or whether the answer was to expand."
           />
         </Reveal>
         <Reveal className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line lg:grid-cols-4">
@@ -181,7 +181,7 @@ export default function LuminaCaseStudyPage() {
           ))}
         </Reveal>
         <p className="mt-6 text-small italic text-muted">
-          Figures are synthetic and internally consistent — an illustrative example, not an actual
+          Figures are synthetic and internally consistent, an illustrative example, not an actual
           client result.
         </p>
       </Section>
@@ -191,7 +191,7 @@ export default function LuminaCaseStudyPage() {
         <Reveal className="max-w-measure">
           <SectionHeading
             eyebrow="The work, phase by phase"
-            title="One continuous arc — Understand, Quantify, Reveal, Navigate, Perform."
+            title="One continuous arc: Understand, Quantify, Reveal, Navigate, Perform."
             lede="Each phase produced a real deliverable and handed off to the next, so the whole engagement reads as one story rather than five separate reports."
           />
         </Reveal>
@@ -244,10 +244,10 @@ export default function LuminaCaseStudyPage() {
         <Reveal className="max-w-measure">
           <p className="eyebrow eyebrow--on-dark mb-5">The recommendation</p>
           <h2 className="text-h2 font-semibold text-paper">
-            Fix retention first — then expand, where the data points.
+            Fix retention first, then expand, where the data points.
           </h2>
           <p className="mt-6 text-body-lg text-white/75">
-            The single highest-return move wasn&apos;t a new location — it was keeping the patients Lumina
+            The single highest-return move wasn&apos;t a new location; it was keeping the patients Lumina
             already wins. Closing the retention gap is worth an estimated $200K–$400K in additional
             annual profit and de-risks everything that follows. And when the time comes to grow,
             Lumina&apos;s own patients point clearly to one place: the Energy Corridor.
@@ -264,7 +264,7 @@ export default function LuminaCaseStudyPage() {
           <SectionHeading title="See the deliverables up close." />
           <div>
             <p className="text-body-lg text-body">
-              This engagement is shown end to end on the What You Get page — every report and working
+              This engagement is shown end to end on the What You Get page, every report and working
               file the five phases produce, with the same Lumina example.
             </p>
             <p className="mt-6">
@@ -288,7 +288,7 @@ export default function LuminaCaseStudyPage() {
                 Curious what your business&apos;s version of this looks like?
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                It starts with a single low-risk step — the Business X-Ray. Everything above follows
+                It starts with a single low-risk step, the Business X-Ray. Everything above follows
                 from it, only as the value becomes obvious.
               </p>
             </div>
@@ -297,7 +297,7 @@ export default function LuminaCaseStudyPage() {
             </Link>
           </div>
           <p className="mt-10 text-small text-white/45">
-            Illustrative — Lumina Medical Aesthetics is a fictional company created to demonstrate The
+            Illustrative: Lumina Medical Aesthetics is a fictional company created to demonstrate The
             Aperture Method. All figures are synthetic; nothing here represents a real client or real
             results.
           </p>

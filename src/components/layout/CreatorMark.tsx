@@ -6,7 +6,7 @@ import Link from "next/link";
 import { CONSENT_EVENT } from "@/lib/consent";
 
 /**
- * The persistent self-qualification CTA — a floating maroon pill on every
+ * The persistent self-qualification CTA, a floating maroon pill on every
  * public page, linking to /who-its-for.
  *
  * Occupies the slot the former "Big Picture" button used, so the site never

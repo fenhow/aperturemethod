@@ -101,7 +101,7 @@ class Doc {
     } else {
       const ih = 14, iw = ih * (this.icon.width / this.icon.height);
       this.page.drawImage(this.icon, { x: MARGIN, y: PAGE_H - 52, width: iw, height: ih });
-      this.page.drawText("The Aperture Method — " + this.title, {
+      this.page.drawText("The Aperture Method: " + this.title, {
         x: MARGIN + iw + 8, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED,
       });
       this.rightText(this.meta.recipient, PAGE_H - 47, 8, this.reg, MUTED);
@@ -168,7 +168,7 @@ class Doc {
     this.para(text, { font: this.bold, size: 12, color: MAROON, after: 4 });
   }
 
-  // Compact section header (denser than heading) — used by the 2-page intake.
+  // Compact section header (denser than heading), used by the 2-page intake.
   sectionCompact(text: string) {
     this.y -= 6;
     this.ensure(16);
@@ -283,7 +283,7 @@ class Doc {
     }
   }
 
-  // Fenwick's authorship + signature — printed on the intake so it carries his
+  // Fenwick's authorship + signature, printed on the intake so it carries his
   // name, title and signature as the person who personally reviews the work.
   authorBlock(note: string) {
     this.y -= 12;
@@ -348,7 +348,7 @@ async function buildIntake(p: OnboardingPayload, meta: Meta): Promise<Uint8Array
   d.kv("Company", p.company);
   d.kv("Email", p.signerEmail);
 
-  // Shared foundation — everyone answers this once.
+  // Shared foundation: everyone answers this once.
   for (const section of sharedSections) draw(section);
 
   // Engaged segment(s) only.
@@ -405,12 +405,12 @@ async function buildAgreement(p: OnboardingPayload, meta: Meta): Promise<Uint8Ar
 
   // Exhibit A
   d.rule();
-  d.heading("Exhibit A — Scope & Fees");
+  d.heading("Exhibit A: Scope & Fees");
   d.para("Standard starting points; the agreed figure is set per engagement.", { size: 8.5, color: MUTED, after: 6 });
   for (const row of feeSchedule) {
     d.ensure(24);
     d.para(row.phase, { font: d.bold, size: 9.5, after: 1 });
-    d.para(`${row.deliverable}  —  ${row.fee}`, { x: MARGIN + 14, size: 9, color: MUTED, after: 4 });
+    d.para(`${row.deliverable}  ·  ${row.fee}`, { x: MARGIN + 14, size: 9, color: MUTED, after: 4 });
   }
   const startDate = fieldValue(p.answers, "engagement_start");
   const clientContact = fieldValue(p.answers, "client_contact");

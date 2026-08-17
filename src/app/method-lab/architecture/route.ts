@@ -11,7 +11,7 @@ import { methodLabConfigured } from "@/lib/methodLab";
  * guessing a URL, and access is gated upstream in `src/middleware.ts`.
  *
  * The document is a single self-contained HTML file with its diagrams already
- * rendered to inline SVG — no external scripts, no CDN, nothing to load.
+ * rendered to inline SVG: no external scripts, no CDN, nothing to load.
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

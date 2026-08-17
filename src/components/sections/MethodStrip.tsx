@@ -42,7 +42,7 @@ export function MethodStrip({
       >
         <span className="flex items-center text-[15px] font-semibold">
           <span className="mr-3 inline-block h-2.5 w-2.5 rounded-full bg-maroon-soft" aria-hidden="true" />
-          Aperture platform — the intelligence you keep
+          Aperture platform, the intelligence you keep
         </span>
         <span className="text-small text-white/50">
           Runs beneath all five phases · yours after the engagement

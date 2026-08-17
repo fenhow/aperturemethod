@@ -22,13 +22,13 @@ export default function TermsPage() {
       <LegalP>
         This website is operated by {siteConfig.legalName}. It provides information about our services
         and lets you get in touch. It is not an offer of professional services, and using it does not
-        create a client relationship — that begins only under a separate written engagement.
+        create a client relationship; that begins only under a separate written engagement.
       </LegalP>
 
       <LegalH2>Use of content</LegalH2>
       <LegalP>
-        The content on this site — including text, design, graphics, The Aperture Method name and
-        logo, and our published frameworks — is owned by {siteConfig.legalName} or its licensors and
+        The content on this site, including text, design, graphics, The Aperture Method name and
+        logo, and our published frameworks, is owned by {siteConfig.legalName} or its licensors and
         is protected by intellectual-property laws. You may view and share it for personal,
         non-commercial reference with attribution. You may not copy, republish, or use it
         commercially without our written permission.

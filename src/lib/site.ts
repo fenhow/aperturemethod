@@ -1,5 +1,5 @@
 /**
- * Central site configuration — the single source of truth for global,
+ * Central site configuration: the single source of truth for global,
  * CMS-ready content (name, URLs, navigation, footer). Later stages read from
  * here so structure stays consistent and is trivial to move into Sanity.
  */
@@ -11,7 +11,7 @@ export const siteConfig = {
   tagline: "Bring your business into focus.",
   positioningLine: "Big-company intelligence, built for your business.",
   description:
-    "The Aperture Method brings the analytics, AI, and strategy big companies rely on to owner-run businesses ($1M–$20M) — in plain language, done for you, at a price that fits.",
+    "The Aperture Method brings the analytics, AI, and strategy big companies rely on to owner-run businesses ($1M–$20M), in plain language, done for you, at a price that fits.",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
     "https://aperturemethod.com",
@@ -75,7 +75,7 @@ export const megaNav: MegaEntry[] = [
       eyebrow: "The engagement",
       title: "The Aperture Method",
       blurb:
-        "One continuous arc — from a first honest read of the business to hands-on execution.",
+        "One continuous arc, from a first honest read of the business to hands-on execution.",
       linkLabel: "Understand · Quantify · Reveal · Navigate · Perform",
     },
     links: [
@@ -93,11 +93,11 @@ export const megaNav: MegaEntry[] = [
       eyebrow: "Practical AI",
       title: "AI, where it actually matters",
       blurb:
-        "We help you integrate AI into your business — deliberately, only where it earns its place, and it stays yours to keep.",
+        "We help you integrate AI into your business, deliberately, only where it earns its place, and it stays yours to keep.",
       linkLabel: "AI for your business",
     },
     links: [
-      { label: "AI for Your Business", href: "/ai", desc: "The overview — understand, implement, use" },
+      { label: "AI for Your Business", href: "/ai", desc: "The overview: understand, implement, use" },
       { label: "Where It Pays Off", href: "/ai#in-practice", desc: "Practical jobs AI actually does" },
       { label: "How We Bring It In", href: "/ai#how", desc: "Adoption as part of the Method" },
       { label: "No Black Boxes", href: "/ai#trust", desc: "Explainable, and a person decides" },
@@ -111,11 +111,11 @@ export const megaNav: MegaEntry[] = [
       eyebrow: "Featured · Full engagement",
       title: "Lumina Medical Aesthetics",
       blurb:
-        "A complete engagement, start to finish — the constraint, the work across all five phases, and the plan that followed.",
+        "A complete engagement, start to finish: the constraint, the work across all five phases, and the plan that followed.",
       linkLabel: "Read the case study",
     },
     links: [
-      { label: "Lumina — Full Engagement", href: "/case-studies/lumina-medical-aesthetics", desc: "The whole engagement, start to finish" },
+      { label: "Lumina: Full Engagement", href: "/case-studies/lumina-medical-aesthetics", desc: "The whole engagement, start to finish" },
       { label: "Financial Analysis Workbench", href: "/method-lab/financial-analysis-workbench", desc: "Two 43-page analyses, published in full" },
       { label: "The Deliverables", href: "/what-you-get", desc: "Every report and working file, up close" },
       { label: "Read the Full Report", href: "/reports/Lumina-Aperture-Method-Example-Report.pdf", desc: "The complete 41-page PDF", external: true },
@@ -136,7 +136,7 @@ export const megaNav: MegaEntry[] = [
     links: [
       { label: "About", href: "/about", desc: "Who's behind the Method" },
       { label: "What We Believe", href: "/what-we-believe", desc: "The principles we work by" },
-      { label: "Look Closer — for schools", href: "/look-closer", desc: "The free session we teach locally" },
+      { label: "Look Closer, for schools", href: "/look-closer", desc: "The free session we teach locally" },
       { label: "Insights", href: "/insights", desc: "Plain thinking, by the numbers" },
       { label: "Contact", href: "/contact", desc: "Start a conversation" },
     ],
@@ -152,7 +152,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "What We Believe", href: "/what-we-believe" },
       { label: "Insights", href: "/insights" },
-      { label: "Look Closer — free for schools", href: "/look-closer" },
+      { label: "Look Closer, free for schools", href: "/look-closer" },
       { label: "Contact", href: "/contact" },
     ],
   },

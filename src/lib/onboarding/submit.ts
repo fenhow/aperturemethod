@@ -74,7 +74,7 @@ export async function submitOnboarding(
           .from("documents")
           .insert({
             owner_id: ownerId,
-            name: `${KIND_LABEL[payload.kind]} — ${payload.company}.pdf`,
+            name: `${KIND_LABEL[payload.kind]}, ${payload.company}.pdf`,
             path,
             size: bytes.byteLength,
             content_type: "application/pdf",
@@ -111,7 +111,7 @@ export async function submitOnboarding(
       console.error("[onboarding] storage pipeline failed:", err);
     }
   } else {
-    console.info("[onboarding] service role not configured — skipping storage.");
+    console.info("[onboarding] service role not configured, skipping storage.");
   }
 
   // Notify Fenwick (with PDF) + confirm to the client.
@@ -128,13 +128,13 @@ export async function submitOnboarding(
     });
     await sendEmail({
       to: payload.signerEmail,
-      subject: `Your copy — ${label} · The Aperture Method`,
+      subject: `Your copy: ${label} · The Aperture Method`,
       html: clientHtml(payload, label),
       attachments: attach,
     });
     emailed = ownerRes.ok;
   } else {
-    console.info("[onboarding] email not configured — skipping notifications.");
+    console.info("[onboarding] email not configured, skipping notifications.");
   }
 
   return { ok: true, pdfBase64, filename, stored, emailed };
@@ -162,8 +162,8 @@ function clientHtml(p: OnboardingPayload, label: string) {
     <h2 style="color:#500000;margin:0 0 8px">Thank you, ${esc(p.signerName)}.</h2>
     <p style="margin:0 0 12px">We've received your ${esc(label)}. A signed copy is attached for your records.</p>
     <p style="margin:0 0 12px">You can also access it any time from your secure client area at
-      <a href="https://aperturemethod.com/portal" style="color:#500000">aperturemethod.com/portal</a>
-      — sign in with this email address (${esc(p.signerEmail)}) and we'll send you a one-time link.</p>
+      <a href="https://aperturemethod.com/portal" style="color:#500000">aperturemethod.com/portal</a>.
+     Sign in with this email address (${esc(p.signerEmail)}) and we'll send you a one-time link.</p>
     <p style="margin:0 0 4px">Warmly,</p>
     <p style="margin:0"><strong>Fenwick How</strong><br/>Founder · The Aperture Method™</p>
   </div>`;

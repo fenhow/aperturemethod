@@ -596,7 +596,7 @@ function KV({ k, v }: { k: string; v: string }) {
   );
 }
 
-/** Expanded detail for one intake — identity, PDF link, and every answer
+/** Expanded detail for one intake: identity, PDF link, and every answer
  * grouped by the shared foundation plus each engaged segment. */
 function IntakeDetail({ row, onOpenPdf }: { row: IntakeRow; onOpenPdf: (id: string) => void }) {
   const secs: IntakeSection[] = [
@@ -619,7 +619,7 @@ function IntakeDetail({ row, onOpenPdf }: { row: IntakeRow; onOpenPdf: (id: stri
           Open signed PDF
         </button>
       ) : (
-        <p className="mt-4 text-small text-muted">No signed PDF yet — this intake is still in progress.</p>
+        <p className="mt-4 text-small text-muted">No signed PDF yet: this intake is still in progress.</p>
       )}
 
       {secs.map((s) => (

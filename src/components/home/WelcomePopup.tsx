@@ -8,7 +8,7 @@ import Image from "next/image";
 import { CONSENT_EVENT } from "@/lib/consent";
 
 /**
- * "The Big Picture" — a first-visit welcome pop-up plus a persistent floating
+ * "The Big Picture": a first-visit welcome pop-up plus a persistent floating
  * button that reopens it from anywhere on the site.
  *
  * - Auto-opens once per visitor, a few seconds after landing, and only after
@@ -22,7 +22,7 @@ const CONSENT_KEY = "am_cookie_consent_v1";
 
 /**
  * Pages where the visitor is part-way through something. Interrupting a quiz
- * or a form with a modal is how you lose the submission — the pop-up never
+ * or a form with a modal is how you lose the submission: the pop-up never
  * auto-opens here. The floating "Big Picture" button still does.
  */
 const NO_AUTO_OPEN = ["/reality-check", "/onboarding", "/contact", "/portal", "/admin", "/method-lab"];
@@ -102,13 +102,13 @@ export function WelcomePopup({ delayMs = 4000 }: { delayMs?: number }) {
 
   return (
     <>
-      {/* Floating "Big Picture" button — always available while browsing */}
+      {/* Floating "Big Picture" button, always available while browsing */}
       {consentReady && !open && (
         <button
           type="button"
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
-          aria-label="Open the big picture — what Aperture is"
+          aria-label="Open the big picture: what Aperture is"
           className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-maroon py-3 pl-3.5 pr-4 text-paper shadow-[0_10px_30px_-8px_rgba(80,0,0,0.5)] ring-1 ring-white/10 transition-colors hover:bg-maroon-hover"
         >
           <Image
@@ -155,7 +155,7 @@ export function WelcomePopup({ delayMs = 4000 }: { delayMs?: number }) {
                   The big picture in 20 seconds.
                 </h2>
                 <p className="mt-3 text-body text-muted">
-                  Aperture brings big-company intelligence — MBA-grade strategy plus market mapping —
+                  Aperture brings big-company intelligence, MBA-grade strategy plus market mapping
                   to owner-run businesses. The simplest way in is a fixed-fee{" "}
                   <span className="font-semibold text-ink">Business X-Ray</span> that names your #1
                   constraint and shows where to grow.

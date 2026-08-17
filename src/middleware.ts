@@ -6,10 +6,10 @@ import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
 /**
  * Two independent guards.
  *
- * 1. Method Lab (/method-lab and its gated download route) — a passphrase
+ * 1. Method Lab (/method-lab and its gated download route): a passphrase
  *    cookie. Checked FIRST and deliberately not behind the Supabase branch
  *    below, which returns early whenever Supabase isn't configured.
- * 2. Portal + admin — refreshes the Supabase session cookie and sends anyone
+ * 2. Portal + admin: refreshes the Supabase session cookie and sends anyone
  *    without a session to the login page. (Admin authorization itself is
  *    enforced in the page + by Row-Level Security.)
  */
@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
       path === "/api/method-lab/signout";
     if (isEntry) return NextResponse.next();
 
-    // Published Method Lab work is deliberately public — it is the showcase, not
+    // Published Method Lab work is deliberately public: it is the showcase, not
     // the confidential material. Everything NOT on this list stays gated, so the
     // Agent Workflow Map and the Architecture Reference are unaffected.
     const PUBLIC_METHOD_LAB = ["/method-lab/financial-analysis-workbench"];
@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest) {
 
     return response;
   } catch {
-    // Never take the site down over an auth hiccup — let the request proceed.
+    // Never take the site down over an auth hiccup; let the request proceed.
     // The page-level checks and Row-Level Security still protect the data.
     return NextResponse.next();
   }

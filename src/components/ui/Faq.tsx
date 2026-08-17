@@ -1,5 +1,5 @@
 /**
- * Accessible FAQ built on native <details>/<summary> — keyboard-operable and
+ * Accessible FAQ built on native <details>/<summary>, keyboard-operable and
  * zero JavaScript. The maroon "+" rotates into an "×" when open.
  */
 export function Faq({ items }: { items: { q: string; a: string }[] }) {

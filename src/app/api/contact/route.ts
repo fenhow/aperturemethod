@@ -5,7 +5,7 @@ import { validateContact, type ContactPayload } from "@/lib/contact";
  * Consultation / contact intake handler.
  *
  * Today: validates server-side, drops obvious spam, and (optionally) forwards
- * the enquiry to whatever endpoint `CONTACT_WEBHOOK_URL` points at — a HubSpot
+ * the enquiry to whatever endpoint `CONTACT_WEBHOOK_URL` points at: a HubSpot
  * Forms URL, a Formspree endpoint, or your own serverless function. With no env
  * set it accepts and logs, so the front end is fully testable before the CRM is
  * wired. Never throws the payload back to the client.
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Invalid request." }, { status: 400 });
   }
 
-  // Honeypot — silently accept so bots don't learn they were caught.
+  // Honeypot: silently accept so bots don't learn they were caught.
   if (body.website && body.website.trim() !== "") {
     return NextResponse.json({ ok: true });
   }
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       );
     }
   } else {
-    // No CRM wired yet — record it so nothing is lost during testing.
+    // No CRM wired yet. Record it so nothing is lost during testing.
     console.info("[contact] enquiry received:", enquiry);
   }
 

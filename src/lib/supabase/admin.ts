@@ -3,7 +3,7 @@ import { createClient as createSupabaseClient, type SupabaseClient } from "@supa
 import { SUPABASE_URL } from "./env";
 
 /**
- * Service-role Supabase client — SERVER ONLY. Bypasses Row-Level Security, so it
+ * Service-role Supabase client: SERVER ONLY. Bypasses Row-Level Security, so it
  * is used exclusively inside route handlers to write onboarding records and
  * store signed PDFs under a client's portal folder. Never import this into a
  * client component.

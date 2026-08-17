@@ -34,6 +34,6 @@ export async function GET() {
     error: res.error ?? null,
     next: res.ok
       ? `Now check the inbox for ${NOTIFY_EMAIL} (and its spam folder).`
-      : "The relay rejected the message — the 'error' above is the reason.",
+      : "The relay rejected the message; the 'error' above is the reason.",
   });
 }

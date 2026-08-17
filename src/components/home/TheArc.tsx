@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 /**
- * "The arc" — the MBA → GIS → DATA spine, as a prominent three-stage visual.
+ * "The arc": the MBA → GIS → DATA spine, as a prominent three-stage visual.
  * The middle stage carries the spatial/GIS + demographics & human-data story.
  */
 const STAGES = [
@@ -10,14 +10,14 @@ const STAGES = [
     cap: "MBA",
     label: "MBA-grade analytics",
     desc:
-      "Graduate-level analysis — profit drivers, forecasting, segmentation, break-even, and optimization applied to your business.",
+      "Graduate-level analysis: profit drivers, forecasting, segmentation, break-even, and optimization applied to your business.",
   },
   {
     n: "02",
     cap: "GIS",
     label: "Spatial intelligence",
     desc:
-      "Geographic intelligence plus deep demographic & human data — age, sex, income, households, and spending — mapped to trade areas and exactly where your customers are.",
+      "Geographic intelligence plus deep demographic & human data, age, sex, income, households, and spending, mapped to trade areas and exactly where your customers are.",
   },
   {
     n: "03",
@@ -31,7 +31,7 @@ const STAGES = [
 export function TheArc() {
   return (
     <div>
-      <p className="eyebrow mb-6">The arc — from analysis to a living platform</p>
+      <p className="eyebrow mb-6">The arc: from analysis to a living platform</p>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch">
         {STAGES.map((s, i) => (
           <Fragment key={s.n}>

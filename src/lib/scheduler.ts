@@ -16,7 +16,7 @@ export const schedulerUrl =
 
 export const isCalendly = (url: string): boolean => /calendly\.com/.test(url);
 
-/** Brand-themed Calendly embed URL (maroon accent, no GDPR banner — we run our own consent). */
+/** Brand-themed Calendly embed URL (maroon accent, no GDPR banner: we run our own consent). */
 export function calendlyEmbedUrl(base: string = schedulerUrl): string {
   if (!base) return "";
   const sep = base.includes("?") ? "&" : "?";

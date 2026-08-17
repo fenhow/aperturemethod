@@ -5,14 +5,14 @@ import { validateContact, type ContactErrors, type ContactPayload } from "@/lib/
 import { track } from "@/lib/analytics";
 
 /**
- * Compact "Contact us" card — sized to sit in the empty grid slot beside the
+ * Compact "Contact us" card, sized to sit in the empty grid slot beside the
  * five component cards on the homepage. Collects the four required fields
  * (name, email, company, message) and posts to the same /api/contact handler
  * as the full consultation form.
  */
 
 /*
- * 16px on phones is not a style choice — iOS Safari zooms the whole page in
+ * 16px on phones is not a style choice: iOS Safari zooms the whole page in
  * when you focus an input smaller than that, and the visitor has to pinch back
  * out to carry on. The compact 14px is restored from `sm` up.
  */
@@ -92,7 +92,7 @@ export function QuickContactCard() {
         className="flex h-full flex-col justify-center rounded-lg border border-maroon/30 bg-surface p-7"
       >
         <p className="eyebrow text-maroon">Message sent</p>
-        <h3 className="mt-2 text-h4 font-semibold text-ink">Thanks — we&apos;ve got it.</h3>
+        <h3 className="mt-2 text-h4 font-semibold text-ink">Thanks. We&apos;ve got it.</h3>
         <p className="mt-2 text-small text-muted">
           Fenwick reads these personally and will reply within one business day, usually sooner.
         </p>
@@ -110,7 +110,7 @@ export function QuickContactCard() {
     >
       <p className="eyebrow">Have a question?</p>
       <h3 className="mt-2 text-h4 font-semibold text-ink">Contact us</h3>
-      <p className="mt-1 text-small text-muted">A quick note — Fenwick replies personally.</p>
+      <p className="mt-1 text-small text-muted">A quick note: Fenwick replies personally.</p>
 
       <div className="mt-4 flex flex-1 flex-col gap-2.5">
         <div>

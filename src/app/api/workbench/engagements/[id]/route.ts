@@ -5,7 +5,7 @@ import { workbenchAuthorised } from "@/lib/workbenchAuth";
 /**
  * A single engagement: fetch the whole session back, or archive it.
  *
- * Delete is a soft archive rather than a destructive delete — a mis-click in a
+ * Delete is a soft archive rather than a destructive delete: a mis-click in a
  * list of client engagements should not be unrecoverable.
  */
 export const runtime = "nodejs";

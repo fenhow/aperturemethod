@@ -34,7 +34,7 @@ export function PortalDocs({ docs, email }: { docs: PortalDoc[]; email: string }
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Group by folder — named folders first (sorted), loose files last.
+  // Group by folder: named folders first (sorted), loose files last.
   const groups = useMemo(() => {
     const map = new Map<string | null, PortalDoc[]>();
     for (const d of docs) {

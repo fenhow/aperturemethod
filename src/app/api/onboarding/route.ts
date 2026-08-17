@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Invalid request." }, { status: 400 });
   }
 
-  // Honeypot — silently accept so bots don't learn they were caught.
+  // Honeypot: silently accept so bots don't learn they were caught.
   if (body.website && body.website.trim() !== "") {
     return NextResponse.json({ ok: true, pdfBase64: "", filename: "", stored: false, emailed: false });
   }

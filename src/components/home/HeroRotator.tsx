@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
 /**
  * Bain-style rotating hero: crossfading images and titles.
  * Accessible: labelled carousel, aria-live title region, slide "tabs",
- * a pause/play control, pauses on hover/focus, and — for users who prefer
- * reduced motion — starts paused and never auto-advances (transitions are
+ * a pause/play control, pauses on hover/focus, and, for users who prefer
+ * reduced motion, starts paused and never auto-advances (transitions are
  * also neutralised globally). A deliberate, approved exception to the design
  * system's "no autoplay carousel" default.
  */
@@ -28,20 +28,20 @@ const slides: Slide[] = [
   {
     eyebrow: "Know your customers",
     title: "See who your best customers are.",
-    sub: "Who's most valuable, who's likely to leave, who's ready to buy more — and where the next customers are.",
+    sub: "Who's most valuable, who's likely to leave, who's ready to buy more, and where the next customers are.",
     image: "/hero/hero-2d-poster.jpg",
     video: "/hero/hero-2d.mp4",
   },
   {
     eyebrow: "Know where AI fits",
-    title: "Put AI to work — without the hype.",
-    sub: "Understand it, implement what fits, and use it to hold your edge — with a person in the loop and models that are yours to keep.",
+    title: "Put AI to work, without the hype.",
+    sub: "Understand it, implement what fits, and use it to hold your edge, with a person in the loop and models that are yours to keep.",
     image: "/hero/hero-4-v9.jpg",
   },
   {
     eyebrow: "Know your business",
     title: "Bring your business into focus.",
-    sub: "The MBA-level analytics, AI, and strategy big companies rely on — sized for your business, in plain language, and put to work.",
+    sub: "The MBA-level analytics, AI, and strategy big companies rely on, sized for your business, in plain language, and put to work.",
     image: "/hero/hero-3-v7.jpg",
   },
 ];

@@ -5,7 +5,7 @@ import { LENSES, lensWeightTotal } from "@/lib/lenses";
 import { XRAY_FEE, FULL_METHOD_FEE, ATLAS_FEE } from "@/lib/pricing";
 
 /**
- * GET /version — what this deployment actually is.
+ * GET /version: what this deployment actually is.
  *
  * The question this answers is "is the site I am looking at the thing I pushed, and was it
  * built against the ratified rubric?" The commit answers the first half; the rubric version

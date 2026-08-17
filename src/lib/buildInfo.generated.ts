@@ -1,5 +1,5 @@
 /**
- * GENERATED — do not edit. Written by scripts/stamp-build.mjs on every build.
+ * GENERATED: do not edit. Written by scripts/stamp-build.mjs on every build.
  * Committed so a clean checkout type-checks; overwritten before each build.
  */
 

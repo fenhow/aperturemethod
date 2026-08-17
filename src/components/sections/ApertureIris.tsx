@@ -7,14 +7,14 @@ import { deliverables } from "@/lib/deliverables";
 import { cn } from "@/lib/utils";
 
 /**
- * The Aperture — a working five-blade iris that opens.
+ * The Aperture, a working five-blade iris that opens.
  *
  * Replaces the earlier tabs-based MethodExplorer. Same job (choose a component,
  * read what it is), but the control *is* the brand mark: five blades whose inner
  * edges form a pentagon that genuinely widens, with the lens light from the hero
  * photograph showing through the opening as it does.
  *
- * All copy comes from `content.ts` and `deliverables.ts` — nothing is retyped here.
+ * All copy comes from `content.ts` and `deliverables.ts`. Nothing is retyped here.
  *
  * Interaction notes:
  * - Hover lifts a blade along its own bisector and cracks the aperture open.
@@ -145,7 +145,7 @@ export function ApertureIris() {
         cur.current = { ...aim.current };
         draw();
         raf.current = null;
-        // The blades have finished shutting — re-open on the queued component.
+        // The blades have finished shutting. Re-open on the queued component.
         if (pending.current !== null) {
           const k = pending.current;
           pending.current = null;
@@ -263,7 +263,7 @@ export function ApertureIris() {
               <circle cx={CX} cy={CY} r="243" fill="none" stroke="rgba(255,255,255,.09)" />
               <circle cx={CX} cy={CY} r="264" fill="none" stroke="rgba(255,255,255,.055)" />
 
-              {/* capability arc — MBA → GIS → DATA */}
+              {/* capability arc: MBA → GIS → DATA */}
               <g aria-hidden="true">
                 {CAP_ARCS.map((a, i) => {
                   const a0 = a.from + 2.6;
@@ -316,7 +316,7 @@ export function ApertureIris() {
                       role="button"
                       tabIndex={0}
                       aria-pressed={sel === k}
-                      aria-label={`${p.n} ${p.product} — ${p.verb}`}
+                      aria-label={`${p.n} ${p.product}, ${p.verb}`}
                       className="cursor-pointer outline-none transition-transform duration-500 ease-out"
                       style={{
                         transform: `translate(${f(Math.cos(rad(mid)) * lift)}px, ${f(
@@ -393,7 +393,7 @@ export function ApertureIris() {
               </g>
             </svg>
 
-            {/* centre hub — sits inside the opening */}
+            {/* centre hub sits inside the opening */}
             <div className="pointer-events-none absolute inset-0 grid place-items-center">
               <div
                 className="max-w-[38%] text-center transition-opacity duration-300"
@@ -445,8 +445,8 @@ export function ApertureIris() {
               </p>
               <ul className="mt-7 grid gap-3">
                 {[
-                  "Every engagement starts with Aperture Insights — a fixed-fee read that names your #1 constraint.",
-                  "It prescribes which components will actually move the needle — one, a few, or all five.",
+                  "Every engagement starts with Aperture Insights, a fixed-fee read that names your #1 constraint.",
+                  "It prescribes which components will actually move the needle: one, a few, or all five.",
                   "Aperture Atlas keeps it alive after the engagement ends.",
                 ].map((li, i) => (
                   <li key={li} className="flex gap-3 text-small text-white/70">
@@ -539,7 +539,7 @@ export function ApertureIris() {
                     </span>
                   </summary>
                   <p className="mt-3 text-small text-white/50">
-                    The same graduate-level business science big-company teams use — applied, in
+                    The same graduate-level business science big-company teams use, applied, in
                     plain language, to your business.
                   </p>
                   <div className="mt-4 grid gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10">

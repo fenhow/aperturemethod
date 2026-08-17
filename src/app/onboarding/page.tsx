@@ -6,7 +6,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "New Client Onboarding",
   description:
-    "Welcome to The Aperture Method. Complete your client intake and sign your service agreement online — a copy is saved to your secure client area.",
+    "Welcome to The Aperture Method. Complete your client intake and sign your service agreement online. A copy is saved to your secure client area.",
   path: "/onboarding",
 });
 
@@ -16,7 +16,7 @@ const steps = [
     step: "Step 1",
     title: "New Customer Agreement",
     blurb:
-      "First, review and e-sign the services agreement — fixed-fee, phase-gated, and plain-language. You'll get a signed PDF for your records the moment you submit.",
+      "First, review and e-sign the services agreement, fixed-fee, phase-gated, and plain-language. You'll get a signed PDF for your records the moment you submit.",
     cta: "Review & sign",
   },
   {
@@ -24,7 +24,7 @@ const steps = [
     step: "Step 2",
     title: "Intake Questionnaire",
     blurb:
-      "Then tell us about your business — the shared foundation plus the part(s) of the Method you've engaged. Short on time? Save and we'll email you a private link to finish later.",
+      "Then tell us about your business: the shared foundation plus the part(s) of the Method you've engaged. Short on time? Save and we'll email you a private link to finish later.",
     cta: "Start the intake",
   },
 ];
@@ -39,7 +39,7 @@ export default function OnboardingPage() {
           <p className="mt-5 text-body-lg text-body">
             Two short steps to get us started. Everything is completed online and signed
             electronically; a copy of each document is emailed to you and saved to your secure client
-            area. Nothing you share is reused — see our data-handling standards.
+            area. Nothing you share is reused. See our data-handling standards.
           </p>
         </div>
 

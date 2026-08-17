@@ -11,7 +11,7 @@ import { schedulerUrl, isCalendly, calendlyEmbedUrl } from "@/lib/scheduler";
 export const metadata: Metadata = pageMeta({
   title: "Contact",
   description:
-    "Let's talk about your business — a straightforward conversation with no slides, no pressure, and no obligation. Book a 30-minute video call or send a note. We reply within one business day.",
+    "Let's talk about your business, a straightforward conversation with no slides, no pressure, and no obligation. Book a 30-minute video call or send a note. We reply within one business day.",
   path: "/contact",
 });
 
@@ -26,7 +26,7 @@ export default function ContactPage() {
           <p className="eyebrow mb-5">Contact</p>
           <h1 className="heading-gradient text-display font-semibold">Let&apos;s talk about your business.</h1>
           <p className="mt-6 text-body-lg text-body">
-            A straightforward conversation — no slides, no pressure, no obligation. Book a 30-minute
+            A straightforward conversation: no slides, no pressure, no obligation. Book a 30-minute
             video call below, or send a note and we&apos;ll set up a time.
           </p>
           <p className="mt-6">
@@ -46,7 +46,7 @@ export default function ContactPage() {
           <p className="eyebrow mb-3">Book a time</p>
           <h2 className="heading-gradient text-h2 font-semibold">Grab a 30-minute call.</h2>
           <p className="mx-auto mt-4 max-w-xl text-body-lg text-muted">
-            A candid conversation with Fenwick — you tell him what you&apos;re trying to figure out; he
+            A candid conversation with Fenwick: you tell him what you&apos;re trying to figure out; he
             tells you, straight, whether The Aperture Method™ can help. Pick a time and you&apos;ll get a
             Google Meet link in the calendar invite.
           </p>
@@ -72,7 +72,7 @@ export default function ContactPage() {
                 <a href={`mailto:${siteConfig.email}`} className="link-inline">
                   {siteConfig.email}
                 </a>{" "}
-                and we&apos;ll set up a time — usually within one business day.
+                and we&apos;ll set up a time, usually within one business day.
               </p>
               <a href="#write" className="btn mt-6">
                 Send a note
@@ -91,7 +91,7 @@ export default function ContactPage() {
               <ul className="space-y-4 text-body text-muted">
                 <li className="border-t border-line pt-4">
                   <span className="font-semibold text-ink">A real conversation.</span> No slides and no
-                  sales pitch — just a candid talk about your business.
+                  sales pitch, just a candid talk about your business.
                 </li>
                 <li className="border-t border-line pt-4">
                   <span className="font-semibold text-ink">An honest answer.</span> If we&apos;re not the

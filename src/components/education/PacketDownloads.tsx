@@ -10,7 +10,7 @@ const STORAGE_KEY = "aperture:look-closer:unlocked";
 /**
  * The materials block on /look-closer.
  *
- * This is a preview, not a DIY kit — Fenwick runs the session himself, and a
+ * This is a preview, not a DIY kit: Fenwick runs the session himself, and a
  * teacher looks at these so they know exactly what will be handed to their
  * students before they give up a period. The one-page overview stays open
  * because it is the sheet a teacher forwards to a principal, and a forward that
@@ -27,7 +27,7 @@ export function PacketDownloads() {
     try {
       if (window.localStorage.getItem(STORAGE_KEY) === "1") setUnlocked(true);
     } catch {
-      /* storage unavailable (private mode) — the form still works, it just re-asks */
+      /* storage unavailable (private mode): the form still works, it just re-asks */
     }
   }, []);
 
@@ -145,8 +145,8 @@ export function PacketDownloads() {
           >
             <p className="text-body-lg font-semibold text-paper">Everything&apos;s open.</p>
             <p className="mt-2 text-body text-white/65">
-              Read anything you like. If something in there wouldn&apos;t work for your class — a
-              business you&apos;d rather swap, a number you want simplified — tell me and I&apos;ll
+              Read anything you like. If something in there wouldn&apos;t work for your class, a
+              business you&apos;d rather swap, a number you want simplified, tell me and I&apos;ll
               change it before I come.
             </p>
             <p className="mt-4 text-small text-white/45">
@@ -167,7 +167,7 @@ export function PacketDownloads() {
             <p className="text-body-lg font-semibold text-paper">Have a look at everything.</p>
             <p className="mt-2 text-body text-white/65">
               Tell me who you are and I&apos;ll open the full set. I ask so I know which schools are
-              interested and can reach you about a date — nothing else, and never anything to your
+              interested and can reach you about a date, nothing else, and never anything to your
               students.
             </p>
 
@@ -228,7 +228,7 @@ export function PacketDownloads() {
             )}
 
             <p className="mt-4 text-small text-white/40">
-              The one-page overview above is open to everyone — grab that if you just need something
+              The one-page overview above is open to everyone. Grab that if you just need something
               to forward.
             </p>
           </form>

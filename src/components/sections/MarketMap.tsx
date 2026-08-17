@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Abstract, on-brand "Market Map" — an editorial illustration of spatial
+ * Abstract, on-brand "Market Map", an editorial illustration of spatial
  * intelligence (GIS): a street grid, drive-time rings, customer clusters, and
  * maroon hot-spots. Decorative (aria-hidden); pair with a caption. `tone="dark"`
  * for dark backgrounds.

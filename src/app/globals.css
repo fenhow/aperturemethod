@@ -96,10 +96,10 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Component primitives — the reusable brand elements.
+   Component primitives: the reusable brand elements.
    --------------------------------------------------------------------------- */
 @layer components {
-  /* Skip link — revealed on focus for keyboard users. */
+  /* Skip link, revealed on focus for keyboard users. */
   .skip-link {
     @apply absolute left-4 -top-16 z-[100] rounded-sm bg-ink px-4 py-2 text-sm font-semibold text-paper transition-all;
   }
@@ -107,7 +107,7 @@
     @apply top-4;
   }
 
-  /* Eyebrow / overline — the section label. Maroon on light. */
+  /* Eyebrow / overline: the section label. Maroon on light. */
   .eyebrow {
     @apply text-overline font-semibold uppercase text-maroon;
   }
@@ -115,7 +115,7 @@
     @apply text-maroon-onDark;
   }
 
-  /* Short maroon accent rule (used sparingly — never under every heading). */
+  /* Short maroon accent rule (used sparingly, never under every heading). */
   .rule {
     @apply block h-0.5 w-12 bg-maroon;
   }
@@ -170,7 +170,7 @@
     margin-bottom: -0.16em;
   }
 
-  /* Aperture "iris" — a quick close-and-open pulse on each step change. */
+  /* Aperture "iris": a quick close-and-open pulse on each step change. */
   .aperture-iris {
     animation: aperture-iris 820ms cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -186,7 +186,7 @@
     }
   }
 
-  /* Card hover — lift + Aggie-maroon glow. Add to bordered boxes / cards. */
+  /* Card hover: lift + Aggie-maroon glow. Add to bordered boxes / cards. */
   .hover-lift {
     @apply transition-[transform,box-shadow,border-color] duration-200 ease-out;
   }
@@ -220,7 +220,7 @@
     transform: translateX(2px);
   }
 
-  /* Inline body links — underlined, maroon on hover. */
+  /* Inline body links: underlined, maroon on hover. */
   .link-inline {
     @apply font-medium text-ink underline decoration-1 underline-offset-2 transition-colors duration-fast hover:text-maroon;
   }
@@ -391,7 +391,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Full 3D book — rotates 360° to reveal front, spine, fore-edge, and back.
+   Full 3D book: rotates 360° to reveal front, spine, fore-edge, and back.
    --------------------------------------------------------------------------- */
 @layer components {
   .book360 {

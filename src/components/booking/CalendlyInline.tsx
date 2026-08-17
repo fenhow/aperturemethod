@@ -7,14 +7,14 @@ import { siteConfig } from "@/lib/site";
 /**
  * Inline Calendly booking widget. Uses Calendly's class-based embed
  * (`.calendly-inline-widget` + `data-url`) so their script auto-sizes the iframe
- * to the content height — no internal scrollbar. Loads the script/styles once.
+ * to the content height, no internal scrollbar. Loads the script/styles once.
  *
  * First visit: the script's onload auto-initializes this element. On later
  * client-side navigations (script already present) we init this fresh element
  * manually, since auto-init only runs on the initial load.
  *
- * Calendly is blocked by a lot of content blockers — more often on phones than
- * on desktop — and when it is, an un-guarded embed leaves a blank 760px box
+ * Calendly is blocked by a lot of content blockers, more often on phones than
+ * on desktop, and when it is, an un-guarded embed leaves a blank 760px box
  * where the booking form should be. If the script errors or simply never
  * arrives, we swap in a plain way to get in touch instead.
  */
@@ -43,11 +43,11 @@ export function CalendlyInline({ url, className }: { url: string; className?: st
     };
 
     if (w.Calendly) {
-      // Script already loaded (client navigation) — init this new element.
+      // Script already loaded (client navigation). Init this new element.
       el.innerHTML = "";
       w.Calendly.initInlineWidget({ url, parentElement: el });
     } else if (!document.getElementById("calendly-js")) {
-      // First load — the script auto-initializes elements with the class + data-url.
+      // First load: the script auto-initializes elements with the class + data-url.
       const s = document.createElement("script");
       s.id = "calendly-js";
       s.src = "https://assets.calendly.com/assets/external/widget.js";
@@ -70,7 +70,7 @@ export function CalendlyInline({ url, className }: { url: string; className?: st
         <h3 className="text-h4 font-semibold text-ink">The booking calendar didn&rsquo;t load.</h3>
         <p className="mt-3 text-body text-muted">
           It is usually a privacy extension or a network blocking the scheduler. You can open it
-          directly, or just send a note — either reaches Fenwick.
+          directly, or just send a note. Either reaches Fenwick.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <a

@@ -1,5 +1,5 @@
 /**
- * Onboarding content — single source of truth for BOTH the web forms and the
+ * Onboarding content: single source of truth for BOTH the web forms and the
  * generated PDFs. The Client Intake Form and the New Customer Agreement are
  * transcribed from Operations/Client Onboarding/*.docx so the online experience
  * and the signed document always match.
@@ -58,7 +58,7 @@ export const intakeMeta = {
   title: "Client Intake Form",
   subtitle: "Tell us about your business",
   why:
-    "This helps us tailor your Business X-Ray and prepare the right analysis before we start. It takes about 10 minutes. Nothing here is shared or reused. Skip anything you're unsure of — we'll fill the gaps together.",
+    "This helps us tailor your Business X-Ray and prepare the right analysis before we start. It takes about 10 minutes. Nothing here is shared or reused. Skip anything you're unsure of. We'll fill the gaps together.",
 };
 
 export const intakeSections: IntakeSection[] = [
@@ -170,9 +170,9 @@ export const intakeConsent =
 // ---------------------------------------------------------------------------
 export const agreementMeta = {
   title: "New Customer Agreement",
-  subtitle: "Consulting & Analytics Services — The Aperture Method™",
+  subtitle: "Consulting & Analytics Services: The Aperture Method™",
   template:
-    "When you sign, you'll receive a digital copy of the signed agreement for your records \u2014 and it's saved to your secure client area.",
+    "When you sign, you'll receive a digital copy of the signed agreement for your records, and it's saved to your secure client area.",
 };
 
 export type Clause = { n: string; title: string; body: string[] };

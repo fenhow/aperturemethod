@@ -1,10 +1,10 @@
 /**
- * The tangible deliverables — the named artifacts a client actually receives,
+ * The tangible deliverables, the named artifacts a client actually receives,
  * each explained plainly (what it is + how we get it). Grouped by the component
  * that produces them. Powers /deliverables and /deliverables/[slug], and is
  * cross-linked from the component pages.
  *
- * Lens names come from `lenses.ts` — the single source. Do not retype them here.
+ * Lens names come from `lenses.ts`, the single source. Do not retype them here.
  */
 
 import { lensNamesSentence } from "./lenses";
@@ -32,9 +32,9 @@ export const deliverables: Deliverable[] = [
     cap: "MBA",
     tagline: "A seven-lens read of your whole business, in one executive picture.",
     whatItIs:
-      `A structured, seven-lens assessment of your entire business — ${lensNamesSentence} — pulled together into one clear executive picture. It shows what's working, what's holding you back, and names your single biggest constraint.`,
+      `A structured, seven-lens assessment of your entire business, ${lensNamesSentence}, pulled together into one clear executive picture. It shows what's working, what's holding you back, and names your single biggest constraint.`,
     howWeGetIt:
-      "We use the data you already have plus a few short interviews, then run a set of diagnostics across all seven lenses and translate the findings into plain language. No lengthy questionnaires — it delivers real insight in its first weeks.",
+      "We use the data you already have plus a few short interviews, then run a set of diagnostics across all seven lenses and translate the findings into plain language. No lengthy questionnaires: it delivers real insight in its first weeks.",
     inside: [
       "A seven-lens assessment of the whole business",
       "Your #1 constraint, clearly named",
@@ -49,9 +49,9 @@ export const deliverables: Deliverable[] = [
     component: "Aperture Insights",
     componentSlug: "insights",
     cap: "MBA",
-    tagline: "One honest number for your business's health — a baseline you can track.",
+    tagline: "One honest number for your business's health, a baseline you can track.",
     whatItIs:
-      "A single, honest score of your business's current health. It rolls the seven-lens diagnostic into one number so you know exactly where you stand today — and can prove progress later.",
+      "A single, honest score of your business's current health. It rolls the seven-lens diagnostic into one number so you know exactly where you stand today, and can prove progress later.",
     howWeGetIt:
       "We score each lens of the Business X-Ray against clear, consistent criteria, weight them, and combine them into one figure. At the end of an engagement we re-score it, giving you measurable before-and-after proof.",
     inside: [
@@ -68,11 +68,11 @@ export const deliverables: Deliverable[] = [
     component: "Aperture Analytics",
     componentSlug: "analytics",
     cap: "MBA",
-    tagline: "Exactly where you make and lose money — and the few drivers you can move.",
+    tagline: "Exactly where you make and lose money, and the few drivers you can move.",
     whatItIs:
-      "A clear picture of exactly where you make and lose money — by product, service, location, or customer. It turns your financials into the handful of profit drivers you can actually act on.",
+      "A clear picture of exactly where you make and lose money: by product, service, location, or customer. It turns your financials into the handful of profit drivers you can actually act on.",
     howWeGetIt:
-      "We model your financial and operational data — profitability and cost-structure analysis, 80/20, break-even and sensitivity — and build a forward-looking scenario model so you can test decisions before you make them.",
+      "We model your financial and operational data, profitability and cost-structure analysis, 80/20, break-even and sensitivity, and build a forward-looking scenario model so you can test decisions before you make them.",
     inside: [
       "Profit by product, location, or customer",
       "Your true cost structure",
@@ -89,9 +89,9 @@ export const deliverables: Deliverable[] = [
     cap: "MBA · GIS",
     tagline: "Who your best customers are, where they are, and where the next ones come from.",
     whatItIs:
-      "A map of who your best customers are, where they are, and where your next ones will come from — your market and competitors laid over real geography.",
+      "A map of who your best customers are, where they are, and where your next ones will come from: your market and competitors laid over real geography.",
     howWeGetIt:
-      "We combine customer analytics and demographics with geographic intelligence (GIS) — trade areas, drive-time rings, market penetration, and site selection — plus competitive benchmarking, to reveal where demand actually clusters.",
+      "We combine customer analytics and demographics with geographic intelligence (GIS), trade areas, drive-time rings, market penetration, and site selection, plus competitive benchmarking, to reveal where demand actually clusters.",
     inside: [
       "Customer segments & lifetime value",
       "GIS trade-area & drive-time maps",
@@ -106,9 +106,9 @@ export const deliverables: Deliverable[] = [
     component: "Aperture Compass",
     componentSlug: "compass",
     cap: "MBA · GIS",
-    tagline: "Every opportunity, scored and ranked — so the best moves are obvious.",
+    tagline: "Every opportunity, scored and ranked, so the best moves are obvious.",
     whatItIs:
-      "Every opportunity in front of you, scored and ranked on value, complexity, risk, and impact — so the best moves are obvious and defensible.",
+      "Every opportunity in front of you, scored and ranked on value, complexity, risk, and impact, so the best moves are obvious and defensible.",
     howWeGetIt:
       "We generate a wide set of strategic options, score them in a weighted decision matrix, stress-test them against different scenarios, and rank them so you invest in the few that matter most.",
     inside: [
@@ -125,9 +125,9 @@ export const deliverables: Deliverable[] = [
     component: "Aperture Compass",
     componentSlug: "compass",
     cap: "MBA · GIS",
-    tagline: "A board-ready roadmap — what to do now, next, and later.",
+    tagline: "A board-ready roadmap: what to do now, next, and later.",
     whatItIs:
-      "A prioritized, board-ready roadmap that turns the ranked opportunities into a clear order of operations — what to do now, next, and later.",
+      "A prioritized, board-ready roadmap that turns the ranked opportunities into a clear order of operations: what to do now, next, and later.",
     howWeGetIt:
       "We sequence the winning opportunities into a Now / Next / Later roadmap with owners and milestones, so execution is obvious and nothing important slips.",
     inside: [
@@ -144,11 +144,11 @@ export const deliverables: Deliverable[] = [
     component: "Aperture Atlas",
     componentSlug: "atlas",
     cap: "GIS · DATA",
-    tagline: "Your always-on executive dashboard — the numbers that matter, live.",
+    tagline: "Your always-on executive dashboard: the numbers that matter, live.",
     whatItIs:
-      "Your always-on executive dashboard — the few KPIs that matter, live — so you always know how the business is performing and where it's heading.",
+      "Your always-on executive dashboard, the few KPIs that matter, live, so you always know how the business is performing and where it's heading.",
     howWeGetIt:
-      "We define the KPIs tied to your goals, wire them into a live dashboard on the Aperture Atlas platform with automated reporting, and keep it current — plus a re-scored Aperture Score to prove progress.",
+      "We define the KPIs tied to your goals, wire them into a live dashboard on the Aperture Atlas platform with automated reporting, and keep it current, plus a re-scored Aperture Score to prove progress.",
     inside: [
       "A live executive KPI dashboard",
       "Automated reporting",

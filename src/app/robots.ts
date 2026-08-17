@@ -8,7 +8,7 @@ import { siteConfig } from "@/lib/site";
  * The /method-lab prefix is confidential EXCEPT for published work, which is
  * deliberately public and is the point of publishing it. Without the explicit
  * allow below, the Financial Analysis Workbench page inherits the block from its
- * parent path — free, ungated, listed in the sitemap, and invisible to search.
+ * parent path: free, ungated, listed in the sitemap, and invisible to search.
  * Add any future published lab page to PUBLIC_LAB_PATHS here and to the
  * PUBLIC_METHOD_LAB allowlist in src/middleware.ts; the two must agree.
  */

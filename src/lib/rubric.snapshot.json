@@ -1,5 +1,5 @@
 {
-  "_comment": "GENERATED from Force5 Plugin/templates/rubric.json by scripts/sync-rubric-snapshot.mjs. Do not edit by hand — edit the rubric and re-run. This exists so the Vercel build, which does not have the plugin, can still check the published lenses against the instrument.",
+  "_comment": "GENERATED from Force5 Plugin/templates/rubric.json by scripts/sync-rubric-snapshot.mjs. Do not edit by hand. Edit the rubric and re-run. This exists so the Vercel build, which does not have the plugin, can still check the published lenses against the instrument.",
   "rubric_version": "1.3.0",
   "ratified": true,
   "ratified_by": "Fenwick How",

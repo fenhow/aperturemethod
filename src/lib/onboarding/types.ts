@@ -1,5 +1,5 @@
 /**
- * Shared contract for the onboarding forms — used by the client components and
+ * Shared contract for the onboarding forms, used by the client components and
  * the server route so validation lives in one place.
  */
 import type { OnboardingKind } from "./content";
@@ -23,11 +23,11 @@ export type OnboardingPayload = {
   company: string;
   signature: SignaturePayload;
   consent: boolean;
-  /** Intake only — Method segment keys the client is engaging (e.g. ["insights"]). */
+  /** Intake only: Method segment keys the client is engaging (e.g. ["insights"]). */
   segments?: string[];
-  /** Intake only — resume-draft token to mark complete on submit. */
+  /** Intake only: resume-draft token to mark complete on submit. */
   draftToken?: string;
-  /** Honeypot — must be empty. */
+  /** Honeypot: must be empty. */
   website?: string;
 };
 
@@ -50,7 +50,7 @@ export function validateOnboarding(p: Partial<OnboardingPayload>): OnboardingErr
   return e;
 }
 
-/** Human label for each kind — used in filenames, emails, and the PDF header. */
+/** Human label for each kind, used in filenames, emails, and the PDF header. */
 export const KIND_LABEL: Record<OnboardingKind, string> = {
   intake: "Client Intake Form",
   agreement: "New Customer Agreement",

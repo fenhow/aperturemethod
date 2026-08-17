@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 /**
- * Method Lab · Aperture Analytics™ — Financial Analysis Workbench.
+ * Method Lab · Aperture Analytics™: Financial Analysis Workbench.
  *
  * Two complete worked examples published in full: one listed retailer, one
  * owner-managed fabricator. The point of the pairing is that the analysis has
  * to change when the entity does.
  *
  * This page is PUBLIC and sits under /method-lab, which middleware otherwise
- * gates behind a passphrase — see the allowlist in src/middleware.ts. The
+ * gates behind a passphrase. See the allowlist in src/middleware.ts. The
  * confidential Agent Workflow Map and Architecture Reference stay gated.
  *
  * Markup lifted from the self-contained drop-in produced by the workbench; its
@@ -17,12 +17,12 @@ import type { Metadata } from "next";
  */
 
 export const metadata: Metadata = {
-  title: "Financial Analysis Workbench — Method Lab",
+  title: "Financial Analysis Workbench, Method Lab",
   description:
-    "Two complete worked examples from Aperture Analytics — one public company, one privately held. " +
+    "Two complete worked examples from Aperture Analytics: one public company, one privately held. " +
     "The same method applied to two entities that cannot be asked the same questions. Free to download.",
   openGraph: {
-    title: "Financial Analysis Workbench — Method Lab | The Aperture Method",
+    title: "Financial Analysis Workbench, Method Lab | The Aperture Method",
     description:
       "Two complete worked examples: a listed retailer and an owner-managed fabricator. " +
       "See how the analysis changes when the entity does.",
@@ -91,7 +91,7 @@ export default function FinancialAnalysisWorkbench() {
             10-K. The other is an owner-managed fabricator with eighteen million and a set of reviewed
             accounts.</p>
           <p className="lede"><strong>Read side by side, they make a point that is hard to make in the
-            abstract:</strong> the analysis has to change when the entity does — and most financial
+            abstract:</strong> the analysis has to change when the entity does, and most financial
             analysis quietly refuses to.</p>
           <div className="meta">
             <span className="tag solid">Free · No email required</span>
@@ -107,16 +107,16 @@ export default function FinancialAnalysisWorkbench() {
           <h2 className="sec">Both reports, in full</h2>
           <p className="lead">Nothing is held back and nothing is watermarked. Every figure carries the formula
             that produced it, and the final twelve pages derive every number in the report from first
-            principles — so you can check the work rather than take it on trust.</p>
+            principles, so you can check the work rather than take it on trust.</p>
 
           <div className="cards">
             <div className="card">
               <span className="badge">Public company</span>
               <h3>Best Buy Co., Inc.</h3>
-              <p className="sub">NYSE : BBY · C Corporation · Specialty retail</p>
+              <p className="sub">NYSE: BBY · C Corporation · Specialty retail</p>
               <p>A listed retailer with three years of flat revenue and a gross margin that has barely
                 moved. The analysis works out whether that is a market that stopped growing or a share
-                position slipping — and shows why the recovery in returns is partly a shrinking denominator
+                position slipping, and shows why the recovery in returns is partly a shrinking denominator
                 rather than a rising numerator.</p>
               <ul>
                 <li>Audited statements, market-observed valuation</li>
@@ -136,10 +136,10 @@ export default function FinancialAnalysisWorkbench() {
               <p className="sub">Family owned · S Corporation · Contract manufacturing</p>
               <p>An owner-managed fabricator compounding at 9.3% with a margin that holds. The analysis
                 normalises the owner’s compensation, the related-party rent and the personal expenses out
-                of reported earnings, then builds a valuation range — and shows exactly which add-back will
+                of reported earnings, then builds a valuation range, and shows exactly which add-back will
                 not survive diligence.</p>
               <ul>
-                <li>Reviewed accounts — limited assurance, no opinion</li>
+                <li>Reviewed accounts: limited assurance, no opinion</li>
                 <li>Full normalisation schedule with an evidence grade per item</li>
                 <li>Adjusted EBITDA 2,715 · SDE 2,955 · intensity 30.5%</li>
                 <li>Asking price implies 5.97× against a 4.0–6.0× range</li>
@@ -158,7 +158,7 @@ export default function FinancialAnalysisWorkbench() {
           <p className="eyebrow">Why it matters</p>
           <h2 className="sec">The same ratio can mean opposite things</h2>
           <p className="lead">Most financial analysis is written as though every company were a listed one.
-            It isn’t, and the consequences are not academic — they show up as a price, a covenant, or a
+            It isn’t, and the consequences are not academic: they show up as a price, a covenant, or a
             decision taken on a comparison that was never valid. Three differences do most of the damage.</p>
 
           <table className="ctable">
@@ -169,7 +169,7 @@ export default function FinancialAnalysisWorkbench() {
               <tr>
                 <td>How much the evidence weighs</td>
                 <td>Audited under legal jeopardy, filed publicly, comparable period to period.</td>
-                <td>Reviewed, compiled or neither — and often kept on a tax basis rather than a reporting one.</td>
+                <td>Reviewed, compiled or neither, and often kept on a tax basis rather than a reporting one.</td>
               </tr>
               <tr>
                 <td>Whether the tax line is comparable</td>
@@ -186,14 +186,14 @@ export default function FinancialAnalysisWorkbench() {
               <tr>
                 <td>How value is established</td>
                 <td>Observed. Market capitalisation, enterprise value, multiples read off the market.</td>
-                <td>Constructed. Normalised earnings × an evidenced multiple range, less net debt — and the
+                <td>Constructed. Normalised earnings × an evidenced multiple range, less net debt, and the
                     range is the answer, not the midpoint.</td>
               </tr>
             </tbody>
           </table>
 
           <div className="pull">
-            <p>It isn’t public versus private that breaks the comparison. It’s tax status — and nothing in
+            <p>It isn’t public versus private that breaks the comparison. It’s tax status, and nothing in
               either set of statements warns you that the comparison has already failed.</p>
             <cite>From the Method appendix, page 29</cite>
           </div>
@@ -207,16 +207,16 @@ export default function FinancialAnalysisWorkbench() {
           <p className="lead">Both reports follow the same structure. The last third is the part most analyses
             leave out.</p>
           <div className="inside">
-            <div className="item"><span className="n">01</span><div><b>Entity profile</b><span>Ownership, legal form and tax treatment, basis of preparation, lifecycle stage — established before a single figure is computed.</span></div></div>
+            <div className="item"><span className="n">01</span><div><b>Entity profile</b><span>Ownership, legal form and tax treatment, basis of preparation, lifecycle stage, established before a single figure is computed.</span></div></div>
             <div className="item"><span className="n">02</span><div><b>Executive summary</b><span>The headline judgement, the business, the audit opinion, and the binding-constraint candidates.</span></div></div>
-            <div className="item"><span className="n">03</span><div><b>Statements &amp; normalisation</b><span>Balance sheet, income statement, cash flow — and for private entities, the add-back schedule with an evidence grade on every line.</span></div></div>
+            <div className="item"><span className="n">03</span><div><b>Statements &amp; normalisation</b><span>Balance sheet, income statement, cash flow, and for private entities, the add-back schedule with an evidence grade on every line.</span></div></div>
             <div className="item"><span className="n">04</span><div><b>Valuation</b><span>Observed multiples, or a constructed range with its source stated and the implied multiple of any offer on the table.</span></div></div>
             <div className="item"><span className="n">05</span><div><b>Common-size &amp; horizontal</b><span>Structure with size removed, and movement with structure removed. Read together, the cause usually presents itself.</span></div></div>
             <div className="item"><span className="n">06</span><div><b>Ratios &amp; DuPont</b><span>Sixty measures, and the decomposition that separates a margin problem from a productivity one. They need opposite responses.</span></div></div>
-            <div className="item"><span className="n">07</span><div><b>Findings</b><span>Mechanical screening checks. Each one says <em>look here</em> — none of them says <em>therefore</em>.</span></div></div>
+            <div className="item"><span className="n">07</span><div><b>Findings</b><span>Mechanical screening checks. Each one says <em>look here</em>; none of them says <em>therefore</em>.</span></div></div>
             <div className="item"><span className="n">08</span><div><b>What each lever is worth</b><span>Every improvement lever sized on one scale, so effort goes where the arithmetic says it pays rather than where it is comfortable to look.</span></div></div>
             <div className="item"><span className="n">09</span><div><b>Now / Next / Later</b><span>Sequenced, not listed. The value of the page is in what has been left off it.</span></div></div>
-            <div className="item"><span className="n">10</span><div><b>The Method appendix</b><span>Twelve pages deriving every figure from first principles — the formula, the company’s own numbers substituted into it, what it says, and where it misleads.</span></div></div>
+            <div className="item"><span className="n">10</span><div><b>The Method appendix</b><span>Twelve pages deriving every figure from first principles: the formula, the company’s own numbers substituted into it, what it says, and where it misleads.</span></div></div>
           </div>
 
           <div className="note">
@@ -227,12 +227,12 @@ export default function FinancialAnalysisWorkbench() {
               report’s own evidence ledger. Replace them with observed closing prices before quoting any
               multiple from that document.</p>
             <p><strong>Meridian is fictional.</strong> It was constructed to exercise the private-company path
-              honestly rather than flatteringly — 30.5% add-back intensity, a 3.0% effective tax rate, and
+              honestly rather than flatteringly: 30.5% add-back intensity, a 3.0% effective tax rate, and
               one add-back resting on management assertion that would not survive diligence. Its contact
               details use reserved example domains and numbers, so nothing in it can be mistaken for a real
               business.</p>
             <p>Both reports carry an evidence ledger stating the source and confidence of every figure. That
-              is not administrative overhead — it is the difference between an analysis a client can act on
+              is not administrative overhead; it is the difference between an analysis a client can act on
               and an assertion they have to take on trust.</p>
           </div>
         </div>
@@ -241,7 +241,7 @@ export default function FinancialAnalysisWorkbench() {
       <section className="cta-band">
         <div className="wrap">
           <h2>See your own numbers this way</h2>
-          <p>The Business X-Ray is the entry point — a fixed-fee diagnostic that establishes where the
+          <p>The Business X-Ray is the entry point, a fixed-fee diagnostic that establishes where the
             business actually stands before anyone proposes what to do about it. Founder-led, in plain
             language, done for you.</p>
           <div className="row">

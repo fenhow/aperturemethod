@@ -56,7 +56,7 @@ export function Book3D() {
       className="book360"
       style={{ cursor: "grab", touchAction: "none" }}
       role="img"
-      aria-label="The Aperture Method book — drag to rotate"
+      aria-label="The Aperture Method book: drag to rotate"
       onMouseEnter={() => (s.current.hovering = true)}
       onMouseLeave={() => (s.current.hovering = false)}
       onPointerDown={onDown}
@@ -94,7 +94,7 @@ export function Book3D() {
           <span className="book360__frame" aria-hidden="true" />
           <p className="book360__kicker">From the book</p>
           <p className="book360__excerpt">
-            Big companies don&apos;t outgrow you because they&apos;re smarter — they outgrow you
+            Big companies don&apos;t outgrow you because they&apos;re smarter. They outgrow you
             because they can <b>see</b>. Their numbers, their customers, their market. Your business
             already has the data; this book is about turning it into decisions.
           </p>

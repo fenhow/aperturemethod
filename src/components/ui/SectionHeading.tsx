@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Eyebrow + heading + optional lede — the standard section header.
+ * Eyebrow + heading + optional lede: the standard section header.
  */
 export function SectionHeading({
   eyebrow,

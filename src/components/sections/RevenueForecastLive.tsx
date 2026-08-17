@@ -200,7 +200,7 @@ export function RevenueForecastLive({ className }: { className?: string }) {
       <canvas
         ref={canvasRef}
         role="img"
-        aria-label="Live revenue forecast — a projected performance line rising and falling over the coming quarters"
+        aria-label="Live revenue forecast, a projected performance line rising and falling over the coming quarters"
         style={{ display: "block", width: "100%", height: "150px" }}
       />
     </div>

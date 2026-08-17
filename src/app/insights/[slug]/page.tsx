@@ -96,7 +96,7 @@ export default function ArticlePage({ params }: { params: Params }) {
             id={`ARTICLE-${article.slug}-LEAD`}
             ratio="aspect-[21/9]"
             className="rounded border border-line"
-            label={`${article.title} — image`}
+            label={`${article.title} image`}
           />
         </Reveal>
       </Section>
@@ -125,7 +125,7 @@ export default function ArticlePage({ params }: { params: Params }) {
               Want this view of your own business?
             </h2>
             <p className="mt-4 text-body-lg text-white/70">
-              Start with the Business X-Ray — a fixed-fee, low-risk first step that shows you where the
+              Start with the Business X-Ray, a fixed-fee, low-risk first step that shows you where the
               opportunity is.
             </p>
           </div>
@@ -151,7 +151,7 @@ export default function ArticlePage({ params }: { params: Params }) {
                 <ImagePlaceholder
                   id={`ARTICLE-REL-${a.slug}`}
                   ratio="aspect-[16/10] sm:aspect-auto sm:w-48 sm:shrink-0"
-                  label={`${a.title} — image`}
+                  label={`${a.title} image`}
                 />
                 <div className="flex flex-1 flex-col justify-center p-6">
                   <p className="eyebrow">{a.pillar}</p>

@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// GET /api/intake/draft?token=... — load a saved draft to resume it.
+// GET /api/intake/draft?token=...: load a saved draft to resume it.
 export async function GET(request: Request) {
   const token = new URL(request.url).searchParams.get("token")?.trim() ?? "";
   if (!token) return NextResponse.json({ ok: false, message: "Missing token." }, { status: 400 });
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   return NextResponse.json({ ok: true, draft });
 }
 
-// POST /api/intake/draft — save progress. Body: DraftInput + optional { sendLink }.
+// POST /api/intake/draft: save progress. Body: DraftInput + optional { sendLink }.
 // When sendLink is true (and an email is present), also emails a resume link.
 export async function POST(request: Request) {
   if (!draftsEnabled) {
@@ -51,14 +51,14 @@ export async function POST(request: Request) {
     dataRequest: body.dataRequest,
   });
   if (!saved.ok && saved.error === "gone") {
-    // The draft no longer exists, expired, or was already submitted. Say so loudly —
+    // The draft no longer exists, expired, or was already submitted. Say so loudly:
     // the client needs to copy their answers out before they lose them.
     return NextResponse.json(
       {
         ok: false,
         gone: true,
         message:
-          "This draft link is no longer active — it may have been submitted already. Please copy your answers somewhere safe before leaving this page.",
+          "This draft link is no longer active; it may have been submitted already. Please copy your answers somewhere safe before leaving this page.",
       },
       { status: 410 }
     );

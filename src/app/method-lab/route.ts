@@ -6,7 +6,7 @@ import { methodLabConfigured } from "@/lib/methodLab";
 /**
  * Serves the confidential Agent Workflow Map.
  *
- * The file lives in `private/method-lab/` — NOT in `public/`, which is served
+ * The file lives in `private/method-lab/`, NOT in `public/`, which is served
  * statically and cannot be protected by middleware. Access is gated upstream
  * in `src/middleware.ts`; by the time a request reaches here it has already
  * presented a valid passphrase cookie.

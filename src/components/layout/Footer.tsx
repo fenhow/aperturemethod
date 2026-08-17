@@ -102,7 +102,7 @@ export function Footer() {
             © {year} {siteConfig.legalName} · Founded by {siteConfig.founder}
           </p>
           <div className="flex items-center gap-5">
-            {/* Private area — passphrase-gated, unlinked from the main nav and
+            {/* Private area, passphrase-gated, unlinked from the main nav and
                 excluded from the sitemap. rel="nofollow" keeps crawlers off it. */}
             <Link
               href="/method-lab"
@@ -116,7 +116,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Build stamp — its own hairline row, centred, deliberately the quietest thing on
+        {/* Build stamp, its own hairline row, centred, deliberately the quietest thing on
             the page. It answers "is the deployed site the thing I pushed?" without asking a
             visitor to care. Full detail is one click away at /version. */}
         <div className="border-t border-white/10 py-5 text-center">

@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { aperturePractices } from "@/lib/content";
 
 /**
- * The Method, end to end — a walk-through flow: the Business X-Ray front door,
+ * The Method, end to end, a walk-through flow: the Business X-Ray front door,
  * the five components with their deliverables, the SyncPoint AI platform layer,
  * and the loop. Responsive (horizontal on desktop, stacked on mobile).
  */
@@ -15,12 +15,12 @@ export function MethodFlow() {
       <Reveal className="max-w-measure">
         <SectionHeading
           eyebrow="How it works, end to end"
-          title="One path — from a first read to a living platform."
+          title="One path, from a first read to a living platform."
           lede="Start with a fixed-fee Business X-Ray; it names your #1 constraint and prescribes which components you need. Take one result, or the full path."
         />
       </Reveal>
 
-      {/* Entry — the X-Ray front door */}
+      {/* Entry: the X-Ray front door */}
       <Reveal variant="up" delay={80} className="mt-8">
         <div className="flex flex-col gap-3 rounded-xl bg-ink px-6 py-4 text-paper sm:flex-row sm:items-center">
           <span className="inline-flex w-fit shrink-0 rounded-md bg-paper px-3 py-1.5 text-[12px] font-bold uppercase tracking-[0.08em] text-ink">
@@ -88,7 +88,7 @@ export function MethodFlow() {
           </span>
           <p className="text-body text-body">
             <span className="font-semibold text-ink">It&apos;s a loop, not a line.</span> Aperture Atlas
-            keeps the numbers live — fresh data re-opens the next constraint, and your Aperture Score is
+            keeps the numbers live: fresh data re-opens the next constraint, and your Aperture Score is
             re-scored to prove progress.
           </p>
         </div>

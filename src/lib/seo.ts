@@ -12,7 +12,7 @@ export const OG_IMAGE = "/og-default.png";
 /**
  * Build a page's metadata with a canonical URL and complete Open Graph / Twitter
  * cards. Next merges metadata shallowly per top-level key, so a page that sets
- * `openGraph` replaces the layout's entirely — this helper keeps every social
+ * `openGraph` replaces the layout's entirely. This helper keeps every social
  * field intact while making title, description, and URL page-specific.
  */
 export function pageMeta(input: {
@@ -51,7 +51,7 @@ export function absoluteUrl(path = "/"): string {
   return new URL(path, siteConfig.url).toString();
 }
 
-/** The firm — Organization / ProfessionalService. Rendered site-wide. */
+/** The firm, Organization / ProfessionalService. Rendered site-wide. */
 export function ldOrganization() {
   return {
     "@context": "https://schema.org",
@@ -81,7 +81,7 @@ export function ldOrganization() {
   };
 }
 
-/** The site itself — enables sitelinks / name understanding. */
+/** The site itself enables sitelinks / name understanding. */
 export function ldWebsite() {
   return {
     "@context": "https://schema.org",
@@ -95,7 +95,7 @@ export function ldWebsite() {
   };
 }
 
-/** The founder — Person schema for the founder page. */
+/** The founder, Person schema for the founder page. */
 export function ldPerson() {
   return {
     "@context": "https://schema.org",
@@ -106,11 +106,11 @@ export function ldPerson() {
     worksFor: { "@id": `${siteConfig.url}/#organization` },
     url: absoluteUrl("/founder"),
     description:
-      "Founder of The Aperture Method — an entrepreneur and operator bringing big-company analytics and strategy to owner-run businesses.",
+      "Founder of The Aperture Method, an entrepreneur and operator bringing big-company analytics and strategy to owner-run businesses.",
   };
 }
 
-/** An article — for Insights posts. */
+/** An article for Insights posts. */
 export function ldArticle(input: {
   title: string;
   description: string;

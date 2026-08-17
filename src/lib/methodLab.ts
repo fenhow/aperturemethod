@@ -1,5 +1,5 @@
 /**
- * Method Lab — a passphrase gate for the confidential Agent Workflow Map at
+ * Method Lab, a passphrase gate for the confidential Agent Workflow Map at
  * /method-lab.
  *
  * Deliberately independent of Supabase: the middleware short-circuits when
@@ -19,7 +19,7 @@ export const METHOD_LAB_MAX_AGE = 60 * 60 * 24 * 30;
 
 export const methodLabPassword = process.env.METHOD_LAB_PASSWORD ?? "";
 
-/** A short or missing passphrase disables the area entirely — fail closed. */
+/** A short or missing passphrase disables the area entirely: fail closed. */
 export const methodLabConfigured = methodLabPassword.trim().length >= 8;
 
 /** Non-reversible token derived from the passphrase. Stored in the cookie. */

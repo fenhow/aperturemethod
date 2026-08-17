@@ -126,7 +126,7 @@ export function AgreementForm() {
             </div>
           ))}
           <div>
-            <h4 className="text-small font-semibold text-maroon">Exhibit A — Scope & Fees</h4>
+            <h4 className="text-small font-semibold text-maroon">Exhibit A: Scope & Fees</h4>
             <table className="mt-2 w-full text-[13px]">
               <tbody>
                 {feeSchedule.map((row) => (

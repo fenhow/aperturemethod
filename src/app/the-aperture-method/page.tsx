@@ -13,20 +13,20 @@ import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "The Method — From Data to Decision",
+  title: "The Method: From Data to Decision",
   description:
-    "A clear, five-step framework that turns the data your business already has into confident decisions — then helps you carry them out. Understand. Quantify. Reveal. Navigate. Perform.",
+    "A clear, five-step framework that turns the data your business already has into confident decisions, then helps you carry them out. Understand. Quantify. Reveal. Navigate. Perform.",
   path: "/the-aperture-method",
 });
 
 const differentiators = [
   {
     h: "Large firms",
-    p: "Real rigor — but priced and staffed for a much bigger company, and gone when the deck is delivered.",
+    p: "Real rigor, but priced and staffed for a much bigger company, and gone when the deck is delivered.",
   },
   {
     h: "Local advisors",
-    p: "Close and affordable — but rarely doing the quantitative work or bringing the technology.",
+    p: "Close and affordable, but rarely doing the quantitative work or bringing the technology.",
   },
   {
     h: "The Aperture Method",
@@ -43,7 +43,7 @@ const cadence = [
 ];
 
 const dataPrinciples = [
-  { h: "Ownership", p: "Everything we build on your data — models, dashboards — is yours to keep." },
+  { h: "Ownership", p: "Everything we build on your data, models, dashboards, is yours to keep." },
   { h: "Security", p: "Least-access handling, secure storage, clear terms." },
   { h: "No reuse", p: "We never sell, share, or reuse your data." },
   { h: "Compliance", p: "We work within the privacy rules that apply to your business." },
@@ -56,7 +56,7 @@ const faqs = [
   },
   {
     q: "How much of my team's time will it take?",
-    a: "Very little early on — a few interviews and access to data you already have. Aperture Atlas is a genuine partnership, but even then your team stays focused on running the business.",
+    a: "Very little early on: a few interviews and access to data you already have. Aperture Atlas is a genuine partnership, but even then your team stays focused on running the business.",
   },
   {
     q: "Do we need clean, perfect data?",
@@ -64,11 +64,11 @@ const faqs = [
   },
   {
     q: "What exactly is proprietary?",
-    a: "Not the individual techniques — those are standard. What's ours is the integrated method, the sequencing, the Aperture platform, the judgment we apply, and a delivery model that stays through execution.",
+    a: "Not the individual techniques. Those are standard. What's ours is the integrated method, the sequencing, the Aperture platform, the judgment we apply, and a delivery model that stays through execution.",
   },
   {
     q: "What do we keep at the end?",
-    a: "The models, the live dashboard, the roadmap, and the playbooks — plus the capability to keep using them.",
+    a: "The models, the live dashboard, the roadmap, and the playbooks, plus the capability to keep using them.",
   },
   {
     q: "Will the AI replace my judgment?",
@@ -88,7 +88,7 @@ export default function TheApertureMethodPage() {
         <Reveal>
           <p className="eyebrow eyebrow--on-dark mb-5">The Aperture Method™</p>
           <h1 className="max-w-4xl text-display font-semibold text-paper">
-            A clear path from data to decision — and from decision to done.
+            A clear path from data to decision, and from decision to done.
           </h1>
           <p className="mt-6 max-w-2xl text-body-lg text-white/75">
             Our five-step framework turns the information your business already has into confident
@@ -113,8 +113,8 @@ export default function TheApertureMethodPage() {
           <SectionHeading title="What The Aperture Method is." />
           <p className="mt-6 text-body-lg text-body">{methodSummary}</p>
           <p className="mt-5 text-body-lg text-body">
-            Five named phase-products — Aperture Insights, Aperture Analytics, Aperture Intelligence,
-            Aperture Compass, and Aperture Atlas — with a continuous intelligence layer, the Aperture
+            Five named phase-products, Aperture Insights, Aperture Analytics, Aperture Intelligence,
+            Aperture Compass, and Aperture Atlas, with a continuous intelligence layer, the Aperture
             platform, running through all of it. The whole thing is designed to end not with a report,
             but with decisions in motion and results in your numbers.
           </p>
@@ -157,13 +157,13 @@ export default function TheApertureMethodPage() {
         </p>
       </Section>
 
-      {/* The framework — interactive explorer */}
+      {/* The framework: interactive explorer */}
       <Section id="framework">
         <Reveal>
           <SectionHeading
             eyebrow="The framework"
             title="Five phases. One continuous picture."
-            lede="Like the blades of an aperture, each phase opens the view a little more — until the whole business is in focus. Open a blade to see what it is, who it\u2019s for, and what you walk away with."
+            lede="Like the blades of an aperture, each phase opens the view a little more, until the whole business is in focus. Open a blade to see what it is, who it\u2019s for, and what you walk away with."
           />
         </Reveal>
         <Reveal variant="zoom" delay={100} className="mt-12">
@@ -176,13 +176,13 @@ export default function TheApertureMethodPage() {
         </Reveal>
       </Section>
 
-      {/* The Method, end to end — walk-through flow */}
+      {/* The Method, end to end: walk-through flow */}
       <MethodFlow />
 
-      {/* Under the hood — the frameworks behind each phase */}
+      {/* Under the hood: the frameworks behind each phase */}
       <MethodFrameworks />
 
-      {/* The Aperture Difference — positioning statement */}
+      {/* The Aperture Difference: positioning statement */}
       <ApertureDifference tone="dark" />
 
       {/* How we deliver */}
@@ -192,7 +192,7 @@ export default function TheApertureMethodPage() {
           <div>
             <p className="text-body-lg text-body">
               Engagements are fixed-fee and phase-gated. You see the price, and you decide whether to
-              continue at each gate — so you&apos;re never locked into an open-ended commitment. The work
+              continue at each gate, so you&apos;re never locked into an open-ended commitment. The work
               is senior-led from start to finish. In Aperture Atlas, we move to a light recurring cadence, and
               we deliberately hand over the models, dashboards, and playbooks. Most clients start with
               the Business X-Ray.
@@ -216,7 +216,7 @@ export default function TheApertureMethodPage() {
         <Reveal className="max-w-measure">
           <SectionHeading title="Measured on your numbers." />
           <p className="mt-6 text-body-lg text-body">
-            The targets that matter are set in Aperture Compass and tracked live on the Scoreboard — every
+            The targets that matter are set in Aperture Compass and tracked live on the Scoreboard, every
             initiative marked red, amber, or green against its KPI. We review them with you each quarter
             and adjust. We ask to be measured on whether the strategy shows up in your results, not on
             how the deck looked.
@@ -227,7 +227,7 @@ export default function TheApertureMethodPage() {
       {/* Where AI fits */}
       <Section tone="surface">
         <Reveal className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-start">
-          <SectionHeading title="Where AI fits — and where judgment does." />
+          <SectionHeading title="Where AI fits, and where judgment does." />
           <p className="text-body-lg text-body">
             We use AI where it genuinely adds signal: finding patterns, segmenting customers, scoring
             who&apos;s likely to leave or buy more, and improving forecasts. It supports decisions; it
@@ -275,7 +275,7 @@ export default function TheApertureMethodPage() {
                 See your business clearly. Start with the Business X-Ray.
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                A fixed-fee, low-risk first step that shows you where the opportunity is — before you
+                A fixed-fee, low-risk first step that shows you where the opportunity is, before you
                 commit to anything more.
               </p>
             </div>

@@ -12,7 +12,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "About",
   description:
-    "The Aperture Method is a founder-led strategic consultancy that brings big-company analytics, technology, and rigor to owner-run businesses ($1M–$20M) — in plain language, at fixed fees, delivered by a senior partner.",
+    "The Aperture Method is a founder-led strategic consultancy that brings big-company analytics, technology, and rigor to owner-run businesses ($1M–$20M), in plain language, at fixed fees, delivered by a senior partner.",
   path: "/about",
 });
 
@@ -55,7 +55,7 @@ export default function AboutPage() {
           </h1>
           <p className="mt-6 text-body-lg text-body">
             The Aperture Method™ brings the analytics, technology, and strategic rigor of a large company to
-            owner-run businesses — with the judgment of a senior partner and the plain language of
+            owner-run businesses, with the judgment of a senior partner and the plain language of
             someone who has actually run things.
           </p>
           <p className="mt-8">
@@ -80,7 +80,7 @@ export default function AboutPage() {
           <Reveal variant="left" delay={100} className="max-w-measure">
             <SectionHeading title="Why we exist." />
             <p className="mt-6 text-body-lg text-body">
-              Most good businesses this size run on instinct and spreadsheets — not for lack of
+              Most good businesses this size run on instinct and spreadsheets, not for lack of
               ambition, but because real analytics and modern technology have always been priced and
               built for someone larger. The big firms won&apos;t take a company your size. The local
               options rarely do the quantitative work. We built The Aperture Method to close that gap.
@@ -92,7 +92,7 @@ export default function AboutPage() {
       {/* How we work */}
       <Section>
         <Reveal>
-          <SectionHeading eyebrow="How we work" title="How we work — and how we're different." />
+          <SectionHeading eyebrow="How we work" title="How we work, and how we're different." />
         </Reveal>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {principles.map((pr, i) => (
@@ -125,7 +125,7 @@ export default function AboutPage() {
           <Reveal variant="left" delay={100}>
             <SectionHeading eyebrow="Founder-led" title="When you work with the firm, you work with him." />
             <p className="mt-6 text-body-lg text-body">
-              The Aperture Method was founded by Fenwick How — an entrepreneur and operator who has created
+              The Aperture Method was founded by Fenwick How, an entrepreneur and operator who has created
               and developed companies and led complex initiatives across a range of industries. The
               senior person who does the analysis is the person you talk to.
             </p>
@@ -142,7 +142,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="Who we serve"
             title="Owner-run and family-owned businesses."
-            lede="Roughly $1M to $20M in revenue, in any sector. The constraint holding back a fabricator and the one holding back a clinic look different on the surface and identical underneath — which is why we don't sort our clients by industry."
+            lede="Roughly $1M to $20M in revenue, in any sector. The constraint holding back a fabricator and the one holding back a clinic look different on the surface and identical underneath, which is why we don't sort our clients by industry."
           />
           <p className="mt-8">
             <LinkArrow href="/who-its-for">See whether it&apos;s a fit</LinkArrow>
@@ -150,7 +150,7 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
-      {/* Look Closer — the free classroom session */}
+      {/* Look Closer: the free classroom session */}
       <LookCloserBand tone="paper" />
 
       {/* Final CTA */}
@@ -160,7 +160,7 @@ export default function AboutPage() {
             <div className="max-w-2xl">
               <h2 className="text-h2 font-semibold text-paper">Start with a Business X-Ray.</h2>
               <p className="mt-4 text-body-lg text-white/70">
-                A fixed-fee, low-risk first step that shows you where the opportunity is — before you
+                A fixed-fee, low-risk first step that shows you where the opportunity is, before you
                 commit to anything more.
               </p>
             </div>

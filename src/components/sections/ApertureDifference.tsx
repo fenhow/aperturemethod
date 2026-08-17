@@ -4,10 +4,10 @@ import { Reveal } from "@/components/ui/Reveal";
 import { apertureDifference as d } from "@/lib/content";
 
 /**
- * "The Aperture Difference" — a bold positioning statement contrasting ordinary
+ * "The Aperture Difference", a bold positioning statement contrasting ordinary
  * consulting ("recommendations") with the Method ("executive intelligence").
  * Dark by default for emphasis; verbs match the approved tagline. Pass `cta` to
- * append a link (e.g. to the proof — the Lumina case study).
+ * append a link (e.g. to the proof, the Lumina case study).
  */
 export function ApertureDifference({
   tone = "dark",

@@ -5,9 +5,9 @@ import { glossary } from "@/lib/glossary";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Data Dictionary — Every Aperture Term, Defined",
+  title: "Data Dictionary: Every Aperture Term, Defined",
   description:
-    "A plain-language glossary of every Aperture term and the analytics/GIS vocabulary — the Method, the five components, the deliverables, demographics, GIS, and more.",
+    "A plain-language glossary of every Aperture term and the analytics/GIS vocabulary: the Method, the five components, the deliverables, demographics, GIS, and more.",
   path: "/glossary",
 });
 
@@ -26,7 +26,7 @@ export default function GlossaryPage() {
             <p className="eyebrow eyebrow--on-dark mb-5">Reference</p>
             <h1 className="text-display font-semibold text-paper">Data dictionary.</h1>
             <p className="mt-5 max-w-xl text-body-lg text-white/70">
-              Every Aperture term and the analytics and GIS vocabulary behind the Method — defined in
+              Every Aperture term and the analytics and GIS vocabulary behind the Method, defined in
               plain language, so nothing is a black box.
             </p>
           </Reveal>

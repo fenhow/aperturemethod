@@ -43,7 +43,7 @@ export function MethodFrameworks() {
         <SectionHeading
           eyebrow="Under the hood"
           title="The frameworks behind the Method."
-          lede="The same graduate-level (MBA) business science big-company strategy teams use — applied, in plain language, to your business. Hover any technique to see what it does for you."
+          lede="The same graduate-level (MBA) business science big-company strategy teams use, applied, in plain language, to your business. Hover any technique to see what it does for you."
         />
       </Reveal>
 
@@ -101,7 +101,7 @@ export function MethodFrameworks() {
       </div>
 
       <p className="mt-6 max-w-measure text-small italic text-muted">
-        You don&apos;t need to know these by name — that&apos;s our job. They run quietly underneath
+        You don&apos;t need to know these by name. That&apos;s our job. They run quietly underneath
         the plain-language work you actually see.
       </p>
     </Section>

@@ -1,5 +1,5 @@
 /**
- * Renders one or more JSON-LD blocks. Server component — the markup ships in the
+ * Renders one or more JSON-LD blocks. Server component: the markup ships in the
  * initial HTML so crawlers see it without executing JavaScript.
  */
 export function JsonLd({ data }: { data: object | object[] }) {

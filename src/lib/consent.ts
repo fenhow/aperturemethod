@@ -56,7 +56,7 @@ export function applyConsent(c: Consent): void {
   });
 }
 
-/** Consent Mode v2 defaults — everything non-essential denied until a choice is made. */
+/** Consent Mode v2 defaults: everything non-essential denied until a choice is made. */
 export function setDefaultConsent(): void {
   if (typeof window === "undefined") return;
   window.dataLayer = window.dataLayer ?? [];
@@ -74,7 +74,7 @@ export function writeConsent(choice: ConsentChoice): Consent {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(full));
   } catch {
-    /* storage unavailable — consent simply won't persist */
+    /* storage unavailable: consent simply won't persist */
   }
   applyConsent(full);
   window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: full }));

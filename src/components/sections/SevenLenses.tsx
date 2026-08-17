@@ -10,8 +10,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
  * marketing copy cannot drift from the instrument that produces the score.
  *
  * Weights are shown on purpose. A prospect comparing us to a firm that will not take their
- * call should be able to see that the instrument is weighted, reproducible and argued for —
- * that is the differentiation, and hiding it wastes it.
+ * call should be able to see that the instrument is weighted, reproducible and argued for; that is the differentiation, and hiding it wastes it.
  */
 export function SevenLenses() {
   return (
@@ -23,12 +22,12 @@ export function SevenLenses() {
         />
         <p className="mt-6 max-w-3xl text-body-lg text-body">
           Every business is read across the same seven lenses, in the same order, against the
-          same criteria. That is what makes one X-Ray comparable to another — and what lets us
+          same criteria. That is what makes one X-Ray comparable to another and what lets us
           re-score you later and prove the difference rather than assert it.
         </p>
         <p className="mt-4 max-w-3xl text-small text-muted">
           The lenses are weighted. The percentages below are the weights we use, and they are
-          the same for every client — the order reflects what actually decides whether an
+          the same for every client; the order reflects what actually decides whether an
           owner-run business thrives.
         </p>
 
@@ -76,7 +75,7 @@ export function SevenLenses() {
 
         <p className="mt-10 max-w-3xl text-small text-muted">
           Where the evidence will not support a lens, we mark it insufficient rather than
-          estimating it — and we say so on the face of the report. An honest gap is more useful
+          estimating it, and we say so on the face of the report. An honest gap is more useful
           than a furnished one, and it is usually the fastest thing to fix.
         </p>
       </div>

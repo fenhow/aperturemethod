@@ -2,17 +2,17 @@ import "server-only";
 import nodemailer, { type Transporter } from "nodemailer";
 
 /**
- * Transactional email over SMTP — sent from your own mailbox (e.g. Google
+ * Transactional email over SMTP, sent from your own mailbox (e.g. Google
  * Workspace / Gmail on aperturemethod.com). No third-party service. Set these in
  * Vercel → Settings → Environment Variables (Server):
  *
- *   SMTP_HOST   — e.g. smtp.gmail.com
- *   SMTP_PORT   — 465 (SSL) or 587 (STARTTLS). Default 587.
- *   SMTP_SECURE — "true" for port 465, otherwise leave unset/"false".
- *   SMTP_USER   — the full mailbox address (e.g. hello@aperturemethod.com)
- *   SMTP_PASS   — an app password for that mailbox (not your login password)
- *   ONBOARDING_FROM_EMAIL   — optional display sender; defaults to SMTP_USER
- *   ONBOARDING_NOTIFY_EMAIL — where owner notifications go; defaults to SMTP_USER
+ *   SMTP_HOST  : e.g. smtp.gmail.com
+ *   SMTP_PORT  : 465 (SSL) or 587 (STARTTLS). Default 587.
+ *   SMTP_SECURE: "true" for port 465, otherwise leave unset/"false".
+ *   SMTP_USER  : the full mailbox address (e.g. hello@aperturemethod.com)
+ *   SMTP_PASS  : an app password for that mailbox (not your login password)
+ *   ONBOARDING_FROM_EMAIL  : optional display sender; defaults to SMTP_USER
+ *   ONBOARDING_NOTIFY_EMAIL: where owner notifications go; defaults to SMTP_USER
  *
  * Until SMTP is configured, sends are logged and treated as best-effort so the
  * rest of the flow (PDF + portal storage) still works.

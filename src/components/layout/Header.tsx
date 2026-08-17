@@ -81,7 +81,7 @@ export function Header() {
           scrolled ? "border-maroon-hover bg-maroon text-paper" : "border-line bg-paper/95 text-ink"
         )}
       >
-        {/* Utility strip — collapses on scroll */}
+        {/* Utility strip collapses on scroll */}
         <div
           className={cn(
             "hidden overflow-hidden border-b border-white/10 bg-maroon text-paper transition-all duration-300 lg:block",
@@ -121,7 +121,7 @@ export function Header() {
               scrolled ? "h-16" : "h-20 md:h-[76px]"
             )}
           >
-            <Link href="/" aria-label="The Aperture Method — home" className="shrink-0 rounded-sm">
+            <Link href="/" aria-label="The Aperture Method, home" className="shrink-0 rounded-sm">
               <Logo
                 tone={scrolled ? "light" : "dark"}
                 className={cn(

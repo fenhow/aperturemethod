@@ -2,8 +2,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Bain-style "Read more" affordance: maroon label + arrow that slides right when
- * the parent card (a `.group`) is hovered or focused. Purely presentational —
- * wrap it in the actual <Link>.
+ * the parent card (a `.group`) is hovered or focused. Purely presentational; wrap it in the actual <Link>.
  */
 export function ReadMore({
   label = "Read more",

@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
- * "The white space" — a 2×2 positioning matrix showing the category-of-one gap
+ * "The white space": a 2×2 positioning matrix showing the category-of-one gap
  * Aperture occupies: graduate-level strategy AND spatial/GIS intelligence, built
  * for owner-run businesses. Everyone else sits in a different, crowded quadrant.
  */
@@ -11,25 +11,25 @@ const CELLS = [
   {
     // top-left
     k: "Local advisors, CPAs & DIY",
-    d: "Close and affordable — but not doing the quantitative or spatial work.",
+    d: "Close and affordable, but not doing the quantitative or spatial work.",
     aperture: false,
   },
   {
     // top-right: the white space
     k: "Aperture",
-    d: "Graduate-level analytics AND spatial intelligence — done for you, at your size.",
+    d: "Graduate-level analytics AND spatial intelligence, done for you, at your size.",
     aperture: true,
   },
   {
     // bottom-left
     k: "GIS, marketing & data vendors",
-    d: "Maps, demographics, and lists — but no strategy to turn them into decisions.",
+    d: "Maps, demographics, and lists, but no strategy to turn them into decisions.",
     aperture: false,
   },
   {
     // bottom-right: high strategy, low GIS
     k: "Big consultancies",
-    d: "Real strategy — but no GIS, and priced and staffed for the enterprise.",
+    d: "Real strategy, but no GIS, and priced and staffed for the enterprise.",
     aperture: false,
   },
 ];
@@ -41,7 +41,7 @@ export function Whitespace() {
         <SectionHeading
           eyebrow="Why we're different"
           title="The corner no one else occupies."
-          lede="Plot the market on two axes — strategic depth and spatial intelligence — and one quadrant sits empty. That's where Aperture lives."
+          lede="Plot the market on two axes, strategic depth and spatial intelligence, and one quadrant sits empty. That's where Aperture lives."
         />
       </Reveal>
 
@@ -95,7 +95,7 @@ export function Whitespace() {
           <span className="font-semibold text-ink">Big consultancies don&apos;t do GIS for small firms.
           Marketing and data vendors don&apos;t do MBA-grade strategy.</span>{" "}
           Aperture is the only firm that brings graduate-level analytics and spatial intelligence
-          together — and builds it for owner-run businesses.
+          together and builds it for owner-run businesses.
         </p>
       </Reveal>
     </Section>

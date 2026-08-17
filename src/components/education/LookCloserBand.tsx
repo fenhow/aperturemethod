@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { lookCloser } from "@/lib/lookCloser";
 
 /**
- * The band — the door to /look-closer. Used low on the homepage and
+ * The band, the door to /look-closer. Used low on the homepage and
  * on About. Deliberately not in the primary nav: this is who the firm is, not
  * something it sells.
  */
@@ -20,7 +20,7 @@ export function LookCloserBand({ tone = "surface" }: { tone?: "surface" | "paper
             </h2>
             <p className="mt-5 text-body-lg text-muted">
               <span className="font-semibold text-ink">Look Closer</span> is a 50-minute
-              guest-speaker session for {lookCloser.grades.toLowerCase()} — economics, business and
+              guest-speaker session for {lookCloser.grades.toLowerCase()}: economics, business and
               career classes. Students get a card describing a real business and fifteen minutes to
               find the one thing holding it back, which is the same question we get paid to answer.
               No fee, nothing sold to students, any school that will have us.

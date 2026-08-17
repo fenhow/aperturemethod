@@ -88,7 +88,7 @@ export function CookieConsent() {
       {/*
        * Sized down hard on phones. At full desktop weight this panel covered
        * ~70% of an iPhone SE screen and sat on top of the page's primary
-       * button — the first thing a mobile visitor saw was a consent wall.
+       * button: the first thing a mobile visitor saw was a consent wall.
        */}
       <div className="mx-auto max-w-3xl rounded-lg border border-line bg-paper p-5 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.25)] sm:p-8">
         <h2 className="text-body-lg font-semibold text-ink sm:text-h4">
@@ -113,7 +113,7 @@ export function CookieConsent() {
 
         {manage && (
           <div className="mt-6 space-y-4 border-t border-line pt-6">
-            {/* Strictly necessary — always on */}
+            {/* Strictly necessary, always on */}
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-small font-semibold text-ink">Strictly necessary</p>
@@ -156,7 +156,7 @@ export function CookieConsent() {
               >
                 Manage preferences
               </button>
-              {/* Side by side on phones — stacking them cost two full rows. */}
+              {/* Side by side on phones: stacking them cost two full rows. */}
               <div className="flex flex-row gap-3 sm:order-2">
                 <button
                   type="button"

@@ -5,8 +5,8 @@ import { EMAIL_RE } from "@/lib/contact";
 import { track } from "@/lib/analytics";
 
 /**
- * Book pre-order capture (light background). Same posture as NewsletterForm —
- * client validation, honeypot, graceful states — posted to the newsletter
+ * Book pre-order capture (light background). Same posture as NewsletterForm:
+ * client validation, honeypot, graceful states, posted to the newsletter
  * endpoint tagged as a book pre-order.
  */
 export function PreorderForm() {
@@ -55,7 +55,7 @@ export function PreorderForm() {
       <div role="status" aria-live="polite" className="rounded-lg border border-line bg-paper p-5">
         <p className="text-body font-semibold text-ink">You&apos;re on the pre-order list.</p>
         <p className="mt-1 text-small text-muted">
-          We&apos;ll email you the moment it ships — and you&apos;ll get first access.
+          We&apos;ll email you the moment it ships, and you&apos;ll get first access.
         </p>
       </div>
     );
@@ -102,7 +102,7 @@ export function PreorderForm() {
         </p>
       )}
       <p className="mt-2 text-small text-muted">
-        Reserve your copy — no charge now. We&apos;ll email you first when it ships.
+        Reserve your copy, no charge now. We&apos;ll email you first when it ships.
       </p>
     </form>
   );

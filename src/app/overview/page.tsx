@@ -16,16 +16,16 @@ import { industries } from "@/lib/industries";
 import { methodTagline } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 
-/** Homepage — Concept A, composed from the approved Step 6 copy. */
+/** Homepage: Concept A, composed from the approved Step 6 copy. */
 
 const whyDifferent = [
   {
     h: "Graduate-level analytics",
-    p: "MBA-grade methods — regression, forecasting, lifetime value, segmentation, optimization — applied to your business, not a textbook.",
+    p: "MBA-grade methods, regression, forecasting, lifetime value, segmentation, optimization, applied to your business, not a textbook.",
   },
   {
     h: "Spatial intelligence (GIS)",
-    p: "Where your customers are, where competitors win, and where your next location or market should be — mapped from real data.",
+    p: "Where your customers are, where competitors win, and where your next location or market should be, mapped from real data.",
   },
   {
     h: "Market data",
@@ -36,7 +36,7 @@ const whyDifferent = [
 const aiPrinciples = [
   {
     h: "Only where it pays off",
-    p: "We don't bolt on AI for its own sake. It goes in when it genuinely beats the alternative — and stays out when it doesn't.",
+    p: "We don't bolt on AI for its own sake. It goes in when it genuinely beats the alternative, and stays out when it doesn't.",
   },
   {
     h: "No black boxes",
@@ -48,7 +48,7 @@ const aiPrinciples = [
   },
   {
     h: "Yours to keep",
-    p: "The models and dashboards we build on your data belong to you — never locked inside someone else's platform.",
+    p: "The models and dashboards we build on your data belong to you, never locked inside someone else's platform.",
   },
 ];
 
@@ -66,7 +66,7 @@ const outcomes: Outcome[] = [
 const problem = [
   {
     h: "Instinct & spreadsheets",
-    p: "Got you here — but never designed for bets this size.",
+    p: "Got you here, but never designed for bets this size.",
   },
   {
     h: "A big-firm retainer",
@@ -83,7 +83,7 @@ const insights = [
     eyebrow: "Know Your Numbers",
     title: "Where do you actually make money?",
     href: "/insights",
-    desc: "Most owners can tell you revenue to the dollar — far fewer can rank what actually earns it.",
+    desc: "Most owners can tell you revenue to the dollar; far fewer can rank what actually earns it.",
   },
   {
     eyebrow: "Practical AI",
@@ -95,7 +95,7 @@ const insights = [
     eyebrow: "Deciding & Growing",
     title: "Too many priorities is the same as none.",
     href: "/insights",
-    desc: "When everything is a priority, nothing is — how to choose the few moves that matter.",
+    desc: "When everything is a priority, nothing is: how to choose the few moves that matter.",
   },
 ];
 
@@ -111,7 +111,7 @@ export default function Home() {
           <p className="mt-6 text-body-lg text-body">
             Most consultants promise to &ldquo;help you grow.&rdquo; We do something different: we apply
             graduate-level business analytics, spatial intelligence, and market data to reveal where your
-            greatest opportunities actually exist — then translate it into plain decisions and stay to
+            greatest opportunities actually exist, then translate it into plain decisions and stay to
             help you execute. Big-company intelligence, built for a business your size.
           </p>
           <p className="mt-8">
@@ -120,7 +120,7 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* Problem framing — all-white cards with a red hover effect */}
+      {/* Problem framing: all-white cards with a red hover effect */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
@@ -149,7 +149,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="The Aperture Method™"
             title="Five steps, from flying blind to running on evidence."
-            lede="A clear path that turns the data your business already has into decisions you can act on — then helps put them to work."
+            lede="A clear path that turns the data your business already has into decisions you can act on, then helps put them to work."
           />
           <p className="mt-5 text-h4 font-semibold text-maroon">{methodTagline}</p>
         </Reveal>
@@ -161,13 +161,13 @@ export default function Home() {
         </p>
       </Section>
 
-      {/* The Aperture Difference — positioning statement */}
+      {/* The Aperture Difference: positioning statement */}
       <ApertureDifference
         tone="surface"
         cta={{ label: "See it in action", href: "/case-studies/lumina-medical-aesthetics" }}
       />
 
-      {/* Why we're different — the differentiator, shown live */}
+      {/* Why we're different: the differentiator, shown live */}
       <Section tone="dark">
         <Reveal className="max-w-measure">
           <p className="eyebrow eyebrow--on-dark mb-5">Why we&apos;re different</p>
@@ -177,8 +177,7 @@ export default function Home() {
           <p className="mt-6 text-body-lg text-white/75">
             Every consultant says, &ldquo;We&apos;ll help you grow.&rdquo; We say something different: we
             apply graduate-level business analytics, combined with spatial intelligence and market data,
-            to reveal where your greatest opportunities actually exist. Dashboards, GIS, demographics —
-            those are tools. The value is the thinking that turns them into decisions.
+            to reveal where your greatest opportunities actually exist. Dashboards, GIS, demographics: those are tools. The value is the thinking that turns them into decisions.
           </p>
         </Reveal>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
@@ -196,7 +195,7 @@ export default function Home() {
           <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
             <MarketMapLive tone="dark" className="block" />
             <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
-              A Market Map — trade areas, drive-time rings, and where demand actually clusters.
+              A Market Map: trade areas, drive-time rings, and where demand actually clusters.
               Spatial intelligence most consultants don&apos;t offer.
             </figcaption>
           </figure>
@@ -205,20 +204,20 @@ export default function Home() {
         <Reveal variant="up" delay={160} className="mt-6">
           <RevenueForecastLive />
           <p className="mt-3 text-small text-white/55">
-            A live revenue forecast — we don&apos;t just show your numbers, we continuously project
+            A live revenue forecast: we don&apos;t just show your numbers, we continuously project
             where your business is heading.
           </p>
         </Reveal>
       </Section>
 
-      {/* What you get — the demonstrator + the deliverables you keep */}
+      {/* What you get: the demonstrator + the deliverables you keep */}
       <Section tone="surface">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <Reveal variant="left" delay={100} className="order-last lg:order-first">
             <Link href="/what-you-get" className="group block overflow-hidden rounded-lg border border-line shadow-card hover-lift">
               <Image
                 src="/lumina-v2.jpg"
-                alt="Lumina Medical Aesthetics — an illustrative example business"
+                alt="Lumina Medical Aesthetics, an illustrative example business"
                 width={1600}
                 height={1066}
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -226,14 +225,14 @@ export default function Home() {
               />
             </Link>
             <p className="mt-3 text-small text-muted">
-              Illustrative — Lumina Medical Aesthetics is a fictional company; figures are synthetic.
+              Illustrative: Lumina Medical Aesthetics is a fictional company; figures are synthetic.
             </p>
           </Reveal>
           <Reveal variant="right">
             <SectionHeading
               eyebrow="What you get"
-              title="Strategy you can see — and everything you keep."
-              lede="Meet Lumina Medical Aesthetics, an illustrative med-spa we take through the entire Aperture Method. Every engagement produces a complete, reconciled set of executive deliverables — the Business X-Ray, Profit Map, Customer & Market Map, Opportunity Matrix, and a live Scoreboard — plus the working files behind them. It keeps working after the engagement, and it's yours."
+              title="Strategy you can see, and everything you keep."
+              lede="Meet Lumina Medical Aesthetics, an illustrative med-spa we take through the entire Aperture Method. Every engagement produces a complete, reconciled set of executive deliverables: the Business X-Ray, Profit Map, Customer & Market Map, Opportunity Matrix, and a live Scoreboard, plus the working files behind them. It keeps working after the engagement, and it's yours."
             />
             <p className="mt-8">
               <Link href="/what-you-get" className="btn">
@@ -250,8 +249,8 @@ export default function Home() {
           <SectionHeading
             onDark
             eyebrow="Demystifying AI"
-            title="AI that earns its place — nothing you can't see inside."
-            lede="AI is becoming table stakes, but the black box makes owners nervous — fairly. We help you adopt it deliberately: understand it, implement what fits, and use it to keep pace with your market. Always explainable, always reviewed by a person, always yours to keep."
+            title="AI that earns its place, nothing you can't see inside."
+            lede="AI is becoming table stakes, but the black box makes owners nervous, fairly. We help you adopt it deliberately: understand it, implement what fits, and use it to keep pace with your market. Always explainable, always reviewed by a person, always yours to keep."
           />
         </Reveal>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -271,13 +270,13 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* Who we help — industries */}
+      {/* Who we help: industries */}
       <Section>
         <Reveal>
           <SectionHeading
             eyebrow="Who we help"
             title="Built for businesses like yours."
-            lede="A few places the Method fits especially well — examples, not limits. If you don't see your industry, we almost certainly still work with you: the approach adapts to any owner-run business."
+            lede="A few places the Method fits especially well, examples, not limits. If you don't see your industry, we almost certainly still work with you: the approach adapts to any owner-run business."
           />
         </Reveal>
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -288,7 +287,7 @@ export default function Home() {
                 className="group flex h-full flex-col overflow-hidden rounded border border-line hover-lift"
               >
                 <div className="relative overflow-hidden">
-                  <ImagePlaceholder id={`HOME-IND-${ind.slug}`} label={`${ind.name} — photography to be added`} />
+                  <ImagePlaceholder id={`HOME-IND-${ind.slug}`} label={`${ind.name}: photography to be added`} />
                   <div className="absolute inset-0 flex items-end bg-gradient-to-t from-ink/90 via-ink/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                     <p className="translate-y-2 p-5 text-small leading-snug text-white/95 transition-transform duration-300 group-hover:translate-y-0 group-focus-visible:translate-y-0">
                       {ind.sub}
@@ -306,12 +305,12 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* By the numbers — the shape of an engagement */}
+      {/* By the numbers: the shape of an engagement */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
             eyebrow="By the numbers"
-            title="Decisions you can act on — and keep."
+            title="Decisions you can act on, and keep."
             className="mx-auto text-center"
           />
         </Reveal>
@@ -356,7 +355,7 @@ export default function Home() {
               title="You work directly with the person doing the work."
             />
             <p className="mt-6 text-body-lg text-body">
-              The Aperture Method is led by its founder, Fenwick How — an entrepreneur and operator who has
+              The Aperture Method is led by its founder, Fenwick How, an entrepreneur and operator who has
               created and developed companies and led complex initiatives across a range of industries.
               No junior team and no hand-off: the senior person who does the analysis is the person you
               talk to.
@@ -388,7 +387,7 @@ export default function Home() {
                 className="group flex h-full flex-col overflow-hidden rounded border border-line bg-paper hover-lift"
               >
                 <div className="relative overflow-hidden">
-                  <ImagePlaceholder id={`HOME-INSIGHT-${i + 1}`} label={`${a.eyebrow} article image — to be added`} />
+                  <ImagePlaceholder id={`HOME-INSIGHT-${i + 1}`} label={`${a.eyebrow} article image: to be added`} />
                   <div className="absolute inset-0 flex items-end bg-gradient-to-t from-ink/90 via-ink/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                     <p className="translate-y-2 p-5 text-small leading-snug text-white/95 transition-transform duration-300 group-hover:translate-y-0 group-focus-visible:translate-y-0">
                       {a.desc}
@@ -415,7 +414,7 @@ export default function Home() {
                 See your business clearly. Then watch the strategy run.
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                Start with the Business X-Ray — a fixed-fee, low-risk first step.
+                Start with the Business X-Ray, a fixed-fee, low-risk first step.
               </p>
             </div>
             <Link href={primaryCta.href} className="btn--on-dark shrink-0">

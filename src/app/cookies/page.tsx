@@ -14,7 +14,7 @@ const categories: { name: string; consent: string; purpose: string }[] = [
   {
     name: "Strictly necessary",
     consent: "No consent needed",
-    purpose: "Make the site work — security, load balancing, and remembering your cookie choices.",
+    purpose: "Make the site work: security, load balancing, and remembering your cookie choices.",
   },
   {
     name: "Functional",
@@ -43,8 +43,8 @@ export default function CookiesPage() {
     >
       <LegalH2>What cookies are</LegalH2>
       <LegalP>
-        Cookies are small text files a website stores on your device. Similar technologies — like local
-        storage and tracking pixels — do comparable things. Together they let a site remember your
+        Cookies are small text files a website stores on your device. Similar technologies, like local
+        storage and tracking pixels, do comparable things. Together they let a site remember your
         actions and preferences, and help its owner understand how it&apos;s used.
       </LegalP>
 
@@ -82,9 +82,9 @@ export default function CookiesPage() {
       </LegalP>
       <LegalUL
         items={[
-          "Analytics — to measure site usage in aggregate (for example, Google Analytics).",
-          "Customer and marketing tools — to manage enquiries and, if you opt in, our Insights emails (for example, HubSpot).",
-          "Scheduling — if you book a call through an embedded scheduler (for example, Calendly).",
+          "Analytics: to measure site usage in aggregate (for example, Google Analytics).",
+          "Customer and marketing tools: to manage enquiries and, if you opt in, our Insights emails (for example, HubSpot).",
+          "Scheduling: if you book a call through an embedded scheduler (for example, Calendly).",
         ]}
       />
       <LegalP>
@@ -96,13 +96,13 @@ export default function CookiesPage() {
       <LegalUL
         items={[
           "Use our consent banner to accept or decline non-essential cookies, and change your mind at any time.",
-          "Adjust or delete cookies through your browser settings — most browsers let you block or clear them.",
+          "Adjust or delete cookies through your browser settings. Most browsers let you block or clear them.",
           "We honor recognized browser signals such as Global Privacy Control where required.",
         ]}
       />
       <LegalP>
         Blocking strictly necessary cookies may stop parts of the site from working. Blocking the other
-        categories won&apos;t break the site — you&apos;ll just see less-tailored functionality.
+        categories won&apos;t break the site; you&apos;ll just see less-tailored functionality.
       </LegalP>
 
       <LegalH2>Changes and contact</LegalH2>

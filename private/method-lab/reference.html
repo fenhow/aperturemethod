@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Aperture Method™ — Canonical Architecture Reference</title>
+<title>The Aperture Method™: Canonical Architecture Reference</title>
 <style>
   :root{
     --ink:#0A0A0A;          /* tailwind ink */
-    --crimson:#500000;      /* brand maroon — primary */
+    --crimson:#500000;      /* brand maroon, primary */
     --deep:#6A1414;         /* deeper maroon */
-    --lift:#8C2B2B;         /* maroon.light — accents */
-    --onDark:#C9756C;       /* maroon.onDark — AA on dark */
+    --lift:#8C2B2B;         /* maroon.light, accents */
+    --onDark:#C9756C;       /* maroon.onDark, AA on dark */
     --gold:#C9A24B;         /* brand gold */
     --muted:#6B6B6B;
     --hair:#E6E6E6;
@@ -155,10 +155,10 @@
 <div class="cl"><div class="n">1.2</div><p>It governs the SOPs, the agent definitions, the intake instruments, the scoring rubric, the deliverable set, the commercial documents and the codebase. It does not govern commercial terms, pricing or legal drafting.</p></div>
 <div class="cl"><div class="n">1.3</div><p><span class="must">Precedence.</span> Where artifacts conflict, authority runs in this order: <b>(a)</b> this document; <b>(b)</b> the Method SOPs; <b>(c)</b> the Agent Build Spec; <b>(d)</b> marketing and commercial material. A conflict resolved here <span class="must">MUST</span> be corrected at source in the losing artifact; this document is not a place to hide a contradiction.</p></div>
 <div class="cl"><div class="n">1.4</div><p><span class="must">Normative language.</span> <b>MUST</b> is a requirement; non-conformance is a defect. <b>SHOULD</b> is a strong default; departure must be recorded with a reason. <b>MAY</b> is discretionary.</p></div>
-<div class="cl"><div class="n">1.5</div><p>The companion <i>Master Process Architecture</i> is descriptive — it shows the system as built at a point in time. This document is normative — it states what the system must be. Where the map shows something this document forbids, the map is reporting a defect, not granting permission.</p></div>
+<div class="cl"><div class="n">1.5</div><p>The companion <i>Master Process Architecture</i> is descriptive: it shows the system as built at a point in time. This document is normative: it states what the system must be. Where the map shows something this document forbids, the map is reporting a defect, not granting permission.</p></div>
 
 <div class="callout"><b>The governing principle</b>
-Human-led, AI-enabled. Automation compresses the mechanical work — reading, reconciling, modelling,
+Human-led, AI-enabled. Automation compresses the mechanical work: reading, reconciling, modelling,
 mapping, monitoring. Judgment, context and accountability remain with a named person. Agents produce
 findings; only a person produces conclusions. No clause in this document may be read to permit
 otherwise.</div>
@@ -181,12 +181,12 @@ otherwise.</div>
   <tr><td class="k">05</td><td>Aperture Atlas™</td><td>Perform</td><td>Thomas</td><td>06</td></tr>
 </table>
 
-<div class="cl"><div class="n">2.1.1</div><p><span class="must">Aperture Atlas™ is the canonical name of Phase 05,</span> used internally and with clients alike — one name, no translation layer. Ratified by Fenwick How on 10 August 2026, reversing the position taken in v1.1. <span class="must">"Aperture Atlas" is retired</span> and <span class="must">MUST NOT</span> appear in any artifact. The website mirrored the old name in eight places and now does not; <code>scripts/check-lenses.mjs</code> fails the site build if it returns. The contract, Exhibit A and the intake form, previously flagged non-conformant for saying "Atlas", are conformant as written.</p></div>
+<div class="cl"><div class="n">2.1.1</div><p><span class="must">Aperture Atlas™ is the canonical name of Phase 05,</span> used internally and with clients alike: one name, no translation layer. Ratified by Fenwick How on 10 August 2026, reversing the position taken in v1.1. <span class="must">"Aperture Atlas" is retired</span> and <span class="must">MUST NOT</span> appear in any artifact. The website mirrored the old name in eight places and now does not; <code>scripts/check-lenses.mjs</code> fails the site build if it returns. The contract, Exhibit A and the intake form, previously flagged non-conformant for saying "Atlas", are conformant as written.</p></div>
 <div class="cl"><div class="n">2.1.2</div><p><span class="must">There are five phases and six SOPs.</span> The Business X-Ray is a product, not a phase: it is the fixed-fee wedge, and when a client engages the Method it is delivered inside Phase 01. Any artifact stating "six phases" is non-conformant.</p></div>
 <div class="cl"><div class="n">2.1.3</div><p>Agent identities are internal. Clients engage modules, not names. Agent names <span class="must">MUST NOT</span> appear in any client-facing artifact, including document metadata, sheet tabs, chart titles, alt text and filenames.</p></div>
 
 <h4>2.2 The seven lenses</h4>
-<p class="note">Ratified. Three lens sets were once in circulation — the SOP 01 list, the Build Spec list with different weights (Customers 20 / Ops 15), and a third set scored in a delivered X-Ray. The SOP 01 list below is canonical, is what the scoring engine implements, and is now the only one: the website mirrors it in <code>src/lib/lenses.ts</code>, and <code>scripts/check-lenses.mjs</code> fails the build if the two disagree, if the intake form&rsquo;s lens headings disagree, if a retired lens name reappears, or if the rubric is ever un-ratified.</p>
+<p class="note">Ratified. Three lens sets were once in circulation: the SOP 01 list, the Build Spec list with different weights (Customers 20 / Ops 15), and a third set scored in a delivered X-Ray. The SOP 01 list below is canonical, is what the scoring engine implements, and is now the only one: the website mirrors it in <code>src/lib/lenses.ts</code>, and <code>scripts/check-lenses.mjs</code> fails the build if the two disagree, if the intake form&rsquo;s lens headings disagree, if a retired lens name reappears, or if the rubric is ever un-ratified.</p>
 <table>
   <tr><th>#</th><th>Lens</th><th>Key</th><th>Weight</th><th>Covers</th></tr>
   <tr><td>1</td><td class="k">Finance</td><td><code>finance</code></td><td>20%</td><td>Margin, cash, unit economics, working capital</td></tr>
@@ -201,11 +201,11 @@ otherwise.</div>
 <div class="cl"><div class="n">2.2.2</div><p>Any change to the lens set, its sub-criteria or its weights is a rubric version change and is governed by §10.</p></div>
 
 <h4>2.3 The people boundary</h4>
-<p class="note">Leadership &amp; Team is a lens, and key-person risk is the single most common reason a business of this size cannot be sold. That makes people a legitimate object of assessment — and makes the limit of that assessment worth stating precisely, because the failure mode is expensive in two directions: liability, and the loss of the evidence standard everything else rests on.</p>
+<p class="note">Leadership &amp; Team is a lens, and key-person risk is the single most common reason a business of this size cannot be sold. That makes people a legitimate object of assessment, and makes the limit of that assessment worth stating precisely, because the failure mode is expensive in two directions: liability, and the loss of the evidence standard everything else rests on.</p>
 <div class="cl"><div class="n">2.3.1</div><p><span class="must">The Method assesses the system that holds capability, never the individuals in it.</span> In scope: which roles only one person can perform, what revenue depends on them, who could cover, what is documented, how decisions are made, how the structure is shaped, and whether licensed or qualified headcount caps billable volume. These are structural facts about a business.</p></div>
 <div class="cl"><div class="n">2.3.2</div><p><span class="must">Out of scope, and MUST be declined:</span> appraisal of named individuals, compensation benchmarking, hiring and firing recommendations, disciplinary or termination advice, worker classification, culture and engagement surveys, and anything else that is properly HR or employment law. Aperture is not licensed to give it, and the exclusion <span class="must">MUST</span> appear in the SOW and in Exhibit A of the engagement contract.</p></div>
 <div class="cl"><div class="n">2.3.3</div><p><span class="must">The read-aloud test.</span> A people finding may enter a deliverable only if it would survive being read aloud, unedited, to the person it concerns. &ldquo;One person can quote work, and $1.4M of revenue depends on it&rdquo; passes. &ldquo;This person is not strong enough for the role&rdquo; does not. The first is a fact about the business; the second is an opinion about a human being, and it cannot be traced to a source under §7.</p></div>
-<div class="cl"><div class="n">2.3.4</div><p><span class="must">Quantify the exposure.</span> Where a single-person dependency is found, the deliverable <span class="must">MUST</span> state the revenue or margin at risk over a defined absence — ninety days is the standard window — rather than describing the dependency in adjectives. Rubric criterion <code>ldr-01</code> scores 80 only where this has been done.</p></div>
+<div class="cl"><div class="n">2.3.4</div><p><span class="must">Quantify the exposure.</span> Where a single-person dependency is found, the deliverable <span class="must">MUST</span> state the revenue or margin at risk over a defined absence (ninety days is the standard window) rather than describing the dependency in adjectives. Rubric criterion <code>ldr-01</code> scores 80 only where this has been done.</p></div>
 <div class="cl"><div class="n">2.3.5</div><p>Agents are bound by §4.3 here more tightly than anywhere else: an agent may surface a structural dependency, and <span class="must">MUST NOT</span> characterise a person. No client contact, no conclusions about individuals. An AI system rendering judgment on named employees is the fastest way to lose a client&rsquo;s trust in everything else the engagement produced.</p></div>
 </section>
 
@@ -225,7 +225,7 @@ otherwise.</div>
   <tr><td class="k">Gate</td><td>A point where work stops until a named human decides.</td><td>Who decides · what evidence they see · what the two outcomes are</td></tr>
 </table>
 
-<div class="cl"><div class="n">3.1</div><p>Every Method <span class="must">MUST</span> declare the inputs it consumes, and every declared input <span class="must">MUST</span> have a collection route — an intake question, a data request item, or a system connection. A method with no collection route is not yet part of the architecture.</p></div>
+<div class="cl"><div class="n">3.1</div><p>Every Method <span class="must">MUST</span> declare the inputs it consumes, and every declared input <span class="must">MUST</span> have a collection route: an intake question, a data request item, or a system connection. A method with no collection route is not yet part of the architecture.</p></div>
 <div class="cl"><div class="n">3.2</div><p>Every Input <span class="must">MUST</span> have at least one consumer. An input collected but consumed by nothing is a burden placed on the client for no return and <span class="must">SHOULD</span> be removed or wired.</p></div>
 <div class="cl"><div class="n">3.3</div><p>Every Agent tool allowlist is closed. A capability named in an agent's description but absent from its allowlist is <span class="must">not callable</span> and <span class="must">MUST NOT</span> be advertised as available.</p></div>
 <div class="cl"><div class="n">3.4</div><p>Every Deliverable <span class="must">MUST</span> pass the pre-delivery check before release, including the internal-identity scrub of §2.1.3.</p></div>
@@ -239,7 +239,7 @@ otherwise.</div>
 
 <h4>4.1 What the agent layer is</h4>
 <div class="cl"><div class="n">4.1.1</div><p>Each agent owns exactly one phase, holds one standard of evidence, and hands typed findings to the next. The Method executes as a <b>sequence, not a swarm</b>.</p></div>
-<div class="cl"><div class="n">4.1.2</div><p>Agents compress the mechanical work — reading, reconciling, modelling, mapping, monitoring. They <span class="must">MUST NOT</span> close the loop themselves. Every phase ends at a human gate (§8).</p></div>
+<div class="cl"><div class="n">4.1.2</div><p>Agents compress the mechanical work: reading, reconciling, modelling, mapping, monitoring. They <span class="must">MUST NOT</span> close the loop themselves. Every phase ends at a human gate (§8).</p></div>
 <div class="cl"><div class="n">4.1.3</div><p>Agent identities are internal (§2.1.3). Clients engage the Aperture modules. No agent name, and no reference to "Force5", may appear in a client-facing artifact.</p></div>
 
 <h4>4.2 The roster</h4>
@@ -267,12 +267,12 @@ otherwise.</div>
 <table>
   <tr><th>Agent</th><th>Tools</th><th>Built</th></tr>
   <tr><td class="k">Lena</td><td><code>scoring.score_lens</code> <span class="E">●</span> · <code>scoring.compute_aperture_score</code> <span class="E">●</span> · <code>benchmarks.lookup</code> <span class="M">○</span> · <code>constraints.propose</code> <span class="M">○</span> · <code>interviews.triangulate</code> <span class="M">○</span> · <code>measures.baseline</code> <span class="M">○</span> · <code>render.insights_doc</code> <span class="M">○</span></td><td>2 / 7</td></tr>
-  <tr><td class="k">Marcus</td><td><code>build_financials</code> · <code>build_profitmap</code> · <code>allocations.propose</code> · <code>pareto.rank_drivers</code> · <code>breakeven.sensitivity</code> · <code>scenario.run</code> · <code>recalc</code> · <code>render.analytics_doc</code> — all <span class="M">○</span></td><td>0 / 8</td></tr>
-  <tr><td class="k">Natalie</td><td><code>geocode</code> · <code>segments.clv</code> · <code>gis_analysis</code> · <code>gis_layers</code> · <code>demographics.overlay</code> · <code>syncpoint.query</code> · <code>site_model.score</code> · <code>render.intelligence_doc</code> — all <span class="M">○</span></td><td>0 / 8</td></tr>
-  <tr><td class="k">Aria</td><td><code>opportunities.consolidate</code> · <code>matrix.score</code> · <code>scenario.stress_test</code> · <code>sequencer.order</code> · <code>render.compass_doc</code> — all <span class="M">○</span></td><td>0 / 5</td></tr>
-  <tr><td class="k">Thomas</td><td><code>kpi.define</code> · <code>pipelines.wire</code> · <code>feed.validate</code> · <code>build_dashboard</code> · <code>anomaly.detect</code> · <code>scoring.compute_aperture_score</code> <span class="E">●</span> · <code>render.signal_brief</code> — rest <span class="M">○</span></td><td>1 / 7</td></tr>
+  <tr><td class="k">Marcus</td><td><code>build_financials</code> · <code>build_profitmap</code> · <code>allocations.propose</code> · <code>pareto.rank_drivers</code> · <code>breakeven.sensitivity</code> · <code>scenario.run</code> · <code>recalc</code> · <code>render.analytics_doc</code>, all <span class="M">○</span></td><td>0 / 8</td></tr>
+  <tr><td class="k">Natalie</td><td><code>geocode</code> · <code>segments.clv</code> · <code>gis_analysis</code> · <code>gis_layers</code> · <code>demographics.overlay</code> · <code>syncpoint.query</code> · <code>site_model.score</code> · <code>render.intelligence_doc</code>, all <span class="M">○</span></td><td>0 / 8</td></tr>
+  <tr><td class="k">Aria</td><td><code>opportunities.consolidate</code> · <code>matrix.score</code> · <code>scenario.stress_test</code> · <code>sequencer.order</code> · <code>render.compass_doc</code>, all <span class="M">○</span></td><td>0 / 5</td></tr>
+  <tr><td class="k">Thomas</td><td><code>kpi.define</code> · <code>pipelines.wire</code> · <code>feed.validate</code> · <code>build_dashboard</code> · <code>anomaly.detect</code> · <code>scoring.compute_aperture_score</code> <span class="E">●</span> · <code>render.signal_brief</code>, rest <span class="M">○</span></td><td>1 / 7</td></tr>
 </table>
-<div class="cl"><div class="n">4.4.1</div><p>Until a tool is built, its work is performed by a person. An unbuilt tool is not a missing feature — it is unautomated labour, and it is where the Method depends on Fenwick rather than on the system.</p></div>
+<div class="cl"><div class="n">4.4.1</div><p>Until a tool is built, its work is performed by a person. An unbuilt tool is not a missing feature; it is unautomated labour, and it is where the Method depends on Fenwick rather than on the system.</p></div>
 
 <h4>4.5 Human steps, by phase</h4>
 <p class="note">These are canonical. Where an SOP omits one, the SOP is non-conformant (see §6).</p>
@@ -301,7 +301,7 @@ and it is not this one.</div>
 <div class="cl"><div class="n">5.2</div><p>Phases 02 and 03 <span class="must">MAY</span> run concurrently. Both consume Phase 01's typed questions and neither depends on the other.</p></div>
 <div class="cl"><div class="n">5.3</div><p>Phase 04 <span class="must">MUST NOT</span> begin until at least one of Phases 02 or 03 has been gated. It scores what those phases produce; with neither, it has nothing to score.</p></div>
 <div class="cl"><div class="n">5.4</div><p>Phase 05 <span class="must">MUST NOT</span> begin without an approved Focus Plan and agreed success measures. A Scoreboard built without them measures activity rather than strategy.</p></div>
-<div class="cl"><div class="n">5.5</div><p><span class="must">Standalone purchase.</span> Any module <span class="must">MAY</span> be sold alone. When a module runs without its normal upstream input, it <span class="must">MUST</span> declare the substitution on the face of the deliverable — for example: <i>"Derived from financials — not owner-validated."</i> Silent degradation is prohibited.</p></div>
+<div class="cl"><div class="n">5.5</div><p><span class="must">Standalone purchase.</span> Any module <span class="must">MAY</span> be sold alone. When a module runs without its normal upstream input, it <span class="must">MUST</span> declare the substitution on the face of the deliverable, for example: <i>"Derived from financials, not owner-validated."</i> Silent degradation is prohibited.</p></div>
 <div class="cl"><div class="n">5.6</div><p>Every phase ends at a gate (§8). A phase <span class="must">MUST NOT</span> begin on ungated inputs.</p></div>
 </section>
 
@@ -372,7 +372,7 @@ the SOPs must be amended to carry them.</div>
   <tr><td class="k">Assumed</td><td>A judgment input; cites who set it and on what basis</td><td>Only where the rubric permits</td></tr>
   <tr><td class="k">Claimed</td><td>Asserted in interview, not yet corroborated</td><td>No, until promoted</td></tr>
 </table>
-<div class="cl"><div class="n">7.4</div><p><span class="must">Reconciliation.</span> Two thresholds exist and <span class="must">MUST NOT</span> be confused. <b>Ledger acceptance</b> tolerates aggregate variance of ≤0.5% provided every variance is itemised — it is a completeness threshold. <b>Figure publication</b> tolerates nothing: any figure entering a deliverable must reconcile exactly to its source. Accepting a ledger does not license an unreconciled figure.</p></div>
+<div class="cl"><div class="n">7.4</div><p><span class="must">Reconciliation.</span> Two thresholds exist and <span class="must">MUST NOT</span> be confused. <b>Ledger acceptance</b> tolerates aggregate variance of ≤0.5% provided every variance is itemised; it is a completeness threshold. <b>Figure publication</b> tolerates nothing: any figure entering a deliverable must reconcile exactly to its source. Accepting a ledger does not license an unreconciled figure.</p></div>
 <div class="cl"><div class="n">7.5</div><p>Insufficient evidence is a finding. A lens, criterion or figure that cannot be evidenced <span class="must">MUST</span> be marked insufficient and <span class="must">MUST NOT</span> be estimated. Insufficient is never scored as zero, and its weight is never redistributed.</p></div>
 <div class="cl"><div class="n">7.6</div><p>Ledger references are append-only. A superseded entry is retained and marked; a restatement by the client is itself a finding.</p></div>
 <div class="cl"><div class="n">7.7</div><p>Confidence is recorded separately from score. A well-evidenced 40 and a thinly-evidenced 40 are different findings.</p></div>
@@ -422,11 +422,11 @@ the SOPs must be amended to carry them.</div>
 <h2>Section 10</h2>
 <h3>Scoring authority</h3>
 
-<div class="cl"><div class="n">10.1</div><p>The rubric — lenses, sub-criteria, anchors and weights — is the practice's intellectual property. Agents read it; they <span class="must">MUST NOT</span> invent, adjust or extend it.</p></div>
+<div class="cl"><div class="n">10.1</div><p>The rubric (lenses, sub-criteria, anchors and weights) is the practice's intellectual property. Agents read it; they <span class="must">MUST NOT</span> invent, adjust or extend it.</p></div>
 <div class="cl"><div class="n">10.2</div><p>An unratified rubric <span class="must">MUST NOT</span> produce a client-facing Aperture Score. This is enforced in code, not by discipline.</p></div>
 <div class="cl"><div class="n">10.3</div><p>Sub-criteria are scored 0–100 against anchor descriptions at 20, 50 and 80. A lens score is the mean of its scored sub-criteria. The Aperture Score is the weighted mean of lens scores.</p></div>
 <div class="cl"><div class="n">10.4</div><p>Below 70% coverage no composite is published. The deliverable in that case is a data request.</p></div>
-<div class="cl"><div class="n">10.5</div><p><span class="must">Comparability.</span> Re-scoring <span class="must">MUST</span> use the stored rubric version and weights, never the current ones. Where the rubric changes, history is either restated explicitly or labelled non-comparable. Silent mixing of versions is prohibited — it destroys the only thing a baseline is for.</p></div>
+<div class="cl"><div class="n">10.5</div><p><span class="must">Comparability.</span> Re-scoring <span class="must">MUST</span> use the stored rubric version and weights, never the current ones. Where the rubric changes, history is either restated explicitly or labelled non-comparable. Silent mixing of versions is prohibited: it destroys the only thing a baseline is for.</p></div>
 <div class="cl"><div class="n">10.6</div><p>Rubric changes are versioned semantically: a weight or lens change is a major version; a sub-criterion or anchor rewording is a minor version.</p></div>
 </section>
 
@@ -434,7 +434,7 @@ the SOPs must be amended to carry them.</div>
 <section class="sec">
 <h2>Section 11</h2>
 <h3>Placement rules</h3>
-<p class="note">This is the operative section. Anything new — a form, an agent, an assessment, a model, a deliverable, an MBA-level method — is placed by answering these questions in order. If any answer is unavailable, the thing is not ready to be built.</p>
+<p class="note">This is the operative section. Anything new, whether a form, an agent, an assessment, a model, a deliverable, an MBA-level method, is placed by answering these questions in order. If any answer is unavailable, the thing is not ready to be built.</p>
 
 <h4>10.1 The placement procedure</h4>
 <div class="cl"><div class="n">1</div><p><b>What type is it?</b> One of the six in §3. If it is two things, it is two objects and must be split.</p></div>
@@ -451,10 +451,10 @@ the SOPs must be amended to carry them.</div>
 <div class="cl"><div class="n">11.2.1</div><p>A method <span class="must">MUST</span> declare: its discipline; the phase that owns it; the inputs it requires; the output it produces; the decision it informs; and the evidence class of that output.</p></div>
 <div class="cl"><div class="n">11.2.2</div><p>A method <span class="must">MUST NOT</span> be advertised as applied until it has appeared in a delivered client artifact with its working shown. Until then it is <b>catalogued</b>, not applied, and <span class="must">MUST</span> be labelled as such in internal material.</p></div>
 <div class="cl"><div class="n">11.2.3</div><p>A method <span class="must">MUST NOT</span> be included whose inputs the intake does not collect. Adding the method and the question is one change, not two.</p></div>
-<div class="cl"><div class="n">11.2.4</div><p>Sophistication is not a justification. A method earns its place by changing a decision the owner would otherwise make differently — not by being advanced.</p></div>
+<div class="cl"><div class="n">11.2.4</div><p>Sophistication is not a justification. A method earns its place by changing a decision the owner would otherwise make differently, not by being advanced.</p></div>
 
 <h4>10.3 Placing a new client input</h4>
-<div class="cl"><div class="n">11.3.1</div><p>Every new question <span class="must">MUST</span> name its consumer — a rubric sub-criterion, an SOP step, or a named method — before it is added to any instrument.</p></div>
+<div class="cl"><div class="n">11.3.1</div><p>Every new question <span class="must">MUST</span> name its consumer, whether a rubric sub-criterion, an SOP step, or a named method, before it is added to any instrument.</p></div>
 <div class="cl"><div class="n">11.3.2</div><p>Every input is classified <b>blocking</b> or <b>helpful</b>, and carries a plain-language reason the client can read.</p></div>
 <div class="cl"><div class="n">11.3.3</div><p>References between instruments and the rubric <span class="must">MUST</span> use stable identifiers, never positional numbering. Positional references break silently when a question is inserted.</p></div>
 
@@ -481,8 +481,8 @@ the SOPs must be amended to carry them.</div>
 <h4>Amendment record</h4>
 <table>
   <tr><th>Version</th><th>Date</th><th>Change</th></tr>
-  <tr><td class="k">1.4</td><td>13 Aug 2026</td><td>Rubric to v1.3.0 under unchanged lenses and weights: <code>ops-06</code> (supplier and input dependency) and <code>mkt-05</code> (advantage durability) added, and <code>fin-02</code> tightened so the cash conversion cycle <span class="must">MUST</span> be calculated in days from the accounts rather than described. Adds three intake questions (<code>ins_fin7</code>, <code>ins_ops6</code>, <code>ins_mkt5</code>); the instrument is now 115 questions. Establishes that structural-pressure frameworks — five forces, SWOT — are internal checklists only and <span class="must">MUST NOT</span> appear in a client artifact, because an unranked assertion is not a finding. Adds the chart-title standard to the brand system: a chart title states the finding, not the variable. Prior Aperture Scores remain comparable — weights are unchanged and every score stamps its rubric version, but a score taken on v1.2.0 did not assess <code>ops-06</code> or <code>mkt-05</code> and <span class="must">MUST</span> be re-scored before a before/after claim is made on either.</td></tr>
-  <tr><td class="k">1.3</td><td>10 Aug 2026</td><td>Adds §2.3, the people boundary: what the Method assesses about a team, what it declines, the read-aloud test, and the requirement to price key-person exposure. Rubric to v1.2.0 — sub-criteria <code>ldr-04</code>, <code>ldr-05</code> and <code>ops-05</code> added under unchanged weights.</td></tr>
+  <tr><td class="k">1.4</td><td>13 Aug 2026</td><td>Rubric to v1.3.0 under unchanged lenses and weights: <code>ops-06</code> (supplier and input dependency) and <code>mkt-05</code> (advantage durability) added, and <code>fin-02</code> tightened so the cash conversion cycle <span class="must">MUST</span> be calculated in days from the accounts rather than described. Adds three intake questions (<code>ins_fin7</code>, <code>ins_ops6</code>, <code>ins_mkt5</code>); the instrument is now 115 questions. Establishes that structural-pressure frameworks, five forces, SWOT, are internal checklists only and <span class="must">MUST NOT</span> appear in a client artifact, because an unranked assertion is not a finding. Adds the chart-title standard to the brand system: a chart title states the finding, not the variable. Prior Aperture Scores remain comparable: weights are unchanged and every score stamps its rubric version, but a score taken on v1.2.0 did not assess <code>ops-06</code> or <code>mkt-05</code> and <span class="must">MUST</span> be re-scored before a before/after claim is made on either.</td></tr>
+  <tr><td class="k">1.3</td><td>10 Aug 2026</td><td>Adds §2.3, the people boundary: what the Method assesses about a team, what it declines, the read-aloud test, and the requirement to price key-person exposure. Rubric to v1.2.0: sub-criteria <code>ldr-04</code>, <code>ldr-05</code> and <code>ops-05</code> added under unchanged weights.</td></tr>
   <tr><td class="k">1.2</td><td>10 Aug 2026</td><td>Ratifies the seven lenses across every artifact and adds the build-time conformance guard. Reverses §2.1.1: Aperture Atlas™ becomes the single name for Phase 05, internal and client-facing; "Aperture Live" is retired. Closes D1 (the SOW fee schedule governs; Exhibit A rewritten) and D2. Records the Lumina rebuild.</td></tr>
   <tr><td class="k">1.1</td><td>10 Aug 2026</td><td>Adds §4, the Force5 agent layer and its constitution. Applies the brand system.</td></tr>
   <tr><td class="k">1.0</td><td>10 Aug 2026</td><td>Initial adoption. Resolves module naming, phase count, the lens set and the reconciliation tolerances. Enumerates the seven gates for the first time. Establishes the placement procedure.</td></tr>
@@ -497,7 +497,7 @@ the SOPs must be amended to carry them.</div>
 
 <table>
   <tr><th>#</th><th>Decision</th><th>Blocks</th><th>Status</th></tr>
-  <tr><td class="k">D1</td><td><s>Reconcile the two published fee schedules.</s> <b>Closed 10 Aug 2026, then re-based the same day:</b> the schedule was reset for the $1&ndash;20M owner-run ICP &mdash; X-Ray <b>$4,500</b> fixed (credited toward the Full Method within 60 days), <b>Aperture Insights $4,500</b> — the X-Ray + Score IS Insights, one product at one price — deep component (Analytics / Intelligence / Compass) <b>from $8,500</b>, Full Method <b>$25,000</b> (à la carte $30,000), <b>Site Selection Study $18,000</b>, Atlas tiered <b>$900 / $1,500 / $2,500 per month</b> by location count on a 6-month minimum with annual prepay at 12-for-10. The X-Ray moved off $2,500 on 11 Aug: the entry fee must qualify, and the free /reality-check quiz is already the top-of-funnel. Exhibit A, the Lumina Proposal &amp; SOW and the SOW generator script were all changed in the same pass. Phase fees are now published: $8,000 keeps the &agrave;-la-carte total ($32,000 for four) clearly above the $25,000 bundle. The retired set ($9,500 / $41,000 / $34,500 / $2,950) must not reappear &mdash; and note it never reconciled, claiming a $9,500 credit that was arithmetically $6,500.</td><td>&mdash;</td><td class="E">Closed &middot; commercial</td></tr>
+  <tr><td class="k">D1</td><td><s>Reconcile the two published fee schedules.</s> <b>Closed 10 Aug 2026, then re-based the same day:</b> the schedule was reset for the $1&ndash;20M owner-run ICP: X-Ray <b>$4,500</b> fixed (credited toward the Full Method within 60 days), <b>Aperture Insights $4,500</b>, the X-Ray + Score IS Insights, one product at one price, deep component (Analytics / Intelligence / Compass) <b>from $8,500</b>, Full Method <b>$25,000</b> (à la carte $30,000), <b>Site Selection Study $18,000</b>, Atlas tiered <b>$900 / $1,500 / $2,500 per month</b> by location count on a 6-month minimum with annual prepay at 12-for-10. The X-Ray moved off $2,500 on 11 Aug: the entry fee must qualify, and the free /reality-check quiz is already the top-of-funnel. Exhibit A, the Lumina Proposal &amp; SOW and the SOW generator script were all changed in the same pass. Phase fees are now published: $8,000 keeps the &agrave;-la-carte total ($32,000 for four) clearly above the $25,000 bundle. The retired set ($9,500 / $41,000 / $34,500 / $2,950) must not reappear, and note it never reconciled, claiming a $9,500 credit that was arithmetically $6,500.</td><td>&mdash;</td><td class="E">Closed &middot; commercial</td></tr>
   <tr><td class="k">D2</td><td><s>Correct "Aperture Atlas" to "Aperture Atlas" in the contract, Exhibit A and the public intake form.</s> <b>Closed 10 Aug 2026, the other way:</b> Atlas is the single name, internal and client-facing. The website was corrected to match; the contract and intake form needed no change.</td><td>—</td><td class="E">Closed · §2.1.1</td></tr>
   <tr><td class="k">D3</td><td>Amend SOPs 03, 04 and 05 to carry the human steps stated in §6.2–6.4.</td><td>Gate G4 conformance</td><td class="M">Open · procedural</td></tr>
   <tr><td class="k">D4</td><td>Define the Compass matrix criteria and weights, and version them.</td><td>Phase 04 reproducibility</td><td class="M">Open · IP</td></tr>
@@ -506,7 +506,7 @@ the SOPs must be amended to carry them.</div>
   <tr><td class="k">D7</td><td>Confirm whether the hosted Scoreboard is delivered or specified. Currently sold as live, delivered as a data feed.</td><td>Phase 05 guarantee in §5.5</td><td class="M">Open · material</td></tr>
   <tr><td class="k">D8</td><td>Add a Business X-Ray segment to the intake form. The wedge has no intake path.</td><td>The most common single purchase</td><td class="M">Open</td></tr>
   <tr><td class="k">D9</td><td>Adopt or discard SOP 00 (Intake). If adopted, X-Ray Step 2 duplicates it.</td><td>Documentation set</td><td class="U">Unclear</td></tr>
-  <tr><td class="k">D10</td><td>Confirm SyncPoint AI terms — query limits, cost, redistribution rights.</td><td>Phase 03 external data</td><td class="M">Open · commercial</td></tr>
+  <tr><td class="k">D10</td><td>Confirm SyncPoint AI terms: query limits, cost, redistribution rights.</td><td>Phase 03 external data</td><td class="M">Open · commercial</td></tr>
 </table>
 
 <div class="callout"><b>How to close one</b>

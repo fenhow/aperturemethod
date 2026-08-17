@@ -1,14 +1,14 @@
 /**
- * The Reality Check — an eleven-question self-assessment of how well an owner
+ * The Reality Check, an eleven-question self-assessment of how well an owner
  * actually knows their own business.
  *
  * Design rule: every question must be unanswerable without real knowledge.
- * "Do you understand your customers?" is worthless — everyone says yes. The
+ * "Do you understand your customers?" is worthless: everyone says yes. The
  * questions below ask for a number, a name, or a timeframe, so the honest
  * answer is often "I'd have to look it up," and that is the whole point.
  *
  * This measures how well you KNOW the business, not how GOOD the business is.
- * The result is a Clarity Score — deliberately NOT the Aperture Score™, which
+ * The result is a Clarity Score, deliberately NOT the Aperture Score™, which
  * is evidence-based and has to be earned.
  */
 
@@ -36,7 +36,7 @@ export const questions: RCQuestion[] = [
     area: "The binding constraint",
     component: "Business X-Ray™",
     prompt:
-      "If I asked you the single biggest thing holding back your growth right now, could you name it — and show me the evidence?",
+      "If I asked you the single biggest thing holding back your growth right now, could you name it, and show me the evidence?",
     options: [
       { label: "I can name it, and I could show you the numbers behind it", score: 4 },
       { label: "I can name it, but the evidence is mostly instinct", score: 2 },
@@ -45,7 +45,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "You do not have an agreed constraint.",
-      body: "Everything else compounds from this. Without one named, evidenced constraint, effort spreads evenly across problems that do not deserve equal effort — and the things that would actually move the business get the same attention as the things that would not.",
+      body: "Everything else compounds from this. Without one named, evidenced constraint, effort spreads evenly across problems that do not deserve equal effort, and the things that would actually move the business get the same attention as the things that would not.",
       cost: "This is the cheapest thing on this list to fix, and the one that changes what every other decision is worth.",
     },
   },
@@ -54,7 +54,7 @@ export const questions: RCQuestion[] = [
     area: "Profit by line",
     component: "Aperture Analytics™",
     prompt:
-      "Which of your products or services is your least profitable — after allocating overhead?",
+      "Which of your products or services is your least profitable, after allocating overhead?",
     note: "Not lowest revenue. Lowest profit, with shared costs allocated.",
     options: [
       { label: "I know exactly, and I could show you the math", score: 4 },
@@ -64,7 +64,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "You are flying without profit visibility by line.",
-      body: "Revenue by product is common. Profit by product, after overhead, is rare — and it is where the surprises live. Most owner-run businesses have at least one line that looks healthy on revenue and is quietly funded by the rest of the business.",
+      body: "Revenue by product is common. Profit by product, after overhead, is rare, and it is where the surprises live. Most owner-run businesses have at least one line that looks healthy on revenue and is quietly funded by the rest of the business.",
       cost: "Until this is allocated, every pricing, staffing and discontinue decision is being made on the wrong number.",
     },
   },
@@ -81,7 +81,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "You do not know how concentrated your revenue is.",
-      body: "Concentration is the single risk a buyer, a lender or a bad quarter finds first. It also quietly dictates how much pricing power you actually have — and owners routinely underestimate their own number by a wide margin.",
+      body: "Concentration is the single risk a buyer, a lender or a bad quarter finds first. It also quietly dictates how much pricing power you actually have, and owners routinely underestimate their own number by a wide margin.",
       cost: "It is a one-afternoon calculation that changes how you think about risk, pricing and valuation.",
     },
   },
@@ -91,7 +91,7 @@ export const questions: RCQuestion[] = [
     component: "Aperture Analytics™",
     prompt:
       "How many days pass between paying for something and getting paid for it?",
-    note: "Money out to money in — the cash conversion cycle. A number of days, not a feeling about cash flow.",
+    note: "Money out to money in: the cash conversion cycle. A number of days, not a feeling about cash flow.",
     options: [
       { label: "I know the number, and I track which way it is moving", score: 4 },
       { label: "I have worked it out at some point", score: 2 },
@@ -100,8 +100,8 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "You have cash locked in the operating cycle and no measure of how much.",
-      body: "Almost every owner knows when cash is tight. Very few know the number of days causing it, which is what makes it fixable — receivables, stock and supplier terms are three separate levers, and they respond to different things. Until the cycle is split into its parts, tight cash looks like one problem instead of three.",
-      cost: "Roughly one day of revenue is tied up for each day in the cycle. Pulling fifteen days out of a $5M business releases about a year's profit in cash — with no borrowing and no new customers.",
+      body: "Almost every owner knows when cash is tight. Very few know the number of days causing it, which is what makes it fixable: receivables, stock and supplier terms are three separate levers, and they respond to different things. Until the cycle is split into its parts, tight cash looks like one problem instead of three.",
+      cost: "Roughly one day of revenue is tied up for each day in the cycle. Pulling fifteen days out of a $5M business releases about a year's profit in cash, with no borrowing and no new customers.",
     },
   },
   {
@@ -126,7 +126,7 @@ export const questions: RCQuestion[] = [
     area: "Market position",
     component: "Aperture Intelligence™ · GIS",
     prompt:
-      "How many direct competitors operate inside your primary trade area — and how much of that area do you actually hold?",
+      "How many direct competitors operate inside your primary trade area, and how much of that area do you actually hold?",
     options: [
       { label: "I know both numbers", score: 4 },
       { label: "I know the competitors, not my share", score: 2 },
@@ -144,7 +144,7 @@ export const questions: RCQuestion[] = [
     area: "The growth plan",
     component: "Aperture Compass™",
     prompt:
-      "Where is your next dollar of growth coming from — and why that, rather than three other options you considered?",
+      "Where is your next dollar of growth coming from, and why that, rather than three other options you considered?",
     options: [
       { label: "We compared the options with numbers and chose", score: 4 },
       { label: "We have a plan, but the alternatives were not modelled", score: 2 },
@@ -153,7 +153,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "Your growth plan has no rejected alternatives.",
-      body: "A plan that was never weighed against other options is not a decision, it is a default. The value of a prioritized roadmap is not the item at the top — it is the confidence that the items below it were genuinely considered and set aside for a reason.",
+      body: "A plan that was never weighed against other options is not a decision, it is a default. The value of a prioritized roadmap is not the item at the top; it is the confidence that the items below it were genuinely considered and set aside for a reason.",
       cost: "Without alternatives on the table, you cannot know whether the plan is the best move or simply the first one anyone suggested.",
     },
   },
@@ -162,7 +162,7 @@ export const questions: RCQuestion[] = [
     area: "Decision discipline",
     component: "Aperture Analytics™ · Compass™",
     prompt:
-      "Before your last significant decision — a hire, a location, a price change — did you model what happens if you are wrong?",
+      "Before your last significant decision, a hire, a location, a price change, did you model what happens if you are wrong?",
     options: [
       { label: "Yes, including a downside case", score: 4 },
       { label: "We discussed the risk, but did not model it", score: 2 },
@@ -171,7 +171,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "Big decisions are being made without a downside case.",
-      body: "Experienced owners are often right, which is exactly what makes this dangerous — the one time the instinct is wrong, there is no early warning and no pre-agreed trigger to stop. Modelling the downside is not pessimism; it is knowing in advance what would tell you to change course.",
+      body: "Experienced owners are often right, which is exactly what makes this dangerous: the one time the instinct is wrong, there is no early warning and no pre-agreed trigger to stop. Modelling the downside is not pessimism; it is knowing in advance what would tell you to change course.",
       cost: "The cost of being wrong is paid in full, months after the decision, when reversing it is most expensive.",
     },
   },
@@ -189,7 +189,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "You would find out late.",
-      body: "A number without a target is a fact, not a signal — it cannot tell you whether things are going well. Without owners and thresholds, drift is only visible once it is large enough to feel, and by then a quarter has usually gone.",
+      body: "A number without a target is a fact, not a signal; it cannot tell you whether things are going well. Without owners and thresholds, drift is only visible once it is large enough to feel, and by then a quarter has usually gone.",
       cost: "The gap between something going wrong and you noticing is where most of the recoverable money is lost.",
     },
   },
@@ -207,7 +207,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "Your numbers are not defensible on demand.",
-      body: "This one is not urgent right up until the day it is — an unsolicited offer, a bank covenant, a partner exit. Reconciled financials are also the foundation everything else in this list depends on, so the work is never wasted.",
+      body: "This one is not urgent right up until the day it is: an unsolicited offer, a bank covenant, a partner exit. Reconciled financials are also the foundation everything else in this list depends on, so the work is never wasted.",
       cost: "Buyers and lenders discount what they cannot verify quickly. The discount is usually larger than the cost of fixing it.",
     },
   },
@@ -224,7 +224,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "AI is not yet earning its place.",
-      body: "This is the least urgent item on the list and the easiest to get wrong in both directions — spending on tools that do nothing, or avoiding it entirely while competitors compound small advantages. The answer is not more AI; it is AI in the two or three places where the return is measurable.",
+      body: "This is the least urgent item on the list and the easiest to get wrong in both directions: spending on tools that do nothing, or avoiding it entirely while competitors compound small advantages. The answer is not more AI; it is AI in the two or three places where the return is measurable.",
       cost: "Low today, compounding quietly. Worth deliberate attention once the items above are settled.",
     },
   },
@@ -258,28 +258,28 @@ export const bands: Band[] = [
     name: "Running on evidence",
     verdict: "You can answer for your own business with numbers. That is rare.",
     frame:
-      "Most of what The Aperture Method does you are already doing. The honest advice is that you probably do not need a full engagement — you need a second set of eyes on one or two specific questions.",
+      "Most of what The Aperture Method does you are already doing. The honest advice is that you probably do not need a full engagement; you need a second set of eyes on one or two specific questions.",
   },
   {
     min: 65,
     name: "Mostly evidence, some instinct",
     verdict: "You know your business well, and there are two or three places you are guessing.",
     frame:
-      "This is a good position. The gaps are specific rather than general, which means they are cheap to close — usually a single component rather than a full engagement.",
+      "This is a good position. The gaps are specific rather than general, which means they are cheap to close, usually a single component rather than a full engagement.",
   },
   {
     min: 45,
     name: "Running on instinct",
     verdict: "You know your business. You cannot yet prove it.",
     frame:
-      "This is the most common result, and it is not a criticism — instinct built on years of operating is real information. It just cannot be tested, delegated, or shown to a bank. The fix is putting evidence underneath what you already believe.",
+      "This is the most common result, and it is not a criticism: instinct built on years of operating is real information. It just cannot be tested, delegated, or shown to a bank. The fix is putting evidence underneath what you already believe.",
   },
   {
     min: 25,
     name: "Significant blind spots",
     verdict: "There are important things about your own business you cannot currently see.",
     frame:
-      "This is normal for a business that grew faster than its reporting did. Nothing here says the business is unhealthy — it says decisions are being made without the information that would make them safer.",
+      "This is normal for a business that grew faster than its reporting did. Nothing here says the business is unhealthy; it says decisions are being made without the information that would make them safer.",
   },
   {
     min: 0,

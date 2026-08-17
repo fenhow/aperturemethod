@@ -10,25 +10,25 @@ type Win = { title: string; body: string; tag: string; questions: string[] };
 const wins: Win[] = [
   {
     title: "Know exactly where you stand",
-    body: "An honest, outside read of the whole business — and the single thing holding it back.",
+    body: "An honest, outside read of the whole business, and the single thing holding it back.",
     tag: "Business X-Ray™",
     questions: [
       "Can you name the single biggest constraint holding your business back right now?",
-      "Do you have an objective, outside read on how the business runs — or only your own view?",
+      "Do you have an objective, outside read on how the business runs, or only your own view?",
       "If you asked your top three people “what's our #1 problem,” would they all say the same thing?",
-      "Do you know which parts of the business are strong vs. fragile — with evidence, not gut?",
-      "Do you know how your key ratios — margin, growth, efficiency — compare to industry benchmarks?",
+      "Do you know which parts of the business are strong vs. fragile, with evidence, not gut?",
+      "Do you know how your key ratios, margin, growth, efficiency, compare to industry benchmarks?",
       "Have you scored your business against where it needs to be to grow?",
     ],
   },
   {
     title: "Find your real profit",
-    body: "Cut past revenue to the truth: what makes money and what quietly loses it — by product, customer, channel, and location.",
+    body: "Cut past revenue to the truth: what makes money and what quietly loses it, by product, customer, channel, and location.",
     tag: "Aperture Analytics™",
     questions: [
-      "Do you know your profit by product or service line — not just total revenue?",
+      "Do you know your profit by product or service line, not just total revenue?",
       "Do you know which customers or segments actually make you money vs. cost you money?",
-      "Do you know your EBITDA — cash earnings before financing and accounting effects — and how your margins compare to your industry?",
+      "Do you know your EBITDA, cash earnings before financing and accounting effects, and how your margins compare to your industry?",
       "Do you know your contribution margin, and how a price change would ripple through to profit?",
       "Has your pricing kept pace with your costs over the last 12 months?",
       "Could you say, in dollars, what your single biggest profit opportunity is?",
@@ -39,25 +39,25 @@ const wins: Win[] = [
     body: "See who's most valuable, who's about to leave, and who's ready to buy more.",
     tag: "Aperture Intelligence™",
     questions: [
-      "Do you know who your most valuable customers are — by lifetime value, not just size?",
+      "Do you know who your most valuable customers are, by lifetime value, not just size?",
       "Do you know your cost to acquire a customer against that lifetime value (your LTV:CAC ratio)?",
       "Can you tell which customers are likely to leave before they actually do?",
-      "Do you track retention by cohort — whether newer customers stick better or worse than older ones?",
+      "Do you track retention by cohort, whether newer customers stick better or worse than older ones?",
       "Do you know which customers are ready to buy more right now?",
       "Is your marketing spend aimed at your best segments, or spread evenly?",
     ],
   },
   {
     title: "Map your market",
-    body: "Demand, competitors, and the white space around you — on a real map, not a hunch.",
+    body: "Demand, competitors, and the white space around you, on a real map, not a hunch.",
     tag: "Intelligence · GIS",
     questions: [
-      "Do you know where demand for what you sell is concentrated — on a map?",
+      "Do you know where demand for what you sell is concentrated, on a map?",
       "Do you know where your competitors are, and just as important, where they aren't?",
       "Can you see the underserved “white space” around you?",
       "Could you forecast demand by area, rather than react to it once it shows up?",
       "If you opened a new location, could you rank the best sites with data?",
-      "Do you know your true trade area — how far customers travel to reach you?",
+      "Do you know your true trade area, how far customers travel to reach you?",
     ],
   },
   {
@@ -66,20 +66,20 @@ const wins: Win[] = [
     tag: "Aperture Compass™",
     questions: [
       "Do you know where your competitors are weakest?",
-      "Do you know your share of wallet — how much of your best customers' total spend you actually capture?",
+      "Do you know your share of wallet, how much of your best customers' total spend you actually capture?",
       "Can you name the specific openings in your market you could win?",
-      "Do you know where your competitive moat is strongest — and where it's starting to erode?",
-      "Do you have a prioritized plan to take share — or just a list of ideas?",
+      "Do you know where your competitive moat is strongest, and where it's starting to erode?",
+      "Do you have a prioritized plan to take share, or just a list of ideas?",
       "Would your team agree on the top three growth priorities?",
     ],
   },
   {
     title: "Plan your next move",
-    body: "Model it before you commit — a new location, a key hire, a price change, a new line.",
+    body: "Model it before you commit: a new location, a key hire, a price change, a new line.",
     tag: "Analytics · Compass",
     questions: [
-      "Before a big decision, do you model the outcome — or decide on instinct?",
-      "Can you run a sensitivity analysis — see how the result shifts if your key assumptions move?",
+      "Before a big decision, do you model the outcome, or decide on instinct?",
+      "Can you run a sensitivity analysis, see how the result shifts if your key assumptions move?",
       "Do you know the real return (NPV or IRR) on your next investment, not just the payback period?",
       "Have you stress-tested your plan against a downturn?",
       "Do you know the one move that would move the needle most this year?",
@@ -90,7 +90,7 @@ const wins: Win[] = [
     body: "Run the plan against a living scoreboard that shows what's working in real time.",
     tag: "Aperture Atlas™",
     questions: [
-      "Do you have a live scoreboard of the few numbers that matter — updated automatically?",
+      "Do you have a live scoreboard of the few numbers that matter, updated automatically?",
       "Do your KPIs connect, like a tree, back to the one or two numbers that really drive the business?",
       "Would you know within a week if your plan started going off track?",
       "Do your numbers tie back to source data, or are they hand-built in spreadsheets?",
@@ -102,24 +102,24 @@ const wins: Win[] = [
     body: "Clean numbers, a story you can defend, and a value you can prove to a buyer or lender.",
     tag: "Analytics · Intelligence",
     questions: [
-      "Do you know what your business is really worth — and the EBITDA multiple a buyer would apply?",
+      "Do you know what your business is really worth, and the EBITDA multiple a buyer would apply?",
       "Are your numbers clean enough to hand to a buyer or lender tomorrow?",
       "Do you know how customer concentration and working capital would move your valuation?",
       "Can you defend your valuation with data, not just a story?",
-      "Do you know what a buyer would flag as your biggest risk — and have you addressed it?",
+      "Do you know what a buyer would flag as your biggest risk, and have you addressed it?",
       "Do you know what would make your business worth more before you sell?",
     ],
   },
   {
     title: "Put AI to work",
-    body: "Add AI where it actually earns its place — with a person in the loop and models that stay yours.",
+    body: "Add AI where it actually earns its place, with a person in the loop and models that stay yours.",
     tag: "AI, without the black box",
     questions: [
       "Do you know the two or three places AI would actually save you time or money this quarter?",
       "Have you separated the real AI use cases from the hype for your business?",
-      "Do you know which decisions to automate vs. keep human — and the return on each?",
+      "Do you know which decisions to automate vs. keep human, and the return on each?",
       "If you use AI, is a person still in the loop on the decisions that matter?",
-      "Do the AI tools you use keep your data and models yours — or someone else's?",
+      "Do the AI tools you use keep your data and models yours, or someone else's?",
     ],
   },
 ];
@@ -235,19 +235,18 @@ export function FitChecks() {
               {answered > 0 ? (
                 unsure === 0 ? (
                   <p className="text-body text-ink">
-                    You know this cold. When you want the data to <span className="font-semibold">prove</span> it —
-                    that&apos;s where <span className="font-semibold text-maroon">{active.tag}</span> comes in.
+                    You know this cold. When you want the data to <span className="font-semibold">prove</span> it. That&apos;s where <span className="font-semibold text-maroon">{active.tag}</span> comes in.
                   </p>
                 ) : (
                   <p className="text-body text-ink">
                     You&apos;re unsure on <span className="font-semibold">{unsure} of {active.questions.length}</span>.
-                    That&apos;s exactly what <span className="font-semibold text-maroon">{active.tag}</span> answers — with
+                    That&apos;s exactly what <span className="font-semibold text-maroon">{active.tag}</span> answers, with
                     data, in plain language.
                   </p>
                 )
               ) : (
                 <p className="text-body text-muted">
-                  Tap through the questions above — then we&apos;ll show you where{" "}
+                  Tap through the questions above. Then we&apos;ll show you where{" "}
                   <span className="font-semibold text-maroon">{active.tag}</span> fits.
                 </p>
               )}

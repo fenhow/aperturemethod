@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { methodLabConfigured } from "@/lib/methodLab";
 
 /**
- * Serves the Aperture Analytics Financial Analysis Workbench — the tool itself.
+ * Serves the Aperture Analytics Financial Analysis Workbench, the tool itself.
  *
  * This is the delivery IP: it is what turns a set of statements into a 43-page
  * analysis in hours rather than days, and anyone holding the file can reproduce
@@ -12,7 +12,7 @@ import { methodLabConfigured } from "@/lib/methodLab";
  * `src/middleware.ts`, exactly like the Agent Workflow Map.
  *
  * The two worked examples it produced ARE public, at
- * /method-lab/financial-analysis-workbench — the proof is published, the press
+ * /method-lab/financial-analysis-workbench: the proof is published, the press
  * is not.
  */
 export const runtime = "nodejs";

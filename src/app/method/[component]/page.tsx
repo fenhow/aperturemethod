@@ -18,7 +18,7 @@ import { pageMeta } from "@/lib/seo";
 const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
 /**
- * Component pages for The Aperture Method™ — one product page per component
+ * Component pages for The Aperture Method™: one product page per component
  * (Insights, Analytics, Intelligence, Compass, Atlas), rendered from the shared
  * `aperturePractices` data. Insights is the approved template; the other four
  * render from the same layout.
@@ -40,7 +40,7 @@ export function generateMetadata({
   const p = find(params.component);
   if (!p) return {};
   return pageMeta({
-    title: `${p.product}™ — ${p.heading}`,
+    title: `${p.product}™: ${p.heading}`,
     description: p.description.slice(0, 155),
     path: `/method/${slugOf(p.short)}`,
   });
@@ -117,7 +117,7 @@ export default function ComponentPage({ params }: { params: { component: string 
       <Section tone="surface">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-center">
           <Reveal variant="right">
-            <SectionHeading eyebrow="What you get" title="A tangible deliverable — yours to keep." />
+            <SectionHeading eyebrow="What you get" title="A tangible deliverable, yours to keep." />
           </Reveal>
           <Reveal variant="left" delay={90}>
             <div className="rounded-lg border border-line bg-paper p-8 shadow-card">
@@ -132,7 +132,7 @@ export default function ComponentPage({ params }: { params: { component: string 
                 <DocumentLightbox
                   href={EXAMPLE_REPORT}
                   page={reportPage}
-                  title={`Example Report · ${p.product} — Lumina Medical Aesthetics`}
+                  title={`Example Report · ${p.product}: Lumina Medical Aesthetics`}
                   triggerLabel={`See ${p.short} in the example report`}
                   triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"
                 />
@@ -142,7 +142,7 @@ export default function ComponentPage({ params }: { params: { component: string 
         </div>
       </Section>
 
-      {/* Published proof — work you can read in full, not a description of work.
+      {/* Published proof: work you can read in full, not a description of work.
           Currently only Aperture Analytics carries this; the field is optional. */}
       {p.proof && (
         <Section tone="surface">
@@ -176,7 +176,7 @@ export default function ComponentPage({ params }: { params: { component: string 
             <SectionHeading
               eyebrow="Under the hood"
               title={`The frameworks behind ${p.short}.`}
-              lede="The same graduate-level business science big-company teams use — applied, in plain language, to your business."
+              lede="The same graduate-level business science big-company teams use, applied, in plain language, to your business."
             />
           </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -204,8 +204,8 @@ export default function ComponentPage({ params }: { params: { component: string 
             </h2>
             <p className="mt-6 text-body-lg text-white/75">
               {isAtlas
-                ? "Aperture Atlas brings your performance and your market together on one live, interactive platform — the Scoreboard, Market Maps, drive-time trade areas, and forecasts, all current, all yours to keep."
-                : "We map where your customers and competitors actually are — trade areas, drive-time rings, demographics, and demand — spatial intelligence most consultants don't offer."}
+                ? "Aperture Atlas brings your performance and your market together on one live, interactive platform: the Scoreboard, Market Maps, drive-time trade areas, and forecasts, all current, all yours to keep."
+                : "We map where your customers and competitors actually are: trade areas, drive-time rings, demographics, and demand, spatial intelligence most consultants don't offer."}
             </p>
           </Reveal>
 
@@ -213,7 +213,7 @@ export default function ComponentPage({ params }: { params: { component: string 
             <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
               <MarketMapLive tone="dark" className="block" />
               <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
-                A Market Map — trade areas, drive-time rings, and where demand actually clusters.
+                A Market Map: trade areas, drive-time rings, and where demand actually clusters.
               </figcaption>
             </figure>
           </Reveal>
@@ -222,20 +222,20 @@ export default function ComponentPage({ params }: { params: { component: string 
             <Reveal variant="up" delay={160} className="mt-6">
               <RevenueForecastLive />
               <p className="mt-3 text-small text-white/55">
-                A live revenue forecast — Atlas continuously projects where the business is heading.
+                A live revenue forecast: Atlas continuously projects where the business is heading.
               </p>
             </Reveal>
           )}
         </Section>
       )}
 
-      {/* Where it fits — arc nav */}
+      {/* Where it fits: arc nav */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
             eyebrow="Where it fits"
             title="One component of a five-part method."
-            lede="Every component is a complete engagement on its own — and a step in the larger arc. Take this one, or run the whole Method."
+            lede="Every component is a complete engagement on its own, and a step in the larger arc. Take this one, or run the whole Method."
           />
         </Reveal>
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-stretch">
@@ -272,7 +272,7 @@ export default function ComponentPage({ params }: { params: { component: string 
                 Not sure {p.product} is where to start?
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                Begin with a Business X-Ray — a fixed-fee diagnostic that shows you exactly which
+                Begin with a Business X-Ray, a fixed-fee diagnostic that shows you exactly which
                 components will move the needle.
               </p>
             </div>

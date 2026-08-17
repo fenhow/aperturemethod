@@ -21,7 +21,7 @@ import { aperturePractices } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 
 /**
- * Homepage — the parent front door for The Aperture Method™. The methodology is
+ * Homepage: the parent front door for The Aperture Method™. The methodology is
  * the parent; its six components (Insights → Analytics → Intelligence → Compass
  * → Live → Atlas) can be engaged one at a time or as the full Method. Leads into
  * the existing site. (The previous marketing homepage is preserved at /overview.)
@@ -32,7 +32,7 @@ export default function Home() {
     <>
       <ApertureHero />
 
-      {/* Plain-English strip — the "what is this company" answer, stated once, in
+      {/* Plain-English strip: the "what is this company" answer, stated once, in
           words an owner would use. Deliberately the first thing under the hero:
           it catches the scanner who skipped the headline, and it lets a
           wrong-fit visitor disqualify themselves early, which is a feature. */}
@@ -45,20 +45,20 @@ export default function Home() {
               actually is, and give you a live dashboard to run the business from.{" "}
               <span className="font-semibold text-ink">
                 Built for owner-run companies doing $1M–$20M
-              </span>{" "}
-              — done for you, in language you can act on.
+              </span>,
+             done for you, in language you can act on.
             </p>
           </div>
         </Container>
       </div>
 
-      {/* One methodology, five components — the MBA → GIS → DATA arc + the X-Ray front door */}
+      {/* One methodology, five components: the MBA → GIS → DATA arc + the X-Ray front door */}
       <Section>
         <Reveal className="max-w-measure">
           <SectionHeading
             eyebrow="The Aperture Method™"
             title="One methodology. Five components."
-            lede="The Aperture Method is the whole system — a repeatable path that takes a business from a first honest assessment all the way to a living, visual intelligence platform. Engage a single component when that's all you need, or run the full Method. Either way, you work with the same senior partner throughout."
+            lede="The Aperture Method is the whole system, a repeatable path that takes a business from a first honest assessment all the way to a living, visual intelligence platform. Engage a single component when that's all you need, or run the full Method. Either way, you work with the same senior partner throughout."
           />
         </Reveal>
 
@@ -69,7 +69,7 @@ export default function Home() {
         <Reveal delay={120} className="mt-8">
           <div className="rounded-2xl border border-maroon/30 bg-surface p-7 sm:p-9">
             <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
-              {/* Left — what the X-Ray is, with ways to explore before booking */}
+              {/* Left: what the X-Ray is, with ways to explore before booking */}
               <div>
                 <p className="eyebrow">Start here · Aperture Insights™</p>
                 <p className="mt-2 text-h3 font-semibold text-ink">
@@ -78,13 +78,13 @@ export default function Home() {
                 <p className="mt-3 text-body text-muted">
                   A fixed-fee read of your whole business across seven lenses. Broad by design rather
                   than deep: it names your likely #1 constraint and tells you exactly where the digging
-                  needs to happen — the numbers, the market, or the plan.
+                  needs to happen: the numbers, the market, or the plan.
                 </p>
                 <ul className="mt-5 space-y-2">
                   {[
                     "A seven-lens read of the whole business",
                     "Your #1 constraint, clearly named",
-                    "Your Aperture Score™ — a baseline to track",
+                    "Your Aperture Score™, a baseline to track",
                   ].map((li) => (
                     <li key={li} className="flex items-start gap-2.5 text-small text-body">
                       <span
@@ -109,17 +109,17 @@ export default function Home() {
                   <DocumentLightbox
                     href={EXAMPLE_REPORT}
                     page={10}
-                    title="Example Report · Business X-Ray — Lumina Medical Aesthetics"
+                    title="Example Report · Business X-Ray: Lumina Medical Aesthetics"
                     triggerLabel="See a real Business X-Ray in the example report"
                     triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"
                   />
                 </div>
               </div>
 
-              {/* Right — the five components it points you to, each linked */}
+              {/* Right: the five components it points you to, each linked */}
               <div className="rounded-xl border border-line bg-paper p-6">
                 <p className="text-overline font-semibold uppercase tracking-overline text-muted">
-                  Where it points you — the five components
+                  Where it points you: the five components
                 </p>
                 <ul className="mt-3 divide-y divide-line">
                   {aperturePractices.map((pr) => (
@@ -153,14 +153,14 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* Start anywhere — the selectable menu. Carries the #method anchor that the
+      {/* Start anywhere: the selectable menu. Carries the #method anchor that the
           hero and How-it-works link to, since the aperture dial above it was removed. */}
       <Section tone="surface" id="method">
         <Reveal>
           <SectionHeading
             eyebrow="Start anywhere"
             title="Take one component, or the whole Method."
-            lede="Every component is a complete engagement on its own, and a step in the larger arc. Pick where it hurts most today — or let the Business X-Ray choose for you."
+            lede="Every component is a complete engagement on its own, and a step in the larger arc. Pick where it hurts most today, or let the Business X-Ray choose for you."
           />
         </Reveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -192,7 +192,7 @@ export default function Home() {
             </Reveal>
           ))}
 
-          {/* Quick contact — fills the sixth slot in the 3-column grid */}
+          {/* Quick contact: fills the sixth slot in the 3-column grid */}
           <Reveal variant="up" delay={160}>
             <QuickContactCard />
           </Reveal>
@@ -202,13 +202,13 @@ export default function Home() {
         </p>
       </Section>
 
-      {/* The white space — the category-of-one positioning matrix */}
+      {/* The white space: the category-of-one positioning matrix */}
       <Whitespace />
 
-      {/* How it works — the engagement model + pricing */}
+      {/* How it works: the engagement model + pricing */}
       <HowItWorks />
 
-      {/* Aperture Atlas — the living platform (live demos) */}
+      {/* Aperture Atlas: the living platform (live demos) */}
       <Section tone="dark" id="atlas">
         <Reveal className="max-w-measure">
           <p className="eyebrow eyebrow--on-dark mb-5">Aperture Atlas™ · the platform</p>
@@ -216,7 +216,7 @@ export default function Home() {
             Where the analysis comes alive.
           </h2>
           <p className="mt-6 text-body-lg text-white/75">
-            Aperture Atlas is the Geographic Intelligence Platform at the end of the arc — your
+            Aperture Atlas is the Geographic Intelligence Platform at the end of the arc, your
             market, customers, competitors, and performance on one live, interactive map, powered by
             SyncPoint AI. When an engagement ends, Atlas keeps running: the dashboards, Market Maps,
             and forecasts stay current, and they&apos;re yours to keep.
@@ -227,7 +227,7 @@ export default function Home() {
           <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
             <MarketMapLive tone="dark" className="block" />
             <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
-              A Market Map inside Atlas — trade areas, drive-time rings, and where demand actually
+              A Market Map inside Atlas: trade areas, drive-time rings, and where demand actually
               clusters.
             </figcaption>
           </figure>
@@ -236,16 +236,16 @@ export default function Home() {
         <Reveal variant="up" delay={160} className="mt-6">
           <RevenueForecastLive />
           <p className="mt-3 text-small text-white/55">
-            A live revenue forecast — Atlas doesn&apos;t just show your numbers, it continuously
+            A live revenue forecast: Atlas doesn&apos;t just show your numbers, it continuously
             projects where the business is heading.
           </p>
         </Reveal>
       </Section>
 
-      {/* The book — in progress */}
+      {/* The book, in progress */}
       <BookSection />
 
-      {/* Look Closer — the free classroom session (community, not commercial) */}
+      {/* Look Closer: the free classroom session (community, not commercial) */}
       <LookCloserBand />
 
       {/* Final CTA */}
@@ -257,7 +257,7 @@ export default function Home() {
                 See your business clearly. Then watch the strategy run.
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                Start with the Business X-Ray — a fixed-fee, low-risk first step that shows you which
+                Start with the Business X-Ray, a fixed-fee, low-risk first step that shows you which
                 components you need.
               </p>
             </div>

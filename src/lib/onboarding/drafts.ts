@@ -41,8 +41,8 @@ export async function saveDraft(input: DraftInput): Promise<{ ok: boolean; token
   const admin = createAdminClient();
 
   // Identity fields are only written when non-empty. Autosave sends them on every
-  // keystroke, so blindly writing "" would wipe the email — the one thing that lets us
-  // re-send a resume link — the moment the client clears that box.
+  // keystroke, so blindly writing "" would wipe the email, the one thing that lets us
+  // re-send a resume link, the moment the client clears that box.
   const row: Record<string, unknown> = {
     segments: input.segments ?? [],
     answers: input.answers ?? {},
@@ -142,18 +142,18 @@ export async function emailResumeLink(input: {
   const hello = input.signerName?.trim() ? `Hi ${esc(input.signerName.trim())},` : "Hello,";
   const res = await sendEmail({
     to: input.email,
-    subject: "Your Aperture intake — resume link",
+    subject: "Your Aperture intake: resume link",
     html: `<div style="font-family:Arial,Helvetica,sans-serif;color:#141414;font-size:15px;line-height:1.6">
       <h2 style="color:#500000;margin:0 0 8px">Pick up where you left off.</h2>
       <p style="margin:0 0 12px">${hello}</p>
       <p style="margin:0 0 12px">Your Intake Questionnaire has been saved${names ? ` (${esc(names)})` : ""}.
-        Use the private link below to continue on any device — your answers are already filled in.</p>
+        Use the private link below to continue on any device; your answers are already filled in.</p>
       <p style="margin:0 0 18px">
         <a href="${link}" style="display:inline-block;background:#500000;color:#fff;text-decoration:none;padding:12px 22px;border-radius:4px;font-weight:600">Resume my intake</a>
       </p>
       <p style="margin:0 0 12px;color:#6b6b6b;font-size:13px">Or paste this into your browser:<br/>
         <span style="color:#500000">${link}</span></p>
-      <p style="margin:16px 0 4px;color:#6b6b6b;font-size:13px">Keep this link private — anyone with it can open your draft.</p>
+      <p style="margin:16px 0 4px;color:#6b6b6b;font-size:13px">Keep this link private: anyone with it can open your draft.</p>
       <p style="margin:14px 0 0">Warmly,<br/><strong>Fenwick How</strong><br/>Founder · The Aperture Method™</p>
     </div>`,
   });

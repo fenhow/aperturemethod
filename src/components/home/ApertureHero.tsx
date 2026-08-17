@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 
 /**
- * Aperture parent-brand hero — a rotating, Bain-style hero. Slide 1 carries the
+ * Aperture parent-brand hero: a rotating, Bain-style hero. Slide 1 carries the
  * parent positioning ("Your fractional intelligence department"); the remaining
  * slides are the original homepage slides (numbers, customers, AI). Same
  * construction/quality as the site's HeroRotator; accessible (labelled carousel,
@@ -20,7 +20,7 @@ const slides: Slide[] = [
   {
     eyebrow: "Analytics, AI & strategy for owner-run businesses",
     title: "Big-company intelligence, built for your business.",
-    sub: "Your fractional intelligence department — the business and marketing intelligence big companies rely on, right-sized for owner-run businesses, in plain language, and done for you.",
+    sub: "Your fractional intelligence department: the business and marketing intelligence big companies rely on, right-sized for owner-run businesses, in plain language, and done for you.",
     image: "/hero/hero-3-v7.jpg",
   },
   {
@@ -32,21 +32,21 @@ const slides: Slide[] = [
   {
     eyebrow: "Know your customers",
     title: "See who your best customers are.",
-    sub: "Who's most valuable, who's likely to leave, who's ready to buy more — and where the next customers are.",
+    sub: "Who's most valuable, who's likely to leave, who's ready to buy more, and where the next customers are.",
     image: "/hero/hero-2d-poster.jpg",
     video: "/hero/hero-2d.mp4",
   },
   {
     eyebrow: "Know where AI fits",
-    title: "Put AI to work — without the hype.",
-    sub: "Understand it, implement what fits, and use it to hold your edge — with a person in the loop and models that are yours to keep.",
+    title: "Put AI to work, without the hype.",
+    sub: "Understand it, implement what fits, and use it to hold your edge, with a person in the loop and models that are yours to keep.",
     image: "/hero/hero-4-v9.jpg",
   },
 ];
 
 const INTERVAL = 9000;
 /**
- * Slide 1 is the anchor — it is the only slide that says what the company IS,
+ * Slide 1 is the anchor: it is the only slide that says what the company IS,
  * so it holds longer on first view and the auto-rotation never cycles back to
  * it. The other three rotate beneath it as proof of range. A visitor can never
  * land on "AI" as their first impression of the business.

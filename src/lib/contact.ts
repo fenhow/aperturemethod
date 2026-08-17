@@ -43,7 +43,7 @@ export type ContactPayload = {
   timeline?: string;
   referral?: string;
   newsletter?: boolean;
-  /** Honeypot — must be empty. Bots fill it; humans never see it. */
+  /** Honeypot: must be empty. Bots fill it; humans never see it. */
   website?: string;
 };
 

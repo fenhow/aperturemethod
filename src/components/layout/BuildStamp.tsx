@@ -3,7 +3,7 @@ import { BUILD } from "@/lib/buildInfo.generated";
 /**
  * The build stamp in the footer.
  *
- * Small and quiet — a prospect has no use for a commit hash — but present on every page, so
+ * Small and quiet, a prospect has no use for a commit hash, but present on every page, so
  * the question "is the deployed site the thing I pushed?" is answered by looking at the site
  * rather than by trusting a dashboard. The full detail, including the lens weights this build
  * compiled against, is one click away at /version.

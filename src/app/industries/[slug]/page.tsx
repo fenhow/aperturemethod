@@ -19,7 +19,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const ind = getIndustry(params.slug);
   if (!ind) return {};
   return pageMeta({
-    title: `${ind.name} — Analytics & Strategy`,
+    title: `${ind.name}: Analytics & Strategy`,
     description: ind.seoDescription,
     path: ind.href,
   });
@@ -76,7 +76,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
               id={`INDUSTRY-${ind.slug}`}
               ratio="aspect-[4/3]"
               className="rounded border border-line hover-lift"
-              label={`${ind.name} environment — photography to be added`}
+              label={`${ind.name} environment: photography to be added`}
             />
           </Reveal>
         </div>
@@ -129,7 +129,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
           <p className="eyebrow mb-4">What you&apos;d learn first</p>
           <p className="text-h3 font-medium text-ink">{ind.firstQuestion}</p>
           <p className="mt-6 text-body text-muted">
-            The Business X-Ray is a fixed-fee, low-risk first step — it answers exactly this before you
+            The Business X-Ray is a fixed-fee, low-risk first step. It answers exactly this before you
             commit to anything more.
           </p>
           <p className="mt-8">
@@ -149,7 +149,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
                 See your business clearly. Then watch the strategy run.
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                Start with the Business X-Ray — a fixed-fee, low-risk first step.
+                Start with the Business X-Ray, a fixed-fee, low-risk first step.
               </p>
             </div>
             <Link href={primaryCta.href} className="btn--on-dark shrink-0">

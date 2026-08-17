@@ -103,7 +103,7 @@ export function IntakeForm() {
   // ---- Draft persistence ----------------------------------------------------
   // Two layers, deliberately. The server is the real store; this browser is the
   // seatbelt for when it is unreachable. Losing a part-finished intake is the worst
-  // thing this form can do, so it never depends on a single mechanism — and it never
+  // thing this form can do, so it never depends on a single mechanism, and it never
   // waits for the client to press a button before it starts protecting their work.
   const LS_KEY = "aperture-intake-draft-v1";
   const EXPLAINED_KEY = "aperture-intake-explained-v1";
@@ -128,7 +128,7 @@ export function IntakeForm() {
         JSON.stringify({ ...stateRef.current, token: tokenRef.current, at: Date.now() })
       );
     } catch {
-      /* private browsing / quota — the server copy is still the primary */
+      /* private browsing / quota: the server copy is still the primary */
     }
   };
 
@@ -190,8 +190,7 @@ export function IntakeForm() {
       persistLocal();
       setSaveState("saved");
 
-      // Tell the client once, the first time their work reaches us. Not on every save —
-      // that would be nagging — and not when they arrived via a resume link, since they
+      // Tell the client once, the first time their work reaches us. Not on every save; that would be nagging, and not when they arrived via a resume link, since they
       // already know how this works.
       if (!explained.current) {
         explained.current = true;
@@ -230,11 +229,11 @@ export function IntakeForm() {
             setToken(data.draft.token);
             setAns(data.draft.answers ?? {});
             // An empty segments array must never hide sections the client already
-            // answered — the answers survive, but it reads to them as data loss.
+            // answered. The answers survive, but it reads to them as data loss.
             setSelected(data.draft.segments?.length ? data.draft.segments : [...ALL_KEYS]);
             if (data.draft.email) set("contact_email", data.draft.email);
             if (data.draft.signerName) set("contact_name", data.draft.signerName);
-            setSaveMsg("Welcome back — your answers are filled in.");
+            setSaveMsg("Welcome back. Your answers are filled in.");
             setSaveState("saved");
             explained.current = true;
           } else if (data?.completed) {
@@ -281,7 +280,7 @@ export function IntakeForm() {
     if (!hasContent(ans)) return;
     dirtyRef.current = true;
     persistLocal();
-    // Debounced — but a fast typist never leaves a 1.2s gap, so force a save every 15s
+    // Debounced, but a fast typist never leaves a 1.2s gap, so force a save every 15s
     // regardless, or a long passage would never reach the server at all.
     const overdue = Date.now() - lastSavedAt.current > 15000;
     const id = setTimeout(() => void saveNow(), overdue ? 0 : 1200);
@@ -327,14 +326,14 @@ export function IntakeForm() {
     const res = await saveNow({ sendLink: true });
     if (res.ok && res.emailed) setLinkEmailed(true);
     else if (res.ok) {
-      setSaveMsg("Saved, but we couldn't send the email just now. Your link is above — please copy it.");
+      setSaveMsg("Saved, but we couldn't send the email just now. Your link is above. Please copy it.");
       setSavedOpen(false);
     }
     setSaving(false);
   }
 
   /** Save now and hand over the resume link. The dialog collects the email if they want it
-   *  posted to them — asking for an address before showing them anything is friction for no
+   *  posted to them: asking for an address before showing them anything is friction for no
    *  reason, since the link works without one. */
   async function saveAndFinishLater() {
     setSaving(true);
@@ -345,7 +344,7 @@ export function IntakeForm() {
       setSavedOpen(true);
     } else if (saveState !== "gone") {
       setSaveMsg(
-        "We couldn't reach the server just now. Your answers are safe in this browser — please try again in a moment."
+        "We couldn't reach the server just now. Your answers are safe in this browser. Please try again in a moment."
       );
     }
   }
@@ -442,7 +441,7 @@ export function IntakeForm() {
         <fieldset className="space-y-5">
           <legend className="text-h4 font-semibold text-ink">Your details</legend>
           <p className="text-small text-muted">
-            So we know who we&apos;re speaking with — and where to send your copy and your resume link.
+            So we know who we&apos;re speaking with, and where to send your copy and your resume link.
           </p>
           <div>
             <label htmlFor="contact_name" className={labelCls}>
@@ -487,12 +486,12 @@ export function IntakeForm() {
           <legend className="text-h4 font-semibold text-ink">Which parts of the Method are we doing?</legend>
           <p className="text-small text-muted">
             Everyone answers the shared foundation below. The <span className="font-semibold text-ink">Full
-            Method</span> is selected by default — most clients do the complete engagement. Doing just part
+            Method</span> is selected by default: most clients do the complete engagement. Doing just part
             of it? Deselect it and choose only the part(s) you&apos;ve engaged, and we&apos;ll show just
             those questions.
           </p>
 
-          {/* Full Method — primary, default, red-bordered */}
+          {/* Full Method: primary, default, red-bordered */}
           <button
             type="button"
             onClick={selectFull}
@@ -506,7 +505,7 @@ export function IntakeForm() {
                 <span className="rounded-sm bg-maroon px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-paper">
                   Recommended
                 </span>
-                <span className="text-body font-semibold text-ink">Full Method — all five</span>
+                <span className="text-body font-semibold text-ink">Full Method, all five</span>
               </span>
               <span
                 className={
@@ -519,7 +518,7 @@ export function IntakeForm() {
               </span>
             </span>
             <span className="mt-2 text-small text-muted">
-              The complete engagement — all five phases, in sequence. You get:{" "}
+              The complete engagement: all five phases, in sequence. You get:{" "}
               <span className="font-semibold text-maroon">
                 {allSegments.map((s) => s.gives).join(" · ")}
               </span>
@@ -585,14 +584,14 @@ export function IntakeForm() {
           </div>
         ))}
 
-        {/* What we still need. Placed before the signature deliberately — this is the last
+        {/* What we still need. Placed before the signature deliberately: this is the last
             thing they read before committing, and it is the difference between an engagement
             that starts next week and one that stalls waiting on a spreadsheet. */}
         <fieldset className="space-y-4">
           <legend className="text-h4 font-semibold text-ink">What we will need from you</legend>
           <p className="text-body text-muted">
             Based on what you have told us and the parts of the Method you have chosen. You do
-            not need to gather any of this before sending the form back — we will work out
+            not need to gather any of this before sending the form back. We will work out
             together what is worth the effort of retrieving.
           </p>
 
@@ -617,7 +616,7 @@ export function IntakeForm() {
           {stillNeeded > 0 && (
             <div className="rounded-md border border-maroon/40 bg-maroon/5 p-4">
               <p className="text-small font-semibold text-ink">
-                Still to come — {stillNeeded} item{stillNeeded === 1 ? "" : "s"}
+                Still to come: {stillNeeded} item{stillNeeded === 1 ? "" : "s"}
               </p>
               <ul className="mt-3 space-y-3">
                 {dataRequest
@@ -635,7 +634,7 @@ export function IntakeForm() {
                   ))}
               </ul>
               <p className="mt-4 text-small text-muted">
-                Send what you have to hand — messy or partial is normal and is not a blocker.
+                Send what you have to hand. Messy or partial is normal and is not a blocker.
                 We will come back with a short, specific list of anything still worth chasing.
               </p>
             </div>
@@ -666,13 +665,13 @@ export function IntakeForm() {
         {status === "error" && (
           <p className="rounded-sm border border-maroon bg-maroon/5 p-4 text-small font-medium text-maroon">{message}</p>
         )}
-        {/* A persistent, honest save signal — FIXED, not in the flow.
+        {/* A persistent, honest save signal, FIXED, not in the flow.
             It first shipped inline above the submit button, which put it ~600px below
             a 108-question form: autosave fired on the first keystroke at the top and
             reported success where nobody could see it. A save indicator that scrolls
             out of view is the same as no indicator. */}
         {/* Floating save signal. Once there is a draft to return to, it also becomes the
-            way back into the explainer — a one-time popup is easy to miss, and the client
+            way back into the explainer: a one-time popup is easy to miss, and the client
             should never have to hunt for their own resume link. */}
         {saveState !== "idle" && (
           saveState === "saved" && token ? (
@@ -708,7 +707,7 @@ export function IntakeForm() {
                 {saveState === "saving" && "Saving…"}
                 {saveState === "saved" && "Saved. You can close this page and come back to it."}
                 {saveState === "error" &&
-                  "Not saved to our server — your answers are being kept in this browser. We'll keep retrying."}
+                  "Not saved to our server: your answers are being kept in this browser. We'll keep retrying."}
                 {saveState === "gone" &&
                   "This draft is no longer active. Copy your answers somewhere safe before leaving this page."}
               </span>
@@ -762,10 +761,10 @@ export function IntakeForm() {
           result?.emailed && result?.stored
             ? "A signed copy has been emailed to you and saved to your secure client area."
             : result?.emailed
-              ? "A signed copy has been emailed to you. Please keep it — download it below as well."
+              ? "A signed copy has been emailed to you. Please keep it. Download it below as well."
               : result?.stored
                 ? "Saved to your secure client area. Download a signed copy below for your records."
-                : "We have your submission. Please download your signed copy below and keep it — we could not email it."
+                : "We have your submission. Please download your signed copy below and keep it: we could not email it."
         }
       />
     </>

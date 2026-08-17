@@ -13,11 +13,11 @@ import "./globals.css";
 /**
  * Typography (design system §1). The brand face is Graphik (licensed); the
  * approved legal near-match is Inter. We self-host Inter Variable (latin
- * subset, weights 300–600) via next/font/local — zero external requests, zero
+ * subset, weights 300–600) via next/font/local: zero external requests, zero
  * layout shift (next/font injects a size-adjusted fallback automatically).
  *
  * To switch to licensed Graphik later: drop the Graphik woff2 files into
- * ./fonts and point `src` at them. Nothing else changes — every style reads
+ * ./fonts and point `src` at them. Nothing else changes: every style reads
  * the `--font-sans` variable.
  */
 const sans = localFont({
@@ -27,7 +27,7 @@ const sans = localFont({
   variable: "--font-sans",
 });
 
-const ogTitle = `${siteConfig.name} — ${siteConfig.positioningLine}`;
+const ogTitle = `${siteConfig.name}: ${siteConfig.positioningLine}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

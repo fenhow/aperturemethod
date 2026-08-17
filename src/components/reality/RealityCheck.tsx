@@ -56,7 +56,7 @@ export function RealityCheck() {
             A warning before you start: these questions are designed so you cannot bluff them. Each
             one asks for a number, a name, or a timeframe. If the honest answer is{" "}
             <span className="font-semibold">I would have to look it up</span>, that is a real
-            answer — and it is the one worth knowing.
+            answer, and it is the one worth knowing.
           </p>
           <p className="mt-4 text-body text-ink">
             This measures how well you <span className="font-semibold">know</span> your business,
@@ -194,7 +194,7 @@ export function RealityCheck() {
         <div className="mt-10 rounded-lg border border-line p-6">
           <h3 className="text-h4 font-semibold text-ink">You answered all ten with confidence</h3>
           <p className="mt-2 text-body text-muted">
-            That is genuinely uncommon. The honest recommendation is not a full engagement — it is a
+            That is genuinely uncommon. The honest recommendation is not a full engagement; it is a
             conversation about the one or two questions where your evidence is thinnest.
           </p>
         </div>
@@ -219,7 +219,7 @@ export function RealityCheck() {
         <h3 className="text-h4 font-semibold text-ink">What this is, and what it is not</h3>
         <p className="mt-3 text-body text-muted">
           This is a self-assessment. It tells you what you do not currently know. The Business
-          X-Ray™ is the diagnostic that answers it — a seven-lens read of the whole business, the
+          X-Ray™ is the diagnostic that answers it, a seven-lens read of the whole business, the
           named constraint with the evidence behind it, and a baseline Aperture Score™ you can
           track. Two to three weeks, fixed fee, senior-led.
         </p>
@@ -302,12 +302,12 @@ function ReportForm({
         <h3 className="text-h4 font-semibold text-ink">Sent. Check your inbox.</h3>
         <p className="mt-2 text-body text-muted">
           Your written breakdown is on its way to{" "}
-          <span className="font-semibold text-ink">{email}</span> — every question, your answer, and
+          <span className="font-semibold text-ink">{email}</span>: every question, your answer, and
           what the evidenced version of it looks like.
         </p>
         <p className="mt-3 text-body text-ink">
           <span className="font-semibold">If it is not there in a minute or two, check your spam
-          or promotions folder</span> — first-time senders often land there. Marking it &ldquo;not
+          or promotions folder</span>. First-time senders often land there. Marking it &ldquo;not
           spam&rdquo; makes sure the reply comes through too.
         </p>
         <p className="mt-3 text-caption text-muted">
@@ -321,8 +321,8 @@ function ReportForm({
     <form onSubmit={onSubmit} className="mt-10 rounded-lg border border-line p-6 sm:p-8">
       <h3 className="text-h4 font-semibold text-ink">Want the written breakdown?</h3>
       <p className="mt-2 text-body text-muted">
-        Your score is above and it is yours either way. If you want the long version — every
-        question, your answer, and what the evidenced version looks like — we will email it to you
+        Your score is above and it is yours either way. If you want the long version, every
+        question, your answer, and what the evidenced version looks like, we will email it to you
         the moment you hit send. No sequence, no drip campaign.
       </p>
 

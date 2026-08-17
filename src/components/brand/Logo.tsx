@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Aperture family lockup — the six-blade aperture mark, "APERTURE", a hairline
+ * Aperture family lockup: the six-blade aperture mark, "APERTURE", a hairline
  * divider, then the variable word ("METHOD" for the parent; a component name
  * like "ATLAS" for the family). Rendered live (not flat art) so it stays crisp
  * at any size, flips for dark backgrounds, and flexes across the family.
@@ -12,8 +12,8 @@ import { cn } from "@/lib/utils";
  */
 
 const ICON = {
-  dark: "/logo-icon-black.png", // dark blades — for light backgrounds
-  light: "/logo-icon-white.png", // white blades — for dark backgrounds
+  dark: "/logo-icon-black.png", // dark blades for light backgrounds
+  light: "/logo-icon-white.png", // white blades for dark backgrounds
   onred: "/logo-icon-white.png",
 } as const;
 

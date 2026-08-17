@@ -6,7 +6,7 @@ import { methodLabConfigured } from "@/lib/methodLab";
 /**
  * Serves the Aperture Analytics Financial Analysis Workbench, the tool itself.
  *
- * This is the delivery IP: it is what turns a set of statements into a 43-page
+ * This is the delivery IP: it is what turns a set of statements into a 44-page
  * analysis in hours rather than days, and anyone holding the file can reproduce
  * that without us. So it sits in `private/method-lab/` and is gated upstream in
  * `src/middleware.ts`, exactly like the Agent Workflow Map.

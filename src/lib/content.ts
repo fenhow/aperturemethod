@@ -145,7 +145,7 @@ export const methodPhases: MethodPhase[] = [
         },
       ],
       href: "/method-lab/financial-analysis-workbench",
-      linkLabel: "Read both reports: 43 pages each, free, no email",
+      linkLabel: "Read both reports: 44 pages each, free, no email",
     },
     frameworks: [
       { name: "Profitability analysis", what: "Shows exactly where you make and lose money: by service, location, or customer." },

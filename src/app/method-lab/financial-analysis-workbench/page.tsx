@@ -95,7 +95,7 @@ export default function FinancialAnalysisWorkbench() {
             analysis quietly refuses to.</p>
           <div className="meta">
             <span className="tag solid">Free · No email required</span>
-            <span className="tag">43 pages each</span>
+            <span className="tag">44 pages each</span>
             <span className="tag">PDF</span>
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function FinancialAnalysisWorkbench() {
               <div className="spacer"></div>
               <a className="dl" href="/downloads/aperture-analytics-public-example.pdf" download>
                 Download the public example</a>
-              <p className="fmeta">PDF · 43 pages · approx. 0.4 MB</p>
+              <p className="fmeta">PDF · 44 pages · approx. 0.4 MB</p>
             </div>
 
             <div className="card">
@@ -147,7 +147,7 @@ export default function FinancialAnalysisWorkbench() {
               <div className="spacer"></div>
               <a className="dl" href="/downloads/aperture-analytics-private-example.pdf" download>
                 Download the private example</a>
-              <p className="fmeta">PDF · 43 pages · approx. 0.4 MB</p>
+              <p className="fmeta">PDF · 44 pages · approx. 0.4 MB</p>
             </div>
           </div>
         </div>
@@ -203,7 +203,7 @@ export default function FinancialAnalysisWorkbench() {
       <section>
         <div className="wrap">
           <p className="eyebrow">What’s inside</p>
-          <h2 className="sec">Forty-three pages, and no black boxes</h2>
+          <h2 className="sec">Forty-four pages, and no black boxes</h2>
           <p className="lead">Both reports follow the same structure. The last third is the part most analyses
             leave out.</p>
           <div className="inside">

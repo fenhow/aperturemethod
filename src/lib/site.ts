@@ -136,7 +136,7 @@ export const megaNav: MegaEntry[] = [
     links: [
       { label: "About", href: "/about", desc: "Who's behind the Method" },
       { label: "What We Believe", href: "/what-we-believe", desc: "The principles we work by" },
-      { label: "Look Closer, for schools", href: "/look-closer", desc: "The free session we teach locally" },
+      { label: "Business Lab, for schools", href: "/business-lab", desc: "The free session we teach locally" },
       { label: "Insights", href: "/insights", desc: "Plain thinking, by the numbers" },
       { label: "Contact", href: "/contact", desc: "Start a conversation" },
     ],
@@ -152,7 +152,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "What We Believe", href: "/what-we-believe" },
       { label: "Insights", href: "/insights" },
-      { label: "Look Closer, free for schools", href: "/look-closer" },
+      { label: "Business Lab, free for schools", href: "/business-lab" },
       { label: "Contact", href: "/contact" },
     ],
   },

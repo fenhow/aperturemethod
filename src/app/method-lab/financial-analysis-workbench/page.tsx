@@ -55,6 +55,7 @@ const CSS = `.falw{
   padding:14px 22px;border-radius:2px;align-self:flex-start;transition:.15s}.falw .card .dl:hover{background:var(--maroon);text-decoration:none}.falw .card .fmeta{font-size:11px;color:var(--muted);margin-top:11px;letter-spacing:.04em}.falw /* contrast table */
 .ctable{width:100%;border-collapse:collapse;margin-top:26px;font-size:14.5px}.falw .ctable th{text-align:left;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);font-weight:600;padding:11px 14px;border-bottom:2px solid var(--type)}.falw .ctable th:first-child{width:26%}.falw .ctable td{padding:13px 14px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}.falw .ctable td:first-child{font-weight:600;color:var(--type)}.falw .ctable tr:last-child td{border-bottom:none}.falw /* inside list */
+.fnote{font-size:12px;line-height:1.5;color:var(--muted,#6B6B6B);margin-top:14px;padding-top:12px;border-top:1px solid var(--rule)}
 .inside{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px 34px;margin-top:26px}.falw .inside .item{display:flex;gap:15px;padding:14px 0;border-bottom:1px solid var(--rule)}.falw .inside .n{font-size:19px;font-weight:600;color:var(--maroon);opacity:.5;line-height:1;
   flex:0 0 30px;letter-spacing:-.03em}.falw .inside b{display:block;font-size:15px;color:var(--type);margin-bottom:3px;font-weight:600}.falw .inside span{font-size:13.5px;color:var(--body);line-height:1.5}.falw /* pull quote */
 .pull{border-left:3px solid var(--maroon);padding:6px 0 6px 24px;margin:34px 0 0;max-width:64ch}.falw .pull p{font-size:20px;line-height:1.45;color:var(--type);font-weight:400;margin:0;letter-spacing:-.01em}.falw .pull cite{display:block;margin-top:12px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
@@ -85,17 +86,18 @@ export default function FinancialAnalysisWorkbench() {
     
           <p className="eyebrow">Method Lab · Aperture Analytics™ · Phase 02 Quantify</p>
           <div className="crule"></div>
-          <h1>Two companies. One method. Completely different questions.</h1>
-          <p className="lede">Below are two complete financial analyses, produced by the same workbench and
+          <h1>Three companies. One method. Completely different questions.</h1>
+          <p className="lede">Below are three complete financial analyses, produced by the same workbench and
             published in full. One is a listed retailer with forty billion dollars of revenue and an audited
-            10-K. The other is an owner-managed fabricator with eighteen million and a set of reviewed
-            accounts.</p>
+            10-K. One is an owner-managed fabricator with eighteen million and a set of reviewed accounts.
+            The third is a medical aesthetics group with six million, a compilation and no assurance at all,
+            which is what most owner-run businesses actually hand you.</p>
           <p className="lede"><strong>Read side by side, they make a point that is hard to make in the
             abstract:</strong> the analysis has to change when the entity does, and most financial
             analysis quietly refuses to.</p>
           <div className="meta">
             <span className="tag solid">Free · No email required</span>
-            <span className="tag">44 pages each</span>
+            <span className="tag">43 to 44 pages each</span>
             <span className="tag">PDF</span>
           </div>
         </div>
@@ -104,7 +106,7 @@ export default function FinancialAnalysisWorkbench() {
       <section>
         <div className="wrap">
           <p className="eyebrow">The downloads</p>
-          <h2 className="sec">Both reports, in full</h2>
+          <h2 className="sec">All three reports, in full</h2>
           <p className="lead">Nothing is held back and nothing is watermarked. Every figure carries the formula
             that produced it, and the final twelve pages derive every number in the report from first
             principles, so you can check the work rather than take it on trust.</p>
@@ -148,6 +150,29 @@ export default function FinancialAnalysisWorkbench() {
               <a className="dl" href="/downloads/aperture-analytics-private-example.pdf" download>
                 Download the private example</a>
               <p className="fmeta">PDF · 44 pages · approx. 0.4 MB</p>
+            </div>
+
+            <div className="card">
+              <span className="badge alt">Illustrative</span>
+              <h3>Lumina Medical Aesthetics, PLLC</h3>
+              <p className="sub">Founder led · S Corporation · Medical aesthetics</p>
+              <p>A three-clinic practice that grew revenue 61% in three years while profit stayed flat. The
+                analysis finds the growth leaking out through patients who never come back, prices what the
+                second visit is worth, and weighs fixing retention against opening a fourth location. It is
+                also the weakest evidence base of the three: a compilation carries no assurance whatsoever.</p>
+              <ul>
+                <li>Compiled statements: no assurance, no testing, no opinion</li>
+                <li>Reported EBITDA 878 to 966 against revenue 3,990 to 6,440</li>
+                <li>Adjusted EBITDA 1,311 · margin compressed 22.0% to 15.0%</li>
+                <li>Retention worth roughly 200 a year against a 900 break-even for a new site</li>
+              </ul>
+              <p className="fnote"><em>Lumina is a fictional company created to demonstrate the Method. Every
+                figure is synthetic and internally consistent; nothing here is a real client or a real
+                result.</em></p>
+              <div className="spacer"></div>
+              <a className="dl" href="/downloads/aperture-analytics-illustrative-example.pdf" download>
+                Download the illustrative example</a>
+              <p className="fmeta">PDF · 43 pages · approx. 0.4 MB</p>
             </div>
           </div>
         </div>

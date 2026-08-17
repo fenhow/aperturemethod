@@ -33,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
     { path: "/accessibility", priority: 0.3, changeFrequency: "yearly" },
     { path: "/glossary", priority: 0.5, changeFrequency: "monthly" },
-    { path: "/look-closer", priority: 0.6, changeFrequency: "monthly" },
+    { path: "/business-lab", priority: 0.6, changeFrequency: "monthly" },
   ];
 
   const deliverableRoutes = deliverables.map((d) => ({

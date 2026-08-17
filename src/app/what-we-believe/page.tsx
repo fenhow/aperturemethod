@@ -214,7 +214,7 @@ export default function WhatWeBelievePage() {
         </Reveal>
       </Section>
 
-      {/* Look Closer: belief, put into practice */}
+      {/* Aperture Business Lab: belief, put into practice */}
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <Reveal>
@@ -231,7 +231,7 @@ export default function WhatWeBelievePage() {
                 people long before they own anything.
               </p>
               <p>
-                So we built <span className="font-semibold text-ink">Look Closer</span>, a
+                So we built the <span className="font-semibold text-ink">Aperture Business Lab</span>, a
                 fifty-minute guest-speaker session for grades 8–12. Students get a card describing a
                 real business and fifteen minutes to find the one thing holding it back. Fenwick
                 runs it himself, at any school that will have him. There is no fee and nothing is
@@ -244,7 +244,7 @@ export default function WhatWeBelievePage() {
               </p>
             </div>
             <p className="mt-8">
-              <LinkArrow href="/look-closer">See the session</LinkArrow>
+              <LinkArrow href="/business-lab">See the session</LinkArrow>
             </p>
           </Reveal>
         </div>

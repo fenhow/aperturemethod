@@ -1,5 +1,5 @@
 /**
- * Look Closer, the free guest-speaker session Fenwick runs for schools.
+ * Aperture Business Lab, the free guest-speaker session Fenwick runs for schools.
  *
  * Deliberately NOT part of the commercial content model. It is given away: no
  * fee, nothing sold to students, no student data collected. Content lives here
@@ -8,24 +8,37 @@
  * Note on voice: this page speaks as "I", not "we". A teacher is deciding
  * whether to let a specific person into a room, and a firm cannot walk through
  * a classroom door.
+ *
+ * Naming: the programme is Aperture Business Lab, powered by The Aperture
+ * Method. The classroom exercise inside it has its own name, "Think Like a
+ * CEO. Make the Call.", so a teacher can put the activity on a lesson plan
+ * without putting a firm's brand on it.
  */
 
-export const lookCloser = {
-  slug: "/look-closer",
-  name: "Look Closer",
-  eyebrow: "A free guest-speaker session · grades 8–12",
+export const businessLab = {
+  slug: "/business-lab",
+  name: "Aperture Business Lab",
+  /** Rendered with the trademark where the brand is being introduced. */
+  nameTm: "Aperture Business Lab\u2122",
+  /** The parent it inherits its method from. */
+  poweredBy: "Powered by The Aperture Method\u2122",
+  /** The three-beat promise. Used under the name, never as body copy. */
+  promise: "See the Business. Find the Opportunity. Make the Decision.",
+  /** The classroom exercise itself, the thing a teacher writes on the plan. */
+  exercise: "Think Like a CEO. Make the Call.",
+  eyebrow: "A free guest-speaker session \u00b7 grades 8\u201312",
   tagline: "One class period. Your students find what a business owner can't see.",
-  grades: "Grades 8–12",
+  grades: "Grades 8\u201312",
   minutes: 50,
   workingMinutes: 23,
   /** The one thing a student leaves with, in their own voice. */
   takeaway: "I could actually do this.",
   /** Where it slots into a school's timetable. */
-  fits: "Economics · Principles of Business, Marketing & Finance · Entrepreneurship · Money Matters and personal financial literacy · career exploration and advisory · DECA and FBLA chapters",
+  fits: "Economics \u00b7 Principles of Business, Marketing & Finance \u00b7 Entrepreneurship \u00b7 Money Matters and personal financial literacy \u00b7 career exploration and advisory \u00b7 DECA and FBLA chapters",
 } as const;
 
 /** The three ideas the session teaches. Never more than three. */
-export const lookCloserIdeas: { label: string; title: string; body: string }[] = [
+export const businessLabIdeas: { label: string; title: string; body: string }[] = [
   {
     label: "The bottleneck",
     title: "Every business has one thing holding it back.",
@@ -44,7 +57,7 @@ export const lookCloserIdeas: { label: string; title: string; body: string }[] =
 ];
 
 /** The 50 minutes, as a teacher would want to see them. */
-export const lookCloserRunOfShow: { time: string; title: string; body: string }[] = [
+export const businessLabRunOfShow: { time: string; title: string; body: string }[] = [
   {
     time: "0–5",
     title: "The hook",
@@ -81,7 +94,7 @@ export const lookCloserRunOfShow: { time: string; title: string; body: string }[
  * The six businesses. Every one is invented. The originals are set in The
  * Woodlands, and they get rewritten for whatever town the class is in.
  */
-export const lookCloserCards: { name: string; where: string; teaser: string }[] = [
+export const businessLabCards: { name: string; where: string; teaser: string }[] = [
   {
     name: "Waterway Waffle Co.",
     where: "A walk-up window downtown",
@@ -127,39 +140,39 @@ export type PacketItem = {
   gated: boolean;
 };
 
-const DIR = "/look-closer";
+const DIR = "/business-lab";
 
-export const lookCloserPacket: PacketItem[] = [
+export const businessLabPacket: PacketItem[] = [
   {
-    file: `${DIR}/look-closer-overview.pdf`,
+    file: `${DIR}/business-lab-overview.pdf`,
     title: "Program overview",
     blurb: "Two pages to forward to a principal, department head or CTE director: what the session teaches, how the period runs, who I am, and what I'll need from you.",
     pages: "2 pages · PDF",
     gated: false,
   },
   {
-    file: `${DIR}/look-closer-business-cards.pdf`,
+    file: `${DIR}/business-lab-business-cards.pdf`,
     title: "The six business cards",
     blurb: "One business per page: exactly what your students are handed. Everything a team needs is on the card; there is no missing information and no trick.",
     pages: "8 pages · PDF",
     gated: true,
   },
   {
-    file: `${DIR}/look-closer-student-worksheet.pdf`,
+    file: `${DIR}/business-lab-student-worksheet.pdf`,
     title: "Student worksheet",
     blurb: "The five lenses, room to work the arithmetic, and the three sentences every team has to be able to say out loud.",
     pages: "4 pages · PDF",
     gated: true,
   },
   {
-    file: `${DIR}/look-closer-facilitator-guide.pdf`,
+    file: `${DIR}/business-lab-facilitator-guide.pdf`,
     title: "The lesson plan I run from",
     blurb: "Minute by minute, what goes on the board, the wrong answers I expect and what I say back, so you know how the period will go before you hand it to me.",
     pages: "12 pages · PDF",
     gated: true,
   },
   {
-    file: `${DIR}/look-closer-answer-key.pdf`,
+    file: `${DIR}/business-lab-answer-key.pdf`,
     title: "Answer key",
     blurb: "What each card is really about, the arithmetic behind it, and what the fix is worth per year, so you can follow along, or push a team further than I do.",
     pages: "10 pages · PDF",

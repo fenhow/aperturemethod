@@ -3,19 +3,19 @@
 import { useEffect, useId, useState } from "react";
 import { EMAIL_RE } from "@/lib/contact";
 import { track } from "@/lib/analytics";
-import { lookCloserPacket } from "@/lib/lookCloser";
+import { businessLabPacket } from "@/lib/businessLab";
 
-const STORAGE_KEY = "aperture:look-closer:unlocked";
+const STORAGE_KEY = "aperture:business-lab:unlocked";
 
 /**
- * The materials block on /look-closer.
+ * The materials block on /business-lab.
  *
  * This is a preview, not a DIY kit: Fenwick runs the session himself, and a
  * teacher looks at these so they know exactly what will be handed to their
  * students before they give up a period. The one-page overview stays open
  * because it is the sheet a teacher forwards to a principal, and a forward that
  * lands on a form goes nowhere. Everything else asks once for name, school and
- * email; the choice lives on each item's `gated` flag in `lib/lookCloser.ts`.
+ * email; the choice lives on each item's `gated` flag in `lib/businessLab.ts`.
  */
 export function PacketDownloads() {
   const uid = useId();
@@ -61,7 +61,7 @@ export function PacketDownloads() {
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, name, org: school, website, source: "look-closer-materials" }),
+        body: JSON.stringify({ email, name, org: school, website, source: "business-lab-materials" }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; message?: string };
       if (res.ok && data.ok) {
@@ -93,7 +93,7 @@ export function PacketDownloads() {
     <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-12">
       {/* The files */}
       <ul className="space-y-4">
-        {lookCloserPacket.map((item) => {
+        {businessLabPacket.map((item) => {
           const open = !item.gated || unlocked;
           return (
             <li
@@ -161,7 +161,7 @@ export function PacketDownloads() {
           <form
             onSubmit={onSubmit}
             noValidate
-            aria-label="See the Look Closer materials"
+            aria-label="See the Aperture Business Lab materials"
             className="rounded-lg border border-white/20 bg-white/5 p-6"
           >
             <p className="text-body-lg font-semibold text-paper">Have a look at everything.</p>

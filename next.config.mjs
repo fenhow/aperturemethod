@@ -23,12 +23,18 @@ const nextConfig = {
   // Emit a Vary header so compression is negotiated per client (gzip/br).
   compress: true,
   async redirects() {
-    // Industries pages retired (Aug 2026) — the firm is deliberately
+    // Industries pages retired (Aug 2026). The firm is deliberately
     // industry-agnostic. 301 so any existing links and search equity land on
     // the page that answers the same question.
+    //
+    // Look Closer was renamed to Aperture Business Lab (Aug 2026). Teachers
+    // were handed the old URL on printed material, so this redirect is
+    // permanent and must not be removed.
     return [
       { source: "/industries", destination: "/who-its-for", permanent: true },
       { source: "/industries/:slug", destination: "/who-its-for", permanent: true },
+      { source: "/look-closer", destination: "/business-lab", permanent: true },
+      { source: "/look-closer/:path*", destination: "/business-lab/:path*", permanent: true },
     ];
   },
   async headers() {

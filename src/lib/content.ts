@@ -124,7 +124,7 @@ export const methodPhases: MethodPhase[] = [
       "Most owners have plenty of numbers. What they don\u2019t have is anyone who turns them into a decision. That\u2019s the job.",
     proof: {
       eyebrow: "Published in full",
-      title: "Two companies. One method. Completely different questions.",
+      title: "Three companies. One method. Completely different questions.",
       lead:
         "Two complete analyses, published with nothing held back: a listed retailer with forty billion in revenue and an audited 10-K, and an owner-managed fabricator with eighteen million and a set of reviewed accounts. Read side by side they make a point that is hard to make in the abstract: the analysis has to change when the entity does, and most financial analysis quietly refuses to.",
       points: [
@@ -145,7 +145,7 @@ export const methodPhases: MethodPhase[] = [
         },
       ],
       href: "/method-lab/financial-analysis-workbench",
-      linkLabel: "Read both reports: 44 pages each, free, no email",
+      linkLabel: "Read all three reports: 43 to 44 pages each, free, no email",
     },
     frameworks: [
       { name: "Profitability analysis", what: "Shows exactly where you make and lose money: by service, location, or customer." },

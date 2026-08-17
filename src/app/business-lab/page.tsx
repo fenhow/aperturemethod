@@ -6,19 +6,19 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { PacketDownloads } from "@/components/education/PacketDownloads";
 import {
-  lookCloser,
-  lookCloserCards,
-  lookCloserIdeas,
-  lookCloserRunOfShow,
-} from "@/lib/lookCloser";
+  businessLab,
+  businessLabCards,
+  businessLabIdeas,
+  businessLabRunOfShow,
+} from "@/lib/businessLab";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Look Closer: a free guest-speaker session for schools",
+  title: "Aperture Business Lab: a free guest-speaker session for schools",
   description:
-    "A free 50-minute guest-speaker session for grades 8–12: economics, business, entrepreneurship and career classes. Students get a real-looking business and fifteen minutes to find the one thing holding it back. No fee, nothing sold to students.",
-  path: "/look-closer",
-  image: "/look-closer/look-closer-og.png",
+    "Aperture Business Lab is a free 50-minute guest-speaker session for grades 8–12: economics, business, entrepreneurship and career classes. Students get a real-looking business and fifteen minutes to find the one thing holding it back. No fee, nothing sold to students.",
+  path: "/business-lab",
+  image: "/business-lab/business-lab-og.png",
 });
 
 const stats: { n: string; l: string }[] = [
@@ -53,20 +53,22 @@ const bring: { us: string; you: string }[] = [
   { us: "Business cards rewritten for your town", you: "Nothing else. No technology required." },
 ];
 
-export default function LookCloserPage() {
+export default function BusinessLabPage() {
   return (
     <>
       {/* Hero */}
       <Section className="pt-28 md:pt-36">
         <Reveal className="max-w-measure">
-          <p className="eyebrow mb-4">{lookCloser.eyebrow}</p>
-          <h1 className="text-h1 font-semibold heading-gradient">Look Closer</h1>
-          <p className="mt-6 text-body-lg text-body">{lookCloser.tagline}</p>
+          <p className="eyebrow mb-4">{businessLab.eyebrow}</p>
+          <h1 className="text-h1 font-semibold heading-gradient">{businessLab.nameTm}</h1>
+          <p className="mt-4 text-body-lg font-semibold text-maroon">{businessLab.promise}</p>
+          <p className="mt-2 text-small text-muted">{businessLab.poweredBy}</p>
+          <p className="mt-6 text-body-lg text-body">{businessLab.tagline}</p>
           <p className="mt-5 text-body-lg text-muted">
             I come to your classroom for one period. Teams of three each get a card describing a real
             business, a waffle window, a barbershop, a lawn crew two seniors run on Saturdays, and
             fifteen minutes to work out the one thing holding it back. It is the same question I get
-            paid to answer for business owners, handed to {lookCloser.grades.toLowerCase()} for
+            paid to answer for business owners, handed to {businessLab.grades.toLowerCase()} for
             nothing.
           </p>
         </Reveal>
@@ -84,7 +86,7 @@ export default function LookCloserPage() {
 
         <Reveal delay={180} className="mt-8">
           <p className="max-w-measure text-body text-muted">
-            <span className="font-semibold text-ink">Where it fits:</span> {lookCloser.fits}. No prior
+            <span className="font-semibold text-ink">Where it fits:</span> {businessLab.fits}. No prior
             business coursework is assumed: the arithmetic is multiplication and division, done
             deliberately slowly.
           </p>
@@ -101,7 +103,7 @@ export default function LookCloserPage() {
           />
         </Reveal>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {lookCloserIdeas.map((idea, i) => (
+          {businessLabIdeas.map((idea, i) => (
             <Reveal key={idea.title} variant="up" delay={(i % 3) * 90} className="h-full">
               <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
                 <p className="text-h3 font-semibold text-maroon">{String(i + 1).padStart(2, "0")}</p>
@@ -148,7 +150,7 @@ export default function LookCloserPage() {
         <Reveal className="max-w-measure">
           <p className="eyebrow eyebrow--on-dark mb-5">And the one thing they walk away with</p>
           <blockquote className="text-h1 font-semibold leading-[1.1] text-paper">
-            &ldquo;{lookCloser.takeaway}&rdquo;
+            &ldquo;{businessLab.takeaway}&rdquo;
           </blockquote>
           <p className="mt-6 text-body-lg text-white/70">
             One belief, in the student&apos;s own voice, not a framework and not a worksheet they
@@ -165,13 +167,13 @@ export default function LookCloserPage() {
       <Section>
         <Reveal>
           <SectionHeading
-            eyebrow="The fifty minutes"
-            title="What actually happens in the room."
-            lede="The students do the work for most of the period. That ratio is the entire design; anything that eats into it gets cut, including my own good stories."
+            eyebrow="The exercise · the fifty minutes"
+            title={businessLab.exercise}
+            lede="That is the exercise, and it is what actually happens in the room. The students do the work for most of the period. That ratio is the entire design; anything that eats into it gets cut, including my own good stories."
           />
         </Reveal>
         <div className="mt-12 border-t border-line">
-          {lookCloserRunOfShow.map((s, i) => (
+          {businessLabRunOfShow.map((s, i) => (
             <Reveal key={s.title} delay={Math.min(i * 60, 240)}>
               <div className="grid gap-2 border-b border-line py-6 sm:grid-cols-[7rem_1fr] sm:gap-8">
                 <p className="text-small font-semibold uppercase tracking-overline text-maroon">
@@ -197,7 +199,7 @@ export default function LookCloserPage() {
           />
         </Reveal>
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {lookCloserCards.map((c, i) => (
+          {businessLabCards.map((c, i) => (
             <Reveal key={c.name} variant="up" delay={(i % 3) * 80} className="h-full">
               <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
                 <h3 className="text-h4 font-semibold text-ink">{c.name}</h3>
@@ -230,7 +232,7 @@ export default function LookCloserPage() {
           <Reveal variant="right">
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg border border-line bg-surface">
               <Image
-                src="/look-closer/fenwick-headshot.jpg"
+                src="/business-lab/fenwick-headshot.jpg"
                 alt="Fenwick How, founder of The Aperture Method"
                 fill
                 sizes="(max-width: 1024px) 100vw, 32vw"
@@ -278,7 +280,7 @@ export default function LookCloserPage() {
             <figure>
               <div className="overflow-hidden rounded-lg border border-line bg-paper p-2 shadow-card">
                 <Image
-                  src="/look-closer/snow-bank-1978.jpg"
+                  src="/business-lab/snow-bank-1978.jpg"
                   alt="A December 1978 Taber Times front page headlined “Snow Bank”, with a photograph of two eight-year-old boys shovelling a driveway"
                   width={1405}
                   height={1120}
@@ -438,7 +440,7 @@ export default function LookCloserPage() {
             worth driving for.
           </p>
           <p className="mt-8 text-body text-white/50">
-            {lookCloser.name} · {lookCloser.grades} · a free session from The Aperture Method™
+            {businessLab.nameTm} · {businessLab.grades} · {businessLab.poweredBy}
           </p>
         </Reveal>
       </Section>

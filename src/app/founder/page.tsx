@@ -170,7 +170,7 @@ export default function FounderPage() {
         </dl>
       </Section>
 
-      {/* Look Closer */}
+      {/* Aperture Business Lab */}
       <Section>
         <Reveal className="max-w-measure">
           <p className="eyebrow mb-4">Outside the work</p>
@@ -179,13 +179,13 @@ export default function FounderPage() {
           </h2>
           <p className="mt-6 text-body-lg text-body">
             I run a free guest-speaker session for schools called{" "}
-            <span className="font-semibold text-ink">Look Closer</span>. Students get a card
+            <span className="font-semibold text-ink">Aperture Business Lab</span>. Students get a card
             describing a real business and fifteen minutes to work out the one thing holding it back,
             the same question I get paid to answer, handed to grades 8–12 for nothing. No fee,
             nothing sold to students, and I&apos;ll come to any school that will have me.
           </p>
           <p className="mt-8">
-            <LinkArrow href="/look-closer">See the session</LinkArrow>
+            <LinkArrow href="/business-lab">See the session</LinkArrow>
           </p>
         </Reveal>
       </Section>

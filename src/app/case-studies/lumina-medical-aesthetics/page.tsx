@@ -33,6 +33,8 @@ type Phase = {
   deliverable: string;
   img: string;
   alt: string;
+  /** Optional download / read-more buttons rendered under the deliverable line. */
+  links?: { label: string; href: string; primary?: boolean }[];
 };
 
 const phases: Phase[] = [
@@ -57,6 +59,10 @@ const phases: Phase[] = [
     deliverable: "Profit Map™ + scenario model",
     img: "/deliverables/03_analytics_scenario_model.jpg",
     alt: "The Profit Map and scenario model report page for Lumina Medical Aesthetics",
+    links: [
+      { label: "Read the full financial report", href: "/downloads/aperture-analytics-illustrative-example.pdf", primary: true },
+      { label: "See all three worked examples", href: "/method-lab/financial-analysis-workbench" },
+    ],
   },
   {
     n: "03",
@@ -174,7 +180,7 @@ export default function LuminaCaseStudyPage() {
         </Reveal>
         <Reveal className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line lg:grid-cols-4">
           {metrics.map((m) => (
-            <div key={m.l} className="bg-paper p-6">
+            <div key={m.l} className="bg-paper p-6 text-center">
               <p className="text-h2 font-semibold text-maroon">{m.v}</p>
               <p className="mt-2 text-small text-muted">{m.l}</p>
             </div>
@@ -217,6 +223,19 @@ export default function LuminaCaseStudyPage() {
                   <p className="mt-5 border-l-2 border-maroon pl-4 text-body font-medium text-ink">
                     Deliverable: {p.deliverable}
                   </p>
+                  {p.links && (
+                    <div className="mt-6 flex flex-wrap gap-3">
+                      {p.links.map((l) => (
+                        <Link
+                          key={l.href}
+                          href={l.href}
+                          className={l.primary ? "btn" : "btn--ghost"}
+                        >
+                          {l.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <figure className="relative">
                   <div className="overflow-hidden rounded-lg border border-line bg-paper shadow-card ring-1 ring-black/[0.03]">

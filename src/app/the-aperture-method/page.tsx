@@ -35,12 +35,6 @@ const differentiators = [
   },
 ];
 
-const cadence = [
-  { h: "Sprint", p: "Short delivery sprints on the priority moves." },
-  { h: "Track", p: "KPIs tracked live on the Scoreboard." },
-  { h: "Steer", p: "A monthly steering conversation." },
-  { h: "Recalibrate", p: "A quarterly review on live data." },
-];
 
 const dataPrinciples = [
   { h: "Ownership", p: "Everything we build on your data, models, dashboards, is yours to keep." },
@@ -185,32 +179,6 @@ export default function TheApertureMethodPage() {
       {/* The Aperture Difference: positioning statement */}
       <ApertureDifference tone="dark" />
 
-      {/* How we deliver */}
-      <Section tone="surface">
-        <Reveal className="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-start">
-          <SectionHeading title="How we deliver." />
-          <div>
-            <p className="text-body-lg text-body">
-              Engagements are fixed-fee and phase-gated. You see the price, and you decide whether to
-              continue at each gate, so you&apos;re never locked into an open-ended commitment. The work
-              is senior-led from start to finish. In Aperture Atlas, we move to a light recurring cadence, and
-              we deliberately hand over the models, dashboards, and playbooks. Most clients start with
-              the Business X-Ray.
-            </p>
-            <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded border border-line bg-line sm:grid-cols-4">
-              {cadence.map((c) => (
-                <div key={c.h} className="group bg-paper p-5 transition-colors duration-200 hover:bg-surface">
-                  <h3 className="text-h4 font-semibold text-ink transition-colors group-hover:text-maroon">
-                    {c.h}
-                  </h3>
-                  <p className="mt-1.5 text-small text-muted">{c.p}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </Section>
-
       {/* Measured on your numbers */}
       <Section>
         <Reveal className="max-w-measure">
@@ -261,7 +229,7 @@ export default function TheApertureMethodPage() {
       {/* FAQ */}
       <Section tone="surface">
         <Reveal className="max-w-3xl">
-          <SectionHeading title="Questions executives usually ask." className="mb-10 max-w-none" />
+          <SectionHeading title="Questions owners usually ask." className="mb-10 max-w-none" />
           <Faq items={faqs} />
         </Reveal>
       </Section>

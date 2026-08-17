@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Aperture Method™: Working from Public Filings</title>
+<style>
+  :root{
+    --ink:#0A0A0A;          /* tailwind ink */
+    --crimson:#500000;      /* brand maroon, primary */
+    --deep:#6A1414;         /* deeper maroon */
+    --lift:#8C2B2B;         /* maroon.light, accents */
+    --onDark:#C9756C;       /* maroon.onDark, AA on dark */
+    --gold:#C9A24B;         /* brand gold */
+    --muted:#6B6B6B;
+    --hair:#E6E6E6;
+    --paper:#FFFFFF;
+    --wash:#F5F5F4;         /* surface */
+    --warm:#F4F2EE;
+    --dark:#0A0A0A;
+    --teal:#3F7F7A;
+    --amber:#C9A24B;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+       font:15px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 56px 90px}
+
+  /* ── cover ── */
+  .cover{min-height:96vh;display:flex;flex-direction:column;justify-content:center;
+         background:var(--dark);color:#fff;padding:64px 72px;page-break-after:always;
+         background-image:radial-gradient(120% 90% at 82% 12%, rgba(80,0,0,.55) 0%, rgba(10,10,10,0) 62%)}
+  .cover .logo{align-self:flex-start;width:268px;height:auto;margin-bottom:60px;opacity:.96}
+  .cover .eyebrow{color:var(--gold)}
+  .cover h1{color:#fff}
+  .cover .rule{background:var(--gold)}
+  .cover .lede{color:#D6D2CE}
+  .cover .meta{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.14)}
+  .cover .meta div{background:rgba(10,10,10,.55)}
+  .cover .meta b{color:#9A9490}
+  .cover .meta span{color:#fff}
+  .cover .status{border-left-color:var(--gold);background:rgba(201,162,75,.09);color:#D6D2CE}
+  .eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--crimson);font-weight:700}
+  .cover h1{font-size:52px;line-height:1.05;font-weight:300;letter-spacing:-.02em;margin:18px 0 0}
+  .cover h1 b{font-weight:700;display:block}
+  .rule{width:88px;height:2px;background:var(--crimson);margin:26px 0}
+  .cover .lede{font-size:17px;line-height:1.6;color:#D6D2CE;max-width:62ch;margin:0 0 30px}
+  .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;
+        background:var(--hair);border:1px solid var(--hair);max-width:820px}
+  .meta div{background:var(--paper);padding:12px 15px}
+  .meta b{display:block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .meta span{font-size:13.5px;font-weight:600}
+  .status{margin-top:26px;border-left:3px solid var(--gold);background:#FBF7EE;padding:14px 20px;
+          font-size:13.5px;max-width:820px}
+
+  /* ── structure ── */
+  h2{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--crimson);
+     font-weight:700;margin:56px 0 6px;padding-top:26px;border-top:1px solid var(--hair)}
+  h2:first-of-type{border-top:0}
+  h3{font-size:23px;font-weight:400;margin:2px 0 16px;letter-spacing:-.01em}
+  h4{font-size:14.5px;font-weight:700;margin:26px 0 8px}
+  p{margin:0 0 13px;max-width:80ch}
+  .note{color:var(--muted);font-size:13.5px;max-width:80ch}
+
+  .cl{display:grid;grid-template-columns:58px 1fr;gap:0 16px;margin:0 0 11px;max-width:86ch}
+  .cl .n{font-size:12px;font-weight:700;color:var(--crimson);padding-top:2px;font-variant-numeric:tabular-nums}
+  .cl p{margin:0}
+  .must{font-weight:700}
+  code{font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--wash);
+       padding:1px 5px;border-radius:3px;border:1px solid var(--hair)}
+
+  table{border-collapse:collapse;width:100%;margin:14px 0 22px;font-size:13px}
+  th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+  th{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+     font-weight:700;background:var(--wash)}
+  td.k{font-weight:700;white-space:nowrap}
+  .E{color:var(--teal);font-weight:700} .P{color:var(--amber);font-weight:700}
+  .M{color:var(--crimson);font-weight:700} .U{color:var(--muted);font-weight:700}
+
+  .callout{border:1px solid var(--hair);border-left:3px solid var(--crimson);background:var(--wash);
+           padding:15px 20px;margin:18px 0;font-size:13.5px;max-width:84ch}
+  .callout b{display:block;margin-bottom:4px}
+  .open{border-left-color:var(--gold);background:#FBF7EE}
+
+  ol.toc{list-style:none;padding:0;columns:2;column-gap:52px;font-size:14px}
+  ol.toc li{padding:5px 0;break-inside:avoid;border-bottom:1px solid var(--hair)}
+  ol.toc b{display:inline-block;width:30px;color:var(--crimson);font-size:12px}
+
+  footer{border-top:1px solid var(--hair);padding:20px 56px;max-width:1080px;margin:0 auto;
+         color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+
+  @media print{
+    body{font-size:11.5px}
+    .cover{min-height:auto;padding:44px 40px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .wrap{padding:0 0 20px;max-width:none}
+    .cover{min-height:auto;padding:0;page-break-after:always}
+    .cover h1{font-size:40px}
+    h2{page-break-after:avoid;margin-top:30px}
+    h3,h4{page-break-after:avoid}
+    table,.callout,.cl,.meta{page-break-inside:avoid}
+    .sec{page-break-before:always}
+    footer{padding:14px 0}
+  }
+
+.confbar{background:#500000;color:#fff;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;padding:7px 12px;font-weight:700;
+  position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px}
+.confbar .cb-t{flex:1;text-align:center}
+.exitform{margin:0;flex:none}
+.exitbtn,.homebtn{font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:#fff;background:transparent;border:1px solid rgba(255,255,255,.5);border-radius:3px;
+  padding:4px 11px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-block;
+  transition:background .15s,border-color .15s}
+.exitbtn:hover,.homebtn:hover{background:rgba(255,255,255,.16);border-color:#fff}
+.exitbtn:focus-visible,.homebtn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.exitbtn .x{margin-right:6px;font-weight:400}
+.homebtn .a{margin-right:6px;font-weight:400}
+@media(max-width:720px){
+  .confbar{font-size:10px;gap:6px;padding:6px 10px}
+  .confbar .cb-t{text-align:left}
+  .exitbtn,.homebtn{font-size:10px;padding:3px 8px;letter-spacing:.1em}
+}
+
+  /* checklist items, specific to this document */
+  ol.ck{list-style:none;counter-reset:ck;padding:0;margin:14px 0 22px;max-width:86ch}
+  ol.ck>li{counter-increment:ck;position:relative;padding:11px 0 11px 46px;
+           border-bottom:1px solid var(--hair);font-size:13.5px}
+  ol.ck>li:before{content:counter(ck);position:absolute;left:0;top:11px;width:26px;height:26px;
+           border:1px solid var(--hair);border-radius:3px;background:var(--paper);
+           font-size:11px;font-weight:700;color:var(--crimson);
+           display:flex;align-items:center;justify-content:center}
+  ol.ck>li b{display:block;font-size:14px;margin-bottom:2px}
+  ol.ck>li .why{color:var(--muted)}
+  .tag{display:inline-block;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+       font-weight:700;padding:2px 7px;border-radius:2px;margin-left:8px;vertical-align:1px}
+  .tag.req{background:#500000;color:#fff}
+  .tag.opt{background:var(--wash);color:var(--muted);border:1px solid var(--hair)}
+  .gap{border-left-color:var(--muted);background:#F7F7F6}
+</style>
+</head>
+<body>
+<div class="confbar">
+  <a class="homebtn" href="https://www.aperturemethod.com/"><span class="a" aria-hidden="true">&#8592;</span>Back to the site</a>
+  <span class="cb-t">Confidential &middot; Internal working document &middot; Not for distribution</span>
+  <form class="exitform" method="POST" action="/api/method-lab/signout">
+    <button class="exitbtn" type="submit"><span class="x" aria-hidden="true">&#10005;</span>Exit Method Lab</button>
+  </form>
+</div>
+
+<div class="cover">
+  <img class="logo" alt="The Aperture Method" src="data:image/png;base64,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">
+  <div class="eyebrow">The Aperture Method™ &middot; Internal Working Document</div>
+  <h1>Working from<b>Public Filings</b></h1>
+  <div class="rule"></div>
+  <p class="lede">How an illustrative example is built from a public company's own filings, so that
+  every figure in a worked example can be traced to a document anyone can open, and no example ever
+  has to borrow a client's numbers to exist.</p>
+  <div class="meta">
+    <div><b>Version</b><span>1.0</span></div>
+    <div><b>Owner</b><span>Fenwick How</span></div>
+    <div><b>Status</b><span>Working &middot; living</span></div>
+    <div><b>Applies to</b><span>Illustrative examples only</span></div>
+    <div><b>Companion</b><span>Client data request</span></div>
+    <div><b>Classification</b><span>Confidential</span></div>
+  </div>
+  <div class="status"><b>This document is not a client instrument.</b> The list a client is asked for
+  lives in the intake and is personalised to their engagement. This is the other list: what to pull
+  from a public filing when the subject is not a client at all, and nobody has given us anything.</div>
+</div>
+
+<div class="wrap">
+
+<h2>Contents</h2>
+<ol class="toc">
+  <li><b>1</b> Why this document exists</li>
+  <li><b>2</b> What counts as a source</li>
+  <li><b>3</b> Retrieving the filing</li>
+  <li><b>4</b> The pull checklist</li>
+  <li><b>5</b> Mapping a filing onto the workbench</li>
+  <li><b>6</b> Normalising before anything is entered</li>
+  <li><b>7</b> What a filing will not give you</li>
+  <li><b>8</b> Labelling, and what may never be said</li>
+  <li><b>9</b> Sign-off before an example is published</li>
+</ol>
+
+<!-- 1 -->
+<section class="sec">
+<h2>Section 1</h2>
+<h3>Why this document exists</h3>
+
+<div class="cl"><div class="n">1.1</div><p>The Method needs worked examples. A prospect who has never met us will not hand over a general ledger on the strength of a promise, and the fastest way to earn that file is to show the analysis already done on a business they can look up themselves.</p></div>
+<div class="cl"><div class="n">1.2</div><p><span class="must">A worked example MUST NOT be built from client data.</span> Not anonymised, not aggregated, not "close enough to be unrecognisable". Client data arrives under an engagement letter that says what it is for, and a marketing example is not what it is for. This holds even where the client would probably say yes: probably is not consent, and consent obtained after the work is done is not a defence.</p></div>
+<div class="cl"><div class="n">1.3</div><p>A public filing solves the problem completely. The company has already published the numbers, the publication is mandatory rather than negotiated, and the reader can open the same document and check our arithmetic. That last part is the point. An example nobody can audit is a claim; an example anyone can audit is evidence.</p></div>
+<div class="cl"><div class="n">1.4</div><p><span class="must">The published examples are illustrative.</span> They demonstrate the analysis, not a result we produced for a paying client, and they are never described as one. Section 8 is not optional and it is not legal throat-clearing: presenting an illustration as a client outcome is a deceptive advertising problem before it is anything else.</p></div>
+
+<div class="callout"><b>Two lists, deliberately</b>
+The client-facing data request lives in the intake and adapts to what the client engaged, how they
+are taxed, whether their accounts carry an assurance report and whether they hold inventory. This
+document is the other list. It assumes no cooperation, no access and no relationship, and it asks
+what can be assembled from documents the subject was legally required to publish. Neither list is a
+subset of the other, and the gap between them is the honest limit of what an example can show
+(&sect;7).</div>
+</section>
+
+<!-- 2 -->
+<section class="sec">
+<h2>Section 2</h2>
+<h3>What counts as a source</h3>
+
+<div class="cl"><div class="n">2.1</div><p><span class="must">Admissible.</span> A document filed by the company itself with a securities regulator or a companies registry, or published by the company as its own report to shareholders. In the United States that is the annual report on Form 10-K, the quarterly 10-Q, the current report 8-K, the proxy statement DEF 14A, and the registration statement S-1 or S-4. Outside the United States: the annual report and accounts filed with the relevant registry, the Canadian equivalents on SEDAR+, and UK filings at Companies House.</p></div>
+<div class="cl"><div class="n">2.2</div><p><span class="must">Also admissible, with care.</span> The company's own earnings release and investor presentation, filed as an 8-K exhibit. These are useful because they carry segment and unit detail the statements omit, and they are dangerous because they carry non-GAAP measures the company defined itself. Use them for operating detail. Do not use them for headline profitability without reconciling to the audited statements.</p></div>
+<div class="cl"><div class="n">2.3</div><p><span class="must">Not admissible as a primary source.</span> Analyst notes, aggregator sites, screener databases, press coverage, and any figure whose provenance is a chart rather than a statement. These may be used to find a company or to sanity-check a number. They may never be the citation. If the only place a figure appears is a third party's summary of a filing, we do not have the figure; we have somebody's transcription of it.</p></div>
+<div class="cl"><div class="n">2.4</div><p><span class="must">Every figure carries its citation.</span> Form, filer, fiscal year, and the statement or note it came from. The working file records this as the number is entered, not afterwards from memory. Reconstructing citations at the end is how a wrong number survives into publication.</p></div>
+
+<div class="callout"><b>Choosing the subject</b>
+Pick a company whose economics resemble an owner-run business: one line of business, one operating
+model, few segments, a balance sheet a reader can hold in their head. A conglomerate is a poor
+teaching example because the consolidated statements hide exactly what the Method exists to find.
+Smaller listed companies and recent S-1 filers are usually the best material, and an S-1 in
+particular carries several years of statements plus a management discussion written to explain the
+business to someone who has never seen it.</div>
+</section>
+
+<!-- 3 -->
+<section class="sec">
+<h2>Section 3</h2>
+<h3>Retrieving the filing</h3>
+
+<div class="cl"><div class="n">3.1</div><p>SEC filings come from EDGAR. Three routes, in order of preference. <b>(a)</b> The company's filing index page, reached from its CIK, which gives the documents as filed. <b>(b)</b> The structured company facts endpoint, which returns every XBRL fact the company has tagged, by concept and period. <b>(c)</b> Full-text search, for finding which filing discusses a topic.</p></div>
+<div class="cl"><div class="n">3.2</div><p><span class="must">Prefer the XBRL data over the rendered page.</span> The tagged facts are the same numbers the statements print, already carrying period, unit and scale, which removes the two errors that account for most mistakes in this work: a misread thousand and a misassigned period.</p></div>
+<div class="cl"><div class="n">3.3</div><p><span class="must">Keep the source document.</span> The filing is saved into the working folder alongside the analysis, with its accession number in the filename. A live URL is not a record. Filings are amended, indexes are reorganised, and an example whose source cannot be reopened in two years is an example that quietly becomes unverifiable.</p></div>
+<div class="cl"><div class="n">3.4</div><p>Requests to a regulator's servers identify themselves properly and stay inside the published rate limits. This is a condition of access, not a suggestion, and it is trivially easy to comply with.</p></div>
+</section>
+
+<!-- 4 -->
+<section class="sec">
+<h2>Section 4</h2>
+<h3>The pull checklist</h3>
+
+<p class="note">Worked in order. Items tagged <span class="tag req">required</span> are what the
+workbench needs to run at all; an example missing one of them is not an example, it is an estimate.
+Items tagged <span class="tag opt">supporting</span> are what turn a set of ratios into a reading of
+the business.</p>
+
+<h4>The three statements</h4>
+<ol class="ck">
+<li><b>Income statement, three full years <span class="tag req">required</span></b>
+<span class="why">A 10-K carries three years for most filers and two for a smaller reporting company. Where only two are presented, take the third from the prior year's 10-K rather than leaving the trend to two points. Two points make a line; three make a direction.</span></li>
+
+<li><b>Balance sheet, four period ends <span class="tag req">required</span></b>
+<span class="why">A 10-K prints two. Take the other two from the prior 10-K. Four dates because every average-balance measure, days sales outstanding, inventory days, return on assets, needs an opening balance as well as a closing one: four balance sheets give three years of ratios, three give two.</span></li>
+
+<li><b>Cash flow statement, three full years <span class="tag req">required</span></b>
+<span class="why">Carries depreciation, capital spending, the movement in working capital and everything returned to shareholders. Without it, EBITDA is estimated rather than derived and cash conversion cannot be measured at all.</span></li>
+
+<li><b>The auditor's report <span class="tag req">required</span></b>
+<span class="why">Who signed it, what opinion was given, how long they have served, and any critical audit matter or going-concern paragraph. A critical audit matter is the auditor naming the number they found hardest to be sure of, which is almost always the number worth looking at first.</span></li>
+</ol>
+
+<h4>The notes that carry the analysis</h4>
+<ol class="ck">
+<li><b>Significant accounting policies <span class="tag req">required</span></b>
+<span class="why">Revenue recognition, inventory method, useful lives, capitalisation thresholds. These decide whether two companies' margins can be compared at all, and they are the first thing to check before calling one of them better run.</span></li>
+
+<li><b>Segment note <span class="tag req">required</span></b>
+<span class="why">Revenue and operating profit by segment and by geography, plus the basis on which the chief operating decision maker reviews them. This is the closest a filing comes to profitability by line of business, and the segment definition itself tells you how management actually thinks about the company.</span></li>
+
+<li><b>Revenue disaggregation <span class="tag req">required</span></b>
+<span class="why">Revenue split by product, service, channel, timing of transfer or contract type. It is the public analogue of the revenue-by-product-or-service file we ask a client for, and it is where mix effects become visible.</span></li>
+
+<li><b>Property, plant and equipment, with capital expenditure <span class="tag req">required</span></b>
+<span class="why">Gross cost, accumulated depreciation, additions and disposals, read alongside capex in the cash flow statement. Separates what was actually spent from what was charged, which is what makes capital intensity and maintenance spending visible.</span></li>
+
+<li><b>Debt note <span class="tag req">required</span></b>
+<span class="why">Instrument, balance, rate, maturity schedule, covenants and headroom. A covenant is a constraint written down by someone with the power to enforce it, and it belongs in the constraint read whether or not management mentions it.</span></li>
+
+<li><b>Lease note <span class="tag req">required</span></b>
+<span class="why">Operating and finance leases, right-of-use assets, and the maturity table. A long lease behaves like borrowing whether or not the reader thinks of it that way, so it sits beside debt, not below it.</span></li>
+
+<li><b>Inventory note <span class="tag opt">supporting</span></b>
+<span class="why">Only where inventory is held. Raw, work in progress and finished goods, the valuation method, and any reserve. Inventory is the balance-sheet line most often carried at a number nobody has tested, and it moves both margin and working capital.</span></li>
+
+<li><b>Receivables, allowance and customer concentration <span class="tag opt">supporting</span></b>
+<span class="why">Tests the collection days the statements imply. The concentration disclosure, any customer above ten per cent of revenue, is the public version of the top-ten-customers question, and it is priced by every lender and every buyer.</span></li>
+
+<li><b>Deferred revenue and remaining performance obligations <span class="tag opt">supporting</span></b>
+<span class="why">Money taken for work not yet done is a liability, not revenue, and the backlog disclosure beside it is the best forward indicator a filing contains.</span></li>
+
+<li><b>Related-party transactions <span class="tag opt">supporting</span></b>
+<span class="why">Property leased from an entity an insider owns, loans in either direction, family on the payroll. Not wrong and not hidden; it simply has to be normalised out before earnings mean anything.</span></li>
+
+<li><b>Commitments, contingencies and guarantees <span class="tag opt">supporting</span></b>
+<span class="why">Purchase commitments, litigation, guarantees. Obligations that are real, dated, and absent from the balance sheet.</span></li>
+
+<li><b>Subsequent events <span class="tag opt">supporting</span></b>
+<span class="why">The statements stop at a date; the business did not. An acquisition, a refinancing or a lost contract after the period end changes what the analysis is allowed to conclude.</span></li>
+</ol>
+
+<h4>What management says about it</h4>
+<ol class="ck">
+<li><b>Management's discussion and analysis <span class="tag req">required</span></b>
+<span class="why">Management's own explanation of the movement, in their words. Read it before building the model and again after. What they choose to explain, and what they leave to the reader to notice, is itself a finding.</span></li>
+
+<li><b>Risk factors, and the business description <span class="tag opt">supporting</span></b>
+<span class="why">The company's own statement of what could go wrong, plus the description of the operating model in Item 1. Together they populate several of the seven lenses without a single interview.</span></li>
+
+<li><b>Human capital disclosure and headcount <span class="tag opt">supporting</span></b>
+<span class="why">The public stand-in for payroll by role. Thin by comparison, but enough for revenue per employee and a rough capacity read.</span></li>
+
+<li><b>Proxy statement: compensation and ownership <span class="tag opt">supporting</span></b>
+<span class="why">Executive pay, the incentive plan and its metrics, and who holds the shares. The incentive plan tells you what the organisation is actually being paid to maximise, which frequently is not what the strategy section claims.</span></li>
+
+<li><b>Non-GAAP reconciliation from the earnings release <span class="tag opt">supporting</span></b>
+<span class="why">Read as a source of add-backs, and read sceptically. The reconciliation is the company's own list of what it considers not to count, and reasonable people disagree with parts of it. Where we accept an add-back, we say so; where we reject one, we say that too.</span></li>
+</ol>
+
+<div class="callout open"><b>One filing is rarely enough</b>
+Three years of statements plus four balance sheet dates means two consecutive 10-K filings as a
+minimum, and often three. Pull them together at the start. Discovering on day two that the fourth
+balance sheet is missing means redoing the normalisation, not adding to it.</div>
+</section>
+
+<!-- 5 -->
+<section class="sec">
+<h2>Section 5</h2>
+<h3>Mapping a filing onto the workbench</h3>
+
+<p>The Financial Analysis workbench expects a complete balance sheet, income statement and cash flow
+statement, entered line by line. This is where each block comes from in a filing, and where the fit
+is imperfect.</p>
+
+<table>
+<thead><tr><th>Workbench block</th><th>Source in the filing</th><th>Fit</th></tr></thead>
+<tbody>
+<tr><td class="k">Balance sheet</td><td>Consolidated balance sheets, two dates per 10-K, so two filings</td><td class="E">Direct</td></tr>
+<tr><td class="k">Income statement</td><td>Consolidated statements of operations</td><td class="E">Direct</td></tr>
+<tr><td class="k">Cash flow statement</td><td>Consolidated statements of cash flows</td><td class="E">Direct</td></tr>
+<tr><td class="k">Cost of delivery vs overhead</td><td>Cost of revenue line, plus the policy note stating what is included in it</td><td><span class="P">Read the policy note.</span> Companies draw this line differently, and the difference moves gross margin by points.</td></tr>
+<tr><td class="k">Revenue by product or service</td><td>Revenue disaggregation note and the segment note</td><td><span class="P">Partial.</span> Public disclosure is coarser than a client's own sales report.</td></tr>
+<tr><td class="k">Revenue by location</td><td>Geographic disclosure in the segment note</td><td><span class="P">Country or region only.</span> Never site level.</td></tr>
+<tr><td class="k">Owner compensation and add-backs</td><td>Proxy compensation tables, plus the non-GAAP reconciliation</td><td><span class="P">Different question.</span> A listed company's executive pay is market pay, not the owner's discretionary draw.</td></tr>
+<tr><td class="k">Debt and leases</td><td>Debt note and lease note, with maturity tables</td><td><span class="E">Direct, and usually richer than a private schedule.</span> </td></tr>
+<tr><td class="k">Fixed assets and capex</td><td>PP&amp;E note, plus investing activities in the cash flow statement</td><td class="E">Direct</td></tr>
+<tr><td class="k">Working capital detail</td><td>Receivables, inventory and payables on the balance sheet, with their notes</td><td><span class="P">Balances only.</span> No aging, so days are computed from balances rather than observed.</td></tr>
+<tr><td class="k">Distributions to owners</td><td>Dividends and buybacks in financing activities</td><td><span class="P">The public analogue.</span> Economically similar, governed very differently.</td></tr>
+<tr><td class="k">Customer concentration</td><td>Concentration-of-risk disclosure in the notes</td><td><span class="P">Disclosed only above a threshold.</span> Silence is not evidence of no concentration.</td></tr>
+<tr><td class="k">Transaction-level data</td><td>Nothing</td><td class="U">Unavailable. See &sect;7.</td></tr>
+<tr><td class="k">Customer geography</td><td>Nothing</td><td class="U">Unavailable. See &sect;7.</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- 6 -->
+<section class="sec">
+<h2>Section 6</h2>
+<h3>Normalising before anything is entered</h3>
+
+<div class="cl"><div class="n">6.1</div><p><span class="must">Scale.</span> Establish once, at the top of the working file, whether the statements are in units, thousands or millions, and whether the notes use the same scale as the face of the statements. They frequently do not. Every number is entered in units.</p></div>
+<div class="cl"><div class="n">6.2</div><p><span class="must">Period.</span> Record the fiscal year end and whether the company uses a 52 or 53-week year. A 53-week year adds roughly two per cent to revenue and to most cost lines, and reading that as growth is an error the company itself will have explained in the MD&amp;A.</p></div>
+<div class="cl"><div class="n">6.3</div><p><span class="must">Restatement.</span> Where a prior year is presented differently in the later filing than it was in the earlier one, <span class="must">take the later presentation</span> and note that it was restated. Never mix the two in one trend line. This is the single most common way a public-filing example produces a movement that never happened.</p></div>
+<div class="cl"><div class="n">6.4</div><p><span class="must">Discontinued operations.</span> Once an operation is classified as discontinued, prior periods are recast to exclude it from continuing operations while the balance sheet often is not. Decide explicitly which basis the example uses, apply it to every year, and say so in the example.</p></div>
+<div class="cl"><div class="n">6.5</div><p><span class="must">Acquisitions.</span> A year containing an acquisition is not comparable to the year before it. Note the closing date and whether the growth being read is organic or bought. Where the filing gives pro forma figures, use them for the comparison and the reported figures for everything else.</p></div>
+<div class="cl"><div class="n">6.6</div><p><span class="must">Reconcile before analysing.</span> The balance sheet balances, the cash flow reconciles to the movement in cash, and net income agrees across all three statements. <span class="must">No analysis begins until all three tie.</span> If they do not tie, the transcription is wrong: the filing was audited and the spreadsheet was not.</p></div>
+
+<div class="callout"><b>The one-page provenance record</b>
+Every example carries a working sheet listing filer, CIK or registry number, accession number, form
+type, fiscal years used, scale, restatement decisions and the basis chosen for discontinued
+operations. It takes ten minutes and it is what makes the example defensible a year later when
+somebody asks where a number came from.</div>
+</section>
+
+<!-- 7 -->
+<section class="sec">
+<h2>Section 7</h2>
+<h3>What a filing will not give you</h3>
+
+<div class="cl"><div class="n">7.1</div><p>The gap between this list and the client data request is not a shortcoming of the method. It is the honest boundary of what public disclosure contains, and stating it plainly is more persuasive than pretending it is not there.</p></div>
+
+<table>
+<thead><tr><th>Asked of a client</th><th>In a public filing</th></tr></thead>
+<tbody>
+<tr><td class="k">Transaction-level export</td><td><span class="U">Never.</span> Repeat rate, lifetime value and cohort behaviour cannot be computed from any filing.</td></tr>
+<tr><td class="k">Customer list with addresses</td><td><span class="U">Never.</span> No trade area, no catchment, no penetration mapping.</td></tr>
+<tr><td class="k">Payroll or headcount by role</td><td><span class="U">Total headcount at best.</span> No role structure, no capacity ceiling, no key-person exposure.</td></tr>
+<tr><td class="k">Owner compensation and add-backs</td><td><span class="U">Not applicable.</span> Executive pay is disclosed; discretionary owner spending does not exist in this form.</td></tr>
+<tr><td class="k">Receivables and payables aging</td><td><span class="U">Balances only, no aging buckets.</span> </td></tr>
+<tr><td class="k">Price list, discounts and packages</td><td><span class="U">Rarely, and never completely.</span> Price sensitivity has to be modelled rather than observed.</td></tr>
+<tr><td class="k">Revenue by location</td><td><span class="U">Region or country only.</span> Site-level comparison is impossible.</td></tr>
+<tr><td class="k">Interviews</td><td><span class="U">None.</span> Everything about why is inferred from documents written for a different purpose.</td></tr>
+<tr><td class="k">Read-only system access</td><td><span class="U">None, so no live scoreboard and no continuous layer.</span> </td></tr>
+</tbody>
+</table>
+
+<div class="callout gap"><b>Say this out loud in the example</b>
+A public-filing example can demonstrate the diagnostic, the financial analysis and the constraint
+read. It cannot demonstrate customer economics, geographic intelligence or the continuous layer,
+because the inputs those phases need are not published by anybody. Naming that limit inside the
+example is not a weakness. It is the clearest possible demonstration of why the client data request
+asks for what it asks for.</div>
+</section>
+
+<!-- 8 -->
+<section class="sec">
+<h2>Section 8</h2>
+<h3>Labelling, and what may never be said</h3>
+
+<div class="cl"><div class="n">8.1</div><p><span class="must">Every published example carries a visible label</span> stating that it is an illustrative analysis built from public filings, that the company is not and has not been a client, and that nothing in it was prepared for or reviewed by the company. The label appears on the artifact itself, not only on the page linking to it.</p></div>
+<div class="cl"><div class="n">8.2</div><p><span class="must">Never claim or imply a relationship.</span> No "our work with", no "we helped", no before-and-after framed as a result we produced, no testimonial, no logo, no colour palette borrowed from the subject's brand. The company's name is used descriptively, as the subject of an analysis of its own published accounts, and in no other way.</p></div>
+<div class="cl"><div class="n">8.3</div><p><span class="must">Separate observation from recommendation.</span> An observation drawn from the filing is supported by the filing. A recommendation is our judgment, offered on incomplete information, and is labelled as such. A reader must never have to guess which one they are looking at.</p></div>
+<div class="cl"><div class="n">8.4</div><p><span class="must">No forward-looking claim about the subject.</span> No target price, no forecast, no assessment of the security, and nothing that reads as investment advice. The example is about method, not about whether anyone should own the shares.</p></div>
+<div class="cl"><div class="n">8.5</div><p><span class="must">Correct on contact.</span> If the subject company objects to anything factual, verify it against the filing and correct it the same day if they are right. Being right about a number is worth more than being first to publish it.</p></div>
+<div class="cl"><div class="n">8.6</div><p><span class="must">Prefer a subject that is not a prospect.</span> Building a public example of a company we are actively pitching creates a conflict that is hard to explain afterwards. Where it is unavoidable, disclose it in the example.</p></div>
+</section>
+
+<!-- 9 -->
+<section class="sec">
+<h2>Section 9</h2>
+<h3>Sign-off before an example is published</h3>
+
+<ol class="ck">
+<li><b>All three statements tie</b><span class="why">Balance sheet balances, cash flow reconciles to the cash movement, net income agrees across the statements, for every year presented.</span></li>
+<li><b>Every figure traces to a citation</b><span class="why">Form, filer, accession number, fiscal year, statement or note. Spot-check five at random against the saved filing.</span></li>
+<li><b>Source documents saved</b><span class="why">In the working folder, named by accession number, not linked to a live URL.</span></li>
+<li><b>Provenance sheet complete</b><span class="why">Scale, fiscal year convention, restatements, discontinued operations basis, acquisitions.</span></li>
+<li><b>Restatements and 53-week years handled</b><span class="why">Consistently across the whole trend, and noted in the example.</span></li>
+<li><b>Limits stated inside the example</b><span class="why">What this analysis can and cannot show, per &sect;7, in the example itself rather than in a footnote nobody reads.</span></li>
+<li><b>Illustrative label present on the artifact</b><span class="why">Per &sect;8.1, on the document, not only on the page that links to it.</span></li>
+<li><b>No claimed relationship anywhere</b><span class="why">Copy, headings, captions, file names, metadata and social preview text all checked.</span></li>
+<li><b>Observation and recommendation visually separated</b><span class="why">A reader can tell which is which without being told.</span></li>
+<li><b>Read once more as an outsider</b><span class="why">Specifically: would someone who has never met us mistake this for a client engagement? If there is any doubt, the label is not strong enough.</span></li>
+</ol>
+
+<div class="callout"><b>Standard of proof</b>
+The test for publishing an example is not whether it is impressive. It is whether a sceptical reader
+holding the same filing could reproduce every number in it. Anything that fails that test comes out,
+however good it looks.</div>
+</section>
+
+</div>
+
+<footer>The Aperture Method™ &middot; Working from Public Filings &middot; Internal working document &middot; Confidential</footer>
+</body>
+</html>

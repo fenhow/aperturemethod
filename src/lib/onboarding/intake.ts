@@ -9,7 +9,7 @@
  * public name and phase.
  */
 
-export type IntakeFieldType = "text" | "textarea" | "checkgroup";
+export type IntakeFieldType = "text" | "textarea" | "checkgroup" | "choice";
 export type IntakeField = {
   name: string;
   label: string;
@@ -31,6 +31,14 @@ export type IntakeSegment = {
 
 const T = (name: string, label: string, rows = 2): IntakeField => ({ name, label, type: "textarea", rows });
 const S = (name: string, label: string): IntakeField => ({ name, label, type: "text" });
+/**
+ * A single-choice question. Four of these decide which documents we ask for,
+ * so they are structured rather than free text: a data request that reads a
+ * paragraph and guesses is a data request that asks for the wrong things.
+ */
+const C = (name: string, label: string, options: string[]): IntakeField => ({
+  name, label, type: "choice", options,
+});
 
 export const intakeIntro = {
   title: "Intake Questionnaire",
@@ -57,6 +65,31 @@ export const sharedSections: IntakeSection[] = [
       T("b_locations", "Number of locations, and where", 2),
       S("b_employees", "Employees: full-time, part-time, contract"),
       T("b_ownership", "Ownership structure, and who else has a say in decisions", 2),
+      C("b_entity_tax", "How is the business taxed?", [
+        "C corporation",
+        "S corporation",
+        "LLC or partnership, taxed as a pass-through",
+        "Sole proprietor",
+        "I am not sure",
+      ]),
+      C("b_assurance", "What comes with your year-end accounts?", [
+        "An audit report",
+        "A review report",
+        "A compilation report",
+        "Nothing, they are prepared internally",
+        "I am not sure",
+      ]),
+      C("b_books_scope", "How are the books organised?", [
+        "One entity, one set of books",
+        "Several locations, one set of books",
+        "Several entities, or several sets of books",
+        "I am not sure",
+      ]),
+      C("b_inventory_held", "Do you hold inventory, stock or materials?", [
+        "Yes",
+        "No",
+        "I am not sure",
+      ]),
       S("b_revenue", "Approximate annual revenue (a range is fine)"),
       S("b_fye", "Financial year end (month)"),
       T("b_buyers", "Who buys from you: consumers, other businesses, or both? Roughly what split?", 2),

@@ -27,6 +27,14 @@ export type DataItem = {
   satisfiedBy?: string;
   /** Blocking work cannot start without it; helpful improves the answer. */
   priority: "blocking" | "helpful";
+  /**
+   * Optional gate on the intake answers. Four structured questions in the intake
+   * decide whether some documents exist at all. Asking a C corporation for its
+   * owner distributions, or a service business for its inventory listing, makes
+   * the whole list look like a form letter, and a list that looks generic is a
+   * list that gets skimmed.
+   */
+  appliesWhen?: (answers: Record<string, string>) => boolean;
 };
 
 export const DATA_ITEMS: DataItem[] = [
@@ -62,6 +70,25 @@ export const DATA_ITEMS: DataItem[] = [
     segments: ["shared"],
     satisfiedBy: "The accountant's report that came with the statements",
     priority: "blocking",
+  },
+  {
+    id: "bank_statements",
+    label: "Bank statements: the month of each period end, plus the last three months",
+    why: "Asked for because your accounts are prepared internally or without an assurance report. Bank statements are the one independent record of what actually moved, so they let us corroborate cash and revenue rather than take them on trust. It protects you more than it protects us: a conclusion nobody can challenge is worth more than a conclusion produced faster.",
+    segments: ["analytics"],
+    priority: "blocking",
+    appliesWhen: (a) =>
+      a.b_assurance === "A compilation report" ||
+      a.b_assurance === "Nothing, they are prepared internally" ||
+      a.b_assurance === "I am not sure",
+  },
+  {
+    id: "consolidation",
+    label: "How the entities fit together, and what moves between them",
+    why: "Asked for because you keep more than one set of books. A structure chart, and whatever schedule shows the transfers, management fees, shared payroll and intercompany balances. Without it the same dollar can be counted twice, or a real cost can sit in an entity nobody sent us.",
+    segments: ["shared"],
+    priority: "blocking",
+    appliesWhen: (a) => a.b_books_scope === "Several entities, or several sets of books",
   },
   {
     id: "tax_returns",
@@ -128,9 +155,10 @@ export const DATA_ITEMS: DataItem[] = [
   {
     id: "inventory",
     label: "Inventory listing and how it is valued",
-    why: "Only if you hold stock. Inventory is the balance-sheet line most often carried at a number nobody has tested, and it moves both margin and working capital.",
+    why: "Inventory is the balance-sheet line most often carried at a number nobody has tested, and it moves both margin and working capital.",
     segments: ["analytics"],
     priority: "helpful",
+    appliesWhen: (a) => a.b_inventory_held !== "No",
   },
   {
     id: "deferred_revenue",
@@ -152,6 +180,7 @@ export const DATA_ITEMS: DataItem[] = [
     why: "In a pass-through business this is where the profit actually went, and it is invisible on the P&L.",
     segments: ["analytics"],
     priority: "helpful",
+    appliesWhen: (a) => a.b_entity_tax !== "C corporation",
   },
   {
     id: "one_offs",
@@ -288,9 +317,14 @@ export type DataRequestItem = {
 export function buildDataRequest(
   selectedSegments: string[],
   ticked: string[],
+  answers: Record<string, string> = {},
 ): DataRequestItem[] {
   const active = new Set(["shared", ...selectedSegments]);
-  return DATA_ITEMS.filter((item) => item.segments.some((s) => active.has(s))).map((item) => ({
+  return DATA_ITEMS.filter(
+    (item) =>
+      item.segments.some((s) => active.has(s)) &&
+      (item.appliesWhen ? item.appliesWhen(answers) : true),
+  ).map((item) => ({
     id: item.id,
     label: item.label,
     why: item.why,

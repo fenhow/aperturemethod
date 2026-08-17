@@ -59,6 +59,54 @@ function CheckGroup({
   );
 }
 
+/**
+ * Single-choice question. Radio semantics, but rendered as the same card as the
+ * checkgroup so the form reads as one thing. Clicking a chosen option clears it:
+ * these questions are optional, and a control you cannot undo is a control that
+ * quietly forces an answer.
+ */
+function ChoiceGroup({
+  field,
+  value,
+  onSelect,
+}: {
+  field: IntakeField;
+  value: string;
+  onSelect: (opt: string) => void;
+}) {
+  return (
+    <div className="mt-2 flex flex-col gap-2" role="radiogroup" aria-label={field.label}>
+      {field.options!.map((opt) => {
+        const on = value === opt;
+        return (
+          <button
+            type="button"
+            key={opt}
+            role="radio"
+            aria-checked={on}
+            onClick={() => onSelect(on ? "" : opt)}
+            className={
+              "flex items-start gap-3 rounded-sm border px-4 py-2.5 text-left text-body transition-colors " +
+              (on ? "border-maroon bg-maroon/5" : "border-line hover:border-ink")
+            }
+          >
+            <span
+              className={
+                "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border " +
+                (on ? "border-maroon" : "border-line")
+              }
+              aria-hidden="true"
+            >
+              <span className={"h-2.5 w-2.5 rounded-full " + (on ? "bg-maroon" : "bg-transparent")} />
+            </span>
+            <span>{opt}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function IntakeForm() {
   const [ans, setAns] = useState<Record<string, string>>({});
   // Full Method (all five) is the default; a client can narrow to fewer.
@@ -115,7 +163,7 @@ export function IntakeForm() {
   stateRef.current = { ans, selected };
 
   // Recomputed from their answers, so the list narrows as they tick things off.
-  const dataRequest = buildDataRequest(selected, getArr("data_have"));
+  const dataRequest = buildDataRequest(selected, getArr("data_have"), ans);
   const stillNeeded = outstandingCount(dataRequest);
 
   const hasContent = (a: Record<string, string>) =>
@@ -148,6 +196,7 @@ export function IntakeForm() {
           return [];
         }
       })(),
+      stateRef.current.ans,
     ),
     ...extra,
   });
@@ -403,6 +452,14 @@ export function IntakeForm() {
         <div key={f.name}>
           <p className={labelCls}>{f.label}</p>
           <CheckGroup field={f} selected={getArr(f.name)} onToggle={(opt) => toggleInGroup(f.name, opt)} />
+        </div>
+      );
+    }
+    if (f.type === "choice") {
+      return (
+        <div key={f.name}>
+          <p className={labelCls}>{f.label}</p>
+          <ChoiceGroup field={f} value={ans[f.name] ?? ""} onSelect={(opt) => set(f.name, opt)} />
         </div>
       );
     }

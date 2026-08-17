@@ -110,6 +110,10 @@ header.mast{background:var(--ink);color:var(--off-white);padding:20px 30px 16px;
 .byline{display:flex;align-items:center;gap:8px;font-size:9.5px;letter-spacing:.19em;
   text-transform:uppercase;color:var(--muted);padding-left:2px}
 .byline .sep{color:var(--maroon)}
+.editionbadge{background:var(--maroon);color:#fff;font-size:8.5px;letter-spacing:.19em;
+  text-transform:uppercase;font-weight:600;padding:4px 10px;border-radius:1px;
+  margin-right:4px;white-space:nowrap}
+body.is-standalone header.mast{border-bottom-width:5px}
 .byline .site{color:var(--muted);text-decoration:none;border-bottom:1px solid #333}
 .byline .site:hover{color:#fff;border-bottom-color:var(--maroon)}
 .eyebrow{font-size:9.5px;letter-spacing:.19em;text-transform:uppercase;color:#FFFFFF;
@@ -492,6 +496,7 @@ h4.fgroup:first-child{margin-top:4px}
   <div class="brandblock">
     <img class="wordmark-img" id="mastLogo" alt="Aperture Method">
     <div class="byline">
+      <span class="editionbadge" id="editionBadge" hidden></span>
       <span class="by">By Fenwick How</span>
       <span class="sep">·</span>
       <a class="site" id="mastSite" href="https://www.aperturemethod.com" target="_blank" rel="noopener">www.aperturemethod.com</a>
@@ -1185,6 +1190,9 @@ const BRAND={
   /* Set by build.py on the offline build so the file identifies itself when open,
      not merely by its filename. Empty in the source/website build. */
   edition:'Method Lab edition',
+  /* Visible badge in the masthead. Set by build.py on the offline edition so the
+     two copies can never be mistaken for each other at a glance. */
+  badge:'',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -4986,6 +4994,8 @@ function loadDemoData(D,kind){
 
 /* ---------- 23. INIT ---------------------------------------------------- */
 $('mastLogo').src=BRAND.logoWhite;
+if(BRAND.badge){const eb=$('editionBadge');eb.textContent=BRAND.badge;eb.hidden=false;
+  document.body.classList.add('is-standalone');}
 bindMeta();
 applyState();
 updateMast();

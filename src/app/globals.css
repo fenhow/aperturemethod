@@ -131,6 +131,12 @@
   .btn--on-dark {
     @apply inline-flex select-none items-center justify-center rounded-sm bg-paper px-7 py-4 text-[15px] font-semibold tracking-[0.02em] text-ink transition-colors duration-fast hover:bg-maroon hover:text-paper;
   }
+  /*
+   * DARK BACKGROUNDS ONLY. This button is a white outline with white text, so
+   * on a light section it is invisible: that shipped once on the Lumina case
+   * study. On light backgrounds use .btn--secondary, which is the same shape
+   * in ink.
+   */
   .btn--ghost {
     @apply inline-flex select-none items-center justify-center rounded-sm border border-white/40 bg-transparent px-7 py-[15px] text-[15px] font-semibold tracking-[0.02em] text-paper transition-colors duration-fast hover:border-paper hover:bg-paper hover:text-ink;
   }

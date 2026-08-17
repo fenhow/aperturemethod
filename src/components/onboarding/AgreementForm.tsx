@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { agreementClauses, feeSchedule, ESIGN_CONSENT } from "@/lib/onboarding/content";
+import { scopeOptions, scopeConflict, feeRowsForScope } from "@/lib/onboarding/scope";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
 import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog } from "./shared";
@@ -11,6 +12,8 @@ export function AgreementForm() {
   const [f, setF] = useState<Record<string, string>>({});
   const [signature, setSignature] = useState<SignaturePayload | null>(null);
   const [consent, setConsent] = useState(false);
+  // What the client is actually engaging. Drives Exhibit A in the signed PDF.
+  const [scope, setScope] = useState<string[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [errOpen, setErrOpen] = useState(false);
   const [problems, setProblems] = useState<string[]>([]);
@@ -32,6 +35,9 @@ export function AgreementForm() {
     if (!f.signer_title?.trim()) found.signer_title = "Please enter your title.";
     if (!f.signer_email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.signer_email.trim()))
       found.signer_email = "Please enter a valid email.";
+    if (scope.length === 0) found.scope = "Please choose at least one service you are engaging.";
+    const clash = scopeConflict(scope);
+    if (clash) found.scope = clash;
     if (!signature) found.signature = "Please add your signature.";
     if (!consent) found.consent = "Please confirm the statement.";
     setErrors(found);
@@ -50,6 +56,7 @@ export function AgreementForm() {
       company: f.client_legal_name!.trim(),
       signature: signature!,
       consent,
+      segments: scope,
       website: "",
     };
     await submit(payload);
@@ -99,6 +106,76 @@ export function AgreementForm() {
         {field("company_address", "Company address (optional)")}
       </fieldset>
 
+      {/* What is actually being engaged. This rewrites Exhibit A. */}
+      <fieldset className="space-y-4 border-t border-line pt-8">
+        <legend className="text-h4 font-semibold text-ink">What you are engaging</legend>
+        <p className="max-w-measure text-body text-muted">
+          The agreement below describes the whole Method, because the terms are the same whichever
+          parts you buy. Tick only what you are engaging now. Exhibit A of the document you sign
+          will list those and nothing else, and anything you have not ticked is out of scope until
+          you agree to it in writing.
+        </p>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {scopeOptions.map((o) => {
+            const on = scope.includes(o.key);
+            return (
+              <label
+                key={o.key}
+                className={
+                  "flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors " +
+                  (on ? "border-maroon bg-maroon/[0.04]" : "border-line bg-paper hover:border-ink/40")
+                }
+              >
+                <input
+                  type="checkbox"
+                  checked={on}
+                  onChange={() =>
+                    setScope((s) => (s.includes(o.key) ? s.filter((k) => k !== o.key) : [...s, o.key]))
+                  }
+                  className="mt-1 h-4 w-4 shrink-0 accent-[#500000]"
+                />
+                <span>
+                  <span className="block text-body font-semibold text-ink">
+                    {o.label}
+                    {o.recurring && (
+                      <span className="ml-2 align-middle text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
+                        Recurring
+                      </span>
+                    )}
+                  </span>
+                  <span className="mt-1 block text-small text-muted">{o.blurb}</span>
+                </span>
+              </label>
+            );
+          })}
+        </div>
+        <FieldError message={errors.scope} />
+
+        {scope.length > 0 && (
+          <div className="rounded-sm border border-line bg-surface p-5">
+            <p className="text-small font-semibold text-ink">
+              Exhibit A will read, in full:
+            </p>
+            <table className="mt-3 w-full text-[13px]">
+              <tbody>
+                {feeRowsForScope(scope).map((row) => (
+                  <tr key={row.phase} className="border-t border-line">
+                    <td className="py-1.5 pr-3 font-medium text-ink">{row.phase}</td>
+                    <td className="py-1.5 pr-3 text-muted">{row.deliverable}</td>
+                    <td className="py-1.5 text-right text-body">{row.fee}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="mt-3 text-small text-muted">
+              Nothing else is engaged. Adding a service later takes a written change order signed by
+              both of us, so no fee can arrive that you did not agree to.
+            </p>
+          </div>
+        )}
+      </fieldset>
+
       {/* The agreement text */}
       <div className="rounded-sm border border-line bg-surface/60 p-6">
         <p className="eyebrow mb-3">Please review</p>
@@ -126,7 +203,11 @@ export function AgreementForm() {
             </div>
           ))}
           <div>
-            <h4 className="text-small font-semibold text-maroon">Exhibit A: Scope & Fees</h4>
+            <h4 className="text-small font-semibold text-maroon">Exhibit A: Scope &amp; Fees</h4>
+            <p className="mt-1 text-small text-muted">
+              The full fee schedule, for reference. Your signed Exhibit A will contain only the
+              services you ticked above.
+            </p>
             <table className="mt-2 w-full text-[13px]">
               <tbody>
                 {feeSchedule.map((row) => (

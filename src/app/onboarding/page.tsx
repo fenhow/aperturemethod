@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
+import { PreStartQuestions } from "@/components/forms/PreStartQuestions";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -63,6 +64,10 @@ export default function OnboardingPage() {
               </p>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-14">
+          <PreStartQuestions />
         </div>
 
         <p className="mt-10 max-w-measure text-small text-muted">

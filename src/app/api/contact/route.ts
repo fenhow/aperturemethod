@@ -72,7 +72,12 @@ export async function POST(request: Request) {
     referral: body.referral?.trim() || undefined,
     newsletter: Boolean(body.newsletter),
     receivedAt: new Date().toISOString(),
-    source: "website:/contact",
+    // Where the enquiry came from. Defaults to the contact page; the
+    // pre-start form on /onboarding sends its own so the two are
+    // distinguishable in the inbox without reading the message.
+    source: typeof body.source === "string" && body.source.startsWith("website:/")
+      ? body.source.slice(0, 60)
+      : "website:/contact",
   };
 
   const webhook = process.env.CONTACT_WEBHOOK_URL;

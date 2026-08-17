@@ -7,6 +7,7 @@ import {
   feeSchedule,
   ESIGN_CONSENT,
 } from "./content";
+import { feeRowsForScope, scopeLabels } from "./scope";
 import {
   intakeIntro,
   sharedSections,
@@ -403,11 +404,24 @@ async function buildAgreement(p: OnboardingPayload, meta: Meta): Promise<Uint8Ar
     }
   }
 
-  // Exhibit A
+  // Exhibit A. Only what the client selected is printed, so the executed
+  // document cannot be read as an engagement of every service on the list.
   d.rule();
   d.heading("Exhibit A: Scope & Fees");
-  d.para("Standard starting points; the agreed figure is set per engagement.", { size: 8.5, color: MUTED, after: 6 });
-  for (const row of feeSchedule) {
+  const engaged = p.segments ?? [];
+  const rows = engaged.length ? feeRowsForScope(engaged) : feeSchedule;
+  if (engaged.length) {
+    const labels = scopeLabels(engaged).join("  ·  ");
+    d.para("Services engaged", { font: d.bold, size: 9.5, after: 2 });
+    d.para(labels, { size: 9.5, after: 5 });
+    d.para(
+      "Only the services listed above are engaged under this Agreement. Anything not listed is out of scope and requires a written change order signed by both parties before work begins or any fee applies.",
+      { size: 8.5, color: MUTED, after: 6 }
+    );
+  } else {
+    d.para("Standard starting points; the agreed figure is set per engagement.", { size: 8.5, color: MUTED, after: 6 });
+  }
+  for (const row of rows) {
     d.ensure(24);
     d.para(row.phase, { font: d.bold, size: 9.5, after: 1 });
     d.para(`${row.deliverable}  ·  ${row.fee}`, { x: MARGIN + 14, size: 9, color: MUTED, after: 4 });

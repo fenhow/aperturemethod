@@ -21,8 +21,15 @@ img{max-width:100%}
 .confbar{background:var(--maroon);color:#fff;font-size:11.5px;letter-spacing:.14em;
   text-transform:uppercase;padding:7px 12px;font-weight:700;
   position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:14px}
-.confbar .cb-t{flex:1;text-align:center;padding-left:104px}
+.confbar .cb-t{flex:1;text-align:center}
 .exitform{margin:0;flex:none}
+.homebtn{font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:#fff;background:transparent;border:1px solid rgba(255,255,255,.5);border-radius:3px;
+  padding:4px 11px;text-decoration:none;display:inline-block;white-space:nowrap;
+  transition:background .15s,border-color .15s}
+.homebtn:hover{background:rgba(255,255,255,.16);border-color:#fff}
+.homebtn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.homebtn .a{margin-right:6px;font-weight:400}
 .exitbtn{font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
   color:#fff;background:transparent;border:1px solid rgba(255,255,255,.5);border-radius:3px;
   padding:4px 11px;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
@@ -266,6 +273,7 @@ footer{border-top:1px solid var(--rule);padding:26px 0 60px;font-size:12.5px;col
 </head>
 <body>
 <div class="confbar">
+  <a class="homebtn" href="https://www.aperturemethod.com/"><span class="a" aria-hidden="true">&#8592;</span>Back to the site</a>
   <span class="cb-t">Confidential · Internal &amp; invited viewers only · Not for distribution</span>
   <form class="exitform" method="POST" action="/api/method-lab/signout">
     <button class="exitbtn" type="submit"><span class="x" aria-hidden="true">&#10005;</span>Exit Method Lab</button>

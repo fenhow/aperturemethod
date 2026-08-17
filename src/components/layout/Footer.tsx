@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BuildStamp } from "@/components/layout/BuildStamp";
 import { footerNav, siteConfig } from "@/lib/site";
+import { opensInNewTab } from "@/lib/links";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/brand/Logo";
 import { CookiePreferencesButton } from "@/components/consent/CookiePreferencesButton";
@@ -17,10 +18,13 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   // enough that a thumb regularly hits the wrong one.
   const className =
     "inline-block py-1 text-small text-white/55 transition-colors duration-fast hover:text-white";
-  if (href.startsWith("http")) {
+  // External links and links to files both leave the page, so both open in a
+  // new tab. See lib/links.ts for the single definition of that rule.
+  if (opensInNewTab(href)) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
         {children}
+        <span className="sr-only"> (opens in a new tab)</span>
       </a>
     );
   }

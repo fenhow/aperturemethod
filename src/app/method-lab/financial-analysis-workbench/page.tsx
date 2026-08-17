@@ -127,8 +127,8 @@ export default function FinancialAnalysisWorkbench() {
                 <li>Break-even at 35,513 against revenue of 41,691</li>
               </ul>
               <div className="spacer"></div>
-              <a className="dl" href="/downloads/aperture-analytics-public-example.pdf" download>
-                Download the public example</a>
+              <a className="dl" href="/downloads/aperture-analytics-public-example.pdf" target="_blank" rel="noopener noreferrer">
+                Open the public example</a>
               <p className="fmeta">PDF · 44 pages · approx. 0.4 MB</p>
             </div>
 
@@ -147,8 +147,8 @@ export default function FinancialAnalysisWorkbench() {
                 <li>Asking price implies 5.97× against a 4.0–6.0× range</li>
               </ul>
               <div className="spacer"></div>
-              <a className="dl" href="/downloads/aperture-analytics-private-example.pdf" download>
-                Download the private example</a>
+              <a className="dl" href="/downloads/aperture-analytics-private-example.pdf" target="_blank" rel="noopener noreferrer">
+                Open the private example</a>
               <p className="fmeta">PDF · 44 pages · approx. 0.4 MB</p>
             </div>
 
@@ -170,8 +170,8 @@ export default function FinancialAnalysisWorkbench() {
                 figure is synthetic and internally consistent; nothing here is a real client or a real
                 result.</em></p>
               <div className="spacer"></div>
-              <a className="dl" href="/downloads/aperture-analytics-illustrative-example.pdf" download>
-                Download the illustrative example</a>
+              <a className="dl" href="/downloads/aperture-analytics-illustrative-example.pdf" target="_blank" rel="noopener noreferrer">
+                Open the illustrative example</a>
               <p className="fmeta">PDF · 43 pages · approx. 0.4 MB</p>
             </div>
           </div>

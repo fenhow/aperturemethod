@@ -33,8 +33,10 @@ type Phase = {
   deliverable: string;
   img: string;
   alt: string;
-  /** Optional download / read-more buttons rendered under the deliverable line. */
-  links?: { label: string; href: string; primary?: boolean }[];
+  /** Optional download / read-more buttons rendered under the deliverable line.
+   *  `doc` marks a link to a file rather than a page: those open in a new tab
+   *  so the reader never loses the case study behind a PDF viewer. */
+  links?: { label: string; href: string; primary?: boolean; doc?: boolean }[];
 };
 
 const phases: Phase[] = [
@@ -60,7 +62,7 @@ const phases: Phase[] = [
     img: "/deliverables/03_analytics_scenario_model.jpg",
     alt: "The Profit Map and scenario model report page for Lumina Medical Aesthetics",
     links: [
-      { label: "Read the full financial report", href: "/downloads/aperture-analytics-illustrative-example.pdf", primary: true },
+      { label: "Read the full financial report", href: "/downloads/aperture-analytics-illustrative-example.pdf", primary: true, doc: true },
       { label: "See all three worked examples", href: "/method-lab/financial-analysis-workbench" },
     ],
   },
@@ -229,9 +231,11 @@ export default function LuminaCaseStudyPage() {
                         <Link
                           key={l.href}
                           href={l.href}
-                          className={l.primary ? "btn" : "btn--ghost"}
+                          className={l.primary ? "btn" : "btn--secondary"}
+                          {...(l.doc ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         >
                           {l.label}
+                          {l.doc && <span className="sr-only"> (opens in a new tab)</span>}
                         </Link>
                       ))}
                     </div>

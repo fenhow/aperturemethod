@@ -118,34 +118,40 @@ export const PRICES = {
  */
 export const feeSchedule = [
   {
+    key: "insights",
     phase: "Aperture Insights™ (the way in)",
     deliverable: `Business X-Ray + Aperture Score, a seven-lens read of where the business stands. ${XRAY_CREDIT_TERMS}`,
     fee: `${INSIGHTS_FEE} fixed`,
   },
-  { phase: "Aperture Analytics™", deliverable: "Profit Map + scenario model", fee: `from ${COMPONENT_FEE}` },
-  { phase: "Aperture Intelligence™", deliverable: "Customer & Market Map + GIS package", fee: `from ${COMPONENT_FEE}` },
-  { phase: "Aperture Compass™", deliverable: "Opportunity Matrix + Focus Plan", fee: `from ${COMPONENT_FEE}` },
+  { key: "analytics", phase: "Aperture Analytics™", deliverable: "Profit Map + scenario model", fee: `from ${COMPONENT_FEE}` },
+  { key: "intelligence", phase: "Aperture Intelligence™", deliverable: "Customer & Market Map + GIS package", fee: `from ${COMPONENT_FEE}` },
+  { key: "compass", phase: "Aperture Compass™", deliverable: "Opportunity Matrix + Focus Plan", fee: `from ${COMPONENT_FEE}` },
   {
+    key: "full",
     phase: "Full Method (bundle)",
     deliverable: "Insights → Compass, end to end (Atlas billed separately, below). À la carte the same four are $30,000",
     fee: `${FULL_METHOD_FEE} (${FULL_METHOD_AFTER_CREDIT} after the X-Ray credit)`,
   },
   {
+    key: "site",
     phase: "Site Selection Study",
     deliverable: "Candidate-site scoring + trade-area & drive-time modelling (standalone)",
     fee: `${SITE_SELECTION_FEE} fixed`,
   },
   {
+    key: "atlas1",
     phase: "Aperture Atlas™ (recurring)",
     deliverable: `Live Scoreboard + KPI system, single location: ${ATLAS_TERMS}`,
     fee: `${ATLAS_TIERS[0].fee.replace("/mo", " / month")}`,
   },
   {
+    key: "atlas24",
     phase: "Aperture Atlas™ · 2–4 locations",
     deliverable: `Live Scoreboard + KPI system, 2–4 locations: ${ATLAS_TERMS}`,
     fee: `${ATLAS_TIERS[1].fee.replace("/mo", " / month")}`,
   },
   {
+    key: "atlas5",
     phase: "Aperture Atlas™ · 5+ locations",
     deliverable: `Live Scoreboard + KPI system, 5+ locations: ${ATLAS_TERMS}`,
     fee: `${ATLAS_TIERS[2].fee.replace("/mo", " / month")}`,

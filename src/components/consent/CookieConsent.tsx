@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -91,6 +92,19 @@ export function CookieConsent() {
        * button: the first thing a mobile visitor saw was a consent wall.
        */}
       <div className="mx-auto max-w-3xl rounded-lg border border-line bg-paper p-5 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.25)] sm:p-8">
+        {/*
+         * The mark, so the panel reads as part of the site rather than as a
+         * third-party consent widget bolted on. Decorative: the dialog is
+         * already labelled, so the logo carries no alt text of its own.
+         */}
+        <Image
+          src="/logo-horizontal-black-v3.png"
+          alt=""
+          width={640}
+          height={76}
+          priority={false}
+          className="mb-4 h-[18px] w-auto sm:mb-5 sm:h-[21px]"
+        />
         <h2 className="text-body-lg font-semibold text-ink sm:text-h4">
           Cookies help us improve your experience.
         </h2>

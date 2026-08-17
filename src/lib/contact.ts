@@ -45,6 +45,12 @@ export type ContactPayload = {
   newsletter?: boolean;
   /** Honeypot: must be empty. Bots fill it; humans never see it. */
   website?: string;
+  /**
+   * Which page the enquiry came from, e.g. "website:/onboarding". Set by the
+   * form, validated server-side, and used only to route attention: a question
+   * asked mid-onboarding is more urgent than a general enquiry.
+   */
+  source?: string;
 };
 
 /** The fields that can carry a validation error. */

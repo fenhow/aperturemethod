@@ -1,5 +1,5 @@
 import "server-only";
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, degrees, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
 import { APERTURE_LOGO_WHITE_HORIZONTAL_B64, APERTURE_ICON_WHITE_B64, FENWICK_SIGNATURE_B64 } from "./logo";
 import {
   agreementClauses,
@@ -7,7 +7,7 @@ import {
   feeSchedule,
   ESIGN_CONSENT,
 } from "./content";
-import { feeRowsForScope, scopeLabels } from "./scope";
+import { feeRowsForScope, scopeLabels, NEGOTIATED_TERMS_NOTE } from "./scope";
 import {
   intakeIntro,
   sharedSections,
@@ -202,6 +202,35 @@ class Doc {
       thickness: 0.5, color: LINE,
     });
     this.y -= 8;
+  }
+
+  /**
+   * Marks every page of an unsigned reading copy. A draft that looks like an
+   * executed agreement is the one failure mode worth engineering against, so
+   * this runs on every page and cannot be switched off per page.
+   */
+  draftStamp() {
+    const big = "DRAFT";
+    const line = "NOT SIGNED  ·  NOT A CONTRACT";
+    this.doc.getPages().forEach((p) => {
+      // Diagonal across the page, faint enough to read through and impossible
+      // to miss. Drawn last so nothing can cover it.
+      const size = 96;
+      const w = this.bold.widthOfTextAtSize(big, size);
+      p.drawText(big, {
+        x: PAGE_W / 2 - (w / 2) * 0.7,
+        y: PAGE_H / 2 - 90,
+        size,
+        font: this.bold,
+        color: MAROON,
+        opacity: 0.1,
+        rotate: degrees(38),
+      });
+      const w2 = this.bold.widthOfTextAtSize(line, 10);
+      p.drawText(line, {
+        x: PAGE_W / 2 - w2 / 2, y: BOTTOM - 44, size: 10, font: this.bold, color: MAROON, opacity: 0.75,
+      });
+    });
   }
 
   finalizeFooters() {
@@ -426,6 +455,10 @@ async function buildAgreement(p: OnboardingPayload, meta: Meta): Promise<Uint8Ar
     d.para(row.phase, { font: d.bold, size: 9.5, after: 1 });
     d.para(`${row.deliverable}  ·  ${row.fee}`, { x: MARGIN + 14, size: 9, color: MUTED, after: 4 });
   }
+  d.y -= 2;
+  d.ensure(40);
+  d.para("Separately agreed terms", { font: d.bold, size: 9.5, after: 1 });
+  d.para(NEGOTIATED_TERMS_NOTE, { size: 8.5, color: MUTED, after: 6 });
   const startDate = fieldValue(p.answers, "engagement_start");
   const clientContact = fieldValue(p.answers, "client_contact");
   d.y -= 2;
@@ -433,8 +466,19 @@ async function buildAgreement(p: OnboardingPayload, meta: Meta): Promise<Uint8Ar
   d.para(`Primary Aperture contact: Fenwick How`, { size: 9.5, after: 2 });
   d.para(`Primary Client contact: ${clientContact || p.signerName}`, { size: 9.5, after: 4 });
 
-  await d.signatureBlock(p, true);
+  if (p.draft) {
+    d.y -= 10;
+    d.ensure(70);
+    d.heading("Signature");
+    d.para(
+      "This is a reading copy. Nothing here is signed and nothing is in force. When you are ready, complete and sign the agreement on the website; the executed copy is emailed to you and filed in your client area the moment you submit it.",
+      { size: 9, color: MUTED, after: 6 }
+    );
+  } else {
+    await d.signatureBlock(p, true);
+  }
   d.finalizeFooters();
+  if (p.draft) d.draftStamp();
   return d.doc.save();
 }
 

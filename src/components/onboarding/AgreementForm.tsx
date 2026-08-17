@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { agreementClauses, feeSchedule, ESIGN_CONSENT } from "@/lib/onboarding/content";
-import { scopeOptions, scopeConflict, feeRowsForScope } from "@/lib/onboarding/scope";
+import { scopeOptions, scopeConflict, feeRowsForScope, NEGOTIATED_TERMS_NOTE } from "@/lib/onboarding/scope";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
 import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog } from "./shared";
@@ -18,6 +18,39 @@ export function AgreementForm() {
   const [errOpen, setErrOpen] = useState(false);
   const [problems, setProblems] = useState<string[]>([]);
   const { status, message, submit, download } = useOnboardingSubmit();
+  const [readingCopy, setReadingCopy] = useState<"idle" | "working" | "error">("idle");
+
+  /** An unsigned copy, so nobody has to sign a document to read it. */
+  async function downloadReadingCopy() {
+    setReadingCopy("working");
+    try {
+      const res = await fetch("/api/onboarding/preview", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          answers: { ...f },
+          signerName: f.signer_name ?? "",
+          signerTitle: f.signer_title ?? "",
+          signerEmail: f.signer_email ?? "",
+          company: f.client_legal_name ?? "",
+          segments: scope,
+          website: "",
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json?.ok || !json.pdfBase64) throw new Error(json?.message ?? "failed");
+      const bin = atob(json.pdfBase64);
+      const buf = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i += 1) buf[i] = bin.charCodeAt(i);
+      const url = URL.createObjectURL(new Blob([buf], { type: "application/pdf" }));
+      // A new tab rather than a forced save: most people want to read it now.
+      window.open(url, "_blank", "noopener,noreferrer");
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      setReadingCopy("idle");
+    } catch {
+      setReadingCopy("error");
+    }
+  }
   const router = useRouter();
   const set = (name: string, v: string) => setF((s) => ({ ...s, [name]: v }));
 
@@ -135,14 +168,19 @@ export function AgreementForm() {
                   }
                   className="mt-1 h-4 w-4 shrink-0 accent-[#500000]"
                 />
-                <span>
-                  <span className="block text-body font-semibold text-ink">
-                    {o.label}
-                    {o.recurring && (
-                      <span className="ml-2 align-middle text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
-                        Recurring
-                      </span>
-                    )}
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                    <span className="text-body font-semibold text-ink">
+                      {o.label}
+                      {o.recurring && (
+                        <span className="ml-2 align-middle text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
+                          Recurring
+                        </span>
+                      )}
+                    </span>
+                    <span className="shrink-0 text-small font-semibold tabular-nums text-maroon">
+                      {o.price}
+                    </span>
                   </span>
                   <span className="mt-1 block text-small text-muted">{o.blurb}</span>
                 </span>
@@ -151,6 +189,11 @@ export function AgreementForm() {
           })}
         </div>
         <FieldError message={errors.scope} />
+
+        <p className="max-w-measure rounded-sm border-l-2 border-maroon bg-surface px-4 py-3 text-small text-muted">
+          <span className="font-semibold text-ink">If we agreed something different, that wins. </span>
+          {NEGOTIATED_TERMS_NOTE.replace("These are the published starting figures. ", "")}
+        </p>
 
         {scope.length > 0 && (
           <div className="rounded-sm border border-line bg-surface p-5">
@@ -179,6 +222,26 @@ export function AgreementForm() {
       {/* The agreement text */}
       <div className="rounded-sm border border-line bg-surface/60 p-6">
         <p className="eyebrow mb-3">Please review</p>
+        <div className="mb-5 flex flex-wrap items-center gap-4 border-b border-line pb-5">
+          <button
+            type="button"
+            onClick={downloadReadingCopy}
+            className="btn--secondary"
+            disabled={readingCopy === "working"}
+          >
+            {readingCopy === "working" ? "Preparing…" : "Read the agreement first"}
+          </button>
+          <p className="max-w-measure text-small text-muted">
+            Opens an unsigned copy in a new tab, marked DRAFT on every page, with the services you
+            have ticked already written into Exhibit A. Take it away, read it, show it to whoever you
+            like. Nothing is signed and nothing starts until you submit this page.
+          </p>
+          {readingCopy === "error" && (
+            <p className="text-small text-maroon">
+              That did not work. Email hello@aperturemethod.com and I will send a copy.
+            </p>
+          )}
+        </div>
         <p className="text-body text-body">
           This Services Agreement is entered into as of the Effective Date by and between{" "}
           <strong>The Aperture Method</strong> (&ldquo;Aperture&rdquo;) and{" "}

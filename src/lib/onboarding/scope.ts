@@ -1,4 +1,4 @@
-import { feeSchedule } from "@/lib/pricing";
+import { feeSchedule, INSIGHTS_FEE, COMPONENT_FEE, FULL_METHOD_FEE, SITE_SELECTION_FEE, ATLAS_TIERS } from "@/lib/pricing";
 
 /**
  * What the client is actually engaging, chosen before they sign.
@@ -19,51 +19,66 @@ export type ScopeOption = {
   blurb: string;
   /** Fee-schedule keys this option prints into Exhibit A. */
   rows: string[];
+  /**
+   * The published starting figure, shown on the card so nobody ticks a box
+   * without seeing what it costs. This is the list price, not a quote: a
+   * separately agreed figure overrides it, which the form says out loud.
+   */
+  price: string;
   /** Rendered as a separate group so a retainer is never mistaken for a phase. */
   recurring?: boolean;
 };
+
+const COMPONENT = COMPONENT_FEE ?? "on application";
 
 export const scopeOptions: ScopeOption[] = [
   {
     key: "insights",
     label: "Aperture Insights™",
     blurb: "The Business X-Ray and your Aperture Score. Most engagements start here.",
+    price: `${INSIGHTS_FEE} fixed`,
     rows: ["insights"],
   },
   {
     key: "analytics",
     label: "Aperture Analytics™",
     blurb: "Profit Map and scenario model.",
+    price: `from ${COMPONENT}`,
     rows: ["analytics"],
   },
   {
     key: "intelligence",
     label: "Aperture Intelligence™",
     blurb: "Customer and Market Map with the GIS package.",
+    price: `from ${COMPONENT}`,
     rows: ["intelligence"],
   },
   {
     key: "compass",
     label: "Aperture Compass™",
     blurb: "Opportunity Matrix and Focus Plan.",
+    price: `from ${COMPONENT}`,
     rows: ["compass"],
   },
   {
     key: "full",
     label: "Full Method",
     blurb: "Insights through Compass, end to end. Replaces the four selections above.",
+    price: `${FULL_METHOD_FEE}`,
     rows: ["full"],
   },
   {
     key: "site",
     label: "Site Selection Study",
     blurb: "Candidate-site scoring with trade-area and drive-time modelling. Standalone.",
+    price: `${SITE_SELECTION_FEE} fixed`,
     rows: ["site"],
   },
   {
     key: "atlas",
     label: "Aperture Atlas™",
     blurb: "The live Scoreboard and KPI system, billed monthly and cancellable on notice.",
+    price: `from ${ATLAS_TIERS[0].fee.replace("/mo", " / month")}`,
     rows: ["atlas1", "atlas24", "atlas5"],
     recurring: true,
   },
@@ -103,3 +118,12 @@ export function assertScopeKeys(): void {
     throw new Error(`scope.ts references unknown fee-schedule keys: ${missing.join(", ")}`);
   }
 }
+
+/**
+ * Shown wherever prices are: on the cards, in the live Exhibit A preview, and
+ * in the executed PDF. The figures on this page are the published schedule, and
+ * a client who negotiated something else needs to see that their number wins
+ * before they sign, not after.
+ */
+export const NEGOTIATED_TERMS_NOTE =
+  "These are the published starting figures. If you have agreed different terms with Fenwick How directly, a quoted fee, a bundled price, a discount or a payment schedule, those agreed terms apply instead and are written into your Exhibit A before signature. If what you see here does not match what was discussed, stop and tell me rather than signing.";

@@ -120,7 +120,7 @@ export const feeSchedule = [
   {
     key: "insights",
     phase: "Aperture Insights™ (the way in)",
-    deliverable: `Business X-Ray + Aperture Score, a seven-lens read of where the business stands. ${XRAY_CREDIT_TERMS}`,
+    deliverable: `Business X-Ray + Aperture Score, a seven-lens read of where the business stands. It ${XRAY_CREDIT_TERMS}.`,
     fee: `${INSIGHTS_FEE} fixed`,
   },
   { key: "analytics", phase: "Aperture Analytics™", deliverable: "Profit Map + scenario model", fee: `from ${COMPONENT_FEE}` },

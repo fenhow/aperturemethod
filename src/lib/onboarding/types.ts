@@ -29,6 +29,12 @@ export type OnboardingPayload = {
   draftToken?: string;
   /** Honeypot: must be empty. */
   website?: string;
+  /**
+   * Unsigned reading copy. Never stored, never emailed, never counted as
+   * executed: the PDF is stamped on every page so a draft can never be passed
+   * off as a signed agreement.
+   */
+  draft?: boolean;
 };
 
 export type OnboardingErrors = Record<string, string>;

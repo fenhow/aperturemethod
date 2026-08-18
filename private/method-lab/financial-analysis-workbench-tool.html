@@ -754,16 +754,23 @@ h4.fgroup:first-child{margin-top:4px}
     <div id="im_xbrl">
       <div class="drop" id="factsZone">
         <div class="big">Drop SEC XBRL files here</div>
-        <div class="sm">one or several filing documents <b>ticker-YYYYMMDD.htm</b>, or a company-facts <b>.json</b></div>
+        <div class="sm">EDGAR <b>.zip</b> packages (drop all the years at once), filing documents
+          <b>ticker-YYYYMMDD.htm</b>, or a company-facts <b>.json</b></div>
       </div>
-      <input type="file" id="factsInput" accept=".json,.htm,.html,.xhtml" multiple style="display:none">
+      <input type="file" id="factsInput" accept=".json,.htm,.html,.xhtml,.zip" multiple style="display:none">
       <div class="hint"><b>Why this is the reliable one.</b> It reads the company's own XBRL tags —
         the structured data the filing is actually built from — rather than interpreting a page
         layout. A tag is exact where a printed label is a matter of opinion, so nothing is guessed.
         It also brings <b>every year the company has filed</b>, not just the two shown in the latest
         statements, and sets the units, the period labels and the entity profile for you.</div>
       <div class="hint" style="border-left-color:#7A7A7A"><b>Two files work — either is fine.</b>
-        <br><br><b>1 · The filing document.</b> On the filing's EDGAR page, take the main document —
+        <br><br><b>0 · The EDGAR zip — easiest.</b> Use <b>"Download all files"</b> on the filing
+        page and drop the resulting
+        <code style="font-family:var(--mono);font-size:11px">0000101829-26-000006-xbrl.zip</code>
+        straight in, unopened. Nothing to unzip, nothing to identify: the filing document inside is
+        found by looking for the one carrying the tagged figures, and the taxonomy files and exhibits
+        are left alone. <b>Drop one zip per year, all together</b>, and the years merge.
+        <br><br><b>1 · The filing document.</b> If you have already unzipped, take the main document —
         named like <code style="font-family:var(--mono);font-size:11px">rtx-20251231.htm</code> or
         <code style="font-family:var(--mono);font-size:11px">hsy-20251231.htm</code>. Every figure in
         a modern 10-K is tagged inline, so the document <em>is</em> the data. If you downloaded the
@@ -816,6 +823,15 @@ h4.fgroup:first-child{margin-top:4px}
       </div>
       <input type="file" id="fileInput" accept=".xlsx,.xlsm,.xls,.csv,.tsv" style="display:none">
       <div id="sheetPick" style="margin-top:14px"></div>
+      <div class="hint" style="border-left-color:#7A7A7A"><b>For a private company, use the Aperture intake
+        template.</b> A private business has no XBRL and rarely a clean statement to paste, so the route in is
+        a spreadsheet you fill from its records. The intake workbook that ships with this tool
+        (<code style="font-family:var(--mono);font-size:11px">Aperture — Private Company Intake Template.xlsx</code>)
+        already carries the canonical label for every line, so nothing has to be re-mapped by hand, and its
+        <b>Checks</b> tab tests the balance sheet, the cash tie-out, the retained-earnings roll-forward and every
+        sign convention before anything is imported. Import one statement tab at a time, setting <b>Import into</b>
+        to the matching statement each time — that also tells the reader which statement a shared label like
+        “Net income” or “Depreciation and amortisation” belongs to.</div>
     </div>
 
     <div id="im_paste" style="display:none">
@@ -1381,11 +1397,11 @@ is:[
 ],
 cf:[
  {kind:'section',label:'Operating Activities'},
- {role:'cfNetIncome',label:'Net income',syn:['net income','net earnings','profit for the year']},
- {role:'depAmort',label:'Depreciation and amortisation',syn:['depreciation and amortization','depreciation','amortization','d&a']},
+ {role:'cfNetIncome',label:'Net income',syn:['net income (cash flow statement)','net income — cash flow','profit for the year (cash flow)','net income','net earnings','profit for the year']},
+ {role:'depAmort',label:'Depreciation and amortisation',syn:['depreciation and amortisation (cash flow statement)','depreciation & amortisation (cash flow)','depreciation and amortization (cash flow statement)','depreciation and amortization','depreciation','amortization','d&a']},
  {role:'sbc',label:'Stock-based compensation',syn:['stock-based compensation','share-based compensation','sbc','stock based compensation']},
- {role:'impairmentCF',label:'Impairment charges',syn:['goodwill impairment','impairment','long-lived asset impairments','asset impairments']},
- {role:'restructuringCF',label:'Restructuring charges',syn:['restructuring charges','restructuring']},
+ {role:'impairmentCF',label:'Impairment charges',syn:['impairment charges (cash flow statement)','goodwill impairment','impairment','long-lived asset impairments','asset impairments']},
+ {role:'restructuringCF',label:'Restructuring charges',syn:['restructuring charges (cash flow statement)','restructuring charges','restructuring']},
  {role:'deferredTaxCF',label:'Deferred income taxes',syn:['deferred income taxes','deferred taxes','deferred tax']},
  {role:'otherNonCash',label:'Other non-cash items',syn:['other net','other non-cash','other, net','gain loss on disposal of subsidiaries']},
  {role:'wcReceivables',label:'Change in receivables',syn:['receivables','change in receivables','accounts receivable']},
@@ -3117,6 +3133,17 @@ function autoMatch(label){
   allTaxRows().forEach(t=>{const s=scoreMatch(label,t);if(s>bestScore){bestScore=s;best=t;}});
   return bestScore>=0.55?{st:best.st,role:best.role,score:bestScore}:{st:null,role:null,score:0};
 }
+/* Four labels are legitimately identical on two statements — net income,
+   depreciation, impairment and restructuring all appear on the income
+   statement and again on the cash flow. A plain label match always lands on
+   the income statement, which is why "Import into" restricts the search to
+   the statement the user named rather than discarding the row. */
+function autoMatchIn(st,label){
+  let best=null,bestScore=0;
+  TAX[st].forEach(t=>{if(!t.role)return;const sc=scoreMatch(label,{...t});
+    if(sc>bestScore){bestScore=sc;best=t;}});
+  return bestScore>=0.55?{role:best.role,score:bestScore}:{role:null,score:0};
+}
 function buildImportRows(raw,src){
   IMP.src=src||{doc:'',page:''};
   /* raw: array of {label, cells:[strings]} */
@@ -3189,7 +3216,12 @@ function commitImport(){
   let imported=0,skipped=0;
   IMP.rows.forEach(r=>{
     let st=r.st,role=r.role;
-    if(target!=='auto'&&st&&st!==target){skipped++;return;}
+    if(target!=='auto'&&st&&st!==target){
+      /* named a statement: re-read the label as a row of THAT statement */
+      const m=autoMatchIn(target,r.label);
+      if(!m.role){skipped++;return;}
+      st=target; role=m.role;
+    }
     if(!st||!role){
       if(!keepUnmapped){skipped++;return;}
       st=(target==='auto')?'is':target;
@@ -3677,6 +3709,75 @@ function applySubmissions(j,fileName){
     : 'Nothing new to fill from that submissions file.');
   toast('Profile updated');
 }
+/* ---------- 17d. EDGAR ZIP PACKAGES ------------------------------------
+   EDGAR's "Download all files" button hands over a .zip per filing, named for
+   the accession number: 0000101829-26-000006-xbrl.zip. Making the user unzip
+   four of those and hunt for the one file that matters is a step where things
+   go wrong, so the zip is read here instead.
+
+   The reader is deliberately minimal: walk the zip's central directory, keep
+   the document entries, inflate them with the browser's own DecompressionStream.
+   No library, nothing to load, works from file://. Deflate and stored are the
+   only methods EDGAR uses.
+   ---------------------------------------------------------------------- */
+function zipEntries(buf){
+  const dv=new DataView(buf), u8=new Uint8Array(buf);
+  /* End of central directory: scan back for its signature, allowing a comment */
+  let eocd=-1;
+  for(let i=u8.length-22;i>=0&&i>u8.length-65558;i--){
+    if(dv.getUint32(i,true)===0x06054b50){eocd=i;break;}
+  }
+  if(eocd<0)throw new Error('Not a zip file');
+  const n=dv.getUint16(eocd+10,true);
+  let off=dv.getUint32(eocd+16,true);
+  const out=[];
+  for(let k=0;k<n;k++){
+    if(dv.getUint32(off,true)!==0x02014b50)break;
+    const method=dv.getUint16(off+10,true),
+          csize=dv.getUint32(off+20,true),
+          nlen=dv.getUint16(off+28,true),
+          elen=dv.getUint16(off+30,true),
+          clen=dv.getUint16(off+32,true),
+          lho=dv.getUint32(off+42,true);
+    const name=new TextDecoder().decode(u8.subarray(off+46,off+46+nlen));
+    out.push({name,method,csize,lho});
+    off+=46+nlen+elen+clen;
+  }
+  return out;
+}
+async function zipRead(buf,e){
+  const dv=new DataView(buf), u8=new Uint8Array(buf);
+  if(dv.getUint32(e.lho,true)!==0x04034b50)throw new Error('Damaged zip entry: '+e.name);
+  const nlen=dv.getUint16(e.lho+26,true), elen=dv.getUint16(e.lho+28,true);
+  const start=e.lho+30+nlen+elen, body=u8.subarray(start,start+e.csize);
+  if(e.method===0)return new TextDecoder().decode(body);
+  if(e.method!==8)throw new Error('Unsupported compression in zip');
+  if(typeof DecompressionStream==='undefined')
+    throw new Error('This browser cannot open zips — unzip the file and drop the .htm document instead');
+  const ds=new DecompressionStream('deflate-raw');
+  const blob=await new Response(new Blob([body]).stream().pipeThrough(ds)).arrayBuffer();
+  return new TextDecoder().decode(blob);
+}
+/* The filing document is the one carrying the figures. EDGAR packages also
+   contain the taxonomy files and sometimes tagged exhibits, so the document
+   is chosen by evidence — most inline-XBRL facts wins — rather than by a
+   filename pattern that varies between filers. */
+async function xbrlFromZip(file){
+  const buf=await file.arrayBuffer();
+  const cands=zipEntries(buf).filter(e=>
+    /\.(htm|html|xhtml)$/i.test(e.name) && !/(^|\/)__MACOSX\//.test(e.name) && e.csize>0);
+  if(!cands.length)throw new Error(file.name+' has no filing document in it');
+  cands.sort((a,b)=>b.csize-a.csize);
+  let best=null;
+  for(const e of cands.slice(0,6)){
+    let txt; try{txt=await zipRead(buf,e);}catch(err){continue;}
+    const n=(txt.match(/<ix:nonfraction/gi)||[]).length;
+    if(n&&(!best||n>best.n))best={n,txt,name:e.name.replace(/^.*\//,'')};
+  }
+  if(!best)throw new Error(file.name+' contains no inline-XBRL figures — is it the financial report package?');
+  return parseInlineXbrl(best.txt,best.name);
+}
+
 /* Merge several filings into one model. A 10-K shows three years of income
    statement and cash flow but only two balance sheets, so four years of
    complete statements needs more than one filing — or the company-facts file,
@@ -3699,20 +3800,44 @@ function mergeFactDocs(docs){
           facts:{'us-gaap':g,dei:{}},_dei:dei,
           _ix:{facts,fileName:docs.length+' filings',stamp:stamps.sort().pop()}};
 }
+const RX_FILING=/\.(htm|html|xhtml|zip)$/i;
+/* One document per filing. An EDGAR package may carry a tagged exhibit as
+   well as the 10-K itself, and a file with no us-gaap facts is scaffolding,
+   not a filing — merging it would let an exhibit's cover page overwrite the
+   real one. */
+async function readFilingDoc(f){
+  const d=/\.zip$/i.test(f.name)? await xbrlFromZip(f)
+                                : parseInlineXbrl(await f.text(),f.name);
+  const g=d.facts&&d.facts['us-gaap'];
+  if(!g||!Object.keys(g).length)return null;
+  return d;
+}
 async function handleXbrlFiles(list){
   const files=Array.from(list||[]);
   if(!files.length)return;
   if(files.length===1)return handleXbrlFile(files[0]);
-  const htm=files.filter(f=>/\.(htm|html|xhtml)$/i.test(f.name));
-  const other=files.filter(f=>!/\.(htm|html|xhtml)$/i.test(f.name));
-  if(!htm.length)return handleXbrlFile(files[0]);
+  const fil=files.filter(f=>RX_FILING.test(f.name));
+  const other=files.filter(f=>!RX_FILING.test(f.name));
+  if(!fil.length)return handleXbrlFile(files[0]);
   try{
-    status('<span class="wait"></span>Reading '+htm.length+' filings…');
+    status('<span class="wait"></span>Reading '+fil.length+' filings — large 10-Ks take a moment…');
     await new Promise(r=>setTimeout(r,30));
-    const docs=[];
-    for(const f of htm){
-      const d=parseInlineXbrl(await f.text(),f.name);
-      docs.push(d);
+    const docs=[], skipped=[];
+    for(const f of fil){
+      status('<span class="wait"></span>Reading <b>'+esc(f.name)+'</b>…');
+      await new Promise(r=>setTimeout(r,10));
+      let d=null;
+      try{ d=await readFilingDoc(f); }catch(err){ skipped.push(f.name+' — '+err.message); continue; }
+      if(d)docs.push(d); else skipped.push(f.name+' — no tagged figures in it');
+    }
+    if(!docs.length)throw new Error('None of those files carried tagged figures. '+skipped.join('; '));
+    if(docs.length===1){
+      const d=docs[0], P1=parseCompanyFacts(d,d._ix.fileName);
+      P1.accn=''; applyCompanyFacts(P1);
+      const f1=applyDei(d._dei,P1.scale);
+      if(f1.length){fillMeta();bindEntity();bindIntake();renderAllDerived();}
+      status(status_lastIx(d,P1)+(skipped.length?' <b>Skipped:</b> '+esc(skipped.join('; '))+'.':''));
+      return;
     }
     /* newest first, so the most recent cover page and figures take precedence */
     docs.sort((a,b)=>String(b._ix.stamp).localeCompare(String(a._ix.stamp)));
@@ -3726,8 +3851,10 @@ async function handleXbrlFiles(list){
     status('Merged <b>'+docs.length+'</b> filings ('+esc(yrs)+') — <b>'+P.found+
       '</b> line items across <b>'+P.ends.length+'</b> years, in <b>'+UNIT_LABEL[P.units]+
       '</b>. Where years overlap, the most recent filing wins, so restatements supersede. '+
-      (filled.length?'Front end filled from the newest cover page.':'')+
-      (other.length?' '+other.length+' non-filing file(s) ignored.':''));
+      'The report is now set to <b>'+P.ends.length+' periods</b> — change that in Setup for a shorter one. '+
+      (filled.length?'Front end filled from the newest cover page. ':'')+
+      (skipped.length?'<b>Skipped:</b> '+esc(skipped.join('; '))+'. ':'')+
+      (other.length?other.length+' non-filing file(s) ignored.':''));
     toast(docs.length+' filings merged · '+P.ends.length+' years');
   }catch(err){
     toast('Could not read: '+err.message);
@@ -3744,10 +3871,12 @@ async function handleXbrlFile(file){
       const P=parseCompanyFacts(j,file.name);
       applyCompanyFacts(P); return;
     }
-    if(/\.(htm|html|xhtml)$/.test(nm)){
-      status('<span class="wait"></span>Reading the filing document — large 10-Ks take a moment…');
+    if(/\.(htm|html|xhtml|zip)$/.test(nm)){
+      status('<span class="wait"></span>Reading the filing '+(/\.zip$/.test(nm)?'package':'document')+
+             ' — large 10-Ks take a moment…');
       await new Promise(r=>setTimeout(r,30));
-      const doc=parseInlineXbrl(await file.text(),file.name);
+      const doc=/\.zip$/.test(nm)? await xbrlFromZip(file)
+                                  : parseInlineXbrl(await file.text(),file.name);
       const P=parseCompanyFacts(doc,file.name);
       P.accn=''; P.fileName=file.name;
       applyCompanyFacts(P);
@@ -3764,10 +3893,10 @@ async function handleXbrlFile(file){
       return;
     }
     if(/\.(xsd|xml)$/.test(nm)){
-      throw new Error('That is a taxonomy file. Import the main filing document instead — '+
-        'the one named like ticker-YYYYMMDD.htm — or the company-facts .json');
+      throw new Error('That is a taxonomy file. Import the whole EDGAR .zip package, or the '+
+        'main filing document from it — the one named like ticker-YYYYMMDD.htm — or the company-facts .json');
     }
-    throw new Error('Expecting the filing document (.htm), or the company-facts .json');
+    throw new Error('Expecting an EDGAR .zip package, a filing document (.htm), or the company-facts .json');
   }catch(err){
     toast('Could not read: '+err.message);
     status('<b>XBRL import failed.</b> '+esc(err.message));

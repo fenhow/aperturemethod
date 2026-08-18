@@ -17,7 +17,13 @@ export type Block =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
   | { type: "pull"; text: string }
-  | { type: "note"; text: string };
+  | { type: "note"; text: string }
+  /**
+   * A named figure, rendered by a registered component rather than as text.
+   * Kept as an id rather than markup so the body of an article stays plain
+   * data and still moves cleanly into a CMS later.
+   */
+  | { type: "figure"; figure: "five-statements" };
 
 export type Article = {
   slug: string;
@@ -27,6 +33,8 @@ export type Article = {
   readingTime: string;
   date: string;
   featured?: boolean;
+  /** Overrides the shared social card for articles that have their own image. */
+  ogImage?: string;
   body: Block[];
 };
 
@@ -65,6 +73,36 @@ export const articles: Article[] = [
       { type: "h2", text: "Try this before you do anything formal" },
       { type: "p", text: "You can start this week, on the back of an envelope. Take your ten best-selling products, or your ten biggest customers. For each one, estimate, honestly, what it truly costs you to deliver, hidden costs included. You'll feel the pattern before you can prove it. That instinct is the beginning. The numbers are what turn it into a decision." },
       { type: "p", text: "Revenue tells you the business is moving. It doesn't tell you where it's making money. The owners who find that out, and act on it, often discover they don't need to sell more to earn more. They need to see clearly." },
+    ],
+  },
+  {
+    slug: "the-five-financial-statements",
+    title: "The five financial statements, and how they work together.",
+    pillar: "Know Your Numbers",
+    excerpt:
+      "Most owners have seen a balance sheet and a P&L. Far fewer have seen how the five statements hand the story to each other, which is why a business can look profitable on one page and be short of cash on another.",
+    readingTime: "5 min read",
+    date: "August 2026",
+    ogImage: "/insights/five-financial-statements-og.png",
+    body: [
+      { type: "p", text: "Ask an owner for their financials and you will usually get two things: a profit and loss statement, and a balance sheet. Both are useful. Neither, on its own, tells you what happened to the business." },
+      { type: "p", text: "There are five statements, not two, and the reason there are five is that a business can only be described from more than one angle at once. Profitable and short of cash is not a contradiction. Growing and getting weaker is not a contradiction. Each of those sentences is true on one statement and invisible on another, which is exactly why the five exist and why they are read together." },
+      { type: "p", text: "Here is the whole picture on one page." },
+      { type: "figure", figure: "five-statements" },
+      { type: "h2", text: "Five questions, in order" },
+      { type: "p", text: "The sequence is not arbitrary. Each statement answers one question, and it answers it in a specific order. Where are we starting. How did we perform. Why did cash change. What happened to the owner's equity. Where did we end up. Read in that order, the five stop being five documents and become one story with a beginning and an end." },
+      { type: "p", text: "The two balance sheets bookend the period. Everything between them is the explanation. The income statement explains performance, the cash flow statement explains movement, and the statement of equity explains what the owner's stake did while all that was going on. Then the ending balance sheet becomes the beginning balance sheet of the next period, and it runs again." },
+      { type: "pull", text: "Profitable and short of cash is not a contradiction. It is two different statements telling the truth about the same month." },
+      { type: "h2", text: "The one most often missing" },
+      { type: "p", text: "In practice the cash flow statement is the one that does not turn up. It is the least likely to be produced by a small accounting package by default, the least likely to be asked for by a bank that already has the other two, and by some distance the most useful of the three when a business feels tight." },
+      { type: "p", text: "Without it, several things stop being measurable and start being estimated. Depreciation and capital spending have to be inferred. The movement in working capital, the money quietly tied up in stock and in customers who have not paid yet, cannot be separated from trading at all. Cash conversion, which is simply how much of the profit on the page turned into money in the account, cannot be calculated. Those are not exotic measures. They are the ones that explain why a good year did not feel like one." },
+      { type: "h2", text: "Why we ask for four balance sheets, not three" },
+      { type: "p", text: "This is the question we get most often when an engagement starts, so here is the plain answer. Any measure calculated against an average balance, days sales outstanding, inventory days, return on assets, needs an opening balance as well as a closing one. Four balance sheet dates produce three years of those ratios. Three dates produce two." },
+      { type: "p", text: "It is one extra document and it buys a third data point on every trend that matters. Two points make a line. Three make a direction." },
+      { type: "h2", text: "What to do with this" },
+      { type: "p", text: "If you only ever look at one thing, look at the bottom of the cash flow statement next to the bottom of the income statement, for the same period. Profit and net change in cash should tell a similar story. When they do not, the gap between them is where your business actually is, and the reason for the gap is almost always sitting in working capital, in capital spending, or in what was taken out." },
+      { type: "p", text: "None of this requires a finance background. It requires the five statements in front of you at the same time, in the right order, which is the point of the graphic above. Print it. It is the same map we work from." },
+      { type: "note", text: "General information, not accounting advice. Presentation and terminology vary by entity type and by the basis your accounts are prepared on." },
     ],
   },
   {

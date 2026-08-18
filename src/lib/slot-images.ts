@@ -37,6 +37,23 @@ export const slotImages: Record<string, SlotImage> = {
     src: "/slots/HOME-INSIGHT-2.jpg",
     alt: "A business owner using AI tools on a tablet over financial reports",
   },
+  "ARTICLE-the-five-financial-statements-LEAD": {
+    src: "/slots/ARTICLE-five-financial-statements-LEAD.png",
+    alt: "The five financial statements infographic, showing the five statements in sequence",
+  },
+  "ARTICLE-REL-the-five-financial-statements": {
+    src: "/slots/ARTICLE-REL-five-financial-statements.png",
+    alt: "The five financial statements infographic",
+  },
+  // The index and the featured slot use the same card crop.
+  "INSIGHTS-the-five-financial-statements": {
+    src: "/slots/ARTICLE-REL-five-financial-statements.png",
+    alt: "The five financial statements infographic",
+  },
+  "INSIGHTS-FEATURED-the-five-financial-statements": {
+    src: "/slots/ARTICLE-five-financial-statements-LEAD.png",
+    alt: "The five financial statements infographic, showing the five statements in sequence",
+  },
   "HOME-INSIGHT-3": {
     src: "/slots/HOME-INSIGHT-3.jpg",
     alt: "A strategic-priorities whiteboard beside a profitable-growth planner",

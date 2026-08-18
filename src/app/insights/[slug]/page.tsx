@@ -7,6 +7,7 @@ import { LinkArrow } from "@/components/ui/LinkArrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { articles, getArticle, type Block } from "@/lib/insights";
+import { FiveStatements } from "@/components/insights/FiveStatements";
 import { primaryCta } from "@/lib/site";
 import { pageMeta, ldArticle, ldBreadcrumb } from "@/lib/seo";
 
@@ -24,11 +25,25 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
     description: article.excerpt,
     path: `/insights/${article.slug}`,
     type: "article",
+    image: article.ogImage,
   });
 }
 
+/**
+ * Figures are registered rather than inlined, so an article body stays plain
+ * data. One entry today; the switch is what stops the second one from being
+ * pasted into the page.
+ */
+const figures = {
+  "five-statements": FiveStatements,
+} as const;
+
 function BlockRenderer({ block }: { block: Block }) {
   switch (block.type) {
+    case "figure": {
+      const Figure = figures[block.figure];
+      return <Figure />;
+    }
     case "h2":
       return <h2 className="mt-12 text-h3 font-semibold text-ink">{block.text}</h2>;
     case "pull":

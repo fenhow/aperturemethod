@@ -178,6 +178,58 @@ export default function FinancialAnalysisWorkbench() {
         </div>
       </section>
 
+      <section>
+        <div className="wrap">
+          <p className="eyebrow">The intake template</p>
+          <h2 className="sec">The workbook a private company is analysed from</h2>
+          <p className="lead">A private business files nothing, so there is no structured data to import —
+            the analysis is only ever as good as what comes off the client’s own records. This is the
+            workbook that collects it. Use it whether or not you ever engage us: it is a complete intake
+            standard, and the checks in it will find errors in a set of accounts on their own.</p>
+
+          <div className="cards">
+            <div className="card">
+              <span className="badge alt">Blank</span>
+              <h3>Private company intake template</h3>
+              <p className="sub">Excel workbook · 11 tabs</p>
+              <p>Company profile, the three statements, the add-back schedule, audit and disclosure intake,
+                valuation inputs, a document request list to send the client, and a mapping reference for
+                every line item. Yellow cells are the ones to fill.</p>
+              <ul>
+                <li>38 live checks: the balance sheet, the cash tie-out, the retained-earnings roll-forward
+                  and every sign convention, tested per year before anything is imported</li>
+                <li>Every label is the canonical one, so the mapping is right by construction</li>
+                <li>Dropdowns for ownership, legal form and basis of preparation — the three fields that
+                  decide which comparisons the analysis is entitled to make</li>
+              </ul>
+              <div className="spacer"></div>
+              <a className="dl" href="/downloads/aperture-private-company-intake-template.xlsx">
+                Download the template</a>
+              <p className="fmeta">XLSX · 11 tabs · approx. 50 KB</p>
+            </div>
+
+            <div className="card">
+              <span className="badge alt">Completed</span>
+              <h3>The same workbook, filled in</h3>
+              <p className="sub">Excel workbook · worked example</p>
+              <p>Meridian Precision Fabrication, complete: four years of statements that reconcile, six
+                normalisations each with its evidence graded, and the qualitative answers written out at
+                the length they actually need. The fastest way to see what “good” looks like before you
+                send the blank one to a client.</p>
+              <ul>
+                <li>Every check reads OK — the figures are internally consistent by construction</li>
+                <li>Add-backs graded Documented, Estimated or Asserted, with the source named</li>
+                <li>Illustrative figures; not a real company</li>
+              </ul>
+              <div className="spacer"></div>
+              <a className="dl" href="/downloads/aperture-private-company-intake-worked-example.xlsx">
+                Download the worked example</a>
+              <p className="fmeta">XLSX · 11 tabs · approx. 55 KB</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="alt">
         <div className="wrap">
           <p className="eyebrow">Why it matters</p>

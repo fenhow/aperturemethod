@@ -324,6 +324,15 @@ table.fin tr.qcopen td{background:rgba(80,0,0,.028)}
 .unv{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--maroon);
   margin-left:7px;vertical-align:middle;opacity:.55}
 
+.ciklookup{border:1px solid var(--rule);border-left:3px solid var(--maroon);border-radius:2px;
+  padding:16px 18px;margin-top:16px;background:var(--paper)}
+.ciklink{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.ciklink:last-child{border-bottom:none}
+.ciklink a{font-size:12.5px;font-weight:600;color:var(--type);text-decoration:none;flex:0 0 44%}
+.ciklink a:hover{color:var(--maroon)}
+.ciklink code{font-family:var(--mono);font-size:10.5px;color:#6E6E6E;flex:1;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+
 /* --- Method / formula library --- */
 .principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2px 26px}
 .principle{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--rule)}
@@ -744,10 +753,10 @@ h4.fgroup:first-child{margin-top:4px}
 
     <div id="im_xbrl">
       <div class="drop" id="factsZone">
-        <div class="big">Drop an SEC XBRL file here</div>
-        <div class="sm">the filing document <b>ticker-YYYYMMDD.htm</b>, or a company-facts <b>.json</b></div>
+        <div class="big">Drop SEC XBRL files here</div>
+        <div class="sm">one or several filing documents <b>ticker-YYYYMMDD.htm</b>, or a company-facts <b>.json</b></div>
       </div>
-      <input type="file" id="factsInput" accept=".json,.htm,.html,.xhtml" style="display:none">
+      <input type="file" id="factsInput" accept=".json,.htm,.html,.xhtml" multiple style="display:none">
       <div class="hint"><b>Why this is the reliable one.</b> It reads the company's own XBRL tags —
         the structured data the filing is actually built from — rather than interpreting a page
         layout. A tag is exact where a printed label is a matter of opinion, so nothing is guessed.
@@ -760,6 +769,13 @@ h4.fgroup:first-child{margin-top:4px}
         a modern 10-K is tagged inline, so the document <em>is</em> the data. If you downloaded the
         whole package, this is the file you want — the <b>.xsd</b> and the <b>_cal / _def / _lab /
         _pre</b> files are taxonomy scaffolding and contain no figures.
+        <br><br><b>How many years one filing gives you.</b> Three, not four — a 10-K carries three
+        years of income statement and cash flow but only <b>two</b> balance sheets, because that is
+        all the SEC requires. So a single document cannot give you four complete years. Drop
+        <b>several filing documents together</b> and they are merged into one model: this year's
+        10-K plus the one from two years back gives four full years. Where the years overlap the
+        <b>most recent filing wins</b>, so restatements supersede the original figures rather than
+        sitting alongside them.
         <br><br><b>2 · The company-facts file.</b> Every year the company has ever filed, in one go:
         <code style="font-family:var(--mono);font-size:11px">https://data.sec.gov/api/xbrl/companyfacts/CIK0000101829.json</code>
         — CIK padded to ten digits. Save the page, drop it here. Use this when you want a longer
@@ -775,8 +791,21 @@ h4.fgroup:first-child{margin-top:4px}
         <br><br>Segment and share-class breakdowns are excluded automatically; only consolidated
         figures are taken. US filers only — a private company has no XBRL, so use a spreadsheet or
         the paste route.</div>
-      <div class="btnrow">
-        <button class="btn ghost" onclick="cikHelper()">Build the company-facts address from a CIK</button>
+      <div class="ciklookup">
+        <h4 class="isub" style="margin-top:4px">Find the company</h4>
+        <p class="ihint" style="margin:0 0 12px">Paste anything that identifies it — a CIK number, a
+          ticker, or <b>any EDGAR web address</b>. If you are already on the filing page, the address
+          bar contains the CIK, so copying the URL is the quickest route. The SEC does not permit
+          browsers to query it directly, so the searches below open in a new tab.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+          <div style="flex:1;min-width:280px">
+            <label class="f">Company name, ticker, CIK, or an EDGAR URL</label>
+            <input type="text" id="cikBox" placeholder="Hershey   ·   HSY   ·   47111   ·   sec.gov/Archives/edgar/data/47111/…"
+              oninput="cikResolve()" onkeydown="if(event.key==='Enter')cikSearchName()"></div>
+          <button class="btn ghost" onclick="cikSearchName()">Search EDGAR by name</button>
+          <button class="btn ghost" onclick="cikSearchTicker()">By ticker</button>
+        </div>
+        <div id="cikOut" style="margin-top:14px"></div>
       </div>
     </div>
 
@@ -3337,15 +3366,29 @@ function parseCompanyFacts(json,fileName){
     throw new Error('Not a SEC company-facts file — expected facts["us-gaap"]');
   const G=json.facts['us-gaap'], D=json.facts.dei||{};
 
-  /* Period dates come from the balance-sheet anchor: those are the real
-     fiscal year ends, and every other series is matched to them. */
+  /* Period dates are the union of every annual period end in the file, not
+     just the balance-sheet ones. A 10-K carries three years of income statement
+     and cash flow but only two balance sheets, so anchoring on the balance
+     sheet alone would silently discard a year of trading history. The oldest
+     column then has no opening balance, which is correct — average-based
+     ratios simply do not compute for it, and the model already shows that. */
+  const endSet={};
+  Object.keys(G).forEach(t=>{
+    const b=xbrlUnitBlock(G[t]); if(!b)return;
+    xbrlAnnual(b).forEach(e=>{endSet[e.end]=(endSet[e.end]||0)+1;});
+  });
+  /* a date carrying only a stray fact or two is not a reporting period */
+  const ends=Object.keys(endSet).filter(d=>endSet[d]>=3).sort().reverse().slice(0,6);
+  if(!ends.length)throw new Error('No annual 10-K periods found in this file');
+  /* the balance sheet still drives the units, being the largest figures */
   let anchor=null;
   for(const t of ['Assets','LiabilitiesAndStockholdersEquity','StockholdersEquity']){
     const b=xbrlUnitBlock(G[t]); if(b&&xbrlAnnual(b).length){anchor=b;break;}
   }
-  if(!anchor)throw new Error('No annual balance-sheet data found in this file');
-  const ends=Object.keys(xbrlByEnd(anchor)).sort().reverse().slice(0,6);
-  if(!ends.length)throw new Error('No 10-K period end dates found');
+  if(!anchor){
+    const t=Object.keys(G).find(k=>xbrlAnnual(xbrlUnitBlock(G[k])||[]).length);
+    anchor=xbrlUnitBlock(G[t]);
+  }
 
   /* Scale: XBRL is in whole units of currency. Pick a readable magnitude. */
   const maxAbs=Math.max(...Object.values(xbrlByEnd(anchor)).map(e=>Math.abs(e.val)));
@@ -3599,8 +3642,14 @@ function parseInlineXbrl(text,fileName){
   /* wrap to look like companyfacts so one parser serves both */
   const g={}; Object.keys(facts).forEach(t=>{g[t]={units:{USD:facts[t]}};});
   const dei=ixDei(doc);
+  /* Inline XBRL carries no filing date. The document period end is the right
+     proxy: when several filings are merged, the later document is the later
+     filing, so its figures supersede — which is exactly how a restatement
+     should behave. */
+  const stamp=String(dei.DocumentPeriodEndDate||'').slice(0,10)||'0000-00-00';
+  Object.keys(g).forEach(t=>g[t].units.USD.forEach(e=>{e.filed=stamp;}));
   return {cik:dei.EntityCentralIndexKey||'',entityName:dei.EntityRegistrantName||'',
-          facts:{'us-gaap':g,dei:{}},_ix:{facts:n,fileName},_dei:dei};
+          facts:{'us-gaap':g,dei:{}},_ix:{facts:n,fileName,stamp},_dei:dei};
 }
 /* data.sec.gov/submissions/CIK##########.json — the company's own description
    of itself: industry, address, exchanges, former names. No figures, so it
@@ -3627,6 +3676,63 @@ function applySubmissions(j,fileName){
       'No figures in this file — import the filing document or company facts for those.'
     : 'Nothing new to fill from that submissions file.');
   toast('Profile updated');
+}
+/* Merge several filings into one model. A 10-K shows three years of income
+   statement and cash flow but only two balance sheets, so four years of
+   complete statements needs more than one filing — or the company-facts file,
+   which carries every year at once. Overlapping years resolve to the most
+   recent filing, so restatements win. */
+function mergeFactDocs(docs){
+  const g={}; let dei={}, names=[], facts=0, stamps=[];
+  docs.forEach(d=>{
+    const src=d.facts['us-gaap'];
+    Object.keys(src).forEach(t=>{
+      if(!g[t])g[t]={units:{USD:[]}};
+      g[t].units.USD=g[t].units.USD.concat(src[t].units.USD||[]);
+    });
+    /* the newest document's cover page wins for profile fields */
+    if(d._dei)dei=Object.assign({},d._dei,dei);
+    if(d.entityName)names.push(d.entityName);
+    if(d._ix){facts+=d._ix.facts;stamps.push(d._ix.stamp);}
+  });
+  return {cik:dei.EntityCentralIndexKey||'',entityName:names[0]||'',
+          facts:{'us-gaap':g,dei:{}},_dei:dei,
+          _ix:{facts,fileName:docs.length+' filings',stamp:stamps.sort().pop()}};
+}
+async function handleXbrlFiles(list){
+  const files=Array.from(list||[]);
+  if(!files.length)return;
+  if(files.length===1)return handleXbrlFile(files[0]);
+  const htm=files.filter(f=>/\.(htm|html|xhtml)$/i.test(f.name));
+  const other=files.filter(f=>!/\.(htm|html|xhtml)$/i.test(f.name));
+  if(!htm.length)return handleXbrlFile(files[0]);
+  try{
+    status('<span class="wait"></span>Reading '+htm.length+' filings…');
+    await new Promise(r=>setTimeout(r,30));
+    const docs=[];
+    for(const f of htm){
+      const d=parseInlineXbrl(await f.text(),f.name);
+      docs.push(d);
+    }
+    /* newest first, so the most recent cover page and figures take precedence */
+    docs.sort((a,b)=>String(b._ix.stamp).localeCompare(String(a._ix.stamp)));
+    const merged=mergeFactDocs(docs);
+    const P=parseCompanyFacts(merged,merged._ix.fileName);
+    P.accn='';
+    applyCompanyFacts(P);
+    const filled=applyDei(merged._dei,P.scale);
+    if(filled.length){fillMeta();bindEntity();bindIntake();renderAllDerived();}
+    const yrs=docs.map(d=>String(d._ix.stamp).slice(0,4)).join(', ');
+    status('Merged <b>'+docs.length+'</b> filings ('+esc(yrs)+') — <b>'+P.found+
+      '</b> line items across <b>'+P.ends.length+'</b> years, in <b>'+UNIT_LABEL[P.units]+
+      '</b>. Where years overlap, the most recent filing wins, so restatements supersede. '+
+      (filled.length?'Front end filled from the newest cover page.':'')+
+      (other.length?' '+other.length+' non-filing file(s) ignored.':''));
+    toast(docs.length+' filings merged · '+P.ends.length+' years');
+  }catch(err){
+    toast('Could not read: '+err.message);
+    status('<b>XBRL import failed.</b> '+esc(err.message));
+  }
 }
 async function handleXbrlFile(file){
   const nm=(file.name||'').toLowerCase();
@@ -3712,13 +3818,62 @@ function pickSheet(name,el){
   }).filter(Boolean);
   buildImportRows(raw,{doc:srcDoc,page:''});
 }
-function cikHelper(){
-  const v=(prompt('Company CIK number (digits only — Hershey is 47111)')||'').replace(/\D/g,'');
-  if(!v)return;
-  const url='https://data.sec.gov/api/xbrl/companyfacts/CIK'+v.padStart(10,'0')+'.json';
-  status('Open this address, save the page, then drop the file above:<br><b>'+esc(url)+'</b>');
-  try{window.open(url,'_blank','noopener');}catch(e){}
+/* CIK lookup. The SEC blocks cross-origin browser calls, so nothing is
+   queried from here — searches open EDGAR in a tab, and once a CIK is known
+   the three data addresses are assembled locally. Accepts a bare number, a
+   padded CIK, or any EDGAR URL, since the filing page URL already contains it. */
+function cikFrom(str){
+  const t=String(str||'').trim();
+  let m=t.match(/(?:CIK[^0-9]{0,3}|\/data\/)(\d{4,10})/i);
+  if(m)return m[1];
+  m=t.match(/^\s*(\d{1,10})\s*$/);
+  if(m)return m[1];
+  return '';
 }
+function cikPad(c){return String(c).replace(/\D/g,'').padStart(10,'0');}
+function cikSearchName(){
+  const q=($('cikBox').value||'').trim();
+  if(!q){toast('Type a company name first');return;}
+  openTab('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company='+
+    encodeURIComponent(q)+'&type=10-K&dateb=&owner=include&count=40');
+}
+function cikSearchTicker(){
+  const q=($('cikBox').value||'').trim().replace(/[^A-Za-z0-9.\-]/g,'');
+  if(!q){toast('Type a ticker first');return;}
+  openTab('https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK='+
+    encodeURIComponent(q)+'&type=10-K&dateb=&owner=include&count=40');
+}
+function openTab(u){try{window.open(u,'_blank','noopener');}catch(e){
+  status('Open this address in a browser tab:<br><b>'+esc(u)+'</b>');}}
+function cikResolve(){
+  const raw=$('cikBox').value, c=cikFrom(raw), out=$('cikOut');
+  if(!c){out.innerHTML='';return;}
+  const p=cikPad(c), n=String(parseInt(c,10));
+  const links=[
+   ['Filings list — find the 10-K, then download the ticker-YYYYMMDD.htm',
+    'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK='+p+'&type=10-K&dateb=&owner=include&count=10'],
+   ['Company facts — every year, one file',
+    'https://data.sec.gov/api/xbrl/companyfacts/CIK'+p+'.json'],
+   ['Submissions — adds the industry classification',
+    'https://data.sec.gov/submissions/CIK'+p+'.json']
+  ];
+  out.innerHTML='<div class="flag ok" style="margin-bottom:10px"><span class="dot"></span><div>'+
+    '<b>CIK '+esc(p)+'</b><span class="why">Recognised from what you pasted. '+
+    'Open each address, save the page, and drop the file above. Save the .json files as-is — '+
+    'if your browser offers "Web page, complete", choose the plain option instead.</span></div></div>'+
+    links.map(l=>'<div class="ciklink"><a href="'+esc(l[1])+'" target="_blank" rel="noopener">'+
+      esc(l[0])+'</a><code>'+esc(l[1])+'</code>'+
+      '<button class="mini" title="Copy address" onclick="copyText(\''+esc(l[1])+'\')">copy</button></div>').join('');
+}
+function copyText(t){
+  try{navigator.clipboard.writeText(t);toast('Address copied');}
+  catch(e){
+    const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);
+    a.select();try{document.execCommand('copy');toast('Address copied');}catch(_){toast('Copy failed — select it by hand');}
+    a.remove();
+  }
+}
+
 function parsePaste(){
   const txt=$('pasteBox').value;
   if(!txt.trim()){toast('Nothing to parse');return;}
@@ -5268,6 +5423,15 @@ wireChips('#importModes',(ch,c)=>{c.querySelectorAll('.chip').forEach(x=>x.class
   ch.classList.add('on');
   ['xbrl','file','paste','pdf'].forEach(m=>{const e=$('im_'+m);if(e)e.style.display=(m===ch.dataset.mode)?'':'none';});});
 
+/* same as wireDrop, but hands over the whole file list */
+function wireDropMulti(zoneId,inputId,handler){
+  const z=$(zoneId),inp=$(inputId);
+  z.addEventListener('click',()=>inp.click());
+  inp.addEventListener('change',e=>{if(e.target.files&&e.target.files.length)handler(e.target.files);inp.value='';});
+  ['dragenter','dragover'].forEach(ev=>z.addEventListener(ev,e=>{e.preventDefault();z.classList.add('over');}));
+  ['dragleave','drop'].forEach(ev=>z.addEventListener(ev,e=>{e.preventDefault();z.classList.remove('over');}));
+  z.addEventListener('drop',e=>{const f=e.dataTransfer.files;if(f&&f.length)handler(f);});
+}
 function wireDrop(zoneId,inputId,handler){
   const z=$(zoneId),inp=$(inputId);
   z.addEventListener('click',()=>inp.click());
@@ -5281,7 +5445,7 @@ wireDrop('dropZone','fileInput',f=>{
   rd.onload=e=>{try{handleWorkbook(new Uint8Array(e.target.result),f.name);}catch(err){toast('Could not read: '+err.message);}};
   rd.readAsArrayBuffer(f);
 });
-wireDrop('factsZone','factsInput',f=>{handleXbrlFile(f);});
+wireDropMulti('factsZone','factsInput',l=>{handleXbrlFiles(l);});
 wireDrop('pdfZone','pdfInput',f=>{handlePDF(f).catch(err=>{toast('PDF error: '+err.message);status('PDF could not be read.');});});
 $('loadSession').addEventListener('change',e=>{
   const f=e.target.files[0]; if(!f)return;

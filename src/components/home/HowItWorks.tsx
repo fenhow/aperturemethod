@@ -22,8 +22,8 @@ export function HowItWorks() {
       <Reveal className="max-w-measure">
         <SectionHeading
           eyebrow="How it works"
-          title="Start with clarity. End with a system you run the business from."
-          lede="Every engagement starts the same way: a low-risk diagnostic that shows you exactly what you need. From there, take one result or the full path. Either way you finish in the same place: Aperture Atlas, your live intelligence platform. You work with the same senior partner throughout."
+          title="How does an engagement actually work?"
+          lede="You start with clarity and end with a system you run the business from. Every engagement starts the same way: a low-risk diagnostic that shows you exactly what you need. From there, take one result or the full path. Either way you finish in the same place: Aperture Atlas, your live intelligence platform. You work with the same senior partner throughout."
         />
       </Reveal>
 

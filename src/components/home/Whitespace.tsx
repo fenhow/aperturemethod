@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { LinkArrow } from "@/components/ui/LinkArrow";
 
 /**
  * "The white space": a 2×2 positioning matrix showing the category-of-one gap
@@ -40,8 +41,8 @@ export function Whitespace() {
       <Reveal className="max-w-measure">
         <SectionHeading
           eyebrow="Why we're different"
-          title="The corner no one else occupies."
-          lede="Plot the market on two axes, strategic depth and spatial intelligence, and one quadrant sits empty. That's where Aperture lives."
+          title="How is this different from a consultant, a CPA or a data vendor?"
+          lede="It sits in the corner no one else occupies. Plot the market on two axes, strategic depth and spatial intelligence, and one quadrant sits empty. That's where Aperture lives."
         />
       </Reveal>
 
@@ -96,6 +97,14 @@ export function Whitespace() {
           Marketing and data vendors don&apos;t do MBA-grade strategy.</span>{" "}
           Aperture is the only firm that brings graduate-level analytics and spatial intelligence
           together and builds it for owner-run businesses.
+        </p>
+        <p className="mt-5">
+          {/* The point-by-point version of this answer lives on the Method page.
+              Someone who has just asked "how is this different" is exactly the
+              person who wants it. */}
+          <LinkArrow href="/the-aperture-method#compare">
+            Compare us side by side, on cost, depth and what you keep
+          </LinkArrow>
         </p>
       </Reveal>
     </Section>

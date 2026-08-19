@@ -188,3 +188,13 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     ],
   },
 ];
+
+/**
+ * The date the homepage was last read end to end and its claims confirmed:
+ * the fees, the ranges, the timings, the FAQ answers.
+ *
+ * Bump it when that check actually happens, not on every deploy. It is rendered
+ * to the visitor and emitted as dateModified in the page's structured data, so
+ * it is a statement, not a timestamp.
+ */
+export const HOME_REVIEWED = "2026-08-19";

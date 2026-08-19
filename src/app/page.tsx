@@ -12,13 +12,16 @@ import { TheArc } from "@/components/home/TheArc";
 import { Whitespace } from "@/components/home/Whitespace";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
+import { HomeFaq } from "@/components/home/HomeFaq";
 import { QuickContactCard } from "@/components/forms/QuickContactCard";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { BusinessLabBand } from "@/components/education/BusinessLabBand";
 
 const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 import { aperturePractices } from "@/lib/content";
-import { primaryCta } from "@/lib/site";
+import { primaryCta, siteConfig, HOME_REVIEWED } from "@/lib/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { ldWebPage } from "@/lib/seo";
 
 /**
  * Homepage: the parent front door for The Aperture Method™. The methodology is
@@ -30,16 +33,34 @@ import { primaryCta } from "@/lib/site";
 export default function Home() {
   return (
     <>
+      <JsonLd
+        data={ldWebPage({
+          title: siteConfig.name,
+          description: siteConfig.description,
+          path: "/",
+          dateModified: HOME_REVIEWED,
+        })}
+      />
       <ApertureHero />
 
-      {/* Plain-English strip: the "what is this company" answer, stated once, in
+      {/* The answer block: the "what is this company" answer, stated once, in
           words an owner would use. Deliberately the first thing under the hero:
           it catches the scanner who skipped the headline, and it lets a
-          wrong-fit visitor disqualify themselves early, which is a feature. */}
+          wrong-fit visitor disqualify themselves early, which is a feature.
+
+          The paragraph was always here. What it lacked was the question it
+          answers. Stating that question as a real heading costs a reader
+          nothing and is the difference between a paragraph of marketing copy
+          and a passage something can quote as an answer. */}
       <div className="border-b border-line bg-surface">
         <Container>
           <div className="flex flex-col gap-4 py-7 md:flex-row md:items-start md:gap-10 md:py-8">
-            <p className="eyebrow shrink-0 md:pt-1">In plain English</p>
+            <div className="shrink-0 md:max-w-[15rem] md:pt-1">
+              <p className="eyebrow">In plain English</p>
+              <h2 className="mt-2 text-h4 font-semibold text-ink">
+                What does The Aperture Method do?
+              </h2>
+            </div>
             <p className="max-w-measure text-base text-body">
               We dig into your numbers, your customers and your market, tell you where the money
               actually is, and give you a live dashboard to run the business from.{" "}
@@ -57,8 +78,8 @@ export default function Home() {
         <Reveal className="max-w-measure">
           <SectionHeading
             eyebrow="The Aperture Method™"
-            title="One methodology. Five components."
-            lede="The Aperture Method is the whole system, a repeatable path that takes a business from a first honest assessment all the way to a living, visual intelligence platform. Engage a single component when that's all you need, or run the full Method. Either way, you work with the same senior partner throughout."
+            title="What is The Aperture Method™?"
+            lede="One methodology, five components. The Aperture Method is the whole system, a repeatable path that takes a business from a first honest assessment all the way to a living, visual intelligence platform. Engage a single component when that's all you need, or run the full Method. Either way, you work with the same senior partner throughout."
           />
         </Reveal>
 
@@ -159,8 +180,8 @@ export default function Home() {
         <Reveal>
           <SectionHeading
             eyebrow="Start anywhere"
-            title="Take one component, or the whole Method."
-            lede="Every component is a complete engagement on its own, and a step in the larger arc. Pick where it hurts most today, or let the Business X-Ray choose for you."
+            title="Do I have to buy the whole thing?"
+            lede="No. Take one component, or the whole Method. Every component is a complete engagement on its own, and a step in the larger arc. Pick where it hurts most today, or let the Business X-Ray choose for you."
           />
         </Reveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -213,10 +234,10 @@ export default function Home() {
         <Reveal className="max-w-measure">
           <p className="eyebrow eyebrow--on-dark mb-5">Aperture Atlas™ · the platform</p>
           <h2 className="text-h2 font-semibold text-paper">
-            Where the analysis comes alive.
+            What do I still have when the engagement ends?
           </h2>
           <p className="mt-6 text-body-lg text-white/75">
-            Aperture Atlas is the Geographic Intelligence Platform at the end of the arc, your
+            Where the analysis comes alive. Aperture Atlas is the Geographic Intelligence Platform at the end of the arc, your
             market, customers, competitors, and performance on one live, interactive map, powered by
             SyncPoint AI. When an engagement ends, Atlas keeps running: the dashboards, Market Maps,
             and forecasts stay current, and they&apos;re yours to keep.
@@ -244,6 +265,10 @@ export default function Home() {
 
       {/* The book, in progress */}
       <BookSection />
+
+      {/* The questions that come up before a first call, answered on the page
+          people land on rather than four clicks away. Emits FAQPage schema. */}
+      <HomeFaq />
 
       {/* Aperture Business Lab: the free classroom session (community, not commercial) */}
       <BusinessLabBand />

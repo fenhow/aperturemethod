@@ -121,8 +121,9 @@ export default function TheApertureMethodPage() {
         </Reveal>
       </Section>
 
-      {/* Why the usual options don't fit */}
-      <Section tone="surface">
+      {/* Why the usual options don't fit. Anchored: the homepage sends anyone
+          asking "how is this different" straight to the comparison table. */}
+      <Section tone="surface" id="compare">
         <Reveal>
           <SectionHeading title="Why the usual options don't fit." />
         </Reveal>

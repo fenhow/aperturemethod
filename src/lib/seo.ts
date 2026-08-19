@@ -182,6 +182,34 @@ export function ldFaq(items: { q: string; a: string }[]) {
   };
 }
 
+/**
+ * A page, with the date it was last reviewed.
+ *
+ * The point of this is freshness, and freshness claims are only worth making if
+ * they are true. `dateModified` here must come from a date a person actually
+ * bumped after checking the page, not from the build clock: a site that claims
+ * every page changed on every deploy is telling anyone reading it nothing.
+ */
+export function ldWebPage(input: {
+  title: string;
+  description: string;
+  path: string;
+  dateModified: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${absoluteUrl(input.path)}#webpage`,
+    url: absoluteUrl(input.path),
+    name: input.title,
+    description: input.description,
+    dateModified: input.dateModified,
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
+    about: { "@id": `${siteConfig.url}/#organization` },
+    inLanguage: "en-US",
+  };
+}
+
 /** Breadcrumb trail for a page. Items are { name, path }. */
 export function ldBreadcrumb(items: { name: string; path: string }[]) {
   return {

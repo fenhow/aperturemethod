@@ -70,6 +70,12 @@ export type MegaHub = {
   title: string;
   blurb: string;
   linkLabel: string;
+  /**
+   * Where the hub panel points, when that is not the group's own page.
+   * The Method group is the case this exists for: the nav item belongs on the
+   * overview, and the panel belongs on the page that starts an engagement.
+   */
+  href?: string;
 };
 export type MegaEntry =
   | { kind: "link"; label: string; href: string }
@@ -81,13 +87,25 @@ export const megaNav: MegaEntry[] = [
     label: "The Method",
     href: "/the-aperture-method",
     hub: {
-      eyebrow: "The engagement",
-      title: "The Aperture Method",
+      eyebrow: "Start here",
+      title: "The Business X-Ray",
       blurb:
-        "One continuous arc, from a first honest read of the business to hands-on execution.",
-      linkLabel: "Understand · Quantify · Reveal · Navigate · Perform",
+        "A fixed-fee read of the whole business that names the one constraint holding the rest back. It is the way in, and it counts toward whatever follows.",
+      linkLabel: "Where is your business actually making money?",
+      href: "/business-x-ray",
     },
+    /*
+     * The five buying pages first, then the pages that explain the firm.
+     * Someone opening this menu is usually trying to work out which piece of
+     * work they need, and the answer to that is a page with a price on it, not
+     * an overview. The overviews stay, one column across.
+     */
     links: [
+      { label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made? · $4,500" },
+      { label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it? · $8,500" },
+      { label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers? · $8,500" },
+      { label: "Focus Plan", href: "/focus-plan", desc: "Which few moves actually matter? · $8,500" },
+      { label: "Aperture Atlas", href: "/scoreboard", desc: "Is the strategy working? · from $900/mo" },
       { label: "The Five Phases", href: "/the-aperture-method", desc: "How the Method works" },
       { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
       { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
@@ -166,6 +184,16 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     ],
   },
   {
+    heading: "Where to Start",
+    items: [
+      { label: "Business X-Ray", href: "/business-x-ray" },
+      { label: "Profit Map", href: "/profit-map" },
+      { label: "Customer & Market Map", href: "/market-map" },
+      { label: "Focus Plan", href: "/focus-plan" },
+      { label: "Aperture Atlas", href: "/scoreboard" },
+    ],
+  },
+  {
     heading: "What We Offer",
     items: [
       { label: "The Aperture Method", href: "/the-aperture-method" },
@@ -180,6 +208,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Get Started",
     items: [
+      { label: "Start with an X-Ray", href: "/business-x-ray" },
       { label: "Book a consultation", href: "/contact#book" },
       { label: "New Client", href: "/onboarding" },
       { label: "Client login", href: "/portal" },

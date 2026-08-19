@@ -235,7 +235,7 @@ export function Header() {
               <div className="grid grid-cols-[0.9fr_1.5fr] gap-10 py-8">
                 {/* Hub descriptor box */}
                 <Link
-                  href={activeGroup.href}
+                  href={activeGroup.hub.href ?? activeGroup.href}
                   className="group flex flex-col justify-between rounded-lg bg-surface p-6 transition-colors hover:bg-maroon/[0.06]"
                 >
                   <div>

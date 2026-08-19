@@ -48,7 +48,7 @@ export function Footer() {
   return (
     <footer className="bg-dark text-white">
       <Container>
-        <div className="grid grid-cols-1 gap-10 border-b border-white/10 py-16 sm:grid-cols-2 lg:grid-cols-[1.6fr_repeat(4,minmax(0,1fr))] lg:gap-8 lg:py-24">
+        <div className="grid grid-cols-1 gap-10 border-b border-white/10 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(5,minmax(0,1fr))] lg:gap-8 lg:py-24">
           {/* Brand block */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo tone="light" className="text-[19px]" />

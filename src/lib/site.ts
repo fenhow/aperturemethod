@@ -36,9 +36,18 @@ export const primaryNav: NavItem[] = [
 ];
 
 /** The single, persistent primary call to action. */
+/**
+ * The one call to action, used in the header and at the foot of every page.
+ *
+ * It used to go straight to the booking form. It now goes to the Business
+ * X-Ray landing page, which is the only page on the site that answers one
+ * question with one offer and one action, and which books the call at the end
+ * of it. A visitor who is ready to book still gets there in one more click; a
+ * visitor who is not gets the argument first instead of an empty form.
+ */
 export const primaryCta: NavItem = {
-  label: "Book a consultation",
-  href: "/contact#book",
+  label: "Start with an X-Ray",
+  href: "/business-x-ray",
 };
 
 /** Industries dropdown / sub-navigation (Step 9 launch set + case studies). */

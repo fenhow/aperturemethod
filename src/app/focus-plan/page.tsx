@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LandingView } from "@/components/landing/LandingView";
-import { businessXRay as page } from "@/lib/landing";
+import { focusPlan as page } from "@/lib/landing";
 import { pageMeta } from "@/lib/seo";
 
 /**

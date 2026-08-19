@@ -3,6 +3,7 @@ import { siteConfig } from "@/lib/site";
 import { articles } from "@/lib/insights";
 import { deliverables } from "@/lib/deliverables";
 import { aperturePractices } from "@/lib/content";
+import { landingPages } from "@/lib/landing";
 
 /**
  * XML sitemap (served at /sitemap.xml). Generated from the same content sources
@@ -25,9 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/the-aperture-method", priority: 0.9, changeFrequency: "monthly" },
     { path: "/what-we-do", priority: 0.9, changeFrequency: "monthly" },
     { path: "/who-its-for", priority: 0.9, changeFrequency: "monthly" },
-    // The single-intent landing page. High priority deliberately: it is the one
-    // page on the site that answers one question with one offer.
-    { path: "/business-x-ray", priority: 1.0, changeFrequency: "monthly" },
+
     { path: "/what-you-get", priority: 0.9, changeFrequency: "monthly" },
     { path: "/deliverables", priority: 0.9, changeFrequency: "monthly" },
     { path: "/ai", priority: 0.9, changeFrequency: "monthly" },
@@ -61,6 +60,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
   }));
 
+  /**
+   * The landing pages. Priority 1.0 alongside the homepage, deliberately: each
+   * one answers a single question with a single offer, which makes them the
+   * pages most worth surfacing.
+   */
+  const landingRoutes: Route[] = landingPages.map((l) => ({
+    path: l.slug,
+    priority: 1.0,
+    changeFrequency: "monthly" as const,
+    lastModified: new Date(`${l.reviewed}T12:00:00Z`),
+  }));
+
   const deliverableRoutes: Route[] = deliverables.map((d) => ({
     path: `/deliverables/${d.slug}`,
     priority: 0.7,
@@ -80,7 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(`${a.updated ?? a.published}T12:00:00Z`),
   }));
 
-  return [...staticRoutes, ...componentRoutes, ...deliverableRoutes, ...articleRoutes].map((r) => ({
+  return [...staticRoutes, ...landingRoutes, ...componentRoutes, ...deliverableRoutes, ...articleRoutes].map((r) => ({
     url: url(r.path),
     lastModified: r.lastModified ?? now,
     changeFrequency: r.changeFrequency,

@@ -225,6 +225,8 @@ export function ldService(input: {
   path: string;
   price: number;
   currency?: string;
+  /** Set for anything billed on a recurring basis rather than once. */
+  billingPeriod?: "monthly";
   /** What the buyer receives, as plain names. */
   includes?: string[];
 }) {
@@ -244,6 +246,17 @@ export function ldService(input: {
       priceCurrency: input.currency ?? "USD",
       availability: "https://schema.org/InStock",
       url: absoluteUrl(input.path),
+      ...(input.billingPeriod === "monthly"
+        ? {
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: input.price,
+              priceCurrency: input.currency ?? "USD",
+              unitCode: "MON",
+              billingDuration: 1,
+            },
+          }
+        : {}),
     },
     ...(input.includes
       ? {

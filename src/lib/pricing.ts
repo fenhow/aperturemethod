@@ -105,6 +105,9 @@ export const SITE_SELECTION_FEE = "$18,000";
  */
 export const COMPONENT_FEE: string | null = "$8,500";
 
+/** The same figure as digits, for structured data. Derived, never typed. */
+export const COMPONENT_FEE_NUMBER = Number((COMPONENT_FEE ?? "0").replace(/[^0-9.]/g, ""));
+
 /** Terms that must travel with the numbers wherever they are shown. */
 export const XRAY_CREDIT_TERMS =
   "counts in full toward the Method if you continue within 60 days";

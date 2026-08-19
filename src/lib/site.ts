@@ -4,6 +4,14 @@
  * here so structure stays consistent and is trivial to move into Sanity.
  */
 
+/*
+ * Fees are imported, never typed. The nav shows a price next to each of the
+ * buying pages, and a price that lives in two files is a price that will
+ * eventually disagree with itself in front of a client. scripts/check-lenses.mjs
+ * enforces this and fails the build if a figure is hard-coded here.
+ */
+import { XRAY_FEE, COMPONENT_FEE, ATLAS_FEE } from "./pricing";
+
 export const siteConfig = {
   name: "The Aperture Method",
   legalName: "The Aperture Method™",
@@ -105,11 +113,11 @@ export const megaNav: MegaEntry[] = [
      * an overview. The overviews stay, one column across.
      */
     links: [
-      { label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made? · $4,500" },
-      { label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it? · $8,500" },
-      { label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers? · $8,500" },
-      { label: "Focus Plan", href: "/focus-plan", desc: "Which few moves actually matter? · $8,500" },
-      { label: "Aperture Atlas", href: "/scoreboard", desc: "Is the strategy working? · from $900/mo" },
+      { label: "Business X-Ray", href: "/business-x-ray", desc: `Where is the money actually made? · ${XRAY_FEE}` },
+      { label: "Profit Map", href: "/profit-map", desc: `Which products and customers earn it? · ${COMPONENT_FEE}` },
+      { label: "Customer & Market Map", href: "/market-map", desc: `Where are the next customers? · ${COMPONENT_FEE}` },
+      { label: "Focus Plan", href: "/focus-plan", desc: `Which few moves actually matter? · ${COMPONENT_FEE}` },
+      { label: "Aperture Atlas", href: "/scoreboard", desc: `Is the strategy working? · from ${ATLAS_FEE}` },
       { label: "The Five Phases", href: "/the-aperture-method", desc: "How the Method works" },
       { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
       { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },

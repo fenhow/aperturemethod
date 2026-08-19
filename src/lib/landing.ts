@@ -34,10 +34,11 @@ import {
   ATLAS_PREPAY_TERMS,
   SITE_SELECTION_FEE,
   SITE_SELECTION_TERMS,
+  COMPONENT_FEE_NUMBER,
 } from "@/lib/pricing";
 import { LENSES } from "@/lib/lenses";
 
-const COMPONENT_FEE_NUMBER = 8500;
+
 
 export type LandingFaq = { q: string; a: string };
 

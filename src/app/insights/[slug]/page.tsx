@@ -8,6 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { articles, getArticle, type Block } from "@/lib/insights";
 import { FiveStatements } from "@/components/insights/FiveStatements";
+import { Byline } from "@/components/insights/Byline";
 import { primaryCta } from "@/lib/site";
 import { pageMeta, ldArticle, ldBreadcrumb } from "@/lib/seo";
 
@@ -79,6 +80,9 @@ export default function ArticlePage({ params }: { params: Params }) {
             description: article.excerpt,
             path: `/insights/${article.slug}`,
             section: article.pillar,
+            datePublished: article.published,
+            dateModified: article.updated,
+            image: article.ogImage,
           }),
           ldBreadcrumb([
             { name: "Insights", path: "/insights" },
@@ -98,9 +102,11 @@ export default function ArticlePage({ params }: { params: Params }) {
             </Link>
           </p>
           <h1 className="heading-gradient text-h1 font-semibold">{article.title}</h1>
-          <p className="mt-6 text-small text-muted">
-            {article.date} · {article.readingTime}
-          </p>
+          <Byline
+            published={article.published}
+            updated={article.updated}
+            readingTime={article.readingTime}
+          />
         </Reveal>
       </Section>
 

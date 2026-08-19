@@ -8,6 +8,7 @@ import { ApertureIris } from "@/components/sections/ApertureIris";
 import { MethodFrameworks } from "@/components/sections/MethodFrameworks";
 import { MethodFlow } from "@/components/sections/MethodFlow";
 import { ApertureDifference } from "@/components/sections/ApertureDifference";
+import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { methodTagline, methodSummary } from "@/lib/content";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
@@ -145,6 +146,9 @@ export default function TheApertureMethodPage() {
             </Reveal>
           ))}
         </div>
+        <Reveal variant="up" delay={120}>
+          <ComparisonTable />
+        </Reveal>
         <p className="mt-8 max-w-measure text-body-lg text-body">
           The Aperture Method is built for the space between: real analysis, in plain language, a
           durable tool you keep, and a partner who stays until the plan is working.

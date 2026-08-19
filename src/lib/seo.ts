@@ -71,6 +71,10 @@ export function ldOrganization() {
       jobTitle: "Founder",
     },
     areaServed: { "@type": "Country", name: "United States" },
+    // Published on the site already, so stating it here costs nothing and lets
+    // an assistant answer "what does it cost" without guessing.
+    priceRange: "$900-$25,000",
+    sameAs: ["https://www.linkedin.com/in/fenhow"],
     knowsAbout: [
       "Business analytics",
       "Artificial intelligence",
@@ -107,6 +111,14 @@ export function ldPerson() {
     url: absoluteUrl("/founder"),
     description:
       "Founder of The Aperture Method, an entrepreneur and operator bringing big-company analytics and strategy to owner-run businesses.",
+    sameAs: ["https://www.linkedin.com/in/fenhow"],
+    // Only credentials actually held. The MBA is in progress and is described
+    // that way on the page, so it is deliberately not asserted here.
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "certification",
+      name: "Project Management Professional (PMP)",
+    },
   };
 }
 
@@ -116,7 +128,12 @@ export function ldArticle(input: {
   description: string;
   path: string;
   section?: string;
+  /** ISO date. Omitting it leaves the article undated, which reads as stale. */
   datePublished?: string;
+  /** ISO date of the last substantive revision. Falls back to publication. */
+  dateModified?: string;
+  /** The article's own image. Falls back to the shared social card. */
+  image?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -127,9 +144,41 @@ export function ldArticle(input: {
     url: absoluteUrl(input.path),
     ...(input.section ? { articleSection: input.section } : {}),
     ...(input.datePublished ? { datePublished: input.datePublished } : {}),
-    image: absoluteUrl(OG_IMAGE),
-    author: { "@type": "Person", name: siteConfig.founder },
+    ...(() => {
+      const modified = input.dateModified ?? input.datePublished;
+      return modified ? { dateModified: modified } : {};
+    })(),
+    image: absoluteUrl(input.image ?? OG_IMAGE),
+    // Inline rather than a bare @id reference: the Person node itself only
+    // renders on /founder, and an article should stand on its own.
+    author: {
+      "@type": "Person",
+      "@id": `${siteConfig.url}/founder#person`,
+      name: siteConfig.founder,
+      url: absoluteUrl("/founder"),
+    },
     publisher: { "@id": `${siteConfig.url}/#organization` },
+  };
+}
+
+/**
+ * A question-and-answer set.
+ *
+ * The site has always had real FAQs, written as native details/summary so they
+ * work without JavaScript. What it did not have was any way for a machine to
+ * tell that a disclosure widget contains a question and its answer. This is
+ * that signal, and it is emitted by the Faq component itself so a new FAQ
+ * cannot ship without it.
+ */
+export function ldFaq(items: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
   };
 }
 

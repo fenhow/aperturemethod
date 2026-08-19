@@ -31,7 +31,19 @@ export type Article = {
   pillar: string;
   excerpt: string;
   readingTime: string;
+  /** Human display date, e.g. "August 2026". */
   date: string;
+  /**
+   * ISO publication date. Without it the Article schema is undated, and an
+   * undated article reads as stale to anything deciding what to cite.
+   */
+  published: string;
+  /**
+   * ISO date of the last substantive revision. Bump it when the argument or
+   * the facts change, not for a typo: a "last updated" that moves on every
+   * deploy is noise, and eventually a lie.
+   */
+  updated?: string;
   featured?: boolean;
   /** Overrides the shared social card for articles that have their own image. */
   ogImage?: string;
@@ -47,6 +59,7 @@ export const articles: Article[] = [
       "Most owners can tell you their revenue to the dollar. Far fewer can tell you which products, customers, and locations actually earn it, and that gap is where good businesses quietly lose money.",
     readingTime: "6 min read",
     date: "July 2026",
+    published: "2026-07-14",
     featured: true,
     body: [
       { type: "p", text: "Ask a business owner how things are going, and the answer almost always comes back as one number: revenue. Sales are up, sales are flat, sales are down. It's the figure on the dashboard, the one that comes up at the family dinner, the number that feels like the score at the end of the game." },
@@ -83,6 +96,7 @@ export const articles: Article[] = [
       "Most owners have seen a balance sheet and a P&L. Far fewer have seen how the five statements hand the story to each other, which is why a business can look profitable on one page and be short of cash on another.",
     readingTime: "5 min read",
     date: "August 2026",
+    published: "2026-08-19",
     ogImage: "/insights/five-financial-statements-og.png",
     body: [
       { type: "p", text: "Ask an owner for their financials and you will usually get two things: a profit and loss statement, and a balance sheet. Both are useful. Neither, on its own, tells you what happened to the business." },
@@ -113,6 +127,7 @@ export const articles: Article[] = [
       "Sales are up, but is the business actually keeping more? The number most owners watch is the one that hides the most.",
     readingTime: "3 min read",
     date: "July 2026",
+    published: "2026-07-21",
     body: [
       { type: "p", text: "Ask most owners how the business is doing and the answer is a revenue figure. It's the number on the dashboard and the one that feels like the score." },
       { type: "p", text: "But revenue only tells you how much came in, not how much you kept, or which parts of the business kept it. Two companies with identical revenue can have wildly different profit, and the same company can grow revenue while quietly losing ground on margin." },
@@ -129,6 +144,7 @@ export const articles: Article[] = [
       "Cut through the hype. For an owner-run business, AI is less about robots and more about answers you already have the data for.",
     readingTime: "3 min read",
     date: "July 2026",
+    published: "2026-07-28",
     body: [
       { type: "p", text: "“Use AI” is advice every owner has heard and almost none has been told how to follow. The word does a lot of hiding: it can mean anything from a chatbot to a forecasting model, which is exactly why it feels like hype." },
       { type: "p", text: "For a business doing a few million in revenue, the honest version is smaller and more useful than the headlines. AI is good at finding patterns in data you already have: which customers are likely to leave, which are ready to buy more, what a realistic forecast looks like, and where demand clusters on a map." },

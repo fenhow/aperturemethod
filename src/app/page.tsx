@@ -13,6 +13,8 @@ import { Whitespace } from "@/components/home/Whitespace";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { BookSection } from "@/components/home/BookSection";
 import { HomeFaq } from "@/components/home/HomeFaq";
+import { HomeProblem } from "@/components/home/HomeProblem";
+import { HomeProof } from "@/components/home/HomeProof";
 import { QuickContactCard } from "@/components/forms/QuickContactCard";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { BusinessLabBand } from "@/components/education/BusinessLabBand";
@@ -72,6 +74,10 @@ export default function Home() {
           </div>
         </Container>
       </div>
+
+      {/* The problem, before the solution. Short here; the full version is on
+          the Business X-Ray landing page, which this links to. */}
+      <HomeProblem />
 
       {/* One methodology, five components: the MBA → GIS → DATA arc + the X-Ray front door */}
       <Section>
@@ -262,6 +268,9 @@ export default function Home() {
           </p>
         </Reveal>
       </Section>
+
+      {/* Proof, with the worked example named and labelled */}
+      <HomeProof />
 
       {/* The book, in progress */}
       <BookSection />

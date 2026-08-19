@@ -25,6 +25,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/the-aperture-method", priority: 0.9, changeFrequency: "monthly" },
     { path: "/what-we-do", priority: 0.9, changeFrequency: "monthly" },
     { path: "/who-its-for", priority: 0.9, changeFrequency: "monthly" },
+    // The single-intent landing page. High priority deliberately: it is the one
+    // page on the site that answers one question with one offer.
+    { path: "/business-x-ray", priority: 1.0, changeFrequency: "monthly" },
     { path: "/what-you-get", priority: 0.9, changeFrequency: "monthly" },
     { path: "/deliverables", priority: 0.9, changeFrequency: "monthly" },
     { path: "/ai", priority: 0.9, changeFrequency: "monthly" },

@@ -45,6 +45,15 @@
  */
 export const XRAY_FEE = "$4,500";
 
+/**
+ * The same figure as digits, for structured data.
+ *
+ * Schema wants a number and copy wants a formatted string, and the one thing
+ * that must never happen is the two drifting apart. Derived from XRAY_FEE so
+ * that is impossible: change the price above and this follows.
+ */
+export const XRAY_FEE_NUMBER = Number(XRAY_FEE.replace(/[^0-9.]/g, ""));
+
 /** Alias: Aperture Insights and the Business X-Ray are the same purchase. */
 export const INSIGHTS_FEE = XRAY_FEE;
 

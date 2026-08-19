@@ -17,10 +17,14 @@ export function Byline({
   published,
   updated,
   readingTime,
+  blurb,
 }: {
-  published: string;
+  /** Omit on pages that carry their own review date instead. */
+  published?: string;
   updated?: string;
-  readingTime: string;
+  readingTime?: string;
+  /** Overrides the default credential line where the context calls for it. */
+  blurb?: string;
 }) {
   const fmt = (iso: string) =>
     new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
@@ -29,7 +33,7 @@ export function Byline({
       day: "numeric",
       timeZone: "UTC",
     });
-  const revised = updated && updated !== published;
+  const revised = published && updated && updated !== published;
 
   return (
     <div className="mt-8 flex items-start gap-4 border-y border-line py-5">
@@ -49,20 +53,21 @@ export function Byline({
           , Founder
         </p>
         <p className="mt-1 text-muted">
-          BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&amp;M. He
-          does the analysis on every engagement himself.
+          {blurb ??
+            "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He does the analysis on every engagement himself."}
         </p>
-        <p className="mt-2 text-muted">
-          Published <time dateTime={published}>{fmt(published)}</time>
-          {revised && (
-            <>
-              {" · Last updated "}
-              <time dateTime={updated}>{fmt(updated!)}</time>
-            </>
-          )}
-          {" · "}
-          {readingTime}
-        </p>
+        {published && (
+          <p className="mt-2 text-muted">
+            Published <time dateTime={published}>{fmt(published)}</time>
+            {revised && (
+              <>
+                {" · Last updated "}
+                <time dateTime={updated}>{fmt(updated!)}</time>
+              </>
+            )}
+            {readingTime && ` · ${readingTime}`}
+          </p>
+        )}
       </div>
     </div>
   );

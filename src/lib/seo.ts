@@ -210,6 +210,56 @@ export function ldWebPage(input: {
   };
 }
 
+/**
+ * A named service with a price.
+ *
+ * Pricing is already published on the site in prose, so putting it here adds no
+ * disclosure, it just stops an assistant having to infer a number from a
+ * sentence. The price is passed in from src/lib/pricing.ts as digits, because
+ * schema wants a number and marketing copy wants "$4,500", and those should
+ * never be typed twice.
+ */
+export function ldService(input: {
+  name: string;
+  description: string;
+  path: string;
+  price: number;
+  currency?: string;
+  /** What the buyer receives, as plain names. */
+  includes?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${absoluteUrl(input.path)}#service`,
+    name: input.name,
+    description: input.description,
+    serviceType: "Business analysis and strategy consulting",
+    provider: { "@id": `${siteConfig.url}/#organization` },
+    areaServed: { "@type": "Country", name: "United States" },
+    url: absoluteUrl(input.path),
+    offers: {
+      "@type": "Offer",
+      price: input.price,
+      priceCurrency: input.currency ?? "USD",
+      availability: "https://schema.org/InStock",
+      url: absoluteUrl(input.path),
+    },
+    ...(input.includes
+      ? {
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: `What a ${input.name} includes`,
+            itemListElement: input.includes.map((item) => ({
+              "@type": "Offer",
+              itemOffered: { "@type": "Service", name: item },
+            })),
+          },
+        }
+      : {}),
+  };
+}
+
 /** Breadcrumb trail for a page. Items are { name, path }. */
 export function ldBreadcrumb(items: { name: string; path: string }[]) {
   return {

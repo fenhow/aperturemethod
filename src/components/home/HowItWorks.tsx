@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { primaryCta } from "@/lib/site";
 
 /**
  * "How it works": the engagement model. Opens with the default door (a
@@ -52,7 +51,9 @@ export function HowItWorks() {
                   </span>
                 </p>
               )}
-              <Link href={primaryCta.href} className="btn mt-4">
+              {/* Named after the product, so it points at the product's page
+                  rather than at the general booking form. */}
+              <Link href="/business-x-ray" className="btn mt-4">
                 Book your Business X-Ray
               </Link>
             </div>

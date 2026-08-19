@@ -39,15 +39,19 @@ export const primaryNav: NavItem[] = [
 /**
  * The one call to action, used in the header and at the foot of every page.
  *
- * It used to go straight to the booking form. It now goes to the Business
- * X-Ray landing page, which is the only page on the site that answers one
- * question with one offer and one action, and which books the call at the end
- * of it. A visitor who is ready to book still gets there in one more click; a
- * visitor who is not gets the argument first instead of an empty form.
+ * It says what the visitor gets to do, not what we sell. "Start with an X-Ray"
+ * was tried here and reverted: it names a product a stranger has not heard of,
+ * and a button whose label has to be explained before it can be clicked is a
+ * button that does not get clicked. Booking a conversation is understood by
+ * everybody and commits to nothing, which is the whole job of this button.
+ *
+ * The landing pages are reached through the nav, the footer and the body of
+ * every page, and their own calls to action land on this same booking form. So
+ * nothing was lost by pointing this back at the conversation.
  */
 export const primaryCta: NavItem = {
-  label: "Start with an X-Ray",
-  href: "/business-x-ray",
+  label: "Book a consultation",
+  href: "/contact#book",
 };
 
 /** Industries dropdown / sub-navigation (Step 9 launch set + case studies). */

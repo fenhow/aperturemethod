@@ -7,6 +7,7 @@ import { LastReviewed } from "@/components/ui/LastReviewed";
 import { Byline } from "@/components/insights/Byline";
 import { Citation } from "@/components/market/Citation";
 import { SegmentContrast } from "@/components/market/SegmentContrast";
+import { MarketFigures } from "@/components/market/MarketFigures";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { pageMeta, ldWebPage, ldBreadcrumb } from "@/lib/seo";
 import { FIGURES, BIG_COMPANY_CAPABILITIES, SEGMENT } from "@/lib/marketContext";
@@ -98,23 +99,9 @@ export default function IntelligenceGapPage() {
           </Reveal>
         </div>
 
-        <Reveal delay={80} className="mt-10">
-          <dl className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              FIGURES.count,
-              FIGURES.shareOfBusinesses,
-              FIGURES.employees,
-              FIGURES.shareOfGdp,
-            ].map((f) => (
-              <div key={f.value + f.label} className="rounded-lg border border-line bg-paper p-6">
-                <dt className="text-h3 font-semibold text-maroon">{f.value}</dt>
-                <dd className="mt-2 text-small text-muted">{f.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
+        <MarketFigures className="mt-10" />
 
-        <Reveal delay={120} className="mt-6">
+        <Reveal delay={120} className="mt-8">
           <div className="max-w-measure">
             <p className="text-body text-body">
               They account for {FIGURES.shareOfWorkers.value} {FIGURES.shareOfWorkers.label} and{" "}
@@ -123,7 +110,7 @@ export default function IntelligenceGapPage() {
               {FIGURES.netNewJobs.label}: 20.7 million against 13.2 million from large business.
             </p>
             <div className="mt-4">
-              <Citation figures={["count", "shareOfGdp", "netNewJobs"]} />
+              <Citation figures={["shareOfWorkers", "shareOfPayroll", "netNewJobs"]} />
             </div>
           </div>
         </Reveal>

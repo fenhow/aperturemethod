@@ -6,8 +6,10 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { FitChecks } from "@/components/who/FitChecks";
 import { SegmentContrast } from "@/components/market/SegmentContrast";
+import { MarketFigures } from "@/components/market/MarketFigures";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
+import { FIGURES } from "@/lib/marketContext";
 
 export const metadata: Metadata = pageMeta({
   title: "Who It's For",
@@ -84,11 +86,46 @@ export default function WhoItsForPage() {
         </Reveal>
       </Section>
 
+      {/* The published scale of the economy these businesses run */}
+      <Section tone="surface">
+        <div className="max-w-measure">
+          <Reveal>
+            <p className="eyebrow mb-4">The context</p>
+            <h2 className="heading-gradient text-h2 font-semibold">
+              You are not an edge case. You are most of the economy.
+            </h2>
+            <p className="mt-6 text-body-lg text-body">
+              Privately held businesses are not a niche the professional firms have chosen to skip
+              because it is small. On the federal government&apos;s own count, they are the larger
+              part of American commerce, and the advisory market is simply built around the other
+              part.
+            </p>
+          </Reveal>
+        </div>
+
+        <MarketFigures className="mt-10" />
+
+        <Reveal delay={120} className="mt-8">
+          <p className="max-w-measure text-body text-body">
+            They employ {FIGURES.shareOfWorkers.value} {FIGURES.shareOfWorkers.label} and account for{" "}
+            {FIGURES.shareOfPayroll.value} {FIGURES.shareOfPayroll.label}. None of which makes all
+            36.2 million of them a fit for this firm, and we do not pretend otherwise. The Aperture
+            Method is built for a narrow slice of that number: established businesses at roughly $1
+            million to $20 million.
+          </p>
+          <p className="mt-6">
+            <LinkArrow href="/the-intelligence-gap">
+              The full picture, with every figure sourced
+            </LinkArrow>
+          </p>
+        </Reveal>
+      </Section>
+
       {/* The position an established private business is actually in */}
-      <SegmentContrast />
+      <SegmentContrast tone="paper" />
 
       {/* The big wins, each with a self-check */}
-      <Section>
+      <Section tone="surface">
         <Reveal>
           <SectionHeading
             eyebrow="What you're here to do"
@@ -102,7 +139,7 @@ export default function WhoItsForPage() {
       </Section>
 
       {/* Start anywhere */}
-      <Section tone="surface">
+      <Section>
         <Reveal>
           <SectionHeading
             eyebrow="Wherever you are"
@@ -126,7 +163,7 @@ export default function WhoItsForPage() {
       </Section>
 
       {/* Who we do our best work with */}
-      <Section>
+      <Section tone="surface">
         <Reveal>
           <SectionHeading eyebrow="The right fit" title="The businesses we do our best work with." />
         </Reveal>

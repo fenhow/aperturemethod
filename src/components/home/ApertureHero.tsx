@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { FIGURES } from "@/lib/marketContext";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
@@ -179,6 +180,30 @@ export function ApertureHero() {
         <p className="mt-4 text-caption text-white/55">
           11 questions · about 3 minutes · no email required
         </p>
+
+        {/*
+          The market case, as a third action.
+
+          Deliberately not a third button of equal weight. Two primary calls to
+          action already compete here, and a third would make all three quieter.
+          This carries the figure instead, which is what makes it worth clicking:
+          a number a reader can check does more work than another verb.
+        */}
+        <Link
+          href="/the-intelligence-gap"
+          className="group mt-6 inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/25 px-5 py-2.5 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          <span className="font-semibold text-paper">
+            {FIGURES.shareOfGdp.value} of US GDP
+          </span>
+          <span>comes from small business. See why that matters.</span>
+          <span
+            className="transition-transform duration-fast group-hover:translate-x-0.5"
+            aria-hidden="true"
+          >
+            &rarr;
+          </span>
+        </Link>
 
         {/* Controls */}
         <div className="mt-10 flex items-center gap-4">

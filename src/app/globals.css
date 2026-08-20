@@ -406,6 +406,24 @@
     max-width: 80vw;
     margin: 0 auto;
   }
+  /*
+   * The book is a 3D object, so its rotating faces project well outside the
+   * 300px stage. On a 320px phone that projection pushed the whole document
+   * 9px wider than the viewport and the entire site scrolled sideways, which
+   * is the single worst thing a page can do on a phone.
+   *
+   * Scaling the whole assembly down keeps the effect intact and pulls the
+   * projection back inside the viewport. The negative margin reclaims the
+   * space the scaled-down element is still reserving, since transform does
+   * not change layout size.
+   */
+  @media (max-width: 480px) {
+    .book360 {
+      transform: scale(0.7);
+      transform-origin: center top;
+      margin-bottom: -132px;
+    }
+  }
   .book360__stage {
     position: relative;
     width: 300px;

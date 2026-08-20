@@ -111,11 +111,11 @@ export function Footer() {
             <Link
               href="/method-lab"
               rel="nofollow"
-              className="text-white/60 transition-colors duration-fast hover:text-white"
+              className="-my-2 py-2 text-white/60 transition-colors duration-fast hover:text-white"
             >
               Method Lab
             </Link>
-            <CookiePreferencesButton className="text-white/60 transition-colors duration-fast hover:text-white" />
+            <CookiePreferencesButton className="-my-2 py-2 text-white/60 transition-colors duration-fast hover:text-white" />
             <p>{siteConfig.tagline}</p>
           </div>
         </div>

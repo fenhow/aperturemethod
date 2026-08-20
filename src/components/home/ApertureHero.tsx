@@ -217,9 +217,10 @@ export function ApertureHero() {
                 onClick={() => goTo(i)}
                 className={cn(
                   // The bar stays 6px tall; the pseudo-element widens the touch
-                  // target to ~30px so a thumb can actually hit it.
+                  // target to 46px, comfortably over the 44px minimum, so a
+                  // thumb can hit it without hitting the one beside it.
                   "relative h-1.5 rounded-full transition-all duration-fast",
-                  "before:absolute before:inset-x-0 before:-inset-y-3 before:content-['']",
+                  "before:absolute before:-inset-x-1 before:-inset-y-5 before:content-['']",
                   i === index ? "w-8 bg-maroon-soft" : "w-4 bg-white/30 hover:bg-white/50"
                 )}
               />
@@ -229,7 +230,9 @@ export function ApertureHero() {
           <button
             type="button"
             onClick={() => setPaused((p) => !p)}
-            className="text-small font-medium text-white/60 transition-colors duration-fast hover:text-white"
+            // Padded out to a 44px touch target, pulled back with negative
+            // margin so the visual position does not move.
+            className="-my-2.5 -mx-2 px-2 py-2.5 text-small font-medium text-white/60 transition-colors duration-fast hover:text-white"
             aria-label={paused ? "Play slideshow" : "Pause slideshow"}
           >
             {paused ? "Play" : "Pause"}

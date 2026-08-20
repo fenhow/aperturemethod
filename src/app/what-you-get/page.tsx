@@ -206,7 +206,7 @@ export default function WhatYouGetPage() {
           </h2>
           <p className="mt-6 text-body-lg text-white/75">
             Marketing companies optimize ad clicks. Bookkeepers record the past. We do the analysis a large
-            company's finance and strategy teams would run: financial modeling, marketing science,
+            company&apos;s finance and strategy teams would run: financial modeling, marketing science,
             spatial econometrics, forecasting, optimization, to reveal where the profit and
             opportunities truly are. The tools
             are commodities; the thinking is the product.

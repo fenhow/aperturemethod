@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { FitChecks } from "@/components/who/FitChecks";
+import { SegmentContrast } from "@/components/market/SegmentContrast";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
@@ -71,16 +72,23 @@ export default function WhoItsForPage() {
           <h1 className="text-h1 font-semibold heading-gradient">
             If you run the business, this is built for you.
           </h1>
-          <p className="mt-6 text-body-lg text-muted">
-            The Aperture Method gives owner-run businesses the analytics, market intelligence, and
-            strategy that big companies take for granted, senior-led, in plain language, and done for
-            you. If any of the goals below sound like yours, you&apos;re in the right place.
+          <p className="mt-6 text-body-lg text-body">
+            The Aperture Method is built for established privately held businesses doing roughly $1
+            million to $20 million in revenue: large enough that the decisions carry real money,
+            and rarely large enough to have built a finance and strategy function to inform them.
+          </p>
+          <p className="mt-5 text-body text-muted">
+            You already know your business better than any outsider will. This is about seeing the
+            whole of it at once, in plain language, senior-led, and done for you.
           </p>
         </Reveal>
       </Section>
 
+      {/* The position an established private business is actually in */}
+      <SegmentContrast />
+
       {/* The big wins, each with a self-check */}
-      <Section tone="surface">
+      <Section>
         <Reveal>
           <SectionHeading
             eyebrow="What you're here to do"
@@ -94,7 +102,7 @@ export default function WhoItsForPage() {
       </Section>
 
       {/* Start anywhere */}
-      <Section>
+      <Section tone="surface">
         <Reveal>
           <SectionHeading
             eyebrow="Wherever you are"
@@ -118,7 +126,7 @@ export default function WhoItsForPage() {
       </Section>
 
       {/* Who we do our best work with */}
-      <Section tone="surface">
+      <Section>
         <Reveal>
           <SectionHeading eyebrow="The right fit" title="The businesses we do our best work with." />
         </Reveal>

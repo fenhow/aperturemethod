@@ -38,16 +38,24 @@ export function HomeProblem() {
             expansion gets modelled on. None of it shows up in revenue, and the profit line at the
             bottom of the P&amp;L adds the winners and the losers together before you see them.
           </p>
+          <p className="mt-5 text-body text-body">
+            It is not a failure of management. A company can pass several million in revenue while
+            the decisions are still being made from spreadsheets, accounting reports and hard-won
+            instinct, because that is the size at which a finance and strategy function still costs
+            more than it can be shown to return. The information is already in the business. What
+            is missing is the person whose job is to put it together.
+          </p>
         </Reveal>
 
         <Reveal delay={120}>
           <p className="mt-8 border-l-2 border-maroon pl-6 text-h4 font-light leading-snug text-ink">
             A business can be profitable overall and still be profitable in spite of itself.
           </p>
-          <p className="mt-6">
+          <p className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3">
             <LinkArrow href="/business-x-ray">
               See how a Business X-Ray finds it
             </LinkArrow>
+            <LinkArrow href="/the-intelligence-gap">Why a firm like this exists</LinkArrow>
           </p>
         </Reveal>
       </div>

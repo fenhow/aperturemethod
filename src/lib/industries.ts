@@ -37,6 +37,26 @@ const make = (i: Omit<Industry, "href">): Industry => ({ ...i, href: `/industrie
 export const industries: Industry[] = [
   make({
     slug: "industrial-manufacturing",
+    question: "Do you know your true cost per job?",
+    faqs: [
+      {
+        q: "We already have an ERP. Why is that not enough?",
+        a: "An ERP records what happened on each job accurately, which is a different thing from telling you which job types and which customers earn money once setup, rework and the time nobody logs are counted. The data is usually all in there. What is missing is somebody pulling it into a costed view and ranking it.",
+      },
+      {
+        q: "Our job costing is not clean. Does that stop us?",
+        a: "No. Almost nobody's is. Where labour hours are estimated rather than captured, we say so and show the range it creates rather than presenting a false precision. Finding out which parts of your costing cannot be trusted is often the most valuable finding of the engagement.",
+      },
+      {
+        q: "Will this tell us what to quote?",
+        a: "It tells you what each type of work actually costs you and what margin you are currently getting, by job type and by customer. Pricing is then your decision, made with the number in front of you. We can model what a change does to volume and margin before you take it to a customer.",
+      },
+      {
+        q: "One customer is most of our revenue. Is that a problem?",
+        a: "It is a risk that every lender and every buyer prices, and it is worth knowing exactly how large it is before somebody else calculates it for you. Concentration shows up in the X-Ray, and the Focus Plan usually treats reducing it as a sequencing question rather than an emergency.",
+      },
+    ],
+    reviewed: "2026-08-20",
     name: "Industrial & Manufacturing",
     hook: "Know your true cost per job, and price with confidence.",
     promise: "Know your true cost per job.",
@@ -65,6 +85,26 @@ export const industries: Industry[] = [
   }),
   make({
     slug: "retail-consumer",
+    question: "Which of your locations is actually making money?",
+    faqs: [
+      {
+        q: "Our POS reports already show sales by store. Is this different?",
+        a: "Yes, because sales by store is not profit by store. Once rent, labour, shrink and the manager's real time are allocated, the ranking frequently changes, and the busiest site is often not the most profitable one. It is usually the site the next expansion gets modelled on, which is what makes the distinction expensive.",
+      },
+      {
+        q: "Can this tell us where to open next?",
+        a: "The Customer & Market Map shows which trade areas hold demand you are not serving, using your own transaction data mapped against demographics and competitors. If you are choosing between specific sites and about to sign a lease, that is a Site Selection Study, priced separately because the decision is much larger.",
+      },
+      {
+        q: "We run on thin margins. Is the fee worth it?",
+        a: "That is the right question to ask, and it is why the first step is fixed fee and deliberately small. Thin margins are exactly the condition where a few points of mix or pricing matter most, but you should not take that on faith: start with the X-Ray and decide afterwards.",
+      },
+      {
+        q: "Do you need our customer data?",
+        a: "Transaction-level data with a customer identifier, if you have it, and addresses or postcodes for the mapping. Names are not needed. Addresses are converted to coordinates and then deleted, so the analysis itself holds no personal details.",
+      },
+    ],
+    reviewed: "2026-08-20",
     name: "Retail & Consumer",
     hook: "See which locations, products, and customers actually make money.",
     promise: "See which locations and products actually make money.",
@@ -93,6 +133,26 @@ export const industries: Industry[] = [
   }),
   make({
     slug: "professional-services",
+    question: "Are your busiest clients your most profitable ones?",
+    faqs: [
+      {
+        q: "Utilisation looks fine. Why would profitability not be?",
+        a: "Utilisation measures whether people are busy, not whether the work they are busy on pays. A fully utilised team delivering underpriced scope produces exactly the numbers you are seeing: everyone stretched, revenue holding, profit flat. Separating margin by client and by engagement type is what tells the two apart.",
+      },
+      {
+        q: "We bill hourly. Does this still apply?",
+        a: "It applies more, not less. Hourly billing hides write-offs, scope creep and the unbilled time senior people absorb, all of which sit between the rate card and what actually lands. The analysis works from time records and invoices you already keep.",
+      },
+      {
+        q: "Our time records are patchy.",
+        a: "Common, and workable. Where time is incomplete we say which conclusions are derived and which are estimated, and the report shows both. Patchy records are usually a finding in themselves, because a firm that cannot see where its senior hours go cannot price them.",
+      },
+      {
+        q: "Will you tell us to fire clients?",
+        a: "Occasionally the numbers point that way, and it will be said plainly if so. More often the answer is repricing, changing scope, or moving delivery to a different level of seniority. The Focus Plan sequences it, because losing revenue you have not yet replaced is its own risk.",
+      },
+    ],
+    reviewed: "2026-08-20",
     name: "Professional Services",
     hook: "Find out whether your busiest clients are your most profitable.",
     promise: "Find out if your busiest clients are your most profitable.",
@@ -121,6 +181,26 @@ export const industries: Industry[] = [
   }),
   make({
     slug: "healthcare",
+    question: "Which providers, procedures and locations actually pay?",
+    faqs: [
+      {
+        q: "Does this involve patient data?",
+        a: "No patient identifiers are needed and none are wanted. The analysis works from encounter and procedure-level data with identifiers removed, plus postcodes for the mapping. Addresses are converted to coordinates and deleted. The terms covering all of this are signed before anything is sent.",
+      },
+      {
+        q: "Our payer mix makes every comparison messy.",
+        a: "Payer mix is usually the answer rather than an obstacle. Contribution by procedure has to be read net of the reimbursement each payer actually pays, and doing that properly is what reveals that two clinically identical procedures can have opposite economics.",
+      },
+      {
+        q: "Can this help us decide whether to add a provider?",
+        a: "Yes, and it is one of the clearer uses. It comes down to contribution per provider, the capacity actually available, and whether the demand exists in your catchment. The scenario model lets you test the hire before you make it.",
+      },
+      {
+        q: "We are part of a group with shared overhead. Does that break it?",
+        a: "It has to be handled explicitly rather than ignored, which is a common failing in practice benchmarking. Shared overhead is allocated on a stated basis, that basis is shown, and the analysis reports results both with and without it so you can see how much the allocation is doing.",
+      },
+    ],
+    reviewed: "2026-08-20",
     name: "Healthcare Practices",
     hook: "Understand profit by location, provider, and procedure, and where to grow.",
     promise: "Understand profit by location, provider, and procedure.",

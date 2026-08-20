@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { megaNav, primaryCta, siteConfig, type MegaEntry } from "@/lib/site";
+import { megaNav, primaryCta, siteConfig, type MegaEntry, type MegaLink } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/brand/Logo";
 import { Menu, ChevronDown } from "@/components/ui/icons";
@@ -253,42 +253,37 @@ export function Header() {
                   </p>
                 </Link>
 
-                {/* Link columns */}
-                <div className="grid grid-cols-2 gap-x-8 gap-y-1 self-center">
-                  {activeGroup.links.map((l) => {
-                    const inner = (
-                      <>
-                        <span className="block text-[15px] font-semibold text-ink group-hover:text-maroon">
-                          {l.label}
-                        </span>
-                        {l.desc && (
-                          <span className="mt-0.5 block text-small text-muted">{l.desc}</span>
-                        )}
-                      </>
-                    );
-                    const cls = "group rounded-md px-3 py-3 transition-colors hover:bg-surface";
-                    return l.external ? (
-                      <a
-                        key={l.href}
-                        href={l.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cls}
-                      >
-                        {inner}
-                      </a>
-                    ) : (
-                      <Link
-                        key={l.href}
-                        href={l.href}
-                        aria-current={isActive(l.href) ? "page" : undefined}
-                        className={cls}
-                      >
-                        {inner}
-                      </Link>
-                    );
-                  })}
-                </div>
+                {/*
+                  Two layouts, chosen by the group.
+
+                  A group with named columns keeps each set together and in its
+                  own order, which matters for the five components: flowed
+                  across a grid they read 1, 3, 5 down one side and the order
+                  disappears. Everything else keeps the original flat grid,
+                  where the links are unrelated and the order carries nothing.
+                */}
+                {activeGroup.columns ? (
+                  <div className="grid grid-cols-2 gap-x-8 self-center">
+                    {activeGroup.columns.map((col) => (
+                      <div key={col.heading}>
+                        <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+                          {col.heading}
+                        </p>
+                        <div className="flex flex-col gap-y-1">
+                          {col.links.map((l) => (
+                            <MegaPanelLink key={l.href} link={l} current={isActive(l.href)} />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-1 self-center">
+                    {activeGroup.links.map((l) => (
+                      <MegaPanelLink key={l.href} link={l} current={isActive(l.href)} />
+                    ))}
+                  </div>
+                )}
               </div>
             </Container>
           </div>
@@ -297,5 +292,40 @@ export function Header() {
 
       <MobileMenu open={mobileOpen} onClose={closeMobile} isActive={isActive} />
     </>
+  );
+}
+
+/**
+ * One row in a mega panel. Pulled out of the panel because the panel now has
+ * two ways of laying rows out, and the row itself should not care which.
+ */
+function MegaPanelLink({ link, current }: { link: MegaLink; current: boolean }) {
+  const inner = (
+    <>
+      <span className="flex items-baseline gap-2">
+        {link.step && (
+          <span className="text-[11px] font-semibold tabular-nums text-maroon">{link.step}</span>
+        )}
+        <span className="text-[15px] font-semibold text-ink group-hover:text-maroon">
+          {link.label}
+        </span>
+      </span>
+      {link.desc && (
+        <span className={cn("mt-0.5 block text-small text-muted", link.step && "pl-[26px]")}>
+          {link.desc}
+        </span>
+      )}
+    </>
+  );
+  const cls = "group block rounded-md px-3 py-2.5 transition-colors hover:bg-surface";
+
+  return link.external ? (
+    <a href={link.href} target="_blank" rel="noopener noreferrer" className={cls}>
+      {inner}
+    </a>
+  ) : (
+    <Link href={link.href} aria-current={current ? "page" : undefined} className={cls}>
+      {inner}
+    </Link>
   );
 }

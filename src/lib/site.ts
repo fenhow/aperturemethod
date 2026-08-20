@@ -68,7 +68,28 @@ export const industriesNav: NavItem[] = [
  * link or a group that opens a mega-panel with a left "hub" descriptor box and
  * a column of links. `primaryNav` above is retained for any legacy consumers.
  */
-export type MegaLink = { label: string; href: string; desc?: string; external?: boolean };
+export type MegaLink = {
+  label: string;
+  href: string;
+  desc?: string;
+  external?: boolean;
+  /**
+   * A short marker shown before the label, for sets that have an order worth
+   * seeing. Used by the five components, where the sequence is the product.
+   */
+  step?: string;
+};
+
+/**
+ * An optional named column inside a mega panel.
+ *
+ * Without this the links flow across a two-column grid, which reads 1, 3, 5
+ * down the left and 2, 4, 6 down the right. That is fine for a list of
+ * unrelated pages and wrong for a set with an order, because the order stops
+ * being visible. A group that supplies columns gets each one laid out and
+ * headed separately.
+ */
+export type MegaColumn = { heading: string; links: MegaLink[] };
 export type MegaHub = {
   eyebrow: string;
   title: string;
@@ -83,7 +104,15 @@ export type MegaHub = {
 };
 export type MegaEntry =
   | { kind: "link"; label: string; href: string }
-  | { kind: "group"; label: string; href: string; hub: MegaHub; links: MegaLink[] };
+  | {
+      kind: "group";
+      label: string;
+      href: string;
+      hub: MegaHub;
+      links: MegaLink[];
+      /** When present, the panel renders these instead of the flat `links` grid. */
+      columns?: MegaColumn[];
+    };
 
 export const megaNav: MegaEntry[] = [
   {
@@ -99,24 +128,49 @@ export const megaNav: MegaEntry[] = [
       href: "/business-x-ray",
     },
     /*
-     * The five buying pages first, then the pages that explain the firm.
-     * Someone opening this menu is working out which piece of work they need,
-     * so each one is described by the question it answers.
+     * Two columns, each with its own heading, rather than one list flowing
+     * across a grid. The five components are a sequence, so they run down a
+     * single column in Method order with their phase number visible. The pages
+     * that explain the firm sit beside them, clearly a different kind of thing.
      *
      * No fees here, deliberately. A price belongs on the page that justifies
      * it, next to what you get for it. In a dropdown it is a number with no
      * argument attached, which invites a comparison rather than a read.
      */
+    columns: [
+      {
+        heading: "The five components, in order",
+        links: [
+          { step: "01", label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made?" },
+          { step: "02", label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it?" },
+          { step: "03", label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers?" },
+          { step: "04", label: "Focus Plan", href: "/focus-plan", desc: "Which few moves actually matter?" },
+          { step: "05", label: "Aperture Atlas", href: "/scoreboard", desc: "Is the strategy working?" },
+        ],
+      },
+      {
+        heading: "How the Method works",
+        links: [
+          { label: "The Five Phases", href: "/the-aperture-method", desc: "The whole arc, explained" },
+          { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
+          { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
+          { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
+          { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
+        ],
+      },
+    ],
+    /* Flat fallback: the mobile menu and anything else that reads `links`. */
     links: [
       { label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made?" },
       { label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it?" },
       { label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers?" },
       { label: "Focus Plan", href: "/focus-plan", desc: "Which few moves actually matter?" },
       { label: "Aperture Atlas", href: "/scoreboard", desc: "Is the strategy working?" },
-      { label: "The Five Phases", href: "/the-aperture-method", desc: "How the Method works" },
+      { label: "The Five Phases", href: "/the-aperture-method", desc: "The whole arc, explained" },
       { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
       { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
       { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
+      { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
     ],
   },
   {

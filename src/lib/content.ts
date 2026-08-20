@@ -90,7 +90,7 @@ export const methodPhases: MethodPhase[] = [
     forYou: [
       "You know something is off, but not what is actually causing it",
       "You're about to invest, hire or expand and want an honest read first",
-      "Nobody has looked at the whole business at once in years",
+      "It has been a while since anyone looked at the whole business at once",
     ],
     truth:
       "You don\u2019t need a hundred-page report to start. You need to know which problem is the one actually holding you back, and where to look next.",
@@ -117,7 +117,7 @@ export const methodPhases: MethodPhase[] = [
     deliverable: "The Profit Map™ + scenario model",
     forYou: [
       "You're busy and growing, but the profit isn't showing up",
-      "You don't know which products, locations or customers actually make money",
+      "You want to know which products, locations and customers actually make money, ranked",
       "You want to test a price, a hire or an expansion before you commit to it",
     ],
     truth:
@@ -169,7 +169,7 @@ export const methodPhases: MethodPhase[] = [
       "Understanding your customers is essential to sustainable growth. Aperture Intelligence combines customer analytics, demographic data, geographic intelligence (GIS), market trends, and competitive insights to reveal who your customers are, where they are, how they behave, and where the greatest growth opportunities exist. This transforms raw data into actionable strategic intelligence.",
     deliverable: "The Customer & Market Map™ + GIS trade-area analysis",
     forYou: [
-      "You don't really know who your best customers are or where they come from",
+      "You want your best customers identified, and a map of where the next ones are",
       "You're considering a second location and don't want to guess",
       "You're spending on marketing without knowing where the demand actually is",
     ],

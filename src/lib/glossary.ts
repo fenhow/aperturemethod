@@ -21,7 +21,7 @@ export const glossary: GlossaryGroup[] = [
       },
       {
         term: "The Arc (MBA → GIS → DATA)",
-        def: "The spine of the Method: from graduate-level analysis, through spatial/geographic intelligence, to a living data platform.",
+        def: "The spine of the Method: from quantitative analysis, through spatial and geographic intelligence, to a living data platform.",
       },
     ],
   },

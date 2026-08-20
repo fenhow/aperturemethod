@@ -539,7 +539,7 @@ export function ApertureIris() {
                     </span>
                   </summary>
                   <p className="mt-3 text-small text-white/50">
-                    The same graduate-level business science big-company teams use, applied, in
+                    The same business science big-company teams use, applied, in
                     plain language, to your business.
                   </p>
                   <div className="mt-4 grid gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10">

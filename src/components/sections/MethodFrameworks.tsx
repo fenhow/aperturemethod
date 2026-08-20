@@ -43,7 +43,7 @@ export function MethodFrameworks() {
         <SectionHeading
           eyebrow="Under the hood"
           title="The frameworks behind the Method."
-          lede="The same graduate-level (MBA) business science big-company strategy teams use, applied, in plain language, to your business. Hover any technique to see what it does for you."
+          lede="The same business science big-company strategy teams use, applied, in plain language, to your business. Hover any technique to see what it does for you."
         />
       </Reveal>
 

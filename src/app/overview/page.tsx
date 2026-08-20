@@ -20,8 +20,8 @@ import { primaryCta } from "@/lib/site";
 
 const whyDifferent = [
   {
-    h: "Graduate-level analytics",
-    p: "MBA-grade methods, regression, forecasting, lifetime value, segmentation, optimization, applied to your business, not a textbook.",
+    h: "The analysis large companies run",
+    p: "Regression, forecasting, lifetime value, segmentation, optimization, applied to your business rather than to a textbook.",
   },
   {
     h: "Spatial intelligence (GIS)",
@@ -109,9 +109,9 @@ export default function Home() {
         <Reveal className="max-w-measure">
           <SectionHeading title="Know your numbers. Know your customers. Know your business like never before." />
           <p className="mt-6 text-body-lg text-body">
-            Most consultants promise to &ldquo;help you grow.&rdquo; We do something different: we apply
-            graduate-level business analytics, spatial intelligence, and market data to reveal where your
-            greatest opportunities actually exist, then translate it into plain decisions and stay to
+            Most consultants promise to &ldquo;help you grow.&rdquo; We do something different: we bring the
+            analytics, spatial intelligence and market data a large company would keep in-house, to
+            reveal where your greatest opportunities actually exist, then translate it into plain decisions and stay to
             help you execute. Big-company intelligence, built for a business your size.
           </p>
           <p className="mt-8">
@@ -176,8 +176,8 @@ export default function Home() {
           </h2>
           <p className="mt-6 text-body-lg text-white/75">
             Every consultant says, &ldquo;We&apos;ll help you grow.&rdquo; We say something different: we
-            apply graduate-level business analytics, combined with spatial intelligence and market data,
-            to reveal where your greatest opportunities actually exist. Dashboards, GIS, demographics: those are tools. The value is the thinking that turns them into decisions.
+            bring real analytics, spatial intelligence and market data together to reveal where your
+            greatest opportunities actually exist. Dashboards, GIS, demographics: those are tools. The value is the thinking that turns them into decisions.
           </p>
         </Reveal>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">

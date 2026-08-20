@@ -176,7 +176,7 @@ export default function ComponentPage({ params }: { params: { component: string 
             <SectionHeading
               eyebrow="Under the hood"
               title={`The frameworks behind ${p.short}.`}
-              lede="The same graduate-level business science big-company teams use, applied, in plain language, to your business."
+              lede="The same techniques big-company teams use, applied, in plain language, to your business."
             />
           </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

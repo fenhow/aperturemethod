@@ -50,11 +50,11 @@ const capabilities: Capability[] = [
     arc: "Understand",
     headline: "See exactly where you make and lose money.",
     overview:
-      "The analytical backbone of a good strategy: graduate-level (MBA) analytics applied to your numbers, so the big decisions rest on math, not opinion.",
+      "The analytical backbone of a good strategy: proper analytics applied to your numbers, so the big decisions rest on math rather than on opinion.",
     problems:
       "Profit hidden beneath revenue; pricing that hasn't kept pace with costs; major decisions taken on a hunch.",
     work:
-      "Regression and forecasting; unit-economics and contribution-margin analysis; customer lifetime value; cohort and retention analysis; pricing and elasticity; sensitivity, break-even, and optimization; predictive modeling, graduate-level methods, applied to your data.",
+      "Regression and forecasting; unit-economics and contribution-margin analysis; customer lifetime value; cohort and retention analysis; pricing and elasticity; sensitivity, break-even, and optimization; predictive modeling, applied to your data rather than described in a proposal.",
     deliverables:
       "The Profit Map, a financial and scenario model you keep, and a quantified opportunity summary.",
     outcomes:

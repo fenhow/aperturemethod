@@ -20,6 +20,16 @@ export type Industry = {
   caseStudy: { title: string; body: string };
   seoDescription: string;
   privacyNote?: string;
+  /**
+   * The H1. A question in the words this sector's owners actually use, which
+   * is not the same sentence for a job shop and a dental group. The `promise`
+   * becomes the outcome line beneath it.
+   */
+  question: string;
+  /** Four objections specific to the sector. Emitted as FAQPage schema. */
+  faqs: { q: string; a: string }[];
+  /** ISO date the page was last read through and its claims confirmed. */
+  reviewed: string;
 };
 
 const make = (i: Omit<Industry, "href">): Industry => ({ ...i, href: `/industries/${i.slug}` });

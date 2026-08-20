@@ -10,7 +10,7 @@ const STAGES = [
     cap: "MBA",
     label: "MBA-grade analytics",
     desc:
-      "Graduate-level analysis: profit drivers, forecasting, segmentation, break-even, and optimization applied to your business.",
+      "Profit drivers, forecasting, segmentation, break-even and optimization, applied to your business.",
   },
   {
     n: "02",

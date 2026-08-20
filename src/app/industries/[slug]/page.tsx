@@ -5,11 +5,15 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { CaseStudy } from "@/components/sections/CaseStudy";
+import { Faq } from "@/components/ui/Faq";
+import { LinkArrow } from "@/components/ui/LinkArrow";
+import { LastReviewed } from "@/components/ui/LastReviewed";
+import { Byline } from "@/components/insights/Byline";
 import { Reveal } from "@/components/ui/Reveal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { industries, getIndustry } from "@/lib/industries";
 import { primaryCta } from "@/lib/site";
-import { pageMeta, ldBreadcrumb } from "@/lib/seo";
+import { pageMeta, ldBreadcrumb, ldWebPage } from "@/lib/seo";
 
 export function generateStaticParams() {
   return industries.map((i) => ({ slug: i.slug }));
@@ -32,10 +36,18 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
   return (
     <>
       <JsonLd
-        data={ldBreadcrumb([
-          { name: "Industries", path: "/industries" },
-          { name: ind.name, path: ind.href },
-        ])}
+        data={[
+          ldWebPage({
+            title: ind.question,
+            description: ind.seoDescription,
+            path: ind.href,
+            dateModified: ind.reviewed,
+          }),
+          ldBreadcrumb([
+            { name: "Industries", path: "/industries" },
+            { name: ind.name, path: ind.href },
+          ]),
+        ]}
       />
       {/* Hero */}
       <Section className="pt-28 md:pt-36">
@@ -46,15 +58,21 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
             </Link>{" "}
             / {ind.name}
           </p>
-          <h1 className="heading-gradient text-display font-semibold">{ind.promise}</h1>
-          <p className="mt-6 text-body-lg text-body">{ind.sub}</p>
-          <div className="mt-9 flex flex-wrap gap-4">
-            <Link href={primaryCta.href} className="btn">
-              {primaryCta.label}
+          {/*
+            The question is the H1 and the promise becomes the line beneath it.
+            A sector page is found by someone typing the question, not by
+            someone searching for our phrasing of the answer.
+          */}
+          <h1 className="heading-gradient text-display font-semibold">{ind.question}</h1>
+          <p className="mt-6 text-body-lg text-body">
+            <span className="font-semibold text-ink">{ind.promise}</span> {ind.sub}
+          </p>
+          <Byline blurb="BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He does the work himself, start to finish." />
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Link href="/business-x-ray" className="btn">
+              Start with a Business X-Ray
             </Link>
-            <Link href="/the-aperture-method" className="btn--secondary">
-              See the Method
-            </Link>
+            <LinkArrow href="/the-aperture-method">See the whole Method</LinkArrow>
           </div>
         </Reveal>
       </Section>
@@ -137,6 +155,33 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
               {primaryCta.label}
             </Link>
           </p>
+        </Reveal>
+      </Section>
+
+      {/* The objections, sector by sector. Emits FAQPage schema. */}
+      <Section>
+        <div className="max-w-measure">
+          <Reveal>
+            <p className="eyebrow mb-4">Before you book</p>
+            <h2 className="heading-gradient text-h2 font-semibold">
+              Questions {ind.name.toLowerCase()} owners ask.
+            </h2>
+          </Reveal>
+        </div>
+        <Reveal delay={80} className="mt-10">
+          <Faq items={ind.faqs} />
+        </Reveal>
+        <Reveal delay={120} className="mt-8 max-w-measure">
+          <p className="text-body text-muted">
+            The position an established private business is in is not specific to your sector, even
+            though the questions are.
+          </p>
+          <p className="mt-4">
+            <LinkArrow href="/the-intelligence-gap">Why a firm like this exists</LinkArrow>
+          </p>
+          <div className="mt-8">
+            <LastReviewed date={ind.reviewed} />
+          </div>
         </Reveal>
       </Section>
 

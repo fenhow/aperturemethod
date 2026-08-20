@@ -4,6 +4,7 @@ import { articles } from "@/lib/insights";
 import { deliverables } from "@/lib/deliverables";
 import { aperturePractices } from "@/lib/content";
 import { landingPages } from "@/lib/landing";
+import { industries } from "@/lib/industries";
 
 /**
  * XML sitemap (served at /sitemap.xml). Generated from the same content sources
@@ -27,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/what-we-do", priority: 0.9, changeFrequency: "monthly" },
     { path: "/who-its-for", priority: 0.9, changeFrequency: "monthly" },
     { path: "/the-intelligence-gap", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
 
     { path: "/what-you-get", priority: 0.9, changeFrequency: "monthly" },
     { path: "/deliverables", priority: 0.9, changeFrequency: "monthly" },
@@ -73,6 +75,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(`${l.reviewed}T12:00:00Z`),
   }));
 
+  /**
+   * The sector pages. Each answers a question in the words that sector's
+   * owners use, which is the closest thing on this site to how somebody
+   * actually searches.
+   */
+  const industryRoutes: Route[] = industries.map((i) => ({
+    path: i.href,
+    priority: 0.9,
+    changeFrequency: "monthly" as const,
+    lastModified: new Date(`${i.reviewed}T12:00:00Z`),
+  }));
+
   const deliverableRoutes: Route[] = deliverables.map((d) => ({
     path: `/deliverables/${d.slug}`,
     priority: 0.7,
@@ -92,7 +106,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(`${a.updated ?? a.published}T12:00:00Z`),
   }));
 
-  return [...staticRoutes, ...landingRoutes, ...componentRoutes, ...deliverableRoutes, ...articleRoutes].map((r) => ({
+  return [...staticRoutes, ...landingRoutes, ...industryRoutes, ...componentRoutes, ...deliverableRoutes, ...articleRoutes].map((r) => ({
     url: url(r.path),
     lastModified: r.lastModified ?? now,
     changeFrequency: r.changeFrequency,

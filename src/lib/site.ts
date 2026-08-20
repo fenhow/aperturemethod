@@ -157,6 +157,7 @@ export const megaNav: MegaEntry[] = [
           { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
           { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
           { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
+          { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
         ],
       },
     ],
@@ -173,6 +174,7 @@ export const megaNav: MegaEntry[] = [
       { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
       { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
       { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
+      { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
     ],
   },
   {
@@ -265,6 +267,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "What We Do", href: "/what-we-do" },
       { label: "What You Get", href: "/what-you-get" },
       { label: "Who It's For", href: "/who-its-for" },
+      { label: "By Industry", href: "/industries" },
       { label: "AI, Without the Black Box", href: "/ai" },
       { label: "Working Together", href: "/working-together" },
       { label: "Case Studies", href: "/case-studies" },

@@ -154,14 +154,26 @@ export function HowItWorks() {
         </div>
       </Reveal>
 
-      {/* Standalone: the high-stakes spatial question */}
+      {/* Standalone: the high-stakes spatial question.
+
+          The trigger deliberately covers any commitment to a place, not just a
+          lease: owners buy, build, franchise and widen service areas too, and a
+          lease-only hook was invisible to all of them. It still says "scores
+          candidate sites and territories", which is what keeps the boundary
+          with the Market Map intact. The Map answers "where should we look";
+          this answers "which of these", and is priced on the size of that
+          decision. See the FAQ copy in landing.ts and industries.ts, which
+          draws the same line. */}
       {PRICES.siteSelection && (
         <Reveal delay={160} className="mt-6">
           <div className="flex flex-col items-start justify-between gap-3 rounded-lg border border-dashed border-line px-6 py-5 sm:flex-row sm:items-center">
             <p className="text-body text-muted">
-              <span className="font-semibold text-ink">Signing a lease?</span> A standalone{" "}
-              <span className="font-semibold text-ink">Site Selection Study</span> scores candidate
-              sites on real geography, trade areas, drive times and demand, before you commit.{" "}
+              <span className="font-semibold text-ink">
+                Opening a location or entering a new market?
+              </span>{" "}
+              A standalone <span className="font-semibold text-ink">Site Selection Study</span>{" "}
+              scores candidate sites and territories on real geography, trade areas, drive times
+              and demand, before you commit. A second location, a new city, a wider service area.{" "}
               <span className="text-muted">Fixed fee, {PRICES.siteSelection}.</span>
             </p>
             <Link href="/method/intelligence" className="link-arrow shrink-0">

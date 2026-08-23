@@ -30,6 +30,7 @@ export const glossary: GlossaryGroup[] = [
     title: "The Five Components",
     terms: [
       { term: "Aperture Insights™", def: "Component 01: the business assessment that produces the Business X-Ray and Aperture Score and names your #1 constraint." },
+      { term: "Aperture Snapshot™", def: "Aperture Insights at its lighter depth, for businesses under $5M: the same seven lenses scored from submitted documents only, returning a provisional Aperture Score. No interview and no evidence ledger, and it counts in full toward a full Business X-Ray." },
       { term: "Aperture Analytics™", def: "Component 02: financial modeling (profit drivers, forecasting, scenario planning), delivered as the Profit Map." },
       { term: "Aperture Intelligence™", def: "Component 03: market and customer intelligence with GIS, delivered as the Customer & Market Map." },
       { term: "Aperture Compass™", def: "Component 04, strategic direction: a prioritized, board-ready roadmap (Opportunity Matrix + Focus Plan)." },

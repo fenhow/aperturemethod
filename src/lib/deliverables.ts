@@ -34,7 +34,7 @@ export const deliverables: Deliverable[] = [
     whatItIs:
       `A structured, seven-lens assessment of your entire business, ${lensNamesSentence}, pulled together into one clear executive picture. It shows what's working, what's holding you back, and names your single biggest constraint.`,
     howWeGetIt:
-      "We use the data you already have plus a few short interviews, then run a set of diagnostics across all seven lenses and translate the findings into plain language. No lengthy questionnaires: it delivers real insight in its first weeks.",
+      "We use the data you already have plus a few short interviews, then run a set of diagnostics across all seven lenses and translate the findings into plain language. No lengthy questionnaires: it delivers real insight in its first weeks. Businesses under $5M can start with the Aperture Snapshot instead, which runs the same seven lenses from documents alone and counts in full toward this.",
     inside: [
       "A seven-lens assessment of the whole business",
       "Your #1 constraint, clearly named",

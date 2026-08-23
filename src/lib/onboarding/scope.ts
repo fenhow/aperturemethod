@@ -1,4 +1,4 @@
-import { feeSchedule, INSIGHTS_FEE, COMPONENT_FEE, FULL_METHOD_FEE, SITE_SELECTION_FEE, ATLAS_TIERS } from "@/lib/pricing";
+import { feeSchedule, SNAPSHOT_FEE, SNAPSHOT_CEILING, INSIGHTS_FEE, COMPONENT_FEE, FULL_METHOD_FEE, SITE_SELECTION_FEE, ATLAS_TIERS } from "@/lib/pricing";
 
 /**
  * What the client is actually engaging, chosen before they sign.
@@ -38,6 +38,18 @@ export const scopeOptions: ScopeOption[] = [
     blurb: "The Business X-Ray and your Aperture Score. Most engagements start here.",
     price: `${INSIGHTS_FEE} fixed`,
     rows: ["insights"],
+  },
+  {
+    /**
+     * The lighter depth of Insights, not a sixth component. It sits directly
+     * under Insights so the two read as one choice at two depths, which is what
+     * they are, and `scopeConflict` stops both being ticked at once.
+     */
+    key: "snapshot",
+    label: "Aperture Snapshot™",
+    blurb: `The lighter depth of Insights: the same seven lenses scored from your documents, with a provisional Aperture Score. For businesses under ${SNAPSHOT_CEILING}.`,
+    price: `${SNAPSHOT_FEE} fixed`,
+    rows: ["snapshot"],
   },
   {
     key: "analytics",
@@ -103,9 +115,14 @@ export function scopeLabels(selected: string[]): string[] {
  * an executed Exhibit A that contains both invites an argument later.
  */
 export function scopeConflict(selected: string[]): string | null {
-  const parts = ["insights", "analytics", "intelligence", "compass"];
+  const parts = ["insights", "snapshot", "analytics", "intelligence", "compass"];
   if (selected.includes("full") && parts.some((p) => selected.includes(p))) {
     return "The Full Method already includes Insights, Analytics, Intelligence and Compass. Choose the bundle or the individual phases, not both.";
+  }
+  // The Snapshot and the X-Ray are one component at two depths. Ticking both
+  // would print two entry fees into Exhibit A for the same piece of work.
+  if (selected.includes("snapshot") && selected.includes("insights")) {
+    return "The Aperture Snapshot and Aperture Insights are the same component at two depths, so only one applies. If you start with the Snapshot it counts in full toward Insights should you decide to go deeper.";
   }
   return null;
 }

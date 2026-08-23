@@ -358,6 +358,10 @@ export const businessXRay: LandingPage = {
       a: "About three weeks from the point the data arrives. You see findings as they land rather than waiting for a final presentation, so if something urgent surfaces in week one you hear about it in week one.",
     },
     {
+      q: `My business is smaller than ${SNAPSHOT_CEILING}. Is this still the right thing?`,
+      a: `Probably not, and there is a better answer than talking you into it. Below ${SNAPSHOT_CEILING} the way in is the Aperture Snapshot at ${SNAPSHOT_FEE}: the same seven lenses against the same rubric, scored from documents you already have, returning a provisional Aperture Score and the area most likely holding your profit back. What it does not include is the testing, which is the interview, the evidence ledger and the ranked constraint candidates. If you later want that, the ${SNAPSHOT_FEE} ${SNAPSHOT_CREDIT_TERMS}.`,
+    },
+    {
       q: "What if the X-Ray says I do not need anything else?",
       a: "Then it says so, and that is a good outcome for both of us. The X-Ray is deliberately broad rather than deep: its job is to tell you where the real problem is, including the case where the answer is that you are running the business well and the constraint is outside it. It is not a qualifying call dressed up as a deliverable.",
     },

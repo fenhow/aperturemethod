@@ -13,7 +13,7 @@ import { Reveal } from "@/components/ui/Reveal";
  * hard-coded here, and the comment that said "placeholders, swap for Fenwick's real
  * numbers" outlived the real numbers by some months.
  */
-import { PRICES, ATLAS_TIERS, ATLAS_TERMS, ATLAS_PREPAY_TERMS } from "@/lib/pricing";
+import { PRICES, SNAPSHOT_CEILING, ATLAS_TIERS, ATLAS_TERMS, ATLAS_PREPAY_TERMS } from "@/lib/pricing";
 
 export function HowItWorks() {
   return (
@@ -57,6 +57,24 @@ export function HowItWorks() {
                 Book your Business X-Ray
               </Link>
             </div>
+          </div>
+
+          {/* The lighter depth, named once and left alone.
+
+              Step 01 is the X-Ray for this page's reader, who is a $5M-$20M
+              owner. A smaller visitor still needs a true answer rather than a
+              price they cannot reach, so the Snapshot gets one line at the foot
+              of the card: enough to be honest, not enough to compete with the
+              product this section exists to sell. */}
+          <div className="border-t border-maroon/20 bg-paper px-8 py-4 md:px-10">
+            <p className="text-small text-muted">
+              Under {SNAPSHOT_CEILING} in revenue?{" "}
+              <Link href="/snapshot" className="link-inline font-semibold">
+                The Aperture Snapshot
+              </Link>{" "}
+              is the same seven lenses read from your documents, for {PRICES.snapshot}, and it
+              counts in full toward the X-Ray.
+            </p>
           </div>
         </div>
       </Reveal>

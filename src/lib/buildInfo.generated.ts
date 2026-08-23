@@ -1,5 +1,5 @@
 /**
- * GENERATED: do not edit. Written by scripts/stamp-build.mjs on every build.
+ * GENERATED — do not edit. Written by scripts/stamp-build.mjs on every build.
  * Committed so a clean checkout type-checks; overwritten before each build.
  */
 
@@ -17,11 +17,11 @@ export type BuildInfo = {
 };
 
 export const BUILD: BuildInfo = {
-  commit: "98f50cc983bc3dde35f6562114618b0660351087",
-  shortCommit: "98f50cc",
+  commit: "1e6e69a0e0ee056b0a6b03d665f572a892474ad2",
+  shortCommit: "1e6e69a",
   branch: "main",
   message: "1",
-  builtAt: "2026-08-13T15:04:53.618Z",
+  builtAt: "2026-08-23T16:04:12.264Z",
   env: "development",
   dirty: true,
   rubricVersion: "1.3.0",

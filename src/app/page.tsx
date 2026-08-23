@@ -63,14 +63,23 @@ export default function Home() {
                 What does The Aperture Method do?
               </h2>
             </div>
-            <p className="max-w-measure text-base text-body">
-              We dig into your numbers, your customers and your market, tell you where the money
-              actually is, and give you a live dashboard to run the business from.{" "}
-              <span className="font-semibold text-ink">
-                Built for owner-run companies doing $1M–$20M
-              </span>,
-             done for you, in language you can act on.
-            </p>
+            <div className="max-w-measure">
+              <p className="text-base text-body">
+                We dig into your numbers, your customers and your market, tell you where the money
+                actually is, and give you a live dashboard to run the business from.{" "}
+                <span className="font-semibold text-ink">
+                  Built for owner-run companies doing $1M–$20M
+                </span>,
+                done for you, in language you can act on.
+              </p>
+              {/* The contrast hook. The paragraph above says what we do; this says
+                  what everyone else says, so the difference lands in one breath. */}
+              <p className="mt-5 border-l-2 border-maroon pl-4 text-base text-body">
+                Every consultant says they&rsquo;ll help you grow.{" "}
+                <span className="font-semibold text-ink">We show you exactly where</span>, using
+                graduate-level analytics, spatial intelligence and real market data.
+              </p>
+            </div>
           </div>
         </Container>
       </div>

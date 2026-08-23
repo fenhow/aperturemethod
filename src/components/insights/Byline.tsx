@@ -42,7 +42,7 @@ export function Byline({
         alt={`${siteConfig.founder}, founder of ${siteConfig.name}`}
         width={56}
         height={56}
-        className="h-14 w-14 shrink-0 rounded-full object-cover"
+        className="h-14 w-14 shrink-0 rounded-full object-cover object-top"
       />
       <div className="text-small">
         <p className="text-ink">

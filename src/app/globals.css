@@ -514,7 +514,7 @@
   .book360__excerpt b { font-weight: 600; color: #fff; }
   .book360__backwrap { position: relative; margin-top: auto; padding-top: 18px; }
   .book360__authorbox { display: flex; align-items: center; gap: 12px; }
-  .book360__photo { width: 58px; height: 58px; border-radius: 999px; object-fit: cover; object-position: 50% 20%; border: 1px solid rgba(255, 255, 255, 0.2); flex-shrink: 0; }
+  .book360__photo { width: 58px; height: 58px; border-radius: 999px; object-fit: cover; object-position: 50% 0%; border: 1px solid rgba(255, 255, 255, 0.2); flex-shrink: 0; }
   .book360__aname { font-size: 13px; font-weight: 600; color: #fff; letter-spacing: 0.02em; }
   .book360__arole { font-size: 10.5px; line-height: 1.4; color: rgba(255, 255, 255, 0.6); margin-top: 3px; }
   .book360__backfoot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.12); }

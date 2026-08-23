@@ -18,6 +18,8 @@ import { HomeProof } from "@/components/home/HomeProof";
 import { QuickContactCard } from "@/components/forms/QuickContactCard";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { BusinessLabBand } from "@/components/education/BusinessLabBand";
+import { ThirtySeconds } from "@/components/home/ThirtySeconds";
+import { GdpRunRate } from "@/components/market/GdpRunRate";
 
 const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 import { aperturePractices } from "@/lib/content";
@@ -79,7 +81,31 @@ export default function Home() {
                 <span className="font-semibold text-ink">We show you exactly where</span>, using
                 graduate-level analytics, spatial intelligence and real market data.
               </p>
+              {/* The spoken version, on demand. Opens on a click and nothing
+                  else: see the note in ThirtySeconds.tsx for why this is not a
+                  pop-up that fires at people. */}
+              <div className="mt-5">
+                <ThirtySeconds />
+              </div>
             </div>
+          </div>
+        </Container>
+      </div>
+
+      {/* The run rate.
+
+          The hero pill claims 43.5% of US GDP comes from small business. A
+          percentage is an argument; money moving is a feeling. This is that
+          share of the last published quarter, divided by the seconds in a
+          year, and it says so plainly on the right. Read the note above
+          GDP_RUN_RATE in marketContext.ts before changing a word of it. */}
+      <div className="bg-dark">
+        <Container>
+          <div className="flex flex-col gap-1.5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+            <GdpRunRate variant="inline" onDark />
+            <p className="shrink-0 text-small text-white/45">
+              Run rate from BEA, Q2 2026. Not a live reading.
+            </p>
           </div>
         </Container>
       </div>

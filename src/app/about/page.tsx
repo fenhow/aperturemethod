@@ -12,7 +12,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "About",
   description:
-    "The Aperture Method is a founder-led strategic consultancy that brings big-company analytics, technology, and rigor to owner-run businesses ($1M–$20M), in plain language, at fixed fees, delivered by a senior partner.",
+    "The Aperture Method is a founder-led strategic consultancy that brings big-company analytics, technology, and rigor to owner-run businesses ($5M–$20M), in plain language, at fixed fees, delivered by a senior partner.",
   path: "/about",
 });
 
@@ -71,7 +71,7 @@ export default function AboutPage() {
             <SectionHeading title="What we are." />
             <p className="mt-6 text-body-lg text-body">
               The Aperture Method is a strategic business consultancy for owner-run companies doing
-              $1M–$20M. We turn the data a business already has into clear decisions, and we stay to
+              $5M–$20M. We turn the data a business already has into clear decisions, and we stay to
               help carry them out. The tools we use are the ones large companies rely on. What&apos;s
               different is who we bring them to, and how: sized for your business, in plain terms, at
               fixed and transparent fees.
@@ -142,7 +142,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="Who we serve"
             title="Owner-run and family-owned businesses."
-            lede="Roughly $1M to $20M in revenue, in any sector. The constraint holding back a fabricator and the one holding back a clinic look different on the surface and identical underneath, which is why we don't sort our clients by industry."
+            lede="Roughly $5M to $20M in revenue, usually with more than one location or territory, in any sector. The constraint holding back a fabricator and the one holding back a clinic look different on the surface and identical underneath, which is why we don't sort our clients by industry."
           />
           <p className="mt-8">
             <LinkArrow href="/who-its-for">See whether it&apos;s a fit</LinkArrow>

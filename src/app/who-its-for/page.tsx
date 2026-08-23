@@ -52,7 +52,7 @@ const fit: { title: string; body: string }[] = [
   },
   {
     title: "Real operations, real data",
-    body: "Roughly $1M to $20M in revenue, from one strong location to many. You already generate data, even if it's messy.",
+    body: "Roughly $5M to $20M in revenue, usually with more than one location or territory. You already generate data, even if it's messy. Smaller than that, the Aperture Snapshot is the way in.",
   },
   {
     title: "Any industry",

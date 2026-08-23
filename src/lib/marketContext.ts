@@ -181,18 +181,41 @@ export function citationFor(key: keyof typeof FIGURES): string {
 // ---------------------------------------------------------------------------
 
 /**
- * Deliberately no count of businesses in the $1M to $20M band.
+ * Deliberately no count of businesses in this band.
  *
  * The published business counts are built on employment size, not revenue,
  * and the Census receipts brackets do not line up with this range. A figure
  * could be constructed, but it would be an estimate wearing the clothes of a
  * statistic, and this file does not do that.
+ *
+ * NARROWED 23 Aug 2026, from $1M-$20M, after the segment economics model
+ * (Operations/Aperture_Segment_Economics_v1.xlsx). A range whose top is twenty
+ * times its bottom is not one market: the buyer, the budget, the data maturity
+ * and the sales cycle all differ, and one homepage cannot speak to both ends.
+ * The core is now $5M-$20M. Businesses below it are still served, through the
+ * Aperture Snapshot, but they arrive through partners and referral rather than
+ * through the front page, so SMALL_DOOR below is not the site's headline band.
  */
 export const SEGMENT = {
-  floor: "$1 million",
+  floor: "$5 million",
   ceiling: "$20 million",
-  range: "$1M to $20M",
+  range: "$5M to $20M",
   descriptor: "established privately held businesses",
+  /** The qualifier that predicts fit better than the revenue number does. */
+  shape: "usually with more than one location, territory or profit centre",
+} as const;
+
+/**
+ * Below the core band. One product, not the whole ladder.
+ *
+ * Channel-sold, so the website is not this segment's acquisition path. It has
+ * its own page for a partner to forward, and the free top-of-funnel already
+ * built for it: the Reality Check, the Business Lab, Look Closer.
+ */
+export const SMALL_DOOR = {
+  floor: "$1 million",
+  ceiling: "$5 million",
+  range: "$1M to $5M",
 } as const;
 
 /** What a business at this size has already built. */

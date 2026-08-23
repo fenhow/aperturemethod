@@ -158,7 +158,7 @@ export const industries: Industry[] = [
     promise: "Find out if your busiest clients are your most profitable.",
     sub: "For founder-led agencies, firms, and specialist practices. Turn “busy” into profitable and predictable.",
     buyer:
-      "Founder-led agencies, firms, IT and managed-services businesses, and specialist practices, roughly $1M–$10M, with client, utilization, and time data that's rarely joined up.",
+      "Founder-led agencies, firms, IT and managed-services businesses, and specialist practices, roughly $5M–$20M, with client, utilization, and time data that's rarely joined up.",
     problems: [
       "Profit by client, service, and team is unclear",
       "Scope creep and under-pricing",
@@ -177,7 +177,7 @@ export const industries: Industry[] = [
       body: "The founder was working flat out but couldn't predict a good month from a bad one. Aperture Insights identified the constraint as pricing and mix, not sales. Aperture Analytics built a Profit Map by client, service, and team that revealed a few marquee clients run at or below cost after real hours, heavy scope creep on fixed-fee work, and dangerous revenue concentration. Aperture Intelligence defined the genuinely profitable, best-fit client. Aperture Compass sequenced repricing, renegotiating or exiting the worst-fit clients, and productizing a high-demand service. Aperture Atlas tracked client-level margin and utilization. Illustratively, a firm like this could lift and stabilize margin through pricing and client-mix changes alone, turning “busy” into profitable and predictable.",
     },
     seoDescription:
-      "The Aperture Method™ helps founder-led agencies and firms ($1M–$10M) see profit by client and service, fix pricing and scope, and make margin predictable.",
+      "The Aperture Method™ helps founder-led agencies and firms ($5M–$20M) see profit by client and service, fix pricing and scope, and make margin predictable.",
   }),
   make({
     slug: "healthcare",

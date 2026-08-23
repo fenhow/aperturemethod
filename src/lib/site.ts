@@ -11,7 +11,7 @@ export const siteConfig = {
   tagline: "Bring your business into focus.",
   positioningLine: "Big-company intelligence, built for your business.",
   description:
-    "The Aperture Method brings the analytics, AI, and strategy big companies rely on to owner-run businesses ($1M–$20M), in plain language, done for you, at a price that fits.",
+    "The Aperture Method brings the analytics, AI, and strategy big companies rely on to owner-run businesses ($5M–$20M), in plain language, done for you, at a price that fits.",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
     "https://aperturemethod.com",

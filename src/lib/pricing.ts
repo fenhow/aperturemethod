@@ -46,6 +46,54 @@
 export const XRAY_FEE = "$4,500";
 
 /**
+ * The Aperture Snapshot: the same component, one depth down.
+ *
+ * ADDED 23 Aug 2026 (Fenwick), after the segment economics model. Insights now
+ * comes at TWO DEPTHS. The Snapshot runs the same seven lenses against the same
+ * rubric, but from submitted documents only: no interview, no triangulation, no
+ * evidence ledger, no disconfirming work. It returns a PROVISIONAL Aperture
+ * Score, labelled as untested. The X-Ray's premium is tested lenses, not more
+ * lenses, and that is the part that needs a person rather than an agent.
+ *
+ * It is NOT a sixth component. Adding one would fracture the five-component
+ * spine that is rolled out site-wide, for a much smaller reason.
+ *
+ * WHY $1,950, and not a rounder number. Four constraints, and this is the only
+ * figure that clears all four:
+ *   1. Floor. Five delivery hours at the 1.4x small-client multiplier plus 1.5
+ *      hours of origination is 8.5 hours. Less the $250 partner referral fee,
+ *      $1,950 nets exactly $200/hr. At $1,500 it is $147/hr, below any floor
+ *      worth having.
+ *   2. Threshold. Under $2,000 is a single-signature decision for an owner at
+ *      this size. "$2,000" itself reads as two thousand.
+ *   3. Distance. Clear of $2,500, which is retired as an X-Ray price and must
+ *      not reappear.
+ *   4. Ratio. 43% of the X-Ray, so "less than half, and it comes off in full".
+ *
+ * SEGMENT-GATED: not sold above SNAPSHOT_CEILING. That is what stops it
+ * cannibalising the X-Ray and stops it reading as the firm drifting downmarket.
+ *
+ * NOT IN `feeSchedule` BELOW, deliberately. That array must stay identical to
+ * Exhibit A of the signed contract, and the Word document does not carry a
+ * Snapshot row yet. Add it there first, then here.
+ */
+export const SNAPSHOT_FEE = "$1,950";
+
+/** The same figure as digits, for structured data. Derived, never typed. */
+export const SNAPSHOT_FEE_NUMBER = Number(SNAPSHOT_FEE.replace(/[^0-9.]/g, ""));
+
+/**
+ * Full credit, matching the X-Ray-into-Method mechanic. Affordable because the
+ * Snapshot's document scoring is REUSED in the X-Ray: an upgrading client pays
+ * the $2,550 difference for roughly ten incremental hours, about $260/hr.
+ */
+export const SNAPSHOT_CREDIT_TERMS =
+  "counts in full toward the Business X-Ray if you continue within 60 days";
+
+/** Above this, the X-Ray is the entry product. The Snapshot is not offered. */
+export const SNAPSHOT_CEILING = "$5M";
+
+/**
  * The same figure as digits, for structured data.
  *
  * Schema wants a number and copy wants a formatted string, and the one thing
@@ -117,6 +165,7 @@ export const SITE_SELECTION_TERMS =
 
 /** Shown on the homepage and the How-it-works path. Set a value to null to hide it. */
 export const PRICES = {
+  snapshot: SNAPSHOT_FEE,
   xray: XRAY_FEE,
   component: COMPONENT_FEE,
   full: FULL_METHOD_FEE,

@@ -23,6 +23,10 @@
  */
 
 import {
+  SNAPSHOT_FEE,
+  SNAPSHOT_FEE_NUMBER,
+  SNAPSHOT_CREDIT_TERMS,
+  SNAPSHOT_CEILING,
   XRAY_FEE,
   XRAY_FEE_NUMBER,
   XRAY_CREDIT_TERMS,
@@ -107,6 +111,148 @@ const BYLINE =
   "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He does the work himself, start to finish.";
 
 const lensCards = LENSES.map((l) => ({ label: l.name }));
+
+/**
+ * The small door.
+ *
+ * Aperture Insights at its lighter depth, for businesses below SNAPSHOT_CEILING.
+ * This page exists to be forwarded by an accountant or a bookkeeper, not to be
+ * found from the homepage, so it opens by acknowledging how the reader most
+ * likely arrived and it does not compete for the $5M-$20M visitor.
+ *
+ * Two things in this copy are load-bearing and must not soften:
+ *   1. The score is PROVISIONAL, and the page says so in the reader's own
+ *      language rather than in a footnote. It is scored from documents as
+ *      submitted, and nothing in it has been tested against an interview.
+ *   2. The X-Ray's premium is TESTED lenses, not more lenses. If this page ever
+ *      implies the Snapshot is a smaller number of lenses, the upgrade stops
+ *      making sense and the rubric comparison breaks.
+ */
+export const apertureSnapshot: LandingPage = {
+  slug: "/snapshot",
+  eyebrow: "Aperture Insights\u2122 \u00b7 the Snapshot",
+  h1: "Is your business as healthy as you think it is?",
+  sub: `An Aperture Snapshot scores all seven lenses of your business from the documents you already have, for a fixed ${SNAPSHOT_FEE}, in about a week.`,
+  bylineBlurb:
+    "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He reviews and signs every Snapshot himself.",
+  answerHeading: "What is an Aperture Snapshot?",
+  answer: `An Aperture Snapshot is a fixed-fee read of your whole business across the same seven lenses a Business X-Ray uses: finance, operations, customers, market, leadership, processes and technology. It is scored from the documents you already have, costs ${SNAPSHOT_FEE}, takes about a week, and ends by naming the area most likely to be holding your profit back.`,
+  ctaLabel: "Start a Snapshot",
+  ctaHref: "/contact#book",
+  priceNote: `${SNAPSHOT_FEE} fixed fee \u00b7 it ${SNAPSHOT_CREDIT_TERMS}`,
+  meta: {
+    title: "Aperture Snapshot: a seven-lens read of your business",
+    description: `A fixed-fee, seven-lens read of an owner-run business scored from documents you already have, for ${SNAPSHOT_FEE}, in about a week. Built for businesses under ${SNAPSHOT_CEILING}. It counts in full toward a full Business X-Ray.`,
+  },
+  service: {
+    name: "Aperture Snapshot",
+    price: SNAPSHOT_FEE_NUMBER,
+    includes: [
+      "All seven lenses, scored from your documents",
+      "A provisional Aperture Score",
+      "The area most likely holding profit back",
+      "What it would take to test that properly",
+    ],
+  },
+  problem: {
+    heading: "Nobody ever built you the view.",
+    paras: [
+      "A business under five million dollars gets the same advice everyone else gets, and almost none of the analysis. The large consultancies will not take the engagement. The software wants a subscription and a person to run it. Your accountant is telling you what happened last year, accurately, which is a different job from telling you which part of the business is holding the rest back.",
+      "So you run it the way most owners do, on the numbers you can see and a very good instinct for the rest. That works, right up until the moment it does not, and the moment it stops working is rarely announced. It shows up as a year of hard work that did not move the profit line.",
+      "The honest problem is not that the answers are hidden. It is that nobody has ever sat down with your own documents and read them across the whole business at once.",
+    ],
+    pull: "You do not need a consultant on retainer. You need somebody to read your own numbers properly, once.",
+  },
+  solution: {
+    heading: "What a Snapshot actually does",
+    lede:
+      "It runs the same seven lenses, against the same published rubric, as a full Business X-Ray. The difference is not how much of your business gets looked at. It is how far the reading gets tested.",
+    cardsHeading: "The seven lenses, all of them",
+    cards: lensCards,
+    walkAwayHeading: "What you walk away with",
+    walkAway: [
+      "A written read across all seven lenses",
+      "A provisional Aperture Score, scored from your documents as submitted",
+      "The area most likely to be holding profit back, named plainly",
+      "An honest note on what a Snapshot cannot settle, and what it would take to settle it",
+    ],
+    howItRuns:
+      "You send the documents you already have. Financial statements, a sales export, whatever exists. About a week later you get the written read. No interview, no project, no software to learn.",
+  },
+  proof: {
+    heading: "How do I know the score means anything?",
+    lede:
+      "Because it is not a number somebody felt their way to, and because the page tells you plainly what it is not.",
+    blocks: [
+      {
+        title: "The instrument is published",
+        body:
+          "The Aperture Score comes from a ratified rubric: seven lenses, twenty-nine sub-criteria, written anchor descriptions at 20, 50 and 80, and a coverage floor below which a lens cannot be scored at all. A Snapshot uses that same rubric, unchanged, which is why your score stays comparable if you go further later.",
+      },
+      {
+        tag: "What it is not",
+        title: "The score is provisional, and we say so on the report",
+        body:
+          "A Snapshot is scored from your documents as submitted. Nothing in it has been tested against an interview, checked for what the documents leave out, or argued against. That matters, because what a business measures and what a business believes are often two different things, and the gap between them is usually where the real constraint is hiding. A Snapshot can show you the gap. It cannot yet tell you which side of it is true.",
+      },
+      {
+        tag: "Illustrative example",
+        title: "Lumina Medical Aesthetics",
+        body:
+          "A worked example of the full engagement, so you can see where the ladder leads. Revenue climbed 61% in three years while profit stayed flat, and the tested reading named the constraint: new-patient retention, not pricing and not demand.",
+        note:
+          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labelled that way everywhere it appears.",
+        link: {
+          href: "/case-studies/lumina-medical-aesthetics",
+          label: "See the whole engagement",
+        },
+      },
+    ],
+  },
+  comparison: {
+    heading: "Snapshot or Business X-Ray?",
+    lede:
+      "The Snapshot is for a business under five million dollars that wants an honest read without a project. The X-Ray tests that read: an interview, the contradictions between what the numbers say and what the business believes, an evidence ledger, and ranked constraints with the case against each one. Same seven lenses either way.",
+  },
+  price: {
+    headline: `${SNAPSHOT_FEE}, fixed, agreed before anything starts.`,
+    body: `No hourly billing and no invoice you did not see coming. It ${SNAPSHOT_CREDIT_TERMS}, so if you decide you want the tested version, you pay the difference and not a penny more. The Business X-Ray is ${XRAY_FEE} in total.`,
+    footnote: `The Snapshot is built for businesses under ${SNAPSHOT_CEILING}. Above that, the Business X-Ray is the way in, and we will say so rather than sell you the smaller thing.`,
+  },
+  faqHeading: "Questions owners ask about the Snapshot.",
+  faqs: [
+    {
+      q: "My accountant sent me here. What are they getting out of it?",
+      a: "Usually the report and a seat at the conversation, because it makes their own advice better. Where a referral fee is paid it is disclosed to you in writing, and many accountants cannot accept one at all under their professional rules. Either way, you pay the same fixed fee, and nothing about the work changes.",
+    },
+    {
+      q: "What do you need from me?",
+      a: "Financial statements you already have, a customer or sales export if one exists, and anything else you would show a bank. If a document does not exist, that is information too, and it is often part of the answer. There is no questionnaire to fill in and no meeting to schedule.",
+    },
+    {
+      q: "What if my books are a mess?",
+      a: "That is the normal starting point, not the exception. Messy books, a spreadsheet somebody built two years ago and a point-of-sale system nobody has ever exported are what most businesses this size actually have. We work with what exists and tell you where the gaps changed what we could say.",
+    },
+    {
+      q: "How is this different from the Business X-Ray?",
+      a: `Not in coverage. Both read all seven lenses against the same rubric. The X-Ray adds the testing: an interview, triangulation of what management believes against what the evidence shows, a written evidence ledger, and constraint candidates ranked with the case against each one. That is the part that needs a person rather than a tool, and it is the difference between ${SNAPSHOT_FEE} and ${XRAY_FEE}.`,
+    },
+    {
+      q: "Does the fee count toward more work?",
+      a: `Yes, in full. The ${SNAPSHOT_FEE} ${SNAPSHOT_CREDIT_TERMS}, so an X-Ray afterwards costs you the difference rather than the whole fee again. You are never asked to decide about the bigger piece of work before you have seen the smaller one.`,
+    },
+    {
+      q: "Who sees my financial information?",
+      a: "Fenwick How, and nobody else. Data is handled on a least-access basis, stored securely, and covered by written terms signed before anything is sent. It is never sold, shared, or reused for another client. If an accountant referred you, they see the report only if you say so.",
+    },
+    {
+      q: "What if the Snapshot says I am fine?",
+      a: "Then it says so, and you have paid a small fixed fee to stop wondering. That is a legitimate outcome and it happens. This is not a qualifying call dressed up as a deliverable.",
+    },
+  ],
+  reviewed: REVIEWED,
+  breadcrumbParent: { name: "What you get", path: "/what-you-get" },
+};
 
 export const businessXRay: LandingPage = {
   slug: "/business-x-ray",

@@ -12,7 +12,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "Industries",
   description:
-    "The Aperture Method serves owner-run and family-owned businesses ($1M–$20M) in industrial & manufacturing, retail & consumer, professional services, and healthcare, turning their own data into clear decisions.",
+    "The Aperture Method serves owner-run and family-owned businesses ($5M–$20M) in industrial & manufacturing, retail & consumer, professional services, and healthcare, turning their own data into clear decisions.",
   path: "/industries",
 });
 
@@ -27,7 +27,7 @@ export default function IndustriesPage() {
             Built for owner-run businesses, whatever you do.
           </h1>
           <p className="mt-6 text-body-lg text-body">
-            We work with founders and families who&apos;ve built something real, in the $1M–$20M range,
+            We work with founders and families who&apos;ve built something real, in the $5M–$20M range,
             and are ready to run it on evidence instead of instinct. The industries below are where our
             approach tends to pay off fastest: examples, not limits. If you don&apos;t see yours, we
             very likely still work with you.

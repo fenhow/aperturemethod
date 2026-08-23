@@ -70,9 +70,9 @@ export default function Home() {
                 We dig into your numbers, your customers and your market, tell you where the money
                 actually is, and give you a live dashboard to run the business from.{" "}
                 <span className="font-semibold text-ink">
-                  Built for owner-run companies doing $1M–$20M
-                </span>,
-                done for you, in language you can act on.
+                  Built for owner-run companies doing $5M–$20M
+                </span>, usually with more than one location or territory, done for you, in
+                language you can act on.
               </p>
               {/* The contrast hook. The paragraph above says what we do; this says
                   what everyone else says, so the difference lands in one breath. */}
@@ -81,6 +81,22 @@ export default function Home() {
                 <span className="font-semibold text-ink">We show you exactly where</span>, using
                 graduate-level analytics, spatial intelligence and real market data.
               </p>
+              {/* The small door, named once and then left alone.
+
+                  The homepage speaks to one buyer. Businesses below the band are
+                  served through the Aperture Snapshot, but that segment is
+                  channel-sold, so its acquisition path is a partner forwarding a
+                  link rather than this page. One quiet line is the right weight:
+                  enough that a smaller owner is not turned away, not so much that
+                  the page starts trying to address two buyers at once. */}
+              <p className="mt-4 text-small text-muted">
+                Smaller than that?{" "}
+                <Link href="/snapshot" className="link-inline font-semibold">
+                  Start with an Aperture Snapshot
+                </Link>
+                .
+              </p>
+
               {/* The spoken version, on demand. Opens on a click and nothing
                   else: see the note in ThirtySeconds.tsx for why this is not a
                   pop-up that fires at people. */}

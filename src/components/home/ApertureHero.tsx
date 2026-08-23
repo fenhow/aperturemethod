@@ -188,20 +188,30 @@ export function ApertureHero() {
           action already compete here, and a third would make all three quieter.
           This carries the figure instead, which is what makes it worth clicking:
           a number a reader can check does more work than another verb.
+
+          Layout: this is flowing text, not a flex row. It was three flex items
+          in a rounded-full pill, which on a phone wrapped into a tall oval with
+          the arrow orphaned on its own line. It is now a rounded rectangle that
+          wraps like a sentence on small screens and only becomes the stadium
+          pill at sm, where it fits on one line. The arrow is glued to the last
+          words with whitespace-nowrap so it can never wrap alone again.
         */}
         <Link
           href="/the-intelligence-gap"
-          className="group mt-6 inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/25 px-5 py-2.5 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="group mt-6 block w-full max-w-xl rounded-2xl border border-white/25 px-5 py-3 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:inline-block sm:w-auto sm:rounded-full sm:py-2.5"
         >
           <span className="font-semibold text-paper">
             {FIGURES.shareOfGdp.value} of US GDP
-          </span>
-          <span>comes from small business. See why that matters.</span>
-          <span
-            className="transition-transform duration-fast group-hover:translate-x-0.5"
-            aria-hidden="true"
-          >
-            &rarr;
+          </span>{" "}
+          comes from small business.{" "}
+          <span className="whitespace-nowrap">
+            See why that matters.
+            <span
+              className="ml-1.5 inline-block transition-transform duration-fast group-hover:translate-x-0.5"
+              aria-hidden="true"
+            >
+              &rarr;
+            </span>
           </span>
         </Link>
 

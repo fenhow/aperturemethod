@@ -58,7 +58,7 @@ type Outcome =
 
 const outcomes: Outcome[] = [
   { kind: "count", value: 5, label: "Phases, one clear path" },
-  { kind: "text", stat: "$1–20M", label: "The businesses we serve" },
+  { kind: "text", stat: "$5–20M", label: "The businesses we serve" },
   { kind: "count", value: 1, label: "Senior partner, start to finish" },
   { kind: "text", stat: "Yours", label: "The dashboard you keep" },
 ];

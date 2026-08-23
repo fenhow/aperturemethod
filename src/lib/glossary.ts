@@ -17,7 +17,7 @@ export const glossary: GlossaryGroup[] = [
       },
       {
         term: "Fractional intelligence department",
-        def: "The idea behind Aperture: the outsourced business-and-marketing-intelligence function a $1–20M business could never staff in-house.",
+        def: "The idea behind Aperture: the outsourced business-and-marketing-intelligence function a $5–20M business could never staff in-house.",
       },
       {
         term: "The Arc (MBA → GIS → DATA)",

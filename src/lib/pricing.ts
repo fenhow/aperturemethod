@@ -73,9 +73,10 @@ export const XRAY_FEE = "$4,500";
  * SEGMENT-GATED: not sold above SNAPSHOT_CEILING. That is what stops it
  * cannibalising the X-Ray and stops it reading as the firm drifting downmarket.
  *
- * NOT IN `feeSchedule` BELOW, deliberately. That array must stay identical to
- * Exhibit A of the signed contract, and the Word document does not carry a
- * Snapshot row yet. Add it there first, then here.
+ * IN `feeSchedule` BELOW as of 23 Aug 2026, because Exhibit A of the New Customer
+ * Contract Agreement now carries the matching row. Those two must move together;
+ * the array is what the onboarding flow renders and the Word document is what the
+ * client signs.
  */
 export const SNAPSHOT_FEE = "$1,950";
 
@@ -183,6 +184,12 @@ export const feeSchedule = [
     phase: "Aperture Insights™ (the way in)",
     deliverable: `Business X-Ray + Aperture Score, a seven-lens read of where the business stands. It ${XRAY_CREDIT_TERMS}.`,
     fee: `${INSIGHTS_FEE} fixed`,
+  },
+  {
+    key: "snapshot",
+    phase: "Aperture Insights™ · Snapshot",
+    deliverable: `A seven-lens read scored from submitted documents only, with a provisional Aperture Score. No interview, triangulation or evidence ledger. Offered to businesses under ${SNAPSHOT_CEILING} in revenue. It ${SNAPSHOT_CREDIT_TERMS}.`,
+    fee: `${SNAPSHOT_FEE} fixed`,
   },
   { key: "analytics", phase: "Aperture Analytics™", deliverable: "Profit Map + scenario model", fee: `from ${COMPONENT_FEE}` },
   { key: "intelligence", phase: "Aperture Intelligence™", deliverable: "Customer & Market Map + GIS package", fee: `from ${COMPONENT_FEE}` },

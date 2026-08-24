@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  Built 2026-08-22 by build.py, SELF-CONTAINED (Method Lab edition).
+  Built 2026-08-23 by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -5811,25 +5811,46 @@ function paginateBlocks(blocks,titleFirst,titleRest,eyebrow,P){
      header wraps and changes the available height, so an approximation is not
      good enough */
   const fits=(t,html)=>{
-    host.innerHTML=pageWrap(t,'<div class="pgprobe"></div>',eyebrow);
-    host.querySelector('.pgprobe').innerHTML=html;
+    /* measure the real page, not a probe inside it: content nested one div
+       deeper collapses its margins differently and reads short by a line */
+    host.innerHTML=pageWrap(t,html,eyebrow);
     return !pageTooTall(host.firstChild);
   };
   /* A block taller than a page used to spill off the sheet. Long analyst
      commentary now does exactly that often enough to matter, so a lone block
      that does not fit is cut at paragraph boundaries and continued overleaf. */
+  /* Cut a block that is taller than a page into pieces that are not. Tables go
+     first and are cut between rows, with everything up to and including the
+     opening <tbody> repeated so the column header travels with the
+     continuation; the line-by-line verification table is one row per statement
+     line and runs to three pages on a full set of accounts. Prose is cut
+     between paragraphs. A block that is neither is returned whole, because a
+     bad split is worse than a long page. */
+  const chunk=(t,prefix,parts,suffix)=>{
+    const out=[]; let cur=[];
+    parts.forEach(x=>{
+      /* test the piece WITH the candidate in it. Testing what is already there
+         and then adding anyway cuts one piece too late, and the page it cuts is
+         the one that overflows. */
+      if(cur.length&&!fits(t,prefix+cur.concat(x).join('')+suffix)){
+        out.push(prefix+cur.join('')+suffix); cur=[];
+      }
+      cur.push(x);
+    });
+    if(cur.length)out.push(prefix+cur.join('')+suffix);
+    return out;
+  };
   const splitTall=(t,b)=>{
+    const tb=b.match(/^([\s\S]*?<table[^>]*>[\s\S]*?<tbody>)([\s\S]*?)(<\/tbody>[\s\S]*)$/);
+    if(tb){
+      const rows=tb[2].split(/(?=<tr)/).filter(x=>x.trim());
+      if(rows.length>1)return chunk(t,tb[1],rows,tb[3]);
+    }
     const m=b.match(/^(<div class="evalbox">(?:<div class="evh">.*?<\/div>)?)([\s\S]*)(<\/div>)$/);
     const open=m?m[1]:'', inner=m?m[2]:b, close=m?m[3]:'';
     const ps=inner.split(/(?=<p)/).filter(Boolean);
     if(ps.length<2)return [b];
-    const out=[]; let cur=[];
-    ps.forEach(pp=>{
-      if(cur.length&&!fits(t,open+cur.join('')+close)){out.push(open+cur.join('')+close);cur=[];}
-      cur.push(pp);
-    });
-    if(cur.length)out.push(open+cur.join('')+close);
-    return out;
+    return chunk(t,open,ps,close);
   };
   blocks.forEach(b=>{
     const t=first?titleFirst:titleRest;
@@ -5863,8 +5884,9 @@ function paginateTable(title,eyebrow,intro,st,mode,tail,P){
   document.body.appendChild(host);
   const isSec=r=>/^<tr class="sec"/.test(r);
   const fits=(t,html)=>{
-    host.innerHTML=pageWrap(t,'<div class="pgprobe"></div>',eyebrow);
-    host.querySelector('.pgprobe').innerHTML=html;
+    /* measure the real page, not a probe inside it: content nested one div
+       deeper collapses its margins differently and reads short by a line */
+    host.innerHTML=pageWrap(t,html,eyebrow);
     return !pageTooTall(host.firstChild);
   };
   let first=true,acc=[];
@@ -6668,8 +6690,7 @@ function tocPages(entries,shift,n){
   host.style.cssText='position:absolute;left:-10000px;top:0;visibility:hidden;pointer-events:none';
   document.body.appendChild(host);
   const fits=(t,html)=>{
-    host.innerHTML=pageWrap(t,'<div class="pgprobe"></div>','Contents');
-    host.querySelector('.pgprobe').innerHTML=html;
+    host.innerHTML=pageWrap(t,html,'Contents');
     return !pageTooTall(host.firstChild);
   };
   const P=[]; let acc=[], first=true;
@@ -8037,8 +8058,7 @@ function printGuide(){
   document.body.appendChild(host);
   const blocks=guideHTML(true).split(/(?=<div class="gsec">)/).filter(x=>x.trim());
   const fits=(t,html,n)=>{
-    host.innerHTML=guidePage(t,'<div class="pgprobe"></div>',n);
-    host.querySelector('.pgprobe').innerHTML=html;
+    host.innerHTML=guidePage(t,html,n);
     return !pageTooTall(host.firstChild);
   };
   const P=[]; let acc=[], first=true;

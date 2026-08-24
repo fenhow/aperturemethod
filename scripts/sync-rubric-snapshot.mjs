@@ -20,6 +20,7 @@ import path from "node:path";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
 const CANDIDATES = [
+  path.join(root, "..", "aperture-force5", "Force5 Plugin", "templates", "rubric.json"),
   path.join(root, "..", "Force5 Plugin", "templates", "rubric.json"),
   path.join(root, "rubric.json"),
 ];

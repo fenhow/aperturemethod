@@ -210,7 +210,7 @@ export const SEGMENT = {
  *
  * Channel-sold, so the website is not this segment's acquisition path. It has
  * its own page for a partner to forward, and the free top-of-funnel already
- * built for it: the Reality Check, the Business Lab, Look Closer.
+ * built for it: the Reality Check and the Aperture Business Lab.
  */
 export const SMALL_DOOR = {
   floor: "$1 million",

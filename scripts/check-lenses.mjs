@@ -31,6 +31,7 @@ const root = path.resolve(here, "..");
 //   · always      — lenses.ts must agree with the snapshot
 //   · when local  — the snapshot must agree with the real rubric, or it is stale
 const RUBRIC_CANDIDATES = [
+  path.join(root, "..", "aperture-force5", "Force5 Plugin", "templates", "rubric.json"),
   path.join(root, "..", "Force5 Plugin", "templates", "rubric.json"),
   path.join(root, "rubric.json"),
 ];

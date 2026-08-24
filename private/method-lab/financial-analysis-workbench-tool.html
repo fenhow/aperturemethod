@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Built 2026-08-23 by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v2.7
+  Built 2026-08-24 04:30 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -95,6 +96,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   --mono:"SF Mono",ui-monospace,"Roboto Mono",Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
+/* There was no anchor rule, so every link in the tool rendered in browser-default
+   blue with a full underline. In a document this dark and this typographic that
+   reads as a mistake rather than as a link. */
+a{color:var(--maroon);text-decoration:underline;text-decoration-thickness:1px;
+  text-underline-offset:2px;text-decoration-color:rgba(80,0,0,.35)}
+a:hover{text-decoration-color:var(--maroon)}
 html,body{margin:0;padding:0}
 body{font-family:var(--sans);background:var(--wash);color:var(--type);
   font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;
@@ -123,6 +130,9 @@ body.is-standalone header.mast{border-bottom-width:5px}
    these figures belong to, which is the fact a person needs when they look up
    from the numbers and wonder whose accounts are on the screen. */
 .brandblock .mastphase{margin:3px 0 0;padding-left:2px;opacity:.62;font-size:9px}
+.brandblock .buildstamp{margin:5px 0 0;padding-left:2px;font-size:9px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted);font-weight:500}
+.brandblock .buildstamp b{color:#C9C9C9;font-weight:600}
 .mast .meta{font-size:11px;color:var(--muted);text-align:right;letter-spacing:.04em;
   min-width:0;max-width:min(560px,54vw)}
 .mast .meta strong.coname{display:block;color:#fff;font-weight:600;font-size:25px;
@@ -156,6 +166,7 @@ main{max-width:1360px;margin:0 auto;padding:26px 30px 90px}
 .sec>h2+.rule{width:2.5em;height:2px;background:var(--maroon);margin-bottom:14px}
 .sec>h3{font-size:19px;font-weight:300;margin:0 0 6px;letter-spacing:-.01em}
 .sec>p.lede{color:#4D4D4D;margin:0 0 18px;max-width:74ch;font-size:13px}
+#panel-guide .sec>p.lede{max-width:none}
 .hint{font-size:11.5px;color:#5C5C5C;background:var(--wash);border-left:2px solid var(--maroon);
   padding:9px 12px;margin:12px 0;border-radius:0 2px 2px 0}
 .hint b{color:var(--type)}
@@ -649,13 +660,19 @@ th .hmark{margin-left:4px}
 @media print{.hmark,.helppop{display:none!important}}
 
 /* --- the guide ----------------------------------------------------------- */
-#panel-guide .sec p{font-size:13.5px;line-height:1.68;color:var(--body);margin:0 0 12px;max-width:74ch}
+/* The Guide is the only prose-led tab. Its cards ran the full 1360px of main while
+   the prose inside them stopped at 74ch, leaving up to 717px of empty card to the
+   right of every paragraph. Cap the CARD to the reading measure instead, and centre
+   the column, so the two agree and the page reads as laid out rather than as
+   left-hugging. Measured, not guessed. */
+#panel-guide .sec, #panel-guide > div > .sec{max-width:820px;margin-left:auto;margin-right:auto}
+#panel-guide .sec p{font-size:13.5px;line-height:1.68;color:var(--body);margin:0 0 12px;max-width:none}
 #panel-guide h4.gh{font-size:9.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--maroon);
   font-weight:600;margin:22px 0 8px}
-ul.gl{list-style:none;padding:0;margin:4px 0 14px;max-width:74ch}
+ul.gl{list-style:none;padding:0;margin:4px 0 14px;max-width:none}
 ul.gl li{font-size:13px;line-height:1.6;padding:8px 0 8px 14px;border-left:2px solid var(--line);
   margin-bottom:6px;color:var(--body)}
-ol.gn{list-style:none;counter-reset:gs;padding:0;margin:4px 0 14px;max-width:74ch}
+ol.gn{list-style:none;counter-reset:gs;padding:0;margin:4px 0 14px;max-width:none}
 ol.gn li{counter-increment:gs;position:relative;padding:8px 0 8px 34px;font-size:13px;
   line-height:1.6;border-bottom:1px solid var(--line);color:var(--body)}
 ol.gn li:before{content:counter(gs,decimal-leading-zero);position:absolute;left:0;top:8px;
@@ -703,6 +720,14 @@ body.is-locked>.toolbar{display:none!important}
 .gatecard .gerr{font-size:12px;color:var(--maroon);font-weight:500;margin:-4px 0 4px}
 .gatecard .gfine{font-size:10.5px;line-height:1.55;color:var(--muted);margin:20px 0 0;
   padding-top:15px;border-top:1px solid var(--line)}
+/* The sign-in screen is the first thing a person sees, and often the only screen
+   they see before deciding whether the file in their folder is the current one.
+   The masthead build stamp is behind the gate, so it cannot answer that question
+   until after they are in. This line does, before. */
+.gatecard .gver{margin:16px 0 0;padding-top:11px;border-top:1px solid #E6E6E6;
+  font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);
+  font-weight:500;line-height:1.6}
+.gatecard .gver b{color:var(--type);font-weight:600}
 .gatecard .gfoot{background:var(--ink);color:#9A9A9A;font-size:9px;letter-spacing:.13em;
   text-transform:uppercase;padding:11px 32px}
 .gatecard .gfoot b{color:#fff;font-weight:600}
@@ -723,16 +748,17 @@ body.is-locked>.toolbar{display:none!important}
       <form id="gateForm" autocomplete="off">
         <label class="f" for="gateUser">Username</label>
         <input type="text" id="gateUser" autocomplete="username" spellcheck="false"
-          placeholder="aperturemethod02">
+          placeholder="aperturemethod">
         <label class="f" for="gatePass">Password</label>
         <input type="password" id="gatePass" autocomplete="current-password"
-          placeholder="accounting">
+          placeholder="console">
         <div class="gerr" id="gateErr" hidden>That is not right. Check both fields and try again.</div>
         <button class="btn" type="submit" style="margin-top:14px;width:100%">Open the workbench</button>
       </form>
       <p class="gfine">Your figures are read in this browser and never leave the machine. This sign-in
         marks the file as yours and keeps it shut against an accidental opening. With the credentials
         shown on this card it is a label, not a lock. It is not an account and there is nothing to recover.</p>
+      <p class="gver" id="gateBuild"></p>
     </div>
     <div class="gfoot"><b>The Aperture Method™</b> · www.aperturemethod.com</div>
   </div>
@@ -747,10 +773,11 @@ body.is-locked>.toolbar{display:none!important}
       <a class="site" id="mastSite" href="https://www.aperturemethod.com" target="_blank" rel="noopener">www.aperturemethod.com</a>
     </div>
     <p class="eyebrow mastphase">Aperture Analytics™ · Phase 02 Quantify</p>
+    <p class="buildstamp" id="buildStamp"></p>
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v2.1 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v2.7 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="saveSession()">Save</button>
@@ -784,7 +811,7 @@ body.is-locked>.toolbar{display:none!important}
     <h2>Start</h2><div class="rule"></div>
     <h3>How to use this</h3>
     <p class="lede">Ten minutes of reading saves an afternoon of re-typing. If you have used it
-      before, <a href="#" onclick="go('import');return false">go straight to Import</a>.</p>
+      before, go straight to Import.</p>
     <div class="btnrow" style="margin:16px 0 4px">
       <button class="btn" onclick="go('import')">Take me to Import</button>
       <button class="btn ghost" onclick="printGuide()">Print this guide</button>
@@ -1652,6 +1679,12 @@ const BRAND={
      in a text editor can read past it, and it is meant to stop the person who
      opens it by accident, not the person who sets out to. */
   gate:0,
+  /* Both set by build.py at build time. The filename never changes between
+     builds, so the file has to be able to say which one it is: this is what a
+     person compares against when they want to know whether the copy in their
+     folder is the copy that was last published. */
+  version:'2.7',
+  built:'2026-08-24 04:30 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -6090,6 +6123,7 @@ function buildReport(){
       '</div>'+
       '<div>'+
       '<div class="cfoot"><span>'+esc(BRAND.legal)+'</span>'+
+      '<span>Workbench v'+esc(BRAND.version)+' \u00b7 built '+esc(BRAND.built)+'</span>'+
       '<span>'+esc(releaseNotice(false))+'</span></div>'+
       '<div class="cband"><span><b>Aperture Method\u2122</b> &nbsp;|&nbsp; By Fenwick How</span>'+
       '<span>'+esc(BRAND.tagline)+'</span>'+
@@ -6543,7 +6577,7 @@ function buildReport(){
           (citePage(f.k)?esc((S.qc.primaryDoc?S.qc.primaryDoc+', ':'')+'p. '+citePage(f.k))
            :(v?'<span style="color:#500000">recorded, not cited</span>':'<span style="color:#8C8C8C">not recorded</span>'))+
           '</td></tr>';}).join('')+'</tbody></table>';
-    const body='<p>Every figure in this report is either traced to a source document and signed off '+
+    let body='<p>Every figure in this report is either traced to a source document and signed off '+
       'by a named person, or computed from figures that were. This page states which, so that a reader '+
       'can see the standard of evidence rather than assume it.</p>'+
       '<div class="kpis"><div class="kb"><div class="k">Key figures verified</div><div class="v">'+
@@ -6563,6 +6597,11 @@ function buildReport(){
         '<th class="lbl" style="width:38%">Line item</th><th class="lbl">Source</th>'+
         '<th class="lbl" style="width:14%">Page</th><th class="lbl" style="width:18%">Status</th>'+
         '</tr></thead><tbody>'+open+'</tbody></table>':'');
+    body+='<h4 class="sh">Which build produced this</h4>'+
+      '<p>Aperture Analytics\u2122 Workbench version <b>'+esc(BRAND.version)+'</b>, built <b>'+
+      esc(BRAND.built)+'</b>'+(BRAND.edition?' ('+esc(BRAND.edition)+')':'')+'. '+
+      'Every figure above was computed by that build. Where a report is questioned months later, '+
+      'this line is what identifies the tool that produced it.</p>';
     paginateBlocks(splitBlocks(body),'Verification and sources','Verification and sources (continued)','Quality control',P);
   }
   if(has('evidence')){
@@ -7373,9 +7412,9 @@ const HELP={
   r:'It asks what happens on a bad year rather than a normal one, which is the question that decides whether there is a next year.',
   x:'The break-even calculation treats cost of sales as wholly variable and operating expense as wholly fixed. That is never exactly right, so read the movement across periods rather than the level in any one.'},
  th_growth:{t:'Growth, as scored',
-  d:'Compound revenue growth across the periods available, adjusted for what happened to margin alongside it.',
-  r:'Growth with margin is value created. Growth without it is volume bought.',
-  x:'A compound rate is determined by its first and last points and ignores everything between, so a collapse and recovery scores the same as steady progress. Read the series as well.'},
+  d:'Two readings blended: the compound rate across the periods available at two thirds, and the direction of the latest year at one third, then adjusted for what happened to margin alongside it.',
+  r:'Growth with margin is value created. Growth without it is volume bought. The latest year carries a third of the weight because a compound rate is fixed by its first and last points and cannot see a turn between them, so a business that grew for three years and then fell would otherwise score as though nothing had happened.',
+  x:'Neither reading is sufficient alone. A collapse and recovery scores the same compound rate as steady progress, and a single year can be an accident, a lost contract or a calendar effect. Where the two disagree the component says so, and the series in the horizontal analysis is the thing to read.'},
  th_evidence:{t:'Evidence confidence, as scored',
   d:'The basis of preparation, the proportion of key figures verified, and anything the audit report qualifies.',
   r:'It is the component that discounts all the others. Every figure above it rests on this.',
@@ -7640,16 +7679,37 @@ function thesisScore(){
   }
   push('resilience','Resilience',20,s4,r4,'Balance sheet, break-even and sensitivity');
 
-  /* 5. growth, and whether it was bought */
+  /* 5. Growth: the compound rate across the span, the direction of the latest
+     year, and whether the margin came with it.
+
+     A compound rate is fixed by its first and last points and cannot see a turn
+     between them, so a business whose revenue fell this year can still post a
+     strong one. Scoring on the span alone gave a company that grew for three
+     years and then dropped six per cent a perfect 100, which is the exact trap
+     the Method warns about under CAGR. The latest year is weighted in at a
+     third: enough to be felt, not enough to let one year overturn a record. */
   const rv=rowByRole('is','revenue');
   const sp=rv?cagrSpan(rv.values,c):null;
-  let s5=thBand(sp?sp.g:null,[[-0.10,0],[0,40],[0.02,55],[0.05,75],[0.10,100]]);
-  let r5=sp?'Revenue compounding at '+pct(sp.g,1)+' a year over '+sp.n+' year'+(sp.n===1?'':'s'):
-    'Not enough periods to compute a growth rate.';
+  const gSpan=thBand(sp?sp.g:null,[[-0.10,0],[0,40],[0.02,55],[0.05,75],[0.10,100]]);
+  /* a single year is noisier than a compound rate, so its band is wider */
+  const mvRev=(rv&&p!=null)?moveOf(rv,i,p):null;
+  const gLast=thBand(mvRev?mvRev.pctv:null,
+    [[-0.15,0],[-0.05,30],[0,50],[0.03,65],[0.08,85],[0.15,100]]);
+  let s5=(gSpan!=null&&gLast!=null)?gSpan*0.65+gLast*0.35:(gSpan!=null?gSpan:gLast);
+  let r5=sp?'Revenue compounding at '+pct(sp.g,1)+' a year over '+sp.n+' year'+(sp.n===1?'':'s')
+          :'Not enough periods for a compound growth rate';
+  if(mvRev&&mvRev.pctv!=null){
+    r5+=(sp?', and ':'Revenue ')+(mvRev.pctv>=0?'up ':'down ')+pct(Math.abs(mvRev.pctv),1)+
+        ' in the latest year';
+    if(sp&&sp.g>0.02&&mvRev.pctv<-0.01)
+      r5+='. The span and the latest year disagree, and the compound rate cannot see the turn';
+    else if(sp&&sp.g<0.02&&mvRev.pctv>0.03)
+      r5+='. The latest year is the better of the two readings, and one year is not yet a recovery';
+  }
   if(s5!=null&&sp&&om!=null&&omF!=null){
     const d=om-omF;
-    if(sp.g>0.02&&d<-0.01){s5-=12; r5+=', but operating margin fell over the same span, so growth was bought';}
-    else if(sp.g>0.02&&d>0.01){s5+=10; r5+=', with operating margin rising alongside it';}
+    if(sp.g>0.02&&d<-0.01){s5-=12; r5+='. Operating margin fell over the same span, so growth was bought';}
+    else if(sp.g>0.02&&d>0.01){s5+=10; r5+='. Operating margin rose alongside it';}
   }
   push('growth','Growth',10,s5,r5,'Horizontal analysis, income statement');
 
@@ -8013,7 +8073,11 @@ const GUIDE=[
   ['l','<b>The report prints across two pages badly.</b> Check the print dialogue: Letter, margins '+
       'None, scale 100%. The pages are laid out at exactly 8.5 by 11 inches and any scaling breaks them.'],
   ['l','<b>Ratios are missing in the earliest year.</b> That is correct. Ratios on average '+
-      'balances need an opening balance sheet, so the first column exists to serve the one after it.']]}
+      'balances need an opening balance sheet, so the first column exists to serve the one after it.'],
+  ['l','<b>Is this the latest copy?</b> The version and the build time are printed under the '+
+      'wordmark at the top left of every screen, and again on the report cover and the '+
+      'verification page. The filename never changes between builds, so that line is the only '+
+      'thing that tells two copies apart. Compare it with the build you last published.']]}
 ];
 function guideHTML(forPrint){
   return GUIDE.map(sec=>{
@@ -8095,7 +8159,7 @@ function gHash(s){
   }
   return (a>>>0).toString(16).padStart(8,'0')+(b>>>0).toString(16).padStart(8,'0');
 }
-const GATE_U='36a209b24818423c', GATE_P='cd7004721a31a0d2';
+const GATE_U='5169f410a3e3e022', GATE_P='448ade5ac2e13533';
 function gateOpen(){
   document.body.classList.remove('is-locked');
   const g=$('gate'); if(g)g.hidden=true;
@@ -8107,6 +8171,18 @@ function gateInit(){
   const g=$('gate'); if(!g)return;
   g.hidden=false;
   const lg=$('gateLogo'); if(lg)lg.src=BRAND.logoBlack;
+  /* Same two values the masthead stamp uses, shown before sign-in rather than after.
+     An unbuilt source says so plainly instead of pretending to a version. */
+  const gv=$('gateBuild');
+  if(gv){
+    const built=BRAND.built==='not built';
+    gv.innerHTML=built
+      ? 'Unbuilt source \u00b7 <b>not for use</b> \u00b7 run build.py'
+      : 'Version <b>'+esc(BRAND.version)+'</b> \u00b7 built <b>'+esc(BRAND.built)+'</b>'
+        +(BRAND.badge?' \u00b7 '+esc(BRAND.badge):'');
+    gv.title='Compare this against the build you last published. The filename does not '+
+      'change between builds; this line does.';
+  }
   const f=$('gateForm'), u=$('gateUser'), pw=$('gatePass'), er=$('gateErr');
   f.addEventListener('submit',e=>{
     e.preventDefault();
@@ -8135,6 +8211,12 @@ document.addEventListener('input',e=>{
 /* ---------- 23. INIT ---------------------------------------------------- */
 gateInit();
 helpWire();
+(function(){
+  const el=$('buildStamp'); if(!el)return;
+  el.innerHTML='Version <b>'+esc(BRAND.version)+'</b> \u00b7 built <b>'+esc(BRAND.built)+'</b>';
+  el.title='Compare this against the build you last published. The filename does not change '+
+    'between builds; this line does.';
+})();
 renderGuide();
 /* one declaration, one decode, however many pages the report runs to */
 (function(){

@@ -179,13 +179,24 @@ export function FitChecks() {
               <h3 className="text-h4 font-semibold text-ink">{w.title}</h3>
               <p className="mt-2 flex-1 text-body text-muted">{w.body}</p>
               <p className="mt-4 text-small font-semibold text-maroon">{w.tag}</p>
+              {/*
+                * These read as the action on each card, so they use the house primary
+                * button (.btn: solid ink, maroon on hover, with the standard lift). The
+                * earlier hairline-outline version disappeared into the white card, which
+                * is the whole reason anyone clicks through this page.
+                */}
               <button
                 type="button"
                 onClick={() => openModal(i)}
-                className="mt-4 inline-flex items-center gap-1.5 self-start rounded-sm border border-line px-3 py-2 text-small font-semibold text-ink transition-colors hover:border-maroon hover:text-maroon"
+                className="btn group/cta mt-5 w-full gap-2 px-5 py-3 text-small"
               >
                 How well do you know this?
-                <span aria-hidden="true">→</span>
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-fast group-hover/cta:translate-x-1"
+                >
+                  →
+                </span>
               </button>
             </div>
           </Reveal>

@@ -67,7 +67,7 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
           <p className="mt-6 text-body-lg text-body">
             <span className="font-semibold text-ink">{ind.promise}</span> {ind.sub}
           </p>
-          <Byline blurb="BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He does the work himself, start to finish." />
+          <Byline blurb="BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He leads the work himself, start to finish." />
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
             <Link href="/business-x-ray" className="btn">
               Start with a Business X-Ray

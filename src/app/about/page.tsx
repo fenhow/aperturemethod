@@ -19,7 +19,7 @@ export const metadata: Metadata = pageMeta({
 const principles = [
   {
     h: "One senior partner, start to finish.",
-    p: "You work with the person doing the analysis, not a rotating junior team.",
+    p: "You work with the person doing the analysis, not a rotating junior team, with vetted specialists brought in where a piece of work calls for one.",
   },
   {
     h: "Evidence before instinct.",
@@ -127,7 +127,13 @@ export default function AboutPage() {
             <p className="mt-6 text-body-lg text-body">
               The Aperture Method was founded by Fenwick How, an entrepreneur and operator who has created
               and developed companies and led complex initiatives across a range of industries. The
-              senior person who does the analysis is the person you talk to.
+              senior person who does the analysis is the person you talk to. Where a piece of work calls
+              for a specialist, a vetted specialist is brought in for it, and he stays accountable for what
+              you receive.
+            </p>
+            <p className="mt-4 text-body-lg text-body">
+              The Method is what makes that workable at this size. Every engagement runs the same five
+              phases with the same instruments, so the analysis arrives structured rather than improvised.
             </p>
             <p className="mt-8">
               <LinkArrow href="/founder">Read about the founder</LinkArrow>

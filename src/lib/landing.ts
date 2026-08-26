@@ -108,7 +108,7 @@ export type LandingPage = {
 
 const REVIEWED = "2026-08-19";
 const BYLINE =
-  "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He does the work himself, start to finish.";
+  "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He leads the work himself, start to finish.";
 
 const lensCards = LENSES.map((l) => ({ label: l.name }));
 

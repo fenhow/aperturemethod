@@ -51,7 +51,7 @@ const faqs = [
   },
   {
     q: "Who actually does the work?",
-    a: "Fenwick How, start to finish. You are not handed to a junior team after the first conversation. The analysis is AI-assisted where that makes it faster or sharper, and every conclusion is reviewed and signed off by a person before it reaches you.",
+    a: "Fenwick How leads every engagement start to finish, and stays accountable for what reaches you. You are not handed to a junior team after the first conversation. Where a piece of work calls for a specialist, GIS build-out, valuation, tax or legal, he brings in someone vetted for it and still signs off on the result. The Method is what makes that workable at this size: every engagement runs the same five phases with the same instruments, so the analysis arrives structured rather than improvised. It is AI-assisted where that makes it faster or sharper, and every conclusion is reviewed and signed off by a person before it reaches you.",
   },
   {
     q: "Is my financial information safe?",

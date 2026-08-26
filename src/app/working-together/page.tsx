@@ -105,6 +105,10 @@ const faqs = [
     a: "It's a loop, not a line. Fresh data from Aperture Atlas re-opens Aperture Insights on the next constraint, so the method keeps compounding rather than ending at a report.",
   },
   {
+    q: "Isn't one senior lead a bottleneck?",
+    a: "It would be if the work were improvised each time. It isn't. Every engagement runs the same five phases with the same instruments, so the analysis arrives structured rather than assembled from scratch, and it is AI-assisted wherever that makes it faster or sharper. Where a piece of work calls for a specialist, GIS build-out, valuation, tax or legal, a vetted specialist is brought in and Fenwick stays accountable for the output. What you get is a senior lead with a system behind him, rather than a junior team with a partner's name on the cover.",
+  },
+  {
     q: "Do we need clean, perfect data?",
     a: "No. We work with what you have and improve it as we go. Messy data is normal and rarely a blocker.",
   },
@@ -326,6 +330,11 @@ export default function WorkingTogetherPage() {
               Everything we build on your data, models, dashboards, playbooks, is yours to keep. We
               deliberately hand it over, along with the ability to keep using it, so you finish stronger
               and more self-sufficient than you started.
+            </p>
+            <p className="text-body-lg text-body">
+              Where a piece of work calls for a specialist, GIS build-out, valuation, tax or legal, a
+              vetted specialist is brought in for that piece. The lead, and the accountability for what
+              you receive, never changes hands.
             </p>
           </div>
         </Reveal>

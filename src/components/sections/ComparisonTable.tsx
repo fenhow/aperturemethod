@@ -52,7 +52,7 @@ const ROWS: { dimension: string; cells: [string, string, string, string] }[] = [
   {
     dimension: "Who does the work",
     cells: [
-      "Fenwick How, start to finish",
+      "Fenwick How, accountable start to finish",
       "A team you did not meet",
       "Your advisor, part time",
       "A platform or a vendor",

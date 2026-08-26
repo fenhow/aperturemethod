@@ -72,7 +72,7 @@ export default function IntelligenceGapPage() {
           </Reveal>
 
           <Reveal delay={80}>
-            <Byline blurb="BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He does the work himself, start to finish." />
+            <Byline blurb="BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He leads the work himself, start to finish." />
           </Reveal>
 
           <Reveal delay={120} className="mt-8">

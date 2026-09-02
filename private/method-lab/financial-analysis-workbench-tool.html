@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v3.1
-  Built 2026-09-02 19:36 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v3.3
+  Built 2026-09-02 20:49 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -142,9 +142,18 @@ body.is-standalone header.mast{border-bottom-width:5px}
 .utilbar .ut::before{content:'';display:inline-block;width:20px;height:3px;
   background:var(--maroon);margin-right:9px;vertical-align:middle}
 .utilbar button{margin-left:auto}
+/* the not-disclosed switch on a disclosure module */
+label.nabox{display:flex;align-items:center;gap:9px;margin:12px 0 0;font-size:11.5px;
+  color:#5C5C5C;cursor:pointer;padding:8px 11px;border:1px solid var(--rule);
+  border-radius:3px;background:#FAFAFA;width:fit-content}
+label.nabox input{accent-color:var(--maroon);margin:0}
+label.nabox:hover{border-color:var(--maroon);color:var(--type)}
 /* the annotator's review table */
 input[type=checkbox]{accent-color:var(--maroon)}
 .pagebump{display:flex;align-items:center;gap:4px;justify-content:center}
+.pagebump input{border:1px solid var(--rule);border-radius:3px;background:#fff;
+  padding:3px 2px;font-size:11.5px}
+.pagebump input:focus{border-color:var(--maroon);outline:none}
 .pagebump button.mini2{border:1px solid var(--rule);background:#fff;color:#5C5C5C;
   width:22px;height:22px;line-height:1;border-radius:3px;cursor:pointer;font-size:13px;padding:0}
 .pagebump button.mini2:hover{border-color:var(--maroon);color:var(--maroon)}
@@ -153,6 +162,9 @@ span.conf{font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weigh
 span.conf.high{background:#EFEFEF;color:#3D3D3D}
 span.conf.medium{background:#F7F1F1;color:var(--maroon)}
 span.conf.low{background:#FFF6E5;color:#8A5A00}
+table.fin tr.gaprow td{background:#FCF7F7}
+table.fin tr.gaprow td.gapmark{color:var(--maroon);font-weight:600;
+  font-size:9px;letter-spacing:.14em;text-transform:uppercase}
 /* --- Nav --- */
 nav.tabs{background:var(--paper);display:flex;gap:0;padding:0 22px;overflow-x:auto;
   border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:60}
@@ -643,6 +655,7 @@ h4.fgroup:first-child{margin-top:4px}
 /* the not-performed block: a module that was not done says so and says what it needs */
 .page .npb{border:.8px solid var(--rule);border-left:3px solid #D8CFD0;background:#FAFAFA;
   padding:9px 12px;margin:8px 0 0}
+.page .npb.nadis{border-left-color:var(--maroon);background:#FCF7F7}
 .page .npb b{display:block;font-size:9.5px;color:#4D4D4D;margin-bottom:3px}
 .page .npb span{font-size:9px;color:#8C8C8C;line-height:1.65}.page .toc .tocs,.page .toc .tocr{display:flex;align-items:baseline;gap:7px}
 .page .toc .tocs{margin:13px 0 3px;padding-top:7px;border-top:.6px solid var(--rule)}
@@ -868,7 +881,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v3.1 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v3.3 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="openAnnotate()">Annotate a 10-K</button>
@@ -1348,9 +1361,12 @@ body.is-locked>.toolbar{display:none!important}
     <h2>Index</h2><div class="rule"></div>
     <h3>Annotate a filing<span class="hmark" data-h="annotate" tabindex="0" role="button" aria-label="What this means">?</span></h3>
     <p class="lede">Drop in a 10-K and this finds the nine footnotes that carry the accounting, marks
-      each one with a highlight and a comment naming what it is, and hands back an annotated PDF. The
-      page numbers it finds are the same ones <b>05 Verify</b> and <b>09 Notes</b> ask for, so
-      indexing the filing and building the evidence trail is one pass, not two.</p>
+      each one with a highlight and a comment naming what it is, and hands back an annotated PDF. It
+      searches four ways and keeps going until every one of the nine has an answer. Whatever it
+      cannot find is named in an index note on the first page, so a reader opening the file learns at
+      once what is marked and what is missing. The page numbers are the same ones <b>05 Verify</b>
+      and <b>09 Notes</b> ask for, so indexing the filing and building the evidence trail is one
+      pass, not two.</p>
     <div class="drop" id="annDrop" onclick="$('annFile').click()">
       <div class="big">Drop a 10-K here, or click to choose one</div>
       <div class="sm">The original file is never altered. What comes back is the same document with
@@ -1366,7 +1382,9 @@ body.is-locked>.toolbar{display:none!important}
     <p class="lede">Nothing is written until you say so. Check the page, correct it where the filing
       put the note somewhere this did not expect, and untick anything you do not want marked. A
       category found in two places is normally right: a 10-K states the policy once in the summary of
-      significant accounting policies and then again, in detail, in the numbered note.</p>
+      significant accounting policies and then again, in detail, in the numbered note. Anything still
+      showing as not found is carried onto the index note on page one by name, so it leaves the
+      document as a stated gap rather than as silence.</p>
     <div id="annFound"></div>
     <div class="btnrow">
       <button class="btn maroon" onclick="annBuild()">Write the annotated PDF</button>
@@ -1965,8 +1983,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'3.1',
-  built:'2026-09-02 19:36 UTC',
+  version:'3.3',
+  built:'2026-09-02 20:49 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2384,7 +2402,8 @@ function blankState(){
        module is independent and any of them may be empty. */
     disc:{
       segments:[], geo:[], deferred:[], ppeClasses:[],
-      allowance:[null,null,null,null,null,null],
+      na:{},
+  allowance:[null,null,null,null,null,null],
       badDebt:[null,null,null,null,null,null],
       lifoReserve:[null,null,null,null,null,null],
       depExpense:[null,null,null,null,null,null],
@@ -3823,7 +3842,7 @@ function discHas(k){
 /* which modules have anything in them, used by the report to say what was and
    was not performed rather than quietly dropping a section */
 function discModules(){
-  return [
+  const M=[
    {k:'segments', l:'Segment revenue', on:discHas('segments'),
     need:'revenue by reportable segment, from the segment footnote'},
    {k:'geo', l:'Geographic revenue', on:discHas('geo'),
@@ -3837,6 +3856,8 @@ function discModules(){
    {k:'ppeClasses', l:'Property age and reinvestment', on:discHas('ppeClasses')||discHas('depExpense'),
     need:'the depreciable asset classes and the depreciation charge'}
   ];
+  M.forEach(m=>{m.na=discNA(m.k);});
+  return M;
 }
 
 /* ---- 1. segment and geographic mix ------------------------------------ */
@@ -3873,6 +3894,9 @@ function allowancePct(i){const a=discVal('allowance',i),g=arGross(i);
   return (a!=null&&g)?a/g:null;}
 function badDebtPct(i){const b=discVal('badDebt',i),r=V('is','revenue',i);
   return (b!=null&&r)?b/r:null;}
+/* the share of the balance sheet a receivable represents \u2014 the question the
+   workbook asks first, before any quality measure */
+function arShare(i){const n=arNet(i),t=V('bs','totalAssets',i);return (n!=null&&t)?n/t:null;}
 function arTurns(i){const r=V('is','revenue',i),a=avgBal('bs','receivables',i);
   return (r!=null&&a)?r/a:null;}
 function dsoOf(i){const t=arTurns(i);return t?365/t:null;}
@@ -3892,6 +3916,22 @@ function reserveMove(i){const p=priorIdx(i);
 function cogsFifo(i){const c=V('is','cogs',i),d=reserveMove(i);
   return (c==null||d==null)?null:c-d;}
 function usesLifo(){return discHas('lifoReserve');}
+/* inventory read the two ways the statements are read everywhere else: as a
+   share of the balance sheet, and as a movement */
+function invShare(i,basis){
+  const v=(basis==='fifo')?invFifo(i):invReported(i), t=V('bs','totalAssets',i);
+  return (v!=null&&t)?v/t:null;
+}
+function invMove(i,basis){
+  const p=priorIdx(i); if(p==null)return null;
+  const a=(basis==='fifo')?invFifo(i):invReported(i);
+  const b=(basis==='fifo')?invFifo(p):invReported(p);
+  return (a==null||b==null||!b)?null:(a-b)/Math.abs(b);
+}
+/* a module the company genuinely does not report is a different animal from a
+   module nobody has filled in, and the document must not confuse them */
+function discNA(k){return !!((D().na||{})[k]);}
+function discSetNA(k,v){S.disc.na=S.disc.na||{};S.disc.na[k]=!!v;recalcAll();}
 
 /* ---- 5. the days, on either basis, and what a day is worth -------------
    The days are the conventional measures. The cash effect is the part that
@@ -3915,6 +3955,8 @@ function daysSet(i,basis){
   const dpo=apT?365/apT:null;
   const ccc=(dso!=null&&dio!=null&&dpo!=null)?dso+dio-dpo:null;
   return {dso:dso,dio:dio,dpo:dpo,ccc:ccc,invT:invT,apT:apT,
+    avgInv:avgInv, avgAp:avgAp, avgAr:avgBal('bs','receivables',i), arT:arTurns(i),
+    cogs:cogs, rev:rev,
     revDay:rev!=null?rev/365:null, cogsDay:cogs!=null?cogs/365:null};
 }
 function cashEffect(i,basis){
@@ -4013,6 +4055,15 @@ function discEditRows(k){
   });
   return h;
 }
+/* Ticked, this says the company does not disclose the thing at all. The report
+   then states that as a fact about the filing rather than reporting the module
+   as not performed, which is a statement about the working papers. Target does
+   not report revenue by geography; that is an answer, not a gap. */
+function naBox(k,what){
+  return '<label class="nabox"><input type="checkbox" '+(discNA(k)?'checked':'')+
+    ' onchange="discSetNA(\''+k+'\',this.checked)">'+
+    '<span>The company does not report '+esc(what)+'</span></label>';
+}
 function discEmpty(cols,msg){
   return '<tr><td class="lbl" colspan="'+(cols+2)+'" style="color:#8C8C8C;font-style:italic">'+
     esc(msg)+'</td></tr>';
@@ -4074,6 +4125,7 @@ function renderMix(k,gridId,readId,label){
       h+='</tbody></table>';
     }
   }
+  h+=naBox(k,k==='geo'?'revenue by geography':'revenue by reportable segment');
   $(gridId).innerHTML=h;
   /* the readout */
   const F=[];
@@ -4130,11 +4182,12 @@ function renderDeferred(){
     h+='<tr class="total"><td class="lbl">Total deferred revenue</td>';
     disp().forEach(i=>h+='<td>'+fmt(deferredTotal(i))+'</td>');
     h+='<td class="rowtools"></td></tr>';
-    h+='<tr class="subtotal"><td class="lbl">Share of total assets</td>';
+    h+='<tr class="subtotal"><td class="lbl">Deferred revenue as a share of total assets</td>';
     disp().forEach(i=>h+='<td>'+pct(deferredShare(i),1)+'</td>');
     h+='<td class="rowtools"></td></tr>';
   }
-  $('defGrid').innerHTML=h+'</tbody></table>';
+  $('defGrid').innerHTML=h+'</tbody></table>'+
+    naBox('deferred','deferred revenue or contract liabilities');
   const F=[],i=latestIdx(),p=prevIdx();
   const s=deferredShare(i);
   if(s!=null){
@@ -4162,6 +4215,8 @@ function renderArQuality(){
   h+='</tr></thead><tbody>';
   h+='<tr><td class="lbl">Accounts receivable, net <span class="derived">balance sheet</span></td>';
   disp().forEach(i=>h+='<td>'+fmt(arNet(i))+'</td>'); h+='</tr>';
+  h+='<tr><td class="lbl">Receivables as a share of total assets</td>';
+  disp().forEach(i=>h+='<td>'+pct(arShare(i),1)+'</td>'); h+='</tr>';
   h+='<tr><td class="lbl">Allowance for doubtful accounts</td>';
   disp().forEach(i=>h+='<td><input class="cell num" value="'+(D().allowance[i]==null?'':D().allowance[i])+
     '" onchange="discSetArr(\'allowance\','+i+',this.value)"></td>'); h+='</tr>';
@@ -4178,7 +4233,7 @@ function renderArQuality(){
   disp().forEach(i=>h+='<td>'+(arTurns(i)==null?'—':num(arTurns(i),2)+'×')+'</td>'); h+='</tr>';
   h+='<tr class="total"><td class="lbl">Days sales outstanding</td>';
   disp().forEach(i=>h+='<td>'+days(dsoOf(i))+'</td>'); h+='</tr>';
-  $('arGrid').innerHTML=h+'</tbody></table>';
+  $('arGrid').innerHTML=h+'</tbody></table>'+naBox('allowance','an allowance for doubtful accounts');
 
   const F=[],i=latestIdx(),f=c[0];
   const ap=allowancePct(i), apF=allowancePct(f), bd=badDebtPct(i);
@@ -4212,18 +4267,29 @@ function renderLifo(){
   h+='</tr></thead><tbody>';
   h+='<tr><td class="lbl">Inventory as reported <span class="derived">balance sheet</span></td>';
   disp().forEach(i=>h+='<td>'+fmt(invReported(i))+'</td>'); h+='</tr>';
+  h+='<tr><td class="lbl">Inventory as a share of total assets</td>';
+  disp().forEach(i=>h+='<td>'+pct(invShare(i,'reported'),1)+'</td>'); h+='</tr>';
+  h+='<tr><td class="lbl">Inventory, year-on-year change</td>';
+  disp().forEach(i=>{const v=invMove(i,'reported');
+    h+='<td class="'+signClass(v)+'">'+pct(v,1)+'</td>';}); h+='</tr>';
   h+='<tr><td class="lbl">LIFO reserve <span class="derived">note</span></td>';
   disp().forEach(i=>h+='<td><input class="cell num" value="'+(D().lifoReserve[i]==null?'':D().lifoReserve[i])+
     '" onchange="discSetArr(\'lifoReserve\','+i+',this.value)"></td>'); h+='</tr>';
   h+='<tr class="subtotal"><td class="lbl">Inventory restated to FIFO</td>';
   disp().forEach(i=>h+='<td>'+fmt(invFifo(i))+'</td>'); h+='</tr>';
+  h+='<tr><td class="lbl">Restated inventory as a share of total assets</td>';
+  disp().forEach(i=>h+='<td>'+pct(invShare(i,'fifo'),1)+'</td>'); h+='</tr>';
+  h+='<tr><td class="lbl">Restated inventory, year-on-year change</td>';
+  disp().forEach(i=>{const v=invMove(i,'fifo');
+    h+='<td class="'+signClass(v)+'">'+pct(v,1)+'</td>';}); h+='</tr>';
   h+='<tr><td class="lbl">Movement in the reserve</td>';
   disp().forEach(i=>h+='<td>'+fmt(reserveMove(i))+'</td>'); h+='</tr>';
   h+='<tr><td class="lbl">Cost of sales as reported</td>';
   disp().forEach(i=>h+='<td>'+fmt(V('is','cogs',i))+'</td>'); h+='</tr>';
   h+='<tr class="total"><td class="lbl">Cost of sales restated to FIFO</td>';
   disp().forEach(i=>h+='<td>'+fmt(cogsFifo(i))+'</td>'); h+='</tr>';
-  $('lifoGrid').innerHTML=h+'</tbody></table>';
+  $('lifoGrid').innerHTML=h+'</tbody></table>'+
+    naBox('lifoReserve','inventory on a LIFO basis, so there is no reserve to restate');
   const F=[],i=latestIdx();
   if(!usesLifo()){
     F.push({lvl:'note',t:'No LIFO reserve entered',
@@ -4261,9 +4327,15 @@ function renderCashCycle(){
       h+='<tr'+(cls?' class="'+cls+'"':'')+'><td class="lbl">'+name+'</td>';
       disp().forEach(i=>h+='<td>'+f(i)+'</td>'); h+='</tr>';
     };
-    line('Days sales outstanding',i=>days(daysSet(i,bs).dso));
-    line('Days inventory outstanding',i=>days(daysSet(i,bs).dio));
-    line('Days payables outstanding',i=>days(daysSet(i,bs).dpo));
+    line('Average accounts receivable',i=>fmt(daysSet(i,bs).avgAr));
+    line('Receivables turnover',i=>{const v=daysSet(i,bs).arT;return v==null?'—':num(v,2)+'×';});
+    line('Days sales outstanding',i=>days(daysSet(i,bs).dso),'subtotal');
+    line('Average inventory',i=>fmt(daysSet(i,bs).avgInv));
+    line('Inventory turnover',i=>{const v=daysSet(i,bs).invT;return v==null?'—':num(v,2)+'×';});
+    line('Days inventory outstanding',i=>days(daysSet(i,bs).dio),'subtotal');
+    line('Average accounts payable',i=>fmt(daysSet(i,bs).avgAp));
+    line('Accounts payable turnover',i=>{const v=daysSet(i,bs).apT;return v==null?'—':num(v,2)+'×';});
+    line('Days payables outstanding',i=>days(daysSet(i,bs).dpo),'subtotal');
     line('Cash conversion cycle',i=>days(daysSet(i,bs).ccc),'total');
     h+='</tbody></table>';
     /* the money */
@@ -4344,9 +4416,10 @@ function renderPpeAge(){
   const row=(n,f,cls)=>{g+='<tr'+(cls?' class="'+cls+'"':'')+'><td class="lbl">'+n+'</td>';
     disp().forEach(i=>g+='<td>'+f(i)+'</td>');g+='</tr>';};
   row('Depreciable property, net',i=>fmt(ppeDeprNet(i)));
-  row('Share of total assets',i=>pct(ppeShare(i),1));
-  row('Estimated useful life',i=>{const v=usefulLife(i);return v==null?'—':num(v,1)+' yrs';},'subtotal');
-  row('Percent of that life used up',i=>pct(percentUsedUp(i),1),'subtotal');
+  row('Net property as a share of total assets',i=>pct(ppeShare(i),1));
+  row('Average depreciable property, gross',i=>fmt(avgDeprGross(i)));
+  row('Estimated useful life in years',i=>{const v=usefulLife(i);return v==null?'—':num(v,1)+' yrs';},'subtotal');
+  row('Percent used up',i=>pct(percentUsedUp(i),1),'subtotal');
   row('Capital expenditure to depreciation',i=>{const v=capexToDep(i);return v==null?'—':num(v,2)+'×';},'total');
   $('ppeCalc').innerHTML=g+'</tbody></table>';
 
@@ -7210,6 +7283,14 @@ function partPage(num,title,blurb,items){
 }
 /* a module with nothing in it prints this rather than vanishing: a reader
    cannot tell an absent finding from an absent input unless the page says so */
+/* Not the same as not performed. This is the company's disclosure, or its
+   absence, reported as a finding. */
+function naBlock(l,what){
+  return '<div class="npb nadis"><b>'+esc(l)+' \u2014 not reported by the company</b><span>'+
+    'The filing does not disclose '+esc(what)+'. That is a fact about the company rather than a gap '+
+    'in this analysis, and nothing below should be read as though the disclosure existed and was '+
+    'overlooked.</span></div>';
+}
 function npBlock(l,need){
   return '<div class="npb"><b>'+esc(l)+' — not performed</b><span>This analysis was not carried '+
     'out because the input was not captured. It needs '+esc(need)+'. Until it is entered, nothing in '+
@@ -7219,27 +7300,56 @@ function mixRepTable(k,label){
   const T=mixTable(k);
   if(!T)return null;
   const c=T.cols;
+  /* The same three readings the tool gives every statement: the figures, the
+     mix with size taken out, and the movement with structure taken out. A
+     segment table shown only at its latest share answers none of the questions
+     that make segment disclosure worth reading. */
   let t='<table class="rp"><thead><tr><th class="lbl">'+esc(label)+'</th>'+
-    c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+
-    '<th>Share</th><th>Change</th></tr></thead><tbody>';
-  const x=c.length-1;
+    c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>';
   T.rows.forEach(r=>{
-    t+='<tr><td class="lbl">'+esc(r.name||'—')+'</td>'+
-      c.map(i2=>'<td>'+fmtRatio(rowVal(r,i2),'cur')+'</td>').join('')+
-      '<td>'+pct(T.share(r,x),1)+'</td><td>'+pct(T.yoy(r,x),1)+'</td></tr>';
+    t+='<tr><td class="lbl">'+esc(r.name||'\u2014')+'</td>'+
+      c.map(i2=>'<td>'+fmtRatio(rowVal(r,i2),'cur')+'</td>').join('')+'</tr>';
   });
   t+='<tr class="tot"><td class="lbl">Total from the note</td>'+
-    c.map((i2,n)=>'<td>'+fmtRatio(T.total[n],'cur')+'</td>').join('')+
-    '<td>100.0%</td><td></td></tr>';
+    c.map((i2,n)=>'<td>'+fmtRatio(T.total[n],'cur')+'</td>').join('')+'</tr>';
   t+='<tr><td class="lbl">Consolidated revenue</td>'+
-    c.map(i2=>'<td>'+fmtRatio(V('is','revenue',i2),'cur')+'</td>').join('')+
-    '<td></td><td></td></tr>';
+    c.map(i2=>'<td>'+fmtRatio(V('is','revenue',i2),'cur')+'</td>').join('')+'</tr>';
   const tie=mixTie(k);
   t+='<tr><td class="lbl">Difference</td>'+
     c.map(i2=>{const e=tie.find(z=>z.i===i2);
-      return '<td>'+(e?fmtRatio(e.diff,'cur'):'—')+'</td>';}).join('')+
-    '<td></td><td></td></tr>';
-  return t+'</tbody></table>';
+      return '<td>'+(e?fmtRatio(e.diff,'cur'):'\u2014')+'</td>';}).join('')+'</tr>';
+  t+='</tbody></table>';
+
+  /* the mix, every period */
+  t+='<h4 class="sh">Share of the total</h4>'+
+    '<table class="rp"><thead><tr><th class="lbl">'+esc(label)+'</th>'+
+    c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>';
+  T.rows.forEach(r=>{
+    t+='<tr><td class="lbl">'+esc(r.name||'\u2014')+'</td>'+
+      c.map((i2,x)=>'<td>'+pct(T.share(r,x),1)+'</td>').join('')+'</tr>';
+  });
+  t+='<tr class="tot"><td class="lbl">Total</td>'+
+    c.map(()=>'<td>100.0%</td>').join('')+'</tr></tbody></table>';
+
+  /* the movement, every pair */
+  if(c.length>1){
+    t+='<h4 class="sh">Year-on-year change</h4>'+
+      '<table class="rp"><thead><tr><th class="lbl">'+esc(label)+'</th>';
+    for(let x=1;x<c.length;x++)
+      t+='<th>'+esc(periodLabel(c[x]))+' vs '+esc(periodLabel(c[x-1]))+'</th>';
+    t+='</tr></thead><tbody>';
+    T.rows.forEach(r=>{
+      t+='<tr><td class="lbl">'+esc(r.name||'\u2014')+'</td>';
+      for(let x=1;x<c.length;x++)t+='<td>'+pct(T.yoy(r,x),1)+'</td>';
+      t+='</tr>';
+    });
+    const totYoY=x=>{const a=T.total[x],b=T.total[x-1];
+      return (a!=null&&b)?(a-b)/Math.abs(b):null;};
+    t+='<tr class="tot"><td class="lbl">Total from the note</td>';
+    for(let x=1;x<c.length;x++)t+='<td>'+pct(totYoY(x),1)+'</td>';
+    t+='</tr></tbody></table>';
+  }
+  return t;
 }
 function repDisclosure(P){
   const i=latestIdx(), p=priorIdx(i), c=chron(), M=discModules(), m=repMeta();
@@ -7261,12 +7371,16 @@ function repDisclosure(P){
           'which means a segment is missing, a year is misaligned, or the filing reconciles through an '+
           'unallocated line that has not been captured.'
         : 'The note adds back to consolidated revenue in every period shown.')+'</p>');
-  } else B.push(npBlock('Segment revenue',off('segments').need));
+  } else B.push(off('segments').na
+      ? naBlock('Segment revenue','revenue by reportable segment')
+      : npBlock('Segment revenue',off('segments').need));
 
   /* 2 — geography */
   B.push('<h4 class="sh">Geographic revenue</h4>');
   if(off('geo').on)B.push(mixRepTable('geo','Region')||'');
-  else B.push(npBlock('Geographic revenue',off('geo').need));
+  else B.push(off('geo').na
+      ? naBlock('Geographic revenue','revenue by geography')
+      : npBlock('Geographic revenue',off('geo').need));
 
   /* 3 — deferred revenue */
   B.push('<h4 class="sh">Deferred revenue and contract liabilities</h4>');
@@ -7276,33 +7390,45 @@ function repDisclosure(P){
     B.push('<p style="font-size:9px;color:#8C8C8C;margin-top:5px">Cash collected and not yet earned. '+
       'A rising balance is demand that has been paid for and has not yet reached the income statement; '+
       'a falling one is revenue being released faster than it is being replaced.</p>');
-  } else B.push(npBlock('Deferred revenue',off('deferred').need));
+  } else B.push(off('deferred').na
+      ? naBlock('Deferred revenue','deferred revenue or contract liabilities')
+      : npBlock('Deferred revenue',off('deferred').need));
 
   /* 4 — receivables quality */
   B.push('<h4 class="sh">Receivables quality</h4>');
   if(off('allowance').on){
     B.push(kv([
-      ['Gross receivables',x=>fmtRatio(arGross(x),'cur')],
+      ['Accounts receivable, net',x=>fmtRatio(arNet(x),'cur')],
+      ['Receivables as a share of total assets',x=>pct(arShare(x),1)],
       ['Allowance for doubtful accounts',x=>fmtRatio(discVal('allowance',x),'cur')],
-      ['Net receivables',x=>fmtRatio(arNet(x),'cur'),1],
+      ['Accounts receivable, gross',x=>fmtRatio(arGross(x),'cur'),1],
       ['Allowance as a share of gross',x=>pct(allowancePct(x),2)],
-      ['Bad-debt expense',x=>fmtRatio(discVal('badDebt',x),'cur')],
-      ['Bad-debt expense as a share of revenue',x=>pct(badDebtPct(x),2)],
-      ['Days sales outstanding',x=>fmtRatio(dsoOf(x),'days')]
+      ['Bad debt expense',x=>fmtRatio(discVal('badDebt',x),'cur')],
+      ['Bad debt as a share of revenue',x=>pct(badDebtPct(x),2)],
+      ['Average accounts receivable',x=>fmtRatio(avgBal('bs','receivables',x),'cur')],
+      ['Receivables turnover',x=>fmtRatio(arTurns(x),'x')],
+      ['Days sales outstanding',x=>fmtRatio(dsoOf(x),'days'),1]
     ],'Receivables'));
     B.push('<p style="font-size:9px;color:#8C8C8C;margin-top:5px">Read the allowance as a percentage of '+
       'gross receivables rather than as an amount. A falling percentage against a lengthening collection '+
       'period is the pattern worth stopping on: the book is getting slower while the provision against '+
       'it is getting smaller.</p>');
-  } else B.push(npBlock('Receivables quality',off('allowance').need));
+  } else B.push(off('allowance').na
+      ? naBlock('Receivables quality','an allowance for doubtful accounts, which for a business paid '+
+        'at the point of sale is normal rather than remarkable')
+      : npBlock('Receivables quality',off('allowance').need));
 
   /* 5 — inventory basis */
   B.push('<h4 class="sh">Inventory basis and the LIFO reserve</h4>');
   if(off('lifoReserve').on){
     B.push(kv([
       ['Inventory as reported (LIFO)',x=>fmtRatio(invReported(x),'cur')],
+      ['Inventory as a share of total assets',x=>pct(invShare(x,'reported'),1)],
+      ['Inventory, year-on-year change',x=>pct(invMove(x,'reported'),1)],
       ['LIFO reserve',x=>fmtRatio(discVal('lifoReserve',x),'cur')],
       ['Inventory restated to FIFO',x=>fmtRatio(invFifo(x),'cur'),1],
+      ['Restated inventory as a share of total assets',x=>pct(invShare(x,'fifo'),1)],
+      ['Restated inventory, year-on-year change',x=>pct(invMove(x,'fifo'),1)],
       ['Movement in the reserve',x=>fmtRatio(reserveMove(x),'cur')],
       ['Cost of sales as reported',x=>fmtRatio(V('is','cogs',x),'cur')],
       ['Cost of sales restated to FIFO',x=>fmtRatio(cogsFifo(x),'cur'),1]
@@ -7312,41 +7438,67 @@ function repDisclosure(P){
       'because that increase is exactly the extra cost LIFO charged this year and FIFO did not. '+
       'Subtracting the whole reserve instead of its movement is the common error and it overstates '+
       'gross profit by a wide margin.</p>');
-  } else B.push(npBlock('Inventory basis',off('lifoReserve').need));
+  } else B.push(off('lifoReserve').na
+      ? naBlock('Inventory basis','a LIFO reserve, because inventory is not carried on LIFO. No '+
+        'restatement is required and none is shown')
+      : npBlock('Inventory basis',off('lifoReserve').need));
+  if(!off('lifoReserve').on&&invReported(i)!=null){
+    B.push(kv([
+      ['Inventory as reported',x=>fmtRatio(invReported(x),'cur')],
+      ['Inventory as a share of total assets',x=>pct(invShare(x,'reported'),1)],
+      ['Inventory, year-on-year change',x=>pct(invMove(x,'reported'),1)]
+    ],'Inventory'));
+  }
 
   paginateBlocks(B,'What the notes disclose','What the notes disclose (continued)','The notes',P);
 
-  /* 6 — the cash cycle, its own page, because the cash effect is the point */
-  const basis=usesLifo()?'fifo':'reported';
+  /* 6 — the cash cycle, its own page, because the cash effect is the point.
+     Where the company is on LIFO the cycle is shown BOTH ways: as reported, and
+     on the FIFO restatement. Neither is redundant. The reported figures are
+     what the company published; the restated ones are the only version
+     comparable to a FIFO peer, and the two can differ by days. */
+  const bases=usesLifo()?['reported','fifo']:['reported'];
   const C=[];
   C.push('<h4 class="sh" style="margin-top:0">The cash conversion cycle</h4>');
-  C.push(kv([
-    ['Days sales outstanding',x=>fmtRatio(daysSet(x,basis).dso,'days')],
-    ['Days inventory outstanding',x=>fmtRatio(daysSet(x,basis).dio,'days')],
-    ['Days payable outstanding',x=>fmtRatio(daysSet(x,basis).dpo,'days')],
-    ['Cash conversion cycle',x=>fmtRatio(daysSet(x,basis).ccc,'days'),1]
-  ],'Days'+(basis==='fifo'?' (on the FIFO restatement)':'')));
-  const ce=cashEffect(i,basis);
-  if(ce){
-    const row=(l,d,v)=>'<tr><td class="lbl">'+esc(l)+'</td><td>'+
-      (d==null?'—':(d>=0?'+':'−')+fmt(Math.abs(d),1)+' days')+'</td><td>'+
-      (v==null?'—':(v>=0?'releases ':'consumes ')+fmtRatio(Math.abs(v),'cur'))+'</td></tr>';
-    C.push('<h4 class="sh">What the movement was worth in cash</h4>'+
-      '<table class="rp"><thead><tr><th class="lbl">Component</th><th>Movement</th>'+
-      '<th>Cash effect</th></tr></thead><tbody>'+
-      row('Collection period',ce.dDso,ce.dso)+
-      row('Holding period',ce.dDio,ce.dio)+
-      row('Payment period',ce.dDpo,ce.dpo)+
-      '<tr class="tot"><td class="lbl">Net effect on cash</td><td>'+
-      (ce.dCcc==null?'—':(ce.dCcc>=0?'+':'−')+fmt(Math.abs(ce.dCcc),1)+' days')+'</td><td>'+
-      (ce.total==null?'—':(ce.total>=0?'releases ':'consumes ')+fmtRatio(Math.abs(ce.total),'cur'))+
-      '</td></tr></tbody></table>'+
-      '<p style="font-size:9px;color:#8C8C8C;margin-top:5px">Each movement is converted at the daily rate '+
-      'of trade for '+esc(periodLabel(i))+': revenue a day for collection, cost of sales a day for '+
-      'holding and payment. A longer collection or holding period consumes cash; a longer payment '+
-      'period releases it. The net figure belongs beside operating cash flow when the quality of '+
-      'earnings is judged.</p>');
-  }
+  bases.forEach(bs=>{
+    const lab=bs==='fifo'?' \u2014 restated to FIFO'
+      :(usesLifo()?' \u2014 as reported, on LIFO':'');
+    C.push(kv([
+      ['Average accounts receivable',x=>fmtRatio(daysSet(x,bs).avgAr,'cur')],
+      ['Receivables turnover',x=>fmtRatio(daysSet(x,bs).arT,'x')],
+      ['Days sales outstanding',x=>fmtRatio(daysSet(x,bs).dso,'days')],
+      ['Average inventory',x=>fmtRatio(daysSet(x,bs).avgInv,'cur')],
+      ['Inventory turnover',x=>fmtRatio(daysSet(x,bs).invT,'x')],
+      ['Days inventory outstanding',x=>fmtRatio(daysSet(x,bs).dio,'days')],
+      ['Average accounts payable',x=>fmtRatio(daysSet(x,bs).avgAp,'cur')],
+      ['Accounts payable turnover',x=>fmtRatio(daysSet(x,bs).apT,'x')],
+      ['Days payables outstanding',x=>fmtRatio(daysSet(x,bs).dpo,'days')],
+      ['Cash conversion cycle',x=>fmtRatio(daysSet(x,bs).ccc,'days'),1]
+    ],'Working capital'+lab));
+    const e=cashEffect(i,bs);
+    if(e){
+      const row=(l,d,v)=>'<tr><td class="lbl">'+esc(l)+'</td><td>'+
+        (d==null?'\u2014':(d>=0?'+':'\u2212')+fmt(Math.abs(d),1)+' days')+'</td><td>'+
+        (v==null?'\u2014':(v>=0?'releases ':'consumes ')+fmtRatio(Math.abs(v),'cur'))+'</td></tr>';
+      C.push('<h4 class="sh">What the movement was worth in cash'+lab+'</h4>'+
+        '<table class="rp"><thead><tr><th class="lbl">Component</th><th>Movement</th>'+
+        '<th>Cash effect</th></tr></thead><tbody>'+
+        row('Collection period',e.dDso,e.dso)+
+        row('Holding period',e.dDio,e.dio)+
+        row('Payment period',e.dDpo,e.dpo)+
+        '<tr class="tot"><td class="lbl">Net effect on cash</td><td>'+
+        (e.dCcc==null?'\u2014':(e.dCcc>=0?'+':'\u2212')+fmt(Math.abs(e.dCcc),1)+' days')+'</td><td>'+
+        (e.total==null?'\u2014':(e.total>=0?'releases ':'consumes ')+fmtRatio(Math.abs(e.total),'cur'))+
+        '</td></tr></tbody></table>');
+    }
+  });
+  C.push('<p style="font-size:9px;color:#8C8C8C;margin-top:5px">Each movement is converted at the '+
+    'daily rate of trade for '+esc(periodLabel(i))+': revenue a day for collection, cost of sales a '+
+    'day for holding and payment. A longer collection or holding period consumes cash; a longer '+
+    'payment period releases it. The net figure belongs beside operating cash flow when the quality '+
+    'of earnings is judged.'+
+    (usesLifo()?' The restated figures are the ones to use against a FIFO competitor; the reported '+
+      'ones are what the company published.':'')+'</p>');
   /* 7 — property */
   C.push('<h4 class="sh">Property age and reinvestment</h4>');
   if(off('ppeClasses').on){
@@ -7354,10 +7506,12 @@ function repDisclosure(P){
       ['Depreciable property, gross',x=>fmtRatio(ppeDeprGross(x),'cur')],
       ['Accumulated depreciation',x=>fmtRatio(ppeAccum(x),'cur')],
       ['Depreciable property, net',x=>fmtRatio(ppeDeprNet(x),'cur'),1],
-      ['Depreciation charge',x=>fmtRatio(depExpense(x),'cur')],
-      ['Implied average useful life',x=>{const v=usefulLife(x);return v==null?'—':fmt(v,1)+' years';}],
-      ['Proportion of life written off',x=>pct(percentUsedUp(x),0)],
       ['Net property as a share of total assets',x=>pct(ppeShare(x),1)],
+      ['Average depreciable property, gross',x=>fmtRatio(avgDeprGross(x),'cur')],
+      ['Depreciation charge',x=>fmtRatio(depExpense(x),'cur')],
+      ['Estimated useful life in years',x=>{const v=usefulLife(x);return v==null?'—':fmt(v,1)+' years';}],
+      ['Percent used up',x=>pct(percentUsedUp(x),0)],
+      ['Capital expenditure',x=>{const c=V('cf','capex',x);return c==null?'—':fmtRatio(Math.abs(c),'cur');}],
       ['Capital expenditure to depreciation',x=>fmtRatio(capexToDep(x),'x')]
     ],'Property'));
     C.push('<p style="font-size:9px;color:#8C8C8C;margin-top:5px">Land is excluded from the depreciable '+
@@ -8238,6 +8392,7 @@ function migrate(o){
   st.actions=Array.isArray(o.actions)?o.actions:[];
   st.thesis={...base.thesis,...(o.thesis||{})};
   st.disc={...base.disc,...(o.disc||{})};
+  st.disc.na={...((o.disc||{}).na||{})};
   ['segments','geo','deferred','ppeClasses'].forEach(k=>{
     st.disc[k]=Array.isArray(st.disc[k])?st.disc[k].map(r=>({name:r.name||'',
       values:Array.isArray(r.values)?r.values.slice(0,6):new Array(6).fill(null)})):[];});
@@ -8328,43 +8483,47 @@ const DEMO={
    analyst:'Fenwick How',date:'',code:'APM-2026-DEMO',
    source:'Form 10-K, fiscal 2025 (year ended 31 January 2026)',order:'newest',nper:4},
  periods:['Jan 31, 2026','Feb 1, 2025','Feb 3, 2024','Jan 28, 2023'],
- /* the disclosure work: what the segment, revenue, receivables and property
-    notes carry that the four statements cannot. The inventory module is
-    deliberately left empty — Best Buy carries inventory at average cost, not
-    LIFO, so there is no reserve to disclose and the report says so rather than
-    inventing one. */
+ /* The disclosure work, taken from the ACCT 610 Session 2 worksheet so the
+    worked example IS the assignment: revenue by product line and by geography,
+    the components of deferred revenue, the allowance and the bad-debt charge,
+    and the depreciable property classes. The inventory module is deliberately
+    marked NOT REPORTED rather than left blank \u2014 Best Buy carries inventory at
+    average cost, so there is no LIFO reserve to disclose, which is a fact about
+    the company and not a gap in the working papers. */
  disc:{
+  na:{lifoReserve:true},
   segments:[
-   {name:'Domestic',values:[38489,38354,40193,null,null,null]},
-   {name:'International',values:[3202,3174,3259,null,null,null]}
+   {name:'Computing and Mobile Phones',values:[19714,18681,18482,null,null,null]},
+   {name:'Consumer Electronics',values:[11460,12065,12969,null,null,null]},
+   {name:'Appliances',values:[4469,4910,5804,null,null,null]},
+   {name:'Entertainment',values:[3092,2908,3363,null,null,null]},
+   {name:'Services',values:[2656,2631,2530,null,null,null]},
+   {name:'Other',values:[300,333,304,null,null,null]}
   ],
   geo:[
-   {name:'United States',values:[38489,38354,40193,null,null,null]},
-   {name:'Canada',values:[3120,3095,3178,null,null,null]},
-   {name:'Other',values:[82,79,81,null,null,null]}
+   {name:'Domestic',values:[38278,38238,40097,null,null,null]},
+   {name:'International',values:[3413,3290,3355,null,null,null]}
   ],
   deferred:[
-   {name:'Gift cards',values:[265,278,289,305,null,null]},
-   {name:'Memberships and services',values:[700,742,770,880,null,null]},
-   {name:'Other deferred revenue',values:[170,184,194,205,null,null]}
+   {name:'Unredeemed gift cards',values:[235,253,253,274,null,null]},
+   {name:'Deferred revenue',values:[900,951,1000,1116,null,null]},
+   {name:'Short-term contract liabilities',values:[57,50,null,null,null,null]},
+   {name:'Long-term contract liabilities',values:[205,229,null,null,null,null]}
   ],
   ppeClasses:[
-   {name:'Buildings',values:[555,560,565,560,null,null]},
-   {name:'Leasehold improvements',values:[2289,2323,2335,2301,null,null]},
-   {name:'Fixtures and equipment',values:[3952,4024,4036,3975,null,null]},
-   {name:'Property under finance leases',values:[80,82,84,84,null,null]}
+   {name:'Land and buildings',values:[734,722,702,688,null,null]},
+   {name:'Leasehold improvements',values:[2395,2370,2275,2260,null,null]},
+   {name:'Fixtures and equipment',values:[3732,3872,4002,3928,null,null]},
+   {name:'Property under finance leases',values:[80,88,97,100,null,null]}
   ],
-  allowance:[22,20,18,21,null,null],
-  badDebt:[10,9,8,9,null,null],
+  allowance:[24,26,32,30,null,null],
+  badDebt:[48,42,45,null,null,null],
   lifoReserve:[null,null,null,null,null,null],
-  depExpense:[795,828,880,null,null,null],
+  depExpense:[817,845,862,null,null,null],
   accumDepOverride:[null,null,null,null,null,null],
-  revPolicy:'Revenue is recognised when control of the product passes to the customer, which is on delivery for goods and over the service period for memberships and protection plans. Gift cards are deferred until redeemed, with unredeemed balances recognised in proportion to redemption once the likelihood of further redemption is remote. Amounts collected and not yet earned sit in deferred revenue.',
-  invPolicy:'Merchandise inventories are carried at the lower of average cost or net realisable value. There is no LIFO reserve, so no restatement is required and none is shown; comparison with a LIFO competitor would require the competitor\'s reserve to be added back to its balance, not this one.'
+  revPolicy:'Revenue is recognised when control of the product passes to the customer, which is on delivery for goods and over the service period for memberships and protection plans. Gift cards are deferred until redeemed, with unredeemed balances recognised in proportion to redemption once the likelihood of further redemption is remote. Amounts collected and not yet earned sit in deferred revenue and in short- and long-term contract liabilities.',
+  invPolicy:'Merchandise inventories are carried at the lower of average cost or net realisable value, with cost including in-bound freight to the distribution centres and reduced by vendor allowances. There is no LIFO reserve, so no restatement is required and none is shown; a comparison with a LIFO competitor would require that competitor’s reserve to be added back to its balance, not this one.'
  },
- qc:{primaryDoc:'Form 10-K, fiscal 2025 (year ended 31 January 2026)',verifier:'Fenwick How',
-   pages:{fye:'3',business:'4',segments:'5',audit:'43',cams:'43',departure:'',risks:'12',subsequent:''}},
- srcPages:{bs:'45',is:'43',cf:'47'},
  entity:{ownership:'public',legalForm:'ccorp',basis:'audited-gaap',exchange:'NYSE',
    founded:'1966',ownedSince:'',stage:'auto',
    contact:{name:'Investor Relations',role:'',email:'',phone:'',
@@ -8481,6 +8640,7 @@ const DEMO_PRIVATE={
    {name:'Vehicles',values:[420,390,360,330,null,null]},
    {name:'Office and computer equipment',values:[300,275,255,235,null,null]}
   ],
+  na:{geo:true,deferred:true},
   allowance:[149,138,126,112,null,null],
   badDebt:[46,41,36,30,null,null],
   lifoReserve:[610,520,455,400,null,null],
@@ -8588,6 +8748,7 @@ function loadDemoData(D,kind){
   S.addbacks=(D.addbacks||[]).map(a=>({...a,values:a.values.slice()}));
   if(D.intake)S.intake={...S.intake,...D.intake};
   if(D.disc)S.disc={...S.disc,...D.disc,
+    na:{...(D.disc.na||{})},
     segments:(D.disc.segments||[]).map(r=>({name:r.name,values:r.values.slice()})),
     geo:(D.disc.geo||[]).map(r=>({name:r.name,values:r.values.slice()})),
     deferred:(D.disc.deferred||[]).map(r=>({name:r.name,values:r.values.slice()})),
@@ -8627,13 +8788,13 @@ function loadDemoData(D,kind){
    ---------------------------------------------------------------------- */
 const HELP={
  annotate:{t:'Annotating a filing',
-  d:'Reads a 10-K, finds the nine footnotes that carry the accounting, and writes a highlight and a comment onto each one. What comes back is the same PDF with the annotations appended.',
+  d:'Reads a 10-K, finds the nine footnotes that carry the accounting, and writes a highlight and a comment onto each one, plus an index note on page one. What comes back is the same PDF with the annotations appended.',
   r:'A 10-K runs to a hundred pages and the accounting lives in about nine of them. Finding those nine is the first hour of any analysis of a listed company, and it is the same nine every time, which makes it exactly the sort of work that should not be done by hand twice.',
-  x:'It proposes; you confirm. A confident yellow highlight on the wrong paragraph is worse than no highlight, so nothing is written until the review list is ticked. Where a filing puts a note somewhere unusual, correct the page in the review list and the mark follows it.'},
+  x:'It proposes; you confirm. A confident yellow highlight on the wrong paragraph is worse than no highlight, so nothing is written until the review list is ticked. Where a filing puts a note somewhere unusual, correct the page in the review list and the mark follows it. Anything it cannot find at all is named on the page-one index note rather than quietly dropped.'},
  annreview:{t:'The review list',
   d:'Every proposed mark, with the page, the heading it matched and how confident the match is, before anything is written.',
   r:'A category found in two places is usually right rather than wrong. A 10-K states each policy once in the summary of significant accounting policies and again, with the tables, in the numbered note. Both are worth marking, and they answer different questions.',
-  x:'Confidence is about the match, not the accounting. High means the heading matched a policy sub-heading or a numbered note title. Medium means the note title did not match but its contents plainly did — which is how deferred revenue is found inside a note called Revenue. Low means it was found nowhere structural and is a plain text match; check it.'},
+  x:'Confidence is about the match, not the accounting. High means the heading matched a policy sub-heading or a numbered note title. Medium means the note title did not match but its contents plainly did — which is how deferred revenue is found inside a note called Revenue. Low means it was found nowhere structural: either a bare heading match, or the page that discusses the subject most in the whole document. Check every low one.'},
  fnindex:{t:'The footnote index',
   d:'Where each of the nine accounting footnotes sits in the filing, by page.',
   r:'It is the evidence trail for everything on the Notes tab. A disclosure quoted in the report without a page behind it is an assertion; with one it is a citation a reader can go and check.',
@@ -9525,6 +9686,11 @@ const GUIDE=[
   ['w','A module left empty is not dropped from the report. It prints as <b>not performed</b> and '+
       'names what it would have needed, because a reader cannot otherwise tell an absent finding '+
       'from an absent input. That is deliberate, and it is the only honest way to publish partial work.'],
+  ['p','Where the company genuinely does not disclose something \u2014 a single-market retailer with no '+
+      'geographic split, a business paid at the point of sale with no allowance, a company that does '+
+      'not use LIFO \u2014 tick <b>The company does not report\u2026</b> under that module. The report then '+
+      'states it as a fact about the filing rather than as a gap in the analysis. Those are different '+
+      'things and a reader is entitled to know which one they are looking at.'],
   ['p','In the finished document this work is <b>Part II \u2014 Behind the numbers</b>, behind its own '+
       'divider sheet, so it is never mistaken for analysis drawn from the face of the statements.']]},
 
@@ -10126,9 +10292,30 @@ async function pdfWriteHighlights(buf,marks,opts){
     if(!src)throw new Error('Page '+pageNo+' could not be read back out of the file.');
     const refs=[];
     list.forEach(m=>{
+      /* A standalone note, anchored to a page rather than to a run of text.
+         The index that goes on the first page has nothing to highlight — it is
+         a statement about the whole document — so it is written as the note
+         annotation the format provides for exactly that. */
+      if(m.kind==='note'){
+        const nn=next++, np=next++;
+        refs.push(nn);
+        const r=m.quads.map(v=>Math.round(v*100)/100);
+        newObjs.push([nn,abConcat([
+          s2b('<</Type/Annot/Subtype/Text/Name/Comment/F 4/CA 1/Open false'+
+              '/C['+(m.colour||'1 0.756866 0')+']/Rect['+r.join(' ')+']/Subj'),
+          str('Index',nn),
+          s2b('/T'), str(m.author||opts.author||'Aperture Analytics',nn),
+          s2b('/Contents'), str(m.label,nn),
+          s2b('/M'), str(opts.stamp||'D:20260101000000Z',nn),
+          s2b('/P '+pnum+' 0 R/Popup '+np+' 0 R/NM'), str('aperture-'+nn,nn),
+          s2b('>>')])]);
+        newObjs.push([np,s2b('<</Type/Annot/Subtype/Popup/F 28/Open false/Parent '+nn+' 0 R'+
+          '/Rect['+[r[2],r[1]-260,r[2]+300,r[3]].map(v=>Math.round(v*100)/100).join(' ')+']>>')]);
+        return;
+      }
       const hn=next++, pn=next++, an=next++;
       refs.push(hn);
-      const q=m.quads;
+      const q=m.quads.map(v=>(typeof v==='number'&&isFinite(v))?v:0);
       const pad=opts.pad==null?1.2:opts.pad;
       const quad=[q[0],q[3],q[2],q[3],q[0],q[1],q[2],q[1]].map(v=>Math.round(v*1000)/1000);
       const rect=[q[0]-pad,q[1]-pad,q[2]+pad,q[3]+pad].map(v=>Math.round(v*1000)/1000);
@@ -10261,46 +10448,57 @@ async function pdfWriteHighlights(buf,marks,opts){
    belongs in, where one exists. */
 const ANN_CATS=[
  {k:'revrec',l:'Revenue recognition',
-  pats:['^revenue recognition$','^revenue$','^revenues$','^revenue from contracts','^net sales$'],
-  need:'a revenue-recognition policy note, or a numbered note titled Revenue',
-  feeds:'revrec'},
+  pats:['^revenue recognition$','^revenue$','^revenues$','^revenue from contracts','^net sales$',
+        '^nature of (our )?(revenue|operations)','^disaggregat(ion|ed) of revenue'],
+  wide:['revenue recognition','revenue from contracts with customers','performance obligation',
+        'recognis?zed? (as )?revenue','asc 606'],
+  need:'a revenue-recognition policy note, or a numbered note titled Revenue'},
  {k:'ar',l:'Accounts receivable / allowance for doubtful accounts',
   pats:['^receivables?$','^accounts receivable','allowance for (doubtful|credit|uncollectib)',
-        'valuation and qualifying accounts','^schedule ii'],
-  need:'the receivables policy, or Schedule II — Valuation and Qualifying Accounts',
-  feeds:'allowance'},
+        'valuation and qualifying accounts','^schedule ii','^credit losses$'],
+  wide:['allowance for doubtful','allowance for credit loss','expected credit loss',
+        'uncollectib','accounts receivable','trade receivable'],
+  need:'the receivables policy, or Schedule II \u2014 Valuation and Qualifying Accounts'},
  {k:'inv',l:'Inventory',
-  pats:['^merchandise inventor','^inventor(y|ies)'],
-  need:'the inventory policy note, which also states the cost basis',
-  feeds:'inventory'},
+  pats:['^merchandise inventor','^inventor(y|ies)','^inventory valuation'],
+  wide:['inventor(y|ies)','lifo','fifo','average cost','net realizable value'],
+  need:'the inventory policy note, which also states the cost basis'},
  {k:'ppe',l:'Property, plant and equipment / fixed assets',
-  pats:['^property and equipment','^property,? plant','^property and equipment, net$'],
-  need:'the property policy note and the schedule of depreciable classes',
-  feeds:'ppe'},
+  pats:['^property and equipment','^property,? plant','^property and equipment, net$','^fixed assets$'],
+  wide:['property and equipment','property, plant','leasehold improvement','accumulated depreciation',
+        'useful (life|lives)'],
+  need:'the property policy note and the schedule of depreciable classes'},
  {k:'intang',l:'Intangible assets',
-  pats:['^goodwill and intangible','^intangible assets$','^goodwill$'],
-  need:'the goodwill and intangible assets note',
-  feeds:'intangibles'},
+  pats:['^goodwill and intangible','^intangible assets$','^goodwill$','^other intangible'],
+  wide:['intangible asset','goodwill','indefinite-lived','definite-lived','finite-lived',
+        'amortization of intangible'],
+  need:'the goodwill and intangible assets note'},
  {k:'defrev',l:'Deferred revenue / unearned revenue / contract liabilities',
-  pats:['^deferred revenue','^contract liabilit','^unearned revenue'],
-  need:'the contract liabilities disclosure, usually inside the revenue note',
-  feeds:'deferred'},
+  pats:['^deferred revenue','^contract liabilit','^unearned revenue','^contract balances$',
+        '^customer deposits'],
+  wide:['deferred revenue','contract liabilit','unearned revenue','gift card','customer deposit',
+        'deferred income'],
+  need:'the contract liabilities disclosure, usually inside the revenue note'},
  {k:'debt',l:'Debt',
-  pats:['^debt$','^long-?term debt','^short-?term debt','^borrowings$','^debt and'],
-  need:'the debt note, with maturities and covenants',
-  feeds:'debt'},
+  pats:['^debt$','^long-?term debt','^short-?term debt','^borrowings$','^debt and',
+        '^notes payable','^credit facilit'],
+  wide:['long-term debt','short-term debt','notes payable','senior notes','credit facility',
+        'revolving credit','principal amount','maturit(y|ies) of'],
+  need:'the debt note, with maturities and covenants'},
  {k:'nongaap',l:'Non-GAAP disclosure',
-  pats:['non-?gaap financial measure','^non-?gaap'],
-  need:'the non-GAAP reconciliation, which sits in MD&A rather than the notes',
-  feeds:'nongaap'},
+  pats:['non-?gaap financial measure','^non-?gaap','^reconciliation of non-?gaap'],
+  wide:['non-?gaap','adjusted operating income','adjusted diluted','adjusted earnings',
+        'adjusted ebitda','constant currency'],
+  need:'the non-GAAP reconciliation, which sits in MD&A rather than the notes'},
  {k:'seg',l:'Segment revenues',
   pats:['^segment and geographic','^segment information','^segments?$','^business segments?$',
-        'reportable segments?$'],
-  need:'the segment footnote, with revenue by reportable segment',
-  feeds:'segments'}
+        'reportable segments?$','^segment reporting$','^operating segments?$'],
+  wide:['reportable segment','operating segment','segment information','chief operating decision maker',
+        'segment revenue'],
+  need:'the segment footnote, with revenue by reportable segment'}
 ];
-
-let ANN={name:'',bytes:null,doc:null,pages:0,lines:[],notes:[],pol:null,found:[],refs:{},bodyFont:null};
+let ANN={name:'',bytes:null,doc:null,pages:0,lines:[],notes:[],pol:null,found:[],refs:{},
+         view:{},bodyFont:null};
 
 function annNorm(t){return String(t||'').replace(/\s+/g,' ').trim().replace(/^[\s.:]+|[\s.:]+$/g,'').toLowerCase();}
 function annStat(html){const el=$('annStatus');if(el)el.innerHTML=html;}
@@ -10315,7 +10513,7 @@ async function annOpen(file){
     '<span class="why">Opening the document and taking the text off every page.</span></div></div>');
   const ab=await file.arrayBuffer();
   ANN={name:file.name,bytes:new Uint8Array(ab),doc:null,pages:0,lines:[],notes:[],pol:null,
-       found:[],refs:{},bodyFont:null};
+       found:[],refs:{},view:{},bodyFont:null};
   /* pdf.js takes ownership of a buffer it is handed, so give it a copy and
      keep the original bytes intact for the writer */
   const copy=ANN.bytes.slice();
@@ -10325,6 +10523,7 @@ async function annOpen(file){
   for(let p=1;p<=pdf.numPages;p++){
     const page=await pdf.getPage(p);
     if(page.ref)ANN.refs[p]=page.ref.num;
+    ANN.view[p]=page.view;
     const tc=await page.getTextContent();
     const rows={};
     tc.items.forEach(it=>{
@@ -10434,9 +10633,31 @@ function annFind(){
       });
       if(bn&&bc>=3)hits.push({where:'Note '+bn.n,conf:'medium',line:bn.line});
     }
-    /* anywhere at all, last */
+    /* anywhere at all, on a heading */
     if(!hits.length){
       for(const l of heads)if(test(l.text)){hits.push({where:'Body',conf:'low',line:l});break;}
+    }
+    /* Last resort, and the one that means every category gets an answer: read
+       the WHOLE document for the looser phrases and take the page that talks
+       about this most. A filing that discusses a thing at all will be found
+       here; only a filing that never mentions it comes back empty, and that is
+       a fact about the filing rather than a failure of the search. */
+    if(!hits.length&&c.wide&&c.wide.length){
+      const tally={};
+      const notesFrom=ANN.notes.length?ANN.notes[0].line.page:0;
+      ANN.lines.forEach(l=>{
+        const t=annNorm(l.text);
+        let n=0;
+        c.wide.forEach(w=>{const m=t.match(new RegExp(w,'g')); if(m)n+=m.length;});
+        if(!n)return;
+        const rec=tally[l.page]||(tally[l.page]={n:0,line:l,head:null});
+        rec.n+=n;
+        if(annIsHead(l)&&!rec.head)rec.head=l;
+        if(notesFrom&&l.page>=notesFrom)rec.n+=0.5;
+      });
+      let best=null;
+      Object.keys(tally).forEach(k=>{if(!best||tally[k].n>best.n)best=tally[k];});
+      if(best)hits.push({where:'Full text',conf:'low',line:best.head||best.line});
     }
     hits.forEach(hit=>out.push({cat:c.k,label:c.l,where:hit.where,conf:hit.conf,
       page:hit.line.page,text:hit.line.text,line:hit.line,on:true}));
@@ -10452,9 +10673,13 @@ function annRescan(){ if(!ANN.lines.length){toast('Open a filing first');return;
 function renderAnnotate(){
   const done=ANN.found.filter(f=>f.line).length, cats=ANN_CATS.length;
   const covered=new Set(ANN.found.filter(f=>f.line).map(f=>f.cat)).size;
-  annStat('<div class="flag '+(covered===cats?'ok':'note')+'"><span class="dot"></span><div>'+
-    '<b>'+esc(ANN.name)+' · '+ANN.pages+' pages</b><span class="why">'+
-    covered+' of '+cats+' categories located, '+done+' marks proposed. '+
+  const gaps=cats-covered;
+  annStat('<div class="flag '+(gaps?'warn':'ok')+'"><span class="dot"></span><div>'+
+    '<b>'+esc(ANN.name)+' \u00b7 '+ANN.pages+' pages</b><span class="why">'+
+    (gaps?('<b>'+gaps+' of '+cats+' not located.</b> They are named on the index note that goes on '+
+      'page one, so the gap is stated in the document rather than left silent. '):
+      ('All '+cats+' located. '))+
+    done+' marks proposed. '+
     (ANN.notes.length?('The numbered notes run 1 to '+ANN.notes[ANN.notes.length-1].n+
       ', starting on page '+ANN.notes[0].line.page+'. '):'No numbered note sequence was found, so '+
       'everything below came from a plain heading search. ')+
@@ -10469,10 +10694,15 @@ function renderAnnotate(){
   ANN.found.forEach((f,i)=>{
     if(!f.line){
       const c=ANN_CATS.find(x=>x.k===f.cat);
-      h+='<tr class="na"><td class="lbl">'+esc(f.label)+
-        '<br><span class="nawhy">Not found — it would need '+esc(c.need)+'</span></td>'+
-        '<td class="lbl">—</td><td>—</td><td class="lbl">—</td>'+
-        '<td class="lbl">—</td><td class="rowtools">—</td></tr>';
+      h+='<tr class="gaprow"><td class="lbl"><b>'+esc(f.label)+'</b></td>'+
+        '<td class="lbl gapmark">Not found</td>'+
+        '<td><div class="pagebump"><input class="cell num" style="width:52px;text-align:center" '+
+        'placeholder="page" onchange="annSetFound('+i+',this.value)"></div></td>'+
+        '<td class="lbl" style="font-size:11px;color:#7A7A7A">Nowhere in this document. It would '+
+        'need '+esc(c.need)+'. Type a page on the left to mark it by hand; otherwise it is named on '+
+        'the index note that goes on page one.</td>'+
+        '<td class="lbl" style="font-size:11px;color:#7A7A7A">\u2014</td>'+
+        '<td class="rowtools">\u2014</td></tr>';
       return;
     }
     h+='<tr><td class="lbl">'+esc(f.label)+'</td>'+
@@ -10490,6 +10720,20 @@ function renderAnnotate(){
   annRenderIndex();
 }
 function annToggle(i,v){ANN.found[i].on=!!v;}
+/* A category the search could not place, put on a page by hand. The mark then
+   goes at the top of that page with the category name on it, which is all a
+   reader needs: the point is the page, not the pixel. */
+function annSetFound(i,v){
+  const n=parseInt(v,10);
+  if(!isFinite(n)||n<1||n>ANN.pages){toast('Page must be between 1 and '+ANN.pages);return;}
+  const f=ANN.found[i];
+  f.page=n; f.on=true; f.conf='set by hand'; f.where='By hand';
+  f.text='Placed by the analyst';
+  f.line={page:n,x0:54,x1:54+Math.min(380,f.label.length*5.6),y:726,h:11,
+          text:f.label,fonts:[]};
+  renderAnnotate();
+  toast(f.label+' placed on page '+n);
+}
 function annSetPage(i,v){
   const n=parseInt(v,10);
   if(!isFinite(n)||n<1||n>ANN.pages){toast('Page must be between 1 and '+ANN.pages);renderAnnotate();return;}
@@ -10533,6 +10777,41 @@ function annCopyIndex(){
 }
 
 /* ---- writing ----------------------------------------------------------- */
+/* The index that goes on page one. Every one of the nine is listed, whether it
+   was located or not, because the point of the note is that a reader opening
+   the file learns at once what is marked and what is missing. Anything not
+   found is named first and named plainly; a silent omission is the one thing
+   an index must never produce. */
+function annIndexNote(){
+  const L=[];
+  const missing=ANN_CATS.filter(c=>!ANN.found.some(f=>f.cat===c.k&&f.line&&f.on));
+  L.push('APERTURE ANALYTICS \u2014 FOOTNOTE INDEX');
+  L.push(ANN.name);
+  L.push('');
+  if(missing.length){
+    L.push('NOT LOCATED IN THIS FILING \u2014 '+missing.length+' of '+ANN_CATS.length+':');
+    missing.forEach(c=>L.push('  \u2717  '+c.l+'   (would need '+c.need+')'));
+    L.push('');
+    L.push('Nothing in this document is marked for those. Their absence is a '+
+      'statement about the filing or about the search, not a finding \u2014 check '+
+      'them by hand before relying on the index.');
+    L.push('');
+  }else{
+    L.push('All '+ANN_CATS.length+' footnotes were located and marked.');
+    L.push('');
+  }
+  L.push('MARKED IN THIS DOCUMENT:');
+  ANN_CATS.forEach(c=>{
+    const mine=ANN.found.filter(f=>f.cat===c.k&&f.line&&f.on);
+    if(!mine.length)return;
+    mine.forEach((f,i)=>L.push('  \u2713  '+(i?'      \u201d      ':c.l)+
+      '   \u2014  page '+f.page+'  ('+f.where+')'));
+  });
+  L.push('');
+  L.push('Marks are highlights with a comment naming the footnote. The original '+
+    'document is unaltered; the annotations were appended after it.');
+  return L.join('\n');
+}
 async function annBuild(){
   const marks=ANN.found.filter(f=>f.on&&f.line).map(f=>{
     const l=f.line;
@@ -10542,11 +10821,19 @@ async function annBuild(){
     return {page:f.page,quads:[l.x0,y0,l.x1,y1],label:f.label};
   });
   if(!marks.length){toast('Nothing ticked to mark');return;}
+  /* the index, top-left of the first page, above everything else */
+  /* top RIGHT corner: the left margin of a 10-K cover carries the running
+     "Table of Contents" link on every page, and a note icon dropped on top of
+     it hides the one piece of navigation the document has */
+  const v=ANN.view[1]||[0,0,612,792];
+  marks.unshift({page:1,kind:'note',label:annIndexNote(),
+    quads:[v[2]-44,v[3]-30,v[2]-22,v[3]-8]});
   /* a page whose number was corrected by hand no longer has geometry that
      belongs to it, so the mark goes at the top of that page instead */
   ANN.found.filter(f=>f.on&&f.line).forEach((f,i)=>{
     if(f.page!==f.line.page){
-      marks[i].quads=[54,720,54+Math.min(360,f.label.length*5.6),733];
+      /* +1 because the index note was unshifted onto the front of the list */
+      marks[i+1].quads=[54,720,54+Math.min(360,f.label.length*5.6),733];
     }
   });
   $('annWriteNote').innerHTML='';
@@ -10566,7 +10853,11 @@ async function annBuild(){
     toast('Annotated PDF saved');
     renderAnnotate();
     $('annWriteNote').innerHTML='<div class="flag ok"><span class="dot"></span><div>'+
-      '<b>'+marks.length+' annotations written</b><span class="why">Saved as “'+
+      '<b>'+marks.length+' annotations written</b><span class="why">'+
+      (ANN_CATS.filter(c=>!ANN.found.some(f=>f.cat===c.k&&f.line&&f.on)).length
+        ? 'An index note on page one names the footnotes that could not be located. '
+        : 'An index note on page one lists all nine and the page each sits on. ')+
+      'Saved as \u201c'+
       esc(base)+' - annotated.pdf”. The original document is unchanged and is still inside the '+
       'file; the annotations were appended after it, which is how a PDF takes a comment.</span></div></div>';
   }catch(e){

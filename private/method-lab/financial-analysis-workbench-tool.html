@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v2.8
-  Built 2026-09-02 14:19 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v2.9
+  Built 2026-09-02 15:10 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -135,12 +135,23 @@ body.is-standalone header.mast{border-bottom-width:5px}
 .mast .meta strong{color:var(--off-white);font-weight:600;font-size:13px}
 @media (max-width:900px){.mast .meta strong.coname{font-size:19px}}
 
+/* the annotator's review table */
+input[type=checkbox]{accent-color:var(--maroon)}
+.pagebump{display:flex;align-items:center;gap:4px;justify-content:center}
+.pagebump button.mini2{border:1px solid var(--rule);background:#fff;color:#5C5C5C;
+  width:22px;height:22px;line-height:1;border-radius:3px;cursor:pointer;font-size:13px;padding:0}
+.pagebump button.mini2:hover{border-color:var(--maroon);color:var(--maroon)}
+span.conf{font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  padding:2px 6px;border-radius:2px;white-space:nowrap}
+span.conf.high{background:#EFEFEF;color:#3D3D3D}
+span.conf.medium{background:#F7F1F1;color:var(--maroon)}
+span.conf.low{background:#FFF6E5;color:#8A5A00}
 /* --- Nav --- */
 nav.tabs{background:var(--paper);display:flex;gap:0;padding:0 30px;overflow-x:auto;
   border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:60}
 nav.tabs button{background:none;border:none;color:#7A7A7A;font-family:var(--sans);
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-  padding:14px 13px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
+  padding:14px 11px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
   transition:color .15s}
 nav.tabs button .n{margin-right:6px}
 nav.tabs button:hover{color:var(--type)}
@@ -148,6 +159,34 @@ nav.tabs button.active{color:var(--type);border-bottom-color:var(--maroon);font-
 nav.tabs button .n{color:#B3B3B3;margin-right:7px;font-weight:600}
 nav.tabs button.active .n{color:var(--maroon)}
 
+/* The bar is banded, because fifteen tabs in a row is a list, not a structure.
+   Five bands, in the order the work is actually done, and they are the same
+   five divisions the printed report uses: getting the numbers in, reading the
+   face of the statements, reading what sits behind them, forming a judgement,
+   and the reference material. Hue is not available here — the tool is maroon
+   and grey and nothing else — so the bands separate by tone, darkening as the
+   work moves from transcription towards judgement, with the one maroon wash
+   reserved for the disclosure work, which is the part most easily mistaken for
+   the part before it. */
+nav.tabs button[data-band=a]{background:#FFFFFF}
+nav.tabs button[data-band=b]{background:#FAFAFA}
+nav.tabs button[data-band=c]{background:#F7F1F1}
+nav.tabs button[data-band=d]{background:#F2F2F2}
+nav.tabs button[data-band=e]{background:#FFFFFF}
+nav.tabs button[data-band=c] .n{color:var(--maroon)}
+nav.tabs button[data-band=d] .n{color:#6E6E6E}
+nav.tabs button[data-band=b] .n{color:#8C8C8C}
+nav.tabs button.bandstart{border-left:1px solid var(--rule)}
+nav.tabs button[data-band=c]{box-shadow:inset 0 3px 0 rgba(80,0,0,.20)}
+.bandstrip{background:var(--paper);border-bottom:1px solid var(--rule);
+  padding:7px 30px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;color:#9A9A9A;display:flex;align-items:center;gap:9px;
+  position:sticky;top:44px;z-index:59}
+.bandstrip .bs-dot{width:6px;height:6px;border-radius:50%;background:#C9C9C9;flex:0 0 6px}
+.bandstrip .bs-sub{letter-spacing:.06em;text-transform:none;font-weight:400;
+  font-size:10.5px;color:#8C8C8C}
+.bandstrip.c{color:var(--maroon)}
+.bandstrip.c .bs-dot{background:var(--maroon)}
 main{max-width:1360px;margin:0 auto;padding:26px 30px 90px}
 .panel{display:none}
 .panel.active{display:block}
@@ -606,7 +645,7 @@ h4.fgroup:first-child{margin-top:4px}
 @media print{
   @page{size:letter;margin:0}
   body{background:#fff}
-  header.mast,nav.tabs,.toolbar,.noprint,.toast{display:none!important}
+  header.mast,nav.tabs,.bandstrip,.toolbar,.noprint,.toast{display:none!important}
   main{max-width:none;padding:0;margin:0}
   .panel{display:none!important}
   #panel-report.active,#panel-guideprint.active{display:block!important}
@@ -785,7 +824,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v2.8 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v2.9 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="saveSession()">Save</button>
@@ -795,23 +834,25 @@ body.is-locked>.toolbar{display:none!important}
 </header>
 
 <nav class="tabs" id="tabs">
-  <button data-p="guide" class="active"><span class="n">00</span>Guide</button>
-  <button data-p="import"><span class="n">01</span>Import</button>
-  <button data-p="setup"><span class="n">02</span>Profile</button>
-  <button data-p="statements"><span class="n">03</span>Statements</button>
-  <button data-p="normalise"><span class="n">04</span>Normalise</button>
-  <button data-p="verify"><span class="n">05</span>Verify</button>
-  <button data-p="analysis"><span class="n">06</span>Analysis</button>
-  <button data-p="notes"><span class="n">07</span>Notes</button>
-  <button data-p="ratios"><span class="n">08</span>Ratios</button>
-  <button data-p="charts"><span class="n">09</span>Charts</button>
-  <button data-p="findings"><span class="n">10</span>Findings</button>
-  <button data-p="strengthen"><span class="n">11</span>Strengthen</button>
-  <button data-p="thesis"><span class="n">12</span>Thesis</button>
-  <button data-p="method"><span class="n">13</span>Method</button>
-  <button data-p="report"><span class="n">14</span>Report</button>
+  <button data-p="guide" class="active" data-band="a"><span class="n">00</span>Guide</button>
+  <button data-p="import" data-band="a"><span class="n">01</span>Import</button>
+  <button data-p="annotate" data-band="a"><span class="n">02</span>Annotate</button>
+  <button data-p="setup" data-band="a"><span class="n">03</span>Profile</button>
+  <button data-p="statements" data-band="a"><span class="n">04</span>Statements</button>
+  <button data-p="normalise" data-band="a"><span class="n">05</span>Normalise</button>
+  <button data-p="verify" data-band="a"><span class="n">06</span>Verify</button>
+  <button data-p="analysis" data-band="b"><span class="n">07</span>Analysis</button>
+  <button data-p="ratios" data-band="b"><span class="n">08</span>Ratios</button>
+  <button data-p="charts" data-band="b"><span class="n">09</span>Charts</button>
+  <button data-p="notes" data-band="c"><span class="n">10</span>Notes</button>
+  <button data-p="findings" data-band="d"><span class="n">11</span>Findings</button>
+  <button data-p="strengthen" data-band="d"><span class="n">12</span>Strengthen</button>
+  <button data-p="thesis" data-band="d"><span class="n">13</span>Thesis</button>
+  <button data-p="method" data-band="e"><span class="n">14</span>Method</button>
+  <button data-p="report" data-band="e"><span class="n">15</span>Report</button>
 </nav>
 
+<div id="bandStrip" class="bandstrip"></div>
 <main>
 
 <!-- ============ GUIDE ============ -->
@@ -1185,7 +1226,7 @@ body.is-locked>.toolbar{display:none!important}
         “Net income” or “Depreciation and amortisation” belongs to. Tabs <b>11</b>, <b>12</b> and <b>13</b>
         of that workbook carry the disclosure notes — segment and geographic revenue, deferred revenue, the
         allowance, the LIFO reserve and the depreciable property classes. Those are not imported here: they are
-        pasted or typed into <b>07 Notes</b>, which is where the analysis behind the statements is built.</div>
+        pasted or typed into <b>10 Notes</b>, which is where the analysis behind the statements is built.</div>
     </div>
 
     <div id="im_paste" style="display:none">
@@ -1249,6 +1290,51 @@ body.is-locked>.toolbar{display:none!important}
       <button class="btn ghost" onclick="autoMapAll()">Re-run auto-match</button>
       <button class="btn ghost" onclick="clearAllMappings()">Clear all mappings</button>
       <button class="btn ghost" onclick="hide('mapSec')">Cancel</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANNOTATE ============ -->
+<section class="panel" id="panel-annotate">
+  <div class="sec">
+    <h2>Index</h2><div class="rule"></div>
+    <h3>Annotate a filing<span class="hmark" data-h="annotate" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Drop in a 10-K and this finds the nine footnotes that carry the accounting, marks
+      each one with a highlight and a comment naming what it is, and hands back an annotated PDF. The
+      page numbers it finds are the same ones <b>06 Verify</b> and <b>10 Notes</b> ask for, so
+      indexing the filing and building the evidence trail is one pass, not two.</p>
+    <div class="drop" id="annDrop" onclick="$('annFile').click()">
+      <div class="big">Drop a 10-K here, or click to choose one</div>
+      <div class="sm">The original file is never altered. What comes back is the same document with
+        the annotations appended, which is how the PDF format is designed to take a comment.</div>
+    </div>
+    <input type="file" id="annFile" accept=".pdf" style="display:none">
+    <div id="annStatus" style="margin-top:14px"></div>
+  </div>
+
+  <div class="sec" id="annSecFound" style="display:none">
+    <h2>Review</h2><div class="rule"></div>
+    <h3>What it found<span class="hmark" data-h="annreview" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Nothing is written until you say so. Check the page, correct it where the filing
+      put the note somewhere this did not expect, and untick anything you do not want marked. A
+      category found in two places is normally right: a 10-K states the policy once in the summary of
+      significant accounting policies and then again, in detail, in the numbered note.</p>
+    <div id="annFound"></div>
+    <div class="btnrow">
+      <button class="btn maroon" onclick="annBuild()">Write the annotated PDF</button>
+      <button class="btn ghost" onclick="annApply()">Send the page numbers to the bench</button>
+      <button class="btn ghost" onclick="annRescan()">Search again</button>
+    </div>
+    <div id="annWriteNote" style="margin-top:12px"></div>
+  </div>
+
+  <div class="sec" id="annSecIndex" style="display:none">
+    <h2>Index</h2><div class="rule"></div>
+    <h3>The footnote index</h3>
+    <p class="lede">The same finding as a plain list, for pasting into a submission or a working paper.</p>
+    <div id="annIndex"></div>
+    <div class="btnrow">
+      <button class="btn ghost" onclick="annCopyIndex()">Copy the index</button>
     </div>
   </div>
 </section>
@@ -1334,6 +1420,15 @@ body.is-locked>.toolbar{display:none!important}
       its page so a reader can go straight there. These references print beside the facts in the
       executive summary.</p>
     <div class="tblwrap"><div id="qcCites"></div></div>
+  </div>
+
+  <div class="sec">
+    <h2>Index</h2><div class="rule"></div>
+    <h3>The footnote index<span class="hmark" data-h="fnindex" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Where each of the nine accounting footnotes sits in the filing. Built on
+      <b>02 Annotate</b> and sent here, or typed in by hand. It prints in the report's verification
+      section, so a disclosure quoted anywhere in the document has a page behind it.</p>
+    <div class="tblwrap"><div id="qcFootnotes"></div></div>
   </div>
 
   <div class="sec">
@@ -1820,8 +1915,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'2.8',
-  built:'2026-09-02 14:19 UTC',
+  version:'2.9',
+  built:'2026-09-02 15:10 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2510,9 +2605,34 @@ function fmtRatio(v,t){
 }
 
 /* ---------- 7. NAVIGATION ---------------------------------------------- */
+/* The five bands, named once. The tab bar reads them for its washes and the
+   strip under it reads them for its label, so the grouping cannot drift
+   between the two. The second line is where the work lands in the report,
+   which is the question the banding exists to answer. */
+const BANDS={
+ a:{t:'Setting up',      s:'Getting the figures in, and proving them'},
+ b:{t:'The face of the statements', s:'Part I of the report \u2014 what the four statements say'},
+ c:{t:'Behind the numbers', s:'Part II of the report \u2014 what the notes disclose'},
+ d:{t:'Judgement',      s:'Part III of the report \u2014 what an analyst concludes'},
+ e:{t:'Reference and output', s:'The formulas, and the document itself'}
+};
+function wireBands(){
+  const bs=[...document.querySelectorAll('nav.tabs button')];
+  let last=null;
+  bs.forEach(b=>{const k=b.dataset.band; if(k!==last)b.classList.add('bandstart'); last=k;});
+}
+function showBand(p){
+  const b=document.querySelector('nav.tabs button[data-p="'+p+'"]');
+  const el=$('bandStrip'); if(!el)return;
+  const k=b?b.dataset.band:'a', d=BANDS[k]||BANDS.a;
+  el.className='bandstrip '+k;
+  el.innerHTML='<span class="bs-dot"></span><span>'+esc(d.t)+'</span>'+
+    '<span class="bs-sub">'+esc(d.s)+'</span>';
+}
 function go(p){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
   document.querySelectorAll('.panel').forEach(s=>s.classList.toggle('active',s.id==='panel-'+p));
+  showBand(p);
   window.scrollTo({top:0,behavior:'instant'});
   const el=$('panel-'+p);
   if(el&&typeof growAll==='function'){growAll(el);markAllDone(el);}
@@ -2996,6 +3116,7 @@ function toggleVerify(st,ri,on){
     :'Verification <b>'+t.reqDone+' of '+t.req+'</b> key figures.');
 }
 function renderQC(){
+  renderFootnoteIndex();
   const t=qcTally();
   /* headline */
   $('qcMeter').innerHTML=
@@ -7726,6 +7847,25 @@ function buildReport(){
       'this line is what identifies the tool that produced it.</p>';
     paginateBlocks(splitBlocks(body),'Verification and sources','Verification and sources (continued)','Quality control',P);
   }
+  if(has('qc')&&annIndexRows().some(r=>r.page)){
+    const rows=annIndexRows();
+    let t='<p>Where each of the nine accounting footnotes sits in '+
+      esc(S.disc.indexDoc||'the primary source')+'. A disclosure quoted anywhere in this report '+
+      'can be checked against the page named here.</p>'+
+      '<table class="rp"><thead><tr><th class="lbl">Footnote</th>'+
+      '<th class="lbl">Where it sits</th><th style="width:64px">Page</th></tr></thead><tbody>';
+    rows.forEach(r=>{
+      t+='<tr'+(r.page?'':' class="na"')+'><td class="lbl">'+esc(r.l)+'</td>'+
+        '<td class="lbl">'+(r.page?esc(r.where)+' \u2014 \u201c'+esc(r.head||'')+'\u201d'
+          :'Not located in this filing')+'</td>'+
+        '<td>'+(r.page?r.page:'\u2014')+'</td></tr>';
+    });
+    t+='</tbody></table>'+
+      '<p style="font-size:9px;color:#8C8C8C;margin-top:6px">A footnote recorded as not located was '+
+      'not found by the index and has not been read into this analysis. It is listed so that its '+
+      'absence is visible rather than silent.</p>';
+    paginateBlocks([t],'The footnote index','The footnote index (continued)','Quality control',P);
+  }
   if(has('evidence')){
     const ev=S.evidence.filter(e=>e.item||e.source);
     let t='<table class="rp"><thead><tr><th class="lbl">Figure / claim</th><th class="lbl">Source</th>'+
@@ -8410,6 +8550,18 @@ function loadDemoData(D,kind){
      anything else, a plain entry from HELP below.
    ---------------------------------------------------------------------- */
 const HELP={
+ annotate:{t:'Annotating a filing',
+  d:'Reads a 10-K, finds the nine footnotes that carry the accounting, and writes a highlight and a comment onto each one. What comes back is the same PDF with the annotations appended.',
+  r:'A 10-K runs to a hundred pages and the accounting lives in about nine of them. Finding those nine is the first hour of any analysis of a listed company, and it is the same nine every time, which makes it exactly the sort of work that should not be done by hand twice.',
+  x:'It proposes; you confirm. A confident yellow highlight on the wrong paragraph is worse than no highlight, so nothing is written until the review list is ticked. Where a filing puts a note somewhere unusual, correct the page in the review list and the mark follows it.'},
+ annreview:{t:'The review list',
+  d:'Every proposed mark, with the page, the heading it matched and how confident the match is, before anything is written.',
+  r:'A category found in two places is usually right rather than wrong. A 10-K states each policy once in the summary of significant accounting policies and again, with the tables, in the numbered note. Both are worth marking, and they answer different questions.',
+  x:'Confidence is about the match, not the accounting. High means the heading matched a policy sub-heading or a numbered note title. Medium means the note title did not match but its contents plainly did — which is how deferred revenue is found inside a note called Revenue. Low means it was found nowhere structural and is a plain text match; check it.'},
+ fnindex:{t:'The footnote index',
+  d:'Where each of the nine accounting footnotes sits in the filing, by page.',
+  r:'It is the evidence trail for everything on the Notes tab. A disclosure quoted in the report without a page behind it is an assertion; with one it is a citation a reader can go and check.',
+  x:'The index records where the disclosure IS, not that you have read it. Nothing here verifies a figure; that is the ledger below, one tick per line item.'},
  notespart:{t:'The notes',
   d:'The part of this analysis that reads what sits behind the four statements: the segment footnote, the revenue and inventory policies, the allowance, the depreciable asset classes.',
   r:'The statements are a summary. The notes are where the summary is explained, and most of what a statement conceals is disclosed a few pages later. A consolidated top line that moved half a per cent can hold one segment up five and another down nine.',
@@ -9192,7 +9344,7 @@ const GUIDE=[
       'answers the same three questions: what the term is, what it actually tells you, and where it '+
       'misleads. There is one on every ratio, on the fields that change how the analysis behaves, '+
       'and on each component of the investment score.'],
-  ['p','The explanations are not written twice. Where a term is covered in <b>13 Method</b> the '+
+  ['p','The explanations are not written twice. Where a term is covered in <b>14 Method</b> the '+
       'question mark reads it from there, so the short answer and the long one cannot disagree.']]},
 
  {h:'Step 1 · Decide what kind of entity this is',b:[
@@ -9228,7 +9380,26 @@ const GUIDE=[
       'statement, money out is <b>negative</b>, exactly as the statement shows it. The Checks '+
       'tab tests both, per year, before anything is imported.']]},
 
- {h:'Step 3 · Set the shape of the data',b:[
+ {h:'Step 3 \u00b7 Index the filing',b:[
+  ['p','<b>02 Annotate</b> is optional and it saves an hour. Drop the 10-K in and it reads every '+
+      'page, finds the nine footnotes that carry the accounting \u2014 revenue recognition, '+
+      'receivables and the allowance, inventory, property, intangibles, deferred revenue, debt, the '+
+      'non-GAAP reconciliation and the segment note \u2014 and proposes a mark on each.'],
+  ['p','It searches the way a 10-K is actually built. A filing states each policy once under a short '+
+      'heading in the summary of significant accounting policies, and again in a numbered note with '+
+      'the tables. Both are found and both are listed, because they answer different questions: the '+
+      'policy says what the company chose, the note shows what the choice produced.'],
+  ['w','Nothing is written until you tick it. Check the page, correct it where the filing put a note '+
+      'somewhere unexpected, and untick anything you do not want marked. Then <b>Write the annotated '+
+      'PDF</b> saves a copy with the highlights and comments on it, and <b>Send the page numbers to '+
+      'the bench</b> records them as the footnote index on <b>06 Verify</b>.'],
+  ['p','The original file is never altered. The annotations are appended after it, which is how the '+
+      'PDF format is designed to take a comment, so the document a reader opens is still the '+
+      'document that was filed.'],
+  ['l','Where a PDF is protected with AES encryption the annotations cannot be written into it. The '+
+      'index is still produced; save or print a fresh copy without security and run it again.']]},
+
+ {h:'Step 4 · Set the shape of the data',b:[
   ['p','Still on <b>01 Import</b>, under <b>Shape of the data</b>: the units, the column order '+
       'and the number of periods. These decide where an imported figure lands, which is why they '+
       'sit with the import rather than three tabs away.'],
@@ -9236,8 +9407,8 @@ const GUIDE=[
       'before you commit the mapping, or the columns are attributed to the wrong years and '+
       'every trend in the report is wrong in a way that looks entirely plausible.']]},
 
- {h:'Step 4 · Fill in what the data cannot tell you',b:[
-  ['p','<b>02 Profile</b> holds the things no import can supply: ownership, legal form and tax '+
+ {h:'Step 5 · Fill in what the data cannot tell you',b:[
+  ['p','<b>03 Profile</b> holds the things no import can supply: ownership, legal form and tax '+
       'treatment, the basis of preparation, the audit report, and who to contact. Ownership sets '+
       'how much weight the evidence carries. Legal form decides whether the tax line, and every '+
       'margin below it, is comparable to anything else: a pass-through entity pays no '+
@@ -9252,26 +9423,26 @@ const GUIDE=[
       'lifecycle stage, and the industry classification, which is in the submissions .json rather '+
       'than in the filing itself. If those fields look empty after an import, that is why.']]},
 
- {h:'Step 5 · Check it, then verify it',b:[
-  ['p','<b>03 Statements</b> shows every figure, with derived lines calculated. '+
-      '<b>05 Verify</b> is the discipline: everything imported arrives unverified, the report '+
+ {h:'Step 6 · Check it, then verify it',b:[
+  ['p','<b>04 Statements</b> shows every figure, with derived lines calculated. '+
+      '<b>06 Verify</b> is the discipline: everything imported arrives unverified, the report '+
       'builds either way, and it carries a <b>DRAFT</b> mark until each key figure has been '+
       'traced to a page and ticked. Editing a figure clears its verification, which is the point.'],
-  ['p','<b>04 Normalise</b> is where owner-benefit and one-off items are added back on a private '+
+  ['p','<b>05 Normalise</b> is where owner-benefit and one-off items are added back on a private '+
       'company, shown as a labelled reconciliation and never in place of the reported figures.']]},
 
- {h:'Step 6 · Read the analysis',b:[
-  ['p','<b>06 Analysis</b> is vertical and horizontal, all three statements. Vertical takes size '+
+ {h:'Step 7 · Read the analysis',b:[
+  ['p','<b>07 Analysis</b> is vertical and horizontal, all three statements. Vertical takes size '+
       'out and leaves structure. Horizontal takes structure out and leaves movement. Under each '+
       'table there is an evaluation box with a <b>Draft from the model</b> button: it names the '+
       'lines that actually moved and the size of the move, and then stops. Rewrite it. The draft '+
       'ends in a bracket telling you what it could not work out, and an unfilled bracket in the '+
       'finished report is a visible gap rather than a silent one.'],
-  ['p','<b>08 Ratios</b>, <b>09 Charts</b> and <b>13 Method</b> follow the same rule: every '+
+  ['p','<b>08 Ratios</b>, <b>09 Charts</b> and <b>14 Method</b> follow the same rule: every '+
       'formula is shown worked, with the trap that most often ruins it named underneath.']]},
 
- {h:'Step 7 \u00b7 Read what sits behind the statements',b:[
-  ['p','<b>07 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
+ {h:'Step 8 \u00b7 Read what sits behind the statements',b:[
+  ['p','<b>10 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
       'statements; this reads the footnotes, which is where most of what a statement conceals is '+
       'explained a few pages later. Six modules, each independent, each of which may be left empty.'],
   ['l','<b>Segment and geographic revenue</b> — a single top line that moved half a per cent can '+
@@ -9300,16 +9471,16 @@ const GUIDE=[
   ['p','In the finished document this work is <b>Part II \u2014 Behind the numbers</b>, behind its own '+
       'divider sheet, so it is never mistaken for analysis drawn from the face of the statements.']]},
 
- {h:'Step 8 · Write the judgement',b:[
-  ['p','<b>10 Findings</b> holds the screening flags, which are prompts to investigate rather '+
+ {h:'Step 9 · Write the judgement',b:[
+  ['p','<b>11 Findings</b> holds the screening flags, which are prompts to investigate rather '+
       'than conclusions, and the analyst commentary. Every commentary field has its own '+
       '<b>Draft from the model</b> button. A draft never overwrites what you have already '+
       'written: it is appended underneath it.'],
-  ['p','<b>11 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
+  ['p','<b>12 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
       'Next and Later. The value of that page is in what has been left off it.']]},
 
- {h:'Step 9 · Commit to a verdict',b:[
-  ['p','<b>12 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
+ {h:'Step 10 · Commit to a verdict',b:[
+  ['p','<b>13 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
       'are scored against fixed thresholds and weighted: profitability, return on capital, quality of '+
       'earnings, resilience, growth, and the confidence the evidence itself carries. The table shows '+
       'the figure each one read and the section of the report that carries it, so a reader can argue '+
@@ -9325,8 +9496,8 @@ const GUIDE=[
       'would change your mind, then rewrite all three. A bear case you cannot make convincing is a '+
       'risk you have not understood.']]},
 
- {h:'Step 10 · Build the report, and save',b:[
-  ['n','<b>14 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
+ {h:'Step 11 · Build the report, and save',b:[
+  ['n','<b>15 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
       'contents page is generated from the pages that were actually built, so it cannot describe a '+
       'section you switched off.'],
   ['n','Press <b>Print / Save as PDF</b>. In the print dialogue set paper size <b>Letter</b>, '+
@@ -9469,9 +9640,938 @@ function growAll(root){(root||document).querySelectorAll('textarea').forEach(aut
 document.addEventListener('input',e=>{
   if(e.target&&e.target.tagName==='TEXTAREA'){autoGrow(e.target);markDone(e.target);}},true);
 
+/* ---------- 22a. THE ANNOTATOR: THE PDF BYTE LAYER ----------------------
+   Writing a comment into somebody else's PDF is not the same job as reading
+   one. pdf.js reads; nothing here writes. So this does the writing itself, by
+   the one mechanism the format was designed for: an INCREMENTAL UPDATE. The
+   original bytes are never touched. New objects are appended after the last
+   %%EOF, the pages that gained an annotation are re-emitted with a longer
+   /Annots array, and a fresh cross-reference section points at them with
+   /Prev leading back to the one before it. Any reader opens the result; any
+   reader that understands annotations shows the notes; and the original
+   document is still byte-for-byte inside the file, which is the point when
+   the document is a filing somebody may have to rely on.
+
+   Three things make a real 10-K harder than the format's happy path, and all
+   three are handled here:
+
+     1. ENCRYPTION. Most 10-K PDFs are encrypted with an empty user password —
+        it stops editing, not reading. Strings inside an annotation must then
+        be encrypted with a per-object key derived from the file key, or the
+        comment text comes out as mojibake. RC4 (V1/V2) is implemented below.
+        AES (V4/V5) is detected and declined rather than corrupted.
+     2. CROSS-REFERENCE STREAMS. A PDF 1.5+ file may hold its xref as a
+        compressed stream rather than a table. The update has to answer in the
+        same language, so both are read and both are written.
+     3. OBJECT STREAMS. The page object we need to extend may be compressed
+        inside an /ObjStm with dozens of others. It is inflated, sliced out and
+        re-emitted uncompressed in the update, which is legal and simpler.
+
+   Inflate and deflate come from DecompressionStream, which is native. There is
+   no library here and nothing is fetched.
+   ---------------------------------------------------------------------- */
+
+/* ---- small byte helpers ------------------------------------------------ */
+function abConcat(list){
+  let n=0; list.forEach(a=>n+=a.length);
+  const out=new Uint8Array(n); let o=0;
+  list.forEach(a=>{out.set(a,o);o+=a.length;});
+  return out;
+}
+function s2b(s){const a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i)&255;return a;}
+function b2s(b,from,to){let s='';const e=to==null?b.length:to;for(let i=from||0;i<e;i++)s+=String.fromCharCode(b[i]);return s;}
+function findLast(buf,needle,from){
+  const n=s2b(needle);
+  outer: for(let i=(from==null?buf.length-n.length:from);i>=0;i--){
+    for(let k=0;k<n.length;k++)if(buf[i+k]!==n[k])continue outer;
+    return i;
+  }
+  return -1;
+}
+async function inflate(bytes){
+  const ds=new DecompressionStream('deflate');
+  const w=ds.writable.getWriter(); w.write(bytes); w.close();
+  const parts=[]; const r=ds.readable.getReader();
+  for(;;){const {done,value}=await r.read(); if(done)break; parts.push(value);}
+  return abConcat(parts);
+}
+/* PNG predictors, which xref streams almost always use */
+function unpredict(data,predictor,colors,bpc,columns){
+  if(!predictor||predictor<10)return data;
+  const bpp=Math.ceil(colors*bpc/8), rowLen=Math.ceil(colors*bpc*columns/8);
+  const rows=Math.floor(data.length/(rowLen+1));
+  const out=new Uint8Array(rows*rowLen);
+  let prev=new Uint8Array(rowLen);
+  for(let r=0;r<rows;r++){
+    const ft=data[r*(rowLen+1)];
+    const row=data.subarray(r*(rowLen+1)+1,r*(rowLen+1)+1+rowLen);
+    const cur=new Uint8Array(rowLen);
+    for(let i=0;i<rowLen;i++){
+      const a=i>=bpp?cur[i-bpp]:0, b=prev[i], c=i>=bpp?prev[i-bpp]:0, x=row[i];
+      let v;
+      switch(ft){
+        case 0: v=x; break;
+        case 1: v=x+a; break;
+        case 2: v=x+b; break;
+        case 3: v=x+((a+b)>>1); break;
+        case 4: {
+          const p=a+b-c, pa=Math.abs(p-a), pb=Math.abs(p-b), pc=Math.abs(p-c);
+          v=x+(pa<=pb&&pa<=pc?a:(pb<=pc?b:c)); break;
+        }
+        default: v=x;
+      }
+      cur[i]=v&255;
+    }
+    out.set(cur,r*rowLen); prev=cur;
+  }
+  return out;
+}
+
+/* ---- MD5 and RC4, for the standard security handler -------------------- */
+function md5(bytes){
+  const S=[7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,
+           4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21];
+  const K=new Int32Array(64);
+  for(let i=0;i<64;i++)K[i]=(Math.floor(Math.abs(Math.sin(i+1))*4294967296))|0;
+  const len=bytes.length, bitLen=len*8;
+  const padded=new Uint8Array(((len+8)>>6<<6)+64);
+  padded.set(bytes); padded[len]=0x80;
+  for(let i=0;i<8;i++)padded[padded.length-8+i]=(bitLen/Math.pow(2,8*i))&255;
+  let a0=0x67452301|0,b0=0xefcdab89|0,c0=0x98badcfe|0,d0=0x10325476|0;
+  const M=new Int32Array(16);
+  for(let off=0;off<padded.length;off+=64){
+    for(let i=0;i<16;i++)M[i]=padded[off+i*4]|(padded[off+i*4+1]<<8)|(padded[off+i*4+2]<<16)|(padded[off+i*4+3]<<24);
+    let A=a0,B=b0,C=c0,D=d0;
+    for(let i=0;i<64;i++){
+      let F,g;
+      if(i<16){F=(B&C)|(~B&D);g=i;}
+      else if(i<32){F=(D&B)|(~D&C);g=(5*i+1)&15;}
+      else if(i<48){F=B^C^D;g=(3*i+5)&15;}
+      else {F=C^(B|~D);g=(7*i)&15;}
+      F=(F+A+K[i]+M[g])|0; A=D; D=C; C=B;
+      B=(B+((F<<S[i])|(F>>>(32-S[i]))))|0;
+    }
+    a0=(a0+A)|0;b0=(b0+B)|0;c0=(c0+C)|0;d0=(d0+D)|0;
+  }
+  const out=new Uint8Array(16);
+  [a0,b0,c0,d0].forEach((v,i)=>{for(let k=0;k<4;k++)out[i*4+k]=(v>>>(8*k))&255;});
+  return out;
+}
+function rc4(key,data){
+  const S=new Uint8Array(256); for(let i=0;i<256;i++)S[i]=i;
+  let j=0;
+  for(let i=0;i<256;i++){j=(j+S[i]+key[i%key.length])&255;const t=S[i];S[i]=S[j];S[j]=t;}
+  const out=new Uint8Array(data.length); let i=0; j=0;
+  for(let k=0;k<data.length;k++){
+    i=(i+1)&255; j=(j+S[i])&255;
+    const t=S[i];S[i]=S[j];S[j]=t;
+    out[k]=data[k]^S[(S[i]+S[j])&255];
+  }
+  return out;
+}
+const PDF_PAD=new Uint8Array([0x28,0xBF,0x4E,0x5E,0x4E,0x75,0x8A,0x41,0x64,0x00,0x4E,0x56,0xFF,0xFA,0x01,0x08,
+  0x2E,0x2E,0x00,0xB6,0xD0,0x68,0x3E,0x80,0x2F,0x0C,0xA9,0xFE,0x64,0x53,0x69,0x7A]);
+/* Algorithm 2 of the standard security handler, empty user password */
+function pdfFileKey(O,P,id1,lengthBits,R,encryptMetadata){
+  const p=new Uint8Array(4);
+  for(let i=0;i<4;i++)p[i]=(P>>(8*i))&255;
+  const parts=[PDF_PAD,O,p,id1];
+  if(R>=4&&encryptMetadata===false)parts.push(new Uint8Array([255,255,255,255]));
+  let key=md5(abConcat(parts));
+  const n=(R===2)?5:Math.max(5,Math.floor((lengthBits||40)/8));
+  if(R>=3)for(let i=0;i<50;i++)key=md5(key.subarray(0,n));
+  return key.subarray(0,n);
+}
+function pdfObjKey(fileKey,num,gen){
+  const ext=new Uint8Array(fileKey.length+5);
+  ext.set(fileKey);
+  ext[fileKey.length]=num&255; ext[fileKey.length+1]=(num>>8)&255; ext[fileKey.length+2]=(num>>16)&255;
+  ext[fileKey.length+3]=gen&255; ext[fileKey.length+4]=(gen>>8)&255;
+  return md5(ext).subarray(0,Math.min(fileKey.length+5,16));
+}
+
+/* ---- reading enough of the file to append to it ------------------------ */
+/* Everything the update needs and nothing it does not: where the last xref
+   is, what kind it is, the trailer's own references, and a way to get at the
+   source of one object. Deliberately not a PDF parser. */
+async function pdfSurvey(buf){
+  const tailFrom=Math.max(0,buf.length-4096);
+  const sx=findLast(buf,'startxref');
+  if(sx<0)throw new Error('no startxref — this file is not a PDF the annotator can extend');
+  const startxref=parseInt(b2s(buf,sx+9,sx+40).replace(/[^0-9]/g,' ').trim().split(/\s+/)[0],10);
+  const info={startxref:startxref,objs:new Map(),inStream:new Map(),trailer:{},xrefKind:'table',max:0};
+  const seen=new Set();
+  let at=startxref;
+  while(at!=null&&at>=0&&at<buf.length&&!seen.has(at)){
+    seen.add(at);
+    const head=b2s(buf,at,at+20);
+    if(/^\s*xref/.test(head)) at=await readXrefTable(buf,at,info);
+    else at=await readXrefStream(buf,at,info);
+  }
+  return info;
+}
+function parseTrailerDict(src,info){
+  const g=(re)=>{const m=src.match(re);return m?m[1]:null;};
+  if(!info.trailer.Root){const v=g(/\/Root\s+(\d+)\s+\d+\s+R/); if(v)info.trailer.Root=v;}
+  if(!info.trailer.Info){const v=g(/\/Info\s+(\d+)\s+\d+\s+R/); if(v)info.trailer.Info=v;}
+  if(!info.trailer.Encrypt){const v=g(/\/Encrypt\s+(\d+)\s+\d+\s+R/); if(v)info.trailer.Encrypt=v;}
+  if(!info.trailer.ID){const v=g(/\/ID\s*\[\s*<([0-9A-Fa-f]*)>\s*<([0-9A-Fa-f]*)>/);
+    if(v!=null){const m=src.match(/\/ID\s*\[\s*<([0-9A-Fa-f]*)>\s*<([0-9A-Fa-f]*)>/);info.trailer.ID=[m[1],m[2]];}}
+  const sz=g(/\/Size\s+(\d+)/); if(sz)info.max=Math.max(info.max,parseInt(sz,10));
+  const prev=g(/\/Prev\s+(\d+)/);
+  return prev==null?null:parseInt(prev,10);
+}
+async function readXrefTable(buf,at,info){
+  info.xrefKind='table';
+  let i=at+4;
+  const src=b2s(buf,at,Math.min(buf.length,at+200000));
+  const re=/(\d+)\s+(\d+)\s*\r?\n?/g;
+  /* walk subsections until "trailer" */
+  let p=src.indexOf('xref')+4;
+  for(;;){
+    const rest=src.slice(p);
+    const mt=rest.match(/^\s*trailer/);
+    if(mt)break;
+    const mh=rest.match(/^\s*(\d+)\s+(\d+)\s*[\r\n]+/);
+    if(!mh)break;
+    let start=parseInt(mh[1],10), count=parseInt(mh[2],10);
+    p+=mh[0].length;
+    for(let k=0;k<count;k++){
+      const ent=src.substr(p,20);
+      const m=ent.match(/^(\d{10})\s(\d{5})\s([nf])/);
+      if(!m)break;
+      const num=start+k;
+      if(m[3]==='n'&&!info.objs.has(num)&&!info.inStream.has(num))
+        info.objs.set(num,parseInt(m[1],10));
+      info.max=Math.max(info.max,num+1);
+      p+=20;
+    }
+  }
+  const ti=src.indexOf('trailer',p-40<0?0:p-40);
+  if(ti<0)return null;
+  return parseTrailerDict(src.slice(ti,ti+2000),info);
+}
+async function readXrefStream(buf,at,info){
+  info.xrefKind='stream';
+  const src=b2s(buf,at,Math.min(buf.length,at+4000));
+  const dictEnd=src.indexOf('stream');
+  if(dictEnd<0)return null;
+  const dict=src.slice(0,dictEnd);
+  const wm=dict.match(/\/W\s*\[([^\]]*)\]/); if(!wm)return null;
+  const W=wm[1].trim().split(/\s+/).map(Number);
+  const sizeM=dict.match(/\/Size\s+(\d+)/); const size=sizeM?parseInt(sizeM[1],10):0;
+  let index=[0,size];
+  const im=dict.match(/\/Index\s*\[([^\]]*)\]/);
+  if(im)index=im[1].trim().split(/\s+/).map(Number);
+  let dataStart=at+dictEnd+6;
+  while(buf[dataStart]===13||buf[dataStart]===10)dataStart++;
+  const lm=dict.match(/\/Length\s+(\d+)/);
+  let raw;
+  if(lm)raw=buf.subarray(dataStart,dataStart+parseInt(lm[1],10));
+  else{
+    const end=findLast(buf,'endstream',Math.min(buf.length,dataStart+2000000));
+    raw=buf.subarray(dataStart,end);
+  }
+  let data=/\/FlateDecode/.test(dict)?await inflate(raw):raw;
+  const pm=dict.match(/\/Predictor\s+(\d+)/), cm=dict.match(/\/Columns\s+(\d+)/);
+  if(pm)data=unpredict(data,parseInt(pm[1],10),1,8,cm?parseInt(cm[1],10):1);
+  const w=W.reduce((a,b)=>a+b,0);
+  let pos=0;
+  for(let s=0;s<index.length;s+=2){
+    let num=index[s];
+    for(let k=0;k<index[s+1];k++,num++){
+      if(pos+w>data.length)break;
+      const f=[];
+      for(let c=0;c<3;c++){
+        let v=0;
+        for(let b=0;b<(W[c]||0);b++)v=v*256+data[pos++];
+        f.push(W[c]===0?(c===0?1:0):v);
+      }
+      if(!info.objs.has(num)&&!info.inStream.has(num)){
+        if(f[0]===1)info.objs.set(num,f[1]);
+        else if(f[0]===2)info.inStream.set(num,{stm:f[1],idx:f[2]});
+      }
+      info.max=Math.max(info.max,num+1);
+    }
+  }
+  return parseTrailerDict(dict,info);
+}
+/* the source bytes of one object's body, wherever it happens to live */
+async function pdfObjectSource(buf,info,num){
+  if(info.objs.has(num)){
+    const off=info.objs.get(num);
+    const s=b2s(buf,off,Math.min(buf.length,off+40));
+    const m=s.match(/^\s*\d+\s+\d+\s+obj/);
+    if(!m)return null;
+    let i=off+m[0].length;
+    /* find the matching endobj */
+    const end=b2s(buf,i,Math.min(buf.length,i+4000000)).indexOf('endobj');
+    if(end<0)return null;
+    return {body:b2s(buf,i,i+end).trim(),compressed:false};
+  }
+  if(info.inStream.has(num)){
+    const {stm,idx}=info.inStream.get(num);
+    const off=info.objs.get(stm);
+    if(off==null)return null;
+    const head=b2s(buf,off,Math.min(buf.length,off+3000));
+    const ds=head.indexOf('stream');
+    const dict=head.slice(0,ds);
+    const nm=dict.match(/\/N\s+(\d+)/), fm=dict.match(/\/First\s+(\d+)/), lm=dict.match(/\/Length\s+(\d+)/);
+    if(!nm||!fm)return null;
+    let dataStart=off+ds+6;
+    while(buf[dataStart]===13||buf[dataStart]===10)dataStart++;
+    let raw=lm?buf.subarray(dataStart,dataStart+parseInt(lm[1],10))
+              :buf.subarray(dataStart,dataStart+2000000);
+    const data=/\/FlateDecode/.test(dict)?await inflate(raw):raw;
+    const first=parseInt(fm[1],10), N=parseInt(nm[1],10);
+    const pairs=b2s(data,0,first).trim().split(/\s+/).map(Number);
+    let start=null,stop=null;
+    for(let k=0;k<N;k++){
+      if(pairs[k*2]===num){
+        start=first+pairs[k*2+1];
+        stop=(k+1<N)?first+pairs[k*2+3]:data.length;
+        break;
+      }
+    }
+    if(start==null)return null;
+    return {body:b2s(data,start,stop).trim(),compressed:true};
+  }
+  return null;
+}
+
+/* ---- writing the update ------------------------------------------------ */
+function pdfEscapeString(bytes){
+  const out=[];
+  for(let i=0;i<bytes.length;i++){
+    const c=bytes[i];
+    if(c===0x28||c===0x29||c===0x5C)out.push(0x5C,c);
+    else if(c===0x0D)out.push(0x5C,0x72);
+    else if(c===0x0A)out.push(0x5C,0x6E);
+    else out.push(c);
+  }
+  return new Uint8Array(out);
+}
+function pdfTextBytes(str){
+  /* Latin-1 where it fits, UTF-16BE with a BOM where it does not */
+  let ascii=true;
+  for(let i=0;i<str.length;i++)if(str.charCodeAt(i)>255){ascii=false;break;}
+  if(ascii){const a=new Uint8Array(str.length);for(let i=0;i<str.length;i++)a[i]=str.charCodeAt(i);return a;}
+  const a=new Uint8Array(2+str.length*2); a[0]=0xFE; a[1]=0xFF;
+  for(let i=0;i<str.length;i++){a[2+i*2]=(str.charCodeAt(i)>>8)&255;a[3+i*2]=str.charCodeAt(i)&255;}
+  return a;
+}
+/* the security state of the file, or null where there is none */
+function pdfSecurity(buf,info){
+  if(!info.trailer.Encrypt)return null;
+  const off=info.objs.get(parseInt(info.trailer.Encrypt,10));
+  if(off==null)return {unsupported:'the encryption dictionary could not be located'};
+  const src=b2s(buf,off,Math.min(buf.length,off+2000));
+  const V=parseInt((src.match(/\/V\s+(\d+)/)||[])[1]||'0',10);
+  const R=parseInt((src.match(/\/R\s+(\d+)/)||[])[1]||'0',10);
+  if(V>=4){
+    /* V4 may still be RC4 (/CFM /V2); AES is where this stops */
+    if(/\/AESV2|\/AESV3/.test(src))
+      return {unsupported:'AES encryption'};
+  }
+  if(V>4)return {unsupported:'an unsupported encryption revision'};
+  const Lm=src.match(/\/Length\s+(\d+)/);
+  const Pm=src.match(/\/P\s+(-?\d+)/);
+  /* /O may be a literal (…) string or a <hex> one, and writers differ on the
+     spacing around the key, so find the delimiter rather than assuming it */
+  const Om=src.match(/\/O\s*([(<])/);
+  if(!Om||!Pm)return {unsupported:'an encryption dictionary this tool cannot read'};
+  const O=[];
+  let i=off+Om.index+Om[0].length;   /* first byte after the delimiter */
+  if(Om[1]==='<'){
+    let hex='';
+    while(i<buf.length&&buf[i]!==0x3E){
+      const c=String.fromCharCode(buf[i]);
+      if(/[0-9A-Fa-f]/.test(c))hex+=c;
+      i++;
+    }
+    if(hex.length&1)hex+='0';
+    for(let k=0;k<hex.length;k+=2)O.push(parseInt(hex.substr(k,2),16));
+  }else{
+    let depth=1;
+    while(i<buf.length){
+      const c=buf[i];
+      if(c===0x5C){
+        const n=buf[i+1];
+        const map={110:10,114:13,116:9,98:8,102:12,40:40,41:41,92:92};
+        if(map[n]!=null){O.push(map[n]);i+=2;continue;}
+        if(n>=48&&n<=55){
+          let oct='',k=1;
+          while(k<=3&&buf[i+k]>=48&&buf[i+k]<=55){oct+=String.fromCharCode(buf[i+k]);k++;}
+          O.push(parseInt(oct,8)&255); i+=1+oct.length; continue;
+        }
+        O.push(n); i+=2; continue;
+      }
+      if(c===0x28){depth++;O.push(c);i++;continue;}
+      if(c===0x29){depth--;if(!depth){i++;break;}O.push(c);i++;continue;}
+      O.push(c); i++;
+    }
+  }
+  const id1hex=(info.trailer.ID&&info.trailer.ID[0])||'';
+  const id1=new Uint8Array(id1hex.length/2);
+  for(let k=0;k<id1.length;k++)id1[k]=parseInt(id1hex.substr(k*2,2),16);
+  const em=!/\/EncryptMetadata\s+false/.test(src);
+  const key=pdfFileKey(new Uint8Array(O),parseInt(Pm[1],10),id1,Lm?parseInt(Lm[1],10):40,R,em);
+  return {key:key,R:R,V:V};
+}
+
+/* Build the annotated file. `marks` is [{page (1-based), quads:[x0,y0,x1,y1],
+   label, author}]. Returns a Uint8Array, or throws with a plain reason. */
+async function pdfWriteHighlights(buf,marks,opts){
+  opts=opts||{};
+  const info=await pdfSurvey(buf);
+  const sec=pdfSecurity(buf,info);
+  if(sec&&sec.unsupported)
+    throw new Error('This PDF uses '+sec.unsupported+', so annotations cannot be written into it. '+
+      'Open it and save or print a fresh copy without security, then run this again — the page index '+
+      'below is already correct either way.');
+  const enc=(bytes,num)=>sec?rc4(pdfObjKey(sec.key,num,0),bytes):bytes;
+  const str=(s,num)=>abConcat([s2b('('),pdfEscapeString(enc(pdfTextBytes(s),num)),s2b(')')]);
+
+  /* group the marks by page, and find each page's object number */
+  const byPage=new Map();
+  marks.forEach(m=>{ if(!byPage.has(m.page))byPage.set(m.page,[]); byPage.get(m.page).push(m); });
+  const pageObj=opts.pageObjectNumbers||{};
+  let next=info.max;
+  const newObjs=[];      /* [num, bodyBytes] */
+  const pageEdits=[];    /* [num, bodyBytes] */
+
+  for(const [pageNo,list] of byPage){
+    const pnum=pageObj[pageNo];
+    if(pnum==null)throw new Error('The object number for page '+pageNo+' could not be resolved.');
+    const src=await pdfObjectSource(buf,info,pnum);
+    if(!src)throw new Error('Page '+pageNo+' could not be read back out of the file.');
+    const refs=[];
+    list.forEach(m=>{
+      const hn=next++, pn=next++, an=next++;
+      refs.push(hn);
+      const q=m.quads;
+      const pad=opts.pad==null?1.2:opts.pad;
+      const quad=[q[0],q[3],q[2],q[3],q[0],q[1],q[2],q[1]].map(v=>Math.round(v*1000)/1000);
+      const rect=[q[0]-pad,q[1]-pad,q[2]+pad,q[3]+pad].map(v=>Math.round(v*1000)/1000);
+      const colour=m.colour||'1 0.756866 0';
+      /* An appearance stream, so the mark is drawn by every reader rather than
+         only by the ones that synthesise one. Multiply is what makes a
+         highlight sit UNDER the text instead of over it. */
+      const ap=s2b('/GS gs '+colour+' rg '+
+        rect[0]+' '+rect[1]+' '+(rect[2]-rect[0])+' '+(rect[3]-rect[1])+' re f');
+      const apEnc=enc(ap,an);
+      newObjs.push([an,abConcat([
+        s2b('<</Type/XObject/Subtype/Form/FormType 1/BBox['+rect.join(' ')+']'+
+            '/Resources<</ExtGState<</GS<</Type/ExtGState/BM/Multiply/CA 1/ca 1>>>>>>'+
+            '/Length '+apEnc.length+'>>\r\nstream\r\n'),
+        apEnc, s2b('\r\nendstream')])]);
+      const body=abConcat([
+        s2b('<</Type/Annot/Subtype/Highlight/F 4/CA 1/C['+colour+']'+
+            '/AP<</N '+an+' 0 R>>'+
+            '/QuadPoints['+quad.join(' ')+']/Rect['+rect.join(' ')+']'+
+            '/IT/HighlightNote/Subj'),
+        str('Comment on Text',hn),
+        s2b('/T'), str(m.author||'Aperture Analytics',hn),
+        s2b('/Contents'), str(m.label,hn),
+        s2b('/M'), str(opts.stamp||'D:20260101000000Z',hn),
+        s2b('/P '+pnum+' 0 R/Popup '+pn+' 0 R/NM'), str('aperture-'+hn,hn),
+        s2b('>>')
+      ]);
+      newObjs.push([hn,body]);
+      newObjs.push([pn,s2b('<</Type/Annot/Subtype/Popup/F 28/Open false/Parent '+hn+' 0 R'+
+        '/Rect['+[rect[2],rect[1]-90,rect[2]+200,rect[3]].map(v=>Math.round(v*100)/100).join(' ')+']>>')]);
+    });
+    /* extend, or create, the page's /Annots array */
+    let b=src.body;
+    const added=refs.map(r=>r+' 0 R').join(' ');
+    const mArr=b.match(/\/Annots\s*\[/);
+    if(mArr){
+      b=b.slice(0,mArr.index+mArr[0].length)+added+' '+b.slice(mArr.index+mArr[0].length);
+    }else if(/\/Annots\s+\d+\s+\d+\s+R/.test(b)){
+      /* an indirect array: replace the reference with a direct one that keeps it */
+      const mi=b.match(/\/Annots\s+(\d+)\s+(\d+)\s+R/);
+      const inner=await pdfObjectSource(buf,info,parseInt(mi[1],10));
+      const existing=inner?inner.body.replace(/^\[|\]$/g,'').trim():'';
+      b=b.replace(mi[0],'/Annots['+added+(existing?' '+existing:'')+']');
+    }else{
+      const close=b.lastIndexOf('>>');
+      b=b.slice(0,close)+'/Annots['+added+']'+b.slice(close);
+    }
+    pageEdits.push([pnum,s2b(b)]);
+  }
+
+  /* append */
+  const chunks=[buf];
+  let len=buf.length;
+  if(buf[len-1]!==10&&buf[len-1]!==13){chunks.push(s2b('\r\n'));len+=2;}
+  const offsets=new Map();
+  const emit=(num,body)=>{
+    offsets.set(num,len);
+    const head=s2b(num+' 0 obj\r\n'), tail=s2b('\r\nendobj\r\n');
+    chunks.push(head,body,tail);
+    len+=head.length+body.length+tail.length;
+  };
+  pageEdits.forEach(([n,b])=>emit(n,b));
+  newObjs.forEach(([n,b])=>emit(n,b));
+
+  const size=next;
+  const xrefAt=len;
+  const idPart=info.trailer.ID
+    ? '/ID[<'+info.trailer.ID[0]+'><'+info.trailer.ID[1]+'>]' : '';
+  const common='/Root '+info.trailer.Root+' 0 R'+
+    (info.trailer.Info?'/Info '+info.trailer.Info+' 0 R':'')+
+    (info.trailer.Encrypt?'/Encrypt '+info.trailer.Encrypt+' 0 R':'')+
+    idPart+'/Prev '+info.startxref;
+
+  const nums=[...offsets.keys()].sort((a,b)=>a-b);
+  const runs=[]; let cur=[nums[0]];
+  for(let i=1;i<nums.length;i++){
+    if(nums[i]===cur[cur.length-1]+1)cur.push(nums[i]); else {runs.push(cur);cur=[nums[i]];}
+  }
+  runs.push(cur);
+
+  if(info.xrefKind==='table'){
+    let x='xref\r\n';
+    runs.forEach(run=>{
+      x+=run[0]+' '+run.length+'\r\n';
+      run.forEach(n=>{x+=String(offsets.get(n)).padStart(10,'0')+' 00000 n\r\n';});
+    });
+    x+='trailer\r\n<</Size '+size+common+'>>\r\nstartxref\r\n'+xrefAt+'\r\n%%EOF\r\n';
+    chunks.push(s2b(x));
+  }else{
+    /* answer an xref stream with an xref stream. Uncompressed and
+       unpredicted, which is legal and one less thing to get wrong. */
+    const selfNum=next; /* the xref stream is itself an object */
+    const allRuns=runs.slice();
+    const lastRun=allRuns[allRuns.length-1];
+    if(lastRun[lastRun.length-1]+1===selfNum)lastRun.push(selfNum); else allRuns.push([selfNum]);
+    offsets.set(selfNum,xrefAt);
+    const index=[];
+    allRuns.forEach(run=>{index.push(run[0],run.length);});
+    const rows=[];
+    allRuns.forEach(run=>run.forEach(n=>{
+      const o=offsets.get(n);
+      rows.push(1,(o>>>24)&255,(o>>>16)&255,(o>>>8)&255,o&255,0,0);
+    }));
+    const data=new Uint8Array(rows);
+    const dict='<</Type/XRef/Size '+(selfNum+1)+'/Index['+index.join(' ')+']/W[1 4 2]'+
+      common+'/Length '+data.length+'>>';
+    chunks.push(s2b(selfNum+' 0 obj\r\n'+dict+'\r\nstream\r\n'),data,
+      s2b('\r\nendstream\r\nendobj\r\nstartxref\r\n'+xrefAt+'\r\n%%EOF\r\n'));
+  }
+  return abConcat(chunks);
+}
+
+/* ---------- 22b. THE ANNOTATOR: FINDING THE FOOTNOTES -------------------
+   A 10-K states its accounting twice. Once in the summary of significant
+   accounting policies, in a paragraph under a short heading, and once again in
+   a numbered note, in detail and with the tables. Neither is redundant: the
+   policy says what the company chose, the note says what the choice produced.
+   An index that names only one of them is half an index, which is why this
+   makes two passes and reports both.
+
+   What it does NOT do is decide anything. It proposes, with the page and the
+   heading it matched, and the analyst confirms before a single byte is
+   written. A tool that marks up somebody's filing unattended is a tool that
+   puts a confident yellow highlight on the wrong paragraph.
+   ---------------------------------------------------------------------- */
+
+/* The nine categories, in the order they are usually asked for. `pats` are
+   matched against a normalised heading; `need` is what the report says when
+   nothing was found; `feeds` names the field on 06 Verify that the page number
+   belongs in, where one exists. */
+const ANN_CATS=[
+ {k:'revrec',l:'Revenue recognition',
+  pats:['^revenue recognition$','^revenue$','^revenues$','^revenue from contracts','^net sales$'],
+  need:'a revenue-recognition policy note, or a numbered note titled Revenue',
+  feeds:'revrec'},
+ {k:'ar',l:'Accounts receivable / allowance for doubtful accounts',
+  pats:['^receivables?$','^accounts receivable','allowance for (doubtful|credit|uncollectib)',
+        'valuation and qualifying accounts','^schedule ii'],
+  need:'the receivables policy, or Schedule II — Valuation and Qualifying Accounts',
+  feeds:'allowance'},
+ {k:'inv',l:'Inventory',
+  pats:['^merchandise inventor','^inventor(y|ies)'],
+  need:'the inventory policy note, which also states the cost basis',
+  feeds:'inventory'},
+ {k:'ppe',l:'Property, plant and equipment / fixed assets',
+  pats:['^property and equipment','^property,? plant','^property and equipment, net$'],
+  need:'the property policy note and the schedule of depreciable classes',
+  feeds:'ppe'},
+ {k:'intang',l:'Intangible assets',
+  pats:['^goodwill and intangible','^intangible assets$','^goodwill$'],
+  need:'the goodwill and intangible assets note',
+  feeds:'intangibles'},
+ {k:'defrev',l:'Deferred revenue / unearned revenue / contract liabilities',
+  pats:['^deferred revenue','^contract liabilit','^unearned revenue'],
+  need:'the contract liabilities disclosure, usually inside the revenue note',
+  feeds:'deferred'},
+ {k:'debt',l:'Debt',
+  pats:['^debt$','^long-?term debt','^short-?term debt','^borrowings$','^debt and'],
+  need:'the debt note, with maturities and covenants',
+  feeds:'debt'},
+ {k:'nongaap',l:'Non-GAAP disclosure',
+  pats:['non-?gaap financial measure','^non-?gaap'],
+  need:'the non-GAAP reconciliation, which sits in MD&A rather than the notes',
+  feeds:'nongaap'},
+ {k:'seg',l:'Segment revenues',
+  pats:['^segment and geographic','^segment information','^segments?$','^business segments?$',
+        'reportable segments?$'],
+  need:'the segment footnote, with revenue by reportable segment',
+  feeds:'segments'}
+];
+
+let ANN={name:'',bytes:null,doc:null,pages:0,lines:[],notes:[],pol:null,found:[],refs:{},bodyFont:null};
+
+function annNorm(t){return String(t||'').replace(/\s+/g,' ').trim().replace(/^[\s.:]+|[\s.:]+$/g,'').toLowerCase();}
+function annStat(html){const el=$('annStatus');if(el)el.innerHTML=html;}
+
+/* ---- reading the file -------------------------------------------------- */
+async function annOpen(file){
+  if(typeof pdfjsLib==='undefined'){toast('PDF engine unavailable offline');return;}
+  if(!(window.pdfjsWorker&&window.pdfjsWorker.WorkerMessageHandler))
+    pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  hide('annSecFound'); hide('annSecIndex');
+  annStat('<div class="flag note"><span class="dot"></span><div><b>Reading '+esc(file.name)+'</b>'+
+    '<span class="why">Opening the document and taking the text off every page.</span></div></div>');
+  const ab=await file.arrayBuffer();
+  ANN={name:file.name,bytes:new Uint8Array(ab),doc:null,pages:0,lines:[],notes:[],pol:null,
+       found:[],refs:{},bodyFont:null};
+  /* pdf.js takes ownership of a buffer it is handed, so give it a copy and
+     keep the original bytes intact for the writer */
+  const copy=ANN.bytes.slice();
+  const pdf=await pdfjsLib.getDocument({data:copy}).promise;
+  ANN.doc=pdf; ANN.pages=pdf.numPages;
+  const fontChars={};
+  for(let p=1;p<=pdf.numPages;p++){
+    const page=await pdf.getPage(p);
+    if(page.ref)ANN.refs[p]=page.ref.num;
+    const tc=await page.getTextContent();
+    const rows={};
+    tc.items.forEach(it=>{
+      if(!it.str||!it.str.trim())return;
+      const y=it.transform[5];
+      const key=Math.round(y/2.4);
+      (rows[key]=rows[key]||[]).push({x:it.transform[4],y:y,w:it.width,h:it.height||
+        Math.abs(it.transform[3])||8,s:it.str,f:it.fontName});
+      fontChars[it.fontName]=(fontChars[it.fontName]||0)+it.str.trim().length;
+    });
+    /* down the page, not up it: the keys are PDF y coordinates and PDF y
+       grows upwards, so ascending key order hands back the page backwards and
+       every "first match wins" below silently means "last on the page" */
+    Object.keys(rows).map(Number).sort((x,y)=>y-x).forEach(k=>{
+      const parts=rows[k].sort((a,b)=>a.x-b.x);
+      const text=parts.map(o=>o.s).join(' ').replace(/\s+/g,' ').trim();
+      if(!text)return;
+      ANN.lines.push({page:p,text:text,
+        x0:parts[0].x, x1:parts[parts.length-1].x+parts[parts.length-1].w,
+        y:parts[0].y, h:Math.max.apply(null,parts.map(o=>o.h)),
+        fonts:parts.map(o=>o.f), chars:text.length});
+    });
+    if(p%12===0||p===pdf.numPages)
+      annStat('<div class="flag note"><span class="dot"></span><div><b>Reading '+esc(file.name)+'</b>'+
+        '<span class="why">Page '+p+' of '+pdf.numPages+'.</span></div></div>');
+  }
+  /* The dominant font is the body text. Everything a filing sets in bold or
+     italic — which is every heading in it — arrives under a different font id,
+     and pdf.js will not tell us the weight, so the id is the signal. */
+  let best=null,bestN=-1;
+  Object.keys(fontChars).forEach(f=>{if(fontChars[f]>bestN){bestN=fontChars[f];best=f;}});
+  ANN.bodyFont=best;
+  annFind();
+}
+/* a heading: short, set in something other than the body font (or numbered
+   like a note), and carrying no figures */
+function annIsHead(l){
+  const t=l.text;
+  if(t.length>84||t.length<3)return false;
+  if(/\$|\d{3},\d{3}|\.\.\.\./.test(t))return false;
+  if(/^\d{1,2}\.\s+[A-Z]/.test(t))return true;
+  const off=l.fonts.filter(f=>f!==ANN.bodyFont).length;
+  return off>l.fonts.length/2;
+}
+
+/* ---- the two passes ---------------------------------------------------- */
+function annFind(){
+  const heads=ANN.lines.filter(annIsHead);
+  /* the numbered notes, as the longest ascending run of "n. Title" headings */
+  const cand=[];
+  heads.forEach(l=>{
+    const m=l.text.trim().match(/^(\d{1,2})\.\s+(.{3,70})$/);
+    if(m)cand.push({n:+m[1],title:m[2].trim(),line:l});
+  });
+  let run=[];
+  for(let i=0;i<cand.length;i++){
+    const r=[cand[i]];
+    for(let j=i+1;j<cand.length;j++)if(cand[j].n===r[r.length-1].n+1)r.push(cand[j]);
+    if(r.length>run.length)run=r;
+  }
+  ANN.notes=run;
+  /* the policies block: the summary note, up to the note after it */
+  let polA=null,polB=null;
+  for(let k=0;k<run.length;k++){
+    if(/significant accounting polic|basis of presentation/i.test(run[k].title)){
+      polA=run[k].line.page;
+      polB=(k+1<run.length)?run[k+1].line.page:polA+12;
+      break;
+    }
+  }
+  if(polA==null&&run.length){polA=run[0].line.page;polB=run.length>1?run[1].line.page:polA+8;}
+  ANN.pol=polA==null?null:[polA,polB];
+
+  const out=[];
+  ANN_CATS.forEach(c=>{
+    const hits=[];
+    const test=t=>c.pats.some(p=>new RegExp(p).test(annNorm(t)));
+    if(ANN.pol){
+      for(const l of heads){
+        if(l.page<ANN.pol[0]||l.page>ANN.pol[1])continue;
+        if(/^\d{1,2}\./.test(l.text.trim()))continue;
+        if(test(l.text)){hits.push({where:'Policy note',conf:'high',line:l});break;}
+      }
+    }
+    for(const nt of ANN.notes){
+      if(test(nt.title)){hits.push({where:'Note '+nt.n,conf:'high',line:nt.line});break;}
+    }
+    /* a note whose title does not match but whose body plainly is this. It is
+       how deferred revenue hides inside a note called "Revenue". Repetition is
+       required, so a passing mention does not qualify. */
+    if(!hits.length){
+      let bn=null,bc=0;
+      ANN.notes.forEach((nt,k)=>{
+        if(/significant accounting polic/i.test(nt.title))return;
+        const lo=nt.line.page, hiRaw=(k+1<ANN.notes.length)?ANN.notes[k+1].line.page-1:lo+4;
+        const hi=Math.max(lo,hiRaw);
+        let n=0;
+        ANN.lines.forEach(l=>{
+          if(l.page<lo||l.page>hi)return;
+          const t=annNorm(l.text);
+          c.pats.forEach(p=>{
+            const m=t.match(new RegExp(p.replace(/^\^/,'').replace(/\$$/,''),'g'));
+            if(m)n+=m.length;
+          });
+        });
+        if(n>bc){bc=n;bn=nt;}
+      });
+      if(bn&&bc>=3)hits.push({where:'Note '+bn.n,conf:'medium',line:bn.line});
+    }
+    /* anywhere at all, last */
+    if(!hits.length){
+      for(const l of heads)if(test(l.text)){hits.push({where:'Body',conf:'low',line:l});break;}
+    }
+    hits.forEach(hit=>out.push({cat:c.k,label:c.l,where:hit.where,conf:hit.conf,
+      page:hit.line.page,text:hit.line.text,line:hit.line,on:true}));
+    if(!hits.length)out.push({cat:c.k,label:c.l,where:null,conf:null,page:null,
+      text:'',line:null,on:false});
+  });
+  ANN.found=out;
+  renderAnnotate();
+}
+function annRescan(){ if(!ANN.lines.length){toast('Open a filing first');return;} annFind(); }
+
+/* ---- the review table -------------------------------------------------- */
+function renderAnnotate(){
+  const done=ANN.found.filter(f=>f.line).length, cats=ANN_CATS.length;
+  const covered=new Set(ANN.found.filter(f=>f.line).map(f=>f.cat)).size;
+  annStat('<div class="flag '+(covered===cats?'ok':'note')+'"><span class="dot"></span><div>'+
+    '<b>'+esc(ANN.name)+' · '+ANN.pages+' pages</b><span class="why">'+
+    covered+' of '+cats+' categories located, '+done+' marks proposed. '+
+    (ANN.notes.length?('The numbered notes run 1 to '+ANN.notes[ANN.notes.length-1].n+
+      ', starting on page '+ANN.notes[0].line.page+'. '):'No numbered note sequence was found, so '+
+      'everything below came from a plain heading search. ')+
+    (ANN.pol?('The summary of significant accounting policies covers pages '+ANN.pol[0]+
+      ' to '+ANN.pol[1]+'.'):'')+
+    '</span></div></div>');
+
+  let h='<table class="fin"><thead><tr><th class="lbl">Footnote</th>'+
+    '<th class="lbl" style="width:96px">Where</th><th style="width:104px">Page</th>'+
+    '<th class="lbl">Heading it matched</th><th class="lbl" style="width:96px">Confidence</th>'+
+    '<th class="rowtools" style="width:70px">Mark</th></tr></thead><tbody>';
+  ANN.found.forEach((f,i)=>{
+    if(!f.line){
+      const c=ANN_CATS.find(x=>x.k===f.cat);
+      h+='<tr class="na"><td class="lbl">'+esc(f.label)+
+        '<br><span class="nawhy">Not found — it would need '+esc(c.need)+'</span></td>'+
+        '<td class="lbl">—</td><td>—</td><td class="lbl">—</td>'+
+        '<td class="lbl">—</td><td class="rowtools">—</td></tr>';
+      return;
+    }
+    h+='<tr><td class="lbl">'+esc(f.label)+'</td>'+
+      '<td class="lbl">'+esc(f.where)+'</td>'+
+      '<td><div class="pagebump"><button class="mini2" onclick="annBump('+i+',-1)">−</button>'+
+      '<input class="cell num" style="width:44px;text-align:center" value="'+f.page+'" '+
+      'onchange="annSetPage('+i+',this.value)"><button class="mini2" onclick="annBump('+i+',1)">+</button></div></td>'+
+      '<td class="lbl" style="font-size:11.5px;color:#4D4D4D">'+esc(f.text.slice(0,64))+'</td>'+
+      '<td class="lbl"><span class="conf '+f.conf+'">'+esc(f.conf)+'</span></td>'+
+      '<td class="rowtools"><input type="checkbox" '+(f.on?'checked':'')+
+      ' onchange="annToggle('+i+',this.checked)"></td></tr>';
+  });
+  $('annFound').innerHTML=h+'</tbody></table>';
+  show('annSecFound');
+  annRenderIndex();
+}
+function annToggle(i,v){ANN.found[i].on=!!v;}
+function annSetPage(i,v){
+  const n=parseInt(v,10);
+  if(!isFinite(n)||n<1||n>ANN.pages){toast('Page must be between 1 and '+ANN.pages);renderAnnotate();return;}
+  ANN.found[i].page=n; ANN.found[i].conf='set by hand'; renderAnnotate();
+}
+function annBump(i,d){
+  const f=ANN.found[i]; const n=f.page+d;
+  if(n<1||n>ANN.pages)return;
+  f.page=n; f.conf='set by hand'; renderAnnotate();
+}
+function annRenderIndex(){
+  const rows=ANN.found.filter(f=>f.line);
+  if(!rows.length){hide('annSecIndex');return;}
+  let h='<table class="rp"><thead><tr><th class="lbl">Footnote</th><th class="lbl">Where it sits</th>'+
+    '<th style="width:70px">Page</th></tr></thead><tbody>';
+  ANN_CATS.forEach(c=>{
+    const mine=rows.filter(f=>f.cat===c.k);
+    if(!mine.length){
+      h+='<tr class="na"><td class="lbl">'+esc(c.l)+'</td><td class="lbl">Not located</td><td>—</td></tr>';
+      return;
+    }
+    mine.forEach((f,k)=>{
+      h+='<tr><td class="lbl">'+(k?'':esc(c.l))+'</td><td class="lbl">'+esc(f.where)+
+        ' — “'+esc(f.text.slice(0,56))+'”</td><td>'+f.page+'</td></tr>';
+    });
+  });
+  $('annIndex').innerHTML=h+'</tbody></table>';
+  show('annSecIndex');
+}
+function annCopyIndex(){
+  const lines=[ANN.name,''];
+  ANN_CATS.forEach(c=>{
+    const mine=ANN.found.filter(f=>f.cat===c.k&&f.line);
+    if(!mine.length){lines.push(c.l+' — not located');return;}
+    mine.forEach(f=>lines.push(c.l+' — '+f.where+', page '+f.page+' ("'+f.text.slice(0,60)+'")'));
+  });
+  const t=lines.join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText)
+    navigator.clipboard.writeText(t).then(()=>toast('Index copied'),()=>toast('Could not copy'));
+  else toast('Clipboard unavailable in this context');
+}
+
+/* ---- writing ----------------------------------------------------------- */
+async function annBuild(){
+  const marks=ANN.found.filter(f=>f.on&&f.line).map(f=>{
+    const l=f.line;
+    /* a highlight is drawn over the line box, not the baseline: drop a
+       quarter of the size below it and rise a little over the ascender */
+    const y0=l.y-0.235*l.h, y1=l.y+1.19*l.h;
+    return {page:f.page,quads:[l.x0,y0,l.x1,y1],label:f.label};
+  });
+  if(!marks.length){toast('Nothing ticked to mark');return;}
+  /* a page whose number was corrected by hand no longer has geometry that
+     belongs to it, so the mark goes at the top of that page instead */
+  ANN.found.filter(f=>f.on&&f.line).forEach((f,i)=>{
+    if(f.page!==f.line.page){
+      marks[i].quads=[54,720,54+Math.min(360,f.label.length*5.6),733];
+    }
+  });
+  $('annWriteNote').innerHTML='';
+  try{
+    annStat('<div class="flag note"><span class="dot"></span><div><b>Writing the annotations</b>'+
+      '<span class="why">Appending '+marks.length+' highlights to the original bytes.</span></div></div>');
+    const out=await pdfWriteHighlights(ANN.bytes,marks,{
+      pageObjectNumbers:ANN.refs,
+      author:'Aperture Analytics',
+      stamp:'D:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z'
+    });
+    const base=ANN.name.replace(/\.pdf$/i,'');
+    const url=URL.createObjectURL(new Blob([out],{type:'application/pdf'}));
+    const a=document.createElement('a'); a.href=url; a.download=base+' - annotated.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    toast('Annotated PDF saved');
+    renderAnnotate();
+    $('annWriteNote').innerHTML='<div class="flag ok"><span class="dot"></span><div>'+
+      '<b>'+marks.length+' annotations written</b><span class="why">Saved as “'+
+      esc(base)+' - annotated.pdf”. The original document is unchanged and is still inside the '+
+      'file; the annotations were appended after it, which is how a PDF takes a comment.</span></div></div>';
+  }catch(e){
+    renderAnnotate();
+    $('annWriteNote').innerHTML='<div class="flag warn"><span class="dot"></span><div>'+
+      '<b>The annotations could not be written</b><span class="why">'+esc(e.message)+'</span></div></div>';
+    toast('Could not write the annotations');
+  }
+}
+
+/* ---- handing the page numbers to the rest of the bench ------------------ */
+function annApply(){
+  const rows=ANN.found.filter(f=>f.on&&f.line);
+  if(!rows.length){toast('Nothing ticked');return;}
+  /* the deepest page for a category is the numbered note, which is the better
+     citation: the policy paragraph says what was chosen, the note shows it */
+  const pick={};
+  rows.forEach(f=>{ if(!pick[f.cat]||/^Note/.test(f.where))pick[f.cat]=f; });
+  if(!S.qc.primaryDoc)S.qc.primaryDoc=ANN.name;
+  S.qc.pages=S.qc.pages||{};
+  /* only one of the nine has a home among the narrative citations already;
+     the rest live in the footnote index, which prints in its own right */
+  if(pick.seg&&!S.qc.pages.segments)S.qc.pages.segments=String(pick.seg.page);
+  S.disc=S.disc||{};
+  S.disc.pageIndex=ANN_CATS.map(c=>({k:c.k,l:c.l,
+    page:pick[c.k]?pick[c.k].page:null,
+    where:pick[c.k]?pick[c.k].where:null,
+    head:pick[c.k]?pick[c.k].text.slice(0,72):null}));
+  S.disc.indexDoc=ANN.name;
+  const n=Object.keys(pick).length;
+  applyState();
+  toast(n+' page references sent to Verify');
+  $('annWriteNote').innerHTML='<div class="flag ok"><span class="dot"></span><div>'+
+    '<b>Sent to the bench</b><span class="why">'+n+' page references recorded against “'+
+    esc(ANN.name)+'”. They appear as the footnote index on <b>06 Verify</b> and print in the '+
+    'report’s verification section, so every disclosure quoted has a page behind it.</span></div></div>';
+}
+/* the index as the rest of the bench sees it */
+function annIndexRows(){return (S.disc&&S.disc.pageIndex)||[];}
+function renderFootnoteIndex(){
+  const el=$('qcFootnotes'); if(!el)return;
+  const rows=annIndexRows();
+  if(!rows.length){
+    el.innerHTML='<div class="hint">No filing has been indexed yet. Open a 10-K on '+
+      '<b>02 Annotate</b> and send the page numbers here, and every disclosure quoted in the '+
+      'report will carry a page behind it.</div>';
+    return;
+  }
+  let h='<table class="fin"><thead><tr><th class="lbl">Footnote</th>'+
+    '<th class="lbl">Where it sits in '+esc(S.disc.indexDoc||'the filing')+'</th>'+
+    '<th style="width:110px">Page</th></tr></thead><tbody>';
+  rows.forEach(r=>{
+    h+='<tr'+(r.page?'':' class="na"')+'><td class="lbl">'+esc(r.l)+'</td>'+
+      '<td class="lbl" style="color:#5C5C5C">'+(r.page?esc(r.where)+' — “'+esc(r.head)+'”':'<em>not located</em>')+'</td>'+
+      '<td>'+(r.page?('<input class="lblin" value="'+r.page+'" onchange="annIndexSet(\''+r.k+
+        '\',this.value)">'):'—')+'</td></tr>';
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+function annIndexSet(k,v){
+  const rows=annIndexRows(); const r=rows.find(x=>x.k===k); if(!r)return;
+  const n=parseInt(v,10); r.page=isFinite(n)&&n>0?n:null; renderFootnoteIndex();
+}
+
 /* ---------- 23. INIT ---------------------------------------------------- */
 gateInit();
 helpWire();
+/* the annotator's file input, and its drop zone */
+(function(){
+  const inp=$('annFile'), zone=$('annDrop');
+  if(!inp||!zone)return;
+  inp.addEventListener('change',e=>{const f=e.target.files[0];if(f)annOpen(f);inp.value='';});
+  ['dragenter','dragover'].forEach(ev=>zone.addEventListener(ev,e=>{
+    e.preventDefault();zone.classList.add('over');}));
+  ['dragleave','drop'].forEach(ev=>zone.addEventListener(ev,e=>{
+    e.preventDefault();zone.classList.remove('over');}));
+  zone.addEventListener('drop',e=>{
+    const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+    if(f)annOpen(f);});
+})();
+renderFootnoteIndex();
+
+wireBands();
+showBand('guide');
 (function(){
   const el=$('buildStamp'); if(!el)return;
   el.innerHTML='Version <b>'+esc(BRAND.version)+'</b> \u00b7 built <b>'+esc(BRAND.built)+'</b>';

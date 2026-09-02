@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v2.9
-  Built 2026-09-02 15:10 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v3.0
+  Built 2026-09-02 18:35 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -159,30 +159,64 @@ nav.tabs button.active{color:var(--type);border-bottom-color:var(--maroon);font-
 nav.tabs button .n{color:#B3B3B3;margin-right:7px;font-weight:600}
 nav.tabs button.active .n{color:var(--maroon)}
 
-/* The bar is banded, because fifteen tabs in a row is a list, not a structure.
+/* The bar is banded, because sixteen tabs in a row is a list, not a structure.
    Five bands, in the order the work is actually done, and they are the same
-   five divisions the printed report uses: getting the numbers in, reading the
-   face of the statements, reading what sits behind them, forming a judgement,
-   and the reference material. Hue is not available here — the tool is maroon
-   and grey and nothing else — so the bands separate by tone, darkening as the
-   work moves from transcription towards judgement, with the one maroon wash
-   reserved for the disclosure work, which is the part most easily mistaken for
-   the part before it. */
-nav.tabs button[data-band=a]{background:#FFFFFF}
-nav.tabs button[data-band=b]{background:#FAFAFA}
-nav.tabs button[data-band=c]{background:#F7F1F1}
-nav.tabs button[data-band=d]{background:#F2F2F2}
-nav.tabs button[data-band=e]{background:#FFFFFF}
-nav.tabs button[data-band=c] .n{color:var(--maroon)}
-nav.tabs button[data-band=d] .n{color:#6E6E6E}
-nav.tabs button[data-band=b] .n{color:#8C8C8C}
-nav.tabs button.bandstart{border-left:1px solid var(--rule)}
-nav.tabs button[data-band=c]{box-shadow:inset 0 3px 0 rgba(80,0,0,.20)}
+   five divisions the printed report uses: getting the numbers in and proving
+   them, reading the face of the statements, reading what sits behind them,
+   forming a judgement, and the reference material.
+
+   Each band carries a solid rail along the bottom of every one of its tabs,
+   always, not only when a tab is selected. The rails of adjacent tabs join
+   into one continuous bar and a gap opens between bands, so the grouping is
+   legible at a glance and without reading a word. Selection is then shown by
+   weight and a tint rather than by the rail, which is no longer free to say
+   two things at once.
+
+   The colours stay close to home: two greys for the mechanical work at either
+   end, a steel blue for reading the statements, maroon for the disclosure work
+   because it is the part most easily mistaken for the part before it, and a
+   bronze for judgement. Muted, and printerly, rather than a set of tabs in
+   primary colours. */
+nav.tabs button{--band:#B3B3B3;--tint:#F4F4F4;--num:#B3B3B3}
+nav.tabs button[data-band=a]{--band:#9A9A9A;--tint:#F0F0F0;--num:#A8A8A8}
+nav.tabs button[data-band=b]{--band:#3F5A6B;--tint:#EDF1F4;--num:#5B7688}
+nav.tabs button[data-band=c]{--band:#500000;--tint:#F7EDED;--num:#500000}
+nav.tabs button[data-band=d]{--band:#6B4E16;--tint:#F5F1E8;--num:#8A6A2A}
+nav.tabs button[data-band=e]{--band:#B3B3B3;--tint:#F4F4F4;--num:#B3B3B3}
+nav.tabs button{border-bottom:3px solid var(--band)}
+nav.tabs button .n{color:var(--num)}
+/* the gap that turns one long rail into five */
+nav.tabs button.bandstart{margin-left:9px}
+nav.tabs button.bandstart:first-child{margin-left:0}
+/* selection, said with weight and a wash rather than with the rail */
+nav.tabs button.active{color:var(--type);font-weight:600;background:var(--tint);
+  border-bottom-width:5px;padding-bottom:12px}
+nav.tabs button.active .n{color:var(--band)}
+nav.tabs button:hover{color:var(--type);background:var(--tint)}
+/* The strip under the bar is the legend: all five bands named at once, the
+   one you are standing in at full strength and the rest stepped back. A
+   legend that only ever names the current section makes you click through
+   four tabs to learn the shape of the tool. */
 .bandstrip{background:var(--paper);border-bottom:1px solid var(--rule);
-  padding:7px 30px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
-  font-weight:600;color:#9A9A9A;display:flex;align-items:center;gap:9px;
+  padding:6px 30px 7px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
   position:sticky;top:44px;z-index:59}
-.bandstrip .bs-dot{width:6px;height:6px;border-radius:50%;background:#C9C9C9;flex:0 0 6px}
+.bandstrip .bs-seg{display:flex;align-items:center;gap:7px;font-size:8.5px;
+  letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:#C4C4C4;
+  cursor:pointer;transition:color .12s}
+.bandstrip .bs-seg:hover{color:var(--band)}
+.bandstrip .bs-seg:hover .bs-rail{opacity:.75}
+.bandstrip .bs-seg .bs-rail{width:22px;height:3px;flex:0 0 22px;background:var(--band);
+  opacity:.32}
+.bandstrip .bs-seg.a{--band:#9A9A9A}
+.bandstrip .bs-seg.b{--band:#3F5A6B}
+.bandstrip .bs-seg.c{--band:#500000}
+.bandstrip .bs-seg.d{--band:#6B4E16}
+.bandstrip .bs-seg.e{--band:#B3B3B3}
+.bandstrip .bs-seg.on{color:var(--band)}
+.bandstrip .bs-seg.on .bs-rail{opacity:1;height:4px}
+.bandstrip .bs-sub{margin-left:auto;letter-spacing:.02em;text-transform:none;
+  font-weight:400;font-size:10.5px;color:#8C8C8C;padding-left:14px}
+@media (max-width:1100px){.bandstrip .bs-sub{margin-left:0;flex-basis:100%}}
 .bandstrip .bs-sub{letter-spacing:.06em;text-transform:none;font-weight:400;
   font-size:10.5px;color:#8C8C8C}
 .bandstrip.c{color:var(--maroon)}
@@ -824,7 +858,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v2.9 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v3.0 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="saveSession()">Save</button>
@@ -1915,8 +1949,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'2.9',
-  built:'2026-09-02 15:10 UTC',
+  version:'3.0',
+  built:'2026-09-02 18:35 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2621,14 +2655,23 @@ function wireBands(){
   let last=null;
   bs.forEach(b=>{const k=b.dataset.band; if(k!==last)b.classList.add('bandstart'); last=k;});
 }
+/* clicking a band in the legend goes to the first tab in it */
+function goBand(k){
+  const b=document.querySelector('nav.tabs button[data-band="'+k+'"]');
+  if(b)go(b.dataset.p);
+}
 function showBand(p){
-  const b=document.querySelector('nav.tabs button[data-p="'+p+'"]');
+  const btn=document.querySelector('nav.tabs button[data-p="'+p+'"]');
   const el=$('bandStrip'); if(!el)return;
-  const k=b?b.dataset.band:'a', d=BANDS[k]||BANDS.a;
-  el.className='bandstrip '+k;
-  el.innerHTML='<span class="bs-dot"></span><span>'+esc(d.t)+'</span>'+
+  const k=btn?btn.dataset.band:'a', d=BANDS[k]||BANDS.a;
+  el.className='bandstrip';
+  el.innerHTML=Object.keys(BANDS).map(x=>
+    '<span class="bs-seg '+x+(x===k?' on':'')+'" title="'+esc(BANDS[x].s)+
+    '" onclick="goBand(\''+x+'\')">'+
+    '<span class="bs-rail"></span>'+esc(BANDS[x].t)+'</span>').join('')+
     '<span class="bs-sub">'+esc(d.s)+'</span>';
 }
+
 function go(p){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
   document.querySelectorAll('.panel').forEach(s=>s.classList.toggle('active',s.id==='panel-'+p));

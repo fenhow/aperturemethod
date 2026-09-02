@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v3.4
-  Built 2026-09-02 21:25 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v3.5
+  Built 2026-09-02 21:36 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -545,18 +545,18 @@ h4.fgroup:first-child{margin-top:4px}
   font-weight:600}
 
 .page .phead{display:flex;justify-content:space-between;align-items:center;
-  border-bottom:1px solid var(--rule);padding-bottom:7px;margin-bottom:15px}
-.page .phead .pl{display:flex;align-items:center;gap:7px}
+  border-bottom:1px solid var(--rule);padding-bottom:9px;margin-bottom:17px}
+.page .phead .pl{display:flex;align-items:center;gap:9px}
 /* The mark on every running header used to be an <img> carrying a 19,800
    character data URI. On a fifty-page report that is more than a megabyte of
    identical base64 in the DOM, and the print renderer has to hold all of it.
    It is one background-image declaration instead, injected once at start-up,
    so the bytes exist exactly once however long the report runs. */
-.page .phead .pmark{height:11px;width:13px;flex:0 0 auto;opacity:.9;display:block;
+.page .phead .pmark{height:15px;width:17px;flex:0 0 auto;opacity:.95;display:block;
   background-repeat:no-repeat;background-position:center;background-size:contain}
-.page .phead .pe{font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+.page .phead .pe{font-size:11px;letter-spacing:.19em;text-transform:uppercase;
   color:var(--maroon);font-weight:600}
-.page .phead .pc{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.page .phead .pc{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .page .pbody{flex:1}
 .page .pfoot{border-top:2px solid var(--maroon);padding-top:6px;margin-top:14px;font-size:7.5px;
   letter-spacing:.12em;text-transform:uppercase;color:#7A7A7A;
@@ -578,6 +578,16 @@ h4.fgroup:first-child{margin-top:4px}
 .page table.rp tr.tot td{font-weight:700;border-top:1px solid var(--type)}
 .page table.rp tr.sec td{font-size:8px;letter-spacing:.13em;text-transform:uppercase;
   color:var(--maroon);font-weight:600;background:#F7F7F7}
+/* A table of sentences is not a table of figures. Figures want tight rows and
+   a hard right edge; sentences want leading, a left edge, and columns wide
+   enough that a two-word cell such as "p. 45" is never broken across two
+   lines to make room for a paragraph three columns away. `.txt` is the prose
+   variant, and `.nw` marks the columns that must never wrap. */
+.page table.rp.txt{font-size:9px}
+.page table.rp.txt td{padding:5px 7px;line-height:1.5;vertical-align:top;text-align:left}
+.page table.rp.txt th{padding:4px 7px;vertical-align:bottom}
+.page table.rp td.nw,.page table.rp th.nw{white-space:nowrap}
+.page table.rp col.c-narrow{width:8%}
 .page .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0 16px}
 .page .kpis .kb{border:.5px solid var(--rule);border-left:2px solid var(--maroon);padding:9px 10px}
 .page .kpis .kb .k{font-size:7.5px;letter-spacing:.11em;text-transform:uppercase;
@@ -677,11 +687,12 @@ h4.fgroup:first-child{margin-top:4px}
   min-width:20px;text-align:right}
 .page .toc .tocs .tocp,.page .toc .tocpt .tocp{min-width:20px;text-align:right;
   font-variant-numeric:tabular-nums}
-/* No leader. A dotted rule half a point tall is the first thing a printer
-   loses, and on screen it renders as a row of grey specks. The page number
-   is right-aligned in a tabular column instead, which is what the leader was
-   only ever there to help the eye do. */
-.page .toc .tocl{flex:1}
+/* A leader, but a solid hairline in light grey rather than half a point of
+   dots. Dots at that size render as grey specks on screen and are the first
+   thing a printer drops; a 1px solid rule survives both. */
+.page .toc .tocl{flex:1;border-bottom:1px solid #DFDFDF;transform:translateY(-2px)}
+.page .toc .tocs .tocl{border-bottom-color:#CFCFCF}
+.page .toc .tocpt .tocl{border-bottom:0}
 .page .caveat{border-top:.6px solid var(--rule);margin-top:12px;padding-top:9px;
   font-size:8.5px;line-height:1.5;color:#6E6E6E}
 .page .caveat b{color:var(--maroon)}
@@ -896,7 +907,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v3.4 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v3.5 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="openAnnotate()">Annotate a 10-K</button>
@@ -1998,8 +2009,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'3.4',
-  built:'2026-09-02 21:25 UTC',
+  version:'3.5',
+  built:'2026-09-02 21:36 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -7701,7 +7712,7 @@ function buildReport(){
   }
   if(has('normalisation')&&S.addbacks.length){
     const i=latestIdx();
-    let t='<table class="rp"><thead><tr><th class="lbl" style="width:26%">Normalisation</th><th class="lbl" style="width:15%">Category</th>'+
+    let t='<table class="rp txt"><thead><tr><th class="lbl" style="width:24%">Normalisation</th><th class="lbl" style="width:14%">Category</th>'+
       disp().map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+
       '<th class="lbl" style="width:11%">Evidence</th></tr></thead><tbody>';
     S.addbacks.forEach(a=>{
@@ -7843,30 +7854,29 @@ function buildReport(){
       evalBlock('Commentary','returns'),'DuPont'));
   }
   if(has('ratios')){
-    const c=chron(); const groups=[...new Set(RATIOS.map(r=>r.g))];
-    let acc=0,cut=0,tot=RATIOS.length+groups.length;
-    for(let k=0;k<groups.length;k++){
-      acc+=1+RATIOS.filter(r=>r.g===groups[k]).length;
-      if(acc>=tot/2){cut=k+1;break;}
-    }
-    let half1=groups.slice(0,cut||3),half2=groups.slice(cut||3);
-    const mk=gs=>{
-      let t='<table class="rp"><thead><tr><th class="lbl">Ratio</th>'+
-        c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>';
-      gs.forEach(g=>{
-        t+='<tr class="sec"><td colspan="'+(c.length+1)+'">'+esc(g)+'</td></tr>';
-        RATIOS.filter(r=>r.g===g).forEach(R=>{
-          const reason=R.na?R.na():null;
-          t+='<tr'+(reason?' class="na"':'')+'><td class="lbl">'+esc(R.n)+
-            (reason?'<br><span class="nawhy">Not applicable — '+esc(reason)+'</span>':'')+'</td>'+
-            c.map(x=>'<td>'+(reason?'n/a':fmtRatio(R.f(x),R.t))+'</td>').join('')+'</tr>';});
+    /* One block per ratio group, laid out by the measured paginator rather
+       than cut in half by a character count. The old fixed 50/50 split was
+       blind to the page furniture around it, so a change as small as a taller
+       running header pushed the first half over the sheet by five pixels and
+       the printed document came out a page longer than the screen. Anything
+       that pushes a page directly instead of measuring it will do that again. */
+    const c=chron(), groups=[...new Set(RATIOS.map(r=>r.g))];
+    const head='<table class="rp"><thead><tr><th class="lbl">Ratio</th>'+
+      c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>';
+    const blocks=groups.map(g=>{
+      let t=head+'<tr class="sec"><td colspan="'+(c.length+1)+'">'+esc(g)+'</td></tr>';
+      RATIOS.filter(r=>r.g===g).forEach(R=>{
+        const reason=R.na?R.na():null;
+        t+='<tr'+(reason?' class="na"':'')+'><td class="lbl">'+esc(R.n)+
+          (reason?'<br><span class="nawhy">Not applicable \u2014 '+esc(reason)+'</span>':'')+'</td>'+
+          c.map(x=>'<td>'+(reason?'n/a':fmtRatio(R.f(x),R.t))+'</td>').join('')+'</tr>';
       });
       return t+'</tbody></table>';
-    };
-    P.push(pageWrap('Ratio analysis',mk(half1),'Ratios'));
-    P.push(pageWrap('Ratio analysis (continued)',mk(half2)+
-      '<p style="font-size:9px;color:#8C8C8C;margin-top:10px">Ratios using average balances require an opening '+
-      'balance sheet and are therefore blank in the earliest period. Days measures assume a 365-day year.</p>','Ratios'));
+    });
+    blocks.push('<p style="font-size:9px;color:#8C8C8C;margin-top:10px">Ratios using average balances '+
+      'require an opening balance sheet and are therefore blank in the earliest period. Days measures '+
+      'assume a 365-day year.</p>');
+    paginateBlocks(blocks,'Ratio analysis','Ratio analysis (continued)','Ratios',P);
   }
   if(has('charts')){
     const defs=chartDefs();
@@ -7983,12 +7993,14 @@ function buildReport(){
         const rows=S.actions.filter(a=>a.horizon===hz&&(a.action||'').trim());
         if(!rows.length)return;
         body+='<h4 class="sh">'+esc(hz)+' — '+(hz==='Now'?'next 90 days':hz==='Next'?'this year':'contingent')+'</h4>'+
-          '<table class="rp"><thead><tr><th class="lbl" style="width:28%">Action</th><th class="lbl">Why</th>'+
-          '<th class="lbl" style="width:20%">Expected impact</th><th class="lbl" style="width:11%">Owner</th>'+
-          '<th class="lbl" style="width:9%">Effort</th></tr></thead><tbody>'+
+          '<table class="rp txt"><colgroup><col style="width:24%"><col><col style="width:19%">'+
+          '<col style="width:11%"><col style="width:9%"></colgroup>'+
+          '<thead><tr><th class="lbl">Action</th><th class="lbl">Why</th>'+
+          '<th class="lbl">Expected impact</th><th class="lbl nw">Owner</th>'+
+          '<th class="lbl nw">Effort</th></tr></thead><tbody>'+
           rows.map(a=>'<tr><td class="lbl"><b>'+esc(a.action)+'</b></td><td class="lbl">'+esc(a.rationale)+
-            '</td><td class="lbl">'+esc(a.impact)+'</td><td class="lbl">'+esc(a.owner||'—')+
-            '</td><td class="lbl">'+esc(a.effort||'—')+'</td></tr>').join('')+'</tbody></table>';
+            '</td><td class="lbl">'+esc(a.impact)+'</td><td class="lbl nw">'+esc(a.owner||'—')+
+            '</td><td class="lbl nw">'+esc(a.effort||'—')+'</td></tr>').join('')+'</tbody></table>';
       });
     } else body+='<p style="color:#8C8C8C">[No actions recorded — build them on the Strengthen tab.]</p>';
     if((S.notes.strengthen||'').trim())
@@ -8059,7 +8071,8 @@ function buildReport(){
           esc((r.src&&r.src.page)?('p. '+r.src.page):'—')+'</td>'+
           '<td class="lbl">Not verified</td></tr>').join('');
     });
-    let cites='<table class="rp"><thead><tr><th class="lbl" style="width:40%">Fact</th>'+
+    let cites='<table class="rp txt"><colgroup><col style="width:38%"><col></colgroup>'+
+      '<thead><tr><th class="lbl">Fact</th>'+
       '<th class="lbl">Reference</th></tr></thead><tbody>'+
       CITE_FIELDS.map(f=>{const v=(f.get()||'').toString().trim();
         return '<tr><td class="lbl">'+esc(f.l)+'</td><td class="lbl">'+
@@ -8082,9 +8095,11 @@ function buildReport(){
           ((t.req-t.reqDone)===1?'':'s')+' have not been traced and signed off. The conclusions may be '+
           'sound, but they are not yet evidenced to the house standard and the document is marked accordingly.</p>')+
       '<h4 class="sh">Citations for the qualitative facts</h4>'+cites+
-      (open?'<h4 class="sh">Figures outstanding</h4><table class="rp"><thead><tr>'+
-        '<th class="lbl" style="width:38%">Line item</th><th class="lbl">Source</th>'+
-        '<th class="lbl" style="width:14%">Page</th><th class="lbl" style="width:18%">Status</th>'+
+      (open?'<h4 class="sh">Figures outstanding</h4><table class="rp txt">'+
+        '<colgroup><col style="width:34%"><col><col style="width:9%"><col style="width:15%"></colgroup>'+
+        '<thead><tr>'+
+        '<th class="lbl">Line item</th><th class="lbl">Source</th>'+
+        '<th class="lbl nw">Page</th><th class="lbl nw">Status</th>'+
         '</tr></thead><tbody>'+open+'</tbody></table>':'');
     body+='<h4 class="sh">Which build produced this</h4>'+
       '<p>Aperture Analytics\u2122 Workbench version <b>'+esc(BRAND.version)+'</b>, built <b>'+
@@ -8098,13 +8113,14 @@ function buildReport(){
     let t='<p>Where each of the nine accounting footnotes sits in '+
       esc(S.disc.indexDoc||'the primary source')+'. A disclosure quoted anywhere in this report '+
       'can be checked against the page named here.</p>'+
-      '<table class="rp"><thead><tr><th class="lbl">Footnote</th>'+
-      '<th class="lbl">Where it sits</th><th style="width:64px">Page</th></tr></thead><tbody>';
+      '<table class="rp txt"><colgroup><col style="width:31%"><col><col style="width:8%"></colgroup>'+
+      '<thead><tr><th class="lbl">Footnote</th>'+
+      '<th class="lbl">Where it sits</th><th class="lbl nw">Page</th></tr></thead><tbody>';
     rows.forEach(r=>{
       t+='<tr'+(r.page?'':' class="na"')+'><td class="lbl">'+esc(r.l)+'</td>'+
         '<td class="lbl">'+(r.page?esc(r.where)+' \u2014 \u201c'+esc(r.head||'')+'\u201d'
           :'Not located in this filing')+'</td>'+
-        '<td>'+(r.page?r.page:'\u2014')+'</td></tr>';
+        '<td class="lbl nw">'+(r.page?r.page:'\u2014')+'</td></tr>';
     });
     t+='</tbody></table>'+
       '<p style="font-size:9px;color:#8C8C8C;margin-top:6px">A footnote recorded as not located was '+
@@ -8114,10 +8130,15 @@ function buildReport(){
   }
   if(has('evidence')){
     const ev=S.evidence.filter(e=>e.item||e.source);
-    let t='<table class="rp"><thead><tr><th class="lbl">Figure / claim</th><th class="lbl">Source</th>'+
-      '<th class="lbl">Ref</th><th class="lbl">Confidence</th><th class="lbl">Assumption</th></tr></thead><tbody>';
+    let t='<table class="rp txt">'+
+      '<colgroup><col style="width:19%"><col style="width:20%"><col style="width:7%">'+
+      '<col style="width:11%"><col></colgroup>'+
+      '<thead><tr><th class="lbl">Figure / claim</th><th class="lbl">Source</th>'+
+      '<th class="lbl nw">Ref</th><th class="lbl nw">Confidence</th>'+
+      '<th class="lbl">Assumption</th></tr></thead><tbody>';
     if(ev.length)ev.forEach(e=>{t+='<tr><td class="lbl">'+esc(e.item)+'</td><td class="lbl">'+esc(e.source)+
-      '</td><td class="lbl">'+esc(e.page)+'</td><td class="lbl">'+esc(e.conf)+'</td><td class="lbl">'+esc(e.note)+'</td></tr>';});
+      '</td><td class="lbl nw">'+esc(e.page)+'</td><td class="lbl nw">'+esc(e.conf)+
+      '</td><td class="lbl">'+esc(e.note)+'</td></tr>';});
     else t+='<tr><td class="lbl" colspan="5" style="color:#8C8C8C">No evidence entries recorded.</td></tr>';
     t+='</tbody></table>';
     P.push(pageWrap('Evidence and assumptions',

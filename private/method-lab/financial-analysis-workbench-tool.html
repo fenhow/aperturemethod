@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v3.0
-  Built 2026-09-02 18:35 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v3.1
+  Built 2026-09-02 19:36 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -135,6 +135,13 @@ body.is-standalone header.mast{border-bottom-width:5px}
 .mast .meta strong{color:var(--off-white);font-weight:600;font-size:13px}
 @media (max-width:900px){.mast .meta strong.coname{font-size:19px}}
 
+/* the header on a utility panel: it says what this is and how to leave */
+.utilbar{display:flex;align-items:center;gap:14px;margin:-4px 0 16px}
+.utilbar .ut{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  color:var(--maroon)}
+.utilbar .ut::before{content:'';display:inline-block;width:20px;height:3px;
+  background:var(--maroon);margin-right:9px;vertical-align:middle}
+.utilbar button{margin-left:auto}
 /* the annotator's review table */
 input[type=checkbox]{accent-color:var(--maroon)}
 .pagebump{display:flex;align-items:center;gap:4px;justify-content:center}
@@ -147,11 +154,11 @@ span.conf.high{background:#EFEFEF;color:#3D3D3D}
 span.conf.medium{background:#F7F1F1;color:var(--maroon)}
 span.conf.low{background:#FFF6E5;color:#8A5A00}
 /* --- Nav --- */
-nav.tabs{background:var(--paper);display:flex;gap:0;padding:0 30px;overflow-x:auto;
+nav.tabs{background:var(--paper);display:flex;gap:0;padding:0 22px;overflow-x:auto;
   border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:60}
 nav.tabs button{background:none;border:none;color:#7A7A7A;font-family:var(--sans);
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-  padding:14px 11px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
+  padding:14px 9px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
   transition:color .15s}
 nav.tabs button .n{margin-right:6px}
 nav.tabs button:hover{color:var(--type)}
@@ -186,7 +193,7 @@ nav.tabs button[data-band=e]{--band:#B3B3B3;--tint:#F4F4F4;--num:#B3B3B3}
 nav.tabs button{border-bottom:3px solid var(--band)}
 nav.tabs button .n{color:var(--num)}
 /* the gap that turns one long rail into five */
-nav.tabs button.bandstart{margin-left:9px}
+nav.tabs button.bandstart{margin-left:7px}
 nav.tabs button.bandstart:first-child{margin-left:0}
 /* selection, said with weight and a wash rather than with the rail */
 nav.tabs button.active{color:var(--type);font-weight:600;background:var(--tint);
@@ -214,6 +221,9 @@ nav.tabs button:hover{color:var(--type);background:var(--tint)}
 .bandstrip .bs-seg.e{--band:#B3B3B3}
 .bandstrip .bs-seg.on{color:var(--band)}
 .bandstrip .bs-seg.on .bs-rail{opacity:1;height:4px}
+.bandstrip .bs-util{margin-left:14px;font-size:8.5px;letter-spacing:.16em;
+  text-transform:uppercase;font-weight:600;color:var(--maroon);
+  border-left:1px solid var(--rule);padding-left:14px}
 .bandstrip .bs-sub{margin-left:auto;letter-spacing:.02em;text-transform:none;
   font-weight:400;font-size:10.5px;color:#8C8C8C;padding-left:14px}
 @media (max-width:1100px){.bandstrip .bs-sub{margin-left:0;flex-basis:100%}}
@@ -858,9 +868,10 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v3.0 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v3.1 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
+      <button class="btn ghost mini2" onclick="openAnnotate()">Annotate a 10-K</button>
       <button class="btn ghost mini2" onclick="saveSession()">Save</button>
       <button class="btn ghost mini2 danger" id="resetBtnTop" onclick="resetAll()">Reset all</button>
     </div>
@@ -870,20 +881,19 @@ body.is-locked>.toolbar{display:none!important}
 <nav class="tabs" id="tabs">
   <button data-p="guide" class="active" data-band="a"><span class="n">00</span>Guide</button>
   <button data-p="import" data-band="a"><span class="n">01</span>Import</button>
-  <button data-p="annotate" data-band="a"><span class="n">02</span>Annotate</button>
-  <button data-p="setup" data-band="a"><span class="n">03</span>Profile</button>
-  <button data-p="statements" data-band="a"><span class="n">04</span>Statements</button>
-  <button data-p="normalise" data-band="a"><span class="n">05</span>Normalise</button>
-  <button data-p="verify" data-band="a"><span class="n">06</span>Verify</button>
-  <button data-p="analysis" data-band="b"><span class="n">07</span>Analysis</button>
-  <button data-p="ratios" data-band="b"><span class="n">08</span>Ratios</button>
-  <button data-p="charts" data-band="b"><span class="n">09</span>Charts</button>
-  <button data-p="notes" data-band="c"><span class="n">10</span>Notes</button>
-  <button data-p="findings" data-band="d"><span class="n">11</span>Findings</button>
-  <button data-p="strengthen" data-band="d"><span class="n">12</span>Strengthen</button>
-  <button data-p="thesis" data-band="d"><span class="n">13</span>Thesis</button>
-  <button data-p="method" data-band="e"><span class="n">14</span>Method</button>
-  <button data-p="report" data-band="e"><span class="n">15</span>Report</button>
+  <button data-p="setup" data-band="a"><span class="n">02</span>Profile</button>
+  <button data-p="statements" data-band="a"><span class="n">03</span>Statements</button>
+  <button data-p="normalise" data-band="a"><span class="n">04</span>Normalise</button>
+  <button data-p="verify" data-band="a"><span class="n">05</span>Verify</button>
+  <button data-p="analysis" data-band="b"><span class="n">06</span>Analysis</button>
+  <button data-p="ratios" data-band="b"><span class="n">07</span>Ratios</button>
+  <button data-p="charts" data-band="b"><span class="n">08</span>Charts</button>
+  <button data-p="notes" data-band="c"><span class="n">09</span>Notes</button>
+  <button data-p="findings" data-band="d"><span class="n">10</span>Findings</button>
+  <button data-p="strengthen" data-band="d"><span class="n">11</span>Strengthen</button>
+  <button data-p="thesis" data-band="d"><span class="n">12</span>Thesis</button>
+  <button data-p="method" data-band="e"><span class="n">13</span>Method</button>
+  <button data-p="report" data-band="e"><span class="n">14</span>Report</button>
 </nav>
 
 <div id="bandStrip" class="bandstrip"></div>
@@ -1260,7 +1270,7 @@ body.is-locked>.toolbar{display:none!important}
         “Net income” or “Depreciation and amortisation” belongs to. Tabs <b>11</b>, <b>12</b> and <b>13</b>
         of that workbook carry the disclosure notes — segment and geographic revenue, deferred revenue, the
         allowance, the LIFO reserve and the depreciable property classes. Those are not imported here: they are
-        pasted or typed into <b>10 Notes</b>, which is where the analysis behind the statements is built.</div>
+        pasted or typed into <b>09 Notes</b>, which is where the analysis behind the statements is built.</div>
     </div>
 
     <div id="im_paste" style="display:none">
@@ -1331,11 +1341,15 @@ body.is-locked>.toolbar{display:none!important}
 <!-- ============ ANNOTATE ============ -->
 <section class="panel" id="panel-annotate">
   <div class="sec">
+    <div class="utilbar">
+      <span class="ut">Utility &middot; not a step in the flow</span>
+      <button class="btn ghost mini2" onclick="closeAnnotate()">Back to the bench</button>
+    </div>
     <h2>Index</h2><div class="rule"></div>
     <h3>Annotate a filing<span class="hmark" data-h="annotate" tabindex="0" role="button" aria-label="What this means">?</span></h3>
     <p class="lede">Drop in a 10-K and this finds the nine footnotes that carry the accounting, marks
       each one with a highlight and a comment naming what it is, and hands back an annotated PDF. The
-      page numbers it finds are the same ones <b>06 Verify</b> and <b>10 Notes</b> ask for, so
+      page numbers it finds are the same ones <b>05 Verify</b> and <b>09 Notes</b> ask for, so
       indexing the filing and building the evidence trail is one pass, not two.</p>
     <div class="drop" id="annDrop" onclick="$('annFile').click()">
       <div class="big">Drop a 10-K here, or click to choose one</div>
@@ -1358,6 +1372,7 @@ body.is-locked>.toolbar{display:none!important}
       <button class="btn maroon" onclick="annBuild()">Write the annotated PDF</button>
       <button class="btn ghost" onclick="annApply()">Send the page numbers to the bench</button>
       <button class="btn ghost" onclick="annRescan()">Search again</button>
+      <button class="btn ghost" onclick="closeAnnotate()">Back to the bench</button>
     </div>
     <div id="annWriteNote" style="margin-top:12px"></div>
   </div>
@@ -1460,7 +1475,7 @@ body.is-locked>.toolbar{display:none!important}
     <h2>Index</h2><div class="rule"></div>
     <h3>The footnote index<span class="hmark" data-h="fnindex" tabindex="0" role="button" aria-label="What this means">?</span></h3>
     <p class="lede">Where each of the nine accounting footnotes sits in the filing. Built on
-      <b>02 Annotate</b> and sent here, or typed in by hand. It prints in the report's verification
+      the <b>Annotate a 10-K</b> button in the header and sent here, or typed in by hand. It prints in the report's verification
       section, so a disclosure quoted anywhere in the document has a page behind it.</p>
     <div class="tblwrap"><div id="qcFootnotes"></div></div>
   </div>
@@ -1900,6 +1915,7 @@ body.is-locked>.toolbar{display:none!important}
     <span style="opacity:.55;margin-left:14px;letter-spacing:.15em;text-transform:uppercase;font-size:9px">Our focus. Your advantage.</span></div>
   <div style="display:flex;gap:9px">
     <button class="btn ghost" onclick="go('import')">Import data</button>
+    <button class="btn ghost" onclick="openAnnotate()">Annotate a 10-K</button>
     <button class="btn ghost" onclick="saveSession()">Save session</button>
     <button class="btn" onclick="go('report');buildReport()">Build report</button>
   </div>
@@ -1949,8 +1965,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'3.0',
-  built:'2026-09-02 18:35 UTC',
+  version:'3.1',
+  built:'2026-09-02 19:36 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2660,15 +2676,32 @@ function goBand(k){
   const b=document.querySelector('nav.tabs button[data-band="'+k+'"]');
   if(b)go(b.dataset.p);
 }
+/* The annotator is reached from the header, so it has no tab to come back
+   from. Remember where you were and offer the way back. */
+let ANN_RETURN='import';
+function openAnnotate(){
+  const cur=document.querySelector('nav.tabs button.active');
+  if(cur)ANN_RETURN=cur.dataset.p;
+  go('annotate');
+}
+function closeAnnotate(){go(ANN_RETURN||'import');}
+/* Panels reachable from a button rather than a tab. They are not steps and
+   they do not belong to a band, so the legend shows nothing lit and the line
+   on the right says plainly where you are and how to get back. */
+const UTIL={annotate:{t:'Annotate a filing',
+  s:'A one-off utility, not a step in the flow \u2014 reached from the header, and it changes nothing until you ask it to'}};
 function showBand(p){
   const btn=document.querySelector('nav.tabs button[data-p="'+p+'"]');
   const el=$('bandStrip'); if(!el)return;
-  const k=btn?btn.dataset.band:'a', d=BANDS[k]||BANDS.a;
-  el.className='bandstrip';
+  const u=UTIL[p];
+  const k=btn?btn.dataset.band:null;
+  const d=u||BANDS[k]||BANDS.a;
+  el.className='bandstrip'+(u?' util':'');
   el.innerHTML=Object.keys(BANDS).map(x=>
     '<span class="bs-seg '+x+(x===k?' on':'')+'" title="'+esc(BANDS[x].s)+
     '" onclick="goBand(\''+x+'\')">'+
     '<span class="bs-rail"></span>'+esc(BANDS[x].t)+'</span>').join('')+
+    (u?'<span class="bs-util">'+esc(u.t)+'</span>':'')+
     '<span class="bs-sub">'+esc(d.s)+'</span>';
 }
 
@@ -9387,7 +9420,7 @@ const GUIDE=[
       'answers the same three questions: what the term is, what it actually tells you, and where it '+
       'misleads. There is one on every ratio, on the fields that change how the analysis behaves, '+
       'and on each component of the investment score.'],
-  ['p','The explanations are not written twice. Where a term is covered in <b>14 Method</b> the '+
+  ['p','The explanations are not written twice. Where a term is covered in <b>13 Method</b> the '+
       'question mark reads it from there, so the short answer and the long one cannot disagree.']]},
 
  {h:'Step 1 · Decide what kind of entity this is',b:[
@@ -9423,26 +9456,7 @@ const GUIDE=[
       'statement, money out is <b>negative</b>, exactly as the statement shows it. The Checks '+
       'tab tests both, per year, before anything is imported.']]},
 
- {h:'Step 3 \u00b7 Index the filing',b:[
-  ['p','<b>02 Annotate</b> is optional and it saves an hour. Drop the 10-K in and it reads every '+
-      'page, finds the nine footnotes that carry the accounting \u2014 revenue recognition, '+
-      'receivables and the allowance, inventory, property, intangibles, deferred revenue, debt, the '+
-      'non-GAAP reconciliation and the segment note \u2014 and proposes a mark on each.'],
-  ['p','It searches the way a 10-K is actually built. A filing states each policy once under a short '+
-      'heading in the summary of significant accounting policies, and again in a numbered note with '+
-      'the tables. Both are found and both are listed, because they answer different questions: the '+
-      'policy says what the company chose, the note shows what the choice produced.'],
-  ['w','Nothing is written until you tick it. Check the page, correct it where the filing put a note '+
-      'somewhere unexpected, and untick anything you do not want marked. Then <b>Write the annotated '+
-      'PDF</b> saves a copy with the highlights and comments on it, and <b>Send the page numbers to '+
-      'the bench</b> records them as the footnote index on <b>06 Verify</b>.'],
-  ['p','The original file is never altered. The annotations are appended after it, which is how the '+
-      'PDF format is designed to take a comment, so the document a reader opens is still the '+
-      'document that was filed.'],
-  ['l','Where a PDF is protected with AES encryption the annotations cannot be written into it. The '+
-      'index is still produced; save or print a fresh copy without security and run it again.']]},
-
- {h:'Step 4 · Set the shape of the data',b:[
+ {h:'Step 3 · Set the shape of the data',b:[
   ['p','Still on <b>01 Import</b>, under <b>Shape of the data</b>: the units, the column order '+
       'and the number of periods. These decide where an imported figure lands, which is why they '+
       'sit with the import rather than three tabs away.'],
@@ -9450,8 +9464,8 @@ const GUIDE=[
       'before you commit the mapping, or the columns are attributed to the wrong years and '+
       'every trend in the report is wrong in a way that looks entirely plausible.']]},
 
- {h:'Step 5 · Fill in what the data cannot tell you',b:[
-  ['p','<b>03 Profile</b> holds the things no import can supply: ownership, legal form and tax '+
+ {h:'Step 4 · Fill in what the data cannot tell you',b:[
+  ['p','<b>02 Profile</b> holds the things no import can supply: ownership, legal form and tax '+
       'treatment, the basis of preparation, the audit report, and who to contact. Ownership sets '+
       'how much weight the evidence carries. Legal form decides whether the tax line, and every '+
       'margin below it, is comparable to anything else: a pass-through entity pays no '+
@@ -9466,26 +9480,26 @@ const GUIDE=[
       'lifecycle stage, and the industry classification, which is in the submissions .json rather '+
       'than in the filing itself. If those fields look empty after an import, that is why.']]},
 
- {h:'Step 6 · Check it, then verify it',b:[
-  ['p','<b>04 Statements</b> shows every figure, with derived lines calculated. '+
-      '<b>06 Verify</b> is the discipline: everything imported arrives unverified, the report '+
+ {h:'Step 5 · Check it, then verify it',b:[
+  ['p','<b>03 Statements</b> shows every figure, with derived lines calculated. '+
+      '<b>05 Verify</b> is the discipline: everything imported arrives unverified, the report '+
       'builds either way, and it carries a <b>DRAFT</b> mark until each key figure has been '+
       'traced to a page and ticked. Editing a figure clears its verification, which is the point.'],
-  ['p','<b>05 Normalise</b> is where owner-benefit and one-off items are added back on a private '+
+  ['p','<b>04 Normalise</b> is where owner-benefit and one-off items are added back on a private '+
       'company, shown as a labelled reconciliation and never in place of the reported figures.']]},
 
- {h:'Step 7 · Read the analysis',b:[
-  ['p','<b>07 Analysis</b> is vertical and horizontal, all three statements. Vertical takes size '+
+ {h:'Step 6 · Read the analysis',b:[
+  ['p','<b>06 Analysis</b> is vertical and horizontal, all three statements. Vertical takes size '+
       'out and leaves structure. Horizontal takes structure out and leaves movement. Under each '+
       'table there is an evaluation box with a <b>Draft from the model</b> button: it names the '+
       'lines that actually moved and the size of the move, and then stops. Rewrite it. The draft '+
       'ends in a bracket telling you what it could not work out, and an unfilled bracket in the '+
       'finished report is a visible gap rather than a silent one.'],
-  ['p','<b>08 Ratios</b>, <b>09 Charts</b> and <b>14 Method</b> follow the same rule: every '+
+  ['p','<b>07 Ratios</b>, <b>08 Charts</b> and <b>13 Method</b> follow the same rule: every '+
       'formula is shown worked, with the trap that most often ruins it named underneath.']]},
 
- {h:'Step 8 \u00b7 Read what sits behind the statements',b:[
-  ['p','<b>10 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
+ {h:'Step 7 \u00b7 Read what sits behind the statements',b:[
+  ['p','<b>09 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
       'statements; this reads the footnotes, which is where most of what a statement conceals is '+
       'explained a few pages later. Six modules, each independent, each of which may be left empty.'],
   ['l','<b>Segment and geographic revenue</b> — a single top line that moved half a per cent can '+
@@ -9514,16 +9528,16 @@ const GUIDE=[
   ['p','In the finished document this work is <b>Part II \u2014 Behind the numbers</b>, behind its own '+
       'divider sheet, so it is never mistaken for analysis drawn from the face of the statements.']]},
 
- {h:'Step 9 · Write the judgement',b:[
-  ['p','<b>11 Findings</b> holds the screening flags, which are prompts to investigate rather '+
+ {h:'Step 8 · Write the judgement',b:[
+  ['p','<b>10 Findings</b> holds the screening flags, which are prompts to investigate rather '+
       'than conclusions, and the analyst commentary. Every commentary field has its own '+
       '<b>Draft from the model</b> button. A draft never overwrites what you have already '+
       'written: it is appended underneath it.'],
-  ['p','<b>12 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
+  ['p','<b>11 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
       'Next and Later. The value of that page is in what has been left off it.']]},
 
- {h:'Step 10 · Commit to a verdict',b:[
-  ['p','<b>13 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
+ {h:'Step 9 · Commit to a verdict',b:[
+  ['p','<b>12 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
       'are scored against fixed thresholds and weighted: profitability, return on capital, quality of '+
       'earnings, resilience, growth, and the confidence the evidence itself carries. The table shows '+
       'the figure each one read and the section of the report that carries it, so a reader can argue '+
@@ -9539,8 +9553,8 @@ const GUIDE=[
       'would change your mind, then rewrite all three. A bear case you cannot make convincing is a '+
       'risk you have not understood.']]},
 
- {h:'Step 11 · Build the report, and save',b:[
-  ['n','<b>15 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
+ {h:'Step 10 · Build the report, and save',b:[
+  ['n','<b>14 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
       'contents page is generated from the pages that were actually built, so it cannot describe a '+
       'section you switched off.'],
   ['n','Press <b>Print / Save as PDF</b>. In the print dialogue set paper size <b>Letter</b>, '+
@@ -9550,6 +9564,28 @@ const GUIDE=[
       '<code>.aperture.json</code> file that you keep beside this one and re-open later with '+
       '<b>Load session file</b>. This file holds no data of its own, so if you close the tab '+
       'without saving, the work is gone.']]},
+
+ {h:'The annotator \u2014 a utility, not a step',b:[
+  ['p','<b>Annotate a 10-K</b>, in the header beside <b>Import data</b>, is there for the times you '+
+      'want it and out of the way the rest of the time. It is not a stage of the analysis and it has '+
+      'no number, because a public filing is only one of the three routes into this tool.'],
+  ['p','Drop a 10-K in and it reads every page, then finds the nine footnotes that carry the '+
+      'accounting \u2014 revenue recognition, receivables and the allowance, inventory, property, '+
+      'intangibles, deferred revenue, debt, the non-GAAP reconciliation and the segment note \u2014 '+
+      'and proposes a mark on each.'],
+  ['p','It searches the way a 10-K is actually built. A filing states each policy once under a short '+
+      'heading in the summary of significant accounting policies, and again in a numbered note with '+
+      'the tables. Both are found and both are listed, because they answer different questions: the '+
+      'policy says what the company chose, the note shows what the choice produced.'],
+  ['w','Nothing is written until you tick it. Check the page, correct it where the filing put a note '+
+      'somewhere unexpected, and untick anything you do not want marked. Then <b>Write the annotated '+
+      'PDF</b> saves a copy with the highlights and comments on it, and <b>Send the page numbers to '+
+      'the bench</b> records them as the footnote index on <b>05 Verify</b>.'],
+  ['p','The original file is never altered. The annotations are appended after it, which is how the '+
+      'PDF format is designed to take a comment, so the document a reader opens is still the '+
+      'document that was filed.'],
+  ['l','Where a PDF is protected with AES encryption the annotations cannot be written into it. The '+
+      'index is still produced; save or print a fresh copy without security and run it again.']]},
 
  {h:'If something goes wrong',b:[
   ['l','<b>An import brought in nothing.</b> A taxonomy file (.xsd, or one ending _cal, _def, '+
@@ -10221,7 +10257,7 @@ async function pdfWriteHighlights(buf,marks,opts){
 
 /* The nine categories, in the order they are usually asked for. `pats` are
    matched against a normalised heading; `need` is what the report says when
-   nothing was found; `feeds` names the field on 06 Verify that the page number
+   nothing was found; `feeds` names the field on 05 Verify that the page number
    belongs in, where one exists. */
 const ANN_CATS=[
  {k:'revrec',l:'Revenue recognition',
@@ -10565,7 +10601,7 @@ function annApply(){
   toast(n+' page references sent to Verify');
   $('annWriteNote').innerHTML='<div class="flag ok"><span class="dot"></span><div>'+
     '<b>Sent to the bench</b><span class="why">'+n+' page references recorded against “'+
-    esc(ANN.name)+'”. They appear as the footnote index on <b>06 Verify</b> and print in the '+
+    esc(ANN.name)+'”. They appear as the footnote index on <b>05 Verify</b> and print in the '+
     'report’s verification section, so every disclosure quoted has a page behind it.</span></div></div>';
 }
 /* the index as the rest of the bench sees it */
@@ -10575,7 +10611,7 @@ function renderFootnoteIndex(){
   const rows=annIndexRows();
   if(!rows.length){
     el.innerHTML='<div class="hint">No filing has been indexed yet. Open a 10-K on '+
-      '<b>02 Annotate</b> and send the page numbers here, and every disclosure quoted in the '+
+      'the <b>Annotate a 10-K</b> button in the header and send the page numbers here, and every disclosure quoted in the '+
       'report will carry a page behind it.</div>';
     return;
   }

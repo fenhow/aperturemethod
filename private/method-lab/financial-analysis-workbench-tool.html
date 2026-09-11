@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v3.6
-  Built 2026-09-11 15:06 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v3.7
+  Built 2026-09-11 15:19 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -907,11 +907,11 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v3.6 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v3.7 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="openAnnotate()">Annotate a 10-K</button>
-      <button class="btn ghost mini2 draft" onclick="draftAll()" title="Run every Draft from the model button at once. Fields you have already written are left alone.">Draft all</button>
+      <button class="btn ghost mini2 draft" onclick="draftAll()" title="Run every Draft from the model button at once. Fields you have already written are left alone.">Seed Draft All</button>
       <button class="btn ghost mini2" onclick="saveSession()">Save</button>
       <button class="btn ghost mini2 danger" id="resetBtnTop" onclick="resetAll()">Reset all</button>
     </div>
@@ -1962,7 +1962,7 @@ body.is-locked>.toolbar{display:none!important}
     <button class="btn ghost" onclick="go('import')">Import data</button>
     <button class="btn ghost" onclick="openAnnotate()">Annotate a 10-K</button>
     <button class="btn ghost" onclick="saveSession()">Save session</button>
-    <button class="btn draft" onclick="draftAll()" title="Run every Draft from the model button at once. Fields you have already written are left alone.">Draft all</button>
+    <button class="btn draft" onclick="draftAll()" title="Run every Draft from the model button at once. Fields you have already written are left alone.">Seed Draft All</button>
     <button class="btn" onclick="go('report');buildReport()">Build report</button>
   </div>
 </div>
@@ -2011,8 +2011,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'3.6',
-  built:'2026-09-11 15:06 UTC',
+  version:'3.7',
+  built:'2026-09-11 15:19 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -6524,7 +6524,7 @@ function draftAll(){
   const msg='Drafted '+done+(kept?' \u00b7 left '+kept+' you had written':'')+
     (none?' \u00b7 '+none+' need more data':'')+'. Now rewrite them.';
   toast(msg);
-  status('<b>Draft all</b>: '+msg+' Every draft ends in a bracketed sentence that is yours to write.');
+  status('<b>Seed Draft All</b>: '+msg+' Every draft ends in a bracketed sentence that is yours to write.');
 }
 
 const HORIZONS=['Now','Next','Later'];
@@ -9778,7 +9778,7 @@ const GUIDE=[
       'than conclusions, and the analyst commentary. Every commentary field has its own '+
       '<b>Draft from the model</b> button. A draft never overwrites what you have already '+
       'written: it is appended underneath it.'],
-  ['p','The orange <b>Draft all</b> button at the top of the page runs every one of those '+
+  ['p','The orange <b>Seed Draft All</b> button at the top of the page runs every one of those '+
       'buttons at once, across 06 Analysis, 09 Notes, 10 Findings, 11 Strengthen and 12 Thesis. '+
       'It fills empty fields only, so anything you have already written is left alone and it '+
       'is safe to run again after importing more data.'],

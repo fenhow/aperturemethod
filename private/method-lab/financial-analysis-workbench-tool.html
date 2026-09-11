@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v3.7
-  Built 2026-09-11 15:19 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v3.8
+  Built 2026-09-11 20:52 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -166,11 +166,11 @@ table.fin tr.gaprow td{background:#FCF7F7}
 table.fin tr.gaprow td.gapmark{color:var(--maroon);font-weight:600;
   font-size:9px;letter-spacing:.14em;text-transform:uppercase}
 /* --- Nav --- */
-nav.tabs{background:var(--paper);display:flex;gap:0;padding:0 22px;overflow-x:auto;
+nav.tabs{background:var(--paper);display:flex;gap:0;padding:0 16px;overflow-x:auto;
   border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:60}
 nav.tabs button{background:none;border:none;color:#7A7A7A;font-family:var(--sans);
-  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
-  padding:14px 9px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
+  font-size:10.5px;letter-spacing:.085em;text-transform:uppercase;font-weight:500;
+  padding:14px 8px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
   transition:color .15s}
 nav.tabs button .n{margin-right:6px}
 nav.tabs button:hover{color:var(--type)}
@@ -758,6 +758,12 @@ h4.fgroup:first-child{margin-top:4px}
 .btn.danger.armed{background:var(--maroon);color:#fff;border-color:var(--maroon)}
 .sbnote{font-size:11.5px;color:var(--maroon)}
 .masttools{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+.unitbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;background:#F7F5F2;border-left:3px solid #9A9A9A}
+.unitbar select{font:inherit;font-size:12px;padding:4px 6px}
+.unitread{font-size:12px;color:#4D4D4D;flex:1 1 320px}
+.unitread.trap{color:#500000;font-weight:600}
+.unitbar:has(.trap){border-left-color:#500000}
+.zs{color:#8C8C8C;font-size:10.5px}
 /* the masthead is black, so these need their own treatment — the shared ghost
    button is dark text on transparent and would be invisible here */
 .masttools .btn,.masttools .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.34);
@@ -907,7 +913,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v3.7 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v3.8 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="openAnnotate()">Annotate a 10-K</button>
@@ -928,12 +934,13 @@ body.is-locked>.toolbar{display:none!important}
   <button data-p="analysis" data-band="b"><span class="n">06</span>Analysis</button>
   <button data-p="ratios" data-band="b"><span class="n">07</span>Ratios</button>
   <button data-p="charts" data-band="b"><span class="n">08</span>Charts</button>
-  <button data-p="notes" data-band="c"><span class="n">09</span>Notes</button>
-  <button data-p="findings" data-band="d"><span class="n">10</span>Findings</button>
-  <button data-p="strengthen" data-band="d"><span class="n">11</span>Strengthen</button>
-  <button data-p="thesis" data-band="d"><span class="n">12</span>Thesis</button>
-  <button data-p="method" data-band="e"><span class="n">13</span>Method</button>
-  <button data-p="report" data-band="e"><span class="n">14</span>Report</button>
+  <button data-p="credit" data-band="b"><span class="n">09</span>Credit</button>
+  <button data-p="notes" data-band="c"><span class="n">10</span>Notes</button>
+  <button data-p="findings" data-band="d"><span class="n">11</span>Findings</button>
+  <button data-p="strengthen" data-band="d"><span class="n">12</span>Strengthen</button>
+  <button data-p="thesis" data-band="d"><span class="n">13</span>Thesis</button>
+  <button data-p="method" data-band="e"><span class="n">14</span>Method</button>
+  <button data-p="report" data-band="e"><span class="n">15</span>Report</button>
 </nav>
 
 <div id="bandStrip" class="bandstrip"></div>
@@ -1310,7 +1317,7 @@ body.is-locked>.toolbar{display:none!important}
         “Net income” or “Depreciation and amortisation” belongs to. Tabs <b>11</b>, <b>12</b> and <b>13</b>
         of that workbook carry the disclosure notes — segment and geographic revenue, deferred revenue, the
         allowance, the LIFO reserve and the depreciable property classes. Those are not imported here: they are
-        pasted or typed into <b>09 Notes</b>, which is where the analysis behind the statements is built.</div>
+        pasted or typed into <b>10 Notes</b>, which is where the analysis behind the statements is built.</div>
     </div>
 
     <div id="im_paste" style="display:none">
@@ -1392,7 +1399,7 @@ body.is-locked>.toolbar{display:none!important}
       searches four ways and keeps going until every one of the nine has an answer. Whatever it
       cannot find is named in an index note on the first page, so a reader opening the file learns at
       once what is marked and what is missing. The page numbers are the same ones <b>05 Verify</b>
-      and <b>09 Notes</b> ask for, so indexing the filing and building the evidence trail is one
+      and <b>10 Notes</b> ask for, so indexing the filing and building the evidence trail is one
       pass, not two.</p>
     <div class="drop" id="annDrop" onclick="$('annFile').click()">
       <div class="big">Drop a 10-K here, or click to choose one</div>
@@ -1728,6 +1735,84 @@ body.is-locked>.toolbar{display:none!important}
   </div>
 </section>
 
+<!-- ============ CREDIT ============ -->
+<section class="panel" id="panel-credit">
+  <div class="sec">
+    <h2>Credit and market</h2><div class="rule"></div>
+    <h3>Can the business carry what it owes?<span class="hmark" data-h="creditpart" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Liquidity, solvency, bankruptcy risk, payout and market value, on the class
+      definitions: total debt counts the operating leases, EBIT is built up from net income, and the
+      payout ratio and P/E use basic earnings per share. Three inputs come from outside the four
+      statements: amortisation from the intangibles note, a period-end share price, and the credit
+      ratings. Anything missing prints in the report as not performed, naming what it needs.</p>
+    <div id="credStatus"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Solvency</h2><div class="rule"></div>
+    <h3>Total debt and capital structure<span class="hmark" data-h="leasedebt" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Total debt for each year, with the operating lease liabilities the lease footnote
+      puts on the balance sheet, and debt to equity. The ratio without the leases is shown underneath
+      for comparison: it is the number a reader who skipped the footnote would quote.</p>
+    <div class="tblwrap"><div id="credDebtGrid"></div></div>
+    <div id="credNote_debt"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Solvency</h2><div class="rule"></div>
+    <h3>Coverage<span class="hmark" data-h="coverage3" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Times interest earned, EBITDA to interest, and free cash flow to debt. Depreciation
+      comes from the property note (the same figure as on 10 Notes) and amortisation from the
+      intangibles note; together they should tie to the depreciation and amortisation line on the
+      cash flow statement.</p>
+    <div class="tblwrap"><div id="credCovGrid"></div></div>
+    <div id="credNote_coverage"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Liquidity</h2><div class="rule"></div>
+    <h3>Current and quick ratios<span class="hmark" data-h="liquidity3" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">The quick ratio counts only cash, marketable securities and receivables. Where the
+      balance sheet does not show marketable securities separately, the line reads zero.</p>
+    <div class="tblwrap"><div id="credLiqGrid"></div></div>
+    <div id="credNote_liquidity"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Bankruptcy risk</h2><div class="rule"></div>
+    <h3>Credit ratings<span class="hmark" data-h="ratings" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">One or more ratings, from Moody’s, S&amp;P or Fitch, with the date. The grade is read
+      from the symbol: Baa3 and BBB- are the lowest investment-grade notches.</p>
+    <div class="tblwrap"><div id="credRatingGrid"></div></div>
+  </div>
+
+  <div class="sec">
+    <h2>Bankruptcy risk</h2><div class="rule"></div>
+    <h3>Altman Z-Score<span class="hmark" data-h="zscore" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">The original Z-Score for a listed company, which uses the market value of equity;
+      the Z′ revision for a private one, which uses book equity with its own weights and zones. Watch
+      the units: the share count and the dollars must be in the same scale before they meet.<span class="hmark" data-h="shareunits" tabindex="0" role="button" aria-label="What this means">?</span></p>
+    <div class="tblwrap"><div id="credZGrid"></div></div>
+    <div id="credNote_z"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Payout and market</h2><div class="rule"></div>
+    <h3>Dividends, market-to-book and P/E<span class="hmark" data-h="market3" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Dividends per share come from the statement of shareholders’ equity or its note.
+      The share price is the close on the last trading day of each fiscal year. Edits here change the
+      same figures as on 03 Statements and 02 Profile.</p>
+    <div class="tblwrap"><div id="credMktGrid"></div></div>
+    <div id="credNote_market"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Reading</h2><div class="rule"></div>
+    <h3>What the credit tests say</h3>
+    <div id="credRead"></div>
+  </div>
+</section>
+
 <!-- ============ FINDINGS ============ -->
 <section class="panel" id="panel-findings">
   <div class="sec">
@@ -1931,6 +2016,7 @@ body.is-locked>.toolbar{display:none!important}
       <div class="chip on" data-r="ratios">Ratios</div>
       <div class="chip on" data-r="dupont">DuPont</div>
       <div class="chip on" data-r="charts">Charts</div>
+      <div class="chip on" data-r="credit">Credit &amp; market</div>
       <div class="chip on" data-r="notes">The notes</div>
       <div class="chip on" data-r="findings">Findings</div>
       <div class="chip on" data-r="implications">What this tells us</div>
@@ -2011,8 +2097,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'3.7',
-  built:'2026-09-11 15:19 UTC',
+  version:'3.8',
+  built:'2026-09-11 20:52 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2323,7 +2409,8 @@ function sharesOut(i){
   return V('is','sharesDiluted',i);
 }
 function sharePrice(i){const v=E().price[i];return (v==null||v==='')?null:Number(v);}
-function marketCap(i){const p=sharePrice(i),sh=sharesOut(i);return (p==null||sh==null)?null:p*sh;}
+/* one share count and one unit rule for every price-based figure: see 13d */
+function marketCap(i){return mveS3(i);}
 function enterpriseValue(i,withLeases){
   const mc=marketCap(i); if(mc==null)return null;
   const d=withLeases?debtWithLeases(i):totalDebt(i);
@@ -2438,7 +2525,16 @@ function blankState(){
       accumDepOverride:[null,null,null,null,null,null],
       revPolicy:'', invPolicy:''
     },
-    ui:{stmt:'bs',cs:'bs',repSections:['cover','toc','profile','summary','statements','normalisation','valuation','common','horizontal','ratios','dupont','charts','notes','findings','implications','levers','actions','thesis','qc','evidence','method']}
+    /* Session 3 inputs that neither the statements nor the Notes tab carry:
+       amortisation from the intangibles note, the share counts behind the
+       market value, the unit those counts are in, and the credit ratings. */
+    cred:{
+      amort:[null,null,null,null,null,null],
+      sharesIssued:[null,null,null,null,null,null],
+      treasuryShares:[null,null,null,null,null,null],
+      shareUnit:'auto', ratings:[], na:{}
+    },
+    ui:{stmt:'bs',cs:'bs',repSections:['cover','toc','profile','summary','statements','normalisation','valuation','common','horizontal','ratios','dupont','charts','credit','notes','findings','implications','levers','actions','thesis','qc','evidence','method']}
   };
 }
 function cloneTax(k){
@@ -2542,7 +2638,7 @@ function renderAllDerived(){
   renderKPIs();renderDuPont();renderRatios();renderCharts();renderFlags();
   renderProfile();renderIntakeRead();renderScale();renderValuation();
   syncStatusSeg();applyMask();renderAddbacks();renderNormResult();
-  renderStrengthen();renderDisclosure();renderThesis();renderMethod();renderQC();updateMast();
+  renderStrengthen();renderDisclosure();renderCredit();renderThesis();renderMethod();renderQC();updateMast();
   if(typeof growAll==='function')growAll(document.querySelector('.panel.active')||document);
   if(typeof markAllDone==='function')markAllDone(document);
 }
@@ -2600,10 +2696,12 @@ const RATIOS=[
   d:'NOPAT ÷ (debt + equity − cash). Return on the capital actually put to work.'},
  {g:'Liquidity',n:'Current ratio',f:i=>div(V('bs','totalCurrentAssets',i),V('bs','totalCurrentLiabilities',i)),t:'x',
   d:'Current assets ÷ current liabilities.'},
- {g:'Liquidity',n:'Quick ratio',f:i=>{
+ {g:'Liquidity',n:'Quick ratio',f:i=>quickS3(i),t:'x',
+  d:'Cash, marketable securities and receivables ÷ current liabilities. The class definition.'},
+ {g:'Liquidity',n:'Quick ratio, current-assets basis',f:i=>{
     const ca=V('bs','totalCurrentAssets',i);if(ca==null)return null;
     return div(ca-V0('bs','inventory',i)-V0('bs','prepaid',i),V('bs','totalCurrentLiabilities',i));},t:'x',
-  d:'Current assets less inventory and prepayments ÷ current liabilities. Liquidity without selling stock.'},
+  d:'Current assets less inventory and prepayments ÷ current liabilities. Keeps other current assets in.'},
  {g:'Liquidity',n:'Cash ratio',f:i=>div(V0('bs','cash',i)+V0('bs','shortTermInv',i),V('bs','totalCurrentLiabilities',i)),t:'x'},
  {g:'Liquidity',n:'Working capital',f:i=>workingCapital(i),t:'cur'},
  {g:'Liquidity',n:'Working capital ÷ revenue',f:i=>div(workingCapital(i),V('is','revenue',i)),t:'pct'},
@@ -2619,7 +2717,8 @@ const RATIOS=[
     if(!it||!rt||!pt)return null;return 365/it+365/rt-365/pt;},t:'days',avg:1,
   d:'DIO + DSO − DPO. Days of cash tied up between paying suppliers and collecting from customers. Negative is a funding advantage.'},
  {g:'Leverage',n:'Total liabilities ÷ equity',f:i=>div(V('bs','totalLiabilities',i),V('bs','totalEquity',i)),t:'x'},
- {g:'Leverage',n:'Debt ÷ equity',f:i=>div(totalDebt(i),V('bs','totalEquity',i)),t:'x'},
+ {g:'Leverage',n:'Total debt ÷ equity (incl. operating leases)',f:i=>deS3(i),t:'x'},
+ {g:'Leverage',n:'Debt ÷ equity (excl. leases)',f:i=>div(totalDebt(i),V('bs','totalEquity',i)),t:'x'},
  {g:'Leverage',n:'Debt ÷ total assets',f:i=>div(totalDebt(i),V('bs','totalAssets',i)),t:'pct'},
  {g:'Leverage',n:'Financial leverage (assets ÷ equity, avg)',f:i=>div(avgBal('bs','totalAssets',i),avgBal('bs','totalEquity',i)),t:'x',avg:1,
   d:'The leverage multiplier in the DuPont identity.'},
@@ -2627,7 +2726,13 @@ const RATIOS=[
  {g:'Leverage',n:'Net debt ÷ EBITDA',f:i=>div(netDebt(i),ebitda(i)),t:'x'},
  {g:'Leverage',n:'Debt incl. leases ÷ EBITDA',f:i=>div(debtWithLeases(i),ebitda(i)),t:'x',
   d:'Leases are debt in substance. Retailers look materially more geared on this measure.'},
- {g:'Leverage',n:'Interest coverage (EBIT ÷ interest)',f:i=>div(V('is','operatingIncome',i),V('is','interestExpense',i)),t:'x'},
+ {g:'Coverage',n:'Times interest earned',f:i=>tieS3(i),t:'x'},
+ {g:'Coverage',n:'EBITDA ÷ interest',f:i=>ebitdaCovS3(i),t:'x'},
+ {g:'Coverage',n:'Free cash flow ÷ total debt',f:i=>fcfToDebt(i),t:'x'},
+ {g:'Coverage',n:'Years of free cash flow to repay debt',f:i=>yearsToRepay(i),t:'n'},
+ {g:'Bankruptcy risk',n:'Altman Z-Score',f:i=>zScore(i),t:'n',
+  d:'Z for a listed company, Z′ (book equity) for a private one. Zones differ by model; see 09 Credit.'},
+ {g:'Coverage',n:'Interest coverage (operating income ÷ interest)',f:i=>div(V('is','operatingIncome',i),V('is','interestExpense',i)),t:'x'},
  {g:'Cash flow',n:'Operating cash flow margin',f:i=>div(V('cf','cfo',i),V('is','revenue',i)),t:'pct'},
  {g:'Cash flow',n:'Free cash flow',f:i=>fcf(i),t:'cur',d:'Operating cash flow less capital expenditure.'},
  {g:'Cash flow',n:'Free cash flow margin',f:i=>div(fcf(i),V('is','revenue',i)),t:'pct'},
@@ -2636,7 +2741,9 @@ const RATIOS=[
  {g:'Cash flow',n:'Capex ÷ revenue',f:i=>{const c=V('cf','capex',i);return c==null?null:div(Math.abs(c),V('is','revenue',i));},t:'pct'},
  {g:'Cash flow',n:'Capex ÷ depreciation',f:i=>{const c=V('cf','capex',i),d=V('cf','depAmort',i);return (c==null||d==null)?null:div(Math.abs(c),Math.abs(d));},t:'x',
   d:'Under 1.0 for several years means the asset base is being consumed faster than it is replaced.'},
- {g:'Cash flow',n:'Dividend payout ratio',f:i=>{const d=V('cf','dividendsPaid',i);return d==null?null:div(Math.abs(d),V('is','netIncome',i));},t:'pct'},
+ {g:'Cash flow',n:'Dividend payout ratio',f:i=>payoutS3(i),t:'pct',
+  na:()=>isPrivate()?'No dividends per share for a private company.':null},
+ {g:'Cash flow',n:'Cash dividends ÷ net income',f:i=>{const d=V('cf','dividendsPaid',i);return d==null?null:div(Math.abs(d),V('is','netIncome',i));},t:'pct'},
  {g:'Cash flow',n:'Shareholder returns ÷ FCF',f:i=>{
     const d=V('cf','dividendsPaid',i),b=V('cf','buybacks',i),f=fcf(i);
     if(f==null||(d==null&&b==null))return null;return div(Math.abs(V0('cf','dividendsPaid',i))+Math.abs(V0('cf','buybacks',i)),f);},t:'x'},
@@ -2665,9 +2772,13 @@ const RATIOS=[
   na:()=>isPublic()?(marketCap(latestIdx())==null?'No share price recorded.':null):'No public market.'},
  {g:'Valuation — observed',n:'EV ÷ revenue',f:i=>div(enterpriseValue(i,true),V('is','revenue',i)),t:'x',
   na:()=>isPublic()?(marketCap(latestIdx())==null?'No share price recorded.':null):'No public market.'},
+ {g:'Valuation — observed',n:'Price ÷ earnings (basic)',f:i=>peS3(i),t:'x',
+  na:()=>isPublic()?(E().price.some(x=>x!=null&&x!=='')?null:'No share price recorded.'):'No public market.'},
+ {g:'Valuation — observed',n:'Market-to-book (price ÷ book value per share)',f:i=>mtbS3(i),t:'x',
+  na:()=>isPublic()?(E().price.some(x=>x!=null&&x!=='')?null:'No share price recorded.'):'No public market.'},
  {g:'Valuation — observed',n:'Price ÷ earnings (diluted)',f:i=>div(sharePrice(i),V('is','epsDiluted',i)),t:'x',
   na:()=>isPublic()?(E().price.some(x=>x!=null&&x!=='')?null:'No share price recorded.'):'No public market.'},
- {g:'Valuation — observed',n:'Price ÷ book value',f:i=>div(marketCap(i),V('bs','totalEquity',i)),t:'x',
+ {g:'Valuation — observed',n:'Market capitalisation ÷ total equity',f:i=>div(marketCap(i),V('bs','totalEquity',i)),t:'x',
   na:()=>isPublic()?(marketCap(latestIdx())==null?'No share price recorded.':null):'No public market.'},
  {g:'Valuation — observed',n:'Free cash flow yield',f:i=>div(fcf(i),marketCap(i)),t:'pct',
   na:()=>isPublic()?(marketCap(latestIdx())==null?'No share price recorded.':null):'No public market.'},
@@ -2691,6 +2802,8 @@ const RATIOS=[
  {g:'Per share',n:'Book value per share',f:i=>{
     const sh=V('is','sharesDiluted',i)!=null?V('is','sharesDiluted',i):V('bs','sharesOutstanding',i);
     return div(V('bs','totalEquity',i),sh);},t:'ps'},
+ {g:'Per share',n:'Basic EPS',f:i=>V('is','epsBasic',i),t:'ps'},
+ {g:'Per share',n:'Book value per common share',f:i=>bvps(i),t:'ps'},
  {g:'Per share',n:'Dividends per share',f:i=>V('bs','dividendPerShare',i),t:'ps'},
  {g:'Per share',n:'FCF per share',f:i=>div(fcf(i),V('is','sharesDiluted',i)),t:'ps',
   na:()=>(isPublic()||sharesOut(latestIdx())!=null)?null:'No share count recorded.'}
@@ -4505,6 +4618,637 @@ function renderDisclosure(){
   renderDiscPolicies();renderDiscNotes();
 }
 
+/* ---------- 13d. CREDIT: LIQUIDITY, SOLVENCY, BANKRUPTCY RISK, MARKET ------
+   ACCT 610 Session 3, built as its own tab because it asks a different question
+   from the rest of Part I: not how well the business performs, but whether it
+   can carry what it owes, and what the market will pay for what is left.
+
+   The definitions are the class definitions, and they differ from the looser
+   ones elsewhere in this tool in ways that matter:
+   - total debt INCLUDES the operating lease liabilities the lease footnote puts
+     on the balance sheet. A retailer that rents its stores is geared through
+     its leases, and debt without them is the flattering number;
+   - EBIT is built UP from net income (net income + interest + tax), so it
+     carries the non-operating lines that operating income leaves out;
+   - EBITDA adds back depreciation and the amortisation disclosed in the notes;
+   - the payout ratio is dividends per share over BASIC earnings per share, and
+     P/E is on basic EPS.
+   The older definitions stay in the ratio registry as labelled second lines.
+
+   The units trap is handled here and nowhere else: statements are in
+   thousands or millions of dollars, share counts often are not, and a market
+   value of equity computed from one and divided by the other is out by a
+   factor of a million. Every price-based measure goes through shareMult(). */
+function C3(){return S.cred||{};}
+function credVal(k,i){const a=C3()[k];const v=a&&a[i];return (v==null||v==='')?null:Number(v);}
+function credSetArr(k,i,v){S.cred[k][i]=parseNum(v);recalcAll();}
+function credNA(k){return !!((C3().na||{})[k]);}
+function credSetNA(k,v){S.cred.na=S.cred.na||{};S.cred.na[k]=!!v;recalcAll();}
+function credSetUnit(v){S.cred.shareUnit=v;recalcAll();}
+function credSetPrice(i,v){S.entity.price[i]=parseNum(v);recalcAll();}
+/* a statement line edited from this tab is the same cell as on 03 Statements */
+function roleEdit(st,role,i,v){
+  const r=rowByRole(st,role); if(!r)return;
+  const x=parseNum(v), changed=(r.values[i]!==x);
+  r.values[i]=x; if(r.calc)r.overridden[i]=(x!=null);
+  if(changed&&r.verified){r.verified=false;r.vAt='';toast('“'+r.label+'” edited — verification cleared');}
+  recalcAll();
+}
+
+/* ---- 10 a  total debt, with the operating leases ------------------------ */
+const DEBT_PARTS=[
+  {role:'currentLeaseLiab', l:'Current portion of operating lease liabilities'},
+  {role:'shortTermDebt',    l:'Current portion of long-term debt'},
+  {role:'longTermLeaseLiab',l:'Long-term operating lease liabilities'},
+  {role:'longTermDebt',     l:'Long-term debt'}];
+function totalDebtS3(i){
+  const v=DEBT_PARTS.map(p=>V('bs',p.role,i));
+  return v.every(x=>x==null)?null:v.reduce((a,x)=>a+(x||0),0);
+}
+function leaseShareOfDebt(i){
+  const t=totalDebtS3(i); if(!t)return null;
+  return (V0('bs','currentLeaseLiab',i)+V0('bs','longTermLeaseLiab',i))/t;
+}
+/* ---- 10 b  capital structure -------------------------------------------- */
+function deS3(i){return div(totalDebtS3(i),V('bs','totalEquity',i));}
+function deExLeases(i){return div(totalDebt(i),V('bs','totalEquity',i));}
+
+/* ---- 10 c  coverage ------------------------------------------------------ */
+function intS3(i){const x=V('is','interestExpense',i);return x==null?null:Math.abs(x);}
+function ebitS3(i){
+  const n=V('is','netIncome',i),x=intS3(i),t=V('is','taxExpense',i);
+  return (n==null||x==null||t==null)?null:n+x+t;
+}
+function amortS3(i){return credVal('amort',i);}
+function depS3(i){return discVal('depExpense',i);}
+/* Depreciation from the property note plus the amortisation of intangibles
+   from its own note. Where the notes are not captured, the cash flow
+   statement's combined D&A line stands in, and the amortisation input is then
+   ignored rather than counted twice. */
+function ebitdaBasis(i){
+  if(ebitS3(i)==null)return null;
+  if(depS3(i)!=null)return 'notes';
+  return V('cf','depAmort',i)!=null?'cf':null;
+}
+function ebitdaS3(i){
+  const e=ebitS3(i), b=ebitdaBasis(i);
+  if(b==='notes')return e+depS3(i)+(amortS3(i)||0);
+  if(b==='cf')return e+Math.abs(V('cf','depAmort',i));
+  return null;
+}
+function tieS3(i){return div(ebitS3(i),intS3(i));}
+function ebitdaCovS3(i){return div(ebitdaS3(i),intS3(i));}
+function capexS3(i){const c=V('cf','capex',i);return c==null?null:-Math.abs(c);}
+function fcfToDebt(i){return div(fcf(i),totalDebtS3(i));}
+/* the reciprocal, as the class sheet takes it; meaningless when free cash flow
+   is not positive, and reported that way rather than as a negative number of years */
+function yearsToRepay(i){const f=fcf(i),d=totalDebtS3(i);return (f==null||d==null||f<=0)?null:d/f;}
+
+/* ---- 10 d  liquidity ----------------------------------------------------- */
+function currentS3(i){return div(V('bs','totalCurrentAssets',i),V('bs','totalCurrentLiabilities',i));}
+function quickAssets(i){
+  const c=V('bs','cash',i),r=V('bs','receivables',i);
+  return (c==null&&r==null)?null:(c||0)+V0('bs','shortTermInv',i)+(r||0);
+}
+function quickS3(i){return div(quickAssets(i),V('bs','totalCurrentLiabilities',i));}
+
+/* ---- shares, and the units trap ----------------------------------------- */
+function sharesIssuedS3(i){const v=credVal('sharesIssued',i);return v!=null?v:V('bs','sharesOutstanding',i);}
+function treasurySharesS3(i){return credVal('treasuryShares',i);}
+function sharesOutS3(i){
+  const is=credVal('sharesIssued',i);
+  if(is!=null)return is-(treasurySharesS3(i)||0);
+  return sharesOut(i);
+}
+function sharesSource(i){
+  if(credVal('sharesIssued',i)!=null)return 'issued less treasury';
+  if(V('bs','sharesOutstanding',i)!=null)return 'balance sheet memo';
+  if(V('is','sharesDiluted',i)!=null)return 'weighted-average diluted shares';
+  return null;
+}
+const SHARE_UNITS=[{k:'auto',l:'Detect from the figures'},{k:'1',l:'Actual shares'},
+  {k:'1000',l:'Thousands of shares'},{k:'1000000',l:'Millions of shares'}];
+const SHARE_UNIT_WORD={1:'actual shares',1000:'thousands of shares',1000000:'millions of shares',1000000000:'billions of shares'};
+/* How many actual shares one entered unit represents. Left on Detect, it
+   assumes the share count is in the same scale as the statements, and moves
+   off that only when the market value it implies against total assets is
+   absurd: a value of equity 50,000 times the balance sheet is not a company,
+   it is a unit error. The answer is shown on screen and in the report either way. */
+function shareMultInfo(){
+  const us=unitScale(), u=C3().shareUnit||'auto';
+  if(u!=='auto')return {m:Number(u),how:'set'};
+  const c=chron().slice().reverse();
+  for(const i of c){
+    const sh=sharesOutS3(i), p=sharePrice(i), ta=V('bs','totalAssets',i);
+    if(sh==null||p==null||!ta)continue;
+    const ok=m=>{const r=(p*sh*m/us)/ta;return r>0.002&&r<200;};
+    if(ok(us))return {m:us,how:'same'};
+    for(const m of [1,1e3,1e6,1e9])if(ok(m))return {m,how:'converted'};
+    return {m:us,how:'implausible'};
+  }
+  return {m:us,how:'same'};
+}
+function shareMult(){return shareMultInfo().m;}
+function sharesActual(i){const s=sharesOutS3(i);return s==null?null:s*shareMult();}
+/* market value of equity, in the units the statements are in */
+function mveS3(i){const p=sharePrice(i),s=sharesActual(i);return (p==null||s==null)?null:p*s/unitScale();}
+function shareUnitRead(){
+  const I=shareMultInfo(), us=unitScale();
+  const sw=SHARE_UNIT_WORD[I.m]||('units of '+fmt(I.m,0)+' shares');
+  const uw=UNIT_LABEL[S.meta.units]||S.meta.units;
+  if(I.how==='set')return 'Share counts are read as '+sw+', as set, and converted to '+uw+
+    ' before any value is computed.';
+  if(I.how==='converted')return 'Units trap caught: the share count is in '+sw+' while the statements are in '+
+    uw+'. Read at face value it would put the market value of equity at '+
+    fmt((I.m===us?1:us/I.m),0)+' times its true size. It has been converted before any ratio is computed.';
+  if(I.how==='implausible')return 'The share count does not produce a plausible market value in any unit. '+
+    'Check the share count and the price before relying on any market measure.';
+  return 'Share counts are in the same scale as the statements ('+uw+'), so no conversion is needed.';
+}
+
+/* ---- 11  credit ratings ---------------------------------------------------- */
+const MOODYS=['Aaa','Aa1','Aa2','Aa3','A1','A2','A3','Baa1','Baa2','Baa3','Ba1','Ba2','Ba3',
+  'B1','B2','B3','Caa1','Caa2','Caa3','Ca','C'];
+const SPFITCH=['AAA','AA+','AA','AA-','A+','A','A-','BBB+','BBB','BBB-','BB+','BB','BB-',
+  'B+','B','B-','CCC+','CCC','CCC-','CC','C','D'];
+/* Both scales have ten investment-grade notches, Aaa to Baa3 and AAA to BBB-. */
+function ratingGrade(r){
+  const s=String(r||'').trim().replace(/\s+/g,''); if(!s)return null;
+  let k=MOODYS.indexOf(s); if(k>=0)return {idx:k,ig:k<=9};
+  k=SPFITCH.indexOf(s.toUpperCase()); if(k>=0)return {idx:k,ig:k<=9};
+  return null;
+}
+function ratingRows(){return (C3().ratings||[]).filter(r=>(r.rating||'').trim());}
+function credAddRating(){S.cred.ratings.push({agency:'',rating:'',outlook:'',date:''});recalcAll();}
+function credDelRating(k){S.cred.ratings.splice(k,1);recalcAll();}
+function credSetRating(k,f,v){S.cred.ratings[k][f]=v;}
+
+/* ---- 11  Altman Z ------------------------------------------------------------ */
+const Z_MODELS={
+ public:{l:'Altman Z-Score',v:'the original 1968 model, for listed companies',
+   w:[1.2,1.4,3.3,0.6,0.999],x4:'Market value of equity ÷ total liabilities',
+   safe:2.99,distress:1.81},
+ private:{l:'Altman Z′-Score',v:'the 1983 revision for private companies, which uses book equity',
+   w:[0.717,0.847,3.107,0.420,0.998],x4:'Book value of equity ÷ total liabilities',
+   safe:2.90,distress:1.23}};
+const Z_X=['Working capital ÷ total assets','Retained earnings ÷ total assets',
+  'EBIT ÷ total assets','(market or book equity)','Sales ÷ total assets'];
+function zKey(){return isPrivate()?'private':'public';}
+function zModel(){return Z_MODELS[zKey()];}
+function zLabels(){const M=zModel();return Z_X.map((l,k)=>k===3?M.x4:l);}
+function zParts(i){
+  const M=zModel(), ta=V('bs','totalAssets',i), tl=V('bs','totalLiabilities',i);
+  const eq=zKey()==='public'?mveS3(i):V('bs','totalEquity',i);
+  const X=[div(workingCapital(i),ta),div(V('bs','retainedEarnings',i),ta),div(ebitS3(i),ta),
+           div(eq,tl),div(V('is','revenue',i),ta)];
+  if(X.some(x=>x==null))return {M,X,s:null,z:null};
+  const s=X.map((x,k)=>x*M.w[k]);
+  return {M,X,s,z:s.reduce((a,b)=>a+b,0)};
+}
+function zScore(i){return zParts(i).z;}
+function zZone(z){const M=zModel();return z==null?null:(z>M.safe?'safe':(z<M.distress?'distress':'grey'));}
+const ZONE_WORD={safe:'Safe zone',grey:'Grey zone',distress:'Distress zone'};
+function zNeed(){
+  return zKey()==='public'
+    ? 'working capital, retained earnings, EBIT, total assets, total liabilities, revenue, the share count and a period-end share price'
+    : 'working capital, retained earnings, EBIT, total assets, total liabilities, total equity and revenue';
+}
+
+/* ---- 12  payout and market ---------------------------------------------------- */
+function dpsS3(i){return V('bs','dividendPerShare',i);}
+function epsBasicS3(i){return V('is','epsBasic',i);}
+function payoutS3(i){return div(dpsS3(i),epsBasicS3(i));}
+function yieldS3(i){return div(dpsS3(i),sharePrice(i));}
+function commonEquity(i){const e=V('bs','totalEquity',i);
+  return e==null?null:e-V0('bs','preferredStock',i)-V0('bs','nci',i);}
+/* dollars per share: equity in statement units, scaled up, over actual shares */
+function bvps(i){const ce=commonEquity(i),s=sharesActual(i);return (ce==null||!s)?null:ce*unitScale()/s;}
+function mtbS3(i){return div(sharePrice(i),bvps(i));}
+function peS3(i){return div(sharePrice(i),epsBasicS3(i));}
+function paysDividends(){return chron().some(i=>dpsS3(i)!=null&&dpsS3(i)!==0);}
+function hasPrice(){return chron().some(i=>sharePrice(i)!=null);}
+
+/* which parts have what they need; the report lists them on the Part I divider
+   and prints the missing ones as not performed, never silently */
+function credModules(){
+  const i=latestIdx();
+  const M=[
+   {k:'debt',l:'Total debt and capital structure',on:chron().some(x=>deS3(x)!=null),
+    need:'the debt and operating lease liabilities on the balance sheet, and total equity'},
+   {k:'coverage',l:'Coverage',on:chron().some(x=>tieS3(x)!=null),
+    need:'net income, interest expense and income tax expense'},
+   {k:'liquidity',l:'Liquidity',on:chron().some(x=>currentS3(x)!=null),
+    need:'current assets and current liabilities'},
+   {k:'ratings',l:'Credit ratings',on:ratingRows().length>0,
+    need:'one or more ratings from Moody’s, S&P or Fitch, with the date'},
+   {k:'zscore',l:'Altman Z-Score',on:chron().some(x=>zScore(x)!=null),need:zNeed()},
+   {k:'dividends',l:'Dividend payout and yield',on:chron().some(x=>payoutS3(x)!=null||yieldS3(x)!=null),
+    need:'dividends per share and basic earnings per share, and the period-end share price for the yield'},
+   {k:'market',l:'Market-to-book and P/E',on:chron().some(x=>mtbS3(x)!=null||peS3(x)!=null),
+    need:'the period-end share price, the common shares outstanding and basic earnings per share'}];
+  const NA_WHAT={ratings:'a credit rating, because its debt is not rated',dividends:'a dividend to pay out'};
+  M.forEach(m=>{m.na=credNA(m.k);m.naWhat=NA_WHAT[m.k]||'';
+    if(isPrivate()&&(m.k==='dividends'||m.k==='market')&&!m.on){m.na=true;m.naWhat='a public share price, as a private company';}
+  });
+  return M;
+}
+
+/* ---------- 13e. CREDIT: SCREEN ------------------------------------------ */
+function cHead(first){
+  let h='<table class="fin"><thead><tr><th class="lbl">'+esc(first)+'</th>';
+  disp().forEach(i=>h+='<th>'+esc(periodLabel(i))+'</th>');
+  return h+'</tr></thead><tbody>';
+}
+function cRow(label,f,cls,tag){
+  let h='<tr'+(cls?' class="'+cls+'"':'')+'><td class="lbl">'+esc(label)+
+    (tag?' <span class="derived">'+esc(tag)+'</span>':'')+'</td>';
+  disp().forEach(i=>h+='<td>'+f(i)+'</td>');
+  return h+'</tr>';
+}
+function cIn(val,handler){
+  return '<input class="cell num" value="'+(val==null?'':val)+'" onchange="'+handler+'">';
+}
+function cRoleIn(st,role){
+  return i=>cIn(V(st,role,i),'roleEdit(\''+st+'\',\''+role+'\','+i+',this.value)');
+}
+function cArrIn(k){return i=>cIn(credVal(k,i),'credSetArr(\''+k+'\','+i+',this.value)');}
+const cCur=v=>fmtRatio(v,'cur'), cX=v=>fmtRatio(v,'x'), cPs=v=>v==null?'—':'$'+fmtRatio(v,'ps');
+
+function renderCredStatus(){
+  const M=credModules(), on=M.filter(m=>m.on).length;
+  let h='<div class="kpirow"><div class="kpi"><div class="k">Tests with data</div><div class="v '+
+    (on>=5?'pos':(on>=3?'':'neg'))+'">'+on+' / '+M.length+'</div>'+
+    '<div class="d">liquidity, solvency, credit and market tests performed</div></div>';
+  const i=latestIdx(), z=zScore(i);
+  if(z!=null)h+='<div class="kpi"><div class="k">'+esc(zModel().l)+'</div><div class="v '+
+    ({safe:'pos',grey:'',distress:'neg'}[zZone(z)])+'">'+num(z,2)+'</div><div class="d">'+
+    esc(ZONE_WORD[zZone(z)])+', '+esc(periodLabel(i))+'</div></div>';
+  const d=deS3(i);
+  if(d!=null)h+='<div class="kpi"><div class="k">Total debt ÷ equity</div><div class="v">'+cX(d)+
+    '</div><div class="d">including operating leases</div></div>';
+  h+='</div><div class="chips" style="margin-top:2px">'+M.map(m=>
+    '<div class="chip'+(m.on?' on':'')+'" style="cursor:default">'+esc(m.l)+'</div>').join('')+'</div>';
+  const off=M.filter(m=>!m.on&&!m.na);
+  if(off.length)h+='<p class="ihint" style="margin-top:10px">Not performed: <b>'+
+    esc(off.map(m=>m.l.toLowerCase()).join(', '))+'</b>. Each prints in the report as not performed, '+
+    'naming what it would need.</p>';
+  $('credStatus').innerHTML=h;
+}
+
+function renderCredDebt(){
+  let h=cHead('Debt, including operating leases');
+  DEBT_PARTS.forEach(p=>h+=cRow(p.l,cRoleIn('bs',p.role)));
+  h+=cRow('Total debt',i=>cCur(totalDebtS3(i)),'total');
+  h+=cRow('Operating leases as a share of total debt',i=>pct(leaseShareOfDebt(i),1),'memo');
+  h+='</tbody></table>';
+  h+='<div style="height:14px"></div>'+cHead('Capital structure');
+  h+=cRow('Total debt (from above)',i=>cCur(totalDebtS3(i)));
+  h+=cRow('Total equity',i=>cCur(V('bs','totalEquity',i)),'','balance sheet');
+  h+=cRow('Debt-to-equity ratio',i=>cX(deS3(i)),'total');
+  h+=cRow('Debt-to-equity, excluding operating leases',i=>cX(deExLeases(i)),'memo');
+  $('credDebtGrid').innerHTML=h+'</tbody></table>';
+}
+
+function renderCredCoverage(){
+  let h=cHead('Coverage');
+  h+=cRow('Net income',i=>cCur(V('is','netIncome',i)));
+  h+=cRow('Interest expense',i=>cCur(intS3(i)));
+  h+=cRow('Income tax expense',i=>cCur(V('is','taxExpense',i)));
+  h+=cRow('Earnings before interest and taxes (EBIT)',i=>cCur(ebitS3(i)),'subtotal');
+  h+=cRow('Times interest earned',i=>cX(tieS3(i)),'total');
+  h+=cRow('Depreciation expense',i=>cIn(depS3(i),'discSetArr(\'depExpense\','+i+',this.value)'),'','also on 10 Notes');
+  h+=cRow('Amortisation expense',cArrIn('amort'),'','from the notes');
+  h+=cRow('EBITDA',i=>cCur(ebitdaS3(i)),'subtotal');
+  h+=cRow('EBITDA-to-interest ratio',i=>cX(ebitdaCovS3(i)),'total');
+  h+=cRow('Cash from operations',i=>cCur(V('cf','cfo',i)));
+  h+=cRow('Less: capital expenditure',i=>cCur(capexS3(i)));
+  h+=cRow('Free cash flow',i=>cCur(fcf(i)),'subtotal');
+  h+=cRow('Total debt (from above)',i=>cCur(totalDebtS3(i)));
+  h+=cRow('Free cash flow-to-debt ratio',i=>cX(fcfToDebt(i)),'total');
+  h+=cRow('Years of free cash flow to repay debt',i=>{const y=yearsToRepay(i);
+    return y!=null?num(y,1):(fcf(i)!=null&&fcf(i)<=0&&totalDebtS3(i)?'never':'—');});
+  h+=cRow('Interest coverage, operating income basis',i=>cX(div(V('is','operatingIncome',i),intS3(i))),'memo');
+  const cfda=chron().some(i=>ebitdaBasis(i)==='cf');
+  h+='</tbody></table>'+(cfda?'<p class="ihint" style="margin-top:8px">Where depreciation is not '+
+    'entered, EBITDA uses the cash flow statement’s combined depreciation and amortisation line, '+
+    'and the amortisation row is ignored for that period so nothing is counted twice.</p>':'');
+  $('credCovGrid').innerHTML=h;
+}
+
+function renderCredLiquidity(){
+  let h=cHead('Liquidity');
+  h+=cRow('Current assets',i=>cCur(V('bs','totalCurrentAssets',i)));
+  h+=cRow('Current liabilities',i=>cCur(V('bs','totalCurrentLiabilities',i)));
+  h+=cRow('Current ratio',i=>cX(currentS3(i)),'total');
+  h+=cRow('Cash and cash equivalents',i=>cCur(V('bs','cash',i)));
+  h+=cRow('Marketable securities',cRoleIn('bs','shortTermInv'),'','short-term investments');
+  h+=cRow('Receivables, net',i=>cCur(V('bs','receivables',i)));
+  h+=cRow('Quick assets',i=>cCur(quickAssets(i)),'subtotal');
+  h+=cRow('Quick ratio',i=>cX(quickS3(i)),'total');
+  $('credLiqGrid').innerHTML=h+'</tbody></table>';
+}
+
+function renderCredRatings(){
+  const R=C3().ratings||[];
+  let h='<table class="fin"><thead><tr><th class="lbl">Agency</th><th class="lbl">Rating</th>'+
+    '<th class="lbl">Grade</th><th class="lbl">Outlook or watch</th><th class="lbl">As of</th>'+
+    '<th class="rowtools"></th></tr></thead><tbody>';
+  R.forEach((r,k)=>{
+    const g=ratingGrade(r.rating);
+    const f=(fld,ph)=>'<td class="lbl"><input class="lblin" value="'+esc(r[fld]||'')+'" placeholder="'+ph+
+      '" oninput="credSetRating('+k+',\''+fld+'\',this.value)" onchange="recalcAll()"></td>';
+    h+='<tr>'+f('agency','Moody’s, S&P, Fitch')+f('rating','e.g. A3 or BBB+')+
+      '<td class="lbl">'+(g?(g.ig?'Investment grade':'Speculative grade'):
+        ((r.rating||'').trim()?'<span style="color:#8C8C8C">not a standard symbol</span>':''))+'</td>'+
+      f('outlook','Stable, negative, on watch')+f('date','Date of the rating')+
+      '<td class="rowtools"><button class="mini" onclick="credDelRating('+k+')">×</button></td></tr>';
+  });
+  if(!R.length)h+='<tr><td class="lbl" colspan="6" style="color:#8C8C8C;font-style:italic">No rating entered. '+
+    'Add one from the agency’s site or the company’s investor relations page.</td></tr>';
+  $('credRatingGrid').innerHTML=h+'</tbody></table>'+
+    '<div class="btnrow"><button class="btn ghost mini2" onclick="credAddRating()">+ Add rating</button></div>'+
+    naBoxC('ratings','a credit rating, because its debt is not rated');
+}
+function naBoxC(k,what){
+  return '<label class="nabox"><input type="checkbox" '+(credNA(k)?'checked':'')+
+    ' onchange="credSetNA(\''+k+'\',this.checked)"><span>The company does not have '+esc(what)+'</span></label>';
+}
+
+function renderCredZ(){
+  const M=zModel(), pub=zKey()==='public';
+  let h=cHead('Z-Score inputs');
+  h+=cRow('Current assets',i=>cCur(V('bs','totalCurrentAssets',i)));
+  h+=cRow('Current liabilities',i=>cCur(V('bs','totalCurrentLiabilities',i)));
+  h+=cRow('Working capital',i=>cCur(workingCapital(i)),'subtotal');
+  h+=cRow('Earnings before interest and taxes (EBIT)',i=>cCur(ebitS3(i)));
+  if(pub){
+    h+=cRow('Common shares issued',cArrIn('sharesIssued'),'','in the unit set below');
+    h+=cRow('Less: treasury shares',cArrIn('treasuryShares'));
+    h+=cRow('Common shares outstanding',i=>{const s=sharesOutS3(i);return s==null?'—':fmt(s,s<1e4?1:0);},'subtotal');
+    h+=cRow('Share price at period end ($)',i=>cIn(sharePrice(i),'credSetPrice('+i+',this.value)'));
+    h+=cRow('Market value of equity',i=>cCur(mveS3(i)),'subtotal',UNIT_LABEL[S.meta.units]||'');
+  } else h+=cRow('Total equity, book value',i=>cCur(V('bs','totalEquity',i)),'','private: book equity');
+  h+=cRow('Revenue',i=>cCur(V('is','revenue',i)));
+  h+=cRow('Total assets',i=>cCur(V('bs','totalAssets',i)));
+  h+=cRow('Total liabilities',i=>cCur(V('bs','totalLiabilities',i)));
+  h+=cRow('Retained earnings',i=>cCur(V('bs','retainedEarnings',i)));
+  h+='</tbody></table>';
+  if(pub)h+='<div class="unitbar"><label class="f" style="margin:0">Shares are entered in</label>'+
+    '<select onchange="credSetUnit(this.value)">'+SHARE_UNITS.map(u=>'<option value="'+u.k+'"'+
+      ((C3().shareUnit||'auto')===u.k?' selected':'')+'>'+esc(u.l)+'</option>').join('')+'</select>'+
+    '<span class="unitread'+(shareMultInfo().how==='converted'||shareMultInfo().how==='implausible'?' trap':'')+'">'+
+    esc(shareUnitRead())+'</span></div>';
+
+  const L=zLabels();
+  h+='<div style="height:14px"></div><table class="fin"><thead><tr><th class="lbl">'+esc(M.l)+
+    ' — '+esc(M.v)+'</th><th>Weight</th>';
+  disp().forEach(i=>h+='<th>'+esc(periodLabel(i))+'</th>');
+  h+='</tr></thead><tbody>';
+  L.forEach((l,k)=>{
+    h+='<tr><td class="lbl">'+esc(l)+'</td><td>'+num(M.w[k],3).replace(/0+$/,'').replace(/\.$/,'')+'</td>';
+    disp().forEach(i=>{const P=zParts(i);h+='<td>'+(P.X[k]==null?'—':num(P.X[k],4)+
+      '<span class="zs"> → '+(P.s?num(P.s[k],3):'—')+'</span>')+'</td>';});
+    h+='</tr>';
+  });
+  h+='<tr class="total"><td class="lbl">Z-Score</td><td></td>';
+  disp().forEach(i=>h+='<td>'+(zScore(i)==null?'—':num(zScore(i),2))+'</td>');
+  h+='</tr><tr class="memo"><td class="lbl">Zone</td><td></td>';
+  disp().forEach(i=>{const z=zZone(zScore(i));h+='<td class="'+({safe:'pos',distress:'neg'}[z]||'')+'">'+
+    (z?ZONE_WORD[z]:'—')+'</td>';});
+  h+='</tr></tbody></table><p class="ihint" style="margin-top:8px">Zones for this model: above '+
+    num(M.safe,2)+' safe, '+num(M.distress,2)+' to '+num(M.safe,2)+' grey, below '+num(M.distress,2)+
+    ' distress. Each cell shows the ratio, then the ratio times its weight.</p>';
+  $('credZGrid').innerHTML=h;
+}
+
+function renderCredMarket(){
+  const pub=!isPrivate();
+  let h='';
+  if(!pub){
+    h='<p class="ihint">A private company has no public share price, so dividends per share, yield, '+
+      'market-to-book and P/E do not apply. Distributions are read on 07 Ratios as cash dividends '+
+      '÷ net income.</p>';
+    $('credMktGrid').innerHTML=h;return;
+  }
+  h+=cHead('Dividend activity');
+  h+=cRow('Annual dividends per share ($)',cRoleIn('bs','dividendPerShare'));
+  h+=cRow('Earnings per share, basic ($)',cRoleIn('is','epsBasic'));
+  h+=cRow('Dividend payout ratio',i=>pct(payoutS3(i),1),'total');
+  h+=cRow('Share price at period end ($)',i=>cIn(sharePrice(i),'credSetPrice('+i+',this.value)'));
+  h+=cRow('Dividend yield',i=>pct(yieldS3(i),2),'total');
+  h+=cRow('Cash dividends ÷ net income',i=>{const d=V('cf','dividendsPaid',i);
+    return pct(d==null?null:div(Math.abs(d),V('is','netIncome',i)),1);},'memo');
+  h+='</tbody></table>'+naBoxC('dividends','any dividend to pay out');
+  h+='<div style="height:14px"></div>'+cHead('Market valuation');
+  h+=cRow('Total equity',i=>cCur(V('bs','totalEquity',i)));
+  h+=cRow('Less: preferred stock',i=>cCur(V('bs','preferredStock',i)==null?null:-V0('bs','preferredStock',i)));
+  h+=cRow('Less: equity of non-controlling interests',i=>cCur(V('bs','nci',i)==null?null:-V0('bs','nci',i)));
+  h+=cRow('Total equity of common shareholders',i=>cCur(commonEquity(i)),'subtotal');
+  h+=cRow('Common shares issued',i=>{const s=sharesIssuedS3(i);return s==null?'—':fmt(s,s<1e4?1:0);});
+  h+=cRow('Less: treasury shares',i=>{const s=treasurySharesS3(i);return s==null?'—':fmt(s,s<1e4?1:0);});
+  h+=cRow('Common shares outstanding',i=>{const s=sharesOutS3(i);return s==null?'—':fmt(s,s<1e4?1:0);},'subtotal');
+  h+=cRow('Common equity per common share ($)',i=>cPs(bvps(i)));
+  h+=cRow('Share price at period end ($)',i=>cPs(sharePrice(i)));
+  h+=cRow('Market-to-book ratio',i=>cX(mtbS3(i)),'total');
+  h+=cRow('Earnings per share, basic ($)',i=>cPs(epsBasicS3(i)));
+  h+=cRow('Price-to-earnings ratio',i=>cX(peS3(i)),'total');
+  $('credMktGrid').innerHTML=h+'</tbody></table>';
+}
+
+/* the automated reading: what a credit analyst would say first */
+function credFlags(){
+  const i=latestIdx(), c=chron(), f=c[0], F=[];
+  const d=deS3(i), d0=deS3(f), ls=leaseShareOfDebt(i);
+  if(d!=null)F.push({lvl:d>2?'warn':'note',
+    t:'Debt is '+cX(d)+' equity, including operating leases'+(d0!=null&&f!==i?' ('+cX(d0)+' in '+periodLabel(f)+')':''),
+    w:(ls!=null&&ls>0.4?'Operating leases are '+pct(ls,0)+' of that debt. Excluding them, the ratio is '+
+      cX(deExLeases(i))+', which is the number a reader who skipped the lease footnote would quote. ':'')+
+      'Book equity is small after years of buybacks in many listed companies, which makes this ratio look '+
+      'worse than the coverage ratios below.'});
+  const t=tieS3(i);
+  if(t!=null)F.push({lvl:t<3?'warn':(t<6?'note':'ok'),t:'Interest is covered '+cX(t)+' by EBIT',
+    w:t<3?'Below three times, a poor year would put the interest bill at risk.':
+      'Coverage measures the interest bill only. Lease payments are a fixed charge too, and sit in operating costs.'});
+  const y=yearsToRepay(i);
+  if(y!=null)F.push({lvl:y>6?'warn':'note',t:num(y,1)+' years of free cash flow would repay all debt',
+    w:'Including the leases. A figure that jumps between years usually means working capital moved, not the business.'});
+  else if(fcf(i)!=null&&fcf(i)<=0)F.push({lvl:'warn',t:'Free cash flow is not positive',
+    w:'At this rate the debt is never repaid from operations; it has to be refinanced.'});
+  const cr=currentS3(i), q=quickS3(i);
+  if(cr!=null)F.push({lvl:cr<1?'warn':'note',t:'Current ratio '+cX(cr)+(q!=null?', quick ratio '+cX(q):''),
+    w:cr<1?'Current liabilities exceed current assets. Normal for a retailer whose suppliers fund its '+
+      'inventory; a warning for most other businesses.':
+      'The gap between the two is inventory. Read it with inventory turnover before calling it liquidity.'});
+  const z=zScore(i);
+  if(z!=null)F.push({lvl:zZone(z)==='distress'?'warn':(zZone(z)==='grey'?'note':'ok'),
+    t:zModel().l+' '+num(z,2)+': '+ZONE_WORD[zZone(z)].toLowerCase(),
+    w:'The model was fitted on manufacturers. The sales-to-assets term carries most of the score for a '+
+      'retailer, so read the zone alongside the rating rather than instead of it.'});
+  const R=ratingRows();
+  if(R.length){const g=R.map(r=>ratingGrade(r.rating)).filter(Boolean);
+    if(g.length)F.push({lvl:g.every(x=>x.ig)?'ok':'warn',
+      t:g.every(x=>x.ig)?'Rated investment grade':'Rated below investment grade by at least one agency',
+      w:R.map(r=>(r.agency||'Agency')+' '+r.rating).join(', ')+'.'});}
+  const po=payoutS3(i);
+  if(po!=null)F.push({lvl:po>1?'warn':'note',t:'Dividends take '+pct(po,0)+' of basic earnings',
+    w:po>1?'Paying out more than it earns; the dividend is being funded from the balance sheet.':
+      'Read it with free cash flow: a payout covered by earnings can still exceed the cash left after capex.'});
+  if(shareMultInfo().how==='converted')F.push({lvl:'warn',t:'Share units converted',w:esc(shareUnitRead())});
+  return F;
+}
+function renderCredRead(){flagList(credFlags(),'credRead');}
+
+const CRED_NOTES=[
+ {k:'credCapital',l:'Capital structure: evaluation',sec:'debt',
+  p:'What the debt-to-equity ratio says about leverage, how it moved, and what the leases do to it.'},
+ {k:'credCoverage',l:'Coverage: evaluation',sec:'coverage',
+  p:'Whether earnings and cash comfortably carry the interest and the debt, and the trend.'},
+ {k:'credLiquidity',l:'Liquidity: evaluation',sec:'liquidity',
+  p:'What the current and quick ratios say about meeting short-term obligations, and whether that fits the operating cycle.'},
+ {k:'credBankruptcy',l:'Credit ratings and Z-Score: evaluation',sec:'z',
+  p:'What the ratings and the Z-Score say about the likelihood of near-term distress, and whether they agree.'},
+ {k:'credMarket',l:'Payout and valuation: evaluation',sec:'market',
+  p:'What the payout, yield, market-to-book and P/E say, and how they moved over the years shown.'}];
+function credNoteBox(k){
+  const f=CRED_NOTES.find(x=>x.k===k);
+  return '<div class="cmtbox" style="margin-top:16px"><label class="f">'+esc(f.l)+'</label>'+
+    '<textarea id="ta_note_'+k+'" placeholder="'+esc(f.p)+'" oninput="S.notes[\''+k+'\']=this.value">'+
+    esc(S.notes[k]||'')+'</textarea>'+draftRow('draftNote',k,'clearNote')+'</div>';
+}
+function renderCredNotes(){
+  CRED_NOTES.forEach(f=>{const el=$('credNote_'+f.sec);if(el){el.innerHTML=credNoteBox(f.k);markAllDone(el);}});
+}
+function renderCredit(){
+  if(!$('panel-credit'))return;
+  renderCredStatus();renderCredDebt();renderCredCoverage();renderCredLiquidity();
+  renderCredRatings();renderCredZ();renderCredMarket();renderCredRead();renderCredNotes();
+}
+
+/* ---------- 19a3. CREDIT IN THE REPORT --------------------------------------
+   Part I, after the charts. Laid out as the Session 3 working papers are: the
+   figures that build each measure, then the measure, then the evaluation. */
+/* a heading is never left at the foot of a page: it travels with what follows it */
+function glueHeads(A){const out=[];A.forEach(b=>{const last=out[out.length-1];
+  if(last!=null&&/^<h4 class="sh"[^>]*>[^<]*<\/h4>$/.test(last))out[out.length-1]=last+b;else out.push(b);});return out;}
+function repCredit(P){
+  const c=chron(), M=credModules(), off=k=>M.find(x=>x.k===k);
+  const kv=(rows,head)=>'<table class="rp"><thead><tr><th class="lbl">'+esc(head)+'</th>'+
+    c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>'+
+    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+esc(r[0])+'</td>'+
+      c.map(x=>'<td>'+r[1](x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+  const note=t=>'<p style="font-size:9px;color:#8C8C8C;margin-top:5px">'+t+'</p>';
+  const ev=(k,l)=>{const h=repNote(k);return h?evalBlock(l,null,h):
+    '<div class="npb"><b>'+esc(l)+' — not written</b><span>The figures above are computed. What '+
+    'they mean for this company is a judgement, and it has not been recorded on the Credit tab.</span></div>';};
+  const miss=k=>{const m=off(k);return m.na?('<div class="npb nadis"><b>'+esc(m.l)+' \u2014 not applicable</b><span>'+
+    'The company does not have '+esc(m.naWhat)+'. That is a fact about the company rather than a gap in this analysis.</span></div>')
+    :npBlock(m.l,m.need);};
+  const B=[];
+
+  B.push('<h4 class="sh" style="margin-top:0">Total debt, including operating leases</h4>');
+  if(off('debt').on){
+    B.push(kv(DEBT_PARTS.map(p=>[p.l,x=>cCur(V('bs',p.role,x))]).concat([
+      ['Total debt',x=>cCur(totalDebtS3(x)),1],
+      ['Operating leases as a share of total debt',x=>pct(leaseShareOfDebt(x),1)]]),'Debt'));
+    B.push('<h4 class="sh">Capital structure</h4>');
+    B.push(kv([['Total debt',x=>cCur(totalDebtS3(x))],['Total equity',x=>cCur(V('bs','totalEquity',x))],
+      ['Debt-to-equity ratio',x=>cX(deS3(x)),1],
+      ['Debt-to-equity, excluding operating leases',x=>cX(deExLeases(x))]],'Solvency'));
+    B.push(note('Operating lease liabilities are debt in substance, and since ASC 842 they are on the '+
+      'balance sheet. Leaving them out is the most common way to understate a retailer’s leverage.'));
+    B.push(ev('credCapital','Capital structure: evaluation'));
+  } else B.push(miss('debt'));
+
+  B.push('<h4 class="sh">Coverage</h4>');
+  if(off('coverage').on){
+    B.push(kv([
+      ['Net income',x=>cCur(V('is','netIncome',x))],['Interest expense',x=>cCur(intS3(x))],
+      ['Income tax expense',x=>cCur(V('is','taxExpense',x))],
+      ['Earnings before interest and taxes (EBIT)',x=>cCur(ebitS3(x)),1],
+      ['Times interest earned',x=>cX(tieS3(x)),1],
+      ['Depreciation expense',x=>cCur(ebitdaBasis(x)==='notes'?depS3(x):null)],
+      ['Amortisation expense',x=>cCur(ebitdaBasis(x)==='notes'?amortS3(x):null)],
+      ['EBITDA',x=>cCur(ebitdaS3(x)),1],['EBITDA-to-interest ratio',x=>cX(ebitdaCovS3(x)),1],
+      ['Cash from operations',x=>cCur(V('cf','cfo',x))],['Less: capital expenditure',x=>cCur(capexS3(x))],
+      ['Free cash flow',x=>cCur(fcf(x)),1],['Free cash flow-to-debt ratio',x=>cX(fcfToDebt(x)),1],
+      ['Years of free cash flow to repay debt',x=>{const y=yearsToRepay(x);
+        return y!=null?num(y,1):(fcf(x)!=null&&fcf(x)<=0&&totalDebtS3(x)?'never':'—');}],
+      ['Interest coverage, operating income basis',x=>cX(div(V('is','operatingIncome',x),intS3(x)))]],'Coverage'));
+    B.push(note('EBIT here is built up from net income (net income + interest + tax), so it includes '+
+      'investment income and other non-operating items; the last row gives the operating-income basis '+
+      'for comparison. '+(c.some(x=>ebitdaBasis(x)==='cf')?'Where depreciation from the notes was not '+
+      'captured, EBITDA uses the combined depreciation and amortisation line from the cash flow statement.':
+      'EBITDA adds back depreciation from the property note and amortisation from the intangibles note.')));
+    B.push(ev('credCoverage','Coverage: evaluation'));
+  } else B.push(miss('coverage'));
+
+  B.push('<h4 class="sh">Liquidity</h4>');
+  if(off('liquidity').on){
+    B.push(kv([['Current assets',x=>cCur(V('bs','totalCurrentAssets',x))],
+      ['Current liabilities',x=>cCur(V('bs','totalCurrentLiabilities',x))],
+      ['Current ratio',x=>cX(currentS3(x)),1],['Cash and cash equivalents',x=>cCur(V('bs','cash',x))],
+      ['Marketable securities',x=>cCur(V('bs','shortTermInv',x)==null?0:V('bs','shortTermInv',x))],
+      ['Receivables, net',x=>cCur(V('bs','receivables',x))],['Quick assets',x=>cCur(quickAssets(x)),1],
+      ['Quick ratio',x=>cX(quickS3(x)),1]],'Liquidity'));
+    B.push(ev('credLiquidity','Liquidity: evaluation'));
+  } else B.push(miss('liquidity'));
+  paginateBlocks(glueHeads(B),'Liquidity and solvency','Liquidity and solvency (continued)','Credit',P);
+
+  const Z=[];
+  Z.push('<h4 class="sh" style="margin-top:0">Credit ratings</h4>');
+  if(off('ratings').on){
+    Z.push('<table class="rp"><thead><tr><th class="lbl">Agency</th><th class="lbl">Rating</th>'+
+      '<th class="lbl">Grade</th><th class="lbl">Outlook or watch</th><th class="lbl">As of</th></tr></thead><tbody>'+
+      ratingRows().map(r=>{const g=ratingGrade(r.rating);return '<tr><td class="lbl">'+esc(r.agency||'—')+
+        '</td><td class="lbl">'+esc(r.rating)+'</td><td class="lbl">'+(g?(g.ig?'Investment grade':'Speculative grade'):'—')+
+        '</td><td class="lbl">'+esc(r.outlook||'—')+'</td><td class="lbl">'+esc(r.date||'—')+'</td></tr>';}).join('')+
+      '</tbody></table>');
+    Z.push(note('Ratings are an external opinion, dated. They are recorded here as found and are not derived from these statements.'));
+  } else Z.push(miss('ratings'));
+
+  Z.push('<h4 class="sh">'+esc(zModel().l)+'</h4>');
+  if(off('zscore').on){
+    const Mz=zModel(), L=zLabels(), pub=zKey()==='public';
+    const inp=[['Working capital',x=>cCur(workingCapital(x))],['Retained earnings',x=>cCur(V('bs','retainedEarnings',x))],
+      ['Earnings before interest and taxes (EBIT)',x=>cCur(ebitS3(x))]];
+    if(pub)inp.push(['Common shares outstanding',x=>{const s=sharesOutS3(x);return s==null?'—':fmt(s,s<1e4?1:0);}],
+      ['Share price at period end ($)',x=>cPs(sharePrice(x))],['Market value of equity',x=>cCur(mveS3(x))]);
+    else inp.push(['Total equity, book value',x=>cCur(V('bs','totalEquity',x))]);
+    inp.push(['Revenue',x=>cCur(V('is','revenue',x))],['Total assets',x=>cCur(V('bs','totalAssets',x))],
+      ['Total liabilities',x=>cCur(V('bs','totalLiabilities',x))]);
+    Z.push(kv(inp,'Z-Score inputs'));
+    Z.push(kv(L.map((l,k)=>[l+' × '+String(Mz.w[k]),x=>{const P=zParts(x);
+      return P.X[k]==null?'—':num(P.X[k],4)+' → '+(P.s?num(P.s[k],3):'—');}]).concat([
+      ['Z-Score',x=>zScore(x)==null?'—':num(zScore(x),2),1],
+      ['Zone',x=>{const z=zZone(zScore(x));return z?ZONE_WORD[z]:'—';}]]),'Component'));
+    Z.push(note(esc(Mz.l)+': '+esc(Mz.v)+'. Above '+num(Mz.safe,2)+' is the safe zone, '+num(Mz.distress,2)+
+      ' to '+num(Mz.safe,2)+' grey, below '+num(Mz.distress,2)+' distress. '+(pub?esc(shareUnitRead()):
+      'With no public price, book equity stands in for market value, with the weights re-estimated to suit.')));
+  } else Z.push(miss('zscore'));
+  Z.push(ev('credBankruptcy','Credit ratings and Z-Score: evaluation'));
+
+  Z.push('<h4 class="sh">Dividend payout and yield</h4>');
+  if(off('dividends').on){
+    Z.push(kv([['Annual dividends per share ($)',x=>cPs(dpsS3(x))],['Earnings per share, basic ($)',x=>cPs(epsBasicS3(x))],
+      ['Dividend payout ratio',x=>pct(payoutS3(x),1),1],['Share price at period end ($)',x=>cPs(sharePrice(x))],
+      ['Dividend yield',x=>pct(yieldS3(x),2),1]],'Dividends'));
+  } else Z.push(miss('dividends'));
+  Z.push('<h4 class="sh">Market-to-book and P/E</h4>');
+  if(off('market').on){
+    Z.push(kv([['Total equity',x=>cCur(V('bs','totalEquity',x))],
+      ['Less: preferred stock',x=>cCur(V('bs','preferredStock',x)==null?null:-V0('bs','preferredStock',x))],
+      ['Less: equity of non-controlling interests',x=>cCur(V('bs','nci',x)==null?null:-V0('bs','nci',x))],
+      ['Total equity of common shareholders',x=>cCur(commonEquity(x)),1],
+      ['Common shares outstanding',x=>{const s=sharesOutS3(x);return s==null?'—':fmt(s,s<1e4?1:0);}],
+      ['Common equity per common share ($)',x=>cPs(bvps(x))],['Share price at period end ($)',x=>cPs(sharePrice(x))],
+      ['Market-to-book ratio',x=>cX(mtbS3(x)),1],['Earnings per share, basic ($)',x=>cPs(epsBasicS3(x))],
+      ['Price-to-earnings ratio',x=>cX(peS3(x)),1]],'Market valuation'));
+  } else Z.push(miss('market'));
+  if(!isPrivate())Z.push(ev('credMarket','Payout and valuation: evaluation'));
+  paginateBlocks(glueHeads(Z),'Credit risk, payout and market value','Credit risk, payout and market value (continued)','Credit',P);
+}
+
+
 /* ---------- 13. SVG CHART PRIMITIVES ----------------------------------- */
 const CH={maroon:'#500000',deep:'#2E0000',ink:'#000000',muted:'#8C8C8C',rule:'#E0E0E0',
   positive:'#1A1A1A',neutral:'#7A7A7A',grey:['#1A1A1A','#4D4D4D','#7A7A7A','#A3A3A3','#C7C7C7']};
@@ -4695,7 +5439,7 @@ function chartDefs(){
    {t:'Liquidity and leverage',cap:'Current ratio (×) and debt-to-equity (×). '+src+'.',
     svg:()=>lineChart([
       {name:'Current ratio',data:c.map(i=>div(V('bs','totalCurrentAssets',i),V('bs','totalCurrentLiabilities',i))),color:CH.maroon},
-      {name:'Debt ÷ equity',data:c.map(i=>div(totalDebt(i),V('bs','totalEquity',i))),color:CH.grey[1]}],
+      {name:'Debt ÷ equity (excl. leases)',data:c.map(i=>div(totalDebt(i),V('bs','totalEquity',i))),color:CH.grey[1]}],
       L,{fmt:t=>t.toFixed(2),zero:true})},
    {t:'Working capital cycle',cap:'Days. Cash conversion cycle = DIO + DSO − DPO. '+src+'.',
     svg:()=>barChart([
@@ -5207,6 +5951,77 @@ function renderEvidence(){
   });
   $('evidenceList').innerHTML=h+'</tbody></table>';
 }
+
+/* ---------- 16b. CREDIT: DRAFTS (after NOTE_DRAFT exists) ------------- */
+/* ---- drafts: the figures, then the judgement handed back in brackets ------- */
+function trendWord(a,b,tol){if(a==null||b==null)return null;const d=a-b;
+  return Math.abs(d)<=(tol||0.02)*Math.max(Math.abs(b),1e-9)?'broadly flat':(d>0?'up':'down');}
+NOTE_DRAFT.credCapital=function(){
+  const i=latestIdx(),c=chron(),f=c[0],d=deS3(i);
+  if(d==null)return null;
+  let t=coName()+' carries total debt of '+fmt(totalDebtS3(i))+' at '+periodLabel(i)+
+    ', including '+fmt(V0('bs','currentLeaseLiab',i)+V0('bs','longTermLeaseLiab',i))+
+    ' of operating lease liabilities, against equity of '+fmt(V('bs','totalEquity',i))+
+    ': a debt-to-equity ratio of '+cX(d)+'.';
+  if(f!==i&&deS3(f)!=null)t+=' That compares with '+cX(deS3(f))+' at '+periodLabel(f)+', so leverage is '+
+    trendWord(d,deS3(f),0.03)+' over the period.';
+  const ls=leaseShareOfDebt(i);
+  if(ls!=null)t+=' Leases are '+pct(ls,0)+' of the total; without them the ratio would be '+cX(deExLeases(i))+'.';
+  return t+'\n\n[Say whether this is more or less leverage than the industry carries, and what it does to '+
+    'the company’s flexibility to borrow more.]';
+};
+NOTE_DRAFT.credCoverage=function(){
+  const i=latestIdx(),c=chron().filter(x=>tieS3(x)!=null);
+  if(!c.length)return null;
+  const f=c[0];
+  let t='EBIT covers interest '+cX(tieS3(i))+' in '+periodLabel(i)+(f!==i?' ('+cX(tieS3(f))+' in '+periodLabel(f)+')':'')+
+    ', and EBITDA covers it '+cX(ebitdaCovS3(i))+'.';
+  if(fcfToDebt(i)!=null)t+=' Free cash flow of '+fmt(fcf(i))+' is '+pct(fcfToDebt(i),1)+' of total debt'+
+    (yearsToRepay(i)!=null?', enough to repay it in '+num(yearsToRepay(i),1)+' years':'')+'.';
+  return t+'\n\n[Say whether the trend in coverage reflects earnings, the interest bill, or cash '+
+    'absorbed by working capital, and whether any of it should worry a lender.]';
+};
+NOTE_DRAFT.credLiquidity=function(){
+  const i=latestIdx(),c=chron().filter(x=>currentS3(x)!=null);
+  if(!c.length)return null;
+  const f=c[0];
+  let t='The current ratio is '+cX(currentS3(i))+' at '+periodLabel(i)+(f!==i?', against '+cX(currentS3(f))+
+    ' at '+periodLabel(f):'')+'.';
+  if(quickS3(i)!=null)t+=' Taking inventory out, the quick ratio is '+cX(quickS3(i))+
+    ': quick assets of '+fmt(quickAssets(i))+' against current liabilities of '+fmt(V('bs','totalCurrentLiabilities',i))+'.';
+  return t+'\n\n[Say whether the gap between the two ratios is a risk or simply how this business is funded, '+
+    'given how quickly its inventory turns.]';
+};
+NOTE_DRAFT.credBankruptcy=function(){
+  const i=latestIdx(),z=zScore(i),R=ratingRows();
+  if(z==null&&!R.length)return null;
+  let t='';
+  if(R.length)t+=coName()+' is rated '+R.map(r=>r.rating+' by '+(r.agency||'an agency')+(r.date?' ('+r.date+')':'')).join(' and ')+
+    (R.every(r=>{const g=ratingGrade(r.rating);return g&&g.ig;})?', both investment grade':'')+'. ';
+  if(z!=null){const P=zParts(i),L=zLabels(),top=P.s.map((s,k)=>[s,k]).sort((a,b)=>b[0]-a[0])[0];
+    t+='The '+zModel().l+' for '+periodLabel(i)+' is '+num(z,2)+', in the '+ZONE_WORD[zZone(z)].toLowerCase()+
+      ' (above '+num(zModel().safe,2)+' is safe). The largest contributor is '+L[top[1]].toLowerCase()+
+      ', at '+num(top[0],2)+' of the score.';}
+  return t+'\n\n[Say whether the ratings and the score tell the same story, and if not, which one you '+
+    'trust more for this company and why.]';
+};
+NOTE_DRAFT.credMarket=function(){
+  if(isPrivate())return null;
+  const i=latestIdx(),c=chron();
+  const bits=[];
+  if(payoutS3(i)!=null)bits.push('dividends of $'+fmtRatio(dpsS3(i),'ps')+' a share take '+pct(payoutS3(i),1)+
+    ' of basic earnings');
+  if(yieldS3(i)!=null)bits.push('the yield is '+pct(yieldS3(i),2)+' at a price of $'+fmtRatio(sharePrice(i),'ps'));
+  if(mtbS3(i)!=null)bits.push('the market values the common equity at '+cX(mtbS3(i))+' book');
+  if(peS3(i)!=null)bits.push('the shares trade at '+cX(peS3(i))+' basic earnings');
+  if(!bits.length)return null;
+  let t='In '+periodLabel(i)+', '+bits.join('; ')+'.';
+  const f=c.find(x=>peS3(x)!=null);
+  if(f!=null&&f!==i)t+=' The P/E was '+cX(peS3(f))+' in '+periodLabel(f)+'.';
+  return t+'\n\n[Say what the market appears to be paying for, whether the payout looks sustainable '+
+    'against free cash flow, and how the trend over these years changes the reading.]';
+};
+
 
 /* ---------- 17. IMPORT — parsing --------------------------------------- */
 let IMP={rows:[],ncols:0,src:{doc:'',page:''}};
@@ -6489,7 +7304,7 @@ function draftSynthesis(){
 
 /* ---------- DRAFT ALL ---------------------------------------------------
    One click runs every "Draft from the model" button in the tool, in tab
-   order: 06 Analysis, 09 Notes, 10 Findings, 11 Strengthen, 12 Thesis. It
+   order: 06 Analysis, 10 Notes, 11 Findings, 12 Strengthen, 13 Thesis. It
    fills EMPTY fields only. Anything already written is the analyst's and is
    left exactly as it is, so running it twice is harmless. It writes no prose
    of its own: every sentence still comes from the individual drafter, so the
@@ -6500,6 +7315,7 @@ function draftAll(){
   const blank=k=>!String(S.notes[k]||'').trim();
   const jobs=[];
   Object.keys(CMT).forEach(k=>jobs.push({k,run:()=>draftCmt(k)}));
+  CRED_NOTES.forEach(f=>jobs.push({k:f.k,run:()=>draftNote(f.k)}));
   if(NOTE_DRAFT.notesread)jobs.push({k:'notesread',run:()=>draftNote('notesread')});
   NOTE_FIELDS.forEach(f=>{if(NOTE_DRAFT[f.k])jobs.push({k:f.k,run:()=>draftNote(f.k)});});
   jobs.push({k:'sowhat',run:draftSynthesis});
@@ -6647,7 +7463,9 @@ const CALC_LABEL={ebitda:'EBITDA',fcf:'Free cash flow',totalDebt:'Total debt',
   ev:'Enterprise value',price:'Share price',adjEbitda:'Adjusted EBITDA',sde:'SDE',
   addbacks:'Total normalisations',multBasis:'Chosen earnings basis',
   multLow:'Low multiple',multBase:'Base multiple',multHigh:'High multiple',
-  headcount:'Headcount',taxRate:'Effective tax rate'};
+  headcount:'Headcount',taxRate:'Effective tax rate',
+  ebitS3:'EBIT (net income + interest + tax)',depS3:'Depreciation expense',amortS3:'Amortisation expense',
+  debtS3:'Total debt incl. operating leases',commonEquity:'Common equity',sharesS3:'Common shares outstanding'};
 const CALC_FN={ebitda:ebitda,fcf:fcf,totalDebt:totalDebt,netDebt:netDebt,
   opex:opexTotal,wc:workingCapital,leaseDebt:debtWithLeases,
   marketCap:marketCap,ev:i=>enterpriseValue(i,true),price:sharePrice,
@@ -6657,7 +7475,9 @@ const CALC_FN={ebitda:ebitda,fcf:fcf,totalDebt:totalDebt,netDebt:netDebt,
   multBase:()=>E().mult.base?Number(E().mult.base):null,
   multHigh:()=>E().mult.high?Number(E().mult.high):null,
   headcount:i=>{const e=E().employees[i];return (e==null||e==='')?null:Number(e);},
-  taxRate:i=>taxRate(i)};
+  taxRate:i=>taxRate(i),
+  ebitS3:ebitS3,depS3:depS3,amortS3:amortS3,debtS3:totalDebtS3,commonEquity:commonEquity,
+  sharesS3:i=>{const s=sharesActual(i);return s==null?null:s/unitScale();}};
 /* small values — per-share figures, multiples, rates — need decimals to mean anything */
 function fmlNum(v){
   if(v==null||!isFinite(v))return '—';
@@ -6718,7 +7538,10 @@ const FORMULA={
 'Current ratio':{f:'{bs:totalCurrentAssets} ÷ {bs:totalCurrentLiabilities}',
  r:'Whether short-term assets cover short-term obligations. A blunt instrument, but the first thing anyone checks.',
  t:'A high current ratio can mean strong liquidity or a warehouse full of unsellable stock. Read it with inventory turns, or it will mislead you in the direction of comfort.'},
-'Quick ratio':{f:'( {bs:totalCurrentAssets} − {bs:inventory} − {bs:prepaid} ) ÷ {bs:totalCurrentLiabilities}',
+'Quick ratio':{f:'( {bs:cash} + {bs:shortTermInv} + {bs:receivables} ) ÷ {bs:totalCurrentLiabilities}',
+ r:'Liquidity counting only what is cash or close to it: cash, marketable securities and receivables. Inventory and prepayments are left out because they cannot settle a bill this month.',
+ t:'In fast-turning retail it understates the position badly, because inventory genuinely does convert to cash within weeks, and suppliers are funding it. Read it against inventory turnover.'},
+'Quick ratio, current-assets basis':{f:'( {bs:totalCurrentAssets} − {bs:inventory} − {bs:prepaid} ) ÷ {bs:totalCurrentLiabilities}',
  r:'Liquidity without relying on selling inventory. The relevant test when stock is slow-moving or seasonal.',
  t:'In fast-turning retail the quick ratio understates the position badly, because inventory genuinely does convert to cash within weeks. The measure has to fit the operating cycle.'},
 'Cash ratio':{f:'( {bs:cash} + {bs:shortTermInv} ) ÷ {bs:totalCurrentLiabilities}',
@@ -6754,7 +7577,10 @@ const FORMULA={
 'Total liabilities ÷ equity':{f:'{bs:totalLiabilities} ÷ {bs:totalEquity}',
  r:'Total obligations against owners’ capital. Broader than debt-to-equity because it includes payables, provisions and leases.',
  t:'Equity is a book number. Years of buybacks can leave it small or negative, at which point this ratio becomes arithmetically dramatic and analytically useless.'},
-'Debt ÷ equity':{f:'( {bs:shortTermDebt} + {bs:longTermDebt} ) ÷ {bs:totalEquity}',
+'Total debt ÷ equity (incl. operating leases)':{f:'( {bs:currentLeaseLiab} + {bs:shortTermDebt} + {bs:longTermLeaseLiab} + {bs:longTermDebt} ) ÷ {bs:totalEquity}',
+ r:'Leverage with the operating leases counted as debt, as the lease footnote requires. The class definition, and the one a lender uses for a business that rents its premises.',
+ t:'Book equity shrinks with every buyback, so a company returning cash can show rising leverage without borrowing more. Read it beside coverage, which does not depend on equity at all.'},
+'Debt ÷ equity (excl. leases)':{f:'( {bs:shortTermDebt} + {bs:longTermDebt} ) ÷ {bs:totalEquity}',
  r:'Borrowings against owners’ capital — the conventional gearing measure.',
  t:'It excludes lease liabilities, which for a retailer or restaurant group are usually the larger obligation. See the lease-adjusted measure below before forming a view.'},
 'Debt ÷ total assets':{f:'( {bs:shortTermDebt} + {bs:longTermDebt} ) ÷ {bs:totalAssets}',
@@ -6772,7 +7598,22 @@ const FORMULA={
 'Debt incl. leases ÷ EBITDA':{f:'( {calc:totalDebt} + {bs:currentLeaseLiab} + {bs:longTermLeaseLiab} ) ÷ {calc:ebitda}',
  r:'The same test with lease obligations treated as what they economically are: debt. For any business that rents its premises this is the measure that reflects reality.',
  t:'A retailer can look conservatively financed on reported debt and fully geared on this measure. If only one leverage number is going to be quoted, it should be this one.'},
-'Interest coverage (EBIT ÷ interest)':{f:'{is:operatingIncome} ÷ {is:interestExpense}',
+'Times interest earned':{f:'( {is:netIncome} + {is:interestExpense} + {is:taxExpense} ) ÷ {is:interestExpense}',
+ r:'How many times earnings before interest and tax cover the interest bill. EBIT is built up from net income, so investment income and other non-operating items are in it.',
+ t:'It is a profit measure. A business can cover interest many times on paper and still struggle to pay it if working capital is absorbing the cash.'},
+'EBITDA ÷ interest':{f:'( {calc:ebitS3} + {calc:depS3} + {calc:amortS3} ) ÷ {is:interestExpense}',
+ r:'Coverage before the non-cash charges for depreciation and amortisation: the earnings a lender can look to before the asset base has to be replaced.',
+ t:'EBITDA ignores the capital expenditure that keeps the business running. The gap between this and times interest earned is the depreciation, which is real money over a cycle.'},
+'Free cash flow ÷ total debt':{f:'( {cf:cfo} − |{cf:capex}| ) ÷ {calc:debtS3}',
+ r:'The share of all debt, leases included, that one year of free cash flow could repay.',
+ t:'Free cash flow moves with working capital. A single year can flatter or punish it; look at the run of years before drawing a conclusion.'},
+'Years of free cash flow to repay debt':{f:'{calc:debtS3} ÷ ( {cf:cfo} − |{cf:capex}| )',
+ r:'The reciprocal of the ratio above: how many years of free cash flow it would take to clear the debt.',
+ t:'Only meaningful while free cash flow is positive. When it is not, the answer is never, and the debt has to be refinanced rather than repaid.'},
+'Altman Z-Score':{f:'1.2 × WC/TA + 1.4 × RE/TA + 3.3 × EBIT/TA + 0.6 × MVE/TL + 0.999 × Sales/TA\n(private, Z′: 0.717 · 0.847 · 3.107 · 0.420 × book equity/TL · 0.998)',
+ r:'A weighted score of five ratios that separated firms that went bankrupt from firms that did not. Above 2.99 is the safe zone for the original model; below 1.81 is distress.',
+ t:'Units first: market value of equity must be in the same units as total liabilities. Shares in actual units and dollars in millions put this term out by a factor of a million. The tool converts, and says so.'},
+'Interest coverage (operating income ÷ interest)':{f:'{is:operatingIncome} ÷ {is:interestExpense}',
  r:'How many times over operating profit covers the interest bill. The most direct test of whether the debt is affordable.',
  t:'It uses profit, not cash. A business can cover interest comfortably on paper and still be unable to pay it if working capital is absorbing the earnings.'},
 'Operating cash flow margin':{f:'{cf:cfo} ÷ {is:revenue}',
@@ -6793,7 +7634,10 @@ const FORMULA={
 'Capex ÷ depreciation':{f:'|{cf:capex}| ÷ {cf:depAmort}',
  r:'Whether the asset base is being replaced as fast as it is being consumed. Around 1.0 is steady state; sustained below 1.0 is harvesting.',
  t:'Below 1.0 for one year is a timing matter. Below 1.0 for three years is a decision, and it flatters present cash flow at the cost of future capacity.'},
-'Dividend payout ratio':{f:'|{cf:dividendsPaid}| ÷ {is:netIncome}',
+'Dividend payout ratio':{f:'{bs:dividendPerShare} ÷ {is:epsBasic}',
+ r:'The share of each dollar of basic earnings paid out as dividends. The class definition, on a per-share basis.',
+ t:'Above 100% the dividend is being paid from the balance sheet. Below it, check free cash flow as well: a payout covered by earnings can still exceed the cash left after capex.'},
+'Cash dividends ÷ net income':{f:'|{cf:dividendsPaid}| ÷ {is:netIncome}',
  r:'What share of earnings is distributed rather than reinvested.',
  t:'Earnings are an accounting figure. Test the dividend against free cash flow as well — a payout that looks safe on earnings can be funded by borrowing.'},
 'Shareholder returns ÷ FCF':{f:'( |{cf:dividendsPaid}| + |{cf:buybacks}| ) ÷ {calc:fcf}',
@@ -6850,6 +7694,12 @@ const FORMULA={
 'Free cash flow yield':{f:'( {cf:cfo} − |{cf:capex}| ) ÷ {calc:marketCap}',
  r:'Cash generated for the equity as a percentage of what the equity costs. The most direct answer to what an owner actually receives.',
  t:'Compare it to a risk-free rate to know whether it is generous. In isolation the number means very little.'},
+'Price ÷ earnings (basic)':{f:'{calc:price} ÷ {is:epsBasic}',
+ r:'What the market pays for a dollar of basic earnings. The class definition.',
+ t:'A low P/E is either a bargain or a warning that earnings are expected to fall. The multiple alone does not say which.'},
+'Market-to-book (price ÷ book value per share)':{f:'{calc:price} ÷ ( {calc:commonEquity} ÷ {calc:sharesS3} )',
+ r:'Market value of the common equity against its book value, per share. Preferred stock and non-controlling interests are taken out first.',
+ t:'Buybacks shrink book equity, so a company that returns a lot of cash shows a high ratio for reasons that have nothing to do with growth expectations.'},
 'Dividend yield':{f:'{bs:dividendPerShare} ÷ {calc:price}',
  r:'Cash income per unit of price.',
  t:'A high yield is often a falling price rather than a rising dividend. Check which has moved before treating it as attractive.'},
@@ -7650,15 +8500,17 @@ function buildReport(){
   }
   /* the three movements of the document, each behind its own divider, and each
      emitted only where something was selected to go behind it */
-  const PART1=['summary', 'profile', 'normalisation', 'valuation', 'statements', 'common', 'horizontal', 'dupont', 'ratios', 'charts'];
+  const PART1=['summary', 'profile', 'normalisation', 'valuation', 'statements', 'common', 'horizontal', 'dupont', 'ratios', 'charts', 'credit'];
   const PART2=['notes'];
   const PART3=['findings', 'implications', 'levers', 'actions', 'thesis', 'qc', 'evidence', 'method'];
   const anyOf=a=>a.some(has);
   const multi=[PART1,PART2,PART3].filter(anyOf).length>1;
   if(multi&&anyOf(PART1))P.push(partPage('I','The face of the statements',
     'What the four statements say, read on their own terms: the entity and its reporting, the '+
-    'statements themselves, common-size and horizontal analysis, the ratios and the charts. '+
-    'Everything in this part is derived from figures that appear on the face of the accounts.',null));
+    'statements themselves, common-size and horizontal analysis, the ratios, the charts, and the '+
+    'tests of liquidity, solvency and credit risk. Everything in this part is derived from figures on '+
+    'the face of the accounts, apart from the share price and the credit ratings, which are market '+
+    'data and are dated where they appear.',null));
 
   if(has('summary')){
     const kpis=[
@@ -7929,6 +8781,7 @@ function buildReport(){
       P.push(pageWrap(k===0?'Charts':'',body,'Charts'));
     }
   }
+  if(has('credit'))repCredit(P);
   if(has('notes')){
     if(multi)P.push(partPage('II','Behind the numbers',
       'What the notes disclose, which the face of the statements cannot: the segment and geographic '+
@@ -8478,6 +9331,17 @@ function migrate(o){
   ['allowance','badDebt','lifoReserve','depExpense','accumDepOverride'].forEach(k=>{
     const a=Array.isArray(st.disc[k])?st.disc[k].slice(0,6):[];
     while(a.length<6)a.push(null); st.disc[k]=a;});
+  st.cred={...base.cred,...(o.cred||{})};
+  st.cred.na={...((o.cred||{}).na||{})};
+  ['amort','sharesIssued','treasuryShares'].forEach(k=>{
+    const a=Array.isArray(st.cred[k])?st.cred[k].slice(0,6):[];
+    while(a.length<6)a.push(null); st.cred[k]=a;});
+  st.cred.ratings=Array.isArray(st.cred.ratings)?st.cred.ratings.map(r=>({agency:r.agency||'',
+    rating:r.rating||'',outlook:r.outlook||'',date:r.date||''})):[];
+  /* a session saved before the Credit section existed would otherwise never print it */
+  if(!o.cred&&Array.isArray(st.ui.repSections)&&!st.ui.repSections.includes('credit')){
+    const k=st.ui.repSections.indexOf('charts');
+    st.ui.repSections.splice(k>=0?k+1:st.ui.repSections.length,0,'credit');}
   st.addbacks=Array.isArray(o.addbacks)?o.addbacks:[];
   st.intake={...base.intake,...(o.intake||{})};
   st.qc={...base.qc,...(o.qc||{}),pages:{...base.qc.pages,...((o.qc||{}).pages||{})}};
@@ -8569,6 +9433,14 @@ const DEMO={
     marked NOT REPORTED rather than left blank \u2014 Best Buy carries inventory at
     average cost, so there is no LIFO reserve to disclose, which is a fact about
     the company and not a gap in the working papers. */
+ cred:{
+   amort:[14,21,61,null,null,null],
+   sharesIssued:[209.1,211.4,215.4,218.1,null,null],
+   treasuryShares:[0,0,0,0,null,null],
+   shareUnit:'auto',
+   ratings:[{agency:'Moody\u2019s',rating:'A3',outlook:'',date:'16 Mar 2026'},
+            {agency:'S&P Global',rating:'BBB+',outlook:'',date:''}],
+   na:{}},
  disc:{
   na:{lifoReserve:true},
   segments:[
@@ -8608,9 +9480,9 @@ const DEMO={
    contact:{name:'Investor Relations',role:'',email:'',phone:'',
      web:'investors.bestbuy.com',location:'Richfield, Minnesota'},
    employees:[85000,86000,90000,90000],
-   price:[70.00,88.00,76.00,82.00],
+   price:[65.10,88.00,76.00,82.00],
    mult:{basis:'ebitda',low:'',base:'',high:'',source:''},asking:'',
-   valuationNote:'Share prices in this worked example are ILLUSTRATIVE placeholders, not market data — replace them with observed closing prices at each period end before quoting any multiple. Headcount is approximate and rounded. The valuation section is included to demonstrate the mechanics; the multiples it produces are not evidence.'},
+   valuationNote:'The Jan. 31, 2026 share price ($65.10) is the observed close on 30 Jan 2026, the last trading day of the fiscal year. Share prices for earlier periods in this worked example are ILLUSTRATIVE placeholders, not market data — replace them with observed closing prices at each period end before quoting any multiple. Headcount is approximate and rounded. The valuation section is included to demonstrate the mechanics; the multiples it produces are not evidence.'},
  bs:{
   cash:[1738,1578,1447,1874],receivables:[1043,1044,939,1141],inventory:[5230,5085,4958,5140],
   otherCurrentAssets:[493,517,553,647],ppeGross:[6941,7052,7076,6976],accumDep:[4955,4930,4816,4624],
@@ -8705,6 +9577,7 @@ const DEMO_PRIVATE={
  /* the disclosure work. This one carries a LIFO reserve, which the public
     worked example does not, so the restatement of both inventory and cost of
     sales can be seen operating on real figures. */
+ cred:{shareUnit:'auto',ratings:[],na:{ratings:true}},
  disc:{
   segments:[
    {name:'Contract fabrication',values:[11960,11213,10335,9165,null,null]},
@@ -8832,6 +9705,11 @@ function loadDemoData(D,kind){
     geo:(D.disc.geo||[]).map(r=>({name:r.name,values:r.values.slice()})),
     deferred:(D.disc.deferred||[]).map(r=>({name:r.name,values:r.values.slice()})),
     ppeClasses:(D.disc.ppeClasses||[]).map(r=>({name:r.name,values:r.values.slice()}))};
+  if(D.cred)S.cred={...S.cred,...D.cred,na:{...(D.cred.na||{})},
+    amort:(D.cred.amort||S.cred.amort).slice(),
+    sharesIssued:(D.cred.sharesIssued||S.cred.sharesIssued).slice(),
+    treasuryShares:(D.cred.treasuryShares||S.cred.treasuryShares).slice(),
+    ratings:(D.cred.ratings||[]).map(r=>({...r}))};
   if(D.qc)S.qc={...S.qc,...D.qc,pages:{...S.qc.pages,...(D.qc.pages||{})}};
   if(D.srcPages)['bs','is','cf'].forEach(st=>S.rows[st].forEach(r=>{
     const q=rowQC(st,r); if(!q||q.state==='empty'||q.state==='derived')return;
@@ -8846,7 +9724,7 @@ function loadDemoData(D,kind){
   toast(kind==='private'?'Private worked example loaded':'Public worked example loaded');
   status(kind==='private'
     ? 'Private worked example — <b>Meridian Precision Fabrication, LLC</b>. S corporation, reviewed accounts, family owned. The Normalise and Valuation sections are the ones to look at.'
-    : 'Public worked example — <b>Best Buy Co., Inc.</b>, four periods. Share prices are illustrative placeholders, not market data.');
+    : 'Public worked example — <b>Best Buy Co., Inc.</b>, four periods. The latest share price is the observed year-end close; earlier ones are illustrative placeholders.');
 }
 
 
@@ -8866,6 +9744,38 @@ function loadDemoData(D,kind){
      anything else, a plain entry from HELP below.
    ---------------------------------------------------------------------- */
 const HELP={
+ creditpart:{t:'Credit and market',
+  d:'Whether the business can meet what it owes in the short run and the long run, how likely it is to fail, and what the market will pay for the equity.',
+  r:'Profitability says whether a business earns money. Credit analysis asks whether it can survive a bad year with the obligations it has taken on, which is a different question with a different set of numbers.',
+  x:'Read the tests together. A high debt-to-equity ratio next to strong coverage usually means small book equity, not a stretched balance sheet.'},
+ leasedebt:{t:'Debt including operating leases',
+  d:'Current and long-term debt plus the current and long-term operating lease liabilities.',
+  r:'Since ASC 842, operating leases sit on the balance sheet as liabilities. A business that rents its stores has committed to those payments as surely as to interest on a loan, and a lender counts them.',
+  x:'The lease liabilities are often larger than the borrowings. Leaving them out is the most common way to understate a retailer’s leverage.'},
+ coverage3:{t:'Coverage ratios',
+  d:'Times interest earned (EBIT ÷ interest), EBITDA ÷ interest, and free cash flow ÷ total debt.',
+  r:'Coverage asks whether earnings and cash comfortably carry the cost of the debt and, over time, the debt itself. It does not depend on book equity, so it is the check on a leverage ratio distorted by buybacks.',
+  x:'EBIT is built up from net income here (net income + interest + tax), as the class defines it. Operating income leaves out investment income and other non-operating lines and gives a slightly different figure; it is shown as a second line for comparison.'},
+ liquidity3:{t:'Current and quick ratios',
+  d:'Current assets ÷ current liabilities, and (cash + marketable securities + receivables) ÷ current liabilities.',
+  r:'Whether short-term obligations can be met from short-term assets, with and without relying on selling inventory.',
+  x:'A current ratio near one is normal for a retailer whose suppliers fund its stock. The same figure in a manufacturer with slow inventory is a warning.'},
+ ratings:{t:'Credit ratings',
+  d:'An agency’s opinion of the likelihood that the company pays its debt in full and on time.',
+  r:'Ratings compress a great deal of analysis into a symbol and set the company’s cost of borrowing. Investment grade (Baa3 or BBB- and above) is the line many institutional lenders cannot cross.',
+  x:'A rating is a dated opinion. Record the date, and note any outlook or watch, since those say which way the agency is leaning.'},
+ zscore:{t:'Altman Z-Score',
+  d:'Z = 1.2 × WC/TA + 1.4 × RE/TA + 3.3 × EBIT/TA + 0.6 × MVE/TL + 0.999 × Sales/TA. Above 2.99 safe, 1.81 to 2.99 grey, below 1.81 distress.',
+  r:'Five ratios, weighted by how well they separated firms that went bankrupt from firms that did not. The private-company version, Z′, swaps market value for book equity and re-weights: above 2.90 safe, below 1.23 distress.',
+  x:'The model was fitted on manufacturers. For a retailer the sales-to-assets term carries most of the score, so the zone should be read beside the rating rather than instead of it.'},
+ shareunits:{t:'The units trap',
+  d:'The market value of equity is price × shares. It has to be in the same units as total liabilities before the two are divided.',
+  r:'Statements are usually in thousands or millions of dollars; share counts on the cover page and in the equity note are often actual shares. Multiply a price by 209,100,000 shares and divide by liabilities in millions, and the ratio is a million times too large.',
+  x:'The tab detects which unit the share count is in and converts it, and says what it did. Set the unit by hand if the detection is wrong.'},
+ market3:{t:'Payout and market valuation',
+  d:'Dividend payout (DPS ÷ basic EPS), dividend yield (DPS ÷ price), market-to-book (price ÷ common equity per share), and P/E (price ÷ basic EPS).',
+  r:'How much of its earnings the company returns, what that return is worth at today’s price, and how the market values the equity against its book value and its earnings.',
+  x:'Common equity excludes preferred stock and non-controlling interests, and the share count is issued less treasury shares. A company that retires its repurchased shares has no treasury shares at all.'},
  annotate:{t:'Annotating a filing',
   d:'Reads a 10-K, finds the nine footnotes that carry the accounting, and writes a highlight and a comment onto each one, plus an index note on page one. What comes back is the same PDF with the annotations appended.',
   r:'A 10-K runs to a hundred pages and the accounting lives in about nine of them. Finding those nine is the first hour of any analysis of a listed company, and it is the same nine every time, which makes it exactly the sort of work that should not be done by hand twice.',
@@ -9184,7 +10094,7 @@ const RATIO_TRAP={
  'Net profit margin':'Not comparable across tax treatments. A pass-through entity pays no entity-level tax and its net margin sits several points above an otherwise identical taxpayer.',
  'Effective tax rate':'A persistent gap to the statutory rate is worth explaining rather than averaging away. It is usually structural, and structure can change.',
  'Current ratio':'It counts inventory and receivables as though they convert on demand. In a business where they do not, the quick ratio is the more honest reading.',
- 'Quick ratio':'Removing inventory helps only if receivables are collectible. Test the ageing before treating this as liquidity.',
+ 'Quick ratio, current-assets basis':'Removing inventory helps only if receivables are collectible. Test the ageing before treating this as liquidity.',
  'Cash ratio':'The strictest liquidity test, and the least forgiving. It answers what could be paid today with cash on hand and nothing else.',
  'Working capital':'A positive figure is not automatically good. Working capital tied up in slow inventory is cash the business has lent to itself.',
  'Working capital ÷ revenue':'This is the cash cost of growth. Every additional dollar of revenue needs roughly this much funding behind it, and a plan that ignores it will run short.',
@@ -9192,10 +10102,10 @@ const RATIO_TRAP={
  'Days sales outstanding (DSO)':'A rising DSO is the earliest visible sign that revenue is being recognised ahead of collection. Check it against the cash conversion figure.',
  'Days payable outstanding (DPO)':'Stretching payables improves this number and damages the supplier relationship that produced the margin. Read an improvement here with suspicion.',
  'Cash conversion cycle':'The days the business funds itself between paying for inventory and collecting for it. Reducing it releases cash once, not every year.',
- 'Debt ÷ equity':'Equity here is book equity, which for an older business can bear little relation to what the assets are worth. Read it beside the EBITDA multiple rather than alone.',
+ 'Debt ÷ equity (excl. leases)':'Equity here is book equity, which for an older business can bear little relation to what the assets are worth. Read it beside the EBITDA multiple rather than alone.',
  'Net debt ÷ EBITDA':'The figure a lender looks at first. It assumes the EBITDA is repeatable, which is the assumption most worth testing.',
  'Debt incl. leases ÷ EBITDA':'Lease obligations are debt in substance whatever the presentation. Excluding them makes a leased business look less geared than an identical owned one.',
- 'Interest coverage (EBIT ÷ interest)':'Coverage is a ratio of a full year of earnings to a full year of interest. It says nothing about whether the cash arrives when the payment is due.'
+ 'Interest coverage (operating income ÷ interest)':'Coverage is a ratio of a full year of earnings to a full year of interest. It says nothing about whether the cash arrives when the payment is due.'
 };
 
 /* ---------- the mark and the panel -------------------------------------- */
@@ -9660,7 +10570,7 @@ const GUIDE=[
       'answers the same three questions: what the term is, what it actually tells you, and where it '+
       'misleads. There is one on every ratio, on the fields that change how the analysis behaves, '+
       'and on each component of the investment score.'],
-  ['p','The explanations are not written twice. Where a term is covered in <b>13 Method</b> the '+
+  ['p','The explanations are not written twice. Where a term is covered in <b>14 Method</b> the '+
       'question mark reads it from there, so the short answer and the long one cannot disagree.']]},
 
  {h:'Step 1 · Decide what kind of entity this is',b:[
@@ -9735,11 +10645,18 @@ const GUIDE=[
       'lines that actually moved and the size of the move, and then stops. Rewrite it. The draft '+
       'ends in a bracket telling you what it could not work out, and an unfilled bracket in the '+
       'finished report is a visible gap rather than a silent one.'],
-  ['p','<b>07 Ratios</b>, <b>08 Charts</b> and <b>13 Method</b> follow the same rule: every '+
-      'formula is shown worked, with the trap that most often ruins it named underneath.']]},
+  ['p','<b>07 Ratios</b>, <b>08 Charts</b> and <b>14 Method</b> follow the same rule: every '+
+      'formula is shown worked, with the trap that most often ruins it named underneath.'],
+  ['p','<b>09 Credit</b> asks whether the business can carry what it owes: total debt with the '+
+      'operating leases counted in, debt to equity, times interest earned, EBITDA to interest, free '+
+      'cash flow to debt, the current and quick ratios, the credit ratings, the Altman Z-Score, and '+
+      'the payout, yield, market-to-book and P/E. It needs three things the statements do not carry: '+
+      'amortisation from the intangibles note, a period-end share price, and the ratings. Watch the '+
+      'units: shares are often reported in actual shares while dollars are in millions. The tab says '+
+      'which it found and converts before it computes anything.']]},
 
  {h:'Step 7 \u00b7 Read what sits behind the statements',b:[
-  ['p','<b>09 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
+  ['p','<b>10 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
       'statements; this reads the footnotes, which is where most of what a statement conceals is '+
       'explained a few pages later. Six modules, each independent, each of which may be left empty.'],
   ['l','<b>Segment and geographic revenue</b> — a single top line that moved half a per cent can '+
@@ -9774,19 +10691,19 @@ const GUIDE=[
       'divider sheet, so it is never mistaken for analysis drawn from the face of the statements.']]},
 
  {h:'Step 8 · Write the judgement',b:[
-  ['p','<b>10 Findings</b> holds the screening flags, which are prompts to investigate rather '+
+  ['p','<b>11 Findings</b> holds the screening flags, which are prompts to investigate rather '+
       'than conclusions, and the analyst commentary. Every commentary field has its own '+
       '<b>Draft from the model</b> button. A draft never overwrites what you have already '+
       'written: it is appended underneath it.'],
   ['p','The orange <b>Seed Draft All</b> button at the top of the page runs every one of those '+
-      'buttons at once, across 06 Analysis, 09 Notes, 10 Findings, 11 Strengthen and 12 Thesis. '+
+      'buttons at once, across 06 Analysis, 09 Credit, 10 Notes, 11 Findings, 12 Strengthen and 13 Thesis. '+
       'It fills empty fields only, so anything you have already written is left alone and it '+
       'is safe to run again after importing more data.'],
-  ['p','<b>11 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
+  ['p','<b>12 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
       'Next and Later. The value of that page is in what has been left off it.']]},
 
  {h:'Step 9 · Commit to a verdict',b:[
-  ['p','<b>12 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
+  ['p','<b>13 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
       'are scored against fixed thresholds and weighted: profitability, return on capital, quality of '+
       'earnings, resilience, growth, and the confidence the evidence itself carries. The table shows '+
       'the figure each one read and the section of the report that carries it, so a reader can argue '+
@@ -9803,7 +10720,7 @@ const GUIDE=[
       'risk you have not understood.']]},
 
  {h:'Step 10 · Build the report, and save',b:[
-  ['n','<b>14 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
+  ['n','<b>15 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
       'contents page is generated from the pages that were actually built, so it cannot describe a '+
       'section you switched off.'],
   ['n','Press <b>Print / Save as PDF</b>. In the print dialogue set paper size <b>Letter</b>, '+

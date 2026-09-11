@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v3.8
-  Built 2026-09-11 20:52 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v4.1
+  Built 2026-09-11 22:28 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -913,7 +913,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v3.8 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v4.1 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" onclick="openAnnotate()">Annotate a 10-K</button>
@@ -1344,6 +1344,25 @@ body.is-locked>.toolbar{display:none!important}
         it has been traced to its source page.</div>
       <div id="pdfPages" style="margin-top:14px"></div>
     </div>
+  </div>
+
+  <div class="sec" id="marketSec">
+    <h2>Collected, not imported</h2><div class="rule"></div>
+    <h3>Market data the filing does not carry<span class="hmark" data-h="marketdata" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Two things the credit and market tests need are not in the accounts and not in the
+      XBRL tags, because neither is the company reporting on itself: the <b>share price</b> at each
+      period end, and the <b>credit ratings</b>. Both are collected here, at the same time as the
+      figures, and both are required before 09 Credit can finish. Everything else Session 3 needs
+      arrives with the import.</p>
+    <div id="mktStatus"></div>
+    <div class="tblwrap" style="margin-top:14px"><div id="mktPriceGrid"></div></div>
+    <div style="max-width:560px;margin-top:12px">
+      <label class="f">Where the prices came from</label>
+      <input type="text" id="mkt_priceSource" placeholder="Nasdaq closing price on the last trading day of each fiscal year"
+        oninput="S.cred.priceSource=this.value">
+    </div>
+    <h3 style="margin-top:22px">Credit ratings</h3>
+    <div class="tblwrap"><div id="mktRatingGrid"></div></div>
   </div>
 
   <div class="sec" id="mapSec" style="display:none">
@@ -2097,8 +2116,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'3.8',
-  built:'2026-09-11 20:52 UTC',
+  version:'4.1',
+  built:'2026-09-11 22:28 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2532,7 +2551,7 @@ function blankState(){
       amort:[null,null,null,null,null,null],
       sharesIssued:[null,null,null,null,null,null],
       treasuryShares:[null,null,null,null,null,null],
-      shareUnit:'auto', ratings:[], na:{}
+      shareUnit:'auto', ratings:[], priceSource:'', na:{}
     },
     ui:{stmt:'bs',cs:'bs',repSections:['cover','toc','profile','summary','statements','normalisation','valuation','common','horizontal','ratios','dupont','charts','credit','notes','findings','implications','levers','actions','thesis','qc','evidence','method']}
   };
@@ -2638,7 +2657,7 @@ function renderAllDerived(){
   renderKPIs();renderDuPont();renderRatios();renderCharts();renderFlags();
   renderProfile();renderIntakeRead();renderScale();renderValuation();
   syncStatusSeg();applyMask();renderAddbacks();renderNormResult();
-  renderStrengthen();renderDisclosure();renderCredit();renderThesis();renderMethod();renderQC();updateMast();
+  renderStrengthen();renderDisclosure();renderCredit();renderMarket();renderThesis();renderMethod();renderQC();updateMast();
   if(typeof growAll==='function')growAll(document.querySelector('.panel.active')||document);
   if(typeof markAllDone==='function')markAllDone(document);
 }
@@ -3368,6 +3387,20 @@ function renderQC(){
       '<span class="why">The report will build without the draft mark. Editing any figure clears its verification automatically.</span></div></div>'
      :'<div class="flag warn"><span class="dot"></span><div><b>'+(t.req-t.reqDone)+' key figure'+((t.req-t.reqDone)===1?'':'s')+' not yet verified</b>'+
       '<span class="why">The report will build, and will carry a <b>DRAFT — FIGURES UNVERIFIED</b> mark on the cover and a QC status page until this is closed out.</span></div></div>');
+
+  /* market data is collected, not imported, and is as much a part of the
+     evidence as a traced figure: the report cannot compute the credit tests
+     without it, so it belongs in the same sign-off as the ledger */
+  const MK=marketReq();
+  $('qcMeter').innerHTML+=(MK.ok
+    ? '<div class="flag ok"><span class="dot"></span><div><b>Market data collected</b><span class="why">'+
+      (MK.priv?'Private company: no share price applies. ':'Share price recorded for every period. ')+
+      (MK.rated?'Ratings recorded.':'No rating expected.')+'</span></div></div>'
+    : '<div class="flag warn"><span class="dot"></span><div><b>Market data outstanding</b><span class="why">'+
+      [MK.missingPrice.length?('Share price is missing for '+MK.missingPrice.length+' of '+chron().length+
+        ' periods.'):'',(!MK.rated&&!MK.ratingsOff)?'No credit rating has been entered.':''].filter(Boolean).join(' ')+
+      ' Neither is tagged in a filing, so both are entered by hand on <b>01 Import</b> or <b>09 Credit</b>. '+
+      'The credit and market tests report as not performed until they are.</span></div></div>');
 
   /* citation block */
   let c='<table class="fin"><thead><tr><th class="lbl">Fact</th><th class="lbl" style="width:44%">Recorded</th>'+
@@ -4892,6 +4925,14 @@ function renderCredStatus(){
   if(off.length)h+='<p class="ihint" style="margin-top:10px">Not performed: <b>'+
     esc(off.map(m=>m.l.toLowerCase()).join(', '))+'</b>. Each prints in the report as not performed, '+
     'naming what it would need.</p>';
+  const MQ=marketReq();
+  if(!MQ.ok)h+='<div class="flag warn" style="margin-top:10px"><span class="dot"></span><div>'+
+    '<b>Collected, not imported: '+
+    [MQ.missingPrice.length?('share price for '+MQ.missingPrice.length+' of '+chron().length+' periods'):'',
+     (!MQ.rated&&!MQ.ratingsOff)?'credit ratings':''].filter(Boolean).join(' and ')+
+    ' still outstanding</b><span class="why">A filing does not tag either one. Enter them below, or on '+
+    '<b>01 Import</b> where the rest of the collection happens. Until then these tests print as not '+
+    'performed rather than guessing.</span></div></div>';
   $('credStatus').innerHTML=h;
 }
 
@@ -4948,7 +4989,47 @@ function renderCredLiquidity(){
   $('credLiqGrid').innerHTML=h+'</tbody></table>';
 }
 
-function renderCredRatings(){
+/* What is outstanding, and for whom. A private company has no share price and
+   usually no rating, so the requirement is satisfied by saying so rather than
+   by entering a figure that does not exist. */
+function marketReq(){
+  const c=chron();
+  const priv=isPrivate();
+  const missingPrice=priv?[]:c.filter(i=>sharePrice(i)==null);
+  const rated=ratingRows().length>0;
+  const ratingsOff=credNA('ratings')||priv;
+  return {priv, missingPrice, rated, ratingsOff,
+    ok:(!missingPrice.length)&&(rated||ratingsOff)};
+}
+function renderMarketStatus(el){
+  const M=marketReq(), F=[];
+  if(M.priv)F.push({lvl:'note',t:'Private company: no share price to collect',
+    w:'Market value, the Z-Score’s equity term, the yield, market-to-book and P/E do not apply. The Z′ model uses book equity instead.'});
+  else if(M.missingPrice.length)F.push({lvl:'warn',
+    t:'Share price outstanding for '+M.missingPrice.length+' of '+chron().length+' periods',
+    w:'Until every period has a price, the Altman Z-Score, the dividend yield, market-to-book and the P/E all report as not performed. Use the closing price on the last trading day of each fiscal year.'});
+  else F.push({lvl:'ok',t:'Share price recorded for every period',w:'The Z-Score and the market ratios can be computed.'});
+  if(M.ratingsOff&&!M.rated)F.push({lvl:'note',t:'No credit rating expected',
+    w:M.priv?'Private debt is rarely rated. Tick the box on 09 Credit if that is wrong.':'Recorded as not rated, which prints as a fact about the company rather than a gap.'});
+  else if(!M.rated)F.push({lvl:'warn',t:'No credit rating entered',
+    w:'One line from Moody’s, S&P or Fitch, with its date. If the company’s debt is not rated, say so with the tick below and the report states that instead.'});
+  else F.push({lvl:'ok',t:ratingRows().length+' rating'+(ratingRows().length===1?'':'s')+' recorded',
+    w:ratingRows().map(r=>(r.agency||'Agency')+' '+r.rating).join(', ')+'.'});
+  flagList(F,el);
+}
+function renderMarketPrices(){
+  let h=cHead('Share price at period end ($)');
+  h+=cRow('Closing price',i=>isPrivate()?'<span style="color:#8C8C8C">n/a</span>'
+    :cIn(sharePrice(i),'credSetPrice('+i+',this.value)'));
+  h+=cRow('Market value of equity',i=>cCur(mveS3(i)),'memo',UNIT_LABEL[S.meta.units]||'');
+  $('mktPriceGrid').innerHTML=h+'</tbody></table>';
+  const src=$('mkt_priceSource'); if(src&&document.activeElement!==src)src.value=C3().priceSource||'';
+}
+function renderMarket(){
+  if(!$('marketSec'))return;
+  renderMarketStatus('mktStatus');renderMarketPrices();renderRatingTable('mktRatingGrid');
+}
+function renderRatingTable(el){
   const R=C3().ratings||[];
   let h='<table class="fin"><thead><tr><th class="lbl">Agency</th><th class="lbl">Rating</th>'+
     '<th class="lbl">Grade</th><th class="lbl">Outlook or watch</th><th class="lbl">As of</th>'+
@@ -4965,10 +5046,11 @@ function renderCredRatings(){
   });
   if(!R.length)h+='<tr><td class="lbl" colspan="6" style="color:#8C8C8C;font-style:italic">No rating entered. '+
     'Add one from the agency’s site or the company’s investor relations page.</td></tr>';
-  $('credRatingGrid').innerHTML=h+'</tbody></table>'+
+  $(el).innerHTML=h+'</tbody></table>'+
     '<div class="btnrow"><button class="btn ghost mini2" onclick="credAddRating()">+ Add rating</button></div>'+
     naBoxC('ratings','a credit rating, because its debt is not rated');
 }
+function renderCredRatings(){renderRatingTable('credRatingGrid');}
 function naBoxC(k,what){
   return '<label class="nabox"><input type="checkbox" '+(credNA(k)?'checked':'')+
     ' onchange="credSetNA(\''+k+'\',this.checked)"><span>The company does not have '+esc(what)+'</span></label>';
@@ -6174,13 +6256,38 @@ function commitImport(){
     }
     imported++;
   });
+  /* The facts that are not statement lines. They never overwrite a figure the
+     analyst has already entered, and they are applied only when the mapping is
+     committed, so cancelling an import leaves nothing behind. */
+  const extraFilled=[];
+  (IMP.extras||[]).forEach(x=>{
+    const tgt=(x.where==='cred')?S.cred:S.disc;
+    if(!tgt||!Array.isArray(tgt[x.k]))return;
+    let touched=0;
+    for(let j=0;j<Math.min(x.nums.length,n);j++){
+      const v=x.nums[j]; if(v==null)continue;
+      const mi=mapCol(j); if(mi<0||mi>=n)continue;
+      if(tgt[x.k][mi]!=null&&tgt[x.k][mi]!=='')continue;
+      tgt[x.k][mi]=v*scale; touched++;
+    }
+    if(touched)extraFilled.push(x.l.toLowerCase()+' ('+touched+(touched===1?' year':' years')+')');
+  });
+  IMP.extras=[];
   hide('mapSec');
   recalcAll();
   go('statements');
-  toast(imported+(imported===1?' row':' rows')+' imported'+(skipped?', '+skipped+' skipped':''));
+  toast(imported+(imported===1?' row':' rows')+' imported'+(skipped?', '+skipped+' skipped':'')+
+    (extraFilled.length?' · '+extraFilled.length+' more from the notes tags':''));
   status('Imported <b>'+imported+'</b> '+(imported===1?'row':'rows')+', all marked <b>unverified</b>'+
     (IMP.src.page?' and cited to p. '+esc(IMP.src.page):'')+
-    '. Check the balance-sheet tie-out, then sign them off on the Verify tab.');
+    (extraFilled.length?'. From tags that are not statement lines, also filled: <b>'+
+      esc(extraFilled.join(', '))+'</b>, on <b>09 Credit</b> and <b>10 Notes</b>'
+      :'')+
+    '. Check the balance-sheet tie-out, then sign them off on the Verify tab.'+
+    (function(){const M=marketReq();return M.ok?'':' <b>Still to collect by hand:</b> '+
+      [M.missingPrice.length?'the share price at each period end':'',
+       (!M.rated&&!M.ratingsOff)?'the credit ratings':''].filter(Boolean).join(' and ')+
+      ' — no filing tags either one.';})());
 }
 
 /* ---------- 17b. SEC XBRL — COMPANY FACTS IMPORT ------------------------
@@ -6199,6 +6306,24 @@ function commitImport(){
 /* role -> ordered US-GAAP tags. First tag with usable annual data wins.
    neg:true flips the sign, because XBRL states payments as positive
    magnitudes with a negating label, while this model wants outflows negative. */
+/* Facts a filer tags that are NOT lines of the four statements, and so have no
+   role in the taxonomy: they belong to the Notes tab and the Credit tab. They
+   are read on the same pass and land in the same units as the money, which is
+   what keeps price x shares in the same magnitude as the balance sheet.
+   Session 3 needs all four, and every one of them is tagged, so the only
+   inputs left to type by hand are the share price and the credit ratings,
+   neither of which a filing tags because neither is the company's own opinion. */
+const XBRL_EXTRA=[
+ {k:'amort', where:'cred', l:'Amortisation of intangibles',
+  tags:['AmortizationOfIntangibleAssets','AmortizationOfIntangibleAssetsExcludingFinancingCosts',
+        'FiniteLivedIntangibleAssetsAmortizationExpense']},
+ {k:'depExpense', where:'disc', l:'Depreciation expense',
+  tags:['Depreciation','DepreciationNonproduction','DepreciationExcludingAmortizationOfDeferredCharges']},
+ {k:'sharesIssued', where:'cred', l:'Common shares issued',
+  tags:['CommonStockSharesIssued']},
+ {k:'treasuryShares', where:'cred', l:'Treasury shares',
+  tags:['TreasuryStockCommonShares','TreasuryStockShares']}
+];
 const XBRL_MAP={
  bs:{
   cash:['CashAndCashEquivalentsAtCarryingValue','CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents'],
@@ -6384,10 +6509,25 @@ function parseCompanyFacts(json,fileName){
     });
   });
 
+  /* the same read, for the four facts that are not statement lines */
+  const extras=[];
+  XBRL_EXTRA.forEach(x=>{
+    let block=null,used=null;
+    for(const t of x.tags){
+      const b=xbrlUnitBlock(G[t]);
+      if(b&&xbrlAnnual(b).length){block=b;used=t;break;}
+    }
+    if(!block)return;
+    const byEnd=xbrlByEnd(block);
+    const nums=ends.map(d=>{const e=byEnd[d];return e==null?null:Math.round(Number(e.val)*scale*1e6)/1e6;});
+    if(nums.every(v=>v==null))return;
+    extras.push({...x,tag:used,nums});
+  });
+
   const name=(json.entityName||'').trim();
   const fyEnd=(D.CurrentFiscalYearEndDate&&xbrlUnitBlock(D.CurrentFiscalYearEndDate))||null;
   const accn=(function(){const b=xbrlByEnd(anchor);const e=b[ends[0]];return e?e.accn:'';})();
-  return {rows,ends,units,scale,name,cik:json.cik,accn,found,missing,
+  return {rows,extras,ends,units,scale,name,cik:json.cik,accn,found,missing,
           fyEndHint:fyEnd&&fyEnd.length?String(fyEnd[fyEnd.length-1].val||''):'',
           fileName:fileName||'SEC company facts'};
 }
@@ -6412,14 +6552,16 @@ function applyCompanyFacts(P){
 
   fillMeta();bindEntity();renderPeriods();
   /* hand off to the existing mapping screen so nothing commits unreviewed */
-  IMP.rows=P.rows; IMP.ncols=P.ends.length;
+  IMP.rows=P.rows; IMP.ncols=P.ends.length; IMP.extras=P.extras||[];
   IMP.src={doc:'SEC XBRL company facts'+(P.accn?' · '+P.accn:''),page:''};
   $('mapDir').value='newest'; $('mapScale').value='1'; $('mapTarget').value='auto';
   renderMapTable(); show('mapSec');
   $('mapSec').scrollIntoView({behavior:'smooth',block:'start'});
-  const miss=P.missing.length;
+  const miss=P.missing.length, ex=(P.extras||[]);
   status('Read <b>'+P.found+'</b> line items across <b>'+P.ends.length+'</b> years from XBRL, in <b>'+
     UNIT_LABEL[P.units]+'</b>. Tags are exact, so no guessing was involved — review and import. '+
+    (ex.length?'Also found, and filled on import where the field is empty: <b>'+
+      esc(ex.map(x=>x.l.toLowerCase()).join(', '))+'</b>. ':'')+
     (miss?'<b>'+miss+'</b> concepts this filer does not tag were skipped.':''));
   toast(P.found+' line items · '+P.ends.length+' years');
 }
@@ -9336,6 +9478,7 @@ function migrate(o){
   ['amort','sharesIssued','treasuryShares'].forEach(k=>{
     const a=Array.isArray(st.cred[k])?st.cred[k].slice(0,6):[];
     while(a.length<6)a.push(null); st.cred[k]=a;});
+  st.cred.priceSource=String(st.cred.priceSource||'');
   st.cred.ratings=Array.isArray(st.cred.ratings)?st.cred.ratings.map(r=>({agency:r.agency||'',
     rating:r.rating||'',outlook:r.outlook||'',date:r.date||''})):[];
   /* a session saved before the Credit section existed would otherwise never print it */
@@ -9744,6 +9887,10 @@ function loadDemoData(D,kind){
      anything else, a plain entry from HELP below.
    ---------------------------------------------------------------------- */
 const HELP={
+ marketdata:{t:'Market data the filing does not carry',
+  d:'The share price at each period end, and the credit ratings. Both are entered by hand; neither can be imported.',
+  r:'A filing tags what the company reports about itself. A share price is what the market decided, and a rating is an agency’s opinion — so no amount of XBRL will produce either. Everything else the credit tests need does arrive with the import.',
+  x:'Use the closing price on the last trading day of each fiscal year, not the day the filing was made, or the market ratios will be measured against a balance sheet from a different date. Record where the prices came from, so the figure can be checked later.'},
  creditpart:{t:'Credit and market',
   d:'Whether the business can meet what it owes in the short run and the long run, how likely it is to fail, and what the market will pay for the equity.',
   r:'Profitability says whether a business earns money. Credit analysis asks whether it can survive a bad year with the obligations it has taken on, which is a different question with a different set of numbers.',

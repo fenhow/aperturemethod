@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v4.1
-  Built 2026-09-11 22:28 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v4.6
+  Built 2026-09-12 00:37 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -169,8 +169,8 @@ table.fin tr.gaprow td.gapmark{color:var(--maroon);font-weight:600;
 nav.tabs{background:var(--paper);display:flex;gap:0;padding:0 16px;overflow-x:auto;
   border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:60}
 nav.tabs button{background:none;border:none;color:#7A7A7A;font-family:var(--sans);
-  font-size:10.5px;letter-spacing:.085em;text-transform:uppercase;font-weight:500;
-  padding:14px 8px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
+  font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;font-weight:500;
+  padding:14px 6px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
   transition:color .15s}
 nav.tabs button .n{margin-right:6px}
 nav.tabs button:hover{color:var(--type)}
@@ -764,11 +764,49 @@ h4.fgroup:first-child{margin-top:4px}
 .unitread.trap{color:#500000;font-weight:600}
 .unitbar:has(.trap){border-left-color:#500000}
 .zs{color:#8C8C8C;font-size:10.5px}
+.feeds{display:block;font-size:10.5px;color:#8C8C8C;line-height:1.5;margin-top:3px;
+  text-transform:none;letter-spacing:0;font-weight:400;max-width:60ch}
+.emodal{position:fixed;inset:0;z-index:90;background:rgba(17,17,17,.55);display:flex;
+  align-items:flex-start;justify-content:center;padding:6vh 16px;overflow:auto}
+.emodal[hidden]{display:none!important}
+.emcard{background:#fff;max-width:620px;width:100%;box-shadow:0 18px 60px rgba(0,0,0,.28);
+  border-top:4px solid var(--maroon)}
+.emhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  padding:18px 22px 10px;border-bottom:1px solid #E6E6E6}
+.emhead h3{margin:0;font-size:17px;letter-spacing:-.01em}
+.emhead .eyebrow{margin:0 0 4px;color:var(--maroon)}
+.emx{background:none;border:none;font-size:20px;line-height:1;cursor:pointer;color:#8C8C8C;padding:0 2px}
+.emx:hover{color:var(--maroon)}
+.embody{padding:16px 22px 4px}
+.emhelp{font-size:12.5px;color:#5C5C5C;margin:0 0 12px}
+.emsrc{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 10px}
+.emsrc>b{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:#8C8C8C;margin-right:4px}
+.emsrc.rows{margin-top:-4px}
+.emnote{font-size:11px;color:#8C8C8C;margin:0 0 14px}
+.emuse{font-size:12px;color:#4D4D4D;background:#F7F5F2;border-left:3px solid var(--maroon);
+  padding:10px 12px;margin:0 0 16px;line-height:1.55}
+.emuse b{display:block;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--maroon);margin-bottom:4px}
+.emuse[hidden]{display:none!important}
+.emrow{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid #F0F0F0}
+.emrow label{flex:0 0 190px;font-size:12.5px;color:#333}
+.emrow input.cell{flex:1 1 auto;text-align:right}
+.emfoot{padding:14px 22px 20px;display:flex;gap:8px;align-items:center}
+.emfoot .note{font-size:11px;color:#8C8C8C;margin-left:auto}
+.flag .entbtn{margin-left:auto;flex:0 0 auto}
+.entchips button.chip{font:inherit;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  cursor:pointer;border:1px solid #D6D6D6}
+.entchips button.chip:hover{border-color:var(--maroon);color:var(--maroon)}
+.entchips button.chip.on:hover{color:#fff}
+.flag.hasbtn>div{display:flex;align-items:center;gap:12px;width:100%}
+.flag.hasbtn>div .txt{flex:1 1 auto}
 /* the masthead is black, so these need their own treatment — the shared ghost
    button is dark text on transparent and would be invisible here */
 .masttools .btn,.masttools .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.34);
   color:#fff;padding:5px 11px;font-size:10px;letter-spacing:.13em}
 .masttools .btn:hover,.masttools .btn.ghost:hover{background:#fff;color:#000;border-color:#fff}
+.masttools .btn .badge{display:inline-block;margin-left:5px;padding:0 5px;border-radius:8px;background:#C25E00;color:#fff;font-size:9px;line-height:14px;vertical-align:1px}
+.masttools .btn:hover .badge{background:#500000}
 .masttools .btn.danger{color:#E8C9C9;border-color:rgba(232,201,201,.42)}
 .masttools .btn.danger:hover{background:var(--maroon);color:#fff;border-color:var(--maroon)}
 .masttools .btn.danger.armed{background:var(--maroon);color:#fff;border-color:var(--maroon)}
@@ -913,9 +951,11 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v4.1 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v4.6 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
+      <button class="btn ghost mini2" id="specialBtn" onclick="openSpecial()" title="Gains and losses, impairments, write-downs and write-offs, one-time charges, non-GAAP measures and the MD&amp;A summary">Special items</button>
+      <button class="btn ghost mini2" id="entryBtn" onclick="go('entry')" title="Everything that has to be typed: share price, credit ratings, and the figures disclosed in the notes">Manual entry</button>
       <button class="btn ghost mini2" onclick="openAnnotate()">Annotate a 10-K</button>
       <button class="btn ghost mini2 draft" onclick="draftAll()" title="Run every Draft from the model button at once. Fields you have already written are left alone.">Seed Draft All</button>
       <button class="btn ghost mini2" onclick="saveSession()">Save</button>
@@ -927,20 +967,21 @@ body.is-locked>.toolbar{display:none!important}
 <nav class="tabs" id="tabs">
   <button data-p="guide" class="active" data-band="a"><span class="n">00</span>Guide</button>
   <button data-p="import" data-band="a"><span class="n">01</span>Import</button>
-  <button data-p="setup" data-band="a"><span class="n">02</span>Profile</button>
-  <button data-p="statements" data-band="a"><span class="n">03</span>Statements</button>
-  <button data-p="normalise" data-band="a"><span class="n">04</span>Normalise</button>
-  <button data-p="verify" data-band="a"><span class="n">05</span>Verify</button>
-  <button data-p="analysis" data-band="b"><span class="n">06</span>Analysis</button>
-  <button data-p="ratios" data-band="b"><span class="n">07</span>Ratios</button>
-  <button data-p="charts" data-band="b"><span class="n">08</span>Charts</button>
-  <button data-p="credit" data-band="b"><span class="n">09</span>Credit</button>
-  <button data-p="notes" data-band="c"><span class="n">10</span>Notes</button>
-  <button data-p="findings" data-band="d"><span class="n">11</span>Findings</button>
-  <button data-p="strengthen" data-band="d"><span class="n">12</span>Strengthen</button>
-  <button data-p="thesis" data-band="d"><span class="n">13</span>Thesis</button>
-  <button data-p="method" data-band="e"><span class="n">14</span>Method</button>
-  <button data-p="report" data-band="e"><span class="n">15</span>Report</button>
+  <button data-p="entry" data-band="a"><span class="n">02</span>Entry</button>
+  <button data-p="setup" data-band="a"><span class="n">03</span>Profile</button>
+  <button data-p="statements" data-band="a"><span class="n">04</span>Statements</button>
+  <button data-p="normalise" data-band="a"><span class="n">05</span>Normalise</button>
+  <button data-p="verify" data-band="a"><span class="n">06</span>Verify</button>
+  <button data-p="analysis" data-band="b"><span class="n">07</span>Analysis</button>
+  <button data-p="ratios" data-band="b"><span class="n">08</span>Ratios</button>
+  <button data-p="charts" data-band="b"><span class="n">09</span>Charts</button>
+  <button data-p="credit" data-band="b"><span class="n">10</span>Credit</button>
+  <button data-p="notes" data-band="c"><span class="n">11</span>Notes</button>
+  <button data-p="findings" data-band="d"><span class="n">12</span>Findings</button>
+  <button data-p="strengthen" data-band="d"><span class="n">13</span>Strengthen</button>
+  <button data-p="thesis" data-band="d"><span class="n">14</span>Thesis</button>
+  <button data-p="method" data-band="e"><span class="n">15</span>Method</button>
+  <button data-p="report" data-band="e"><span class="n">16</span>Report</button>
 </nav>
 
 <div id="bandStrip" class="bandstrip"></div>
@@ -1317,7 +1358,7 @@ body.is-locked>.toolbar{display:none!important}
         “Net income” or “Depreciation and amortisation” belongs to. Tabs <b>11</b>, <b>12</b> and <b>13</b>
         of that workbook carry the disclosure notes — segment and geographic revenue, deferred revenue, the
         allowance, the LIFO reserve and the depreciable property classes. Those are not imported here: they are
-        pasted or typed into <b>10 Notes</b>, which is where the analysis behind the statements is built.</div>
+        pasted or typed into <b>11 Notes</b>, which is where the analysis behind the statements is built.</div>
     </div>
 
     <div id="im_paste" style="display:none">
@@ -1346,23 +1387,14 @@ body.is-locked>.toolbar{display:none!important}
     </div>
   </div>
 
-  <div class="sec" id="marketSec">
+  <div class="sec">
     <h2>Collected, not imported</h2><div class="rule"></div>
-    <h3>Market data the filing does not carry<span class="hmark" data-h="marketdata" tabindex="0" role="button" aria-label="What this means">?</span></h3>
-    <p class="lede">Two things the credit and market tests need are not in the accounts and not in the
-      XBRL tags, because neither is the company reporting on itself: the <b>share price</b> at each
-      period end, and the <b>credit ratings</b>. Both are collected here, at the same time as the
-      figures, and both are required before 09 Credit can finish. Everything else Session 3 needs
-      arrives with the import.</p>
-    <div id="mktStatus"></div>
-    <div class="tblwrap" style="margin-top:14px"><div id="mktPriceGrid"></div></div>
-    <div style="max-width:560px;margin-top:12px">
-      <label class="f">Where the prices came from</label>
-      <input type="text" id="mkt_priceSource" placeholder="Nasdaq closing price on the last trading day of each fiscal year"
-        oninput="S.cred.priceSource=this.value">
-    </div>
-    <h3 style="margin-top:22px">Credit ratings</h3>
-    <div class="tblwrap"><div id="mktRatingGrid"></div></div>
+    <h3>What no import can supply<span class="hmark" data-h="marketdata" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">The share price at each period end and the credit ratings are not in the accounts
+      and not in the XBRL tags, because neither is the company reporting on itself. They are typed,
+      along with the figures that sit in the notes, on <b>02 Entry</b>.</p>
+    <div id="impEntryStatus"></div>
+    <div class="btnrow"><button class="btn" onclick="go('entry')">Open manual entry</button></div>
   </div>
 
   <div class="sec" id="mapSec" style="display:none">
@@ -1404,6 +1436,57 @@ body.is-locked>.toolbar{display:none!important}
   </div>
 </section>
 
+<!-- ============ ENTRY ============ -->
+<section class="panel" id="panel-entry">
+  <div class="sec">
+    <h2>Manual entry</h2><div class="rule"></div>
+    <h3>Everything the import cannot supply<span class="hmark" data-h="manualentry" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">One page for every figure that has to be typed. Some of it no filing tags at all,
+      because it is not the company reporting on itself: the share price and the credit ratings. The
+      rest sits in the notes to the accounts, where a number is disclosed in words and a table rather
+      than as a tagged fact. Whatever an import did fill is already in the boxes below, so what is
+      still empty is what is still owed.</p>
+    <div id="entryStatus"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Market</h2><div class="rule"></div>
+    <h3>Share price and credit ratings<span class="hmark" data-h="marketdata" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">The closing price on the last trading day of each fiscal year, and the ratings as
+      the agencies state them. Without the price there is no Altman Z-Score, dividend yield,
+      market-to-book or P/E.</p>
+    <div class="tblwrap"><div id="mktPriceGrid"></div></div>
+    <div style="max-width:560px;margin-top:12px">
+      <label class="f">Where the prices came from</label>
+      <input type="text" id="mkt_priceSource" placeholder="Nasdaq closing price on the last trading day of each fiscal year"
+        oninput="S.cred.priceSource=this.value">
+    </div>
+    <div id="mktPriceSrc"></div>
+    <div class="tblwrap" style="margin-top:18px"><div id="mktRatingGrid"></div></div>
+    <div id="mktRatingSrc"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Notes</h2><div class="rule"></div>
+    <h3>Figures disclosed in the notes<span class="hmark" data-h="notesentry" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Depreciation and amortisation split out of the combined cash flow line, the
+      allowance standing against receivables, the bad-debt charge, the LIFO reserve, and the share
+      counts behind the market value. An SEC filer's XBRL fills several of these on import; a private
+      company's accounts fill none of them.</p>
+    <div class="tblwrap"><div id="entryNotesGrid"></div></div>
+  </div>
+
+  <div class="sec">
+    <h2>Tables</h2><div class="rule"></div>
+    <h3>The note-level tables<span class="hmark" data-h="notespart" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Segments, geography, deferred revenue and the property classes are rows rather
+      than single figures, and they are entered or pasted on the Notes tab, where each one is read
+      back against the statements as you build it. This is their status.</p>
+    <div class="tblwrap"><div id="entryTableStatus"></div></div>
+    <div class="btnrow"><button class="btn ghost" onclick="go('notes')">Open the Notes tab</button></div>
+  </div>
+</section>
+
 <!-- ============ ANNOTATE ============ -->
 <section class="panel" id="panel-annotate">
   <div class="sec">
@@ -1417,8 +1500,8 @@ body.is-locked>.toolbar{display:none!important}
       each one with a highlight and a comment naming what it is, and hands back an annotated PDF. It
       searches four ways and keeps going until every one of the nine has an answer. Whatever it
       cannot find is named in an index note on the first page, so a reader opening the file learns at
-      once what is marked and what is missing. The page numbers are the same ones <b>05 Verify</b>
-      and <b>10 Notes</b> ask for, so indexing the filing and building the evidence trail is one
+      once what is marked and what is missing. The page numbers are the same ones <b>06 Verify</b>
+      and <b>11 Notes</b> ask for, so indexing the filing and building the evidence trail is one
       pass, not two.</p>
     <div class="drop" id="annDrop" onclick="$('annFile').click()">
       <div class="big">Drop a 10-K here, or click to choose one</div>
@@ -1781,7 +1864,7 @@ body.is-locked>.toolbar{display:none!important}
     <h2>Solvency</h2><div class="rule"></div>
     <h3>Coverage<span class="hmark" data-h="coverage3" tabindex="0" role="button" aria-label="What this means">?</span></h3>
     <p class="lede">Times interest earned, EBITDA to interest, and free cash flow to debt. Depreciation
-      comes from the property note (the same figure as on 10 Notes) and amortisation from the
+      comes from the property note (the same figure as on 11 Notes) and amortisation from the
       intangibles note; together they should tie to the depreciation and amortisation line on the
       cash flow statement.</p>
     <div class="tblwrap"><div id="credCovGrid"></div></div>
@@ -1820,7 +1903,7 @@ body.is-locked>.toolbar{display:none!important}
     <h3>Dividends, market-to-book and P/E<span class="hmark" data-h="market3" tabindex="0" role="button" aria-label="What this means">?</span></h3>
     <p class="lede">Dividends per share come from the statement of shareholders’ equity or its note.
       The share price is the close on the last trading day of each fiscal year. Edits here change the
-      same figures as on 03 Statements and 02 Profile.</p>
+      same figures as on 04 Statements and 03 Profile.</p>
     <div class="tblwrap"><div id="credMktGrid"></div></div>
     <div id="credNote_market"></div>
   </div>
@@ -1829,6 +1912,77 @@ body.is-locked>.toolbar{display:none!important}
     <h2>Reading</h2><div class="rule"></div>
     <h3>What the credit tests say</h3>
     <div id="credRead"></div>
+  </div>
+</section>
+
+<!-- ============ SPECIAL ITEMS ============ -->
+<section class="panel" id="panel-special">
+  <div class="sec">
+    <div class="utilbar">
+      <span class="ut">Utility &middot; not a step in the flow</span>
+      <button class="btn ghost mini2" onclick="closeSpecial()">Back to the bench</button>
+    </div>
+    <h2>Earnings quality</h2><div class="rule"></div>
+    <h3>Special items, impairments and non-GAAP<span class="hmark" data-h="specialpart" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Everything that makes reported profit differ from underlying profit, and what
+      management says about it. Gains and losses, impairments, write-downs and write-offs, one-time
+      charges, the company's own non-GAAP measures, and the MD&amp;A story year by year. Every item
+      entered here is added back automatically wherever adjusted earnings are computed, so the
+      Normalise tab and the valuation move with it.</p>
+    <div id="spStatus"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Register</h2><div class="rule"></div>
+    <h3>Special items, one row per item<span class="hmark" data-h="specialitems" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">Enter a <b>charge as a positive figure and a gain as a negative one</b>, in the
+      same units as the statements, in the year it was recognised. Mark each as cash or non-cash: an
+      impairment costs no cash this year but says the cash spent in an earlier one did not earn its
+      keep.</p>
+    <div class="tblwrap"><div id="spGrid"></div></div>
+    <div class="btnrow">
+      <button class="btn ghost mini2" onclick="spAdd()">+ Add item</button>
+      <button class="btn ghost mini2" onclick="spSeed()">Read the statements for candidates</button>
+      <button class="btn ghost mini2" onclick="spClear()">Clear all</button>
+    </div>
+    <div id="spRead" style="margin-top:16px"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Effect</h2><div class="rule"></div>
+    <h3>Earnings before and after the special items</h3>
+    <p class="lede">The same years read twice. The gap is what the special items are worth, and the
+      pattern across years is what says whether they are exceptional or simply how this business
+      trades.</p>
+    <div class="tblwrap"><div id="spEffect"></div></div>
+  </div>
+
+  <div class="sec">
+    <h2>Non-GAAP</h2><div class="rule"></div>
+    <h3>What the company reports, and what the model computes<span class="hmark" data-h="nongaap" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">The company's own measures as published, beside the same measure built from the
+      statements. A gap is not automatically wrong; it is a question. Record what you make of each
+      adjustment, because that judgement is the one a reader needs.</p>
+    <div class="tblwrap"><div id="spGaapGrid"></div></div>
+    <div class="btnrow">
+      <button class="btn ghost mini2" onclick="ngAdd()">+ Add measure</button>
+      <button class="btn ghost mini2" onclick="S.special.nonGaap=[];recalcAll()">Clear all</button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>MD&amp;A</h2><div class="rule"></div>
+    <h3>What management said, year by year<span class="hmark" data-h="mdna" tabindex="0" role="button" aria-label="What this means">?</span></h3>
+    <p class="lede">A short summary per year of the reasons management gave for the result, and what
+      they guided to next. Read against the figures afterwards, this is where a story that changes
+      every year, or never changes at all, becomes visible.</p>
+    <div id="spMdna"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Reading</h2><div class="rule"></div>
+    <h3>What the special items and the non-GAAP measures tell you</h3>
+    <div id="spNote"></div>
   </div>
 </section>
 
@@ -2037,6 +2191,7 @@ body.is-locked>.toolbar{display:none!important}
       <div class="chip on" data-r="charts">Charts</div>
       <div class="chip on" data-r="credit">Credit &amp; market</div>
       <div class="chip on" data-r="notes">The notes</div>
+      <div class="chip on" data-r="special">Earnings quality</div>
       <div class="chip on" data-r="findings">Findings</div>
       <div class="chip on" data-r="implications">What this tells us</div>
       <div class="chip on" data-r="levers">Levers &amp; sensitivity</div>
@@ -2065,10 +2220,25 @@ body.is-locked>.toolbar{display:none!important}
     <span style="opacity:.55;margin-left:14px;letter-spacing:.15em;text-transform:uppercase;font-size:9px">Our focus. Your advantage.</span></div>
   <div style="display:flex;gap:9px">
     <button class="btn ghost" onclick="go('import')">Import data</button>
+    <button class="btn ghost" onclick="go('entry')">Manual entry</button>
+    <button class="btn ghost" onclick="openSpecial()">Special items</button>
     <button class="btn ghost" onclick="openAnnotate()">Annotate a 10-K</button>
     <button class="btn ghost" onclick="saveSession()">Save session</button>
     <button class="btn draft" onclick="draftAll()" title="Run every Draft from the model button at once. Fields you have already written are left alone.">Seed Draft All</button>
     <button class="btn" onclick="go('report');buildReport()">Build report</button>
+  </div>
+</div>
+<div class="emodal" id="entryModal" hidden role="dialog" aria-modal="true" aria-labelledby="emTitle"
+     onclick="if(event.target===this)closeEntryModal()">
+  <div class="emcard">
+    <div class="emhead"><div><p class="eyebrow" id="emEyebrow">Manual entry</p>
+      <h3 id="emTitle"></h3></div>
+      <button class="emx" onclick="closeEntryModal()" aria-label="Close">×</button></div>
+    <div class="embody"><p class="emhelp" id="emHelp"></p>
+      <div class="emuse" id="emUse"></div><div id="emSrc"></div><div id="emBody"></div></div>
+    <div class="emfoot"><button class="btn" onclick="closeEntryModal()">Done</button>
+      <button class="btn ghost" onclick="emClear()">Clear these</button>
+      <span class="note">Saved as you type. Escape closes.</span></div>
   </div>
 </div>
 <div class="helppop" id="helpPop" role="dialog" aria-label="Explanation"></div>
@@ -2116,8 +2286,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'4.1',
-  built:'2026-09-11 22:28 UTC',
+  version:'4.6',
+  built:'2026-09-12 00:37 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2407,14 +2577,17 @@ function stageLabel(v){const s=STAGES.find(x=>x.v===v);return s?s.l:v;}
 
 /* ---- normalisation ---- */
 function addbackTotal(i,mode){
-  /* mode 'adj' excludes SDE-only rows; mode 'sde' includes everything */
-  if(!S.addbacks.length)return null;
+  /* mode 'adj' excludes SDE-only rows; mode 'sde' includes everything.
+     Special items always count: they are entered once, on the Special items
+     page, and adjusted earnings everywhere are built from the same total. */
   let t=null;
   S.addbacks.forEach(a=>{
     if(mode!=='sde'&&a.kind==='ownerBase')return;
     const v=a.values[i];
     if(v!=null&&v!==''){t=(t||0)+Number(v);}
   });
+  const sp=(typeof specialTotal==='function')?specialTotal(i):null;
+  if(sp!=null)t=(t||0)+sp;
   return t;
 }
 function adjEbitda(i){const e=ebitda(i);if(e==null)return null;return e+(addbackTotal(i,'adj')||0);}
@@ -2553,7 +2726,12 @@ function blankState(){
       treasuryShares:[null,null,null,null,null,null],
       shareUnit:'auto', ratings:[], priceSource:'', na:{}
     },
-    ui:{stmt:'bs',cs:'bs',repSections:['cover','toc','profile','summary','statements','normalisation','valuation','common','horizontal','ratios','dupont','charts','credit','notes','findings','implications','levers','actions','thesis','qc','evidence','method']}
+    /* Earnings quality: what management calls exceptional, its own non-GAAP
+       measures, and the account it gives of the year. Kept apart from the
+       normalisation add-backs, which are the analyst's own adjustments, but
+       added into them wherever adjusted earnings are computed. */
+    special:{items:[],nonGaap:[],mdna:['','','','','',''],outlook:['','','','','','']},
+    ui:{stmt:'bs',cs:'bs',repSections:['cover','toc','profile','summary','statements','normalisation','valuation','common','horizontal','ratios','dupont','charts','credit','notes','special','findings','implications','levers','actions','thesis','qc','evidence','method']}
   };
 }
 function cloneTax(k){
@@ -2657,7 +2835,7 @@ function renderAllDerived(){
   renderKPIs();renderDuPont();renderRatios();renderCharts();renderFlags();
   renderProfile();renderIntakeRead();renderScale();renderValuation();
   syncStatusSeg();applyMask();renderAddbacks();renderNormResult();
-  renderStrengthen();renderDisclosure();renderCredit();renderMarket();renderThesis();renderMethod();renderQC();updateMast();
+  renderStrengthen();renderDisclosure();renderCredit();renderEntry();renderMarket();renderSpecial();renderThesis();renderMethod();renderQC();updateMast();
   if(typeof growAll==='function')growAll(document.querySelector('.panel.active')||document);
   if(typeof markAllDone==='function')markAllDone(document);
 }
@@ -2750,7 +2928,7 @@ const RATIOS=[
  {g:'Coverage',n:'Free cash flow ÷ total debt',f:i=>fcfToDebt(i),t:'x'},
  {g:'Coverage',n:'Years of free cash flow to repay debt',f:i=>yearsToRepay(i),t:'n'},
  {g:'Bankruptcy risk',n:'Altman Z-Score',f:i=>zScore(i),t:'n',
-  d:'Z for a listed company, Z′ (book equity) for a private one. Zones differ by model; see 09 Credit.'},
+  d:'Z for a listed company, Z′ (book equity) for a private one. Zones differ by model; see 10 Credit.'},
  {g:'Coverage',n:'Interest coverage (operating income ÷ interest)',f:i=>div(V('is','operatingIncome',i),V('is','interestExpense',i)),t:'x'},
  {g:'Cash flow',n:'Operating cash flow margin',f:i=>div(V('cf','cfo',i),V('is','revenue',i)),t:'pct'},
  {g:'Cash flow',n:'Free cash flow',f:i=>fcf(i),t:'cur',d:'Operating cash flow less capital expenditure.'},
@@ -2868,7 +3046,9 @@ function closeAnnotate(){go(ANN_RETURN||'import');}
    they do not belong to a band, so the legend shows nothing lit and the line
    on the right says plainly where you are and how to get back. */
 const UTIL={annotate:{t:'Annotate a filing',
-  s:'A one-off utility, not a step in the flow \u2014 reached from the header, and it changes nothing until you ask it to'}};
+  s:'A one-off utility, not a step in the flow \u2014 reached from the header, and it changes nothing until you ask it to'},
+ special:{t:'Earnings quality',
+  s:'Special items, impairments, non-GAAP measures and the MD&A \u2014 reached from the header, and it prints as Part III of the report'}};
 function showBand(p){
   const btn=document.querySelector('nav.tabs button[data-p="'+p+'"]');
   const el=$('bandStrip'); if(!el)return;
@@ -3392,14 +3572,18 @@ function renderQC(){
      evidence as a traced figure: the report cannot compute the credit tests
      without it, so it belongs in the same sign-off as the ledger */
   const MK=marketReq();
-  $('qcMeter').innerHTML+=(MK.ok
-    ? '<div class="flag ok"><span class="dot"></span><div><b>Market data collected</b><span class="why">'+
-      (MK.priv?'Private company: no share price applies. ':'Share price recorded for every period. ')+
-      (MK.rated?'Ratings recorded.':'No rating expected.')+'</span></div></div>'
+  $('qcMeter').innerHTML+=(!modelHasData()
+    ? '<div class="flag warn"><span class="dot"></span><div><b>Nothing to verify yet</b><span class="why">'+
+      'The model holds no statements, so neither the ledger nor the market data can be signed off.</span></div></div>'
+    : MK.ok
+    ? '<div class="flag '+(MK.priv?'note':'ok')+'"><span class="dot"></span><div><b>'+
+      (MK.priv?'Market data not applicable':'Market data collected')+'</b><span class="why">'+
+      (MK.priv?'Private company: there is no share price and normally no rating. ':'Share price recorded for every period. ')+
+      (MK.rated?'Ratings recorded.':(MK.priv?'':'Recorded as not rated.'))+'</span></div></div>'
     : '<div class="flag warn"><span class="dot"></span><div><b>Market data outstanding</b><span class="why">'+
       [MK.missingPrice.length?('Share price is missing for '+MK.missingPrice.length+' of '+chron().length+
         ' periods.'):'',(!MK.rated&&!MK.ratingsOff)?'No credit rating has been entered.':''].filter(Boolean).join(' ')+
-      ' Neither is tagged in a filing, so both are entered by hand on <b>01 Import</b> or <b>09 Credit</b>. '+
+      ' Neither is tagged in a filing, so both are entered by hand on <b>01 Import</b> or <b>10 Credit</b>. '+
       'The credit and market tests report as not performed until they are.</span></div></div>');
 
   /* citation block */
@@ -4679,7 +4863,7 @@ function credNA(k){return !!((C3().na||{})[k]);}
 function credSetNA(k,v){S.cred.na=S.cred.na||{};S.cred.na[k]=!!v;recalcAll();}
 function credSetUnit(v){S.cred.shareUnit=v;recalcAll();}
 function credSetPrice(i,v){S.entity.price[i]=parseNum(v);recalcAll();}
-/* a statement line edited from this tab is the same cell as on 03 Statements */
+/* a statement line edited from this tab is the same cell as on 04 Statements */
 function roleEdit(st,role,i,v){
   const r=rowByRole(st,role); if(!r)return;
   const x=parseNum(v), changed=(r.values[i]!==x);
@@ -4957,7 +5141,7 @@ function renderCredCoverage(){
   h+=cRow('Income tax expense',i=>cCur(V('is','taxExpense',i)));
   h+=cRow('Earnings before interest and taxes (EBIT)',i=>cCur(ebitS3(i)),'subtotal');
   h+=cRow('Times interest earned',i=>cX(tieS3(i)),'total');
-  h+=cRow('Depreciation expense',i=>cIn(depS3(i),'discSetArr(\'depExpense\','+i+',this.value)'),'','also on 10 Notes');
+  h+=cRow('Depreciation expense',i=>cIn(depS3(i),'discSetArr(\'depExpense\','+i+',this.value)'),'','also on 11 Notes');
   h+=cRow('Amortisation expense',cArrIn('amort'),'','from the notes');
   h+=cRow('EBITDA',i=>cCur(ebitdaS3(i)),'subtotal');
   h+=cRow('EBITDA-to-interest ratio',i=>cX(ebitdaCovS3(i)),'total');
@@ -4992,6 +5176,14 @@ function renderCredLiquidity(){
 /* What is outstanding, and for whom. A private company has no share price and
    usually no rating, so the requirement is satisfied by saying so rather than
    by entering a figure that does not exist. */
+/* Has anything been entered at all? A blank model satisfies no requirement,
+   and saying otherwise is the one thing a status line must never do. The
+   entity also defaults to private, so "not required" arrives before any
+   ownership has been chosen: that is a state of its own, not completion. */
+function modelHasData(){
+  return chron().some(i=>V('is','revenue',i)!=null||V('bs','totalAssets',i)!=null||
+    V('bs','totalEquity',i)!=null);
+}
 function marketReq(){
   const c=chron();
   const priv=isPrivate();
@@ -5003,14 +5195,16 @@ function marketReq(){
 }
 function renderMarketStatus(el){
   const M=marketReq(), F=[];
-  if(M.priv)F.push({lvl:'note',t:'Private company: no share price to collect',
-    w:'Market value, the Z-Score’s equity term, the yield, market-to-book and P/E do not apply. The Z′ model uses book equity instead.'});
+  if(!modelHasData())F.push({lvl:'warn',t:'Nothing entered yet',
+    w:'No statements are in the model, so nothing here is complete. Import or type them first, and this will then say what is outstanding.'});
+  else if(M.priv)F.push({lvl:'note',t:'Private company: no share price to collect',
+    w:'Market value, the Z-Score’s equity term, the yield, market-to-book and P/E do not apply. The Z′ model uses book equity instead. Change the ownership on 03 Profile if that is wrong.'});
   else if(M.missingPrice.length)F.push({lvl:'warn',
     t:'Share price outstanding for '+M.missingPrice.length+' of '+chron().length+' periods',
     w:'Until every period has a price, the Altman Z-Score, the dividend yield, market-to-book and the P/E all report as not performed. Use the closing price on the last trading day of each fiscal year.'});
   else F.push({lvl:'ok',t:'Share price recorded for every period',w:'The Z-Score and the market ratios can be computed.'});
   if(M.ratingsOff&&!M.rated)F.push({lvl:'note',t:'No credit rating expected',
-    w:M.priv?'Private debt is rarely rated. Tick the box on 09 Credit if that is wrong.':'Recorded as not rated, which prints as a fact about the company rather than a gap.'});
+    w:M.priv?'Private debt is rarely rated. Tick the box on 10 Credit if that is wrong.':'Recorded as not rated, which prints as a fact about the company rather than a gap.'});
   else if(!M.rated)F.push({lvl:'warn',t:'No credit rating entered',
     w:'One line from Moody’s, S&P or Fitch, with its date. If the company’s debt is not rated, say so with the tick below and the report states that instead.'});
   else F.push({lvl:'ok',t:ratingRows().length+' rating'+(ratingRows().length===1?'':'s')+' recorded',
@@ -5026,8 +5220,7 @@ function renderMarketPrices(){
   const src=$('mkt_priceSource'); if(src&&document.activeElement!==src)src.value=C3().priceSource||'';
 }
 function renderMarket(){
-  if(!$('marketSec'))return;
-  renderMarketStatus('mktStatus');renderMarketPrices();renderRatingTable('mktRatingGrid');
+  if($('impEntryStatus'))renderMarketStatus('impEntryStatus');
 }
 function renderRatingTable(el){
   const R=C3().ratings||[];
@@ -5108,7 +5301,7 @@ function renderCredMarket(){
   let h='';
   if(!pub){
     h='<p class="ihint">A private company has no public share price, so dividends per share, yield, '+
-      'market-to-book and P/E do not apply. Distributions are read on 07 Ratios as cash dividends '+
+      'market-to-book and P/E do not apply. Distributions are read on 08 Ratios as cash dividends '+
       '÷ net income.</p>';
     $('credMktGrid').innerHTML=h;return;
   }
@@ -5329,6 +5522,536 @@ function repCredit(P){
   if(!isPrivate())Z.push(ev('credMarket','Payout and valuation: evaluation'));
   paginateBlocks(glueHeads(Z),'Credit risk, payout and market value','Credit risk, payout and market value (continued)','Credit',P);
 }
+
+
+/* ---------- 13f. MANUAL ENTRY ---------------------------------------------
+   Everything in this tool arrives one of three ways: imported from a filing or
+   a workbook, derived from what was imported, or typed. This page is the third
+   of those, gathered in one place, because a figure that has to be typed and is
+   not asked for is a figure that quietly never arrives — which is how a report
+   comes out with four sections reporting themselves as not performed.
+
+   It holds no state of its own. Every box writes to the same field as the tab
+   it belongs to, so nothing here can drift from anything there. */
+const ENTRY_NOTES=[
+ {k:'depExpense', where:'disc', l:'Depreciation expense',
+  h:'Property note, or the cash flow line less amortisation',
+  u:'EBITDA and EBITDA-to-interest on the Credit tab; and on the Notes tab the implied useful life, the proportion of the property base used up, and capital expenditure to depreciation. All three print in Part II of the report.'},
+ {k:'amort', where:'cred', l:'Amortisation of intangibles', h:'Intangibles note',
+  u:'EBITDA, and therefore EBITDA-to-interest. Splitting it out of the combined depreciation and amortisation line is what lets the property analysis use depreciation alone.'},
+ {k:'allowance', where:'disc', l:'Allowance for doubtful accounts', h:'Receivables note or Schedule II',
+  u:'Gross receivables, and the allowance as a share of gross, which is the receivables-quality reading in Part II. A falling percentage against a lengthening collection period is the pattern the report flags.'},
+ {k:'badDebt', where:'disc', l:'Bad debt expense', h:'Receivables note or Schedule II',
+  u:'Bad debt as a share of revenue, beside the allowance, in the receivables-quality module in Part II.'},
+ {k:'lifoReserve', where:'disc', l:'LIFO reserve', h:'Inventory note; LIFO companies only',
+  u:'The FIFO restatement of both inventory and cost of sales, and the cash conversion cycle computed on both bases. Without it a LIFO company cannot be compared with a FIFO peer. LIFO filers only; leave it empty otherwise.'},
+ {k:'accumDepOverride', where:'disc', l:'Accumulated depreciation override',
+  h:'Only where the property note differs from the balance sheet',
+  u:'Net depreciable property and the percent used up, where the property note gives a different accumulated figure from the balance sheet. Leave it empty and the balance sheet is used.'},
+ {k:'sharesIssued', where:'cred', l:'Common shares issued', h:'Cover page or the equity note',
+  u:'Shares outstanding (issued less treasury), which drives the market value of equity in the Altman Z-Score, book value per share and market-to-book, and the market capitalisation on the Valuation panel.'},
+ {k:'treasuryShares', where:'cred', l:'Treasury shares', h:'Equity note; nil where shares are retired',
+  u:'Subtracted from shares issued to give shares outstanding, so it reaches the Z-Score, book value per share and market-to-book. A company that retires its repurchases has none.'}
+];
+function entryGet(f,i){return f.where==='cred'?credVal(f.k,i):discVal(f.k,i);}
+function entrySet(f){return f.where==='cred'?'credSetArr':'discSetArr';}
+/* what is still owed, split by what it stops from being computed */
+function ENTRY_ALL(){
+  const A=[{k:'price',l:'Share price'},{k:'ratings',l:'Credit ratings'}];
+  ENTRY_NOTES.forEach(f=>A.push({k:f.k,l:f.l}));
+  return A;
+}
+function entryOutstanding(){
+  const c=chron(), M=marketReq(), out=[];
+  if(M.missingPrice.length)out.push({k:'price',req:1,l:'Share price',n:M.missingPrice.length+' of '+c.length+' periods',
+    w:'stops the Z-Score, dividend yield, market-to-book and P/E'});
+  if(!M.rated&&!M.ratingsOff)out.push({k:'ratings',req:1,l:'Credit ratings',n:'none entered',
+    w:'prints as not performed in the credit section'});
+  ENTRY_NOTES.forEach(f=>{
+    if(f.k==='lifoReserve'||f.k==='accumDepOverride'||f.k==='treasuryShares')return;
+    if(f.where==='cred'&&isPrivate()&&f.k==='sharesIssued')return;
+    const miss=c.filter(i=>entryGet(f,i)==null).length;
+    if(miss)out.push({k:f.k,req:0,l:f.l,n:miss+' of '+c.length+' periods',w:''});
+  });
+  return out;
+}
+function entryCount(){return entryOutstanding().filter(x=>x.req).length;}
+function renderEntryStatus(){
+  const O=entryOutstanding(), req=O.filter(x=>x.req), opt=O.filter(x=>!x.req);
+  let h='<div class="kpirow"><div class="kpi'+(req.length?' hl':'')+'"><div class="k">Required, outstanding</div>'+
+    '<div class="v '+(req.length?'neg':'pos')+'">'+req.length+'</div>'+
+    '<div class="d">'+(req.length?'the credit tests cannot finish':'nothing blocking')+'</div></div>'+
+    '<div class="kpi"><div class="k">Note figures not yet entered</div><div class="v">'+opt.length+'</div>'+
+    '<div class="d">each one narrows what the report can say</div></div></div>';
+  const line=(lvl,x,w)=>'<div class="flag '+lvl+' hasbtn"><span class="dot"></span><div>'+
+    '<div class="txt"><b>'+esc(x.l)+' \u2014 '+esc(x.n)+'</b><span class="why">'+w+'</span></div>'+
+    '<button class="btn mini2 entbtn'+(lvl==='warn'?'':' ghost')+'" title="'+
+      esc((emDef(x.k)||{}).u||'')+'" onclick="openEntryModal(\''+x.k+'\')">Enter</button>'+
+    '</div></div>';
+  let f='';
+  const MQ2=marketReq(), any=modelHasData();
+  if(!any)f+='<div class="flag warn"><span class="dot"></span><div><b>Nothing has been entered yet</b>'+
+    '<span class="why">There are no statements in the model, so nothing below can be judged complete. '+
+    'Import a filing or a workbook on <b>01 Import</b>, or type the statements on <b>04 Statements</b>, '+
+    'and this page will then say what is still owed.</span></div></div>';
+  req.forEach(x=>f+=line('warn',x,'Typed here; no import supplies it. It '+x.w+'.'));
+  if(any&&!req.length&&MQ2.priv)f+='<div class="flag note"><span class="dot"></span><div><b>Private '+
+    'company: no share price or credit ratings to collect</b><span class="why">Both are market data, '+
+    'and a private company has no market. The Z-Score uses the Z\u2032 model on book equity instead, and '+
+    'the yield, market-to-book and P/E report as not applicable. Change the ownership on '+
+    '<b>03 Profile</b> if that is wrong.</span></div></div>';
+  else if(any&&!req.length)f+='<div class="flag ok"><span class="dot"></span><div><b>Share price and '+
+    'credit ratings are in for every period</b><span class="why">The Altman Z-Score, the dividend '+
+    'yield, market-to-book and the P/E all compute. What is listed below is optional and affects only '+
+    'the analysis that uses it.</span></div></div>';
+  opt.forEach(x=>f+=line('note',x,'Optional, but the analysis that uses it reports as not performed until it is entered.'));
+  /* every field, complete or not, one click from here */
+  f+='<p class="ihint" style="margin:14px 0 6px">Open any field to enter or change it. A tick means '+
+     'every period carries a figure.</p><div class="chips entchips">'+
+     ENTRY_ALL().map(x=>{const out=O.some(o=>o.k===x.k);
+       const d=emDef(x.k);
+       return '<button class="chip'+(out?'':' on')+'" title="'+esc(d&&d.u?d.u:'')+
+         '" onclick="openEntryModal(\''+x.k+'\')">'+(out?'':'\u2713 ')+esc(x.l)+'</button>';}).join('')+'</div>';
+  $('entryStatus').innerHTML=f;
+}
+function renderEntryNotes(){
+  let h=cHead('Figure');
+  ENTRY_NOTES.forEach(f=>{
+    h+='<tr><td class="lbl">'+esc(f.l)+' <span class="derived">'+esc(f.h)+'</span>'+
+      (f.u?'<span class="feeds">Feeds: '+esc(f.u)+'</span>':'')+'</td>';
+    disp().forEach(i=>h+='<td>'+cIn(entryGet(f,i),entrySet(f)+'(\''+f.k+'\','+i+',this.value)')+'</td>');
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  h+='<div class="unitbar"><label class="f" style="margin:0">Shares are entered in</label>'+
+    '<select onchange="credSetUnit(this.value)">'+SHARE_UNITS.map(u=>'<option value="'+u.k+'"'+
+      ((C3().shareUnit||'auto')===u.k?' selected':'')+'>'+esc(u.l)+'</option>').join('')+'</select>'+
+    '<span class="unitread'+(['converted','implausible'].includes(shareMultInfo().how)?' trap':'')+'">'+
+    esc(shareUnitRead())+'</span></div>';
+  $('entryNotesGrid').innerHTML=h;
+}
+function renderEntryTables(){
+  const T=[['segments','Segment revenue'],['geo','Geographic revenue'],
+           ['deferred','Deferred revenue'],['ppeClasses','Property classes']];
+  let h='<table class="fin"><thead><tr><th class="lbl">Table</th><th class="lbl">Rows entered</th>'+
+    '<th class="lbl">State</th></tr></thead><tbody>';
+  T.forEach(([k,l])=>{
+    const n=discRows(k).filter(r=>(r.name||'').trim()).length;
+    h+='<tr><td class="lbl">'+esc(l)+'</td><td class="lbl">'+(n||'—')+'</td>'+
+      '<td class="lbl">'+(n?'Entered':(discNA(k)?'Not reported by the company':'<b>Not entered</b>'))+'</td></tr>';
+  });
+  const pol=[['revPolicy','Revenue recognition policy'],['invPolicy','Inventory policy']];
+  pol.forEach(([k,l])=>h+='<tr><td class="lbl">'+esc(l)+'</td><td class="lbl">'+
+    ((D()[k]||'').trim()?'written':'—')+'</td><td class="lbl">'+((D()[k]||'').trim()?'Entered':'<b>Not entered</b>')+'</td></tr>');
+  $('entryTableStatus').innerHTML=h+'</tbody></table>';
+}
+/* ---- the entry windows ---------------------------------------------------
+   Each outstanding line carries its own button, and the button opens the boxes
+   for that one figure across every period. The page below still holds the full
+   tables; this is the short way in, so nothing has to be hunted for. */
+let EM_KEY=null;
+/* ---- where to go and get it -------------------------------------------
+   Not automation: the tool cannot fetch a price, and an offline file never
+   will. What it can do is open the page the figure is on, with the company
+   and the date already in the address, so the trip is one click and a copy
+   rather than a search. Everything opens in a new tab and nothing is sent. */
+function wsTicker(){return String(S.meta.ticker||'').trim().replace(/[^A-Za-z0-9.\-]/g,'');}
+function wsName(){return String(S.meta.company||'').trim();}
+function wsQ(x){return encodeURIComponent(x);}
+function periodDate(i){
+  const t=String(S.periods[i]||'').trim(); if(!t)return null;
+  const d=new Date(t); return isNaN(d.getTime())?null:d;
+}
+function ymd(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
+function edgarFts(phrase){
+  const who=wsTicker()?('&entityName='+wsQ(wsTicker())):(wsName()?('&entityName='+wsQ(wsName())):'');
+  return 'https://www.sec.gov/edgar/search/#/q='+wsQ('"'+phrase+'"')+who+'&forms=10-K';
+}
+function edgarCompany(){
+  return wsTicker()
+    ? 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK='+wsQ(wsTicker())+'&type=10-K&dateb=&owner=include&count=40'
+    : 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company='+wsQ(wsName())+'&type=10-K&dateb=&owner=include&count=40';
+}
+/* a week either side of the year end, so the last trading day is in view
+   whichever day of the week the fiscal year happened to close on */
+function yahooHistory(i){
+  const t=wsTicker(); if(!t)return null;
+  const d=(i==null)?null:periodDate(i);
+  if(!d)return 'https://finance.yahoo.com/quote/'+wsQ(t)+'/history/';
+  const p1=Math.floor((d.getTime()-7*864e5)/1000), p2=Math.floor((d.getTime()+2*864e5)/1000);
+  return 'https://finance.yahoo.com/quote/'+wsQ(t)+'/history?period1='+p1+'&period2='+p2+'&interval=1d';
+}
+function stooqHistory(i){
+  const t=wsTicker(); if(!t)return null;
+  const d=(i==null)?null:periodDate(i);
+  const base='https://stooq.com/q/d/?s='+wsQ(t.toLowerCase())+'.us';
+  if(!d)return base;
+  const a=new Date(d.getTime()-7*864e5);
+  return base+'&d1='+ymd(a)+'&d2='+ymd(d)+'&i=d';
+}
+function webSources(k){
+  const T=wsTicker(), N=wsName(), L=[];
+  if(k==='price'){
+    if(T){
+      L.push({l:'Yahoo Finance, daily history',u:yahooHistory(null)});
+      L.push({l:'Stooq, daily history',u:stooqHistory(null)});
+    } else {
+      L.push({l:'Find the ticker first',u:'https://duckduckgo.com/?q='+wsQ(N+' stock ticker symbol')});
+    }
+    return L;
+  }
+  if(k==='ratings'){
+    L.push({l:'Moody’s, search the issuer',u:'https://www.moodys.com/search?keyword='+wsQ(N)});
+    L.push({l:'Fitch, search the issuer',u:'https://www.fitchratings.com/search/?query='+wsQ(N)});
+    L.push({l:'S&P Global Ratings',u:'https://www.spglobal.com/ratings/en/'});
+    L.push({l:'Web search, all three agencies',
+      u:'https://duckduckgo.com/?q='+wsQ(N+' credit rating Moody’s S&P Fitch long-term issuer')});
+    L.push({l:'The company’s own investor page',u:'https://duckduckgo.com/?q='+wsQ(N+' investor relations credit ratings')});
+    return L;
+  }
+  const PHRASE={depExpense:'depreciation expense',amort:'amortization of intangible assets',
+    allowance:'allowance for doubtful accounts',badDebt:'bad debt expense',
+    lifoReserve:'LIFO reserve',accumDepOverride:'accumulated depreciation',
+    sharesIssued:'shares issued',treasuryShares:'treasury stock'};
+  if(PHRASE[k])L.push({l:'Search the 10-K for “'+PHRASE[k]+'”',u:edgarFts(PHRASE[k])});
+  L.push({l:'This company’s filings on EDGAR',u:edgarCompany()});
+  return L;
+}
+function emSourceBar(k){
+  const L=webSources(k); if(!L.length)return '';
+  const per=(k==='price'&&wsTicker())
+    ? '<div class="emsrc rows">'+chron().slice().reverse().map(i=>{
+        const d=periodDate(i); if(!d)return '';
+        return '<button class="btn ghost mini2" onclick="openTab(\''+yahooHistory(i)+'\')">'+
+          esc(periodLabel(i))+' →</button>';}).join('')+'</div>'
+    : '';
+  return '<div class="emsrc"><b>Where to get it</b>'+
+    L.map(x=>'<button class="btn ghost mini2" onclick="openTab(\''+x.u+'\')">'+esc(x.l)+'</button>').join('')+
+    '</div>'+per+
+    (k==='price'&&wsTicker()?'<p class="emnote">Each year opens at the week of that fiscal year end. '+
+      'Take the close on the last trading day on or before it.</p>':'')+
+    (k==='price'&&!wsTicker()?'<p class="emnote">Set the ticker on <b>03 Profile</b> and these links '+
+      'will open at the right company and the right week.</p>':'');
+}
+function emDef(k){
+  if(k==='price')return {l:'Share price at period end',
+    h:'The closing price on the last trading day of each fiscal year, in dollars per share.',
+    u:'The market value of equity, which is the fourth term of the Altman Z-Score; the dividend yield; market-to-book; the price-to-earnings ratio; and the market capitalisation, enterprise value and EV multiples on the Valuation panel. Four sections of the report print as not performed without it.',
+    kind:'series',get:i=>sharePrice(i),set:i=>'credSetPrice('+i+',this.value)'};
+  if(k==='ratings')return {l:'Credit ratings',
+    h:'One line per agency, as the agency states it: Moody\u2019s Aaa to C, S&P and Fitch AAA to D.',
+    u:'The ratings table in the report, with the investment-grade read taken from the symbol, and the evaluation that sets the agencies\u2019 opinion beside the Altman Z-Score. Where the two disagree, the disagreement is the finding.',
+    kind:'ratings'};
+  const f=ENTRY_NOTES.find(x=>x.k===k);
+  if(!f)return null;
+  return {l:f.l,h:'Source: '+f.h+'. Enter it in the same units as the statements.',u:f.u,
+    kind:'series',get:i=>entryGet(f,i),set:i=>entrySet(f)+'(\''+f.k+'\','+i+',this.value)',f};
+}
+function openEntryModal(k){
+  const d=emDef(k); if(!d)return;
+  EM_KEY=k;
+  $('emTitle').textContent=d.l;
+  $('emHelp').textContent=d.h;
+  $('emUse').innerHTML=d.u?'<b>What it is used for</b>'+esc(d.u):'';
+  $('emUse').hidden=!d.u;
+  $('emSrc').innerHTML=emSourceBar(k);
+  renderEntryModalBody();
+  $('entryModal').hidden=false;
+  const first=$('emBody').querySelector('input'); if(first)setTimeout(()=>first.focus(),30);
+}
+function renderEntryModalBody(){
+  const d=emDef(EM_KEY); if(!d)return;
+  if(d.kind==='ratings'){renderRatingTable('emBody');return;}
+  $('emBody').innerHTML=chron().map(i=>
+    '<div class="emrow"><label>'+esc(periodLabel(i))+'</label>'+
+    '<input class="cell num" inputmode="decimal" value="'+(d.get(i)==null?'':d.get(i))+
+    '" onchange="'+d.set(i)+'"></div>').join('')+
+    (EM_KEY==='price'?'<div class="emrow"><label>Where they came from</label>'+
+      '<input class="cell" style="text-align:left" value="'+esc(C3().priceSource||'')+
+      '" placeholder="Nasdaq close, last trading day" onchange="S.cred.priceSource=this.value;recalcAll()"></div>':'');
+}
+function closeEntryModal(){$('entryModal').hidden=true;EM_KEY=null;recalcAll();}
+function emClear(){
+  const d=emDef(EM_KEY); if(!d)return;
+  if(!confirm('Clear '+d.l.toLowerCase()+' for every period?'))return;
+  if(EM_KEY==='ratings')S.cred.ratings=[];
+  else if(EM_KEY==='price')chron().forEach(i=>S.entity.price[i]=null);
+  else chron().forEach(i=>{const f=d.f;(f.where==='cred'?S.cred:S.disc)[f.k][i]=null;});
+  recalcAll(); renderEntryModalBody();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('entryModal').hidden)closeEntryModal();});
+
+function renderEntry(){
+  if(!$('panel-entry'))return;
+  renderEntryStatus();renderMarketPrices();renderRatingTable('mktRatingGrid');
+  if($('mktPriceSrc'))$('mktPriceSrc').innerHTML=emSourceBar('price');
+  if($('mktRatingSrc'))$('mktRatingSrc').innerHTML=emSourceBar('ratings');
+  renderEntryNotes();renderEntryTables();
+  if(EM_KEY==='ratings'&&!$('entryModal').hidden)renderRatingTable('emBody');
+  const b=$('entryBtn'), n=entryCount();
+  if(b)b.innerHTML='Manual entry'+(n?' <span class="badge">'+n+'</span>':'');
+}
+
+
+/* ---------- 13g. EARNINGS QUALITY: SPECIAL ITEMS AND NON-GAAP -------------
+   Reported profit is an opinion with a number attached, and most of the
+   distance between it and underlying profit sits in a handful of items a
+   company calls exceptional. The register below holds them; the arithmetic
+   then asks the only question that matters about an exceptional item, which is
+   how often it happens.
+
+   Every item entered here is added back wherever adjusted earnings are
+   computed, by way of addbackTotal(), so the Normalise tab, the valuation and
+   the thesis all move together and none of them can quietly disagree. */
+const SPECIAL_TYPES=[
+ {v:'impairGoodwill',l:'Goodwill impairment',cash:'noncash'},
+ {v:'impairAsset',   l:'Long-lived asset impairment or write-down',cash:'noncash'},
+ {v:'invWrite',      l:'Inventory write-down',cash:'noncash'},
+ {v:'arWrite',       l:'Receivable write-off',cash:'noncash'},
+ {v:'restructuring', l:'Restructuring, severance and closures',cash:'cash'},
+ {v:'disposal',      l:'Gain or loss on disposal',cash:'noncash'},
+ {v:'legal',         l:'Legal settlement or provision',cash:'cash'},
+ {v:'insurance',     l:'Insurance or other recovery',cash:'cash'},
+ {v:'debtExt',       l:'Loss or gain on extinguishment of debt',cash:'noncash'},
+ {v:'acquisition',   l:'Acquisition and integration costs',cash:'cash'},
+ {v:'startup',       l:'Start-up or pre-opening costs',cash:'cash'},
+ {v:'other',         l:'Other special item',cash:'cash'}
+];
+const NG_BASIS=[
+ {v:'adjEbitda',l:'Adjusted EBITDA',f:i=>adjEbitda(i)},
+ {v:'ebitda',   l:'EBITDA',f:i=>ebitda(i)},
+ {v:'ebit',     l:'Operating income before special items',f:i=>spOpIncomeEx(i)},
+ {v:'netIncome',l:'Net income',f:i=>V('is','netIncome',i)},
+ {v:'epsDiluted',l:'Diluted EPS',f:i=>V('is','epsDiluted',i)},
+ {v:'epsBasic', l:'Basic EPS',f:i=>V('is','epsBasic',i)},
+ {v:'fcf',      l:'Free cash flow',f:i=>fcf(i)},
+ {v:'other',    l:'Other measure',f:()=>null}
+];
+const NG_VERDICT=['Not yet judged','Accepted','Accepted in part','Rejected'];
+function SP(){return S.special||{items:[],nonGaap:[],mdna:[],outlook:[]};}
+function spRows(){return SP().items||[];}
+function spVal(r,i){const v=r&&r.values&&r.values[i];return (v==null||v==='')?null:Number(v);}
+function spAdd(a){S.special.items.push(a||{desc:'',type:'impairAsset',cash:'noncash',
+  values:new Array(6).fill(null),note:''});recalcAll();}
+function spDel(k){S.special.items.splice(k,1);recalcAll();}
+function spSet(k,f,v){S.special.items[k][f]=v; if(f!=='desc'&&f!=='note')recalcAll();}
+function spSetVal(k,i,v){S.special.items[k].values[i]=parseNum(v);recalcAll();}
+function spClear(){if(!spRows().length)return;if(!confirm('Clear every special item?'))return;
+  S.special.items=[];recalcAll();}
+function ngAdd(){S.special.nonGaap.push({name:'',basis:'adjEbitda',values:new Array(6).fill(null),
+  verdict:'Not yet judged',note:''});recalcAll();}
+function ngDel(k){S.special.nonGaap.splice(k,1);recalcAll();}
+function ngSet(k,f,v){S.special.nonGaap[k][f]=v; if(f!=='name'&&f!=='note')recalcAll();}
+function ngSetVal(k,i,v){S.special.nonGaap[k].values[i]=parseNum(v);recalcAll();}
+function spMdnaSet(f,i,v){S.special[f][i]=v;}
+
+/* charges positive, gains negative: the total is what would be added back */
+function specialTotal(i){
+  let t=null;
+  spRows().forEach(r=>{const v=spVal(r,i); if(v!=null)t=(t==null?0:t)+v;});
+  return t;
+}
+function specialBy(i,cash){
+  let t=null;
+  spRows().forEach(r=>{if((r.cash||'cash')!==cash)return;const v=spVal(r,i);if(v!=null)t=(t==null?0:t)+v;});
+  return t;
+}
+function specialShare(i){
+  const t=specialTotal(i), p=V('is','pretaxIncome',i);
+  return (t==null||p==null||p===0)?null:t/Math.abs(p);
+}
+function spYears(){return chron().filter(i=>{const t=specialTotal(i);return t!=null&&t!==0;});}
+/* the test of an exceptional item is how many years in a row it is exceptional */
+function spRun(){
+  const c=chron(); let best=0,run=0;
+  c.forEach(i=>{const t=specialTotal(i); if(t!=null&&t!==0){run++;best=Math.max(best,run);}else run=0;});
+  return best;
+}
+function spOpIncomeEx(i){const o=V('is','operatingIncome',i),t=specialTotal(i);
+  return o==null?null:o+(t||0);}
+function spNetEx(i){const n=V('is','netIncome',i),t=specialTotal(i);return n==null?null:n+(t||0);}
+function spEbitdaEx(i){const e=ebitda(i),t=specialTotal(i);return e==null?null:e+(t||0);}
+function spMarginEx(i){return div(spOpIncomeEx(i),V('is','revenue',i));}
+function ngOurs(r,i){const b=pick(NG_BASIS,r.basis);return b&&b.f?b.f(i):null;}
+function ngGap(r,i){const a=(r.values&&r.values[i]!=null&&r.values[i]!=='')?Number(r.values[i]):null,
+  o=ngOurs(r,i); return (a==null||o==null)?null:a-o;}
+function spHas(){return spRows().some(r=>(r.desc||'').trim()||chron().some(i=>spVal(r,i)!=null));}
+function ngHas(){return (SP().nonGaap||[]).some(r=>(r.name||'').trim());}
+function mdnaHas(){return (SP().mdna||[]).some(x=>(x||'').trim());}
+
+/* ---- the screen ---------------------------------------------------------- */
+function renderSpStatus(){
+  const i=latestIdx(), t=specialTotal(i), yrs=spYears().length, run=spRun(), sh=specialShare(i);
+  let h='<div class="kpirow">'+
+    '<div class="kpi"><div class="k">Special items, '+esc(periodLabel(i))+'</div><div class="v '+
+      (t==null?'':(t>0?'neg':'pos'))+'">'+(t==null?'—':fmt(t))+'</div>'+
+      '<div class="d">'+(sh!=null?pct(sh,1)+' of pre-tax profit':'charges positive, gains negative')+'</div></div>'+
+    '<div class="kpi"><div class="k">Years carrying special items</div><div class="v '+
+      (yrs>=3?'neg':(yrs?'':'pos'))+'">'+yrs+' / '+chron().length+'</div>'+
+      '<div class="d">'+(run>=2?run+' of them consecutive':'the test of an exceptional item')+'</div></div>'+
+    '<div class="kpi"><div class="k">Non-cash share</div><div class="v">'+
+      (specialBy(i,'noncash')==null?'—':fmt(specialBy(i,'noncash')))+'</div>'+
+      '<div class="d">the rest was paid in cash</div></div></div>';
+  $('spStatus').innerHTML=h;
+}
+function renderSpItems(){
+  let h='<table class="fin"><thead><tr><th class="lbl">Item</th><th class="lbl" style="width:210px">Type</th>'+
+    '<th class="lbl" style="width:110px">Cash</th>';
+  disp().forEach(i=>h+='<th>'+esc(periodLabel(i))+'</th>');
+  h+='<th class="rowtools"></th></tr></thead><tbody>';
+  spRows().forEach((r,k)=>{
+    h+='<tr><td class="lbl"><input class="lblin" value="'+esc(r.desc||'')+
+      '" placeholder="As the filing describes it" oninput="spSet('+k+',\'desc\',this.value)"></td>'+
+      '<td class="lbl"><select onchange="spSet('+k+',\'type\',this.value)">'+SPECIAL_TYPES.map(t=>
+        '<option value="'+t.v+'"'+(r.type===t.v?' selected':'')+'>'+esc(t.l)+'</option>').join('')+'</select></td>'+
+      '<td class="lbl"><select onchange="spSet('+k+',\'cash\',this.value)">'+
+        ['cash','noncash'].map(c=>'<option value="'+c+'"'+((r.cash||'cash')===c?' selected':'')+'>'+
+          (c==='cash'?'Cash':'Non-cash')+'</option>').join('')+'</select></td>';
+    disp().forEach(i=>h+='<td><input class="cell num" value="'+(r.values[i]==null?'':r.values[i])+
+      '" onchange="spSetVal('+k+','+i+',this.value)"></td>');
+    h+='<td class="rowtools"><button class="mini" onclick="spDel('+k+')">×</button></td></tr>';
+  });
+  if(!spRows().length)h+=discEmpty(nP()+2,'No special items entered. Add them from the income statement, '+
+    'the restructuring and impairment notes, and the MD&A.');
+  else{
+    h+='<tr class="total"><td class="lbl" colspan="3">Total special items</td>';
+    disp().forEach(i=>h+='<td>'+fmt(specialTotal(i))+'</td>'); h+='<td class="rowtools"></td></tr>';
+    h+='<tr class="memo"><td class="lbl" colspan="3">Of which non-cash</td>';
+    disp().forEach(i=>h+='<td>'+fmt(specialBy(i,'noncash'))+'</td>'); h+='<td class="rowtools"></td></tr>';
+    h+='<tr class="memo"><td class="lbl" colspan="3">As a share of pre-tax profit</td>';
+    disp().forEach(i=>h+='<td>'+pct(specialShare(i),1)+'</td>'); h+='<td class="rowtools"></td></tr>';
+  }
+  $('spGrid').innerHTML=h+'</tbody></table>';
+  renderSpFlags();
+}
+/* the statements already carry three of these lines: propose them rather than
+   making them be typed twice, and leave the analyst to confirm */
+function spSeed(){
+  /* The income statement carries these lines already. Propose them; never both
+     the income-statement line and the cash-flow line for the same charge, which
+     would count it twice, and never with the sign changed: a credit released
+     back to income is a credit, not a charge. */
+  const seen=r=>spRows().some(x=>(x.desc||'')===r);
+  const add=(label,type,cash,st,role)=>{
+    const vals=chron().map(i=>V(st,role,i));
+    if(vals.every(v=>v==null||v===0))return 0;
+    if(seen(label))return 0;
+    const values=new Array(6).fill(null);
+    chron().forEach(i=>{const v=V(st,role,i); if(v!=null&&v!==0)values[i]=v;});
+    S.special.items.push({desc:label,type,cash,values,
+      note:'Read from the statements; confirm it against the note before relying on it.'});
+    return 1;
+  };
+  let n=0;
+  const isImp=chron().some(i=>V('is','impairment',i));
+  n+=add('Goodwill and asset impairment','impairGoodwill','noncash','is','impairment');
+  if(!isImp)n+=add('Impairments (per the cash flow statement)','impairAsset','noncash','cf','impairmentCF');
+  const isRes=chron().some(i=>V('is','restructuring',i));
+  n+=add('Restructuring charges','restructuring','cash','is','restructuring');
+  if(!isRes)n+=add('Restructuring (per the cash flow statement)','restructuring','cash','cf','restructuringCF');
+  recalcAll();
+  toast(n?n+' candidate'+(n===1?'':'s')+' added — confirm each against the note'
+         :'Nothing in the statements to propose');
+}
+function renderSpEffect(){
+  let h=cHead('Reported and underlying');
+  h+=cRow('Operating income, as reported',i=>cCur(V('is','operatingIncome',i)));
+  h+=cRow('Special items added back',i=>cCur(specialTotal(i)));
+  h+=cRow('Operating income before special items',i=>cCur(spOpIncomeEx(i)),'subtotal');
+  h+=cRow('Operating margin, as reported',i=>pct(div(V('is','operatingIncome',i),V('is','revenue',i)),1));
+  h+=cRow('Operating margin before special items',i=>pct(spMarginEx(i),1),'total');
+  h+=cRow('EBITDA, as reported',i=>cCur(ebitda(i)));
+  h+=cRow('EBITDA before special items',i=>cCur(spEbitdaEx(i)),'subtotal');
+  h+=cRow('Net income, as reported',i=>cCur(V('is','netIncome',i)));
+  h+=cRow('Net income before special items, pre-tax effect',i=>cCur(spNetEx(i)),'memo',
+    'no tax effect applied');
+  $('spEffect').innerHTML=h+'</tbody></table>'+
+    '<p class="ihint" style="margin-top:8px">The net-income line adds the items back gross. Where the '+
+    'charge was deductible the after-tax effect is smaller, and the filing usually gives it; note the '+
+    'difference in the reading rather than assuming a rate.</p>';
+}
+function renderNonGaap(){
+  const R=SP().nonGaap||[];
+  let h='<table class="fin"><thead><tr><th class="lbl">Company measure</th>'+
+    '<th class="lbl" style="width:230px">Compared with</th>';
+  disp().forEach(i=>h+='<th>'+esc(periodLabel(i))+'</th>');
+  h+='<th class="lbl" style="width:150px">Verdict</th><th class="rowtools"></th></tr></thead><tbody>';
+  R.forEach((r,k)=>{
+    h+='<tr><td class="lbl"><input class="lblin" value="'+esc(r.name||'')+
+      '" placeholder="Adjusted EBITDA, as reported" oninput="ngSet('+k+',\'name\',this.value)"></td>'+
+      '<td class="lbl"><select onchange="ngSet('+k+',\'basis\',this.value)">'+NG_BASIS.map(b=>
+        '<option value="'+b.v+'"'+(r.basis===b.v?' selected':'')+'>'+esc(b.l)+'</option>').join('')+'</select></td>';
+    disp().forEach(i=>h+='<td><input class="cell num" value="'+(r.values[i]==null?'':r.values[i])+
+      '" onchange="ngSetVal('+k+','+i+',this.value)"></td>');
+    h+='<td class="lbl"><select onchange="ngSet('+k+',\'verdict\',this.value)">'+NG_VERDICT.map(v=>
+      '<option'+(r.verdict===v?' selected':'')+'>'+esc(v)+'</option>').join('')+'</select></td>'+
+      '<td class="rowtools"><button class="mini" onclick="ngDel('+k+')">×</button></td></tr>';
+    h+='<tr class="memo"><td class="lbl" colspan="2">From the model: '+esc(pick(NG_BASIS,r.basis).l)+'</td>';
+    disp().forEach(i=>h+='<td>'+fmt(ngOurs(r,i))+'</td>');
+    h+='<td class="lbl"></td><td class="rowtools"></td></tr>';
+    h+='<tr class="memo"><td class="lbl" colspan="2">Difference, company less model</td>';
+    disp().forEach(i=>h+='<td>'+fmt(ngGap(r,i))+'</td>');
+    h+='<td class="lbl"></td><td class="rowtools"></td></tr>';
+  });
+  if(!R.length)h+=discEmpty(nP()+3,'No non-GAAP measures entered. Most filers reconcile at least one, '+
+    'usually in the MD&A or an earnings release.');
+  $('spGaapGrid').innerHTML=h+'</tbody></table>';
+}
+function renderMdna(){
+  let h='';
+  chron().slice().reverse().forEach(i=>{
+    h+='<div class="cmtbox" style="margin-bottom:18px"><label class="f">'+esc(periodLabel(i))+
+      ' — what management said drove the year</label>'+
+      '<textarea id="ta_mdna_'+i+'" placeholder="The reasons given for the result, in their terms, briefly." '+
+      'oninput="spMdnaSet(\'mdna\','+i+',this.value)">'+esc((SP().mdna||[])[i]||'')+'</textarea>'+
+      '<label class="f" style="margin-top:10px">Outlook or guidance given</label>'+
+      '<textarea id="ta_outlook_'+i+'" placeholder="What they said would happen next, and any target given." '+
+      'oninput="spMdnaSet(\'outlook\','+i+',this.value)">'+esc((SP().outlook||[])[i]||'')+'</textarea></div>';
+  });
+  $('spMdna').innerHTML=h;
+  markAllDone($('spMdna'));
+}
+function renderSpNote(){
+  $('spNote').innerHTML='<div class="cmtbox"><label class="f">Evaluation of earnings quality</label>'+
+    '<textarea id="ta_note_specialRead" placeholder="Whether the special items are exceptional, what the '+
+    'non-GAAP measures add or conceal, and whether management’s account of the year matches the figures." '+
+    'oninput="S.notes[\'specialRead\']=this.value">'+esc(S.notes.specialRead||'')+'</textarea>'+
+    draftRow('draftNote','specialRead','clearNote')+'</div>';
+  markAllDone($('spNote'));
+}
+function renderSpFlags(){
+  const F=[], i=latestIdx(), run=spRun(), yrs=spYears().length, sh=specialShare(i);
+  if(yrs>=3)F.push({lvl:'warn',t:'Special items in '+yrs+' of '+chron().length+' years'+(run>=3?', '+run+' consecutively':''),
+    w:'A charge that appears every year is a cost of doing business wearing a different name. Adjusted '+
+      'earnings that exclude it overstate what the business actually earns, and the thesis score is reduced accordingly.'});
+  else if(yrs)F.push({lvl:'note',t:'Special items in '+yrs+' of '+chron().length+' years',
+    w:'Isolated items are what the category is for. Say in the reading why each one will not repeat.'});
+  if(sh!=null&&Math.abs(sh)>0.25)F.push({lvl:'warn',t:'Special items are '+pct(sh,0)+' of pre-tax profit',
+    w:'At this size the adjustment decides the answer, so the judgement about whether it is genuinely exceptional carries the analysis.'});
+  const nc=specialBy(i,'noncash'), tot=specialTotal(i);
+  if(nc!=null&&tot)F.push({lvl:'note',t:pct(nc/tot,0)+' of the latest charge is non-cash',
+    w:'Non-cash does not mean costless. An impairment is the admission that cash spent in an earlier year will not be recovered.'});
+  (SP().nonGaap||[]).forEach(r=>{
+    const g=ngGap(r,i);
+    if(g!=null&&Math.abs(g)>0.02*Math.abs(ngOurs(r,i)||1))F.push({lvl:'note',
+      t:(r.name||'The company measure')+' differs from the model by '+fmt(g),
+      w:'Establish which adjustments account for the gap before quoting either figure.'});
+  });
+  flagList(F,'spRead');
+}
+function renderSpecial(){
+  if(!$('panel-special'))return;
+  renderSpStatus();renderSpItems();renderSpEffect();renderNonGaap();renderMdna();renderSpNote();
+  const b=$('specialBtn');
+  if(b)b.innerHTML='Special items'+(spYears().length?' <span class="badge">'+spYears().length+'</span>':'');
+}
+let SP_RETURN=null;
+function openSpecial(){
+  const cur=document.querySelector('nav.tabs button.active');
+  if(cur)SP_RETURN=cur.dataset.p;
+  go('special');
+}
+function closeSpecial(){go(SP_RETURN||'normalise');}
 
 
 /* ---------- 13. SVG CHART PRIMITIVES ----------------------------------- */
@@ -6038,6 +6761,26 @@ function renderEvidence(){
 /* ---- drafts: the figures, then the judgement handed back in brackets ------- */
 function trendWord(a,b,tol){if(a==null||b==null)return null;const d=a-b;
   return Math.abs(d)<=(tol||0.02)*Math.max(Math.abs(b),1e-9)?'broadly flat':(d>0?'up':'down');}
+NOTE_DRAFT.specialRead=function(){
+  const i=latestIdx(), c=chron(), yrs=spYears().length, run=spRun(), t=specialTotal(i);
+  if(!spHas()&&!ngHas())return null;
+  let s='';
+  if(t!=null)s+=coName()+' recognised '+fmt(Math.abs(t))+' of '+(t>=0?'net charges':'net gains')+
+    ' in '+periodLabel(i)+(specialShare(i)!=null?', '+pct(Math.abs(specialShare(i)),1)+' of pre-tax profit':'')+'. ';
+  if(yrs)s+='Items of this kind appear in '+yrs+' of the '+c.length+' years shown'+
+    (run>=2?', '+run+' of them consecutively':'')+'. ';
+  if(spOpIncomeEx(i)!=null)s+='Before them, operating income is '+fmt(spOpIncomeEx(i))+' against '+
+    fmt(V('is','operatingIncome',i))+' as reported, a margin of '+pct(spMarginEx(i),1)+'. ';
+  const ng=(SP().nonGaap||[]).filter(r=>(r.name||'').trim());
+  if(ng.length){
+    const g=ng.map(r=>{const d=ngGap(r,i);return d==null?null:(r.name+' differs from the model by '+fmt(d));})
+      .filter(Boolean);
+    if(g.length)s+='On the company’s own measures, '+g.join('; ')+'. ';
+  }
+  return s+'\n\n[Say which of these items you accept as exceptional and why, what the company’s '+
+    'adjusted measures leave out that you would keep in, and whether management’s account of the '+
+    'year matches what the figures show.]';
+};
 NOTE_DRAFT.credCapital=function(){
   const i=latestIdx(),c=chron(),f=c[0],d=deS3(i);
   if(d==null)return null;
@@ -6281,7 +7024,7 @@ function commitImport(){
   status('Imported <b>'+imported+'</b> '+(imported===1?'row':'rows')+', all marked <b>unverified</b>'+
     (IMP.src.page?' and cited to p. '+esc(IMP.src.page):'')+
     (extraFilled.length?'. From tags that are not statement lines, also filled: <b>'+
-      esc(extraFilled.join(', '))+'</b>, on <b>09 Credit</b> and <b>10 Notes</b>'
+      esc(extraFilled.join(', '))+'</b>, on <b>10 Credit</b> and <b>11 Notes</b>'
       :'')+
     '. Check the balance-sheet tie-out, then sign them off on the Verify tab.'+
     (function(){const M=marketReq();return M.ok?'':' <b>Still to collect by hand:</b> '+
@@ -7446,7 +8189,7 @@ function draftSynthesis(){
 
 /* ---------- DRAFT ALL ---------------------------------------------------
    One click runs every "Draft from the model" button in the tool, in tab
-   order: 06 Analysis, 10 Notes, 11 Findings, 12 Strengthen, 13 Thesis. It
+   order: 07 Analysis, 11 Notes, 12 Findings, 13 Strengthen, 14 Thesis. It
    fills EMPTY fields only. Anything already written is the analyst's and is
    left exactly as it is, so running it twice is harmless. It writes no prose
    of its own: every sentence still comes from the individual drafter, so the
@@ -7458,6 +8201,7 @@ function draftAll(){
   const jobs=[];
   Object.keys(CMT).forEach(k=>jobs.push({k,run:()=>draftCmt(k)}));
   CRED_NOTES.forEach(f=>jobs.push({k:f.k,run:()=>draftNote(f.k)}));
+  jobs.push({k:'specialRead',run:()=>draftNote('specialRead')});
   if(NOTE_DRAFT.notesread)jobs.push({k:'notesread',run:()=>draftNote('notesread')});
   NOTE_FIELDS.forEach(f=>{if(NOTE_DRAFT[f.k])jobs.push({k:f.k,run:()=>draftNote(f.k)});});
   jobs.push({k:'sowhat',run:draftSynthesis});
@@ -8644,9 +9388,10 @@ function buildReport(){
      emitted only where something was selected to go behind it */
   const PART1=['summary', 'profile', 'normalisation', 'valuation', 'statements', 'common', 'horizontal', 'dupont', 'ratios', 'charts', 'credit'];
   const PART2=['notes'];
+  const PARTQ=['special'];
   const PART3=['findings', 'implications', 'levers', 'actions', 'thesis', 'qc', 'evidence', 'method'];
   const anyOf=a=>a.some(has);
-  const multi=[PART1,PART2,PART3].filter(anyOf).length>1;
+  const multi=[PART1,PART2,PARTQ,PART3].filter(anyOf).length>1;
   if(multi&&anyOf(PART1))P.push(partPage('I','The face of the statements',
     'What the four statements say, read on their own terms: the entity and its reporting, the '+
     'statements themselves, common-size and horizontal analysis, the ratios, the charts, and the '+
@@ -8933,7 +9678,17 @@ function buildReport(){
       'that was not performed says so and says what it would need.',discModules().map(x=>({l:x.l,on:x.on,na:x.na}))));
     repDisclosure(P);
   }
-  if(multi&&anyOf(PART3))P.push(partPage('III','Judgement',
+  if(has('special')){
+    if(multi)P.push(partPage('III','Earnings quality',
+      'What separates reported profit from underlying profit, and what management says about the '+
+      'difference: the special items and impairments year by year, earnings read with and without '+
+      'them, the company\u2019s own non-GAAP measures against the same measures built from the '+
+      'statements, and the account management gave of each year.',
+      [{l:'Special items register',on:spHas()},{l:'Non-GAAP reconciliation',on:ngHas()},
+       {l:'MD&A summary',on:mdnaHas()}]));
+    repSpecial(P);
+  }
+  if(multi&&anyOf(PART3))P.push(partPage('IV','Judgement',
     'What an analyst concludes from the two parts above, and the evidence the conclusion rests on: '+
     'the findings, what they imply, the levers available, the sequence of action, the investment '+
     'thesis, and the verification trail behind every figure quoted.',null));
@@ -9243,6 +9998,81 @@ function buildReport(){
   toast('Report built — '+P.length+' pages');
   status('Report built: <b>'+P.length+' pages</b>. Print to PDF with paper size Letter, margins None, scale 100%, background graphics on.');
 }
+
+/* ---------- 19a4. EARNINGS QUALITY IN THE REPORT ------------------------- */
+function repSpecial(P){
+  const c=chron();
+  const kv=(rows,head)=>'<table class="rp"><thead><tr><th class="lbl">'+esc(head)+'</th>'+
+    c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>'+
+    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+esc(r[0])+'</td>'+
+      c.map(x=>'<td>'+r[1](x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+  const note=t=>'<p style="font-size:9px;color:#8C8C8C;margin-top:5px">'+t+'</p>';
+  const B=[];
+
+  B.push('<h4 class="sh" style="margin-top:0">Special items, as recognised</h4>');
+  if(spHas()){
+    const rows=spRows().filter(r=>(r.desc||'').trim()||c.some(x=>spVal(r,x)!=null)).map(r=>
+      [r.desc||pick(SPECIAL_TYPES,r.type).l,x=>cCur(spVal(r,x))]);
+    rows.push(['Total special items',x=>cCur(specialTotal(x)),1]);
+    rows.push(['Of which non-cash',x=>cCur(specialBy(x,'noncash'))]);
+    rows.push(['As a share of pre-tax profit',x=>pct(specialShare(x),1)]);
+    B.push(kv(rows,'Item'));
+    const yrs=spYears().length, run=spRun();
+    B.push(note('Charges are shown positive and gains negative, in the year recognised. Special items '+
+      'appear in '+yrs+' of the '+c.length+' years shown'+(run>=2?', '+run+' of them consecutively':'')+'. '+
+      (yrs>=3?'A charge recognised in most years is a cost of trading rather than an exception, and adjusted '+
+      'earnings that exclude it overstate what the business earns.'
+      :'Each is treated as exceptional only where the evaluation below says why it will not repeat.')));
+    B.push('<h4 class="sh">Earnings with and without them</h4>');
+    B.push(kv([
+      ['Operating income, as reported',x=>cCur(V('is','operatingIncome',x))],
+      ['Special items added back',x=>cCur(specialTotal(x))],
+      ['Operating income before special items',x=>cCur(spOpIncomeEx(x)),1],
+      ['Operating margin, as reported',x=>pct(div(V('is','operatingIncome',x),V('is','revenue',x)),1)],
+      ['Operating margin before special items',x=>pct(spMarginEx(x),1),1],
+      ['EBITDA, as reported',x=>cCur(ebitda(x))],
+      ['EBITDA before special items',x=>cCur(spEbitdaEx(x)),1],
+      ['Net income, as reported',x=>cCur(V('is','netIncome',x))],
+      ['Net income before special items, gross of tax',x=>cCur(spNetEx(x))]],'Measure'));
+    B.push(note('The items are added back gross. Where a charge was deductible the after-tax effect is '+
+      'smaller, and the filing generally gives it.'));
+  } else B.push(npBlock('Special items','the impairments, write-downs, write-offs, restructuring charges '+
+    'and disposal gains disclosed on the face of the income statement and in the notes'));
+
+  B.push('<h4 class="sh">Non-GAAP measures, against the same measures from the statements</h4>');
+  if(ngHas()){
+    (SP().nonGaap||[]).filter(r=>(r.name||'').trim()).forEach(r=>{
+      B.push(kv([
+        [(r.name||'Company measure')+', as the company reports it',x=>cCur((r.values[x]==null||r.values[x]==='')?null:Number(r.values[x]))],
+        [pick(NG_BASIS,r.basis).l+', from this model',x=>cCur(ngOurs(r,x))],
+        ['Difference, company less model',x=>cCur(ngGap(r,x)),1]],r.name||'Measure'));
+      B.push(note('Verdict on this measure: <b>'+esc(r.verdict||'Not yet judged')+'</b>.'+
+        (r.note?' '+esc(r.note):'')));
+    });
+  } else B.push(npBlock('Non-GAAP reconciliation','the company’s own adjusted measures and the '+
+    'reconciliation it publishes with them, usually in the MD&A or the earnings release'));
+
+  B.push('<h4 class="sh">What management said</h4>');
+  if(mdnaHas()){
+    c.slice().reverse().forEach(x=>{
+      const m=((SP().mdna||[])[x]||'').trim(), o=((SP().outlook||[])[x]||'').trim();
+      if(!m&&!o)return;
+      B.push('<p style="font-size:10px;color:#4D4D4D;margin:0 0 6px"><b>'+esc(periodLabel(x))+'. </b>'+
+        esc(m)+(o?' <i>Outlook: '+esc(o)+'</i>':'')+'</p>');
+    });
+    B.push(note('Management’s account of each year, summarised from the MD&A. It is recorded so it '+
+      'can be read against the figures, not because it is evidence of them.'));
+  } else B.push(npBlock('MD&A summary','management’s own account of each year, from the discussion '+
+    'and analysis section of the filing'));
+
+  const ev=repNote('specialRead');
+  B.push(ev?evalBlock('Evaluation of earnings quality',null,ev)
+    :'<div class="npb"><b>Evaluation of earnings quality — not written</b><span>The items above are '+
+     'recorded. Whether they are genuinely exceptional, and what the non-GAAP measures add or conceal, '+
+     'is a judgement, and it has not been written on the Special items page.</span></div>');
+  paginateBlocks(glueHeads(B),'Earnings quality','Earnings quality (continued)','Earnings quality',P);
+}
+
 /* ---------- 19b. CONTENTS -----------------------------------------------
    Read off the pages that were actually built, never from a list kept
    alongside them, so it cannot describe a document that is not there. The
@@ -9485,6 +10315,18 @@ function migrate(o){
   if(!o.cred&&Array.isArray(st.ui.repSections)&&!st.ui.repSections.includes('credit')){
     const k=st.ui.repSections.indexOf('charts');
     st.ui.repSections.splice(k>=0?k+1:st.ui.repSections.length,0,'credit');}
+  st.special={...base.special,...(o.special||{})};
+  st.special.items=Array.isArray(st.special.items)?st.special.items.map(r=>({desc:r.desc||'',
+    type:r.type||'other',cash:r.cash||'cash',note:r.note||'',
+    values:Array.isArray(r.values)?r.values.concat(new Array(6).fill(null)).slice(0,6):new Array(6).fill(null)})):[];
+  st.special.nonGaap=Array.isArray(st.special.nonGaap)?st.special.nonGaap.map(r=>({name:r.name||'',
+    basis:r.basis||'adjEbitda',verdict:r.verdict||'Not yet judged',note:r.note||'',
+    values:Array.isArray(r.values)?r.values.concat(new Array(6).fill(null)).slice(0,6):new Array(6).fill(null)})):[];
+  ['mdna','outlook'].forEach(k=>{const a=Array.isArray(st.special[k])?st.special[k].slice(0,6):[];
+    while(a.length<6)a.push(''); st.special[k]=a;});
+  if(!o.special&&Array.isArray(st.ui.repSections)&&!st.ui.repSections.includes('special')){
+    const k=st.ui.repSections.indexOf('notes');
+    st.ui.repSections.splice(k>=0?k+1:st.ui.repSections.length,0,'special');}
   st.addbacks=Array.isArray(o.addbacks)?o.addbacks:[];
   st.intake={...base.intake,...(o.intake||{})};
   st.qc={...base.qc,...(o.qc||{}),pages:{...base.qc.pages,...((o.qc||{}).pages||{})}};
@@ -9848,6 +10690,10 @@ function loadDemoData(D,kind){
     geo:(D.disc.geo||[]).map(r=>({name:r.name,values:r.values.slice()})),
     deferred:(D.disc.deferred||[]).map(r=>({name:r.name,values:r.values.slice()})),
     ppeClasses:(D.disc.ppeClasses||[]).map(r=>({name:r.name,values:r.values.slice()}))};
+  if(D.special)S.special={...S.special,...D.special,
+    items:(D.special.items||[]).map(r=>({...r,values:r.values.slice()})),
+    nonGaap:(D.special.nonGaap||[]).map(r=>({...r,values:r.values.slice()})),
+    mdna:(D.special.mdna||S.special.mdna).slice(),outlook:(D.special.outlook||S.special.outlook).slice()};
   if(D.cred)S.cred={...S.cred,...D.cred,na:{...(D.cred.na||{})},
     amort:(D.cred.amort||S.cred.amort).slice(),
     sharesIssued:(D.cred.sharesIssued||S.cred.sharesIssued).slice(),
@@ -9887,6 +10733,30 @@ function loadDemoData(D,kind){
      anything else, a plain entry from HELP below.
    ---------------------------------------------------------------------- */
 const HELP={
+ specialpart:{t:'Earnings quality',
+  d:'Special items, impairments and write-downs, the company’s own non-GAAP measures, and what management said about each year.',
+  r:'Reported profit and underlying profit differ, and most of the difference sits in a few items a company calls exceptional. Gathering them in one place turns an assertion into a schedule that can be counted across years.',
+  x:'Everything entered here is added back wherever adjusted earnings are computed, so the Normalise tab, the valuation and the thesis all move with it. Enter an item once.'},
+ specialitems:{t:'The special items register',
+  d:'One row per item per year: what it was, which category, whether it cost cash, and how much.',
+  r:'A single impairment tells you little. The same category appearing in three consecutive years tells you it is a cost of trading, and that is a finding the income statement alone will not give up.',
+  x:'Charges are positive and gains negative, so the total is what would be added back. Read the sign before entering a disposal gain, or the adjustment runs the wrong way.'},
+ nongaap:{t:'Non-GAAP measures',
+  d:'The company’s own adjusted figures, beside the same measure built from the statements.',
+  r:'Adjusted measures are not illegitimate: they can strip out genuine noise. They are simply unaudited and defined by the company, so the only safe way to use one is to rebuild it and see what was taken out.',
+  x:'A gap is a question, not a verdict. Name the adjustments that account for it, then say whether you accept them. Beware the measure that adds back the same cost every year.'},
+ mdna:{t:'The MD&A summary',
+  d:'What management said drove each year, and what they guided to next.',
+  r:'The numbers say what happened; the MD&A says what management wants you to believe about why. Recording it year by year is what makes a story that changes with the result, or never changes at all, visible.',
+  x:'Summarise, do not transcribe. The value is in comparing three years of explanation against three years of figures.'},
+ manualentry:{t:'Manual entry',
+  d:'One page holding every figure that has to be typed rather than imported or derived.',
+  r:'A figure that must be typed and is never asked for is a figure that does not arrive. Four sections of the report were printing as not performed for exactly that reason, so the inputs now have a page of their own and a count in the header.',
+  x:'Nothing here is stored twice. Each box writes to the same field as the tab it belongs to, so entering a price here is the same act as entering it on the Credit tab.'},
+ notesentry:{t:'Figures disclosed in the notes',
+  d:'Depreciation, amortisation, the allowance, bad debt, the LIFO reserve and the share counts.',
+  r:'These decide what the ratios on the face of the statements actually mean, and none of them can be derived from those statements. An SEC filer tags several of them, so an XBRL import fills what it can and leaves the rest empty.',
+  x:'Enter them in the same units as the statements. The share-count selector below the table says which unit it read, and converts before anything is computed.'},
  marketdata:{t:'Market data the filing does not carry',
   d:'The share price at each period end, and the credit ratings. Both are entered by hand; neither can be imported.',
   r:'A filing tags what the company reports about itself. A share price is what the market decided, and a rating is an agency’s opinion — so no amount of XBRL will produce either. Everything else the credit tests need does arrive with the import.',
@@ -10429,7 +11299,14 @@ function thesisScore(){
     const rr=Math.abs(cap)/dep;
     if(rr<0.9){s3-=12; r3+='. Capital expenditure is only '+num(rr,2)+' times depreciation, so present cash flow is flattered';}
   }
-  push('cash','Quality of earnings',20,s3,r3,'Cash flow statement, horizontal analysis');
+  if(s3!=null&&typeof spYears==='function'){
+    const yrs=spYears().length, run=spRun(), sh=specialShare(i);
+    if(yrs>=3){s3-=15;r3+='. Special items appear in '+yrs+' of '+chron().length+' years'+
+      (run>=3?', '+run+' of them consecutively':'')+', so what is excluded as exceptional is recurring';}
+    else if(yrs===2){s3-=7;r3+='. Special items appear in two of '+chron().length+' years, which is a pattern rather than an event';}
+    if(sh!=null&&Math.abs(sh)>0.25){s3-=8;r3+='; the latest is '+pct(Math.abs(sh),0)+' of pre-tax profit';}
+  }
+  push('cash','Quality of earnings',20,s3,r3,'Cash flow statement, special items, horizontal analysis');
 
   /* 4. whether it can take a shock: liquidity, gearing, cover above break-even */
   const ca=V('bs','totalCurrentAssets',i), cl=V('bs','totalCurrentLiabilities',i);
@@ -10717,7 +11594,7 @@ const GUIDE=[
       'answers the same three questions: what the term is, what it actually tells you, and where it '+
       'misleads. There is one on every ratio, on the fields that change how the analysis behaves, '+
       'and on each component of the investment score.'],
-  ['p','The explanations are not written twice. Where a term is covered in <b>14 Method</b> the '+
+  ['p','The explanations are not written twice. Where a term is covered in <b>15 Method</b> the '+
       'question mark reads it from there, so the short answer and the long one cannot disagree.']]},
 
  {h:'Step 1 · Decide what kind of entity this is',b:[
@@ -10762,7 +11639,7 @@ const GUIDE=[
       'every trend in the report is wrong in a way that looks entirely plausible.']]},
 
  {h:'Step 4 · Fill in what the data cannot tell you',b:[
-  ['p','<b>02 Profile</b> holds the things no import can supply: ownership, legal form and tax '+
+  ['p','<b>03 Profile</b> holds the things no import can supply: ownership, legal form and tax '+
       'treatment, the basis of preparation, the audit report, and who to contact. Ownership sets '+
       'how much weight the evidence carries. Legal form decides whether the tax line, and every '+
       'margin below it, is comparable to anything else: a pass-through entity pays no '+
@@ -10778,23 +11655,30 @@ const GUIDE=[
       'than in the filing itself. If those fields look empty after an import, that is why.']]},
 
  {h:'Step 5 · Check it, then verify it',b:[
-  ['p','<b>03 Statements</b> shows every figure, with derived lines calculated. '+
-      '<b>05 Verify</b> is the discipline: everything imported arrives unverified, the report '+
+  ['p','<b>04 Statements</b> shows every figure, with derived lines calculated. '+
+      '<b>06 Verify</b> is the discipline: everything imported arrives unverified, the report '+
       'builds either way, and it carries a <b>DRAFT</b> mark until each key figure has been '+
       'traced to a page and ticked. Editing a figure clears its verification, which is the point.'],
-  ['p','<b>04 Normalise</b> is where owner-benefit and one-off items are added back on a private '+
-      'company, shown as a labelled reconciliation and never in place of the reported figures.']]},
+  ['p','<b>05 Normalise</b> is where owner-benefit and one-off items are added back on a private '+
+      'company, shown as a labelled reconciliation and never in place of the reported figures.'],
+  ['p','<b>Special items</b>, in the header, is the same question asked of a listed company: the '+
+      'impairments, write-downs, write-offs, one-time charges and disposal gains, the company\u2019s own '+
+      'non-GAAP measures against the same measures rebuilt from the statements, and a summary of what '+
+      'management said drove each year. Everything entered there is added back automatically wherever '+
+      'adjusted earnings are computed, and it prints as <b>Part III \u2014 Earnings quality</b>. The test it '+
+      'applies is simple: a charge that appears in most years is a cost of trading, and the thesis score '+
+      'is reduced when it does.']]},
 
  {h:'Step 6 · Read the analysis',b:[
-  ['p','<b>06 Analysis</b> is vertical and horizontal, all three statements. Vertical takes size '+
+  ['p','<b>07 Analysis</b> is vertical and horizontal, all three statements. Vertical takes size '+
       'out and leaves structure. Horizontal takes structure out and leaves movement. Under each '+
       'table there is an evaluation box with a <b>Draft from the model</b> button: it names the '+
       'lines that actually moved and the size of the move, and then stops. Rewrite it. The draft '+
       'ends in a bracket telling you what it could not work out, and an unfilled bracket in the '+
       'finished report is a visible gap rather than a silent one.'],
-  ['p','<b>07 Ratios</b>, <b>08 Charts</b> and <b>14 Method</b> follow the same rule: every '+
+  ['p','<b>08 Ratios</b>, <b>09 Charts</b> and <b>15 Method</b> follow the same rule: every '+
       'formula is shown worked, with the trap that most often ruins it named underneath.'],
-  ['p','<b>09 Credit</b> asks whether the business can carry what it owes: total debt with the '+
+  ['p','<b>10 Credit</b> asks whether the business can carry what it owes: total debt with the '+
       'operating leases counted in, debt to equity, times interest earned, EBITDA to interest, free '+
       'cash flow to debt, the current and quick ratios, the credit ratings, the Altman Z-Score, and '+
       'the payout, yield, market-to-book and P/E. It needs three things the statements do not carry: '+
@@ -10803,7 +11687,7 @@ const GUIDE=[
       'which it found and converts before it computes anything.']]},
 
  {h:'Step 7 \u00b7 Read what sits behind the statements',b:[
-  ['p','<b>10 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
+  ['p','<b>11 Notes</b> is the disclosure work. Everything before it reads the face of the four '+
       'statements; this reads the footnotes, which is where most of what a statement conceals is '+
       'explained a few pages later. Six modules, each independent, each of which may be left empty.'],
   ['l','<b>Segment and geographic revenue</b> — a single top line that moved half a per cent can '+
@@ -10838,19 +11722,19 @@ const GUIDE=[
       'divider sheet, so it is never mistaken for analysis drawn from the face of the statements.']]},
 
  {h:'Step 8 · Write the judgement',b:[
-  ['p','<b>11 Findings</b> holds the screening flags, which are prompts to investigate rather '+
+  ['p','<b>12 Findings</b> holds the screening flags, which are prompts to investigate rather '+
       'than conclusions, and the analyst commentary. Every commentary field has its own '+
       '<b>Draft from the model</b> button. A draft never overwrites what you have already '+
       'written: it is appended underneath it.'],
   ['p','The orange <b>Seed Draft All</b> button at the top of the page runs every one of those '+
-      'buttons at once, across 06 Analysis, 09 Credit, 10 Notes, 11 Findings, 12 Strengthen and 13 Thesis. '+
+      'buttons at once, across 07 Analysis, 10 Credit, 11 Notes, 12 Findings, 13 Strengthen and 14 Thesis. '+
       'It fills empty fields only, so anything you have already written is left alone and it '+
       'is safe to run again after importing more data.'],
-  ['p','<b>12 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
+  ['p','<b>13 Strengthen</b> ranks the levers by arithmetic and sequences the work into Now, '+
       'Next and Later. The value of that page is in what has been left off it.']]},
 
  {h:'Step 9 · Commit to a verdict',b:[
-  ['p','<b>13 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
+  ['p','<b>14 Thesis</b> is where the analysis stops describing and starts deciding. Six components '+
       'are scored against fixed thresholds and weighted: profitability, return on capital, quality of '+
       'earnings, resilience, growth, and the confidence the evidence itself carries. The table shows '+
       'the figure each one read and the section of the report that carries it, so a reader can argue '+
@@ -10867,7 +11751,7 @@ const GUIDE=[
       'risk you have not understood.']]},
 
  {h:'Step 10 · Build the report, and save',b:[
-  ['n','<b>15 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
+  ['n','<b>16 Report</b>: choose the sections with the chips, then press <b>Build report</b>. The '+
       'contents page is generated from the pages that were actually built, so it cannot describe a '+
       'section you switched off.'],
   ['n','Press <b>Print / Save as PDF</b>. In the print dialogue set paper size <b>Letter</b>, '+
@@ -10893,7 +11777,7 @@ const GUIDE=[
   ['w','Nothing is written until you tick it. Check the page, correct it where the filing put a note '+
       'somewhere unexpected, and untick anything you do not want marked. Then <b>Write the annotated '+
       'PDF</b> saves a copy with the highlights and comments on it, and <b>Send the page numbers to '+
-      'the bench</b> records them as the footnote index on <b>05 Verify</b>.'],
+      'the bench</b> records them as the footnote index on <b>06 Verify</b>.'],
   ['p','The original file is never altered. The annotations are appended after it, which is how the '+
       'PDF format is designed to take a comment, so the document a reader opens is still the '+
       'document that was filed.'],
@@ -11591,7 +12475,7 @@ async function pdfWriteHighlights(buf,marks,opts){
 
 /* The nine categories, in the order they are usually asked for. `pats` are
    matched against a normalised heading; `need` is what the report says when
-   nothing was found; `feeds` names the field on 05 Verify that the page number
+   nothing was found; `feeds` names the field on 06 Verify that the page number
    belongs in, where one exists. */
 const ANN_CATS=[
  {k:'revrec',l:'Revenue recognition',
@@ -12039,7 +12923,7 @@ function annApply(){
   toast(n+' page references sent to Verify');
   $('annWriteNote').innerHTML='<div class="flag ok"><span class="dot"></span><div>'+
     '<b>Sent to the bench</b><span class="why">'+n+' page references recorded against “'+
-    esc(ANN.name)+'”. They appear as the footnote index on <b>05 Verify</b> and print in the '+
+    esc(ANN.name)+'”. They appear as the footnote index on <b>06 Verify</b> and print in the '+
     'report’s verification section, so every disclosure quoted has a page behind it.</span></div></div>';
 }
 /* the index as the rest of the bench sees it */

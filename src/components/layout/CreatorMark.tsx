@@ -57,12 +57,17 @@ export function CreatorMark() {
       href="/who-its-for"
       aria-label="Is the Aperture Method for me? See who it's for"
       /*
+       * Pinned to the middle of the right edge, not the bottom corner. In the
+       * corner it competed with the cookie banner, sat over the footer on
+       * every long page, and was simply missed. Vertically centred it is in
+       * the eye's resting line at any scroll position.
+       *
        * Smaller on a phone. At full desktop size this pill is about 180px
        * wide, which on a 390px screen sits across half a line of body text
        * and reads as something broken rather than something offered. The
        * touch target stays comfortably over 44px tall either way.
        */
-      className="group fixed bottom-4 right-4 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-maroon text-paper shadow-[0_10px_30px_-8px_rgba(80,0,0,0.55)] ring-1 ring-white/10 transition-colors hover:bg-maroon-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon sm:bottom-5 sm:right-5 sm:h-auto sm:w-auto sm:gap-2 sm:py-3 sm:pl-5 sm:pr-4"
+      className="group fixed right-4 top-1/2 z-40 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-maroon text-paper shadow-[0_10px_30px_-8px_rgba(80,0,0,0.55)] ring-1 ring-white/10 transition-colors hover:bg-maroon-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon sm:right-5 sm:h-auto sm:w-auto sm:gap-2 sm:py-3 sm:pl-5 sm:pr-4"
     >
       {/*
         Icon-only on a phone, the full pill from sm up.

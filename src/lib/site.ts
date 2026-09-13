@@ -246,11 +246,16 @@ export const megaNav: MegaEntry[] = [
  * Footer link columns (Step 4 approved).
  *
  * Sept 2026: "Where to Start" and "Get Started" read as two versions of the
- * same column. The first was never a start list, it was the five components,
- * so it now says so. "Get Started" keeps the actions, minus "Start with an
- * X-Ray", which pointed at the same page as "Business X-Ray" one column over,
- * and minus "Client login", which moved to the quiet row at the very bottom
- * alongside Method Lab: it is for people who already are clients.
+ * same column. The first was never a start list, it was the five components.
+ * "Get Started" keeps the actions, minus "Start with an X-Ray", which pointed
+ * at the same page as "Business X-Ray" one column over, and minus "Client
+ * login", which moved to the quiet row at the very bottom alongside Method
+ * Lab: it is for people who already are clients.
+ *
+ * Second pass, same month: the "Components" heading is gone. The five products
+ * ARE what the firm offers, so they became "What We Offer", and the pages that
+ * explain the Method became "How It Works", the same split the mega menu uses.
+ * No link was dropped, only re-filed.
  */
 export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
@@ -265,7 +270,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     ],
   },
   {
-    heading: "Components",
+    heading: "What We Offer",
     items: [
       { label: "Business X-Ray", href: "/business-x-ray" },
       { label: "Profit Map", href: "/profit-map" },
@@ -275,15 +280,15 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     ],
   },
   {
-    heading: "What We Offer",
+    heading: "How It Works",
     items: [
       { label: "The Aperture Method", href: "/the-aperture-method" },
       { label: "What We Do", href: "/what-we-do" },
       { label: "What You Get", href: "/what-you-get" },
+      { label: "Working Together", href: "/working-together" },
       { label: "Who It's For", href: "/who-its-for" },
       { label: "By Industry", href: "/industries" },
       { label: "AI, Without the Black Box", href: "/ai" },
-      { label: "Working Together", href: "/working-together" },
       { label: "Case Studies", href: "/case-studies" },
     ],
   },

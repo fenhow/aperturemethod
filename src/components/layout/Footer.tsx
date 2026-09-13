@@ -89,7 +89,7 @@ export function Footer() {
               <h2 className="mb-3 text-overline font-semibold uppercase tracking-overline text-white/90">
                 {column.heading}
               </h2>
-              <ul className="space-y-1.5">
+              <ul className="space-y-0.5">
                 {column.items.map((item) => (
                   <li key={item.href}>
                     <FooterLink href={item.href}>{item.label}</FooterLink>

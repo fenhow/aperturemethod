@@ -96,11 +96,6 @@ export type MegaHub = {
   blurb: string;
   linkLabel: string;
   /**
-   * An optional second way in, rendered as a button BELOW the hub box. The hub
-   * box is itself a link, so this cannot be nested inside it.
-   */
-  secondary?: { label: string; href: string };
-  /**
    * Where the hub panel points, when that is not the group's own page.
    * The Method group is the case this exists for: the nav item belongs on the
    * overview, and the panel belongs on the page that starts an engagement.
@@ -130,7 +125,6 @@ export const megaNav: MegaEntry[] = [
       blurb:
         "A fixed-fee read of the whole business that names the one constraint holding the rest back. It is the way in, and it counts toward whatever follows.",
       linkLabel: "Where is your business actually making money?",
-      secondary: { label: "Take the Reality Check", href: "/reality-check" },
       href: "/business-x-ray",
     },
     /*
@@ -172,11 +166,8 @@ export const megaNav: MegaEntry[] = [
         ],
       },
     ],
-    /* Flat fallback: the mobile menu and anything else that reads `links`.
-       Carries the Reality Check too, because on mobile there is no hub box and
-       that link would otherwise exist on desktop only. */
+    /* Flat fallback: the mobile menu and anything else that reads `links`. */
     links: [
-      { label: "Take the Reality Check", href: "/reality-check", desc: "Ten questions you cannot bluff" },
       { label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made?" },
       { label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it?" },
       { label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers?" },

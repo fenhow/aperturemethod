@@ -41,7 +41,13 @@ export function Citation({
           </span>
         );
       })}
-      . Data year{years.length > 1 ? "s" : ""} {years.join(", ")}.
+      {/*
+        "Data year 2022" read as out of date. It is not: 2022 IS the most recent
+        year the SBA publishes, and the lag is the agency's, not ours. Saying so
+        keeps the figure checkable, which is the whole point of this component,
+        while answering the objection the bare year invites.
+      */}
+      . Latest available data: {years.join(", ")}.
     </p>
   );
 }

@@ -1,3 +1,4 @@
+import { AnalysisCards } from "@/components/landing/AnalysisCards";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
@@ -121,18 +122,7 @@ export function LandingView({ page }: { page: LandingPage }) {
         </div>
 
         <Reveal delay={80} className="mt-10">
-          <h3 className="eyebrow mb-4">{page.solution.cardsHeading}</h3>
-          <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {page.solution.cards.map((card, i) => (
-              <li key={card.label} className="rounded-lg border border-line bg-paper p-5">
-                <span className="text-small font-semibold tabular-nums text-maroon">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <p className="mt-2 text-body font-semibold text-ink">{card.label}</p>
-                {card.note && <p className="mt-1.5 text-small text-muted">{card.note}</p>}
-              </li>
-            ))}
-          </ol>
+          <AnalysisCards heading={page.solution.cardsHeading} cards={page.solution.cards} />
         </Reveal>
 
         <div className="max-w-measure">

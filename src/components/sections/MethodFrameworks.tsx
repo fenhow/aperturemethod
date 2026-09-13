@@ -55,7 +55,7 @@ export function MethodFrameworks() {
         />
         <p className="mt-6 text-body text-muted">
           These are the frameworks taught in graduate business programs, not a house invention.
-          Fenwick is an Executive MBA candidate at Texas A&amp;M University&apos;s Mays Business
+          Fenwick is currently completing an Executive MBA at Texas A&amp;M University&apos;s Mays Business
           School, and the Method is revised as that coursework lands, so what you engage is current
           rather than a toolkit assembled once and left alone.
         </p>

@@ -105,7 +105,7 @@ export function Book3D() {
               <div>
                 <p className="book360__aname">Fenwick How</p>
                 <p className="book360__arole">
-                  Executive MBA Candidate · Mays Business School, Texas A&amp;M University
+                  Executive MBA in progress · Mays Business School, Texas A&amp;M University
                 </p>
               </div>
             </div>

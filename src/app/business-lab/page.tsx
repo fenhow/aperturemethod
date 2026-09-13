@@ -256,7 +256,7 @@ export default function BusinessLabPage() {
               </p>
               <p>
                 I hold a BBA in Project Management, I&apos;m a certified Project Management
-                Professional, and I&apos;m an Executive MBA candidate at Texas A&amp;M.
+                Professional, and I&apos;m currently completing an Executive MBA at Texas A&amp;M.
               </p>
               <p>
                 I get nothing out of the visit. No fee, nothing sold, and I&apos;m not there to talk

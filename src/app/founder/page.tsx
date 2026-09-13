@@ -12,7 +12,7 @@ import { pageMeta, ldPerson, ldBreadcrumb } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "Fenwick How, Founder",
   description:
-    "Fenwick How is the founder of The Aperture Method, an entrepreneur and operator bringing big-company analytics and strategy to owner-run businesses. BBA in Project Management, certified PMP, and an Executive MBA candidate at Texas A&M University's Mays Business School.",
+    "Fenwick How is the founder of The Aperture Method, an entrepreneur and operator bringing big-company analytics and strategy to owner-run businesses. BBA in Project Management, certified PMP, and is currently completing an Executive MBA at Texas A&M University's Mays Business School.",
   path: "/founder",
   type: "article",
 });
@@ -32,7 +32,7 @@ const background = [
   { h: "Cross-sector experience", p: "Including energy and water." },
   {
     h: "Credentials & education",
-    p: "BBA in Project Management, certified Project Management Professional (PMP), and Executive MBA candidate at Texas A&M.",
+    p: "BBA in Project Management, certified Project Management Professional (PMP), and is currently completing an Executive MBA at Texas A&M.",
   },
   { h: "Founder-led delivery", p: "The principal, not a pyramid." },
 ];
@@ -75,7 +75,7 @@ export default function FounderPage() {
               across sectors including energy and water. He is a practical problem-solver, drawn to the
               point where strategy meets execution. He holds a Bachelor of Business Administration in
               Project Management, is a certified Project Management Professional (PMP), and is an
-              Executive MBA candidate at Texas A&amp;M University&apos;s Mays Business School, pairing
+              currently completing an Executive MBA at Texas A&amp;M University&apos;s Mays Business School, pairing
               that hands-on experience with formal quantitative and strategic training. He
               founded The Aperture Method to bring the analytics and rigor larger companies take for granted
               to the owner-run businesses that need them most, and to stay until the work is working.

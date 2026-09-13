@@ -80,7 +80,20 @@ export type LandingPage = {
     heading: string;
     lede: string;
     cardsHeading: string;
-    cards: { label: string; note?: string }[];
+    /**
+     * A card may carry a full explanation, which the landing page renders as a
+     * clickable panel: what the technique is, what it tells you, and why it
+     * matters. `applies` flags the ones that change shape for a private company,
+     * because the analysis is demonstrated on listed ones.
+     */
+    cards: {
+      label: string;
+      note?: string;
+      what?: string;
+      tells?: string;
+      matters?: string;
+      applies?: "adapted" | "critical";
+    }[];
     walkAwayHeading: string;
     walkAway: string[];
     howItRuns: string;
@@ -106,9 +119,9 @@ export type LandingPage = {
   breadcrumbParent: { name: string; path: string };
 };
 
-const REVIEWED = "2026-08-19";
+const REVIEWED = "2026-09-13";  // set by hand, only when the claims are actually re-checked
 const BYLINE =
-  "BBA in Project Management, certified PMP, Executive MBA candidate at Texas A&M. He leads the work himself, start to finish.";
+  "BBA in Project Management, certified PMP, currently completing an Executive MBA at Texas A&M. He leads the work himself, start to finish.";
 
 const lensCards = LENSES.map((l) => ({ label: l.name }));
 
@@ -134,7 +147,7 @@ export const apertureSnapshot: LandingPage = {
   h1: "Is your business as healthy as you think it is?",
   sub: `An Aperture Snapshot scores all seven lenses of your business from the documents you already have, for a fixed ${SNAPSHOT_FEE}, in about a week.`,
   bylineBlurb:
-    "BBA in Project Management, certified PMP, Executive MBA candidate at Texas A&M. He reviews and signs every Snapshot himself.",
+    "BBA in Project Management, certified PMP, currently completing an Executive MBA at Texas A&M. He reviews and signs every Snapshot himself.",
   answerHeading: "What is an Aperture Snapshot?",
   answer: `An Aperture Snapshot is a fixed-fee read of your whole business across the same seven lenses a Business X-Ray uses: finance, operations, customers, market, leadership, processes and technology. It is scored from the documents you already have, costs ${SNAPSHOT_FEE}, takes about a week, and ends by naming the area most likely to be holding your profit back.`,
   ctaLabel: "Start a Snapshot",
@@ -260,7 +273,7 @@ export const businessXRay: LandingPage = {
   h1: "Where is your business actually making money?",
   sub: `A Business X-Ray tells you, in about three weeks, for a fixed fee of ${XRAY_FEE}, and names the one constraint holding everything else back.`,
   bylineBlurb:
-    "BBA in Project Management, certified PMP, Executive MBA candidate at Texas A&M. He runs every X-Ray himself, start to finish.",
+    "BBA in Project Management, certified PMP, currently completing an Executive MBA at Texas A&M. He runs every X-Ray himself, start to finish.",
   answerHeading: "What is a Business X-Ray?",
   answer: `A Business X-Ray is a fixed-fee read of your whole business across seven lenses: finance, operations, customers, market, leadership, processes and technology. It takes about three weeks, costs ${XRAY_FEE}, and ends by naming one thing plainly: the single constraint holding your profit back, and where the digging needs to happen next.`,
   ctaLabel: "Book your Business X-Ray",
@@ -420,20 +433,107 @@ export const profitMap: LandingPage = {
       "By building the view properly, once, and leaving you the model. Every headline figure reconciles back to your own accounts, so nothing in it is arguable on the grounds that it does not tie. Then profitability is separated by the unit your business is actually made of, and the decisions you are weighing are run through a model rather than a conversation.",
     cardsHeading: "The analysis behind it",
     cards: [
-      { label: "Common-size analysis", note: "Every line as a share of revenue or assets, so shape shows up rather than size." },
-      { label: "Horizontal (trend) analysis", note: "The same lines across years. What the business is doing, not just what it is." },
-      { label: "DuPont return decomposition", note: "Return split into margin and asset productivity. The two need opposite fixes." },
-      { label: "Ratio analysis, six families", note: "Profitability, returns, liquidity, efficiency, coverage, cash flow. One basis, every period." },
-      { label: "Cash conversion cycle", note: "Collection, inventory and payment days, priced as cash released or consumed." },
-      { label: "Earnings quality", note: "Profit supported by cash, and owner pay and one-offs normalized with an evidence grade." },
-      { label: "Credit and solvency", note: "Leverage with operating leases counted as debt, coverage, and a distress score." },
-      { label: "The notes", note: "Receivables quality, inventory basis, deferred revenue, the age of the asset base." },
-      { label: "Profitability by unit", note: "Product, customer and location, after the real cost of serving each." },
-      { label: "Cost structure and Pareto", note: "Fixed against variable, and the vital few that drive the result." },
-      { label: "Break-even & margin of safety", note: "How far revenue can fall before operating income turns negative." },
-      { label: "Lever sizing", note: "What a point of gross margin, or a day of inventory, is actually worth. Ranked." },
-      { label: "Price against volume", note: "The volume a price rise can afford to lose before it destroys value." },
-      { label: "Scenario planning", note: "A driver-based model you keep, so a decision can be tested before you make it." },
+      {
+        label: "Common-size analysis",
+        note: "Every line as a share of revenue or assets, so shape shows up rather than size.",
+        what: "Every income-statement line restated as a percentage of revenue, and every balance-sheet line as a percentage of total assets.",
+        tells: "The shape of the business rather than its size: which costs are structurally large, and whether that is changing.",
+        matters: "It makes any year comparable to any other, and your business comparable to one ten times its size. Growth hides a great deal. A percentage does not.",
+      },
+      {
+        label: "Horizontal (trend) analysis",
+        note: "The same lines across years. What the business is doing, not just what it is.",
+        what: "The same lines tracked across every period and indexed to a base year.",
+        tells: "What the business is doing, as opposed to what it is. Which lines are compounding faster than revenue.",
+        matters: "A cost growing a few points faster than revenue is invisible in any single year and decisive across three.",
+      },
+      {
+        label: "DuPont return decomposition",
+        note: "Return split into margin and asset productivity. The two need opposite fixes.",
+        what: "Return on assets split into profit margin multiplied by asset turnover. Return on equity adds financial leverage as a third term.",
+        tells: "Whether a return problem is a margin problem or a productivity problem.",
+        matters: "The two look identical in the return line and need opposite responses. Margin is addressed through price, mix and cost; productivity is addressed on the balance sheet. Acting on the wrong one costs a year.",
+      },
+      {
+        label: "Ratio analysis, six families",
+        note: "Profitability, returns, liquidity, efficiency, coverage, cash flow. One basis, every period.",
+        what: "Profitability, returns, liquidity, efficiency, coverage and cash flow, each calculated the same way in every period.",
+        tells: "Where the business sits on every standard measure a lender, a buyer or a board would reach for.",
+        matters: "Consistency is the whole point. A ratio calculated two ways is an argument. Calculated one way across several years, it is evidence.",
+      },
+      {
+        label: "Cash conversion cycle",
+        note: "Collection, inventory and payment days, priced as cash released or consumed.",
+        what: "Days to collect, plus days of inventory, less days to pay, then converted into cash at your own daily rate of trade.",
+        tells: "How much cash the working-capital cycle released or consumed, in dollars rather than in days.",
+        matters: "Stating the cycle in days is arithmetic. Stating it in dollars tells you whether it is worth doing anything about.",
+      },
+      {
+        label: "Earnings quality",
+        note: "Profit supported by cash, and owner pay and one-offs normalized with an evidence grade.",
+        what: "A test of whether reported profit is supported by cash, plus a normalization ledger covering owner compensation, related-party rent and one-off items, with an evidence grade on every add-back.",
+        tells: "What the business actually earns, separated from what the tax return is arranged to show.",
+        matters: "Owner-run accounts are built for tax, not for analysis. Nobody buys, lends against or fixes a business on the unadjusted number.",
+        applies: "critical",
+      },
+      {
+        label: "Credit and solvency",
+        note: "Leverage with operating leases counted as debt, coverage, and a distress score.",
+        what: "Leverage measured with operating lease obligations counted as the debt they are, plus interest coverage and a distress score.",
+        tells: "How borrowed the business really is, and how much room it has before a lender becomes uncomfortable.",
+        matters: "Leaving leases out is the most common way a business understates its leverage. In the worked example it moves debt to equity from 1.88 times to 4.65 times.",
+        applies: "adapted",
+      },
+      {
+        label: "The notes",
+        note: "Receivables quality, inventory basis, deferred revenue, the age of the asset base.",
+        what: "Receivables quality and the allowance, inventory basis and holding period, deferred revenue, and the age of the asset base against its depreciation.",
+        tells: "What the face of the accounts leaves out.",
+        matters: "The statements say what happened. The notes say how much of it you can rely on, and where the next surprise is most likely to come from.",
+        applies: "adapted",
+      },
+      {
+        label: "Profitability by unit",
+        note: "Product, customer and location, after the real cost of serving each.",
+        what: "The same analysis run on the units the business is actually made of: products, customers and locations, after the real cost of serving each.",
+        tells: "Which parts of the business fund it, and which are being carried.",
+        matters: "A profitable business can contain several unprofitable ones. The profit line adds the winners and the losers together before you ever see them.",
+      },
+      {
+        label: "Cost structure and Pareto",
+        note: "Fixed against variable, and the vital few that drive the result.",
+        what: "Fixed costs separated from variable, and the concentration of revenue, profit and cost across the base.",
+        tells: "What scales profitably and what does not, and the vital few customers, products and costs that drive the result.",
+        matters: "It decides whether growth helps or hurts, and it tells you where effort is worth spending.",
+      },
+      {
+        label: "Break-even & margin of safety",
+        note: "How far revenue can fall before operating income turns negative.",
+        what: "The revenue at which operating income is zero, and how far above it the business currently sits.",
+        tells: "How much demand the business could lose before it stops making money.",
+        matters: "It is the number that governs how fast you can expand, hire or borrow, and it is usually thinner than growth makes it feel.",
+      },
+      {
+        label: "Lever sizing",
+        note: "What a point of gross margin, or a day of inventory, is actually worth. Ranked.",
+        what: "Every available move priced on the current year: a point of gross margin, a percent of revenue, a percent of overhead, a day of inventory.",
+        tells: "What each lever is worth, ranked by size of effect.",
+        matters: "Effort goes where the arithmetic says it pays rather than where it is most comfortable to look. It also identifies the levers to refuse.",
+      },
+      {
+        label: "Price against volume",
+        note: "The volume a price rise can afford to lose before it destroys value.",
+        what: "A grid showing the change in gross profit for each price move against the volume response it provokes.",
+        tells: "The volume a price rise can afford to lose before it destroys value, and the volume a price cut must win to pay for itself.",
+        matters: "A pricing case argued on margin alone has not answered the question this grid asks, which is the question that decides whether the price move works.",
+      },
+      {
+        label: "Scenario planning",
+        note: "A driver-based model you keep, so a decision can be tested before you make it.",
+        what: "A multi-year, driver-based model of the business, delivered as an editable file you keep.",
+        tells: "What a decision does to profit and cash across several years before you commit to it.",
+        matters: "It replaces a conversation about a decision with a test of one, and you can re-run it next quarter without calling anybody.",
+      },
     ],
     walkAwayHeading: "What you walk away with",
     walkAway: [

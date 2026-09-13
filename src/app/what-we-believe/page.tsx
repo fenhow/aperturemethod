@@ -171,7 +171,7 @@ export default function WhatWeBelievePage() {
             industries, spanning entrepreneurship, operations, project leadership, analytics,
             technology, energy, and water infrastructure. He holds a Bachelor of Business Administration
             in Project Management, is a certified Project Management Professional (PMP), and is an
-            Executive MBA candidate at Texas A&amp;M University&apos;s Mays Business School.
+            currently completing an Executive MBA at Texas A&amp;M University&apos;s Mays Business School.
           </p>
           <p className="mt-5 border-l-2 border-maroon pl-6 text-h4 font-light leading-snug text-ink">
             &ldquo;The best decisions come from seeing the business clearly before trying to change

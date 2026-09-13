@@ -142,7 +142,7 @@ export default function FinancialAnalysisWorkbench() {
                 not survive diligence.</p>
               <ul>
                 <li>Reviewed accounts: limited assurance, no opinion</li>
-                <li>Full normalisation schedule with an evidence grade per item</li>
+                <li>Full normalization schedule with an evidence grade per item</li>
                 <li>Adjusted EBITDA 2,715 · SDE 2,955 · intensity 30.5%</li>
                 <li>Asking price implies 5.97× against a 4.0–6.0× range</li>
               </ul>
@@ -213,7 +213,7 @@ export default function FinancialAnalysisWorkbench() {
               <h3>The same workbook, filled in</h3>
               <p className="sub">Excel workbook · worked example</p>
               <p>Meridian Precision Fabrication, complete: four years of statements that reconcile, six
-                normalisations each with its evidence graded, and the qualitative answers written out at
+                normalizations each with its evidence graded, and the qualitative answers written out at
                 the length they actually need. The fastest way to see what “good” looks like before you
                 send the blank one to a client.</p>
               <ul>
@@ -262,8 +262,8 @@ export default function FinancialAnalysisWorkbench() {
               </tr>
               <tr>
                 <td>How value is established</td>
-                <td>Observed. Market capitalisation, enterprise value, multiples read off the market.</td>
-                <td>Constructed. Normalised earnings × an evidenced multiple range, less net debt, and the
+                <td>Observed. Market capitalization, enterprise value, multiples read off the market.</td>
+                <td>Constructed. Normalized earnings × an evidenced multiple range, less net debt, and the
                     range is the answer, not the midpoint.</td>
               </tr>
             </tbody>
@@ -286,7 +286,7 @@ export default function FinancialAnalysisWorkbench() {
           <div className="inside">
             <div className="item"><span className="n">01</span><div><b>Entity profile</b><span>Ownership, legal form and tax treatment, basis of preparation, lifecycle stage, established before a single figure is computed.</span></div></div>
             <div className="item"><span className="n">02</span><div><b>Executive summary</b><span>The headline judgment, the business, the audit opinion, and the binding-constraint candidates.</span></div></div>
-            <div className="item"><span className="n">03</span><div><b>Statements &amp; normalisation</b><span>Balance sheet, income statement, cash flow, and for private entities, the add-back schedule with an evidence grade on every line.</span></div></div>
+            <div className="item"><span className="n">03</span><div><b>Statements &amp; normalization</b><span>Balance sheet, income statement, cash flow, and for private entities, the add-back schedule with an evidence grade on every line.</span></div></div>
             <div className="item"><span className="n">04</span><div><b>Valuation</b><span>Observed multiples, or a constructed range with its source stated and the implied multiple of any offer on the table.</span></div></div>
             <div className="item"><span className="n">05</span><div><b>Common-size &amp; horizontal</b><span>Structure with size removed, and movement with structure removed. Read together, the cause usually presents itself.</span></div></div>
             <div className="item"><span className="n">06</span><div><b>Ratios &amp; DuPont</b><span>Sixty measures, and the decomposition that separates a margin problem from a productivity one. They need opposite responses.</span></div></div>

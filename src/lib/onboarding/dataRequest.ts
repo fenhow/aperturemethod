@@ -170,7 +170,7 @@ export const DATA_ITEMS: DataItem[] = [
   {
     id: "related_party",
     label: "Related-party arrangements: rent, loans, family on payroll",
-    why: "A building leased from an entity you own, or a relative on the payroll, is not wrong and is not hidden. It just has to be normalised out before the earnings mean anything to a lender or a buyer.",
+    why: "A building leased from an entity you own, or a relative on the payroll, is not wrong and is not hidden. It just has to be normalized out before the earnings mean anything to a lender or a buyer.",
     segments: ["analytics"],
     priority: "blocking",
   },

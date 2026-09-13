@@ -437,7 +437,7 @@ export const profitMap: LandingPage = {
     ],
     walkAwayHeading: "What you walk away with",
     walkAway: [
-      "The Profit Map report, in four parts: the face of the statements, what the notes disclose, the quality of the earnings, and the judgement that follows",
+      "The Profit Map report, in four parts: the face of the statements, what the notes disclose, the quality of the earnings, and the judgment that follows",
       "Profitability ranked by product, customer and location, after the real cost of serving each",
       "Every ratio family on one consistent basis, with return decomposed into margin and asset productivity",
       "The cash conversion cycle priced: what each day of collection, inventory and payment released or consumed",

@@ -52,8 +52,8 @@ const deliverables: Deliverable[] = [
       </>
     ),
     outcome: "You see profit by service, provider, and location, and what to do about it.",
-    img: "/deliverables/03_analytics_scenario_model.jpg",
-    alt: "Aperture Analytics deliverable: the Profit Map and scenario model report page for Lumina Medical Aesthetics",
+    img: "/deliverables/03_analytics_ratio_families.jpg",
+    alt: "Aperture Analytics deliverable: the ratio analysis page of the Profit Map for Lumina Medical Aesthetics, showing profitability, returns, liquidity and efficiency ratios across three years",
   },
   {
     n: "03",

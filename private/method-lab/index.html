@@ -498,7 +498,7 @@ const PEOPLE = [
     ['—','Conduct all 3–5 owner and manager interviews','FENWICK'],
     ['—','Set the seven-lens rubric, sub-criteria and Aperture Score weights','FENWICK'],
     ['—','Name the binding constraint','FENWICK'],
-    ['—','Approve the cost-allocation basis and the scenarios modelled','FENWICK'],
+    ['—','Approve the cost-allocation basis and the scenarios modeled','FENWICK'],
     ['—','Approve trade-area parameters and own every site recommendation','FENWICK'],
     ['—','Own the Now / Next / Later sequence','FENWICK'],
     ['—','Approve every KPI definition and threshold','FENWICK'],
@@ -727,7 +727,7 @@ const SOPS = [
    ['5','Scenario / forecast model','AGENT','The agent parameterizes the real choices on the table; the tool computes over a 3-year horizon.','Interactive model'],
    ['6','Synthesis &amp; readout','HYBRID','The agent drafts the findings; <strong>Fenwick makes the recommendation and presents it,</strong> tied back to the #1 constraint.','Prioritized moves']],
   gates:['The model reconciles to the client’s financials to the dollar','Cost allocations are documented and defensible','Profit cuts are shown only at the level the data supports, no false precision','Scenario assumptions are explicit and adjustable','Recommendations tie back to the #1 constraint'],
-  role:'I approve the cost-allocation basis; that single choice decides which parts of the business look profitable. I decide which scenarios are worth modelling. I make the recommendation and present it.',
+  role:'I approve the cost-allocation basis; that single choice decides which parts of the business look profitable. I decide which scenarios are worth modeling. I make the recommendation and present it.',
   fallback:'Bought alone, Marcus derives a working constraint hypothesis from the financials and labels it “derived, not owner-validated.”'},
 
  {id:'intelligence', person:'natalie', sop:'SOP 04', badge:'03 · REVEAL', name:'Aperture Intelligence™', agent:'Natalie · The Explorer',
@@ -971,7 +971,7 @@ function renderDetail(){
      <div class="myrole"><b>My role in this segment: Fenwick How</b>${s.role}</div>
      <div class="gates"><b>Quality gates: every one becomes an executable assertion</b>
        <ul>${s.gates.map(g=>`<li>${g}</li>`).join('')}</ul></div>
-     <div class="fallback"><b>Standalone behaviour.</b> ${s.fallback}</div>
+     <div class="fallback"><b>Standalone behavior.</b> ${s.fallback}</div>
    </div>`;
   const btn = el('detail').querySelector('[data-open]');
   if(btn) btn.onclick = ()=>openPerson(btn.dataset.open);

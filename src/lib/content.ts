@@ -141,7 +141,7 @@ export const methodPhases: MethodPhase[] = [
         {
           label: "How value gets established",
           what:
-            "Observed for a listed company: market capitalisation and multiples read off the market. Constructed for a private one: normalised earnings times an evidenced multiple range, less net debt, and the range is the answer, not the midpoint.",
+            "Observed for a listed company: market capitalization and multiples read off the market. Constructed for a private one: normalized earnings times an evidenced multiple range, less net debt, and the range is the answer, not the midpoint.",
         },
       ],
       href: "/method-lab/financial-analysis-workbench",

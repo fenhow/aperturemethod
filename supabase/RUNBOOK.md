@@ -83,7 +83,7 @@ Worth knowing, none urgent:
   available — it just isn't wired up. Realistically low risk for a single owner filling in a
   form, but it's a real edge.
 - **Draft endpoints aren't rate limited**, though `/api/onboarding` is. With genuine UUID
-  tokens brute force is infeasible, so this is defence-in-depth rather than an open door.
+  tokens brute force is infeasible, so this is defense-in-depth rather than an open door.
 - **Seven intake questions still feed nothing.** `atl_watch2` — "what report do you get that
   you don't read?" — is the sharpest design research in the Atlas section and it's currently
   discarded.

@@ -7540,7 +7540,7 @@ function commitImport(){
   });
   /* The facts that are not statement lines. They never overwrite a figure the
      analyst has already entered, and they are applied only when the mapping is
-     committed, so cancelling an import leaves nothing behind. */
+     committed, so canceling an import leaves nothing behind. */
   const extraFilled=[];
   (IMP.extras||[]).forEach(x=>{
     const tgt=(x.where==='cred')?S.cred:S.disc;
@@ -9282,7 +9282,7 @@ function METHOD_TECHNIQUES(){
 
 const PRINCIPLES=[
  {n:'A number without a source is not evidence',
-  b:'Every figure in an Aperture deliverable traces to a document, a page and a date, or is marked as modelled or estimated. The evidence ledger is not administrative overhead — it is the difference between an analysis a client can act on and an assertion they have to take on trust.'},
+  b:'Every figure in an Aperture deliverable traces to a document, a page and a date, or is marked as modeled or estimated. The evidence ledger is not administrative overhead — it is the difference between an analysis a client can act on and an assertion they have to take on trust.'},
  {n:'Test the account management gives of its own problem',
   b:'Management’s diagnosis is evidence about management, not necessarily about the business. It is triangulated against the statements, not adopted from them. Where the two disagree, that disagreement is itself a finding.'},
  {n:'Separate structure from movement',
@@ -10509,7 +10509,7 @@ function buildReport(){
     else t+='<tr><td class="lbl" colspan="5" style="color:#8C8C8C">No evidence entries recorded.</td></tr>';
     t+='</tbody></table>';
     P.push(pageWrap('Evidence and assumptions',
-      '<p>Every figure in this document traces to a source. Where a figure is modelled or estimated rather '+
+      '<p>Every figure in this document traces to a source. Where a figure is modeled or estimated rather '+
       'than observed, it is marked as such here. A number without a source is not evidence.</p>'+t+
       '<h4 class="sh">Basis of preparation</h4>'+
       '<p>Figures are stated in '+esc(m.units)+(m.fye?'. Fiscal year end: '+esc(m.fye):'')+'. '+
@@ -11110,7 +11110,7 @@ const DEMO={
   {item:'All balance sheet figures',source:'Form 10-K, consolidated balance sheets',page:'p. 45',conf:'High',note:'As reported; no adjustments'},
   {item:'All income statement figures',source:'Form 10-K, consolidated statements of earnings',page:'p. 43',conf:'High',note:'As reported'},
   {item:'All cash flow figures',source:'Form 10-K, consolidated statements of cash flows',page:'p. 47',conf:'High',note:'Impairment lines aggregated: goodwill impairment plus long-lived asset impairments'},
-  {item:'Deferred revenue',source:'Form 10-K, consolidated balance sheets',page:'p. 45',conf:'High',note:'Modelled: deferred revenue plus unredeemed gift card liabilities, combined for presentation'},
+  {item:'Deferred revenue',source:'Form 10-K, consolidated balance sheets',page:'p. 45',conf:'High',note:'Modeled: deferred revenue plus unredeemed gift card liabilities, combined for presentation'},
   {item:'EBITDA',source:'Analyst model',page:'—',conf:'Modelled',note:'Operating income plus depreciation and amortization from the cash flow statement'},
   {item:'Debt including leases',source:'Analyst model',page:'—',conf:'Modelled',note:'Reported debt plus current and non-current operating lease liabilities'},
   {item:'Share prices, headcount and audit-report details',source:'ILLUSTRATIVE — worked example only',page:'—',conf:'Low',note:'Not sourced from the filing. Placeholders so the valuation and intake sections demonstrate. Replace from the 10-K before any external use.'}],
@@ -11229,7 +11229,7 @@ const DEMO_PRIVATE={
   departureNote:'No audit opinion exists. The accountant issued a review report providing limited assurance only — analytical procedures and inquiry, with no transaction testing, no confirmation of balances and no assessment of internal control. The distinction matters commercially as well as analytically: buyers discount unaudited earnings, and the discount routinely exceeds the cost of an audit by an order of magnitude.',
   cams:'None. Critical audit matters are a feature of an audit report and do not arise in a review engagement — which is itself the point worth making to the reader. Nobody has told you which estimate in these statements was hardest to support, because nobody tested them.\n\nThe judgments most exposed on the evidence available: revenue recognition timing on project releases spanning a period end; work-in-progress valuation; and the adequacy of the obsolescence provision against slow-moving raw stock.',
   goingConcern:'none',restatement:'none',
-  subsequent:'A replacement fibre laser was ordered after the period end at a committed cost of approximately 620, to be financed by equipment loan. It is not in the FY2025 balance sheet and materially changes the FY2026 capex and debt picture.'},
+  subsequent:'A replacement fiber laser was ordered after the period end at a committed cost of approximately 620, to be financed by equipment loan. It is not in the FY2025 balance sheet and materially changes the FY2026 capex and debt picture.'},
  notes:{
   business:'Contract precision metal fabrication — laser cutting, forming and welding — supplying agricultural equipment, HVAC and specialty vehicle OEMs from a single 74,000 sq ft plant. Revenue is project and blanket-order based, with the top three customers representing roughly 47% of revenue.',
   auditor:'Financial statements are reviewed, not audited. A review provides limited assurance only: the accountant has performed analytical procedures and inquiry, but has not tested transactions or confirmed balances. Any figure in this analysis inherits that limitation.',
@@ -11611,7 +11611,7 @@ const HELP={
  horizons:{t:'Now, Next and Later',
   d:'A sequencing of the work: the next ninety days, this year, and what is contingent on the first two.',
   r:'Sequenced rather than listed. Now needs no permission, Next needs a decision, Later depends on what the first two reveal.',
-  x:'The value of the page is in what has been left off it. A roadmap that contains everything has prioritised nothing.'},
+  x:'The value of the page is in what has been left off it. A roadmap that contains everything has prioritized nothing.'},
 
 /* --- the thesis -------------------------------------------------------- */
  thscore:{t:'The score',
@@ -12949,7 +12949,7 @@ async function pdfWriteHighlights(buf,marks,opts){
       const rect=[q[0]-pad,q[1]-pad,q[2]+pad,q[3]+pad].map(v=>Math.round(v*1000)/1000);
       const color=m.color||'1 0.756866 0';
       /* An appearance stream, so the mark is drawn by every reader rather than
-         only by the ones that synthesise one. Multiply is what makes a
+         only by the ones that synthesize one. Multiply is what makes a
          highlight sit UNDER the text instead of over it. */
       const ap=s2b('/GS gs '+color+' rg '+
         rect[0]+' '+rect[1]+' '+(rect[2]-rect[0])+' '+(rect[3]-rect[1])+' re f');

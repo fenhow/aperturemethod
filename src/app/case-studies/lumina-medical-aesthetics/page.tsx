@@ -149,7 +149,7 @@ export default function LuminaCaseStudyPage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <ReportButton onDark />
-              <span className="text-small text-white/50">41-page PDF · illustrative</span>
+              <span className="text-small text-white/50">84-page PDF · illustrative</span>
             </div>
           </Reveal>
           <Reveal variant="left">

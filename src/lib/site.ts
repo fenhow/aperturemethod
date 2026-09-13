@@ -215,7 +215,7 @@ export const megaNav: MegaEntry[] = [
       { label: "Lumina: Full Engagement", href: "/case-studies/lumina-medical-aesthetics", desc: "The whole engagement, start to finish" },
       { label: "Financial Analysis Workbench", href: "/method-lab/financial-analysis-workbench", desc: "Two 44-page analyses, published in full" },
       { label: "The Deliverables", href: "/what-you-get", desc: "Every report and working file, up close" },
-      { label: "Read the Full Report", href: "/reports/Lumina-Aperture-Method-Example-Report.pdf", desc: "The complete 41-page PDF", external: true },
+      { label: "Read the Full Report", href: "/reports/Lumina-Aperture-Method-Example-Report.pdf", desc: "The complete 84-page PDF", external: true },
       { label: "All Case Studies", href: "/case-studies", desc: "Illustrative examples across industries" },
     ],
   },

@@ -8,7 +8,7 @@
  * nothing was comparing them.
  *
  * The site sells a weighted, reproducible instrument. If the marketing copy and the
- * instrument disagree, the claim is false — quietly, and in the client's favour to disbelieve.
+ * instrument disagree, the claim is false — quietly, and in the client's favor to disbelieve.
  * So this fails the build rather than warning.
  *
  * Run:  node scripts/check-lenses.mjs
@@ -24,7 +24,7 @@ const root = path.resolve(here, "..");
 
 // The rubric is the instrument, and it lives OUTSIDE this repository — the website is its
 // own git repo, so on Vercel `Force5 Plugin/templates/rubric.json` simply is not there. The
-// old behaviour was to warn and pass, which meant the strongest checks (names match the
+// old behavior was to warn and pass, which meant the strongest checks (names match the
 // rubric, rubric is ratified) silently did not run on the only build that ships.
 //
 // So the governing fields are committed here as a snapshot, and the check runs in two tiers:

@@ -16,8 +16,10 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   // `inline-block` + vertical padding turns a 19px line of text into a ~27px
   // touch target on a phone. Without it, adjacent footer links are close
   // enough that a thumb regularly hits the wrong one.
+  // 13.5px, a step under `text-small`: six columns of links should read as a
+  // directory, not as body copy competing with the positioning line.
   const className =
-    "inline-block py-1 text-small text-white/55 transition-colors duration-fast hover:text-white";
+    "inline-block py-1 text-[13.5px] leading-[1.45] text-white/55 transition-colors duration-fast hover:text-white";
   // External links and links to files both leave the page, so both open in a
   // new tab. See lib/links.ts for the single definition of that rule.
   if (opensInNewTab(href)) {
@@ -49,8 +51,13 @@ export function Footer() {
     <footer className="bg-dark text-white">
       <Container>
         <div className="grid grid-cols-1 gap-10 border-b border-white/10 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(5,minmax(0,1fr))] lg:gap-8 lg:py-24">
-          {/* Brand block */}
-          <div className="sm:col-span-2 lg:col-span-1">
+          {/*
+            Brand block. At lg it carries a hairline on its right edge, which
+            separates who the firm is from where you can go. `lg:` only: at sm
+            this block spans both columns and a rule down its side would cut
+            the footer in half for no reason.
+          */}
+          <div className="sm:col-span-2 lg:col-span-1 lg:border-r lg:border-white/10 lg:pr-8">
             <Logo tone="light" className="text-[19px]" />
             <p className="mt-4 max-w-[260px] text-body-lg leading-snug text-white/70">
               {siteConfig.positioningLine}

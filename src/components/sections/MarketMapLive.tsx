@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
  *  - demographic labels fading over customer clusters;
  *  - points that spawn and retire to signal real-time activity;
  *  - refined "+" nodes you can click for plain-English explanations, each with
- *    its click target centred exactly on the node;
+ *    its click target centered exactly on the node;
  *  - a pause / play control.
  * Cycling text freezes while a popup is open. Reduced-motion users get a calm,
  * static, still-explorable version.
@@ -64,7 +64,7 @@ const CHIPS: { px: number; py: number; lx: number; ly: number; title: string; in
   },
 ];
 
-// Clickable map features. (x, y) is BOTH the visible node and the centre of the
+// Clickable map features. (x, y) is BOTH the visible node and the center of the
 // click target, so a click always lands on the "+".
 const POIS: Poi[] = [
   { title: "Primary location", info: "Your business, anchored to its trade area and drive-time reach.", x: 300, y: 128 },
@@ -222,7 +222,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
   const openPoi = (p: Poi) => setPopup({ title: p.title, lines: wrap(p.info), ax: p.x, ay: p.y });
 
   // The single, consistent "clickable" marker used for every interactive point:
-  // same size and colour everywhere, with a gently pulsing halo so it reads as a
+  // same size and color everywhere, with a gently pulsing halo so it reads as a
   // button. Brighter coral than the static data so it clearly stands out.
   const Node = ({ x, y }: { x: number; y: number }) => (
     <g pointerEvents="none">
@@ -390,7 +390,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         <circle r="2.2" fill={accent} opacity="0.85" />
       </g>
 
-      {/* clickable feature nodes, hit target centred on the node */}
+      {/* clickable feature nodes, hit target centered on the node */}
       {POIS.map((p) => (
         <g
           key={p.title}
@@ -477,7 +477,7 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
         </g>
       )}
 
-      {/* live signals, bottom centre, content centred */}
+      {/* live signals, bottom center, content centered */}
       <g transform="translate(294 298)">
         <rect x="0" y="0" width="212" height="46" rx="6" fill={panel} stroke={hair} />
         <circle cx="14" cy="23" r="2.6" fill={upColor}>

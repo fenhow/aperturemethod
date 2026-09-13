@@ -31,7 +31,7 @@ export default function AccessibilityPage() {
           "Full keyboard operability, a visible focus indicator, and a skip-to-content link.",
           "Semantic headings and landmarks so screen readers can navigate the page.",
           "Color combinations checked to meet AA contrast, with meaning never conveyed by color alone.",
-          "Labelled form fields with clear, announced error messages.",
+          "Labeled form fields with clear, announced error messages.",
           "Text that reflows and scales on phones, tablets, and desktops without loss of content.",
           "Respect for the “reduce motion” setting, including a pause control on the homepage.",
         ]}

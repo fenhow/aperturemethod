@@ -129,7 +129,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Build stamp, its own hairline row, centred, deliberately the quietest thing on
+        {/* Build stamp, its own hairline row, centered, deliberately the quietest thing on
             the page. It answers "is the deployed site the thing I pushed?" without asking a
             visitor to care. Full detail is one click away at /version. */}
         <div className="border-t border-white/10 py-5 text-center">

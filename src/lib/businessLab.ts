@@ -9,7 +9,7 @@
  * whether to let a specific person into a room, and a firm cannot walk through
  * a classroom door.
  *
- * Naming: the programme is Aperture Business Lab, powered by The Aperture
+ * Naming: the program is Aperture Business Lab, powered by The Aperture
  * Method. The classroom exercise inside it has its own name, "Think Like a
  * CEO. Make the Call.", so a teacher can put the activity on a lesson plan
  * without putting a firm's brand on it.

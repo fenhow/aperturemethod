@@ -82,7 +82,7 @@ export const scopeOptions: ScopeOption[] = [
   {
     key: "site",
     label: "Site Selection Study",
-    blurb: "Candidate-site scoring with trade-area and drive-time modelling. Standalone.",
+    blurb: "Candidate-site scoring with trade-area and drive-time modeling. Standalone.",
     price: `${SITE_SELECTION_FEE} fixed`,
     rows: ["site"],
   },

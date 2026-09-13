@@ -33,9 +33,9 @@ export function HomeProblem() {
           </p>
           <p className="mt-5 text-body text-body">
             That gap has a price. A long tail of products quietly loses money once you count the
-            labour. Some of your most demanding customers cost more than they pay. The busiest
+            labor. Some of your most demanding customers cost more than they pay. The busiest
             location is often not the most profitable one, and it is usually the one the next
-            expansion gets modelled on. None of it shows up in revenue, and the profit line at the
+            expansion gets modeled on. None of it shows up in revenue, and the profit line at the
             bottom of the P&amp;L adds the winners and the losers together before you see them.
           </p>
           <p className="mt-5 text-body text-body">

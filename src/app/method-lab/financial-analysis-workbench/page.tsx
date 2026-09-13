@@ -181,7 +181,7 @@ export default function FinancialAnalysisWorkbench() {
       <section>
         <div className="wrap">
           <p className="eyebrow">The intake template</p>
-          <h2 className="sec">The workbook a private company is analysed from</h2>
+          <h2 className="sec">The workbook a private company is analyzed from</h2>
           <p className="lead">A private business files nothing, so there is no structured data to import —
             the analysis is only ever as good as what comes off the client’s own records. This is the
             workbook that collects it. Use it whether or not you ever engage us: it is a complete intake
@@ -285,7 +285,7 @@ export default function FinancialAnalysisWorkbench() {
             leave out.</p>
           <div className="inside">
             <div className="item"><span className="n">01</span><div><b>Entity profile</b><span>Ownership, legal form and tax treatment, basis of preparation, lifecycle stage, established before a single figure is computed.</span></div></div>
-            <div className="item"><span className="n">02</span><div><b>Executive summary</b><span>The headline judgement, the business, the audit opinion, and the binding-constraint candidates.</span></div></div>
+            <div className="item"><span className="n">02</span><div><b>Executive summary</b><span>The headline judgment, the business, the audit opinion, and the binding-constraint candidates.</span></div></div>
             <div className="item"><span className="n">03</span><div><b>Statements &amp; normalisation</b><span>Balance sheet, income statement, cash flow, and for private entities, the add-back schedule with an evidence grade on every line.</span></div></div>
             <div className="item"><span className="n">04</span><div><b>Valuation</b><span>Observed multiples, or a constructed range with its source stated and the implied multiple of any offer on the table.</span></div></div>
             <div className="item"><span className="n">05</span><div><b>Common-size &amp; horizontal</b><span>Structure with size removed, and movement with structure removed. Read together, the cause usually presents itself.</span></div></div>
@@ -299,7 +299,7 @@ export default function FinancialAnalysisWorkbench() {
           <div className="note">
             <h4>Two things to know before you read them</h4>
             <p><strong>Best Buy is real; its share prices here are not.</strong> The financial statements come
-              from the published Form 10-K. The share prices and headcount are clearly-labelled illustrative
+              from the published Form 10-K. The share prices and headcount are clearly-labeled illustrative
               placeholders, included so the valuation section demonstrates. They are flagged as such in the
               report’s own evidence ledger. Replace them with observed closing prices before quoting any
               multiple from that document.</p>

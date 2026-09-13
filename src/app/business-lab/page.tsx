@@ -264,8 +264,8 @@ export default function BusinessLabPage() {
                 because I get to hand thirty teenagers a real problem and watch them take it apart.
               </p>
               <p className="text-body text-muted">
-                I&apos;m based in The Woodlands, Texas, and I&apos;ll come to any school that will
-                have me. If it&apos;s a long way we&apos;ll work out the travel together, the
+                I&apos;m based in The Woodlands, Texas, and I travel to schools across the
+                region. If you are further out, we&apos;ll work the travel out together. The
                 session itself is free either way.
               </p>
             </div>
@@ -302,7 +302,7 @@ export default function BusinessLabPage() {
             <div className="mt-6 space-y-5 text-body-lg text-body">
               <p>
                 In December 1978 the local paper in Taber, Alberta ran a story about two eight-year-olds
-                who had worked out that snow was money. My friend Scott and I walked the neighbourhood
+                who had worked out that snow was money. My friend Scott and I walked the neighborhood
                 with shovels, knocking on doors, offering to clear driveways and sidewalks. We called
                 it Snow Bank.
               </p>

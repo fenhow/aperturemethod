@@ -52,7 +52,7 @@ export const XRAY_FEE = "$4,500";
  * comes at TWO DEPTHS. The Snapshot runs the same seven lenses against the same
  * rubric, but from submitted documents only: no interview, no triangulation, no
  * evidence ledger, no disconfirming work. It returns a PROVISIONAL Aperture
- * Score, labelled as untested. The X-Ray's premium is tested lenses, not more
+ * Score, labeled as untested. The X-Ray's premium is tested lenses, not more
  * lenses, and that is the part that needs a person rather than an agent.
  *
  * It is NOT a sixth component. Adding one would fracture the five-component
@@ -203,7 +203,7 @@ export const feeSchedule = [
   {
     key: "site",
     phase: "Site Selection Study",
-    deliverable: "Candidate-site scoring + trade-area & drive-time modelling (standalone)",
+    deliverable: "Candidate-site scoring + trade-area & drive-time modeling (standalone)",
     fee: `${SITE_SELECTION_FEE} fixed`,
   },
   {

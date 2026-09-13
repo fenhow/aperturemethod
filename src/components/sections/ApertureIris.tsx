@@ -36,7 +36,7 @@ const ROT_HOVER = -5;
 const ROT_OPEN = -16;
 const GAP = 1.5; // angular gap between blades, degrees
 const INSET = 0.045; // inner-edge inset, as a fraction of the pentagon side
-const BASE = -126; // puts blade 01 centred at the top
+const BASE = -126; // puts blade 01 centered at the top
 
 const rad = (d: number) => (d * Math.PI) / 180;
 const pt = (a: number, r: number): [number, number] => [
@@ -393,7 +393,7 @@ export function ApertureIris() {
               </g>
             </svg>
 
-            {/* centre hub sits inside the opening */}
+            {/* center hub sits inside the opening */}
             <div className="pointer-events-none absolute inset-0 grid place-items-center">
               <div
                 className="max-w-[38%] text-center transition-opacity duration-300"

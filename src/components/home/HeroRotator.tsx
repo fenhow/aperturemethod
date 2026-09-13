@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Bain-style rotating hero: crossfading images and titles.
- * Accessible: labelled carousel, aria-live title region, slide "tabs",
+ * Accessible: labeled carousel, aria-live title region, slide "tabs",
  * a pause/play control, pauses on hover/focus, and, for users who prefer
  * reduced motion, starts paused and never auto-advances (transitions are
  * also neutralised globally). A deliberate, approved exception to the design

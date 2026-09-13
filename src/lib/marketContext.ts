@@ -4,7 +4,7 @@
  * Every figure here was checked against the source document before it was
  * written down, and each one carries its citation and its reference year. That
  * is not pedantry. A statistic attributed to a federal agency is the easiest
- * thing on a website for a sceptical reader to look up, and the fastest way to
+ * thing on a website for a skeptical reader to look up, and the fastest way to
  * lose them is a number that does not match the source it names.
  *
  * Two rules for anyone adding to this file:
@@ -14,7 +14,7 @@
  *  2. Do not reach for a bigger number than the one the source supports.
  *     There is a widely repeated claim that small businesses create close to
  *     nine in ten net new jobs. That is true of one measured year and is not
- *     the long-run figure, which is 61 percent. Both are below, labelled.
+ *     the long-run figure, which is 61 percent. Both are below, labeled.
  */
 
 export type Source = {
@@ -148,7 +148,7 @@ export const FIGURES = {
  *
  * Anything on this site that moves against this figure has to say so in those
  * words. A counter that implies it is watching the economy tick would be the
- * same offence this file exists to prevent: an estimate wearing the clothes of
+ * same offense this file exists to prevent: an estimate wearing the clothes of
  * a measurement, on a site whose whole argument is that the analysis is honest.
  */
 export const GDP_RUN_RATE = {
@@ -202,7 +202,7 @@ export const SEGMENT = {
   range: "$5M to $20M",
   descriptor: "established privately held businesses",
   /** The qualifier that predicts fit better than the revenue number does. */
-  shape: "usually with more than one location, territory or profit centre",
+  shape: "usually with more than one location, territory or profit center",
 } as const;
 
 /**

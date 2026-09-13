@@ -526,3 +526,24 @@
       repeating-linear-gradient(90deg, #000 0, #000 1px, #fff 1px, #fff 2px, #000 2px, #000 4px, #fff 4px, #fff 5px, #000 5px, #000 6px, #fff 6px, #fff 8px, #000 8px, #000 9px, #fff 9px, #fff 11px); }
   .book360__isbn { font-size: 9px; letter-spacing: 0.08em; color: rgba(255, 255, 255, 0.6); font-variant-numeric: tabular-nums; }
 }
+
+/*
+ * Stacked sections of the SAME tone.
+ *
+ * `py-section` is generous by design, which is right where the background
+ * changes: the tone edge earns the air on both sides of it. Where two sections
+ * of the same tone sit directly on top of each other there is no edge, so the
+ * two pads add up to a quarter of a screen of nothing and read as a hole rather
+ * than as rhythm. The homepage had one between "What is it costing you not to
+ * know?" and "What is The Aperture Method?".
+ *
+ * One pad, not two. Deliberately plain CSS outside every @layer so it beats the
+ * `py-section` utility without !important, and deliberately an adjacent-sibling
+ * rule so anything between the two sections (the GDP strip, for one) turns it
+ * back off.
+ */
+section.bg-paper + section.bg-paper,
+section.bg-surface + section.bg-surface,
+section.bg-dark + section.bg-dark {
+  padding-top: 0;
+}

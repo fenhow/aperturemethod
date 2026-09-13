@@ -320,7 +320,7 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      {/* Proof, with the worked example named and labelled */}
+      {/* Proof, with the worked example named and labeled */}
       <HomeProof />
 
       {/* The book, in progress */}

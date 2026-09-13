@@ -59,7 +59,7 @@ export const LENSES: Lens[] = [
     lookAt:
       "The physical ceiling on volume, where work backs up, whether the bottleneck is measured or merely felt, whether the supply of licensed or qualified people caps what you can bill, and whether capacity is planned against demand or absorbed by overtime.",
     why: "In a place-based business the constraint usually binds physically: chairs, bays, rooms, vehicles, staffed hours. Someone can point at it.",
-    evidence: "Capacity and utilisation, monthly volume, seasonality, how the work actually flows, and any licence or qualification that limits who can do it.",
+    evidence: "Capacity and utilization, monthly volume, seasonality, how the work actually flows, and any license or qualification that limits who can do it.",
   },
   {
     id: "customers-retention",
@@ -67,7 +67,7 @@ export const LENSES: Lens[] = [
     weight: 0.18,
     question: "Who pays us, why, and are they coming back?",
     lookAt:
-      "Where customers come from and what each channel costs, repeat behaviour measured rather than assumed, how concentrated revenue is, and why customers leave when they leave.",
+      "Where customers come from and what each channel costs, repeat behavior measured rather than assumed, how concentrated revenue is, and why customers leave when they leave.",
     why: "Retention is the highest-leverage and most commonly mismeasured area in an owner-run business. Owners routinely believe their repeat rate is far higher than it is, and it is usually cheaper to fix than acquisition.",
     evidence: "Transaction history by customer, marketing spend by channel, and what you know about churn.",
   },

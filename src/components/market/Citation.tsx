@@ -4,7 +4,7 @@ import { SOURCES, FIGURES, type Figure } from "@/lib/marketContext";
  * The source line under a set of figures.
  *
  * Every statistic on this site carries one. A number attributed to a federal
- * agency is the easiest thing on a page for a sceptical reader to check, so
+ * agency is the easiest thing on a page for a skeptical reader to check, so
  * the citation is a feature rather than small print: it invites the check.
  * The data year is included because most of these figures describe a year
  * earlier than the document that publishes them, and quietly implying

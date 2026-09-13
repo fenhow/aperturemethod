@@ -6,7 +6,7 @@
  * the question, who is answering it, the outcome, a short answer, the problem
  * with its cost attached, the solution, the proof, the alternatives, the price,
  * the objections, the date. A reader can stop at any block and have got
- * something, and anything summarising the page can lift a clean answer from
+ * something, and anything summarizing the page can lift a clean answer from
  * each one.
  *
  * Holding that in data rather than in five page files means the structure
@@ -17,7 +17,7 @@
  *
  *  1. Prices come from src/lib/pricing.ts. Never type a figure here.
  *  2. Nothing in `proof` may imply a client result. Worked examples are
- *     labelled as worked examples, in the copy a person reads, not in a
+ *     labeled as worked examples, in the copy a person reads, not in a
  *     footnote. Published analysis of public filings is fair to cite as our
  *     own work because it is.
  */
@@ -201,7 +201,7 @@ export const apertureSnapshot: LandingPage = {
         body:
           "A worked example of the full engagement, so you can see where the ladder leads. Revenue climbed 61% in three years while profit stayed flat, and the tested reading named the constraint: new-patient retention, not pricing and not demand.",
         note:
-          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labelled that way everywhere it appears.",
+          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
         link: {
           href: "/case-studies/lumina-medical-aesthetics",
           label: "See the whole engagement",
@@ -276,7 +276,7 @@ export const businessXRay: LandingPage = {
     includes: [
       "Seven-lens business assessment",
       "Aperture Score baseline",
-      "Prioritised findings, risks and opportunities",
+      "Prioritized findings, risks and opportunities",
       "Your single biggest constraint, named",
     ],
   },
@@ -284,7 +284,7 @@ export const businessXRay: LandingPage = {
     heading: "What is it costing you not to know?",
     paras: [
       "You can tell me last month's revenue to the dollar. Now rank your products, your customers and your locations from most profitable to least, after the real cost of serving each one. Most owners cannot, and it has nothing to do with ability. Nobody ever built them the view.",
-      "That gap is expensive in a specific and predictable way. A few products carry the margin while a long tail quietly loses money once you count the labour to make them. A handful of customers cost more to serve than they pay, and they are often the ones getting the most attention. The busiest location is frequently not the most profitable one, and it is usually the one the next expansion gets modelled on.",
+      "That gap is expensive in a specific and predictable way. A few products carry the margin while a long tail quietly loses money once you count the labor to make them. A handful of customers cost more to serve than they pay, and they are often the ones getting the most attention. The busiest location is frequently not the most profitable one, and it is usually the one the next expansion gets modeled on.",
       "None of this shows up in revenue. Most of it does not show up in the profit line at the bottom of the P&L either, because the winners and the losers are added together before you ever see them. The business stays profitable overall, which is exactly why the parts that are bleeding stay invisible.",
     ],
     pull: "A business can be profitable overall and still be profitable in spite of itself.",
@@ -299,7 +299,7 @@ export const businessXRay: LandingPage = {
     walkAway: [
       "A written Business X-Ray across all seven lenses",
       "Your Aperture Score, a baseline you can measure progress against",
-      "Prioritised findings, risks and opportunities",
+      "Prioritized findings, risks and opportunities",
       "Your single biggest constraint, named in one sentence",
     ],
     howItRuns:
@@ -316,7 +316,7 @@ export const businessXRay: LandingPage = {
         body:
           "A growing three-clinic med-spa. Revenue climbed 61% in three years while profit stayed essentially flat. The X-Ray read all seven lenses and named the constraint that explained it: new-patient retention, not pricing, and not demand.",
         note:
-          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labelled that way everywhere it appears. No client work is published without written permission.",
+          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears. No client work is published without written permission.",
         report: { page: 10, label: "Read the full example report" },
         link: {
           href: "/case-studies/lumina-medical-aesthetics",
@@ -343,7 +343,7 @@ export const businessXRay: LandingPage = {
   faqs: [
     {
       q: "What exactly do I get at the end?",
-      a: "A written Business X-Ray covering all seven lenses, your Aperture Score as a baseline you can track, a prioritised list of findings, risks and opportunities, and your single biggest constraint named in one sentence. It is a document you can hand to a partner, a lender or a board, not a slide deck that only makes sense while someone is narrating it.",
+      a: "A written Business X-Ray covering all seven lenses, your Aperture Score as a baseline you can track, a prioritized list of findings, risks and opportunities, and your single biggest constraint named in one sentence. It is a document you can hand to a partner, a lender or a board, not a slide deck that only makes sense while someone is narrating it.",
     },
     {
       q: "What do you need from me to start?",
@@ -408,7 +408,7 @@ export const profitMap: LandingPage = {
     heading: "Why is the profit not showing up?",
     paras: [
       "Revenue is up. Everyone is busy. The bank balance says something else, and nobody in the business can tell you exactly why. That is the most common conversation we have, and it almost never turns out to be a mystery. It turns out to be arithmetic nobody has done.",
-      "In practice one part of the business is quietly subsidising another. A few products earn most of the margin while a long tail earns almost nothing once you count the labour to make and handle them. A handful of customers are genuinely profitable, and others consume discounts, rush jobs and hand-holding until they cost more than they pay. A location looks like the flagship right up until you account for the rent, the labour and the manager's time it really takes to run.",
+      "In practice one part of the business is quietly subsidising another. A few products earn most of the margin while a long tail earns almost nothing once you count the labor to make and handle them. A handful of customers are genuinely profitable, and others consume discounts, rush jobs and hand-holding until they cost more than they pay. A location looks like the flagship right up until you account for the rent, the labor and the manager's time it really takes to run.",
       "None of it shows up in a single profit line, because the P&L adds everything together. The winners and the losers are blended into one comfortable number at the bottom, and the parts that are bleeding stay invisible for years.",
     ],
     pull:
@@ -424,7 +424,7 @@ export const profitMap: LandingPage = {
       { label: "Cost-structure evaluation", note: "What scales profitably and what does not." },
       { label: "Pareto (80/20)", note: "The vital few customers, products and costs that drive the result." },
       { label: "Break-even & sensitivity", note: "The point a decision starts paying off, and the room you have." },
-      { label: "Financial modelling & forecasting", note: "Test a decision before you make it." },
+      { label: "Financial modeling & forecasting", note: "Test a decision before you make it." },
       { label: "Regression analysis", note: "Which factors actually move the outcome." },
       { label: "Scenario planning", note: "Best, worst and likely, played out." },
     ],
@@ -461,7 +461,7 @@ export const profitMap: LandingPage = {
         body:
           "A growing three-clinic med-spa. Revenue climbed 61% in three years while profit stayed essentially flat. Separating the numbers showed why, and the scenario model let the owner test the fix before committing to it.",
         note:
-          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labelled that way everywhere it appears.",
+          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
         report: { page: 18, label: "Read the full example report" },
       },
     ],
@@ -488,7 +488,7 @@ export const profitMap: LandingPage = {
     },
     {
       q: "What if my numbers do not tie?",
-      a: "Then we find out why before we analyse anything, and that is often the first finding. Nothing gets built on figures that do not reconcile, because a model that disagrees with your own accounts is a model you will never trust or use.",
+      a: "Then we find out why before we analyze anything, and that is often the first finding. Nothing gets built on figures that do not reconcile, because a model that disagrees with your own accounts is a model you will never trust or use.",
     },
     {
       q: "Do I keep the model?",
@@ -556,7 +556,7 @@ export const marketMap: LandingPage = {
       { label: "TAM / SAM / SOM sizing", note: "The whole market, the servable slice, the winnable slice." },
       { label: "Competitive benchmarking", note: "Where you stand against the businesses nearest you." },
       { label: "Porter's Five Forces", note: "Where power and profit sit in your market." },
-      { label: "Site-selection modelling", note: "Candidate sites scored before a lease is signed." },
+      { label: "Site-selection modeling", note: "Candidate sites scored before a lease is signed." },
     ],
     walkAwayHeading: "What you walk away with",
     walkAway: [
@@ -579,7 +579,7 @@ export const marketMap: LandingPage = {
         body:
           "Mapping Lumina's own patients showed where the best customers cluster and where demand was going unmet. The newest clinic turned out to still be building its base rather than underperforming, and the strongest untapped trade area was the Energy Corridor: a data-backed answer to where do we grow next, rather than an opinion about it.",
         note:
-          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labelled that way everywhere it appears.",
+          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
         report: { page: 26, label: "Read the full example report" },
         link: {
           href: "/case-studies/lumina-medical-aesthetics",
@@ -705,7 +705,7 @@ export const focusPlan: LandingPage = {
         body:
           "Every option on Lumina's list was scored, including the one the owner arrived wanting: a fourth clinic. The plan that came out sequenced it differently. Fix retention first, then expand, and expand where the mapping pointed rather than where the opportunity happened to appear. The expansion was not refused, it was ordered.",
         note:
-          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labelled that way everywhere it appears.",
+          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
         report: { page: 32, label: "Read the full example report" },
         link: {
           href: "/case-studies/lumina-medical-aesthetics",
@@ -744,7 +744,7 @@ export const focusPlan: LandingPage = {
       a: "Then the matrix shows exactly where the disagreement is, which is more useful than a consensus nobody believes. Usually it turns out people are weighting the criteria differently rather than reading the evidence differently, and that is a conversation you can actually finish.",
     },
     {
-      q: "Is this just a prioritisation workshop?",
+      q: "Is this just a prioritization workshop?",
       a: "No. A workshop ranks the ideas in the room on the day. This scores them against evidence gathered beforehand, stress-tests the shortlist against downside scenarios, and produces a written rationale you can hand to someone who was not there.",
     },
     {
@@ -838,7 +838,7 @@ export const scoreboard: LandingPage = {
         body:
           "The full worked example runs all five phases through to the Scoreboard, showing the KPIs that were chosen, why those and not others, and how the Aperture Score was re-scored at the end to prove the movement rather than claim it.",
         note:
-          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labelled that way everywhere it appears.",
+          "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
         report: { page: 38, label: "Read the full example report" },
       },
     ],

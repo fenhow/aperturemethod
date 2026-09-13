@@ -44,7 +44,7 @@ export function HomeProof() {
           </p>
           <p className="mt-3 text-small text-muted">
             Lumina is a worked example built to demonstrate the Method, not a client engagement, and
-            it is labelled that way everywhere it appears. No client work is published without
+            it is labeled that way everywhere it appears. No client work is published without
             written permission.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">

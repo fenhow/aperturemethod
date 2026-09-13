@@ -117,7 +117,7 @@ export const DATA_ITEMS: DataItem[] = [
   {
     id: "payroll",
     label: "Payroll or headcount by role",
-    why: "Labour is usually the largest controllable cost and sets your real capacity ceiling. Roles and cost are enough; we do not need individual names.",
+    why: "Labor is usually the largest controllable cost and sets your real capacity ceiling. Roles and cost are enough; we do not need individual names.",
     segments: ["insights", "analytics"],
     satisfiedBy: "Payroll or headcount by role",
     priority: "blocking",
@@ -125,7 +125,7 @@ export const DATA_ITEMS: DataItem[] = [
   {
     id: "addbacks",
     label: "Owner compensation and one-off or personal costs",
-    why: "We adjust for these before analysing so the underlying economics are visible. Standard practice, and not a judgment: a rough schedule is fine.",
+    why: "We adjust for these before analyzing so the underlying economics are visible. Standard practice, and not a judgment: a rough schedule is fine.",
     segments: ["analytics"],
     priority: "blocking",
   },
@@ -247,10 +247,10 @@ export const DATA_ITEMS: DataItem[] = [
   },
   {
     id: "quals_register",
-    label: "Licence, certification or qualification register",
+    label: "License, certification or qualification register",
     why: "Where the law or a certification decides who may do the billable work, qualified headcount is a hard ceiling on volume, and the lead time to add one is often the real constraint.",
     segments: ["insights", "analytics"],
-    satisfiedBy: "Licence, certification or qualification register",
+    satisfiedBy: "License, certification or qualification register",
     priority: "helpful",
   },
   {

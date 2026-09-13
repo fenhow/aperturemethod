@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * Aperture parent-brand hero: a rotating, Bain-style hero. Slide 1 carries the
  * parent positioning (what the firm actually analyses, in plain words); the remaining
  * slides are the original homepage slides (numbers, customers, AI). Same
- * construction/quality as the site's HeroRotator; accessible (labelled carousel,
+ * construction/quality as the site's HeroRotator; accessible (labeled carousel,
  * aria-live title, pause/play, pauses on hover/focus, reduced-motion aware).
  */
 

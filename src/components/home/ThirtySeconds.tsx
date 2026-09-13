@@ -121,7 +121,7 @@ export function ThirtySeconds({ className }: { className?: string }) {
               <div className="px-8 py-8 sm:px-9">
                 <p className="eyebrow">In 30 seconds</p>
                 <h2 id="thirty-seconds-title" className="mt-2 text-h3 font-semibold text-ink">
-                  That is the economy nobody is analysing.
+                  That is the economy nobody is analyzing.
                 </h2>
 
                 <p className="mt-4 text-base text-body">

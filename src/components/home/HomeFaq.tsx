@@ -21,7 +21,7 @@ import {
  *
  * The site already answered most of these, spread across four pages. Someone
  * deciding whether to book will not go and find them, and neither will anything
- * summarising the site on their behalf. So they are answered here, on the page
+ * summarizing the site on their behalf. So they are answered here, on the page
  * people actually land on, in the words they would use to ask.
  *
  * Every figure is read from src/lib/pricing.ts rather than typed, so a price
@@ -39,14 +39,14 @@ const faqs = [
   },
   {
     q: "Is my business the right size for this?",
-    a: `It is built for owner-run companies doing roughly $5M to $20M in revenue, usually with more than one location, territory or profit centre: big enough that the decisions carry real money, small enough that a large consultancy is not interested and would not be worth it if they were. Below ${SNAPSHOT_CEILING} we offer one product rather than the whole ladder, the Aperture Snapshot at ${SNAPSHOT_FEE}, and if even that is not the right fit we will tell you so.`,
+    a: `It is built for owner-run companies doing roughly $5M to $20M in revenue, usually with more than one location, territory or profit center: big enough that the decisions carry real money, small enough that a large consultancy is not interested and would not be worth it if they were. Below ${SNAPSHOT_CEILING} we offer one product rather than the whole ladder, the Aperture Snapshot at ${SNAPSHOT_FEE}, and if even that is not the right fit we will tell you so.`,
   },
   {
     q: "How long before I see anything useful?",
     a: "The Business X-Ray produces real findings in its first weeks. A full path from first data to an agreed plan usually runs six to ten weeks. A single component is typically a few weeks on its own. Nothing is held back until a final presentation: you see the work as it lands.",
   },
   {
-    q: "Do I need clean, organised data to start?",
+    q: "Do I need clean, organized data to start?",
     a: "No, and almost nobody does. We work with what exists and improve it as we go. Messy books, a spreadsheet someone built two years ago and a point-of-sale system nobody has ever exported are all normal. What a business does not measure is information too, and it is often part of the answer.",
   },
   {

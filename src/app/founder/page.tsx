@@ -182,7 +182,7 @@ export default function FounderPage() {
             <span className="font-semibold text-ink">Aperture Business Lab</span>. Students get a card
             describing a real business and fifteen minutes to work out the one thing holding it back,
             the same question I get paid to answer, handed to grades 8–12 for nothing. No fee,
-            nothing sold to students, and I&apos;ll come to any school that will have me.
+            nothing sold to students, and I travel to schools across the region.
           </p>
           <p className="mt-8">
             <LinkArrow href="/business-lab">See the session</LinkArrow>

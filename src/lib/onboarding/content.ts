@@ -198,7 +198,7 @@ export const agreementClauses: Clause[] = [
     body: [
       "Fixed fees. Fees for each phase are fixed as stated in Exhibit A.",
       "Deposit. Unless stated otherwise, each phase begins on receipt of a [50%] deposit, with the balance due on delivery of that phase's deliverable.",
-      "Recurring services (Atlas). Ongoing Scoreboard/platform services are billed [monthly] in advance at the rate in Exhibit A and continue until cancelled on [30] days' notice.",
+      "Recurring services (Atlas). Ongoing Scoreboard/platform services are billed [monthly] in advance at the rate in Exhibit A and continue until canceled on [30] days' notice.",
       "Expenses. Pre-approved out-of-pocket expenses (e.g., third-party data or software licenses) are billed at cost.",
       "Invoices & late payment. Invoices are due within [15] days. Overdue amounts may accrue interest at [1.5%] per month or the maximum allowed by law, and Aperture may pause work on overdue accounts.",
       "Taxes. Fees are exclusive of applicable taxes, which Client is responsible for.",

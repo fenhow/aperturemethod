@@ -15,7 +15,6 @@ export function BookSection() {
         {/* 3D book: drag to spin; reveals front, spine, pages, and back */}
         <Reveal variant="right" className="flex flex-col items-center gap-3 py-6 lg:items-start">
           <Book3D />
-          <p className="text-small text-muted">Drag the book to spin it →</p>
         </Reveal>
 
         {/* Copy */}

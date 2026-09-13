@@ -66,7 +66,7 @@ export function CreatorMark() {
     >
       {/*
         Icon-only on a phone, the full pill from sm up.
-        At 137px wide the labelled version sat across a line of body text at
+        At 137px wide the labeled version sat across a line of body text at
         whatever scroll position you happened to stop at, which reads as
         something broken rather than something offered. A 48px mark in the
         corner cannot cover a sentence, and the accessible name is unchanged

@@ -79,7 +79,7 @@ export const sharedSections: IntakeSection[] = [
         "Nothing, they are prepared internally",
         "I am not sure",
       ]),
-      C("b_books_scope", "How are the books organised?", [
+      C("b_books_scope", "How are the books organized?", [
         "One entity, one set of books",
         "Several locations, one set of books",
         "Several entities, or several sets of books",
@@ -158,7 +158,7 @@ export const sharedSections: IntakeSection[] = [
           "Customer list with addresses or ZIP codes",
           "Payroll or headcount by role",
           "Staff list by role, showing who can do what",
-          "Licence, certification or qualification register",
+          "License, certification or qualification register",
           "Marketing spend by channel or area",
         ],
       },
@@ -195,7 +195,7 @@ export const segments: IntakeSegment[] = [
         T("ins_fin2", "What is your cash position like across a typical year; when is it tight?", 2),
         T("ins_fin3", "Which costs have grown fastest, and do you know why?", 2),
         T("ins_fin4", "How and when do you get paid: on delivery, on terms, deposits, retainers? Roughly how much is owed to you at any one time, and what debt, lease or repayment obligations does the business carry?", 3),
-        T("ins_fin5", "For your main product or service: what do you charge, and roughly what does it cost you to deliver one? Include the labour and materials that go into that single unit.", 3),
+        T("ins_fin5", "For your main product or service: what do you charge, and roughly what does it cost you to deliver one? Include the labor and materials that go into that single unit.", 3),
         T("ins_fin6", "Do your accounts separate the cost of delivering the work from general overhead? Are any costs allocated down to individual products, services or locations, and on what basis?", 2),
         T("ins_fin7", "Do you hold inventory, stock or materials? Roughly what is it worth at any one time, and how long does a typical item sit before it is used or sold? What payment terms do your main suppliers give you, and do you actually take them?", 3),
       ]},
@@ -261,7 +261,7 @@ export const segments: IntakeSegment[] = [
         T("an_num2", "Do your accounts separate cost of delivery from overhead? Roughly how?", 2),
         T("an_num3", "Are costs currently allocated to products, services or locations? If so, on what basis?", 2),
         T("an_num4", "Who closes the books, and how confident are you in them?", 2),
-        T("an_num5", "Owner compensation, one-off or unusual costs, and anything personal or related-party running through the business: roughly what, and how much? We adjust for these before analysing so the underlying economics are visible. This is standard practice and not a judgment.", 3),
+        T("an_num5", "Owner compensation, one-off or unusual costs, and anything personal or related-party running through the business: roughly what, and how much? We adjust for these before analyzing so the underlying economics are visible. This is standard practice and not a judgment.", 3),
       ]},
       { id: "an-price", title: "Price and mix", fields: [
         T("an_price1", "List your main products or services and their current prices.", 3),

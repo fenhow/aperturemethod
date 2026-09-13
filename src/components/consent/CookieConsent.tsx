@@ -95,7 +95,7 @@ export function CookieConsent() {
         {/*
          * The mark, so the panel reads as part of the site rather than as a
          * third-party consent widget bolted on. Decorative: the dialog is
-         * already labelled, so the logo carries no alt text of its own.
+         * already labeled, so the logo carries no alt text of its own.
          */}
         <Image
           src="/logo-horizontal-black-v3.png"

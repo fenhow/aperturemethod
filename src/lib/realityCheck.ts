@@ -147,7 +147,7 @@ export const questions: RCQuestion[] = [
       "Where is your next dollar of growth coming from, and why that, rather than three other options you considered?",
     options: [
       { label: "We compared the options with numbers and chose", score: 4 },
-      { label: "We have a plan, but the alternatives were not modelled", score: 2 },
+      { label: "We have a plan, but the alternatives were not modeled", score: 2 },
       { label: "We have a direction, not really a plan", score: 1 },
       { label: "We mostly take what comes", score: 0 },
     ],
@@ -171,7 +171,7 @@ export const questions: RCQuestion[] = [
     ],
     blindSpot: {
       headline: "Big decisions are being made without a downside case.",
-      body: "Experienced owners are often right, which is exactly what makes this dangerous: the one time the instinct is wrong, there is no early warning and no pre-agreed trigger to stop. Modelling the downside is not pessimism; it is knowing in advance what would tell you to change course.",
+      body: "Experienced owners are often right, which is exactly what makes this dangerous: the one time the instinct is wrong, there is no early warning and no pre-agreed trigger to stop. Modeling the downside is not pessimism; it is knowing in advance what would tell you to change course.",
       cost: "The cost of being wrong is paid in full, months after the decision, when reversing it is most expensive.",
     },
   },

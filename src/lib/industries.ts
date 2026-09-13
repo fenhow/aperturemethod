@@ -45,7 +45,7 @@ export const industries: Industry[] = [
       },
       {
         q: "Our job costing is not clean. Does that stop us?",
-        a: "No. Almost nobody's is. Where labour hours are estimated rather than captured, we say so and show the range it creates rather than presenting a false precision. Finding out which parts of your costing cannot be trusted is often the most valuable finding of the engagement.",
+        a: "No. Almost nobody's is. Where labor hours are estimated rather than captured, we say so and show the range it creates rather than presenting a false precision. Finding out which parts of your costing cannot be trusted is often the most valuable finding of the engagement.",
       },
       {
         q: "Will this tell us what to quote?",
@@ -62,7 +62,7 @@ export const industries: Industry[] = [
     promise: "Know your true cost per job.",
     sub: "For owner-run manufacturers, job shops, and fabricators. See the true cost of every job, and price it right.",
     buyer:
-      "Owner-operated manufacturers, job shops, and fabricators, roughly $2M–$20M, running on an ERP and QuickBooks, with detailed job and cost data that almost never gets analyzed.",
+      "Owner-operated manufacturers, job shops, and fabricators, roughly $5M–$20M, running on an ERP and QuickBooks, with detailed job and cost data that almost never gets analyzed.",
     problems: [
       "True cost and margin by job, product, and customer are unclear",
       "Quoting and pricing lag rising labor and material costs",
@@ -81,7 +81,7 @@ export const industries: Industry[] = [
       body: "The shop quoted work the way it always had, on experience and a feel for the shop rate. Margins were slipping and the owner couldn't say which jobs were the problem. Aperture Insights named the constraint: quoting that hadn't kept pace with labor and material costs. Aperture Analytics built a Profit Map by job type and customer and found a large share of jobs run below true cost once setup and rework were counted, with a handful of accounts carrying the rest. Aperture Compass introduced quoting discipline, repriced the worst work, and set target margins by job type. Aperture Atlas tracked margin per job on the Scoreboard. Illustratively, a shop like this could recover several points of margin through pricing and quoting discipline alone, without turning away good work.",
     },
     seoDescription:
-      "The Aperture Method™ helps owner-run manufacturers and job shops ($2M–$20M) find their true cost per job, fix quoting and pricing, and grow margin, using the data they already have.",
+      "The Aperture Method™ helps owner-run manufacturers and job shops ($5M–$20M) find their true cost per job, fix quoting and pricing, and grow margin, using the data they already have.",
   }),
   make({
     slug: "retail-consumer",
@@ -89,7 +89,7 @@ export const industries: Industry[] = [
     faqs: [
       {
         q: "Our POS reports already show sales by store. Is this different?",
-        a: "Yes, because sales by store is not profit by store. Once rent, labour, shrink and the manager's real time are allocated, the ranking frequently changes, and the busiest site is often not the most profitable one. It is usually the site the next expansion gets modelled on, which is what makes the distinction expensive.",
+        a: "Yes, because sales by store is not profit by store. Once rent, labor, shrink and the manager's real time are allocated, the ranking frequently changes, and the busiest site is often not the most profitable one. It is usually the site the next expansion gets modeled on, which is what makes the distinction expensive.",
       },
       {
         q: "Can this tell us where to open next?",
@@ -136,8 +136,8 @@ export const industries: Industry[] = [
     question: "Are your busiest clients your most profitable ones?",
     faqs: [
       {
-        q: "Utilisation looks fine. Why would profitability not be?",
-        a: "Utilisation measures whether people are busy, not whether the work they are busy on pays. A fully utilised team delivering underpriced scope produces exactly the numbers you are seeing: everyone stretched, revenue holding, profit flat. Separating margin by client and by engagement type is what tells the two apart.",
+        q: "Utilization looks fine. Why would profitability not be?",
+        a: "Utilization measures whether people are busy, not whether the work they are busy on pays. A fully utilized team delivering underpriced scope produces exactly the numbers you are seeing: everyone stretched, revenue holding, profit flat. Separating margin by client and by engagement type is what tells the two apart.",
       },
       {
         q: "We bill hourly. Does this still apply?",

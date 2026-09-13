@@ -18,7 +18,7 @@ import { XRAY_FEE } from "@/lib/pricing";
  *
  * It is the one page on the site that argues from published data rather than
  * from what we can do, which makes it the page most likely to be quoted by
- * something summarising the question for somebody else. So every figure is
+ * something summarizing the question for somebody else. So every figure is
  * cited inline, dated, and links to the source document.
  *
  * The discipline that matters here is restraint. The temptation with a page

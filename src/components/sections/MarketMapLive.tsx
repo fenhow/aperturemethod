@@ -462,6 +462,13 @@ export function MarketMapLive({ tone = "dark", className }: { tone?: "dark" | "l
             }
           }}
         >
+          {/*
+            Invisible hit area. The visible chip is 76x26 in SVG units, which on
+            a 390px phone renders about 32x11 CSS pixels: far too small for a
+            thumb. This rect keeps the chip looking the same and roughly triples
+            the target. It must come first so it sits under the visible art.
+          */}
+          <rect x="-14" y="-14" width="104" height="54" fill="transparent" />
           <rect x="0" y="0" width="76" height="26" rx="4" fill={chipBg} stroke={hair} />
           {playing ? (
             <g fill={labelText}>

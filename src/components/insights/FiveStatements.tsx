@@ -75,7 +75,7 @@ function Panel({ panel }: { panel: StatementPanel }) {
       </div>
 
       <div className={`px-4 py-3 ${band}`}>
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/60">Question</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/60">Question</p>
         <p className="mt-1 text-small italic text-paper">{panel.question}</p>
       </div>
     </div>

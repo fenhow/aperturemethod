@@ -42,7 +42,7 @@ export function MethodFlow() {
                 <div className="flex items-center justify-between">
                   <span className="text-h4 font-semibold tabular-nums text-maroon">{p.n}</span>
                   {p.cap && (
-                    <span className="rounded-full border border-line px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">
+                    <span className="rounded-full border border-line px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">
                       {p.cap}
                     </span>
                   )}

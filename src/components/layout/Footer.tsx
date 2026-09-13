@@ -19,7 +19,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   // 13.5px, a step under `text-small`: six columns of links should read as a
   // directory, not as body copy competing with the positioning line.
   const className =
-    "inline-block py-1 text-[13.5px] leading-[1.45] text-white/55 transition-colors duration-fast hover:text-white";
+    "inline-block py-2.5 lg:py-1 text-[13.5px] leading-[1.45] text-white/55 transition-colors duration-fast hover:text-white";
   // External links and links to files both leave the page, so both open in a
   // new tab. See lib/links.ts for the single definition of that rule.
   if (opensInNewTab(href)) {
@@ -96,7 +96,7 @@ export function Footer() {
               <h2 className="mb-3 text-overline font-semibold uppercase tracking-overline text-white/90">
                 {column.heading}
               </h2>
-              <ul className="space-y-0.5">
+              <ul className="space-y-0.5 lg:space-y-0.5">
                 {column.items.map((item) => (
                   <li key={item.href}>
                     <FooterLink href={item.href}>{item.label}</FooterLink>

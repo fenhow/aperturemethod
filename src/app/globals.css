@@ -109,7 +109,13 @@
 
   /* Eyebrow / overline: the section label. Maroon on light. */
   .eyebrow {
-    @apply text-overline font-semibold uppercase text-maroon;
+    /*
+     * leading-[1.3], not the token's line-height of 1. One line is fine at 1;
+     * a wrapped eyebrow at 1 has its two lines touching, which is what the
+     * homepage looked like on a phone. The token is left alone because table
+     * headers and other single-line overlines want the tight setting.
+     */
+    @apply text-overline font-semibold uppercase leading-[1.3] text-maroon;
   }
   .eyebrow--on-dark {
     @apply text-maroon-onDark;

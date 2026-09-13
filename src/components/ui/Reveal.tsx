@@ -15,18 +15,26 @@ import { cn } from "@/lib/utils";
 type Variant = "up" | "down" | "zoom" | "fade" | "left" | "right";
 
 /*
- * The horizontal variants only apply from `sm` up. On a phone every column is
- * already full-bleed, so a 32px sideways offset pushes the document wider than
- * the viewport and the whole page rubber-bands sideways until the section
- * scrolls into view. Below `sm` they enter vertically instead.
+ * NOTHING MOVES SIDEWAYS. The horizontal variants used to offset by 32px from
+ * `sm` up, which was already known to rubber-band the page on a phone. The
+ * guard was too narrow: a Reveal that is a direct child of a full-width
+ * container is full-bleed at EVERY width, so the sideways offset pushed the
+ * document past the viewport at 768px and 1024px too. Measured as a transient
+ * 8px horizontal scroll on 22 pages mid-animation.
+ *
+ * The obvious alternative, clipping at the section, is worse: `overflow-x` of
+ * hidden or clip forces the other axis to `auto`, which turns every section
+ * into a scroll container and breaks the popovers that deliberately overflow
+ * vertically. So `left` and `right` now enter vertically like everything else.
+ * They keep their names because callers read as direction of origin.
  */
 const PRE: Record<Variant, string> = {
   up: "translate-y-8",
   down: "-translate-y-8",
   zoom: "scale-[0.96]",
   fade: "",
-  left: "translate-y-8 sm:translate-y-0 sm:translate-x-8",
-  right: "translate-y-8 sm:translate-y-0 sm:-translate-x-8",
+  left: "translate-y-8",
+  right: "translate-y-8",
 };
 
 export function Reveal({

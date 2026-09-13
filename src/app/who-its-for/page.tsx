@@ -9,7 +9,7 @@ import { SegmentContrast } from "@/components/market/SegmentContrast";
 import { MarketFigures } from "@/components/market/MarketFigures";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
-import { FIGURES } from "@/lib/marketContext";
+import { FIGURES, SEGMENT } from "@/lib/marketContext";
 
 export const metadata: Metadata = pageMeta({
   title: "Who It's For",
@@ -74,10 +74,15 @@ export default function WhoItsForPage() {
           <h1 className="text-h1 font-semibold heading-gradient">
             If you run the business, this is built for you.
           </h1>
+          {/*
+            Derived from SEGMENT, not typed out. This sentence was hardcoded and
+            still said "$1 million" months after the band was narrowed to $5M,
+            because nothing tied it to the constant that defines the band.
+          */}
           <p className="mt-6 text-body-lg text-body">
-            The Aperture Method is built for established privately held businesses doing roughly $1
-            million to $20 million in revenue: large enough that the decisions carry real money,
-            and rarely large enough to have built a finance and strategy function to inform them.
+            The Aperture Method is built for {SEGMENT.descriptor} doing roughly {SEGMENT.floor} to{" "}
+            {SEGMENT.ceiling} in revenue: large enough that the decisions carry real money, and
+            rarely large enough to have built a finance and strategy function to inform them.
           </p>
           <p className="mt-5 text-body text-muted">
             You already know your business better than any outsider will. This is about seeing the
@@ -110,8 +115,8 @@ export default function WhoItsForPage() {
             They employ {FIGURES.shareOfWorkers.value} {FIGURES.shareOfWorkers.label} and account for{" "}
             {FIGURES.shareOfPayroll.value} {FIGURES.shareOfPayroll.label}. None of which makes all
             36.2 million of them a fit for this firm, and we do not pretend otherwise. The Aperture
-            Method is built for a narrow slice of that number: established businesses at roughly $1
-            million to $20 million.
+            Method is built for a narrow slice of that number: established businesses at roughly{" "}
+            {SEGMENT.floor} to {SEGMENT.ceiling}.
           </p>
           <p className="mt-6">
             <LinkArrow href="/the-intelligence-gap">

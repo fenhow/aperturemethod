@@ -238,10 +238,16 @@ export function Header() {
           >
             <Container>
               <div className="grid grid-cols-[0.9fr_1.5fr] gap-10 py-8">
-                {/* Hub descriptor box */}
+                {/*
+                  Hub descriptor box, with an optional second way in beneath it.
+                  The box is itself a link, so the second CTA has to be a
+                  sibling: an anchor inside an anchor is invalid and React will
+                  refuse to hydrate it.
+                */}
+                <div className="flex flex-col">
                 <Link
                   href={activeGroup.hub.href ?? activeGroup.href}
-                  className="group flex flex-col justify-between rounded-lg bg-surface p-6 transition-colors hover:bg-maroon/[0.06]"
+                  className="group flex flex-1 flex-col justify-between rounded-lg bg-surface p-6 transition-colors hover:bg-maroon/[0.06]"
                 >
                   <div>
                     <p className="eyebrow mb-3">{activeGroup.hub.eyebrow}</p>
@@ -257,6 +263,21 @@ export function Header() {
                     </span>
                   </p>
                 </Link>
+                {activeGroup.hub.secondary && (
+                  <Link
+                    href={activeGroup.hub.secondary.href}
+                    className="btn group/alt mt-3 w-full gap-2 px-5 py-3 text-small"
+                  >
+                    {activeGroup.hub.secondary.label}
+                    <span
+                      aria-hidden="true"
+                      className="transition-transform duration-fast group-hover/alt:translate-x-1"
+                    >
+                      &rarr;
+                    </span>
+                  </Link>
+                )}
+                </div>
 
                 {/*
                   Two layouts, chosen by the group.

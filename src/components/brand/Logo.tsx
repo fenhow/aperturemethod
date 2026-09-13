@@ -1,9 +1,13 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Aperture family lockup: the six-blade aperture mark, "APERTURE", a hairline
- * divider, then the variable word ("METHOD" for the parent; a component name
- * like "ATLAS" for the family). Rendered live (not flat art) so it stays crisp
+ * Aperture family lockup: the six-blade aperture mark, "APERTURE", then the
+ * variable word ("METHOD" for the parent; a component name like "ATLAS" for
+ * the family). The two words are set as ONE NAME, separated by a word space,
+ * exactly as the brand file `AM Black Horizontal.png` sets it. There is no
+ * divider rule: a rule made it read as "Aperture, of the Method" rather than
+ * as the name of the firm. Weight and tracking carry the distinction instead,
+ * which is how the artwork does it. Rendered live (not flat art) so it stays crisp
  * at any size, flips for dark backgrounds, and flexes across the family.
  *
  * Sized by FONT-SIZE: the caller passes a text utility (e.g. `text-[19px]` or a
@@ -29,19 +33,15 @@ export function Logo({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-[0.5em] whitespace-nowrap leading-none",
+        "inline-flex items-center whitespace-nowrap leading-none",
         tone === "dark" ? "text-ink" : "text-white",
         className
       )}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={ICON[tone]} alt="" className="h-[1.35em] w-auto select-none" />
+      <img src={ICON[tone]} alt="" className="mr-[0.16em] h-[1.35em] w-auto select-none" />
       <span className="font-semibold tracking-[0.06em]">APERTURE</span>
-      <span
-        aria-hidden="true"
-        className="mx-[0.15em] inline-block h-[0.95em] w-px bg-current opacity-30"
-      />
-      <span className="font-light tracking-[0.14em]">{variant}</span>
+      <span className="ml-[0.26em] font-light tracking-[0.14em]">{variant}</span>
     </span>
   );
 }

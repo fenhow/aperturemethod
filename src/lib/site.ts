@@ -96,6 +96,11 @@ export type MegaHub = {
   blurb: string;
   linkLabel: string;
   /**
+   * An optional second way in, rendered as a button BELOW the hub box. The hub
+   * box is itself a link, so this cannot be nested inside it.
+   */
+  secondary?: { label: string; href: string };
+  /**
    * Where the hub panel points, when that is not the group's own page.
    * The Method group is the case this exists for: the nav item belongs on the
    * overview, and the panel belongs on the page that starts an engagement.
@@ -125,6 +130,7 @@ export const megaNav: MegaEntry[] = [
       blurb:
         "A fixed-fee read of the whole business that names the one constraint holding the rest back. It is the way in, and it counts toward whatever follows.",
       linkLabel: "Where is your business actually making money?",
+      secondary: { label: "Take the Reality Check", href: "/reality-check" },
       href: "/business-x-ray",
     },
     /*
@@ -133,21 +139,16 @@ export const megaNav: MegaEntry[] = [
      * single column in Method order with their phase number visible. The pages
      * that explain the firm sit beside them, clearly a different kind of thing.
      *
+     * Order, Sept 2026: the explanatory pages come FIRST, left to right, and
+     * the numbered components second. Someone opening this menu is usually
+     * still working out what the Method is; the sequence only means something
+     * once they do, and the numbers hold their own order wherever they sit.
+     *
      * No fees here, deliberately. A price belongs on the page that justifies
      * it, next to what you get for it. In a dropdown it is a number with no
      * argument attached, which invites a comparison rather than a read.
      */
     columns: [
-      {
-        heading: "The five components, in order",
-        links: [
-          { step: "01", label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made?" },
-          { step: "02", label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it?" },
-          { step: "03", label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers?" },
-          { step: "04", label: "Focus Plan", href: "/focus-plan", desc: "Which few moves actually matter?" },
-          { step: "05", label: "Aperture Atlas", href: "/scoreboard", desc: "Is the strategy working?" },
-        ],
-      },
       {
         heading: "How the Method works",
         links: [
@@ -160,9 +161,22 @@ export const megaNav: MegaEntry[] = [
           { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
         ],
       },
+      {
+        heading: "The five components, in order",
+        links: [
+          { step: "01", label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made?" },
+          { step: "02", label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it?" },
+          { step: "03", label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers?" },
+          { step: "04", label: "Focus Plan", href: "/focus-plan", desc: "Which few moves actually matter?" },
+          { step: "05", label: "Aperture Atlas", href: "/scoreboard", desc: "Is the strategy working?" },
+        ],
+      },
     ],
-    /* Flat fallback: the mobile menu and anything else that reads `links`. */
+    /* Flat fallback: the mobile menu and anything else that reads `links`.
+       Carries the Reality Check too, because on mobile there is no hub box and
+       that link would otherwise exist on desktop only. */
     links: [
+      { label: "Take the Reality Check", href: "/reality-check", desc: "Ten questions you cannot bluff" },
       { label: "Business X-Ray", href: "/business-x-ray", desc: "Where is the money actually made?" },
       { label: "Profit Map", href: "/profit-map", desc: "Which products and customers earn it?" },
       { label: "Customer & Market Map", href: "/market-map", desc: "Where are the next customers?" },

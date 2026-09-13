@@ -41,34 +41,25 @@ export function RealityCheck() {
 
   /* ─────────────────────────────── intro */
   if (stage === "intro") {
+    /*
+      Wrapper is max-w-3xl so the one-line promise under the headline stays on
+      one line on desktop; the headline keeps its own 2xl measure so widening
+      the wrapper does not re-wrap it.
+    */
     return (
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto max-w-3xl">
         <p className="eyebrow mb-4">The Reality Check</p>
-        <h1 className="text-h1 font-semibold text-ink">
+        <h1 className="max-w-2xl text-h1 font-semibold text-ink">
           How well do you actually know your business?
         </h1>
         <p className="mt-5 text-body-lg text-muted">
           Ten questions. About three minutes. No email required to see your score.
         </p>
 
-        <div className="mt-8 rounded-lg border border-line bg-surface p-6">
-          <p className="text-body text-ink">
-            A warning before you start: these questions are designed so you cannot bluff them. Each
-            one asks for a number, a name, or a timeframe. If the honest answer is{" "}
-            <span className="font-semibold">I would have to look it up</span>, that is a real
-            answer, and it is the one worth knowing.
-          </p>
-          <p className="mt-4 text-body text-ink">
-            This measures how well you <span className="font-semibold">know</span> your business,
-            not how <span className="font-semibold">good</span> your business is. Plenty of
-            excellent companies score badly here. That is the point.
-          </p>
-        </div>
-
         <button
           type="button"
           onClick={() => setStage("quiz")}
-          className="btn mt-8 w-full justify-center sm:w-auto sm:px-10"
+          className="btn mt-9 w-full justify-center sm:w-auto sm:px-10"
         >
           Start the Reality Check
         </button>

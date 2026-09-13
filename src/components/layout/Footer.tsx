@@ -86,10 +86,10 @@ export function Footer() {
           {/* Link columns */}
           {footerNav.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
-              <h2 className="mb-4 text-overline font-semibold uppercase tracking-overline text-white/90">
+              <h2 className="mb-3 text-overline font-semibold uppercase tracking-overline text-white/90">
                 {column.heading}
               </h2>
-              <ul className="space-y-2.5">
+              <ul className="space-y-1.5">
                 {column.items.map((item) => (
                   <li key={item.href}>
                     <FooterLink href={item.href}>{item.label}</FooterLink>
@@ -105,7 +105,16 @@ export function Footer() {
           <p>
             © {year} {siteConfig.legalName} · Founded by {siteConfig.founder}
           </p>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5">
+            {/* Both of these are for people who are already inside: existing
+                clients and the firm. They sit in the quietest row rather than in
+                a column someone is reading to decide whether to hire us. */}
+            <Link
+              href="/portal"
+              className="-my-2 py-2 text-white/60 transition-colors duration-fast hover:text-white"
+            >
+              Client login
+            </Link>
             {/* Private area, passphrase-gated, unlinked from the main nav and
                 excluded from the sitemap. rel="nofollow" keeps crawlers off it. */}
             <Link

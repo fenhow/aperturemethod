@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Aperture parent-brand hero: a rotating, Bain-style hero. Slide 1 carries the
- * parent positioning ("Your fractional intelligence department"); the remaining
+ * parent positioning (what the firm actually analyses, in plain words); the remaining
  * slides are the original homepage slides (numbers, customers, AI). Same
  * construction/quality as the site's HeroRotator; accessible (labelled carousel,
  * aria-live title, pause/play, pauses on hover/focus, reduced-motion aware).
@@ -21,7 +21,7 @@ const slides: Slide[] = [
   {
     eyebrow: "Analytics, AI & strategy for owner-run businesses",
     title: "Big-company intelligence, built for your business.",
-    sub: "Your fractional intelligence department: the business and marketing intelligence big companies rely on, right-sized for owner-run businesses, in plain language, and done for you.",
+    sub: "The financial, customer and market analysis big companies run in-house, done for your business instead, and explained in plain language.",
     image: "/hero/hero-3-v7.jpg",
   },
   {
@@ -169,25 +169,12 @@ export function ApertureHero() {
           </p>
         </div>
 
-        <div className="mt-9 flex flex-wrap items-center gap-4">
-          <Link href="/reality-check" className="btn--on-dark">
-            Take the Reality Check
-          </Link>
-          <Link href="#method" className="btn--ghost">
-            Explore the five practices →
-          </Link>
-        </div>
-        <p className="mt-4 text-caption text-white/55">
-          11 questions · about 3 minutes · no email required
-        </p>
-
         {/*
-          The market case, as a third action.
+          The market case, sitting between the supporting line and the action.
 
-          Deliberately not a third button of equal weight. Two primary calls to
-          action already compete here, and a third would make all three quieter.
-          This carries the figure instead, which is what makes it worth clicking:
-          a number a reader can check does more work than another verb.
+          Deliberately not a button. There is one call to action in this hero and
+          it should stay the only one; this is the evidence under the claim, and
+          a number a reader can go and check does more work than another verb.
 
           Layout: this is flowing text, not a flex row. It was three flex items
           in a rounded-full pill, which on a phone wrapped into a tall oval with
@@ -198,12 +185,12 @@ export function ApertureHero() {
         */}
         <Link
           href="/the-intelligence-gap"
-          className="group mt-6 block w-full max-w-xl rounded-2xl border border-white/25 px-5 py-3 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:inline-block sm:w-auto sm:rounded-full sm:py-2.5"
+          className="group mt-7 block w-full max-w-2xl rounded-2xl border border-white/25 px-5 py-3 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:inline-block sm:w-auto sm:rounded-full sm:py-2.5"
         >
           <span className="font-semibold text-paper">
             {FIGURES.shareOfGdp.value} of US GDP
           </span>{" "}
-          comes from small business.{" "}
+          comes from small businesses like yours.{" "}
           <span className="whitespace-nowrap">
             See why that matters.
             <span
@@ -214,6 +201,16 @@ export function ApertureHero() {
             </span>
           </span>
         </Link>
+
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          <Link href="/reality-check" className="btn--on-dark">
+            Take the Reality Check
+          </Link>
+        </div>
+        <p className="mt-4 text-caption text-white/55">
+          11 questions · about 3 minutes · no email required
+        </p>
+
 
         {/* Controls */}
         <div className="mt-10 flex items-center gap-4">

@@ -242,7 +242,16 @@ export const megaNav: MegaEntry[] = [
   { kind: "link", label: "New Client", href: "/onboarding" },
 ];
 
-/** Footer link columns (Step 4 approved). */
+/**
+ * Footer link columns (Step 4 approved).
+ *
+ * Sept 2026: "Where to Start" and "Get Started" read as two versions of the
+ * same column. The first was never a start list, it was the five components,
+ * so it now says so. "Get Started" keeps the actions, minus "Start with an
+ * X-Ray", which pointed at the same page as "Business X-Ray" one column over,
+ * and minus "Client login", which moved to the quiet row at the very bottom
+ * alongside Method Lab: it is for people who already are clients.
+ */
 export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "The Firm",
@@ -256,7 +265,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
     ],
   },
   {
-    heading: "Where to Start",
+    heading: "Components",
     items: [
       { label: "Business X-Ray", href: "/business-x-ray" },
       { label: "Profit Map", href: "/profit-map" },
@@ -281,10 +290,8 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Get Started",
     items: [
-      { label: "Start with an X-Ray", href: "/business-x-ray" },
       { label: "Book a consultation", href: "/contact#book" },
       { label: "New Client", href: "/onboarding" },
-      { label: "Client login", href: "/portal" },
       { label: "Email", href: "mailto:hello@aperturemethod.com" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/fenhow" },
     ],

@@ -13,6 +13,14 @@ import { methodPhases } from "@/lib/content";
  * note on what that technique does for the client. Proof of MBA-level rigor,
  * kept below the plain-language narrative.
  *
+ * The provenance line under the heading is the ONE place on the site where the
+ * MBA does real work rather than sitting in a byline. Everywhere else the site
+ * claims "MBA-grade analytics" as an adjective with nothing behind it; here the
+ * claim and its source finally stand next to each other, and the fact that the
+ * degree is in progress becomes the point (the toolkit is current) instead of a
+ * gap. Do not move this to the hero or next to a price: a buyer weighing an
+ * $18,000 study should be reading about the deliverable, not the coursework.
+ *
  * The list uses a divided (not overflow-clipped) container so popovers can
  * extend past it; the row with an open popover is lifted in the stack so its
  * note sits above the rows beneath it.
@@ -45,6 +53,12 @@ export function MethodFrameworks() {
           title="The frameworks behind the Method."
           lede="The same business science big-company strategy teams use, applied, in plain language, to your business. Hover any technique to see what it does for you."
         />
+        <p className="mt-6 text-body text-muted">
+          These are the frameworks taught in graduate business programs, not a house invention.
+          Fenwick is an Executive MBA candidate at Texas A&amp;M University&apos;s Mays Business
+          School, and the Method is revised as that coursework lands, so what you engage is current
+          rather than a toolkit assembled once and left alone.
+        </p>
       </Reveal>
 
       <div ref={rootRef} className="mt-12 divide-y divide-line rounded-lg border border-line bg-paper">

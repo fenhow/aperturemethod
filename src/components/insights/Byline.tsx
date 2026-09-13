@@ -54,7 +54,7 @@ export function Byline({
         </p>
         <p className="mt-1 text-muted">
           {blurb ??
-            "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He does the analysis on every engagement himself."}
+            "BBA in Project Management, certified PMP, Executive MBA candidate at Texas A&M. He does the analysis on every engagement himself."}
         </p>
         {published && (
           <p className="mt-2 text-muted">

@@ -108,7 +108,7 @@ export type LandingPage = {
 
 const REVIEWED = "2026-08-19";
 const BYLINE =
-  "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He leads the work himself, start to finish.";
+  "BBA in Project Management, certified PMP, Executive MBA candidate at Texas A&M. He leads the work himself, start to finish.";
 
 const lensCards = LENSES.map((l) => ({ label: l.name }));
 
@@ -134,7 +134,7 @@ export const apertureSnapshot: LandingPage = {
   h1: "Is your business as healthy as you think it is?",
   sub: `An Aperture Snapshot scores all seven lenses of your business from the documents you already have, for a fixed ${SNAPSHOT_FEE}, in about a week.`,
   bylineBlurb:
-    "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He reviews and signs every Snapshot himself.",
+    "BBA in Project Management, certified PMP, Executive MBA candidate at Texas A&M. He reviews and signs every Snapshot himself.",
   answerHeading: "What is an Aperture Snapshot?",
   answer: `An Aperture Snapshot is a fixed-fee read of your whole business across the same seven lenses a Business X-Ray uses: finance, operations, customers, market, leadership, processes and technology. It is scored from the documents you already have, costs ${SNAPSHOT_FEE}, takes about a week, and ends by naming the area most likely to be holding your profit back.`,
   ctaLabel: "Start a Snapshot",
@@ -260,7 +260,7 @@ export const businessXRay: LandingPage = {
   h1: "Where is your business actually making money?",
   sub: `A Business X-Ray tells you, in about three weeks, for a fixed fee of ${XRAY_FEE}, and names the one constraint holding everything else back.`,
   bylineBlurb:
-    "BBA in Project Management, certified PMP, currently pursuing an MBA at Texas A&M. He runs every X-Ray himself, start to finish.",
+    "BBA in Project Management, certified PMP, Executive MBA candidate at Texas A&M. He runs every X-Ray himself, start to finish.",
   answerHeading: "What is a Business X-Ray?",
   answer: `A Business X-Ray is a fixed-fee read of your whole business across seven lenses: finance, operations, customers, market, leadership, processes and technology. It takes about three weeks, costs ${XRAY_FEE}, and ends by naming one thing plainly: the single constraint holding your profit back, and where the digging needs to happen next.`,
   ctaLabel: "Book your Business X-Ray",

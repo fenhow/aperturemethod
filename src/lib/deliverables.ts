@@ -68,16 +68,18 @@ export const deliverables: Deliverable[] = [
     component: "Aperture Analytics",
     componentSlug: "analytics",
     cap: "MBA",
-    tagline: "Exactly where you make and lose money, and the few drivers you can move.",
+    tagline: "A full financial analysis of the business, and exactly where you make and lose money.",
     whatItIs:
-      "A clear picture of exactly where you make and lose money: by product, service, location, or customer. It turns your financials into the handful of profit drivers you can actually act on.",
+      "A complete financial statement analysis of your business, reconciled to your own accounts, that then shows exactly where you make and lose money: by product, service, location, or customer. It reads the statements the way an analyst does and turns them into the handful of profit drivers you can actually act on.",
     howWeGetIt:
-      "We model your financial and operational data, profitability and cost-structure analysis, 80/20, break-even and sensitivity, and build a forward-looking scenario model so you can test decisions before you make them.",
+      "We restate your accounts as common-size and trend, decompose return into margin and asset productivity, calculate the ratio families on one consistent basis, price the cash conversion cycle in real money, and test whether the reported profit is supported by cash. Then profitability is separated by unit, the levers are sized, and a forward-looking scenario model is built so you can test decisions before you make them.",
     inside: [
       "Profit by product, location, or customer",
-      "Your true cost structure",
-      "The 80/20 profit drivers",
-      "A scenario & forecast model",
+      "Common-size, trend and DuPont return decomposition",
+      "Six ratio families, plus credit, solvency and earnings quality",
+      "The cash conversion cycle, priced as cash released or consumed",
+      "Break-even, margin of safety, and every lever sized and ranked",
+      "A scenario & forecast model, and a derivation appendix for every figure",
     ],
   },
   {

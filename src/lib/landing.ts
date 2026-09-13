@@ -386,7 +386,7 @@ export const profitMap: LandingPage = {
   bylineBlurb: BYLINE,
   answerHeading: "What is a Profit Map?",
   answer:
-    "A Profit Map is a financial model of your business that reconciles to your own P&L, then breaks profit down by product, customer and location after the true cost of serving each one. It comes with a scenario model you keep and can re-run yourself, so a price change or a new hire can be tested before you commit to it.",
+    "A Profit Map is a full financial statement analysis of your business, reconciled to your own P&L, that then breaks profit down by product, customer and location after the true cost of serving each one. It reads the statements as an analyst would, common-size and trend, return decomposed into margin and asset productivity, the ratio families on one consistent basis, the cash conversion cycle priced in real money, and the quality of the earnings tested. It comes with a scenario model you keep and can re-run yourself, so a price change or a new hire can be tested before you commit to it.",
   ctaLabel: "Book a Profit Map",
   ctaHref: "/contact#book",
   priceNote: `${COMPONENT_FEE} fixed fee · about four weeks`,
@@ -420,23 +420,33 @@ export const profitMap: LandingPage = {
       "By building the view properly, once, and leaving you the model. Every headline figure reconciles back to your own accounts, so nothing in it is arguable on the grounds that it does not tie. Then profitability is separated by the unit your business is actually made of, and the decisions you are weighing are run through a model rather than a conversation.",
     cardsHeading: "The analysis behind it",
     cards: [
-      { label: "Profitability analysis", note: "Where you make and lose money, by service, location or customer." },
-      { label: "Cost-structure evaluation", note: "What scales profitably and what does not." },
-      { label: "Pareto (80/20)", note: "The vital few customers, products and costs that drive the result." },
-      { label: "Break-even & sensitivity", note: "The point a decision starts paying off, and the room you have." },
-      { label: "Financial modeling & forecasting", note: "Test a decision before you make it." },
-      { label: "Regression analysis", note: "Which factors actually move the outcome." },
-      { label: "Scenario planning", note: "Best, worst and likely, played out." },
+      { label: "Common-size analysis", note: "Every line as a share of revenue or assets, so shape shows up rather than size." },
+      { label: "Horizontal (trend) analysis", note: "The same lines across years. What the business is doing, not just what it is." },
+      { label: "DuPont return decomposition", note: "Return split into margin and asset productivity. The two need opposite fixes." },
+      { label: "Ratio analysis, six families", note: "Profitability, returns, liquidity, efficiency, coverage, cash flow. One basis, every period." },
+      { label: "Cash conversion cycle", note: "Collection, inventory and payment days, priced as cash released or consumed." },
+      { label: "Earnings quality", note: "Profit supported by cash, and owner pay and one-offs normalized with an evidence grade." },
+      { label: "Credit and solvency", note: "Leverage with operating leases counted as debt, coverage, and a distress score." },
+      { label: "The notes", note: "Receivables quality, inventory basis, deferred revenue, the age of the asset base." },
+      { label: "Profitability by unit", note: "Product, customer and location, after the real cost of serving each." },
+      { label: "Cost structure and Pareto", note: "Fixed against variable, and the vital few that drive the result." },
+      { label: "Break-even & margin of safety", note: "How far revenue can fall before operating income turns negative." },
+      { label: "Lever sizing", note: "What a point of gross margin, or a day of inventory, is actually worth. Ranked." },
+      { label: "Price against volume", note: "The volume a price rise can afford to lose before it destroys value." },
+      { label: "Scenario planning", note: "A driver-based model you keep, so a decision can be tested before you make it." },
     ],
     walkAwayHeading: "What you walk away with",
     walkAway: [
-      "The Profit Map report: profitability ranked by product, customer and location",
-      "Your cost structure separated into what scales and what does not",
-      "Break-even and sensitivity, so you know the room you have",
+      "The Profit Map report, in four parts: the face of the statements, what the notes disclose, the quality of the earnings, and the judgement that follows",
+      "Profitability ranked by product, customer and location, after the real cost of serving each",
+      "Every ratio family on one consistent basis, with return decomposed into margin and asset productivity",
+      "The cash conversion cycle priced: what each day of collection, inventory and payment released or consumed",
+      "Break-even, margin of safety, and what each lever is worth, ranked by size of effect",
       "A multi-year scenario model in Excel, yours to keep and re-run",
+      "A derivation appendix: every figure traced to its formula and its source, so the analysis can be checked rather than believed",
     ],
     howItRuns:
-      "It runs on your statements, a transaction-level export and your payroll by role. About four weeks. Every number reconciles to your own accounts before anything is concluded from it.",
+      "It runs on your statements, a transaction-level export and your payroll by role. About four weeks. Every number reconciles to your own accounts before anything is concluded from it, and every figure in the report traces to a stated formula from a sourced input.",
   },
   proof: {
     heading: "Can I see the analysis before I buy it?",
@@ -478,6 +488,14 @@ export const profitMap: LandingPage = {
   },
   faqHeading: "Questions owners ask about the Profit Map.",
   faqs: [
+    {
+      // The analysis is demonstrated on listed companies, so the obvious and
+      // fair question is whether any of it survives on a private one. It does,
+      // but the market-based tests have to be replaced rather than skipped, and
+      // saying which ones and how is more persuasive than claiming they apply.
+      q: "My business is private. Does all of this still apply?",
+      a: "Most of it does, and the parts that cannot are replaced rather than quietly skipped. A private company has no share price, so market capitalization, price-to-earnings and market-to-book have nothing to read from. Value is constructed instead, from normalized earnings and an evidenced multiple range, and the range is the answer rather than the midpoint. Distress risk uses the private-company form of the Altman score. And because an owner sets their own pay and often rents the building to themselves, reported earnings reflect a tax decision as much as the cost of running the business, so owner compensation, related-party rent and one-off costs are normalized with an evidence grade on every add-back.",
+    },
     {
       q: "What data do you actually need?",
       a: "Profit and loss statements for three years plus year to date, four balance sheet dates, cash flow statements, revenue broken out by product or service, payroll or headcount by role, and a transaction-level export if one exists. The full list is generated for you when you fill in the intake, and it adapts to how your business is taxed and whether you hold inventory.",

@@ -157,6 +157,30 @@ export const COMPONENT_FEE: string | null = "$8,500";
 /** The same figure as digits, for structured data. Derived, never typed. */
 export const COMPONENT_FEE_NUMBER = Number((COMPONENT_FEE ?? "0").replace(/[^0-9.]/g, ""));
 
+/** The same figure as digits, so the bundle arithmetic below can be computed. */
+export const FULL_METHOD_FEE_NUMBER = Number(FULL_METHOD_FEE.replace(/[^0-9.]/g, ""));
+
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
+
+/**
+ * The a la carte total: the X-Ray plus all three deep components, bought one at
+ * a time. DERIVED, never typed. This number exists to make the case for the
+ * bundle, and a typed total is a total that quietly goes stale the first time
+ * one of its parts moves, which is exactly the failure this file was created to
+ * stop. Rendered on /pricing.
+ *
+ * Null when COMPONENT_FEE is withheld: there is no honest total to show if one
+ * of the three rows has no price.
+ */
+export const A_LA_CARTE_TOTAL: string | null = COMPONENT_FEE
+  ? usd(XRAY_FEE_NUMBER + 3 * COMPONENT_FEE_NUMBER)
+  : null;
+
+/** What taking the whole Method saves against buying the same four separately. */
+export const BUNDLE_SAVING: string | null = COMPONENT_FEE
+  ? usd(XRAY_FEE_NUMBER + 3 * COMPONENT_FEE_NUMBER - FULL_METHOD_FEE_NUMBER)
+  : null;
+
 /** Terms that must travel with the numbers wherever they are shown. */
 export const XRAY_CREDIT_TERMS =
   "counts in full toward the Method if you continue within 60 days";

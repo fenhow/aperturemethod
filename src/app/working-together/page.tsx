@@ -6,6 +6,7 @@ import { Faq } from "@/components/ui/Faq";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductName } from "@/components/brand/ProductName";
 import { primaryCta } from "@/lib/site";
+import { XRAY_FEE, XRAY_CREDIT_TERMS } from "@/lib/pricing";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
@@ -149,7 +150,11 @@ export default function WorkingTogetherPage() {
             Perform, with the Aperture platform running underneath the whole way. Each phase is
             fixed-fee and phase-gated: you see the value, then decide whether to continue. Almost
             everyone starts small, with the Business X-Ray, and keeps going because the picture keeps
-            getting clearer.
+            getting clearer. Every fee is{" "}
+            <Link href="/pricing" className="link-inline font-semibold">
+              published in full
+            </Link>
+            , so you know what each step costs before you take it.
           </p>
         </Reveal>
       </Section>
@@ -169,7 +174,7 @@ export default function WorkingTogetherPage() {
               <div className="flex items-baseline gap-3">
                 <h3 className="text-h3 font-semibold text-ink">The Business X-Ray</h3>
                 <span className="rounded-full bg-maroon/10 px-2.5 py-1 text-small font-medium text-maroon">
-                  2–3 weeks · fixed fee
+                  2–3 weeks · {XRAY_FEE} fixed
                 </span>
               </div>
               <p className="mt-4 text-body text-body">
@@ -186,6 +191,23 @@ export default function WorkingTogetherPage() {
                   </li>
                 ))}
               </ul>
+              {/* The number, named.
+
+                  This page is the last thing a serious buyer reads before they
+                  make contact, and it used to say "fixed fee" four times without
+                  ever telling them what the fee was. That is the one place the
+                  firm's own promise cannot be left abstract. */}
+              <div className="mt-7 rounded bg-surface p-5">
+                <p className="text-small text-muted">
+                  A fixed fee of{" "}
+                  <span className="font-semibold text-ink">{XRAY_FEE}</span>, agreed before any work
+                  starts, and it {XRAY_CREDIT_TERMS}.{" "}
+                  <Link href="/pricing" className="link-inline font-semibold">
+                    See the whole schedule
+                  </Link>
+                  .
+                </p>
+              </div>
             </div>
           </Reveal>
           <Reveal variant="up" delay={90}>
@@ -357,8 +379,8 @@ export default function WorkingTogetherPage() {
                 Start where it&apos;s easiest: the Business X-Ray.
               </h2>
               <p className="mt-4 text-body-lg text-white/70">
-                A fixed-fee, low-risk first step that shows you where the opportunity is, before you
-                commit to the rest of the path.
+                A low-risk first step that shows you where the opportunity is, before you commit to
+                the rest of the path. {XRAY_FEE}, fixed, and it {XRAY_CREDIT_TERMS}.
               </p>
             </div>
             <Link href={primaryCta.href} className="btn--on-dark shrink-0">

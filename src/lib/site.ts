@@ -141,6 +141,15 @@ export const megaNav: MegaEntry[] = [
      * No fees here, deliberately. A price belongs on the page that justifies
      * it, next to what you get for it. In a dropdown it is a number with no
      * argument attached, which invites a comparison rather than a read.
+     *
+     * Sept 2026: a LINK to /pricing is a different thing from a figure, and it
+     * belongs here. The fees were always on the site, but the word "pricing"
+     * appeared in no menu, no footer and no page title, so a buyer looking for
+     * the number had to hunt the homepage for it or ask. For a firm whose
+     * differentiator is a fee agreed before any work starts, making them ask is
+     * the one thing that cannot happen. It sits beside "Working Together"
+     * because that is where a serious reader already is when the question
+     * occurs to them. The link carries the word, never the number.
      */
     columns: [
       {
@@ -150,6 +159,7 @@ export const megaNav: MegaEntry[] = [
           { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
           { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
           { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
+          { label: "Pricing", href: "/pricing", desc: "Every fee, published" },
           { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
           { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
           { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
@@ -177,6 +187,7 @@ export const megaNav: MegaEntry[] = [
       { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
       { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
       { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
+      { label: "Pricing", href: "/pricing", desc: "Every fee, published" },
       { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
       { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
       { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
@@ -286,6 +297,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "What We Do", href: "/what-we-do" },
       { label: "What You Get", href: "/what-you-get" },
       { label: "Working Together", href: "/working-together" },
+      { label: "Pricing", href: "/pricing" },
       { label: "Who It's For", href: "/who-its-for" },
       { label: "By Industry", href: "/industries" },
       { label: "AI, Without the Black Box", href: "/ai" },

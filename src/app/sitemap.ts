@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/method-lab/financial-analysis-workbench", priority: 0.7, changeFrequency: "monthly" },
     { path: "/insights", priority: 0.8, changeFrequency: "weekly" },
     { path: "/working-together", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },
     { path: "/about", priority: 0.7, changeFrequency: "monthly" },
     { path: "/what-we-believe", priority: 0.7, changeFrequency: "monthly" },
     { path: "/founder", priority: 0.6, changeFrequency: "yearly" },

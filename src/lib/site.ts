@@ -230,6 +230,22 @@ export const megaNav: MegaEntry[] = [
       { label: "All Case Studies", href: "/case-studies", desc: "Illustrative examples across industries" },
     ],
   },
+  /**
+   * Pricing, top level and on its own.
+   *
+   * It was first filed inside the Method mega menu next to "Working Together",
+   * which is defensible as information architecture and wrong as an answer to
+   * the question this site is trying to settle. A link a buyer has to open a
+   * dropdown to find is not a published price, it is a price one click less
+   * hidden than before. The whole differentiator is a fee agreed before any
+   * work starts, so the word sits in the header where nobody has to look for
+   * it. It stays in the mega menu and the footer as well: this is the only
+   * place it is unmissable.
+   *
+   * Placed before About because it is a buying-stage question, not a
+   * who-are-you question.
+   */
+  { kind: "link", label: "Pricing", href: "/pricing" },
   {
     kind: "group",
     label: "About",

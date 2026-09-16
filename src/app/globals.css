@@ -64,6 +64,16 @@
     letter-spacing: -0.02em;
     line-height: 1.1;
     text-wrap: balance;
+    /*
+     * A single long word at display size is wider than a 320px phone's text
+     * column: "recommendations." on /overview measured 300px inside a 272px
+     * box. Because `body` sets `overflow-x: clip`, the page does not scroll
+     * sideways, so the word is not pushed off screen, it is SLICED at the
+     * viewport edge, which is worse because nothing signals that a letter is
+     * missing. `break-word` only ever acts when a word cannot fit on a line
+     * of its own, so no heading that already fits is affected.
+     */
+    overflow-wrap: break-word;
   }
 
   p {

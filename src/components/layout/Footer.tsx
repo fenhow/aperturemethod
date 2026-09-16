@@ -81,7 +81,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Fenwick How on LinkedIn"
-                className="mt-3 inline-flex h-8 w-8 items-center justify-center rounded-sm border border-white/15 text-white/70 transition-colors duration-fast hover:border-white/40 hover:text-white"
+                className="mt-3 inline-flex h-11 w-11 items-center justify-center rounded-sm border border-white/15 sm:h-8 sm:w-8 text-white/70 transition-colors duration-fast hover:border-white/40 hover:text-white"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.55 4.78 5.86V21h-4v-5.2c0-1.24-.02-2.84-1.9-2.84-1.9 0-2.2 1.35-2.2 2.75V21H9z" />

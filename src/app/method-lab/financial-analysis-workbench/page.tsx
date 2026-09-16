@@ -45,7 +45,7 @@ const CSS = `.falw{
   margin:0 0 16px;color:var(--type);max-width:19ch}.falw .hero .lede{font-size:19px;line-height:1.55;color:var(--body);max-width:62ch;margin:0 0 8px}.falw .hero .lede strong{color:var(--type);font-weight:600}.falw .hero .meta{margin-top:26px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}.falw .tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
   border:1px solid var(--rule);color:var(--muted);padding:6px 13px;border-radius:2px}.falw .tag.solid{background:var(--maroon);border-color:var(--maroon);color:#fff}.falw section{padding:56px 0}.falw section.alt{background:var(--wash);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}.falw h2.sec{font-size:clamp(24px,3.2vw,34px);font-weight:600;letter-spacing:-.02em;
   margin:0 0 14px;color:var(--type);max-width:22ch;line-height:1.15}.falw p.lead{font-size:17px;max-width:66ch;margin:0 0 8px}.falw p.lead strong{color:var(--type);font-weight:600}.falw /* download cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:22px;margin-top:34px}.falw .card{border:1px solid var(--rule);border-top:4px solid var(--maroon);background:var(--paper);
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(330px,100%),1fr));gap:22px;margin-top:34px}.falw .card{border:1px solid var(--rule);border-top:4px solid var(--maroon);background:var(--paper);
   padding:28px 26px 26px;display:flex;flex-direction:column}.falw .card .badge{display:inline-block;background:var(--maroon);color:#fff;font-size:10.5px;
   letter-spacing:.18em;text-transform:uppercase;font-weight:600;padding:5px 12px;
   border-radius:1px;align-self:flex-start;margin-bottom:16px}.falw .card .badge.alt{background:var(--paper);color:var(--maroon);border:1px solid var(--maroon)}.falw .card h3{font-size:21px;font-weight:600;margin:0 0 4px;color:var(--type);letter-spacing:-.01em}.falw .card .sub{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
@@ -56,7 +56,7 @@ const CSS = `.falw{
 .ctable{width:100%;border-collapse:collapse;margin-top:26px;font-size:14.5px}.falw .ctable th{text-align:left;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);font-weight:600;padding:11px 14px;border-bottom:2px solid var(--type)}.falw .ctable th:first-child{width:26%}.falw .ctable td{padding:13px 14px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}.falw .ctable td:first-child{font-weight:600;color:var(--type)}.falw .ctable tr:last-child td{border-bottom:none}.falw /* inside list */
 .fnote{font-size:12px;line-height:1.5;color:var(--muted,#6B6B6B);margin-top:14px;padding-top:12px;border-top:1px solid var(--rule)}
-.inside{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px 34px;margin-top:26px}.falw .inside .item{display:flex;gap:15px;padding:14px 0;border-bottom:1px solid var(--rule)}.falw .inside .n{font-size:19px;font-weight:600;color:var(--maroon);opacity:.5;line-height:1;
+.inside{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:2px 34px;margin-top:26px}.falw .inside .item{display:flex;gap:15px;padding:14px 0;border-bottom:1px solid var(--rule)}.falw .inside .n{font-size:19px;font-weight:600;color:var(--maroon);opacity:.5;line-height:1;
   flex:0 0 30px;letter-spacing:-.03em}.falw .inside b{display:block;font-size:15px;color:var(--type);margin-bottom:3px;font-weight:600}.falw .inside span{font-size:13.5px;color:var(--body);line-height:1.5}.falw /* pull quote */
 .pull{border-left:3px solid var(--maroon);padding:6px 0 6px 24px;margin:34px 0 0;max-width:64ch}.falw .pull p{font-size:20px;line-height:1.45;color:var(--type);font-weight:400;margin:0;letter-spacing:-.01em}.falw .pull cite{display:block;margin-top:12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--muted);font-style:normal;font-weight:600}.falw /* note box */
@@ -74,6 +74,25 @@ footer.site{background:var(--ink);color:#B3B3B3;padding:44px 0 0;font-size:13px}
   footer.site .cols{grid-template-columns:1fr}
   .ctable{font-size:13.5px}
   .ctable td,.ctable th{padding:10px 8px}
+}
+/* A three-column comparison cannot fit a 320px phone: the table's minimum
+   content width is 340px, and because the site clips horizontal overflow
+   rather than scrolling it, the third column was being sliced off with no
+   scrollbar to reveal it. Below 420px the table becomes a stack: each row is
+   a block, the header row is dropped, and the two value cells carry their
+   column name as a label so nothing loses its meaning. */
+@media(max-width:420px){
+  .ctable,.ctable tbody,.ctable tr,.ctable td{display:block;width:auto}
+  .ctable thead{display:none}
+  .ctable{font-size:14px;margin-top:20px}
+  .ctable tr{border-bottom:1px solid var(--rule);padding:12px 0}
+  .ctable tr:last-child{border-bottom:none}
+  .ctable td{border-bottom:none;padding:0}
+  .ctable td:first-child{font-size:15.5px;margin-bottom:2px}
+  .ctable td:nth-child(n+2):before{display:block;font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);font-weight:600;margin:10px 0 3px}
+  .ctable td:nth-child(2):before{content:"Public company"}
+  .ctable td:nth-child(3):before{content:"Privately held"}
 }@media print{.cta-band,header.site nav{display:none}}`;
 
 export default function FinancialAnalysisWorkbench() {

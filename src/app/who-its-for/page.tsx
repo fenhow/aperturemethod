@@ -155,7 +155,7 @@ export default function WhoItsForPage() {
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {entryPoints.map((e, i) => (
             <Reveal key={e.q} delay={(i % 2) * 80}>
-              <div className="rounded-lg border border-line bg-paper p-6">
+              <div className="hover-lift rounded-lg border border-line bg-paper p-6">
                 <p className="text-body-lg font-semibold text-ink">{e.q}</p>
                 <p className="mt-2 text-body text-muted">{e.a}</p>
                 <div className="mt-4">
@@ -175,7 +175,7 @@ export default function WhoItsForPage() {
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {fit.map((f, i) => (
             <Reveal key={f.title} delay={(i % 2) * 80}>
-              <div className="rounded-lg border border-line bg-paper p-6">
+              <div className="hover-lift rounded-lg border border-line bg-paper p-6">
                 <h3 className="text-h4 font-semibold text-ink">{f.title}</h3>
                 <p className="mt-2 text-body text-muted">{f.body}</p>
               </div>

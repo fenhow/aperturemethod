@@ -116,7 +116,7 @@ export default function IntelligenceGapPage() {
         </Reveal>
 
         <Reveal delay={160} className="mt-8">
-          <div className="max-w-measure rounded-lg border border-line bg-paper p-6">
+          <div className="hover-lift max-w-measure rounded-lg border border-line bg-paper p-6">
             <h3 className="text-h4 font-semibold text-ink">
               A note on what these numbers do not say
             </h3>
@@ -155,9 +155,19 @@ export default function IntelligenceGapPage() {
         </div>
 
         <Reveal delay={80} className="mt-10">
-          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {/*
+            auto-rows-fr, so every row is the height of the tallest box rather
+            than the tallest box IN THAT ROW. "Financial planning and analysis"
+            wraps to two lines, which made the first row taller than the second
+            and the set read as two different sizes. The flex centering keeps the
+            label optically centered once the box is taller than its text.
+          */}
+          <ul className="grid auto-rows-fr gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {BIG_COMPANY_CAPABILITIES.map((c) => (
-              <li key={c} className="rounded-lg border border-line bg-paper px-5 py-4 text-body text-ink">
+              <li
+                key={c}
+                className="hover-lift flex items-center rounded-lg border border-line bg-paper px-5 py-4 text-body text-ink"
+              >
                 {c}
               </li>
             ))}
@@ -207,7 +217,7 @@ export default function IntelligenceGapPage() {
               { n: "04", verb: "Navigate", body: "Turn findings into priorities and a roadmap you can act on." },
               { n: "05", verb: "Perform", body: "Put the measurement in place to see whether it is working." },
             ].map((step) => (
-              <li key={step.n} className="rounded-lg border border-line bg-paper p-5">
+              <li key={step.n} className="hover-lift rounded-lg border border-line bg-paper p-5">
                 <span className="text-small font-semibold tabular-nums text-maroon">{step.n}</span>
                 <p className="mt-2 text-body font-semibold text-ink">{step.verb}</p>
                 <p className="mt-1.5 text-small text-muted">{step.body}</p>

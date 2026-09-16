@@ -23,7 +23,7 @@ export function MarketFigures({
           {keys.map((k) => {
             const f = FIGURES[k];
             return (
-              <div key={k} className="rounded-lg border border-line bg-paper p-6">
+              <div key={k} className="hover-lift rounded-lg border border-line bg-paper p-6">
                 <dt className="text-h3 font-semibold text-maroon">{f.value}</dt>
                 <dd className="mt-2 text-small text-muted">{f.label}</dd>
               </div>

@@ -257,10 +257,10 @@ export default function WorkingTogetherPage() {
         <div className="mt-14 space-y-8">
           {journey.map((s, i) => (
             <Reveal key={s.n} variant="up" delay={(i % 2) * 80}>
-              <div className="group grid gap-8 rounded-lg border border-line bg-paper p-7 transition-colors duration-200 hover:border-maroon/40 md:grid-cols-[13rem_1fr] md:gap-10 md:p-10">
+              <div className="hover-lift group grid gap-8 rounded-lg border border-line bg-paper p-7 transition-colors duration-200 hover:border-maroon/40 md:grid-cols-[13rem_1fr] md:gap-10 md:p-10">
                 {/* Number + name rail */}
                 <div className="md:border-r md:border-line md:pr-8">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-line bg-surface text-h2 font-semibold text-maroon transition-colors duration-200 group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper">
+                  <div className="hover-lift flex h-16 w-16 items-center justify-center rounded-lg border border-line bg-surface text-h2 font-semibold text-maroon transition-colors duration-200 group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper">
                     {s.n}
                   </div>
                   <h3 className="mt-5 text-h3 font-semibold text-ink">

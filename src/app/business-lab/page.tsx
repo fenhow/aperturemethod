@@ -105,7 +105,7 @@ export default function BusinessLabPage() {
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {businessLabIdeas.map((idea, i) => (
             <Reveal key={idea.title} variant="up" delay={(i % 3) * 90} className="h-full">
-              <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
+              <div className="hover-lift flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
                 <p className="text-h3 font-semibold text-maroon">{String(i + 1).padStart(2, "0")}</p>
                 <h3 className="mt-4 text-h4 font-semibold text-ink">{idea.title}</h3>
                 <p className="mt-3 text-small uppercase tracking-overline text-maroon">{idea.label}</p>
@@ -201,7 +201,7 @@ export default function BusinessLabPage() {
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {businessLabCards.map((c, i) => (
             <Reveal key={c.name} variant="up" delay={(i % 3) * 80} className="h-full">
-              <div className="flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
+              <div className="hover-lift flex h-full flex-col rounded-lg border border-line bg-paper p-6 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-maroon/40 hover:shadow-[0_18px_40px_-16px_rgba(80,0,0,0.35)] motion-reduce:hover:translate-y-0 sm:p-7">
                 <h3 className="text-h4 font-semibold text-ink">{c.name}</h3>
                 <p className="mt-3 text-small uppercase tracking-overline text-maroon">{c.where}</p>
                 <p className="mt-5 text-body text-muted">{c.teaser}</p>
@@ -230,7 +230,7 @@ export default function BusinessLabPage() {
       <Section id="who">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <Reveal variant="right">
-            <div className="relative aspect-[2/3] overflow-hidden rounded-lg border border-line bg-surface">
+            <div className="hover-lift relative aspect-[2/3] overflow-hidden rounded-lg border border-line bg-surface">
               <Image
                 src="/business-lab/fenwick-headshot.jpg"
                 alt="Fenwick How, founder of The Aperture Method"
@@ -278,7 +278,7 @@ export default function BusinessLabPage() {
         <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16">
           <Reveal variant="right">
             <figure>
-              <div className="overflow-hidden rounded-lg border border-line bg-paper p-2 shadow-card">
+              <div className="hover-lift overflow-hidden rounded-lg border border-line bg-paper p-2 shadow-card">
                 <Image
                   src="/business-lab/snow-bank-1978.jpg"
                   alt="A December 1978 Taber Times front page headlined “Snow Bank”, with a photograph of two eight-year-old boys shovelling a driveway"
@@ -337,7 +337,7 @@ export default function BusinessLabPage() {
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {trust.map((t, i) => (
             <Reveal key={t.title} variant="up" delay={(i % 2) * 80} className="h-full">
-              <div className="flex h-full flex-col rounded-lg border border-line bg-surface p-6 sm:p-7">
+              <div className="hover-lift flex h-full flex-col rounded-lg border border-line bg-surface p-6 sm:p-7">
                 <p className="text-overline uppercase tracking-overline text-maroon">
                   {String(i + 1).padStart(2, "0")}
                 </p>
@@ -395,7 +395,7 @@ export default function BusinessLabPage() {
           </Reveal>
 
           <Reveal variant="left" delay={100}>
-            <div className="rounded-lg border border-line bg-surface p-6 sm:p-8">
+            <div className="hover-lift rounded-lg border border-line bg-surface p-6 sm:p-8">
               <h3 className="text-h3 font-semibold text-ink">What I don&apos;t do</h3>
               <ul className="mt-5 space-y-4 text-body text-muted">
                 <li>

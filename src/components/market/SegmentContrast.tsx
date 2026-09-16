@@ -30,7 +30,7 @@ export function SegmentContrast({ tone = "surface" }: { tone?: "paper" | "surfac
 
       <Reveal delay={80} className="mt-10">
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-lg border border-line bg-paper p-7">
+          <div className="hover-lift rounded-lg border border-line bg-paper p-7">
             <h3 className="text-h4 font-semibold text-ink">What you have already built</h3>
             <ul className="mt-5 space-y-2.5">
               {ALREADY_HAS.map((item) => (
@@ -45,7 +45,7 @@ export function SegmentContrast({ tone = "surface" }: { tone?: "paper" | "surfac
             </ul>
           </div>
 
-          <div className="rounded-lg border border-line bg-paper p-7">
+          <div className="hover-lift rounded-lg border border-line bg-paper p-7">
             <h3 className="text-h4 font-semibold text-ink">What almost nobody has at this size</h3>
             <ul className="mt-5 space-y-2.5">
               {USUALLY_LACKS.map((item) => (

@@ -120,7 +120,7 @@ export default function ComponentPage({ params }: { params: { component: string 
             <SectionHeading eyebrow="What you get" title="A tangible deliverable, yours to keep." />
           </Reveal>
           <Reveal variant="left" delay={90}>
-            <div className="rounded-lg border border-line bg-paper p-8 shadow-card">
+            <div className="hover-lift rounded-lg border border-line bg-paper p-8 shadow-card">
               <p className="text-overline font-semibold uppercase tracking-overline text-muted">
                 Deliverable
               </p>
@@ -156,7 +156,7 @@ export default function ComponentPage({ params }: { params: { component: string 
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {p.proof.points.map((pt, i) => (
               <Reveal key={pt.label} variant="up" delay={(i % 3) * 70}>
-                <div className="h-full rounded-lg border border-line bg-paper p-6">
+                <div className="hover-lift h-full rounded-lg border border-line bg-paper p-6">
                   <h3 className="text-h4 font-semibold text-ink">{pt.label}</h3>
                   <p className="mt-2 text-small text-muted">{pt.what}</p>
                 </div>

@@ -110,7 +110,7 @@ function PreviewModal({ d, onClose }: { d: Deliverable; onClose: () => void }) {
               {d.inside.map((item) => (
                 <div
                   key={item}
-                  className="flex items-start gap-3 rounded-lg border border-line bg-surface p-4"
+                  className="hover-lift flex items-start gap-3 rounded-lg border border-line bg-surface p-4"
                 >
                   <span
                     className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-maroon"

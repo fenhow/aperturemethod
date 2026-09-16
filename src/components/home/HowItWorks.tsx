@@ -150,7 +150,7 @@ export function HowItWorks() {
 
             <div className="grid gap-4 sm:grid-cols-3">
               {ATLAS_TIERS.map((t) => (
-                <div key={t.label} className="rounded-lg border border-line bg-paper p-5">
+                <div key={t.label} className="hover-lift rounded-lg border border-line bg-paper p-5">
                   <p className="text-small text-muted">{t.label}</p>
                   <p className="mt-1 text-h4 font-semibold text-ink">{t.fee}</p>
                 </div>

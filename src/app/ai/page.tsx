@@ -164,8 +164,8 @@ export default function AiPage() {
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {stages.map((s, i) => (
             <Reveal key={s.h} variant="up" delay={(i % 3) * 90}>
-              <div className="group h-full rounded-lg border border-line bg-paper p-7 transition-colors duration-200 hover:border-maroon/40">
-                <div className="flex h-14 w-14 items-center justify-center rounded-lg border border-line bg-surface text-h3 font-semibold text-maroon transition-colors duration-200 group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper">
+              <div className="hover-lift group h-full rounded-lg border border-line bg-paper p-7 transition-colors duration-200 hover:border-maroon/40">
+                <div className="hover-lift flex h-14 w-14 items-center justify-center rounded-lg border border-line bg-surface text-h3 font-semibold text-maroon transition-colors duration-200 group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper">
                   {s.n}
                 </div>
                 <h3 className="mt-5 text-h3 font-semibold text-ink">{s.h}</h3>
@@ -188,7 +188,7 @@ export default function AiPage() {
         <div className="mt-12 space-y-5">
           {uses.map((u, i) => (
             <Reveal key={u.h} variant="up" delay={(i % 2) * 70}>
-              <div className="group grid gap-4 rounded-lg border border-line bg-paper p-6 transition-colors duration-200 hover:border-maroon/40 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-8 md:p-7">
+              <div className="hover-lift group grid gap-4 rounded-lg border border-line bg-paper p-6 transition-colors duration-200 hover:border-maroon/40 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-8 md:p-7">
                 <div>
                   <h3 className="text-h4 font-semibold text-ink">{u.h}</h3>
                   <span className="mt-2 inline-block rounded-full bg-surface px-3 py-1 text-small font-medium text-maroon">

@@ -41,7 +41,7 @@ export default function CaseStudiesPage() {
         <Reveal>
           <Link
             href="/case-studies/lumina-medical-aesthetics"
-            className="group grid overflow-hidden rounded-lg border border-line bg-paper shadow-card ring-1 ring-black/[0.03] transition-colors hover:border-maroon/40 lg:grid-cols-[1.1fr_1fr]"
+            className="hover-lift group grid overflow-hidden rounded-lg border border-line bg-paper shadow-card ring-1 ring-black/[0.03] transition-colors hover:border-maroon/40 lg:grid-cols-[1.1fr_1fr]"
           >
             <div className="order-2 flex flex-col justify-center p-8 md:p-10 lg:order-1">
               <p className="eyebrow mb-3">Featured · Full engagement</p>

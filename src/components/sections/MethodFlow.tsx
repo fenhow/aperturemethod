@@ -38,7 +38,7 @@ export function MethodFlow() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
           {aperturePractices.map((p, i) => (
             <Fragment key={p.n}>
-              <div className="flex flex-1 flex-col rounded-lg border border-line bg-paper p-5">
+              <div className="hover-lift flex flex-1 flex-col rounded-lg border border-line bg-paper p-5">
                 <div className="flex items-center justify-between">
                   <span className="text-h4 font-semibold tabular-nums text-maroon">{p.n}</span>
                   {p.cap && (

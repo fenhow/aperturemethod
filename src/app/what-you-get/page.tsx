@@ -177,7 +177,7 @@ export default function WhatYouGetPage() {
                 </div>
 
                 <figure className="relative">
-                  <div className="overflow-hidden rounded-lg border border-line bg-paper shadow-card ring-1 ring-black/[0.03]">
+                  <div className="hover-lift overflow-hidden rounded-lg border border-line bg-paper shadow-card ring-1 ring-black/[0.03]">
                     <Image
                       src={d.img}
                       alt={d.alt}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v5.2
-  Built 2026-09-12 02:45 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v5.3
+  Built 2026-09-15 22:06 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -767,10 +767,31 @@ h4.fgroup:first-child{margin-top:4px}
 .toc a.tocr,.toc a.tocs,.toc a.tocpt{color:inherit;text-decoration:none}
 .toc a.tocr:hover .tocn,.toc a.tocs:hover .tocn,.toc a.tocpt:hover .tocn{color:var(--maroon)}
 @media print{.toc a{color:inherit;text-decoration:none}}
-.rectab textarea.recta{width:100%;min-height:58px;font:inherit;font-size:12px;line-height:1.45;
-  border:1px solid #E0E0E0;padding:6px 7px;resize:vertical;background:#fff;text-transform:none;letter-spacing:0}
-.rectab textarea.recta:focus{border-color:var(--maroon);outline:none}
-.rectab select{max-width:100%}
+.reccard{border:1px solid #E6E6E6;border-left:3px solid #B3B3B3;padding:12px 14px 6px;margin:0 0 14px;background:#fff}
+.reccard.prio{border-left-color:var(--maroon);background:#FDFCFB}
+.rechead{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.rechead b{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:#8C8C8C}
+.rechead .prioBox{display:flex;align-items:center;gap:6px;font-size:11px;color:#4D4D4D;cursor:pointer}
+.rechead .recmv{margin-left:auto;display:flex;gap:2px}
+.recrow{display:flex;gap:12px;align-items:flex-start;margin-bottom:8px}
+.recrow>label{flex:0 0 132px;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--maroon);padding-top:7px}
+.recrow textarea.recta{flex:1 1 auto;min-height:52px;font:inherit;font-size:12.5px;line-height:1.5;
+  border:1px solid #E0E0E0;padding:6px 8px;resize:vertical;background:#fff}
+.recrow textarea.recta.sm{min-height:44px;font-size:12px;color:#4D4D4D}
+.recrow textarea.recta:focus,.recrow input.lblin:focus{border-color:var(--maroon);outline:none}
+.recrow input.lblin{flex:1 1 auto;border:1px solid #E0E0E0;padding:6px 8px;background:#fff}
+.recmeta{display:flex;flex-wrap:wrap;gap:10px 18px;border-top:1px solid #F0F0F0;padding-top:9px;margin-top:2px}
+.recmeta>span{display:flex;align-items:center;gap:7px}
+.recmeta>span.wide{flex:1 1 260px}
+.recmeta label{font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:#8C8C8C}
+.recmeta input.lblin{border:1px solid #E0E0E0;padding:4px 7px;background:#fff;min-width:150px}
+.findblk{margin:0 0 9px}
+.findh{font-size:11.5px;font-weight:600;margin:0 0 3px;color:var(--maroon)}
+.findl{display:grid;grid-template-columns:100px 1fr;column-gap:10px;font-size:10px;color:#333;
+  margin:0 0 3px;line-height:1.5}
+.findl b{color:#8C8C8C;font-size:8.5px;letter-spacing:.11em;line-height:1.45;
+  text-transform:uppercase;padding-top:1px}
+.findm{font-size:8.5px;color:#8C8C8C;margin:2px 0 0;letter-spacing:.04em;text-transform:uppercase}
 table.rp.rec td .obs{display:block;font-size:9px;color:#8C8C8C;margin-top:3px;line-height:1.45}
 .feeds{display:block;font-size:10.5px;color:#8C8C8C;line-height:1.5;margin-top:3px;
   text-transform:none;letter-spacing:0;font-weight:400;max-width:60ch}
@@ -984,7 +1005,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v5.2 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v5.3 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" id="recsBtn" onclick="openRecs()" title="The closing page: what we observed, and the decisions that follow">Recommendations</button>
@@ -2039,9 +2060,15 @@ body.is-locked>.toolbar{display:none!important}
   </div>
 
   <div class="sec">
+    <h2>At a glance</h2><div class="rule"></div>
+    <h3>Financial performance, every year in the model</h3>
+    <div class="tblwrap"><div id="recGlance"></div></div>
+  </div>
+
+  <div class="sec">
     <h2>Decisions</h2><div class="rule"></div>
     <h3>The recommendation set<span class="hmark" data-h="recsset" tabindex="0" role="button" aria-label="What this means">?</span></h3>
-    <div class="tblwrap"><div id="recGrid"></div></div>
+    <div id="recGrid"></div>
     <div class="btnrow">
       <button class="btn draft" onclick="seedRecs()">Draft from the model</button>
       <button class="btn ghost" onclick="recAdd()">+ Add recommendation</button>
@@ -2051,10 +2078,10 @@ body.is-locked>.toolbar{display:none!important}
   </div>
 
   <div class="sec">
-    <h2>Position</h2><div class="rule"></div>
-    <h3>Where the business stands, in three sentences</h3>
-    <p class="lede">The opening paragraph of the recommendations page: the position as the analysis
-      found it, before any recommendation is made.</p>
+    <h2>Summary</h2><div class="rule"></div>
+    <h3>Executive summary</h3>
+    <p class="lede">Two short paragraphs at the head of the page: where the business stands as the
+      analysis found it, then the agenda these recommendations add up to.</p>
     <div id="recSummaryBox"></div>
   </div>
 
@@ -2065,6 +2092,14 @@ body.is-locked>.toolbar{display:none!important}
       rather than advising. Name the assumptions these decisions rest on and the evidence that would
       overturn them.</p>
     <div id="recRiskBox"></div>
+  </div>
+
+  <div class="sec">
+    <h2>Conclusion</h2><div class="rule"></div>
+    <h3>The closing paragraph</h3>
+    <p class="lede">What the analysis shows taken together, and what the next phase should emphasize.
+      It prints last, under the priorities.</p>
+    <div id="recConcBox"></div>
   </div>
 </section>
 
@@ -2370,8 +2405,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'5.2',
-  built:'2026-09-12 02:45 UTC',
+  version:'5.3',
+  built:'2026-09-15 22:06 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -6220,7 +6255,7 @@ const REC_CONF=['Evidenced','Indicated','To be tested'];
 function RC(){return S.recs||{items:[],summary:'',risks:''};}
 function recRows(){return RC().items||[];}
 function recAdd(a){S.recs.items.push(a||{obs:'',rec:'',type:'cost',horizon:'Now',effort:'Medium',
-  conf:'Indicated',impact:'',metric:'',owner:''});recalcAll();}
+  conf:'Indicated',impact:'',metric:'',owner:'',ev:'',why:'',prio:0,action:''});recalcAll();}
 function recDel(k){S.recs.items.splice(k,1);recalcAll();}
 function recSet(k,f,v){S.recs.items[k][f]=v; if(['type','horizon','effort','conf'].includes(f))recalcAll();}
 function recMove(k,d){const A=S.recs.items,j=k+d; if(j<0||j>=A.length)return;
@@ -6232,106 +6267,144 @@ function recByHorizon(h){return recRows().filter(r=>(r.horizon||'Now')===h&&((r.
 
 /* ---- the draft: candidates from what the analysis already established ---- */
 function recName(){return (S.meta.company||'The business').trim();}
+/* Money inside a sentence reads as "$417 million"; the column headings keep the
+   "$ millions" form. Same number, the two places it is read differently. */
+const UNIT_WORD={millions:' million',thousands:' thousand',billions:' billion',units:''};
+function amtW(v){if(v==null)return '—';
+  return '$'+fmt(v)+(UNIT_WORD[S.meta.units]||'');}
+/* Where a finding came from, in the reader's terms: the page of this tool that
+   carries the working, and the source document already recorded on 06 Verify. */
+function recCite(where){
+  const doc=(S.qc&&S.qc.primaryDoc||'').trim();
+  return where+(doc?' · '+doc:'');
+}
+/* The heading over a finding is its first clause, cut at a break that is not
+   inside a number, so "0.85 times depreciation" never becomes "0". */
+function findTitle(r){
+  let t=((r.obs||r.rec||'')+'').trim().replace(/\s+/g,' ');
+  if(!t)return '';
+  const sen=/\.(?=\s|$)/g, se=sen.exec(t), end=se?se.index:t.length;
+  let cut=end;
+  if(end>92){const re=/[,;:]\s/g; let m;
+    while((m=re.exec(t))){if(m.index>=25){cut=m.index;break;}}}
+  t=t.slice(0,cut);
+  if(t.length>92){t=t.slice(0,92);const sp=t.lastIndexOf(' ');t=(sp>40?t.slice(0,sp):t)+'…';}
+  return t.replace(/[\s,;:.]+$/,'');
+}
 function seedRecs(){
   const i=latestIdx(), p=prevIdx(), c=chron(), U=UNIT_LABEL[S.meta.units]||'';
   const have=t=>recRows().some(r=>(r.rec||'').toLowerCase().includes(t));
-  const put=(o,r,type,horizon,effort,impact,metric)=>{
+  const put=(o,r,type,horizon,effort,impact,metric,where,why)=>{
     S.recs.items.push({obs:o,rec:r,type,horizon,effort,conf:'Indicated',impact:impact||'',
-      metric:metric||'',owner:''}); return 1;
+      metric:metric||'',owner:'',ev:recCite(where||'08 Ratios'),why:why||'',prio:0,action:''}); return 1;
   };
-  const V2=(st,role,x)=>V(st,role,x);
   const rev=V('is','revenue',i), gp=V('is','grossProfit',i), oi=V('is','operatingIncome',i),
         sga=V('is','sga',i), ni=V('is','netIncome',i), cfo=V('cf','cfo',i),
         cap=V('cf','capex',i), dep=V('cf','depAmort',i), ta=V('bs','totalAssets',i);
   const gm=div(gp,rev), om=div(oi,rev), sgaR=div(sga,rev);
   let n=0;
 
-  /* 1 — the largest lever the arithmetic can see */
   const L=levers().filter(x=>x.oi!=null).sort((a,b)=>b.oi-a.oi)[0];
   if(L&&!have('lever'))n+=put(
     'The arithmetic ranks '+L.n.toLowerCase()+' as the largest single lever on operating income: '+
-    L.move+' is worth '+fmt(L.oi)+' '+U+'.',
+    L.move+' is worth '+amtW(L.oi)+'.',
     'Test that lever first, with a 90-day pilot on one segment or region before any company-wide move. '+
     'It needs no new demand and no new capital.','pricing','Now','Medium',
-    fmt(L.oi)+' '+U+' of operating income',L.n+', monthly against the same period last year');
+    amtW(L.oi)+' of operating income',L.n+', monthly against the same period last year',
+    '12 Strengthen · 08 Ratios',
+    'Ranking the levers by arithmetic rather than by preference tells you where the money is before '+
+    'anyone argues about where the effort should go. It does not tell you which lever this team can '+
+    'actually pull, which is why it is a starting point for the conversation rather than the answer.');
 
-  /* 2 — margin direction */
   if(p!=null&&gm!=null){
     const g0=div(V('is','grossProfit',p),V('is','revenue',p));
     if(g0!=null&&gm<g0-0.003&&!have('gross margin'))n+=put(
       'Gross margin fell from '+pct(g0,1)+' to '+pct(gm,1)+', which on this revenue is '+
-      fmt(rev*(g0-gm))+' '+U+' of profit.',
+      amtW(rev*(g0-gm))+' of profit.',
       'Establish whether the fall is price, input cost or mix before the next budget, and rebuild the '+
-      'points in whichever one moved.','pricing','Now','Medium',fmt(rev*(g0-gm))+' '+U+' at the prior margin',
-      'Gross margin by product line, monthly');
+      'points in whichever one moved.','pricing','Now','Medium',amtW(rev*(g0-gm))+' at the prior margin',
+      'Gross margin by product line, monthly','07 Analysis · 08 Ratios',
+      'A margin can fall for three different reasons and each has a different fix. Common-size analysis '+
+      'shows that it moved; only the split between price, cost and mix shows what to do about it.');
     if(g0!=null&&gm>g0+0.005&&!have('hold the margin'))n+=put(
       'Gross margin improved from '+pct(g0,1)+' to '+pct(gm,1)+'.',
       'Hold the margin rather than spending it on volume: document what produced the gain and make it '+
-      'policy before the next pricing cycle.','pricing','Next','Low','Protects '+fmt(rev*(gm-g0))+' '+U,
-      'Gross margin, monthly');
+      'policy before the next pricing cycle.','pricing','Next','Low','Protects '+amtW(rev*(gm-g0)),
+      'Gross margin, monthly','07 Analysis',
+      'Margin gains are easier to keep than to win. The risk after a good year is trading the gain back '+
+      'for volume without noticing, because revenue still rises while profit does not.');
   }
-  /* 3 — operating cost structure */
   if(p!=null&&sgaR!=null){
     const s0=div(V('is','sga',p),V('is','revenue',p));
     if(s0!=null&&sgaR>s0+0.005&&!have('overhead'))n+=put(
       'Selling and administrative cost rose from '+pct(s0,1)+' to '+pct(sgaR,1)+' of revenue.',
       'Take the overhead base back to the prior ratio before adding any new fixed cost, and name the '+
-      'two line items that moved.','cost','Now','Medium',fmt(rev*(sgaR-s0))+' '+U+' of operating income',
-      'SG&A as a share of revenue, monthly');
+      'two line items that moved.','cost','Now','Medium',amtW(rev*(sgaR-s0))+' of operating income',
+      'SG&A as a share of revenue, monthly','07 Analysis',
+      'Overhead measured in dollars always rises with the business. Measured against revenue it says '+
+      'whether the organization is getting more or less efficient, which is the question that matters.');
   }
-  /* 4 — cash conversion */
   const conv=(ni&&ni>0&&cfo!=null)?cfo/ni:null;
   if(conv!=null&&conv<0.9&&!have('cash conversion'))n+=put(
     'Operating cash flow is '+num(conv,2)+' times net income, so reported profit is not arriving as cash.',
     'Tie management reporting and incentives to cash conversion for the next four quarters, and fix the '+
     'working-capital line absorbing it.','workingcap','Now','Low','Closes the gap between profit and cash',
-    'Operating cash flow ÷ net income, quarterly');
+    'Operating cash flow ÷ net income, quarterly','08 Ratios · 04 Statements',
+    'Earnings and cash answer different questions. A business can report a good year and still be short '+
+    'of money, and the gap between the two is almost always working capital.');
 
-  /* 5 — working capital, in days and in money */
   const dio=(()=>{const t=div(V('is','cogs',i),avgBal('bs','inventory',i));return t?365/t:null;})();
   const dio0=(p!=null)?(()=>{const t=div(V('is','cogs',p),avgBal('bs','inventory',p));return t?365/t:null;})():null;
   if(dio!=null&&dio0!=null&&dio>dio0+3&&!have('inventory')){
     const daily=div(V('is','cogs',i),365);
     n+=put('Inventory days rose from '+days(dio0)+' to '+days(dio)+
-      (daily?', which is '+fmt(daily*(dio-dio0))+' '+U+' of cash tied up':'')+'.',
+      (daily?', which is '+amtW(daily*(dio-dio0))+' of cash tied up':'')+'.',
       'Set an inventory-days target by category and hold buying to it. The cash released funds the '+
       'lever above without borrowing.','workingcap','Now','Medium',
-      daily?fmt(daily*(dio-dio0))+' '+U+' of cash':'Cash released',' Days inventory, monthly');
+      daily?amtW(daily*(dio-dio0))+' of cash':'Cash released','Days inventory, monthly',
+      '11 Notes · 08 Ratios',
+      'Days are a ratio; the cash is a decision. Converting each day of movement into money at the '+
+      'daily rate of trade is what turns an inventory statistic into a funding argument.');
   }
   const dso=(()=>{const t=div(rev,avgBal('bs','receivables',i));return t?365/t:null;})();
   const dso0=(p!=null)?(()=>{const t=div(V('is','revenue',p),avgBal('bs','receivables',p));return t?365/t:null;})():null;
   if(dso!=null&&dso0!=null&&dso>dso0+2&&!have('collection')){
     const daily=div(rev,365);
     n+=put('Days sales outstanding lengthened from '+days(dso0)+' to '+days(dso)+
-      (daily?', worth '+fmt(daily*(dso-dso0))+' '+U+' of cash':'')+'.',
+      (daily?', worth '+amtW(daily*(dso-dso0))+' of cash':'')+'.',
       'Put the collection cycle on a weekly review and agree terms in writing with the slowest accounts.',
-      'workingcap','Now','Low',daily?fmt(daily*(dso-dso0))+' '+U+' of cash':'Cash released',
-      'Days sales outstanding, monthly');
+      'workingcap','Now','Low',daily?amtW(daily*(dso-dso0))+' of cash':'Cash released',
+      'Days sales outstanding, monthly','11 Notes · 08 Ratios',
+      'Collections can slow while the overall cash cycle still improves, because suppliers may be '+
+      'funding the difference. Both are worth knowing: one is your customers, the other is your credit.');
   }
-  /* 6 — reinvestment */
   if(cap!=null&&dep&&Math.abs(cap)<dep*0.9&&!have('reinvest'))n+=put(
     'Capital expenditure is '+num(Math.abs(cap)/dep,2)+' times depreciation, so the asset base is being '+
     'consumed faster than it is replaced.',
     'Decide deliberately whether to reinvest or to harvest, and say which. Present cash flow is flattered '+
-    'by the shortfall either way.','reinvest','Next','High',
-    'Avoids a step change in maintenance spend','Capex ÷ depreciation, annually');
+    'by the shortfall either way.','reinvest','Next','High','Avoids a step change in maintenance spend',
+    'Capex ÷ depreciation, annually','08 Ratios · 11 Notes',
+    'Depreciation is the running estimate of what the asset base costs to keep. Spending below it for '+
+    'several years is a deferred bill, and the cash flow looks better in exactly those years.');
 
-  /* 7 — distributions against the cash that funds them */
   const divs=V('cf','dividendsPaid',i), buy=V('cf','buybacks',i), f=fcf(i);
   const ret=(divs==null&&buy==null)?null:Math.abs(divs||0)+Math.abs(buy||0);
   if(ret!=null&&f!=null&&ret>f&&!have('distribution'))n+=put(
-    'Dividends and buybacks of '+fmt(ret)+' '+U+' exceed free cash flow of '+fmt(f)+' '+U+
+    'Dividends and buybacks of '+amtW(ret)+' exceed free cash flow of '+amtW(f)+
     ', so the difference is funded from the balance sheet.',
     'Set the distribution policy as a share of free cash flow rather than a fixed amount, and say what '+
-    'happens to it in a bad year.','capital','Now','Low','Closes a '+fmt(ret-f)+' '+U+' annual gap',
-    'Distributions ÷ free cash flow, annually');
+    'happens to it in a bad year.','capital','Now','Low','Closes a '+amtW(ret-f)+' annual gap',
+    'Distributions ÷ free cash flow, annually','08 Ratios · 04 Statements',
+    'Returning more than the business generates is a choice, not an accident, and it is sustainable only '+
+    'while the balance sheet or the lender allows it. Saying so in advance is cheaper than reversing it later.');
   if(typeof payoutS3==='function'&&payoutS3(i)!=null&&payoutS3(i)>0.8&&!have('payout'))n+=put(
     'The dividend takes '+pct(payoutS3(i),0)+' of basic earnings.',
     'Stress-test the dividend against the downside case before the next declaration, and publish the '+
     'coverage you intend to hold.','capital','Next','Low','Protects the dividend record',
-    'Dividend payout ratio, annually');
+    'Dividend payout ratio, annually','10 Credit',
+    'A payout ratio near one leaves nothing for reinvestment or for a bad year. The number to watch is '+
+    'not the dividend but the cover behind it.');
 
-  /* 8 — leverage, coverage and payback */
   if(typeof deS3==='function'){
     const d=deS3(i), t=tieS3(i), y=yearsToRepay(i);
     if(d!=null&&d>2&&!have('leverage'))n+=put(
@@ -6339,192 +6412,343 @@ function seedRecs(){
       (t!=null?', covered '+num(t,1)+' times by EBIT':'')+'.',
       'Set a leverage ceiling and a repayment schedule before the next financing decision, and test both '+
       'against the downside case rather than the plan.','capital','Next','Medium',
-      'Preserves the ability to borrow when it is needed','Total debt ÷ equity, and times interest earned');
+      'Preserves the ability to borrow when it is needed','Total debt ÷ equity, and times interest earned',
+      '10 Credit',
+      'A falling debt balance does not on its own describe solvency. Leverage says how much is owed '+
+      'against what the owners have in; coverage says whether the earnings carry it. Both are needed.');
     if(y!=null&&y>6&&!have('pay off'))n+=put(
       'At the present rate of free cash flow it would take '+num(y,1)+' years to pay off the debt.',
       'Direct the next two years of free cash flow to repayment ahead of buybacks, or refinance the '+
       'maturity profile now while coverage is intact.','capital','Now','Medium','Shortens the repayment horizon',
-      'Years of free cash flow to pay off debt');
+      'Years of free cash flow to pay off debt','10 Credit',
+      'Interest cover is an annual test; the payback period is a structural one. A business can cover '+
+      'its interest comfortably and still carry debt it has no realistic path to repaying.');
     const z=(typeof zScore==='function')?zScore(i):null;
     if(z!=null&&zZone(z)!=='safe'&&!have('distress'))n+=put(
       'The '+zModel().l+' is '+num(z,2)+', in the '+ZONE_WORD[zZone(z)].toLowerCase()+'.',
-      'Treat the distress score as a financing deadline: agree headroom with the lender and a contingency '+
-      'plan before the next covenant test.','capital','Now','High','Avoids a forced refinancing',
-      zModel().l+', annually');
+      'Treat the score as a financing deadline: agree headroom with the lender and a contingency plan '+
+      'before the next covenant test.','capital','Now','High','Avoids a forced refinancing',
+      zModel().l+', annually','10 Credit',
+      'The score is a weighted summary of five ratios, fitted on companies that did and did not fail. '+
+      'It is a screen rather than a verdict, and it belongs beside the credit rating, not instead of it.');
   }
-  /* 9 — liquidity */
   const cr=(typeof currentS3==='function')?currentS3(i):null, qr=(typeof quickS3==='function')?quickS3(i):null;
-  if(cr!=null&&cr<1&&!have('liquid'))n+=put(
-    'Current liabilities exceed current assets, a current ratio of '+num(cr,2)+
-    (qr!=null?' and a quick ratio of '+num(qr,2):'')+'.',
+  if(cr!=null&&cr<1.1&&!have('liquid'))n+=put(
+    'The current ratio is '+num(cr,2)+(qr!=null?' and the quick ratio '+num(qr,2):'')+
+    ', so short-term cover is thin.',
     'Arrange a committed facility sized to the working-capital swing before it is needed, rather than '+
     'negotiating it in the month it is.','capital','Now','Medium','Removes a funding cliff',
-    'Current ratio and the cash forecast, monthly');
+    'Current ratio and the rolling cash forecast, monthly','10 Credit',
+    'The two ratios describe different depths of liquidity. Current cover near one is normal where '+
+    'suppliers fund the inventory; the quick ratio says what could be paid without selling any of it.');
 
-  /* 10 — resilience */
   const bk=breakeven(i);
   if(bk&&bk.mos!=null&&bk.mos<0.15&&!have('break-even'))n+=put(
     'Revenue can fall only '+pct(bk.mos,1)+' before operating income turns negative.',
     'Convert a slice of fixed cost to variable before the next downturn: a thin margin of safety is an '+
-    'operating-leverage problem, not a sales problem.','operating','Next','High',
-    'Widens the margin of safety','Margin of safety at break-even, quarterly');
+    'operating-leverage problem, not a sales problem.','operating','Next','High','Widens the margin of safety',
+    'Margin of safety at break-even, quarterly','12 Strengthen',
+    'Operating leverage cuts both ways. The same fixed base that multiplies profit in a good year is '+
+    'what turns a modest revenue fall into a loss.');
 
-  /* 11 — concentration and mix */
   if(typeof discHas==='function'&&discHas('segments')&&!have('concentration')){
     const T=mixTable('segments');
     if(T){
       const top=T.rows.map(r=>({n:r.name,s:T.share(r,T.cols.length-1)})).filter(x=>x.s!=null)
         .sort((a,b)=>b.s-a.s)[0];
-      if(top&&top.s>0.4)n+=put('One segment, '+top.n+', is '+pct(top.s,0)+' of revenue.',
+      if(top&&top.s>0.35)n+=put('One segment, '+top.n+', is '+pct(top.s,0)+' of revenue.',
         'Decide whether that concentration is a strength to press or an exposure to hedge, and set a '+
-        'target mix either way.','portfolio','Next','Medium','Reduces single-segment exposure',
-        'Revenue share of the largest segment, annually');
+        'target mix either way, with explicit growth and return targets for the others.','portfolio','Next',
+        'Medium','Reduces single-segment exposure','Revenue share of the largest segment, annually',
+        '11 Notes',
+        'A consolidated top line can hide a strategic shift entirely. Segment analysis is what shows '+
+        'which part of the business is now carrying the result, and therefore where the risk sits.');
     }
   }
-  /* 12 — goodwill carried against the earnings that support it */
   const gw=V('bs','goodwill',i);
   if(gw!=null&&ta&&gw/ta>0.2&&!have('goodwill'))n+=put(
     'Goodwill is '+pct(gw/ta,0)+' of total assets.',
     'Test the acquired units against their original case annually and write down what no longer earns '+
     'its carrying value, rather than waiting for the auditor to raise it.','governance','Next','Medium',
-    'Avoids a surprise impairment','Goodwill as a share of assets, and segment operating income');
+    'Avoids a surprise impairment','Goodwill as a share of assets, and segment operating income',
+    '04 Statements · Earnings quality',
+    'Goodwill is the price paid above the assets acquired. It earns its place on the balance sheet only '+
+    'while those businesses perform, and the write-down usually arrives well after the evidence did.');
 
-  /* 13 — earnings quality */
   if(typeof spYears==='function'&&spYears().length>=3&&!have('one-off'))n+=put(
     'Special items appear in '+spYears().length+' of '+c.length+' years, so what is presented as '+
     'exceptional is recurring.',
     'Stop treating these charges as one-off in internal reporting: budget for them, or remove the '+
     'activity that causes them.','governance','Now','Low','Restores the credibility of adjusted earnings',
-    'Special items as a share of pre-tax profit, annually');
+    'Special items as a share of pre-tax profit, annually','Earnings quality',
+    'An exceptional item is only exceptional once. Charges that recur every year are a cost of trading, '+
+    'and adjusted earnings that exclude them overstate what the business actually earns.');
 
-  /* 14 — demand */
   if(p!=null&&rev!=null){
     const r0=V('is','revenue',p);
     if(r0&&rev<r0*0.98&&!have('demand'))n+=put(
       'Revenue fell '+pct((r0-rev)/r0,1)+' on the prior year.',
       'Separate volume from price and from mix before treating this as a demand problem, then decide '+
       'whether to defend share or to protect margin. Doing both usually achieves neither.','growth','Now',
-      'Medium','Sets the direction for the next planning cycle','Revenue by volume, price and mix, monthly');
+      'Medium','Sets the direction for the next planning cycle','Revenue by volume, price and mix, monthly',
+      '07 Analysis',
+      'Horizontal analysis shows the pace of change, not only its size. A single year of decline and a '+
+      'three-year slide call for different responses.');
+    if(r0&&rev>r0*1.05&&!have('quality of growth'))n+=put(
+      'Revenue grew '+pct((rev-r0)/r0,1)+' on the prior year.',
+      'Hold the next phase to the quality of that growth: margin, cash conversion and return on the '+
+      'capital it consumes, rather than the top line alone.','growth','Next','Medium',
+      'Keeps growth from consuming its own returns','Revenue growth beside cash conversion, quarterly',
+      '07 Analysis · 08 Ratios',
+      'Growth is funded before it is earned. The test of a good year is whether the margin and the cash '+
+      'conversion held while the revenue rose.');
   }
-  /* 15 — asset productivity */
   if(p!=null&&ta){
     const at=div(rev,avgBal('bs','totalAssets',i)), at0=div(V('is','revenue',p),avgBal('bs','totalAssets',p));
     if(at!=null&&at0!=null&&at<at0*0.95&&!have('asset'))n+=put(
       'Asset turnover fell from '+num(at0,2)+' to '+num(at,2)+' times: the asset base is growing faster '+
       'than the revenue it carries.',
       'Review the underperforming assets individually and set a disposal or redeployment decision for each.',
-      'operating','Next','Medium','Raises return on the capital already deployed','Asset turnover, annually');
+      'operating','Next','Medium','Raises return on the capital already deployed','Asset turnover, annually',
+      '08 Ratios · 09 Charts',
+      'Return on assets is margin multiplied by turnover. Knowing which of the two moved is what says '+
+      'whether a change in returns came from pricing or from how hard the assets are working.');
   }
-  /* 16 — the reporting gap */
   if(typeof entryOutstanding==='function'&&entryOutstanding().length&&!have('reporting pack'))n+=put(
     'Several figures this analysis needs are not produced by the current reporting pack.',
     'Add them to the monthly pack so the next review starts from evidence rather than reconstruction.',
-    'governance','Now','Low','Shortens every future analysis','The pack carries them by the next close');
+    'governance','Now','Low','Shortens every future analysis','The pack carries them by the next close',
+    '02 Entry · 06 Verify',
+    'What a business measures monthly is what it manages. Anything reconstructed once a year for an '+
+    'analysis is, by definition, not being managed in between.');
 
-  /* 17 — a floor. A business with no problem still faces a decision, and the
-     page should never come back empty when there is data to read. */
-  if(n<3){
-    const R=autoRead();
-    if(R.length&&!have('measure'))n+=put(
-      R.slice(0,2).map(x=>x.t).join('. ')+'.',
-      'Agree the three measures this business will be run against for the next year, and review them '+
-      'monthly against the figures in this report rather than against the budget.','governance','Now','Low',
-      'Turns the analysis into a management routine','The three chosen measures, monthly');
-    if(om!=null&&!have('protect the margin'))n+=put(
-      'The business earns an operating margin of '+pct(om,1)+' on revenue of '+fmt(rev)+' '+U+'.',
-      'Set a floor for that margin and a rule for what happens when a quarter comes in below it: the '+
-      'decision is cheaper made now than in the quarter it is needed.','operating','Next','Low',
-      'Protects the current earnings base','Operating margin, quarterly');
-  }
+  /* The rules above fire only where something is out of line, and a sound
+     business trips almost none of them. These describe the position rather than
+     a breach, so the page still reaches the ten findings a client expects, and
+     they are added in order until it does. */
+  const TOPUP=[
+    ()=>{const roa=div(ni,avgBal('bs','totalAssets',i)), at=div(rev,avgBal('bs','totalAssets',i)),
+             nm=div(ni,rev);
+      if(roa==null||at==null||nm==null||have('return on assets'))return 0;
+      return put('Return on assets is '+pct(roa,1)+': a net margin of '+pct(nm,1)+
+        ' multiplied by asset turnover of '+num(at,2)+' times.',
+        'Decide which of the two this business will move next year, margin or turnover, and set one '+
+        'target for it rather than two.','operating','Next','Medium',
+        'Directs the return improvement at one lever','Return on assets, split into margin and turnover, annually',
+        '08 Ratios · 09 Charts',
+        'Two businesses can earn the same return on assets in opposite ways, one on price and one on '+
+        'volume. The split says which one this is, and therefore which lever is actually available.');},
+    ()=>{if(conv==null||conv<0.9||have('conversion as a standing target'))return 0;
+      return put('Operating cash flow is '+num(conv,2)+' times net income, so reported profit is '+
+        'arriving as cash.',
+        'Hold that conversion as a standing target and report it monthly beside profit, so a fall shows '+
+        'in the month it happens rather than at the year end.','workingcap','Next','Low',
+        'Protects the cash already being earned','Operating cash flow ÷ net income, quarterly',
+        '08 Ratios · 04 Statements',
+        'Cash conversion is easier to keep than to recover. It slips quietly, through terms and stock, '+
+        'and the profit figure carries on looking the same while it does.');},
+    ()=>{const g=gm, o=om;
+      if(g==null||o==null||have('below the gross line'))return 0;
+      return put('Gross margin is '+pct(g,1)+' and operating margin '+pct(o,1)+', so '+pct(g-o,1)+
+        ' of revenue goes on operating cost below the gross line.',
+        'Set that operating-cost ratio as a target in its own right, and review it against revenue '+
+        'monthly rather than in the annual budget.','cost','Next','Medium',
+        'Names the gap between a good gross margin and a thin operating one',
+        'Operating cost as a share of revenue, monthly','07 Analysis',
+        'Gross margin and operating margin answer different questions. The distance between them is the '+
+        'cost of running the business, and it is the part management controls week to week.');},
+    ()=>{if(dio==null||dso==null||have('cash cycle'))return 0;
+      return put('Inventory turns in '+num(dio,0)+' days and receivables collect in '+num(dso,0)+' days.',
+        'Set the cash cycle as a single target rather than three separate ones, so a gain in one is not '+
+        'paid for out of the others.','workingcap','Next','Medium','Holds the cash cycle to one target',
+        'Cash conversion cycle, monthly','08 Ratios · 11 Notes',
+        'The three components trade against each other: stock can be cut by accepting slower sales, and '+
+        'payables stretched at the cost of terms. Only the cycle as a whole says whether cash improved.');},
+    ()=>{const cr2=(typeof currentS3==='function')?currentS3(i):null,
+              qr2=(typeof quickS3==='function')?quickS3(i):null;
+      if(cr2==null||cr2<1.1||have('seasonal low'))return 0;
+      return put('The current ratio is '+num(cr2,2)+(qr2!=null?' and the quick ratio '+num(qr2,2):'')+'.',
+        'Set the minimum this business will operate above and test the seasonal low against it, not the '+
+        'year-end figure.','capital','Next','Low','Keeps the working-capital cushion deliberate',
+        'Current ratio at the seasonal low, monthly','10 Credit',
+        'Liquidity measured once a year is measured on the most flattering day of it. The ratio that '+
+        'decides anything is the one at the low point of the cycle.');},
+    ()=>{if(typeof deS3!=='function')return 0;
+      const d=deS3(i), t=(typeof tieS3==='function')?tieS3(i):null;
+      if(d==null||d>2||have('borrowing capacity'))return 0;
+      return put('Total debt including operating leases is '+num(d,2)+' times equity'+
+        (t!=null?', covered '+num(t,1)+' times by EBIT':'')+'.',
+        'Say what the unused borrowing capacity is for before it is needed: name the investment or the '+
+        'contingency it is held against, and the ceiling it stops at.','capital','Later','Low',
+        'Puts unused borrowing capacity to a decision','Total debt ÷ equity against the stated ceiling, annually',
+        '10 Credit',
+        'Headroom is an asset only while there is a plan for it. Capacity with no stated purpose tends '+
+        'to be spent on whatever is in front of the business when the opportunity arrives.');},
+    ()=>{if(cap==null||!dep||Math.abs(cap)<=dep*1.1||have('return test'))return 0;
+      return put('Capital expenditure is '+num(Math.abs(cap)/dep,2)+' times depreciation, so the asset '+
+        'base is being expanded rather than maintained.',
+        'Attach a return test and a date to each major program, and report the realized return against '+
+        'it rather than the spend against budget.','reinvest','Next','Medium',
+        'Holds new capital to a stated return','Return on the assets added, annually','08 Ratios · 11 Notes',
+        'Spending above depreciation is a growth decision, not a maintenance one, and it is judged by '+
+        'what the new assets earn. Budget variance says only that the money went out.');},
+    ()=>{if(typeof payoutS3!=='function')return 0;
+      const q=payoutS3(i);
+      if(q==null||q>0.8||have('residual'))return 0;
+      return put('The dividend takes '+pct(q,0)+' of basic earnings.',
+        'Decide the split between reinvestment and distribution as a policy and publish it, rather than '+
+        'settling it each year by what is left.','capital','Later','Low',
+        'Makes the distribution a policy rather than a residual','Dividend payout ratio, annually','10 Credit',
+        'A payout ratio is the outcome of two decisions, not one: what the business will reinvest, and '+
+        'what it will return. Stating both in advance is what makes either of them defensible.');},
+    ()=>{if(typeof zScore!=='function')return 0;
+      const z=zScore(i);
+      if(z==null||zZone(z)!=='safe'||have('early warning'))return 0;
+      return put('The '+zModel().l+' is '+num(z,2)+', in the safe zone.',
+        'Recheck the score each year on the same five ratios and record the trend, rather than treating '+
+        'the current reading as settled.','governance','Later','Low','Keeps an early warning in place',
+        zModel().l+', annually','10 Credit',
+        'The score is a screen rather than a verdict, and its value is in the direction it moves. A '+
+        'single safe reading says only that today is not the problem.');},
+    ()=>{const R=autoRead();
+      if(!R.length||have('measure'))return 0;
+      return put(R.slice(0,2).map(x=>x.t).join('. ')+'.',
+        'Agree the three measures this business will be run against for the next year, and review them '+
+        'monthly against the figures in this report rather than against the budget.','governance','Now','Low',
+        'Turns the analysis into a management routine','The three chosen measures, monthly','12 Findings',
+        'A budget measures ambition; these measures describe the business. Reviewing against both is '+
+        'what keeps a plan honest.');},
+    ()=>{if(om==null||have('floor for that margin'))return 0;
+      return put('The business earns an operating margin of '+pct(om,1)+' on revenue of '+amtW(rev)+'.',
+        'Set a floor for that margin and a rule for what happens when a quarter comes in below it: the '+
+        'decision is cheaper made now than in the quarter it is needed.','operating','Next','Low',
+        'Protects the current earnings base','Operating margin, quarterly','08 Ratios',
+        'A margin floor agreed in a good quarter is a policy. The same decision taken in a bad one is a '+
+        'concession.');}
+  ];
+  for(let k=0;k<TOPUP.length&&S.recs.items.length<10;k++){try{n+=TOPUP[k]()||0;}catch(e){}}
+
+  /* ten at most, and the first five carry the priority, since the rules are
+     ordered by how much they move the result */
+  if(S.recs.items.length>10)S.recs.items=S.recs.items.slice(0,10);
+  S.recs.items.forEach((r,k)=>{
+    if(k<5&&!r.prio){r.prio=1;
+      if(!(r.action||'').trim())r.action=r.rec;}
+  });
   recalcAll();
-  toast(n?n+' recommendation'+(n===1?'':'s')+' drafted — now cut them down'
-         :'Nothing further to propose from the model');
+  toast(n?n+' finding'+(n===1?'':'s')+' drafted — now cut them down':'Nothing further to propose from the model');
   return n;
+}
+/* the six measures the client reads first, across every year in the model */
+function recGlance(){
+  return [
+   {l:'Revenue',f:i=>fmtRatio(V('is','revenue',i),'cur')},
+   {l:'Operating margin',f:i=>pct(div(V('is','operatingIncome',i),V('is','revenue',i)),1)},
+   {l:'Net margin',f:i=>pct(div(V('is','netIncome',i),V('is','revenue',i)),1)},
+   {l:'Return on assets',f:i=>pct(div(V('is','netIncome',i),avgBal('bs','totalAssets',i)),1)},
+   {l:'Asset turnover',f:i=>fmtRatio(div(V('is','revenue',i),avgBal('bs','totalAssets',i)),'x')},
+   {l:'Total debt ÷ equity',f:i=>fmtRatio((typeof deS3==='function')?deS3(i):null,'x')}
+  ];
 }
 
 /* ---- screen ------------------------------------------------------------- */
 function renderRecStatus(){
-  const R=recRows().filter(r=>(r.rec||'').trim());
+  const R=recRows().filter(r=>(r.rec||'').trim()), pr=R.filter(r=>r.prio).length;
   const now=recByHorizon('Now').length, next=recByHorizon('Next').length, later=recByHorizon('Later').length;
   let h='<div class="kpirow">'+
-    '<div class="kpi'+(R.length>6?' hl':'')+'"><div class="k">Recommendations</div><div class="v '+
-      (R.length?(R.length<=6?'pos':'neg'):'')+'">'+R.length+'</div><div class="d">'+
-      (R.length>6?'more than six is a list, not a plan':'a page that can be acted on')+'</div></div>'+
+    '<div class="kpi'+(R.length>10?' hl':'')+'"><div class="k">Findings</div><div class="v '+
+      (R.length?(R.length<=10?'pos':'neg'):'')+'">'+R.length+'</div><div class="d">'+
+      (R.length>10?'ten is the working maximum':'each with a decision attached')+'</div></div>'+
+    '<div class="kpi'+(pr===5?'':' hl')+'"><div class="k">Prioritized</div><div class="v '+
+      (pr===5?'pos':'')+'">'+pr+' / 5</div><div class="d">the five that carry the agenda</div></div>'+
     '<div class="kpi"><div class="k">Now / Next / Later</div><div class="v">'+now+' · '+next+' · '+later+
-      '</div><div class="d">sequence, not priority order</div></div>';
-  const ev=R.filter(r=>r.conf==='Evidenced').length;
-  h+='<div class="kpi"><div class="k">Evidenced</div><div class="v">'+ev+' / '+R.length+'</div>'+
-    '<div class="d">the rest are indicated or still to be tested</div></div></div>';
+      '</div><div class="d">sequence, not ranking</div></div></div>';
   $('recStatus').innerHTML=h;
+}
+function renderRecGlance(){
+  let h=cHead('Measure');
+  recGlance().forEach(g=>{h+=cRow(g.l,g.f);});
+  $('recGlance').innerHTML=h+'</tbody></table>'+
+    '<p class="ihint" style="margin-top:8px">The six measures a reader checks first. They print at the '+
+    'head of the recommendations page so the findings below have a frame around them.</p>';
 }
 function recSel(k,f,list,val){
   return '<select onchange="recSet('+k+',\''+f+'\',this.value)">'+list.map(x=>{
     const v=(typeof x==='string')?x:x.v, l=(typeof x==='string')?x:x.l;
     return '<option value="'+esc(v)+'"'+(val===v?' selected':'')+'>'+esc(l)+'</option>';}).join('')+'</select>';
 }
+function recTogglePrio(k){S.recs.items[k].prio=S.recs.items[k].prio?0:1;
+  if(S.recs.items[k].prio&&!(S.recs.items[k].action||'').trim())S.recs.items[k].action=S.recs.items[k].rec||'';
+  recalcAll();}
+/* One card per finding, laid out the way it prints: the four labeled lines,
+   then the classification, then the management action where it is a priority. */
 function renderRecGrid(){
-  let h='<table class="fin rectab"><thead><tr>'+
-    '<th class="lbl" style="width:26%">What we observed</th>'+
-    '<th class="lbl" style="width:28%">What to do about it</th>'+
-    '<th class="lbl" style="width:130px">Kind</th>'+
-    '<th class="lbl" style="width:92px">When</th>'+
-    '<th class="lbl" style="width:96px">Effort</th>'+
-    '<th class="lbl" style="width:118px">Evidence</th>'+
-    '<th class="lbl">What it is worth</th>'+
-    '<th class="lbl">The measure that proves it</th>'+
-    '<th class="rowtools"></th></tr></thead><tbody>';
+  let h='';
   recRows().forEach((r,k)=>{
-    const ta=(f,ph)=>'<textarea class="recta" placeholder="'+esc(ph)+
+    const ta=(f,ph,cls)=>'<textarea class="recta'+(cls?' '+cls:'')+'" placeholder="'+esc(ph)+
       '" oninput="recSet('+k+',\''+f+'\',this.value)">'+esc(r[f]||'')+'</textarea>';
     const inp=(f,ph)=>'<input class="lblin" value="'+esc(r[f]||'')+'" placeholder="'+esc(ph)+
       '" oninput="recSet('+k+',\''+f+'\',this.value)">';
-    h+='<tr><td class="lbl">'+ta('obs','The finding, with its figure')+'</td>'+
-      '<td class="lbl">'+ta('rec','The decision, in the imperative')+'</td>'+
-      '<td class="lbl">'+recSel(k,'type',REC_TYPES,r.type)+'</td>'+
-      '<td class="lbl">'+recSel(k,'horizon',REC_HORIZON,r.horizon)+'</td>'+
-      '<td class="lbl">'+recSel(k,'effort',REC_EFFORT,r.effort)+'</td>'+
-      '<td class="lbl">'+recSel(k,'conf',REC_CONF,r.conf)+'</td>'+
-      '<td class="lbl">'+inp('impact','e.g. 1,400 of operating income')+'</td>'+
-      '<td class="lbl">'+inp('metric','The one number that would show it working')+'</td>'+
-      '<td class="rowtools"><button class="mini" onclick="recMove('+k+',-1)" title="Move up">↑</button>'+
-      '<button class="mini" onclick="recMove('+k+',1)" title="Move down">↓</button>'+
-      '<button class="mini" onclick="recDel('+k+')" title="Remove">×</button></td></tr>';
+    h+='<div class="reccard'+(r.prio?' prio':'')+'">'+
+      '<div class="rechead"><b>Finding '+(k+1)+'</b>'+
+        '<label class="prioBox"><input type="checkbox" '+(r.prio?'checked':'')+
+          ' onchange="recTogglePrio('+k+')"><span>One of the five to prioritize</span></label>'+
+        '<span class="recmv"><button class="mini" onclick="recMove('+k+',-1)">↑</button>'+
+        '<button class="mini" onclick="recMove('+k+',1)">↓</button>'+
+        '<button class="mini" onclick="recDel('+k+')">×</button></span></div>'+
+      '<div class="recrow"><label>Finding</label>'+ta('obs','What the analysis found, with its figure')+'</div>'+
+      '<div class="recrow"><label>Recommendation</label>'+ta('rec','The decision, in the imperative')+'</div>'+
+      '<div class="recrow"><label>Evidence</label>'+inp('ev','Where the working is, and the source document')+'</div>'+
+      '<div class="recrow"><label>Why it matters</label>'+ta('why','What this measure shows, and what it does not prove','sm')+'</div>'+
+      (r.prio?'<div class="recrow"><label>Management action</label>'+ta('action','The single action the owner takes, for the priority list','sm')+'</div>':'')+
+      '<div class="recmeta">'+
+        '<span><label>Kind</label>'+recSel(k,'type',REC_TYPES,r.type)+'</span>'+
+        '<span><label>When</label>'+recSel(k,'horizon',REC_HORIZON,r.horizon)+'</span>'+
+        '<span><label>Effort</label>'+recSel(k,'effort',REC_EFFORT,r.effort)+'</span>'+
+        '<span><label>Evidence level</label>'+recSel(k,'conf',REC_CONF,r.conf)+'</span>'+
+        '<span class="wide"><label>What it is worth</label>'+inp('impact','e.g. 1,400 of operating income')+'</span>'+
+        '<span class="wide"><label>The measure that proves it</label>'+inp('metric','The one number that shows it working')+'</span>'+
+      '</div></div>';
   });
-  if(!recRows().length)h+=discEmpty(7,'No recommendations yet. Draft them from the model, then cut them down.');
-  $('recGrid').innerHTML=h+'</tbody></table>';
+  if(!recRows().length)h='<p class="ihint">No findings yet. Draft them from the model, then cut them down.</p>';
+  $('recGrid').innerHTML=h;
   renderRecFlags();
 }
 function renderRecFlags(){
   const R=recRows().filter(r=>(r.rec||'').trim()), F=[];
   if(!R.length)F.push({lvl:'note',t:'Nothing recommended yet',
     w:'Draft from the model to see what the analysis already supports, then rewrite each line in your own words.'});
-  if(R.length>6)F.push({lvl:'warn',t:R.length+' recommendations is too many to act on',
-    w:'Cut to the few that move the binding constraint. What is left off this page matters as much as what is on it.'});
+  if(R.length>10)F.push({lvl:'warn',t:R.length+' findings is more than a reader will carry',
+    w:'Ten is the working maximum, and five of them carry the agenda.'});
+  const pr=R.filter(r=>r.prio).length;
+  if(R.length&&pr!==5)F.push({lvl:pr>5?'warn':'note',t:pr+' of 5 marked as priorities',
+    w:'The prioritized list is the page management acts on. Five is the number that fits on it.'});
+  const noWhy=R.filter(r=>!(r.why||'').trim()).length;
+  if(noWhy)F.push({lvl:'note',t:noWhy+' carry no "why it matters" line',
+    w:'That line is what stops a ratio being quoted without its limits, and it is the one clients remember.'});
+  const noEv=R.filter(r=>!(r.ev||'').trim()).length;
+  if(noEv)F.push({lvl:'note',t:noEv+' cite no evidence',
+    w:'Name the page of this report and the source document, so any figure can be traced without asking.'});
   const noImpact=R.filter(r=>!(r.impact||'').trim()).length;
   if(noImpact)F.push({lvl:'note',t:noImpact+' carry no expected value',
-    w:'A recommendation without a number attached competes badly against one that has one.'});
-  const noMetric=R.filter(r=>!(r.metric||'').trim()).length;
-  if(noMetric)F.push({lvl:'note',t:noMetric+' name no measure',
-    w:'Name the single figure that will say whether it worked, or nobody will know whether it did.'});
-  const now=recByHorizon('Now').length;
-  if(now>4)F.push({lvl:'warn',t:now+' decisions are marked Now',
-    w:'Everything urgent means nothing is. Move the ones that can wait to Next.'});
+    w:'A recommendation with a number attached competes better than one without.'});
   flagList(F,'recRead');
 }
 function renderRecText(){
-  $('recSummaryBox').innerHTML='<div class="cmtbox"><label class="f">The position, in three sentences</label>'+
-    '<textarea id="ta_note_recSummary" placeholder="Where the business stands on the evidence in this '+
-    'document, before any recommendation." oninput="S.notes[\'recSummary\']=this.value">'+
-    esc(S.notes.recSummary||'')+'</textarea>'+draftRow('draftNote','recSummary','clearNote')+'</div>';
-  $('recRiskBox').innerHTML='<div class="cmtbox"><label class="f">Risks, assumptions and what would change this advice</label>'+
-    '<textarea id="ta_note_recRisks" placeholder="What these decisions assume, what could go wrong, and '+
-    'the evidence that would overturn them." oninput="S.notes[\'recRisks\']=this.value">'+
-    esc(S.notes.recRisks||'')+'</textarea>'+draftRow('draftNote','recRisks','clearNote')+'</div>';
-  markAllDone($('recSummaryBox'));markAllDone($('recRiskBox'));
+  const box=(id,key,label,ph)=>'<div class="cmtbox"><label class="f">'+esc(label)+'</label>'+
+    '<textarea id="ta_note_'+key+'" placeholder="'+esc(ph)+'" oninput="S.notes[\''+key+'\']=this.value">'+
+    esc(S.notes[key]||'')+'</textarea>'+draftRow('draftNote',key,'clearNote')+'</div>';
+  $('recSummaryBox').innerHTML=box('recSummaryBox','recSummary','Executive summary',
+    'Where the business stands, then the agenda these recommendations add up to. Two short paragraphs.');
+  $('recRiskBox').innerHTML=box('recRiskBox','recRisks','Risks, assumptions and what would change this advice',
+    'What these decisions assume, what could go wrong, and the evidence that would overturn them.');
+  $('recConcBox').innerHTML=box('recConcBox','recConclusion','Overall conclusion',
+    'The closing paragraph: what the analysis shows taken together, and what the next phase should emphasize.');
+  ['recSummaryBox','recRiskBox','recConcBox'].forEach(x=>markAllDone($(x)));
 }
 function renderRecs(){
   if(!$('panel-recs'))return;
-  renderRecStatus();renderRecGrid();renderRecText();
+  renderRecStatus();renderRecGlance();renderRecGrid();renderRecText();
   const b=$('recsBtn');
   if(b)b.innerHTML='Recommendations'+(recHas()?' <span class="badge">'+recRows().filter(r=>(r.rec||'').trim()).length+'</span>':'');
 }
@@ -6538,36 +6762,60 @@ function closeRecs(){go(REC_RETURN||'thesis');}
 
 /* ---- the report ---------------------------------------------------------- */
 function repRecs(P){
-  const B=[], R=recRows().filter(r=>(r.rec||'').trim()||(r.obs||'').trim());
+  const B=[], c=chron(), R=recRows().filter(r=>(r.rec||'').trim()||(r.obs||'').trim());
   const sum=repNote('recSummary');
-  if(sum)B.push('<h4 class="sh" style="margin-top:0">The position</h4>'+evalBlock('',null,sum));
-  B.push('<h4 class="sh"'+(sum?'':' style="margin-top:0"')+'>What we observed, and what to do about it</h4>');
+  if(sum)B.push('<h4 class="sh" style="margin-top:0">Executive summary</h4>'+evalBlock('',null,sum));
+
+  /* at a glance */
+  B.push('<h4 class="sh"'+(sum?'':' style="margin-top:0"')+'>Financial performance at a glance</h4>');
+  B.push('<table class="rp"><thead><tr><th class="lbl">Measure</th>'+
+    c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>'+
+    recGlance().map(g=>'<tr><td class="lbl">'+esc(g.l)+'</td>'+
+      c.map(x=>'<td>'+g.f(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'+
+    '<p style="font-size:9px;color:#8C8C8C;margin-top:5px">Revenue in '+
+      esc(UNIT_LABEL[S.meta.units]||S.meta.units)+'. Every figure is derived on the pages that '+
+      'precede this one.</p>');
+
+  /* the findings, each with the same four lines */
+  B.push('<h4 class="sh">Key findings and recommendations</h4>');
   if(R.length){
-    REC_HORIZON.forEach(hz=>{
-      const rows=R.filter(r=>(r.horizon||'Now')===hz);
-      if(!rows.length)return;
-      B.push('<table class="rp rec"><thead><tr><th class="lbl" style="width:42%">'+esc(hz)+
-        '</th><th class="lbl" style="width:16%">Kind</th><th class="lbl" style="width:12%">Effort</th>'+
-        '<th class="lbl" style="width:15%">What it is worth</th><th class="lbl">The measure</th></tr></thead><tbody>'+
-        rows.map(r=>'<tr><td class="lbl"><b>'+esc(r.rec||'')+'</b>'+
-          (r.obs?'<span class="obs">Observed: '+esc(r.obs)+'</span>':'')+'</td>'+
-          '<td class="lbl">'+esc(pick(REC_TYPES,r.type).l)+'</td>'+
-          '<td class="lbl">'+esc(r.effort||'')+'</td>'+
-          '<td class="lbl">'+esc(r.impact||'—')+'</td>'+
-          '<td class="lbl">'+esc(r.metric||'—')+'</td></tr>').join('')+'</tbody></table>');
+    R.forEach((r,k)=>{
+      B.push('<div class="findblk"><p class="findh">'+(k+1)+' '+esc(findTitle(r))+'</p>'+
+        (r.obs?'<p class="findl"><b>Finding</b>'+esc(r.obs)+'</p>':'')+
+        (r.rec?'<p class="findl"><b>Recommendation</b>'+esc(r.rec)+'</p>':'')+
+        (r.ev?'<p class="findl"><b>Evidence</b>'+esc(r.ev)+'</p>':'')+
+        (r.why?'<p class="findl"><b>Why it matters</b>'+esc(r.why)+'</p>':'')+
+        '<p class="findm">'+esc(pick(REC_TYPES,r.type).l)+' · '+esc(r.horizon||'Now')+
+        ' · '+esc(r.effort||'')+' effort'+
+        (r.impact?' · '+(/^[$\d(]/.test(r.impact.trim())?'worth ':'')+esc(r.impact):'')+
+        (r.metric?' · measured by '+esc(r.metric):'')+'</p></div>');
     });
-    B.push('<p style="font-size:9px;color:#8C8C8C;margin-top:5px">Now, Next and Later are a sequence '+
-      'rather than a ranking: the Now items are those that can start without waiting for anything else. '+
-      'Each line names the measure that will show whether it worked, so the next review can be an '+
-      'audit of these decisions rather than a fresh analysis.</p>');
-  } else B.push(npBlock('Recommendations','the decisions that follow from the analysis, entered on the '+
-    'Recommendations page. The findings are set out above; what to do about them is a judgment and it '+
-    'has not been recorded'));
+  } else B.push(npBlock('Key findings and recommendations','the decisions that follow from the analysis, '+
+    'entered on the Recommendations page. The findings are set out above; what to do about them is a '+
+    'judgment and it has not been recorded'));
+
+  /* the five that carry the agenda */
+  const P5=R.filter(r=>r.prio);
+  if(P5.length){
+    B.push('<h4 class="sh">Findings to prioritize</h4>');
+    B.push('<p style="font-size:10px;color:#4D4D4D;margin:0 0 8px">The '+
+      (P5.length===5?'five':fmt(P5.length,0))+' with the greatest strategic or near-term significance. '+
+      'Together they are the agenda; the rest are improvements to make alongside them.</p>'+
+      '<table class="rp rec"><thead><tr><th class="lbl" style="width:46%">Priority</th>'+
+      '<th class="lbl" style="width:12%">When</th><th class="lbl">Management action</th></tr></thead><tbody>'+
+      P5.map((r,k)=>'<tr><td class="lbl"><b>'+(k+1)+' '+esc(pick(REC_TYPES,r.type).l)+'</b>'+
+        (r.obs?'<span class="obs">'+esc(r.obs)+'</span>':'')+'</td>'+
+        '<td class="lbl">'+esc(r.horizon||'Now')+'</td>'+
+        '<td class="lbl">'+esc(r.action||r.rec||'')+'</td></tr>').join('')+'</tbody></table>');
+
+  }
   const risk=repNote('recRisks');
   if(risk)B.push('<h4 class="sh">Risks, assumptions and what would change this advice</h4>'+evalBlock('',null,risk));
-  paginateBlocks(glueHeads(B),'Recommendations','Recommendations (continued)','Recommendations',P);
+  const conc=repNote('recConclusion');
+  if(conc)B.push('<h4 class="sh">Overall conclusion</h4>'+evalBlock('',null,conc));
+  paginateBlocks(glueHeads(B),'Key findings and recommendations',
+    'Key findings and recommendations (continued)','Recommendations',P);
 }
-
 
 /* ---------- 13. SVG CHART PRIMITIVES ----------------------------------- */
 const CH={maroon:'#500000',deep:'#2E0000',ink:'#000000',muted:'#8C8C8C',rule:'#E0E0E0',
@@ -7280,13 +7528,38 @@ NOTE_DRAFT.recSummary=function(){
   const i=latestIdx(), R=autoRead();
   if(!R.length)return null;
   const om=div(V('is','operatingIncome',i),V('is','revenue',i));
-  let t=recName()+' closed '+periodLabel(i)+' with revenue of '+fmt(V('is','revenue',i))+
+  let t=recName()+' closed '+periodLabel(i)+' with revenue of '+amtW(V('is','revenue',i))+
     (om!=null?' at an operating margin of '+pct(om,1):'')+'. ';
   t+=R.slice(0,2).map(x=>x.t).join('. ')+'. ';
   if(typeof zScore==='function'&&zScore(i)!=null)
     t+='On the bankruptcy model it sits in the '+ZONE_WORD[zZone(zScore(i))].toLowerCase()+'. ';
-  return t+'\n\n[Rewrite this as the three sentences you would say to the owner before making any '+
-    'recommendation: where the business stands, what is working, and what is not.]';
+  const R2=recRows().filter(x=>(x.rec||'').trim()&&x.prio);
+  if(R2.length)t+='\n\nThe agenda these recommendations add up to is '+
+    R2.slice(0,4).map(x=>pick(REC_TYPES,x.type).l.toLowerCase()).join(', ')+
+    (R2.length>4?' and the rest of the priority list':'')+', in that order.';
+  return t+'\n\n[Rewrite the first paragraph as the three sentences you would say to the owner before '+
+    'making any recommendation: where the business stands, what is working, and what is not.]';
+};
+NOTE_DRAFT.recConclusion=function(){
+  const i=latestIdx(), c=chron(), R=recRows().filter(r=>(r.rec||'').trim());
+  if(!R.length&&!autoRead().length)return null;
+  const om=div(V('is','operatingIncome',i),V('is','revenue',i));
+  const f=c.find(k=>k!==i&&div(V('is','operatingIncome',k),V('is','revenue',k))!=null);
+  const om0=(f==null)?null:div(V('is','operatingIncome',f),V('is','revenue',f));
+  let t='Taken together, the analysis shows that '+recName()+' ends '+periodLabel(i);
+  t+=(om!=null&&om0!=null)?(om>om0?' in a stronger position than at '+periodLabel(f)+'. ':
+      (om<om0?' weaker on the measures that matter than at '+periodLabel(f)+'. ':
+              ' broadly where it stood at '+periodLabel(f)+'. ')):
+      ' where the figures in this report put it. ';
+  const R2=autoRead();
+  if(R2.length)t+=R2.slice(0,3).map(x=>x.t.replace(/\.\s*$/,'')).join('. ')+'. ';
+  const pr=R.filter(r=>r.prio);
+  if(pr.length)t+='The next phase should concentrate on '+
+    pr.slice(0,3).map(r=>pick(REC_TYPES,r.type).l.toLowerCase()).join(', ')+', in that order. ';
+  t+='No single ratio settles any of this: the measures agree in some places and pull against each '+
+    'other in others, and where they do the disagreement is the finding.';
+  return t+'\n\n[Close in your own words. Say what you would want this business to look like in twelve '+
+    'months, and which of the recommendations above gets it there.]';
 };
 NOTE_DRAFT.recRisks=function(){
   const R=recRows().filter(r=>(r.rec||'').trim());
@@ -7540,7 +7813,7 @@ function commitImport(){
   });
   /* The facts that are not statement lines. They never overwrite a figure the
      analyst has already entered, and they are applied only when the mapping is
-     committed, so canceling an import leaves nothing behind. */
+     committed, so cancelling an import leaves nothing behind. */
   const extraFilled=[];
   (IMP.extras||[]).forEach(x=>{
     const tgt=(x.where==='cred')?S.cred:S.disc;
@@ -8766,6 +9039,7 @@ function draftAll(){
   }
   jobs.push({k:'recSummary',run:()=>draftNote('recSummary')});
   jobs.push({k:'recRisks',run:()=>draftNote('recRisks')});
+  jobs.push({k:'recConclusion',run:()=>draftNote('recConclusion')});
   if(NOTE_DRAFT.notesread)jobs.push({k:'notesread',run:()=>draftNote('notesread')});
   NOTE_FIELDS.forEach(f=>{if(NOTE_DRAFT[f.k])jobs.push({k:f.k,run:()=>draftNote(f.k)});});
   jobs.push({k:'sowhat',run:draftSynthesis});
@@ -9282,7 +9556,7 @@ function METHOD_TECHNIQUES(){
 
 const PRINCIPLES=[
  {n:'A number without a source is not evidence',
-  b:'Every figure in an Aperture deliverable traces to a document, a page and a date, or is marked as modeled or estimated. The evidence ledger is not administrative overhead — it is the difference between an analysis a client can act on and an assertion they have to take on trust.'},
+  b:'Every figure in an Aperture deliverable traces to a document, a page and a date, or is marked as modelled or estimated. The evidence ledger is not administrative overhead — it is the difference between an analysis a client can act on and an assertion they have to take on trust.'},
  {n:'Test the account management gives of its own problem',
   b:'Management’s diagnosis is evidence about management, not necessarily about the business. It is triangulated against the statements, not adopted from them. Where the two disagree, that disagreement is itself a finding.'},
  {n:'Separate structure from movement',
@@ -10509,7 +10783,7 @@ function buildReport(){
     else t+='<tr><td class="lbl" colspan="5" style="color:#8C8C8C">No evidence entries recorded.</td></tr>';
     t+='</tbody></table>';
     P.push(pageWrap('Evidence and assumptions',
-      '<p>Every figure in this document traces to a source. Where a figure is modeled or estimated rather '+
+      '<p>Every figure in this document traces to a source. Where a figure is modelled or estimated rather '+
       'than observed, it is marked as such here. A number without a source is not evidence.</p>'+t+
       '<h4 class="sh">Basis of preparation</h4>'+
       '<p>Figures are stated in '+esc(m.units)+(m.fye?'. Fiscal year end: '+esc(m.fye):'')+'. '+
@@ -10897,7 +11171,8 @@ function migrate(o){
   st.recs={...base.recs,...(o.recs||{})};
   st.recs.items=Array.isArray(st.recs.items)?st.recs.items.map(r=>({obs:r.obs||'',rec:r.rec||'',
     type:r.type||'cost',horizon:r.horizon||'Now',effort:r.effort||'Medium',conf:r.conf||'Indicated',
-    impact:r.impact||'',metric:r.metric||'',owner:r.owner||''})):[];
+    impact:r.impact||'',metric:r.metric||'',owner:r.owner||'',
+    ev:r.ev||'',why:r.why||'',prio:r.prio?1:0,action:r.action||''})):[];
   /* sessions saved before the US respelling name the old section */
   if(Array.isArray(st.ui.repSections))st.ui.repSections=st.ui.repSections.map(x=>x==='normalisation'?'normalization':x);
   if(!o.recs&&Array.isArray(st.ui.repSections)&&!st.ui.repSections.includes('recs')){
@@ -11110,7 +11385,7 @@ const DEMO={
   {item:'All balance sheet figures',source:'Form 10-K, consolidated balance sheets',page:'p. 45',conf:'High',note:'As reported; no adjustments'},
   {item:'All income statement figures',source:'Form 10-K, consolidated statements of earnings',page:'p. 43',conf:'High',note:'As reported'},
   {item:'All cash flow figures',source:'Form 10-K, consolidated statements of cash flows',page:'p. 47',conf:'High',note:'Impairment lines aggregated: goodwill impairment plus long-lived asset impairments'},
-  {item:'Deferred revenue',source:'Form 10-K, consolidated balance sheets',page:'p. 45',conf:'High',note:'Modeled: deferred revenue plus unredeemed gift card liabilities, combined for presentation'},
+  {item:'Deferred revenue',source:'Form 10-K, consolidated balance sheets',page:'p. 45',conf:'High',note:'Modelled: deferred revenue plus unredeemed gift card liabilities, combined for presentation'},
   {item:'EBITDA',source:'Analyst model',page:'—',conf:'Modelled',note:'Operating income plus depreciation and amortization from the cash flow statement'},
   {item:'Debt including leases',source:'Analyst model',page:'—',conf:'Modelled',note:'Reported debt plus current and non-current operating lease liabilities'},
   {item:'Share prices, headcount and audit-report details',source:'ILLUSTRATIVE — worked example only',page:'—',conf:'Low',note:'Not sourced from the filing. Placeholders so the valuation and intake sections demonstrate. Replace from the 10-K before any external use.'}],
@@ -11229,7 +11504,7 @@ const DEMO_PRIVATE={
   departureNote:'No audit opinion exists. The accountant issued a review report providing limited assurance only — analytical procedures and inquiry, with no transaction testing, no confirmation of balances and no assessment of internal control. The distinction matters commercially as well as analytically: buyers discount unaudited earnings, and the discount routinely exceeds the cost of an audit by an order of magnitude.',
   cams:'None. Critical audit matters are a feature of an audit report and do not arise in a review engagement — which is itself the point worth making to the reader. Nobody has told you which estimate in these statements was hardest to support, because nobody tested them.\n\nThe judgments most exposed on the evidence available: revenue recognition timing on project releases spanning a period end; work-in-progress valuation; and the adequacy of the obsolescence provision against slow-moving raw stock.',
   goingConcern:'none',restatement:'none',
-  subsequent:'A replacement fiber laser was ordered after the period end at a committed cost of approximately 620, to be financed by equipment loan. It is not in the FY2025 balance sheet and materially changes the FY2026 capex and debt picture.'},
+  subsequent:'A replacement fibre laser was ordered after the period end at a committed cost of approximately 620, to be financed by equipment loan. It is not in the FY2025 balance sheet and materially changes the FY2026 capex and debt picture.'},
  notes:{
   business:'Contract precision metal fabrication — laser cutting, forming and welding — supplying agricultural equipment, HVAC and specialty vehicle OEMs from a single 74,000 sq ft plant. Revenue is project and blanket-order based, with the top three customers representing roughly 47% of revenue.',
   auditor:'Financial statements are reviewed, not audited. A review provides limited assurance only: the accountant has performed analytical procedures and inquiry, but has not tested transactions or confirmed balances. Any figure in this analysis inherits that limitation.',
@@ -11611,7 +11886,7 @@ const HELP={
  horizons:{t:'Now, Next and Later',
   d:'A sequencing of the work: the next ninety days, this year, and what is contingent on the first two.',
   r:'Sequenced rather than listed. Now needs no permission, Next needs a decision, Later depends on what the first two reveal.',
-  x:'The value of the page is in what has been left off it. A roadmap that contains everything has prioritized nothing.'},
+  x:'The value of the page is in what has been left off it. A roadmap that contains everything has prioritised nothing.'},
 
 /* --- the thesis -------------------------------------------------------- */
  thscore:{t:'The score',
@@ -12949,7 +13224,7 @@ async function pdfWriteHighlights(buf,marks,opts){
       const rect=[q[0]-pad,q[1]-pad,q[2]+pad,q[3]+pad].map(v=>Math.round(v*1000)/1000);
       const color=m.color||'1 0.756866 0';
       /* An appearance stream, so the mark is drawn by every reader rather than
-         only by the ones that synthesize one. Multiply is what makes a
+         only by the ones that synthesise one. Multiply is what makes a
          highlight sit UNDER the text instead of over it. */
       const ap=s2b('/GS gs '+color+' rg '+
         rect[0]+' '+rect[1]+' '+(rect[2]-rect[0])+' '+(rect[3]-rect[1])+' re f');

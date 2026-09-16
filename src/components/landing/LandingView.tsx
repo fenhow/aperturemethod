@@ -160,7 +160,7 @@ export function LandingView({ page }: { page: LandingPage }) {
 
         {page.proof.blocks.map((block, i) => (
           <Reveal key={block.title} delay={80 + i * 40} className="mt-8">
-            <div className="max-w-measure rounded-lg border border-line bg-paper p-7">
+            <div className="hover-lift max-w-measure rounded-lg border border-line bg-paper p-7">
               {block.tag && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
                   <span className="h-1.5 w-1.5 rounded-full bg-maroon" aria-hidden="true" />

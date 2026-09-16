@@ -253,7 +253,7 @@ export default function WhatWeBelievePage() {
       {/* Final CTA */}
       <Section>
         <Reveal variant="zoom">
-          <div className="flex flex-col items-start justify-between gap-8 rounded-lg border border-line bg-surface p-10 lg:flex-row lg:items-center">
+          <div className="hover-lift flex flex-col items-start justify-between gap-8 rounded-lg border border-line bg-surface p-10 lg:flex-row lg:items-center">
             <div className="max-w-2xl">
               <h2 className="heading-gradient text-h2 font-semibold">Let&apos;s bring your business into focus.</h2>
               <p className="mt-4 text-body-lg text-muted">

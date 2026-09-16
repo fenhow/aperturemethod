@@ -75,7 +75,7 @@ export function Whitespace() {
                 ) : (
                   <div
                     key={c.k}
-                    className="flex min-h-[150px] flex-col rounded-lg border border-line bg-paper/60 p-6"
+                    className="hover-lift flex min-h-[150px] flex-col rounded-lg border border-line bg-paper/60 p-6"
                   >
                     <h3 className="text-h4 font-semibold text-muted">{c.k}</h3>
                     <p className="mt-2 text-small text-muted">{c.d}</p>

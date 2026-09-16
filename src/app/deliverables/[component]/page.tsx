@@ -112,7 +112,7 @@ export default function DeliverablePage({ params }: { params: { component: strin
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {d.inside.map((item, i) => (
             <Reveal key={item} variant="up" delay={(i % 2) * 70}>
-              <div className="flex items-start gap-3 rounded-lg border border-line bg-paper p-6">
+              <div className="hover-lift flex items-start gap-3 rounded-lg border border-line bg-paper p-6">
                 <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-maroon" aria-hidden="true" />
                 <p className="text-body text-ink">{item}</p>
               </div>

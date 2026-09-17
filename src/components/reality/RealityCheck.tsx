@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
+import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
 type Stage = "intro" | "quiz" | "result";
@@ -322,6 +323,10 @@ function ReportForm({
   if (state === "sent") {
     return (
       <div className="mt-10 rounded-lg border border-line bg-surface p-6 sm:p-8">
+        {/* The panel that thanks them and moves them on to Pricing. It renders
+            over this block rather than replacing it, so someone who stops the
+            redirect still has their confirmation underneath. */}
+        <ThankYouRedirect email={email} />
         <h3 className="text-h4 font-semibold text-ink">Sent. Check your inbox.</h3>
         <p className="mt-2 text-body text-muted">
           Your written breakdown is on its way to{" "}

@@ -133,9 +133,9 @@ export const megaNav: MegaEntry[] = [
      */
     hub: {
       eyebrow: "What it is",
-      title: "The Aperture Method\u2122",
+      title: "The Aperture Method\u2122 brings your entire business into focus.",
       blurb:
-        "Five phases that take an owner-run business from what is actually happening, to why, to what the market makes possible, to the few moves worth making, to a live scoreboard that shows whether they worked. The analysis a large company buys from a consultancy, run on a business your size, in language you can act on.",
+        "We analyze your financials, operations, customers, market, and competition to uncover what is driving performance, where value is being lost, and where the greatest opportunities exist. Then we turn those insights into clear priorities, measurable actions, and a live view of results.",
       linkLabel: "See the five phases, start to finish",
       href: "/the-aperture-method",
     },

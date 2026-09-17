@@ -1,5 +1,6 @@
 "use client";
 
+import { QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 import Image from "next/image";
 import Link from "next/link";
 import { FIGURES } from "@/lib/marketContext";
@@ -208,7 +209,7 @@ export function ApertureHero() {
           </Link>
         </div>
         <p className="mt-4 text-caption text-white/55">
-          11 questions · about 3 minutes · no email required
+          {QUESTION_COUNT} questions · about {APPROX_MINUTES} minutes · no email required
         </p>
 
 

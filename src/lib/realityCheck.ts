@@ -1,5 +1,5 @@
 /**
- * The Reality Check, an eleven-question self-assessment of how well an owner
+ * The Reality Check, a fifteen-question self-assessment of how well an owner
  * actually knows their own business.
  *
  * Design rule: every question must be unanswerable without real knowledge.
@@ -10,6 +10,18 @@
  * This measures how well you KNOW the business, not how GOOD the business is.
  * The result is a Clarity Score, deliberately NOT the Aperture Score™, which
  * is evidence-based and has to be earned.
+ *
+ * SEPT 2026, four questions added from the financial-statement analysis work:
+ * margin of safety, owner-adjusted earnings, the price/volume trade-off, and
+ * where the return actually comes from. They are here because each one is a
+ * thing an owner can answer in a sentence, cannot fake, and usually has not
+ * calculated. They are also the four that separate a real diagnostic from a
+ * quiz: the rest of the list asks whether you have looked, these ask whether
+ * the number you are looking at means what you think it means.
+ *
+ * The count is NOT written into copy anywhere. Three places used to state it
+ * in words and two of them said "ten" while the array held eleven. Every
+ * surface now reads QUESTION_COUNT / APPROX_MINUTES from this file.
  */
 
 export type RCOption = { label: string; score: 0 | 1 | 2 | 3 | 4 };
@@ -69,6 +81,25 @@ export const questions: RCQuestion[] = [
     },
   },
   {
+    id: "owner-earnings",
+    area: "What the profit really is",
+    component: "Aperture Analytics™",
+    prompt:
+      "If you paid yourself a market salary, charged market rent on any property you own, and stripped out the one-off items, what would last year's profit be?",
+    note: "In a private company, reported profit reflects tax decisions as much as performance.",
+    options: [
+      { label: "I know that number, and I could defend every adjustment", score: 4 },
+      { label: "I have a sense of it, but I have never written it down", score: 2 },
+      { label: "I know the adjustments exist; I have not quantified them", score: 1 },
+      { label: "Profit is whatever the P&L says", score: 0 },
+    ],
+    blindSpot: {
+      headline: "Your reported profit is not your real profit.",
+      body: "In an owner-run company you set your own pay, you may rent the building to yourself, and some personal cost almost always runs through the business. Every one of those can be legitimate and every one moves the number. A buyer, a lender and a partner will each rebuild it their own way, and the owner who has not done it first ends up negotiating against a figure someone else constructed.",
+      cost: "This is the number a business is bought against and lent against. Arriving at it late means somebody else decides what it is.",
+    },
+  },
+  {
     id: "concentration",
     area: "Customer concentration",
     component: "Aperture Analytics™",
@@ -105,6 +136,43 @@ export const questions: RCQuestion[] = [
     },
   },
   {
+    id: "margin-of-safety",
+    area: "Margin of safety",
+    component: "Aperture Analytics™",
+    prompt: "How far could revenue fall before this business stops making money?",
+    note: "Your break-even point, and the distance between it and where you are now.",
+    options: [
+      { label: "I know the number, in dollars and as a percentage", score: 4 },
+      { label: "I know roughly where break-even sits", score: 2 },
+      { label: "I know my costs, but I have never worked out the point", score: 1 },
+      { label: "I have never calculated it", score: 0 },
+    ],
+    blindSpot: {
+      headline: "You do not know how much room you have.",
+      body: "Break-even is fixed costs divided by the margin each sale contributes, and the gap between that point and today's revenue is your margin of safety. Without it, a slow quarter is just a feeling. With it, you know whether the quarter is uncomfortable or actually dangerous, and you know what each new fixed cost does to the distance.",
+      cost: "It is an afternoon's arithmetic from a P&L you already have, and it changes how you judge every fixed commitment you take on.",
+    },
+  },
+  {
+    id: "pricing-power",
+    area: "Pricing power",
+    component: "Aperture Analytics™",
+    prompt:
+      "If you raised prices five percent, how much volume could you afford to lose before you were worse off?",
+    note: "The answer depends on the margin each sale contributes, not on revenue.",
+    options: [
+      { label: "I know the percentage, and we have tested a rise against it", score: 4 },
+      { label: "I could work it out if I sat down with the numbers", score: 2 },
+      { label: "I know a rise would help, but not by how much or what it would cost", score: 1 },
+      { label: "We price off our costs, or off what competitors charge", score: 0 },
+    ],
+    blindSpot: {
+      headline: "Price is your strongest lever and it is the one you are not measuring.",
+      body: "A price rise carries almost no cost to deliver, so nearly all of it reaches the bottom line. The arithmetic is genuinely counterintuitive: at a forty percent contribution margin, a five percent rise can lose more than eleven percent of volume and still leave you ahead. Owners consistently guess that the tolerable loss is far smaller than it is, and price too low as a result.",
+      cost: "Underpricing compounds on every invoice, quietly, and it is the fastest thing on this list to reverse.",
+    },
+  },
+  {
     id: "retention",
     area: "Repeat business",
     component: "Aperture Intelligence™",
@@ -137,6 +205,24 @@ export const questions: RCQuestion[] = [
       headline: "You are competing without a map.",
       body: "Most owners know their competitors by name and almost none know their penetration by area. That gap hides two things at once: where you are already winning and should press, and where demand exists that nobody is serving.",
       cost: "Expansion and marketing spend get aimed by intuition rather than by where the demand actually is.",
+    },
+  },
+  {
+    id: "return-drivers",
+    area: "Where the return comes from",
+    component: "Aperture Analytics™",
+    prompt:
+      "Your return on the money tied up in this business comes from three places: the margin on each sale, how hard the assets work, and how much borrowing is amplifying both. Which one is doing the work?",
+    options: [
+      { label: "I know which of the three drives my return, and which has slipped", score: 4 },
+      { label: "I watch margin closely; the other two much less", score: 2 },
+      { label: "I look at profit, not at return on what is invested", score: 1 },
+      { label: "I have never thought about it that way", score: 0 },
+    ],
+    blindSpot: {
+      headline: "You cannot tell a good year from a borrowed one.",
+      body: "Two businesses can report the same return while one earns it on margin and the other borrows its way there. Split the return into margin, asset productivity and leverage and the difference is obvious, and so is the fix: a pricing problem, an idle-asset problem and a balance-sheet problem look identical until they are separated. Leverage flatters the result every year until the one where it does not.",
+      cost: "Improvement effort goes to the wrong lever, and the business looks healthier than it is for as long as rates and lenders stay friendly.",
     },
   },
   {
@@ -234,10 +320,14 @@ export const questions: RCQuestion[] = [
 const priority = [
   "constraint",
   "profit-by-line",
+  "margin-of-safety",
   "cash-cycle",
+  "owner-earnings",
+  "pricing-power",
   "retention",
   "concentration",
   "kpis",
+  "return-drivers",
   "market",
   "growth",
   "decisions",
@@ -322,3 +412,17 @@ export function scoreAnswers(answers: Record<string, number>): RCResult {
 
   return { score, band: bandFor(score), gaps, blindSpot, answered: answered.length };
 }
+
+/**
+ * How many questions there are, and roughly how long that takes.
+ *
+ * Both are DERIVED. Before this existed the homepage said "11 questions", the
+ * quiz itself said "Ten questions" and the page description said "Ten
+ * questions you cannot bluff", while the array held eleven. Three surfaces,
+ * three different claims, none of them checked by anything. Import these
+ * rather than typing a number or a word into copy.
+ */
+export const QUESTION_COUNT = questions.length;
+
+/** About fifteen seconds a question, rounded to the nearest minute, floor of three. */
+export const APPROX_MINUTES = Math.max(3, Math.round((QUESTION_COUNT * 15) / 60));

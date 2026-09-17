@@ -119,13 +119,25 @@ export const megaNav: MegaEntry[] = [
     kind: "group",
     label: "The Method",
     href: "/the-aperture-method",
+    /*
+     * The panel says what the Method IS, not what to buy first.
+     *
+     * It used to lead with the Business X-Ray, which is the right FIRST
+     * PURCHASE and the wrong first sentence. Someone opening this menu has
+     * usually just arrived: they have seen a name they do not recognise and
+     * they are trying to work out what kind of firm this is. Selling them the
+     * entry product answers a question they have not asked yet, and the five
+     * numbered components sitting to the right only mean something once the
+     * shape of the thing is clear. The X-Ray is still one hover away, first in
+     * the components column, and it is the hub on its own pages.
+     */
     hub: {
-      eyebrow: "Start here",
-      title: "The Business X-Ray",
+      eyebrow: "What it is",
+      title: "The Aperture Method\u2122",
       blurb:
-        "A fixed-fee read of the whole business that names the one constraint holding the rest back. It is the way in, and it counts toward whatever follows.",
-      linkLabel: "Where is your business actually making money?",
-      href: "/business-x-ray",
+        "Five phases that take an owner-run business from what is actually happening, to why, to what the market makes possible, to the few moves worth making, to a live scoreboard that shows whether they worked. The analysis a large company buys from a consultancy, run on a business your size, in language you can act on.",
+      linkLabel: "See the five phases, start to finish",
+      href: "/the-aperture-method",
     },
     /*
      * Two columns, each with its own heading, rather than one list flowing

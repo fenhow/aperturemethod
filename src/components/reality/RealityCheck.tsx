@@ -3,12 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { primaryCta } from "@/lib/site";
-import {
-  questions,
-  scoreAnswers,
-  MAX_PER_QUESTION,
-  type RCQuestion,
-} from "@/lib/realityCheck";
+import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
 type Stage = "intro" | "quiz" | "result";
 
@@ -53,7 +48,7 @@ export function RealityCheck() {
           How well do you actually know your business?
         </h1>
         <p className="mt-5 text-body-lg text-muted">
-          Ten questions. About three minutes. No email required to see your score.
+          {QUESTION_COUNT} questions. About {APPROX_MINUTES} minutes. No email required to see your score.
         </p>
 
         <button
@@ -76,11 +71,21 @@ export function RealityCheck() {
   if (stage === "quiz") {
     return (
       <div className="mx-auto max-w-2xl">
-        <div className="flex items-center justify-between text-caption text-muted">
-          <span>
+        {/*
+          The counter and the area label used to be two spans in a
+          justify-between row with no gap between them. On a phone that read as
+          "Question 10 ofWhere the return comes 15 from": both wrapped, and the
+          wrapped halves interleaved. It only became obvious once the counter
+          reached two digits and the area names got longer, but it was always
+          one long label away from breaking. The counter can never wrap now,
+          the area takes what is left and truncates, and there is a real gap
+          between them.
+        */}
+        <div className="flex items-center justify-between gap-4 text-caption text-muted">
+          <span className="shrink-0 whitespace-nowrap">
             Question {idx + 1} of {questions.length}
           </span>
-          <span>{q.area}</span>
+          <span className="min-w-0 truncate text-right">{q.area}</span>
         </div>
         <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-line">
           <div

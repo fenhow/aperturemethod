@@ -1,5 +1,6 @@
 import { questions, scoreAnswers } from "@/lib/realityCheck";
 import { reportHtml, ownerHtml } from "@/lib/realityCheckEmail";
+import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
 
 /**
  * /preview-email — see a Reality Check email without sending one.
@@ -15,6 +16,7 @@ import { reportHtml, ownerHtml } from "@/lib/realityCheckEmail";
  *   /preview-email?who=owner    the lead alert
  *   /preview-email?score=low    someone with a lot of gaps
  *   /preview-email?score=high   someone with almost none
+ *   /preview-email?pdf=1        the attached PDF, rendered in the browser
  *
  * DEVELOPMENT ONLY. It returns 404 in production, because the templates carry
  * the firm's sales copy and there is no reason for that to sit on a public URL.
@@ -51,6 +53,26 @@ export async function GET(request: Request) {
   });
 
   const result = scoreAnswers(answers);
+
+  if (params.get("pdf")) {
+    const date = new Date().toLocaleDateString("en-US", {
+      year: "numeric", month: "long", day: "numeric",
+    });
+    const built = await generateRealityCheckPdf(
+      { name: "Sample Owner", company: "Sample Co" },
+      result,
+      answers,
+      date
+    );
+    return new Response(Buffer.from(built.bytes), {
+      headers: {
+        "content-type": "application/pdf",
+        "content-disposition": `inline; filename="${built.filename}"`,
+        "cache-control": "no-store",
+      },
+    });
+  }
+
   const html =
     params.get("who") === "owner"
       ? ownerHtml(

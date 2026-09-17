@@ -227,6 +227,7 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
     </table>
 
     <p style="font-size:14px;line-height:1.6;color:${INK};margin:0 0 26px">
+      The same result is attached as a PDF, if you would rather print it or pass it on.
       Keep this one. The reference above is the same set of measures we run in an engagement, and
       working through two or three of them on your own numbers is a genuinely useful afternoon.
       If anything here surprised you, reply to this message; it comes straight to me.<br>

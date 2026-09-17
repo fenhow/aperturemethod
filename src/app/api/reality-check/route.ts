@@ -3,6 +3,7 @@ import { EMAIL_RE } from "@/lib/contact";
 import { questions, scoreAnswers } from "@/lib/realityCheck";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 import { reportHtml, ownerHtml } from "@/lib/realityCheckEmail";
+import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
 
 /**
  * Reality Check: the written breakdown.
@@ -94,12 +95,32 @@ export async function POST(request: Request) {
     );
   }
 
+  /*
+   * The same result as a branded PDF, attached to both messages.
+   *
+   * Best-effort on purpose: a PDF that fails to build must never cost someone
+   * their breakdown. If it throws, the emails still go with the full HTML
+   * report, which carries everything the attachment does.
+   */
+  let pdf: { filename: string; contentBase64: string } | null = null;
+  try {
+    const date = new Date().toLocaleDateString("en-US", {
+      year: "numeric", month: "long", day: "numeric",
+    });
+    const built = await generateRealityCheckPdf({ name, company }, result, answers, date);
+    pdf = { filename: built.filename, contentBase64: Buffer.from(built.bytes).toString("base64") };
+  } catch (err) {
+    console.error("[reality-check] pdf build failed, sending without it:", err);
+  }
+  const attachments = pdf ? [pdf] : undefined;
+
   // The visitor's copy is the one that matters. Send it first.
   const toVisitor = await sendEmail({
     to: email,
     subject: `Your Reality Check: ${result.score}/100, ${result.band.name}`,
     html: reportHtml(result, answers),
     replyTo: NOTIFY_EMAIL,
+    attachments,
   });
 
   if (!toVisitor.ok) {
@@ -116,6 +137,7 @@ export async function POST(request: Request) {
     subject: `Reality Check: ${name}${company ? ` (${company})` : ""}, ${result.score}/100 (${result.band.name})`,
     html: ownerHtml({ name, company, title, email }, result, answers),
     replyTo: email,
+    attachments,
   });
   if (!toOwner.ok) console.error("[reality-check] owner notification failed:", toOwner.error);
 

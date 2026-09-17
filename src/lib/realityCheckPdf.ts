@@ -1,7 +1,8 @@
 import "server-only";
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, PDFName, PDFString, PDFArray, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
 import { APERTURE_LOGO_WHITE_HORIZONTAL_B64 } from "./onboarding/logo";
 import { questions, type RCResult } from "./realityCheck";
+import { siteConfig } from "./site";
 
 /**
  * The Reality Check, as a branded PDF attached to the breakdown email.
@@ -31,6 +32,15 @@ const MUTED = rgb(0.42, 0.42, 0.42);
 const LINE = rgb(0.86, 0.86, 0.86);
 const SURFACE = rgb(0.96, 0.955, 0.955);
 const GOLD = rgb(0xc9 / 255, 0xa2 / 255, 0x4b / 255);
+
+/** The CTA destination. Absolute, because a PDF has no origin to resolve against. */
+const bookingUrl = (() => {
+  try {
+    return new URL("/contact?ref=reality-check-pdf#book", siteConfig.url).toString();
+  } catch {
+    return "https://aperturemethod.com/contact?ref=reality-check-pdf#book";
+  }
+})();
 
 const PAGE_W = 612;
 const PAGE_H = 792;
@@ -99,13 +109,15 @@ class Doc {
   addPage(first = false) {
     this.page = this.doc.addPage([PAGE_W, PAGE_H]);
     if (first) {
-      const BAND = 104;
+      const BAND = 116;
       this.page.drawRectangle({ x: 0, y: PAGE_H - BAND, width: PAGE_W, height: BAND, color: MAROON });
       const lw = 214;
       const lh = lw * (this.logo.height / this.logo.width);
-      this.page.drawImage(this.logo, { x: MARGIN, y: PAGE_H - 40 - lh, width: lw, height: lh });
+      this.page.drawImage(this.logo, { x: MARGIN, y: PAGE_H - 34 - lh, width: lw, height: lh });
+      // The document's own name, set large. At 10.5pt it read as a caption
+      // under the logo rather than as the title of the thing you are holding.
       this.page.drawText("The Reality Check", {
-        x: MARGIN, y: PAGE_H - 84, size: 10.5, font: this.reg, color: rgb(0.92, 0.85, 0.85),
+        x: MARGIN, y: PAGE_H - 90, size: 21, font: this.bold, color: rgb(1, 1, 1),
       });
       const recip = this.recipient.length > 40 ? this.recipient.slice(0, 40) + "..." : this.recipient;
       this.rightText("PREPARED FOR", PAGE_H - 40, 7, this.bold, GOLD);
@@ -201,6 +213,27 @@ class Doc {
     if (rest) this.para(rest, { x: MARGIN + 12, maxW: CONTENT_W - 12, size, gap });
   }
 
+  /**
+   * A clickable region. pdf-lib draws no link for drawn text, so the button has
+   * to carry its own annotation: a rectangle registered on the page with a URI
+   * action. Border is zeroed so viewers do not outline it.
+   */
+  link(x: number, y: number, w: number, h: number, url: string) {
+    const ctx = this.doc.context;
+    const ref = ctx.register(
+      ctx.obj({
+        Type: "Annot",
+        Subtype: "Link",
+        Rect: [x, y, x + w, y + h],
+        Border: [0, 0, 0],
+        A: ctx.obj({ Type: "Action", S: "URI", URI: PDFString.of(url) }),
+      })
+    );
+    const existing = this.page.node.Annots();
+    if (existing instanceof PDFArray) existing.push(ref);
+    else this.page.node.set(PDFName.of("Annots"), ctx.obj([ref]));
+  }
+
   rule(after = 8) {
     this.ensure(10);
     this.page.drawLine({
@@ -282,7 +315,7 @@ export async function generateRealityCheckPdf(
   /* ------------------------------------------------------- blind spot */
   if (blindSpot) {
     d.y -= 6;
-    d.ensure(120);
+    d.ensure(170);
     d.heading("Your biggest blind spot");
     d.para(blindSpot.blindSpot.headline, { font: d.bold, size: 11.5, color: INK, after: 4 });
     d.para(blindSpot.blindSpot.body, { size: 9.5, after: 4 });
@@ -290,52 +323,105 @@ export async function generateRealityCheckPdf(
     d.para(`Addressed by ${blindSpot.component}`, { size: 8.5, color: MUTED, after: 2 });
   }
 
-  /* --------------------------------------------------- what they said */
-  d.heading("Everything you answered");
-  for (const q of questions) {
-    const v = answers[q.id];
-    const chosen = q.options.find((o) => o.score === v);
-    const weak = (v ?? 0) <= 1;
-    d.ensure(26);
-    d.para(san(q.area).toUpperCase(), { font: d.bold, size: 7, color: weak ? MAROON : MUTED, gap: 10 });
-    d.para(chosen ? chosen.label : "Not answered", {
-      size: 9.5, color: weak ? MAROON : INK, font: weak ? d.bold : d.reg, after: 5,
-    });
-  }
-
-  /* ------------------------------------------- the study guide, its own page */
-  d.addPage();
-  d.para("THE METRICS BEHIND THE QUESTIONS", { font: d.bold, size: 8, color: MAROON, gap: 13 });
+  /* ---------------------------------- question, answer, explanation, in that order */
+  /*
+   * Break only if there is not room for the heading and a first entry. Forcing
+   * a page here left page two holding a single orphaned line from the blind
+   * spot above it and nothing else, which looks like a printing fault rather
+   * than a design. `ensure` gives a clean start when one is needed and flows on
+   * when it is not.
+   */
+  d.y -= 6;
+  d.ensure(250);
+  d.para("QUESTION BY QUESTION", { font: d.bold, size: 8, color: MAROON, gap: 13 });
   d.para(
-    "Every question you answered is the plain-language version of a standard financial or operating measure. Here is each one: what it is, how it is calculated, and what the number tells you once you have it. Your own gaps are marked, and they are the ones worth starting with. Nothing here needs software you do not already have; most of it comes off a P&L and a balance sheet you already produce.",
+    "Every question, the answer you gave, and the measure behind it: what it is, how it is calculated, and what the number tells you once you have it. Your gaps are marked, and they are the ones worth starting with. Nothing here needs software you do not already have; most of it comes off a P&L and a balance sheet you already produce.",
     { size: 9.5, color: MUTED, after: 10 }
   );
 
   questions.forEach((q, i) => {
     const weak = (answers[q.id] ?? 0) <= 1;
-    d.ensure(96);
+    const chosen = q.options.find((o) => o.score === answers[q.id]);
+    // Keep a question's header, prompt and answer together. The explanation may
+    // break across a page; a question stranded from its own answer may not.
+    d.ensure(130);
     d.rule(10);
     const n = String(i + 1).padStart(2, "0");
-    d.para(`${n}  ${san(q.area).toUpperCase()}${weak ? "   ·   ONE OF YOUR GAPS" : ""}`, {
+    d.para(`${n}  ${san(q.area).toUpperCase()}${weak ? "   \u00b7   ONE OF YOUR GAPS" : ""}`, {
       font: d.bold, size: 7, color: weak ? MAROON : MUTED, gap: 12,
     });
-    d.para(q.explainer.metric, { font: d.bold, size: 11.5, color: INK, after: 2 });
-    d.para(q.prompt, { font: d.ital, size: 9, color: MUTED, after: 5 });
+    d.para(q.prompt, { font: d.bold, size: 11, color: INK, after: 8 });
+
+    // Their answer, in a tinted band so the eye finds it without reading.
+    const lines = d.wrap(chosen ? chosen.label : "Not answered", d.reg, 10, CONTENT_W - 32);
+    const boxH = 20 + lines.length * 13;
+    d.ensure(boxH + 8);
+    const boxTop = d.y + 11;
+    d.page.drawRectangle({ x: MARGIN, y: boxTop - boxH, width: CONTENT_W, height: boxH, color: SURFACE });
+    d.page.drawRectangle({ x: MARGIN, y: boxTop - boxH, width: 3, height: boxH, color: weak ? MAROON : LINE });
+    d.page.drawText("YOUR ANSWER", { x: MARGIN + 14, y: boxTop - 14, size: 6.5, font: d.bold, color: MUTED });
+    let ly = boxTop - 28;
+    for (const ln of lines) {
+      d.page.drawText(ln, { x: MARGIN + 14, y: ly, size: 10, font: weak ? d.bold : d.reg, color: weak ? MAROON : INK });
+      ly -= 13;
+    }
+    d.y = boxTop - boxH - 14;
+
+    d.para("THE MEASURE BEHIND IT", { font: d.bold, size: 6.5, color: MUTED, gap: 11 });
+    d.para(q.explainer.metric, { font: d.bold, size: 11, color: INK, after: 3 });
     d.beat("What it is.", q.explainer.what);
     d.beat("How it is calculated.", q.explainer.how);
     d.beat("What the number tells you.", q.explainer.reading);
-    d.y -= 6;
+    d.y -= 8;
   });
 
   /* ------------------------------------------------------------ close */
-  d.y -= 6;
-  d.ensure(110);
+  d.addPage();
   d.heading("What this is, and what it is not");
   d.para(
     "This is a self-assessment. It tells you what you do not currently know, not how good the business is. The Business X-Ray™ is the diagnostic that answers it: a seven-lens read of the whole business, the named constraint with the evidence behind it, and a baseline Aperture Score™ you can track. Two to three weeks, fixed fee, senior-led.",
-    { size: 9.5, after: 6 }
+    { size: 10, after: 12 }
   );
-  d.para("aperturemethod.com  ·  hello@aperturemethod.com", { size: 9, color: MAROON, font: d.bold });
+
+  d.ensure(160);
+  const cTop = d.y + 8;
+  const C_H = 126;
+  d.page.drawRectangle({ x: MARGIN, y: cTop - C_H, width: CONTENT_W, height: C_H, color: SURFACE });
+  d.page.drawRectangle({ x: MARGIN, y: cTop - C_H, width: 4, height: C_H, color: MAROON });
+  d.y = cTop - 26;
+  d.para("Thank you for taking it.", {
+    font: d.bold, size: 14, color: INK, x: MARGIN + 20, maxW: CONTENT_W - 40, after: 5,
+  });
+  d.para(
+    "Fifteen honest answers about your own business is more scrutiny than most owners ever apply to it, and the useful part is not the score. It is the questions you could not answer, which are now named.",
+    { size: 9.5, x: MARGIN + 20, maxW: CONTENT_W - 40, after: 5 }
+  );
+  d.para(
+    "If you want to talk any of it through, book a consultation. No charge and no pitch: bring the one answer that bothered you most and we will work out whether it is worth doing anything about.",
+    { size: 9.5, x: MARGIN + 20, maxW: CONTENT_W - 40 }
+  );
+  d.y = cTop - C_H - 22;
+
+  /*
+   * A real clickable annotation, not printed text. A PDF that only shows a URL
+   * asks the reader to retype it, and almost nobody does.
+   */
+  const BTN_W = 190;
+  const BTN_H = 32;
+  const btnY = d.y - BTN_H + 10;
+  d.page.drawRectangle({ x: MARGIN, y: btnY, width: BTN_W, height: BTN_H, color: MAROON });
+  const btnLabel = "Book a consultation";
+  const lwid = d.bold.widthOfTextAtSize(btnLabel, 11);
+  d.page.drawText(btnLabel, {
+    x: MARGIN + (BTN_W - lwid) / 2, y: btnY + 11, size: 11, font: d.bold, color: rgb(1, 1, 1),
+  });
+  d.link(MARGIN, btnY, BTN_W, BTN_H, bookingUrl);
+  d.y = btnY - 24;
+
+  d.para("Or reply to the email this came with. It goes straight to me.", { size: 9.5, color: MUTED, after: 8 });
+  d.para("Fenwick How", { font: d.bold, size: 10.5, color: INK, after: 1 });
+  d.para("Founder, The Aperture Method", { size: 9.5, color: MUTED, after: 4 });
+  d.para("aperturemethod.com", { size: 9.5, color: MAROON, font: d.bold });
 
   d.finalizeFooters();
   const bytes = await d.doc.save();

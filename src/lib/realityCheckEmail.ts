@@ -46,7 +46,7 @@ function siteUrl(path: string): string {
 }
 
 /**
- * The study guide, shared by both emails.
+ * The question-by-question walkthrough, shared by both emails.
  *
  * It renders into the visitor's report AND into the lead alert. That is
  * deliberate duplication rather than an oversight: the two messages arrive
@@ -56,7 +56,11 @@ function siteUrl(path: string): string {
  * it gives the alert something it genuinely wanted anyway, which is the metric
  * behind each answer, in hand before a call.
  *
- * Every question's underlying metric, spelled out.
+ * One block per question, in the order they were asked: the question, the
+ * answer they gave, then the measure behind it. That order is deliberate. A
+ * reference detached from your own answers is a glossary, and nobody reads a
+ * glossary; the same words sitting directly under what you just said about
+ * your business are a verdict you can act on.
  *
  * This is the part of the email people keep. The panel in the quiz gives the
  * definition and the arithmetic, and the results screen adds the reading, but
@@ -68,7 +72,7 @@ function siteUrl(path: string): string {
  * Run-in bold labels rather than headings: Outlook collapses margins on
  * stacked headings, and at fifteen entries the vertical rhythm falls apart.
  */
-function studyGuideHtml(answers: Record<string, number>): string {
+function walkthroughHtml(answers: Record<string, number>): string {
     return questions
     .map((q, i) => {
       const weak = (answers[q.id] ?? 0) <= 1;
@@ -77,14 +81,32 @@ function studyGuideHtml(answers: Record<string, number>): string {
         `<p style="font-size:14px;line-height:1.65;color:${INK};margin:10px 0 0">
            <strong style="color:${MAROON}">${label}</strong> ${esc(text)}
          </p>`;
+      const chosen = q.options.find((o) => o.score === answers[q.id]);
       return `<table role="presentation" style="border-collapse:collapse;width:100%;margin-bottom:14px">
         <tr><td style="padding:18px 20px;background:${weak ? SURFACE : "#ffffff"};
           border:1px solid ${LINE};border-left:3px solid ${weak ? MAROON : LINE}">
           <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${GRAY};font-weight:700;margin:0 0 5px">
             ${n} &middot; ${esc(q.area)}${weak ? ` <span style="color:${MAROON}">&middot; one of your gaps</span>` : ""}
           </p>
-          <div style="font-size:17px;font-weight:700;color:${INK};line-height:1.35">${esc(q.explainer.metric)}</div>
-          <p style="font-size:13px;line-height:1.6;color:${GRAY};margin:8px 0 0;font-style:italic">${esc(q.prompt)}</p>
+
+          <div style="font-size:16px;font-weight:700;color:${INK};line-height:1.4">${esc(q.prompt)}</div>
+
+          <table role="presentation" style="border-collapse:collapse;width:100%;margin:12px 0 4px">
+            <tr><td style="padding:10px 14px;background:${weak ? "#ffffff" : SURFACE};
+              border-left:3px solid ${weak ? MAROON : LINE}">
+              <p style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:${GRAY};font-weight:700;margin:0 0 3px">
+                Your answer
+              </p>
+              <p style="font-size:14px;line-height:1.5;margin:0;color:${weak ? MAROON : INK};font-weight:${weak ? 700 : 400}">
+                ${chosen ? esc(chosen.label) : "Not answered"}
+              </p>
+            </td></tr>
+          </table>
+
+          <p style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:${GRAY};font-weight:700;margin:16px 0 2px">
+            The measure behind it
+          </p>
+          <div style="font-size:15px;font-weight:700;color:${INK};line-height:1.35">${esc(q.explainer.metric)}</div>
           ${beat("What it is.", q.explainer.what)}
           ${beat("How it is calculated.", q.explainer.how)}
           ${beat("What the number tells you.", q.explainer.reading)}
@@ -114,21 +136,6 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
           .join("")
       : "";
 
-  const allRows = questions
-    .map((q) => {
-      const v = answers[q.id];
-      const chosen = q.options.find((o) => o.score === v);
-      const weak = (v ?? 0) <= 1;
-      return `<tr>
-        <td style="padding:10px 0;border-bottom:1px solid ${LINE};vertical-align:top;width:34%;
-          font-size:12px;color:${GRAY};line-height:1.5">${esc(q.area)}</td>
-        <td style="padding:10px 0 10px 16px;border-bottom:1px solid ${LINE};vertical-align:top;
-          font-size:14px;line-height:1.5;color:${weak ? MAROON : INK};font-weight:${weak ? 600 : 400}">
-          ${chosen ? esc(chosen.label) : "Not answered"}
-        </td>
-      </tr>`;
-    })
-    .join("");
 
   return `<!doctype html><html><body style="margin:0;padding:0;background:#ffffff">
   <div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:640px;margin:0 auto;padding:32px 24px">
@@ -188,20 +195,14 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
         : ""
     }
 
-    <h2 style="font-size:19px;margin:0 0 10px;color:${INK}">Everything you answered</h2>
-    <table role="presentation" style="border-collapse:collapse;width:100%;border-top:2px solid ${INK};margin-bottom:32px">
-      ${allRows}
-    </table>
-
-    <h2 style="font-size:19px;margin:0 0 6px;color:${INK}">The metrics behind the questions</h2>
+    <h2 style="font-size:19px;margin:0 0 6px;color:${INK}">Question by question</h2>
     <p style="font-size:14px;color:${GRAY};margin:0 0 18px;line-height:1.6">
-      Every question you just answered is the plain-language version of a standard financial or
-      operating measure. Here is each one: what it is, how it is calculated, and what the number
-      tells you once you have it. Your own gaps are marked, and they are the ones worth starting
-      with. Nothing here needs software you do not already have; most of it comes off a P&amp;L
-      and a balance sheet you already produce.
+      Every question, the answer you gave, and the measure behind it: what it is, how it is
+      calculated, and what the number tells you once you have it. Your gaps are marked, and they
+      are the ones worth starting with. Nothing here needs software you do not already have; most
+      of it comes off a P&amp;L and a balance sheet you already produce.
     </p>
-    ${studyGuideHtml(answers)}
+    ${walkthroughHtml(answers)}
     <div style="height:14px"></div>
 
     <table role="presentation" style="border-collapse:collapse;width:100%;margin-bottom:26px">
@@ -226,13 +227,31 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
       </td></tr>
     </table>
 
-    <p style="font-size:14px;line-height:1.6;color:${INK};margin:0 0 26px">
-      The same result is attached as a PDF, if you would rather print it or pass it on.
-      Keep this one. The reference above is the same set of measures we run in an engagement, and
-      working through two or three of them on your own numbers is a genuinely useful afternoon.
-      If anything here surprised you, reply to this message; it comes straight to me.<br>
-      <span style="color:${GRAY}">Fenwick How &middot; Founder, The Aperture Method</span>
-    </p>
+    <table role="presentation" style="border-collapse:collapse;width:100%;margin-bottom:26px">
+      <tr><td style="padding:24px;background:${SURFACE};border-left:4px solid ${MAROON}">
+        <h2 style="font-size:18px;margin:0 0 10px;color:${INK}">Thank you for taking it.</h2>
+        <p style="font-size:15px;line-height:1.6;color:${INK};margin:0 0 14px">
+          Fifteen honest answers about your own business is more scrutiny than most owners ever
+          apply to it, and the useful part is not the score. It is the two or three questions you
+          could not answer, which are now named. The same result is attached as a PDF if you would
+          rather print it or pass it to whoever keeps your books.
+        </p>
+        <p style="font-size:15px;line-height:1.6;color:${INK};margin:0 0 18px">
+          If you want to talk any of it through, book a consultation. No charge, no pitch: bring
+          the one answer that bothered you most and we will work out whether it is worth doing
+          anything about.
+        </p>
+        <a href="${siteUrl("/contact?ref=reality-check-report#book")}"
+           style="display:inline-block;background:${MAROON};color:#ffffff;text-decoration:none;
+           font-size:15px;font-weight:700;padding:14px 28px">Book a consultation</a>
+        <p style="font-size:13px;line-height:1.6;color:${GRAY};margin:16px 0 0">
+          Or reply to this message. It comes straight to me.<br>
+          <span style="color:${INK};font-weight:700">Fenwick How</span> &middot; Founder, The
+          Aperture Method &middot;
+          <a href="${siteUrl("/")}" style="color:${MAROON};font-weight:700;text-decoration:underline">aperturemethod.com</a>
+        </p>
+      </td></tr>
+    </table>
 
     <p style="font-size:12px;color:${GRAY};border-top:1px solid ${LINE};padding-top:16px;margin:0;line-height:1.6">
       You received this because you asked for your Reality Check breakdown at
@@ -302,6 +321,6 @@ export function ownerHtml(
       The same reference they received, so you have it in hand before you call. Their gaps are
       shaded.
     </p>
-    ${studyGuideHtml(answers)}
+    ${walkthroughHtml(answers)}
   </div>`;
 }

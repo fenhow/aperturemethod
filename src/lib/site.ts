@@ -135,8 +135,8 @@ export const megaNav: MegaEntry[] = [
       eyebrow: "What it is",
       title: "The Aperture Method\u2122 brings your entire business into focus.",
       blurb:
-        "We analyze your financials, operations, customers, market, and competition to uncover what is driving performance, where value is being lost, and where the greatest opportunities exist. Then we turn those insights into clear priorities, measurable actions, and a live view of results.",
-      linkLabel: "See the five phases, start to finish",
+        "We analyze your financials, operations, customers, market, and competition to uncover what is driving performance, where value is being lost, and where the greatest opportunities exist. Engage us for a focused analysis in the areas that matter most, or apply the full Aperture Method across your business. Either way, we turn those insights into clear priorities, measurable actions, and a live view of results.",
+      linkLabel: "Explore the Method & choose where to focus",
       href: "/the-aperture-method",
     },
     /*

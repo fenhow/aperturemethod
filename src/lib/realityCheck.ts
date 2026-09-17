@@ -11,6 +11,12 @@
  * The result is a Clarity Score, deliberately NOT the Aperture Score™, which
  * is evidence-based and has to be earned.
  *
+ * SEPT 2026, the growth-plan question was retired. It asked whether the chosen
+ * growth path had been weighed against alternatives, which is the same test the
+ * decision-discipline question applies, and applies more sharply: one asks
+ * whether you compared options, the other asks whether you modeled being wrong.
+ * Compass is still represented. Do not re-add it without removing something.
+ *
  * SEPT 2026, four questions added from the financial-statement analysis work:
  * margin of safety, owner-adjusted earnings, the price/volume trade-off, and
  * where the return actually comes from. They are here because each one is a
@@ -368,33 +374,6 @@ export const questions: RCQuestion[] = [
     },
   },
   {
-    id: "growth",
-    area: "The growth plan",
-    component: "Aperture Compass™",
-    prompt:
-      "Where is your next dollar of growth coming from, and why that, rather than three other options you considered?",
-    options: [
-      { label: "We compared the options with numbers and chose", score: 4 },
-      { label: "We have a plan, but the alternatives were not modeled", score: 2 },
-      { label: "We have a direction, not really a plan", score: 1 },
-      { label: "We mostly take what comes", score: 0 },
-    ],
-    explainer: {
-      metric: "Weighted opportunity evaluation",
-      what:
-        "Whether the growth path you are on was compared against the alternatives on value, cost, risk and effect on the constraint, or simply adopted because it was first.",
-      how:
-        "Not a ratio. A weighted matrix: score each option against the dimensions that matter to you, weight the dimensions, and record why the rejected options were rejected.",
-      reading:
-        "A plan with no rejected alternatives is a default rather than a decision. The value of a roadmap is not the item at the top; it is the confidence that what sits below it was genuinely considered and set aside for a reason.",
-    },
-    blindSpot: {
-      headline: "Your growth plan has no rejected alternatives.",
-      body: "A plan that was never weighed against other options is not a decision, it is a default. The value of a prioritized roadmap is not the item at the top; it is the confidence that the items below it were genuinely considered and set aside for a reason.",
-      cost: "Without alternatives on the table, you cannot know whether the plan is the best move or simply the first one anyone suggested.",
-    },
-  },
-  {
     id: "decisions",
     area: "Decision discipline",
     component: "Aperture Analytics™ · Compass™",
@@ -517,7 +496,6 @@ const priority = [
   "return-drivers",
   "asset-reinvestment",
   "market",
-  "growth",
   "decisions",
   "readiness",
   "ai",

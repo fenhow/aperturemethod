@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { primaryCta } from "@/lib/site";
+import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
 type Stage = "intro" | "quiz" | "result";
@@ -97,6 +98,13 @@ export function RealityCheck() {
         <h2 className="mt-8 text-h3 font-semibold leading-snug text-ink">{q.prompt}</h2>
         {q.note ? <p className="mt-3 text-body text-muted">{q.note}</p> : null}
 
+        {/* The brief explainer. Definition and arithmetic only: see the note in
+            MetricExplainer about why the interpretation is withheld until the
+            answer is locked. */}
+        <div className="mt-4">
+          <MetricExplainer explainer={q.explainer} label={q.explainer.metric} />
+        </div>
+
         <div className="mt-7 space-y-3">
           {q.options.map((o) => (
             <button
@@ -181,14 +189,26 @@ export function RealityCheck() {
                 <span className="shrink-0 text-caption font-semibold uppercase tracking-overline text-maroon sm:w-52">
                   {g.area}
                 </span>
-                <span className="text-body text-ink">{g.prompt}</span>
+                <div className="min-w-0">
+                  <span className="text-body text-ink">{g.prompt}</span>
+                  {/* Full version here, interpretation included: the answer is
+                      locked, and this is the moment the reader most wants to
+                      know what the number would have told them. */}
+                  <div className="mt-2">
+                    <MetricExplainer
+                      explainer={g.explainer}
+                      withReading
+                      label={g.explainer.metric}
+                    />
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
         </div>
       ) : (
         <div className="mt-10 rounded-lg border border-line p-6">
-          <h3 className="text-h4 font-semibold text-ink">You answered all ten with confidence</h3>
+          <h3 className="text-h4 font-semibold text-ink">You answered all {QUESTION_COUNT} with confidence</h3>
           <p className="mt-2 text-body text-muted">
             That is genuinely uncommon. The honest recommendation is not a full engagement; it is a
             conversation about the one or two questions where your evidence is thinnest.
@@ -203,9 +223,16 @@ export function RealityCheck() {
           <h3 className="text-h3 font-semibold text-ink">{blindSpot.blindSpot.headline}</h3>
           <p className="mt-4 text-body text-body">{blindSpot.blindSpot.body}</p>
           <p className="mt-4 text-body font-medium text-ink">{blindSpot.blindSpot.cost}</p>
-          <p className="mt-5 text-caption text-muted">
-            Addressed by <span className="font-semibold text-maroon">{blindSpot.component}</span>
-          </p>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-caption text-muted">
+              Addressed by <span className="font-semibold text-maroon">{blindSpot.component}</span>
+            </p>
+            <MetricExplainer
+              explainer={blindSpot.explainer}
+              withReading
+              label={blindSpot.explainer.metric}
+            />
+          </div>
         </div>
       ) : null}
 

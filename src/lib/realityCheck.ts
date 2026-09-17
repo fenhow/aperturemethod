@@ -26,6 +26,28 @@
 
 export type RCOption = { label: string; score: 0 | 1 | 2 | 3 | 4 };
 
+/**
+ * The teaching layer: the textbook metric sitting behind a plain-language question.
+ *
+ * SPLIT ON PURPOSE. `what` and `how` are shown ON the question, and they are
+ * deliberately neutral: they define the metric and give the arithmetic, and say
+ * nothing about what a good number looks like. `reading` is shown ONLY on the
+ * results screen, because it is the part that would tell someone which answer to
+ * pick. A Clarity Score that can be coached upward is not a mirror, and the
+ * whole value of this instrument is that the honest answer is often "I would
+ * have to look it up".
+ */
+export type RCExplainer = {
+  /** What an accountant would call this. */
+  metric: string;
+  /** What the metric is, in plain language. Neutral. */
+  what: string;
+  /** How it is calculated. Neutral. */
+  how: string;
+  /** What the number tells you once you have it. Results screen only. */
+  reading: string;
+};
+
 export type RCQuestion = {
   id: string;
   /** Short label for the area, shown on the results breakdown. */
@@ -38,6 +60,8 @@ export type RCQuestion = {
   options: RCOption[];
   /** Shown when this is the single biggest blind spot. */
   blindSpot: { headline: string; body: string; cost: string };
+  /** The metric behind the question, for the "What is this?" panel. */
+  explainer: RCExplainer;
 };
 
 export const MAX_PER_QUESTION = 4;
@@ -55,6 +79,15 @@ export const questions: RCQuestion[] = [
       { label: "I have three or four candidates and no clear winner", score: 1 },
       { label: "Honestly, no", score: 0 },
     ],
+    explainer: {
+      metric: "The binding constraint",
+      what:
+        "The single limit that sets the pace of the whole business. Every operation has one. Until it moves, improvements made anywhere else do not show up in the result.",
+      how:
+        "Not a ratio. You find it by testing candidates against evidence: if this were lifted, what would measurably change, and does the data support that it is what is holding output down?",
+      reading:
+        "Naming it with evidence is the difference between a plan and a list. A business that cannot name its constraint tends to spread effort evenly across problems that do not deserve equal effort.",
+    },
     blindSpot: {
       headline: "You do not have an agreed constraint.",
       body: "Everything else compounds from this. Without one named, evidenced constraint, effort spreads evenly across problems that do not deserve equal effort, and the things that would actually move the business get the same attention as the things that would not.",
@@ -74,6 +107,15 @@ export const questions: RCQuestion[] = [
       { label: "I know revenue by line, but not profit", score: 1 },
       { label: "We do not allocate overhead to lines", score: 0 },
     ],
+    explainer: {
+      metric: "Segment profitability and operating profit margin",
+      what:
+        "Profit by product, service, location or customer group once shared overhead is allocated to each. Its whole-business cousin is operating profit margin, which measures what is left from revenue after the costs of actually running the business.",
+      how:
+        "For a line: its revenue, less its direct costs, less its fair share of overhead. For the business: operating profit margin = operating income \u00f7 revenue.",
+      reading:
+        "Revenue by line is common. Profit by line, after overhead, is rare, and it is where the surprises live. Most owner-run businesses carry at least one line that looks healthy on revenue and is quietly funded by the rest.",
+    },
     blindSpot: {
       headline: "You are flying without profit visibility by line.",
       body: "Revenue by product is common. Profit by product, after overhead, is rare, and it is where the surprises live. Most owner-run businesses have at least one line that looks healthy on revenue and is quietly funded by the rest of the business.",
@@ -93,6 +135,15 @@ export const questions: RCQuestion[] = [
       { label: "I know the adjustments exist; I have not quantified them", score: 1 },
       { label: "Profit is whatever the P&L says", score: 0 },
     ],
+    explainer: {
+      metric: "EBITDA, adjusted EBITDA and the effective tax rate",
+      what:
+        "EBITDA is earnings before interest, tax, depreciation and amortization: operating performance with financing and accounting choices stripped out. Adjusted EBITDA goes one step further and removes owner-specific items, so the number can be compared to another business.",
+      how:
+        "Start at net income, add back interest, tax, depreciation and amortization. Then normalize: owner pay to a market salary, related-party rent to market rent, one-off items out. Effective tax rate = tax expense \u00f7 pre-tax income, and in a pass-through it is close to zero, which is exactly why EBITDA rather than net income is the comparable figure.",
+      reading:
+        "This is the number a business is valued against and lent against, usually as a multiple of it. An owner who has not built it themselves ends up negotiating against a version somebody else constructed.",
+    },
     blindSpot: {
       headline: "Your reported profit is not your real profit.",
       body: "In an owner-run company you set your own pay, you may rent the building to yourself, and some personal cost almost always runs through the business. Every one of those can be legitimate and every one moves the number. A buyer, a lender and a partner will each rebuild it their own way, and the owner who has not done it first ends up negotiating against a figure someone else constructed.",
@@ -110,6 +161,15 @@ export const questions: RCQuestion[] = [
       { label: "I would have to pull it together", score: 1 },
       { label: "I have never looked", score: 0 },
     ],
+    explainer: {
+      metric: "Revenue concentration",
+      what:
+        "How much of your revenue depends on a small number of customers. The standard cuts are the top ten and the single largest.",
+      how:
+        "Revenue from the top ten customers \u00f7 total revenue. Repeat for the largest one on its own.",
+      reading:
+        "It is the first risk a buyer or a lender looks for, and it quietly sets how much pricing power you actually have. Owners routinely underestimate their own figure by a wide margin.",
+    },
     blindSpot: {
       headline: "You do not know how concentrated your revenue is.",
       body: "Concentration is the single risk a buyer, a lender or a bad quarter finds first. It also quietly dictates how much pricing power you actually have, and owners routinely underestimate their own number by a wide margin.",
@@ -129,6 +189,15 @@ export const questions: RCQuestion[] = [
       { label: "I know when cash is tight, but not the number", score: 1 },
       { label: "I have never calculated it", score: 0 },
     ],
+    explainer: {
+      metric: "Cash conversion cycle, DSO and receivables turnover",
+      what:
+        "The number of days between paying for something and being paid for it. Days sales outstanding is the receivables half of it: how long your customers take to pay.",
+      how:
+        "Cash conversion cycle = DSO + days inventory outstanding \u2212 days payable outstanding. Receivables turnover = revenue \u00f7 average accounts receivable, and DSO is 365 divided by that, or equivalently (accounts receivable \u00f7 revenue) \u00d7 365.",
+      reading:
+        "Roughly one day of revenue is tied up for every day in the cycle. Splitting it into three parts matters because receivables, inventory and supplier terms are separate levers that respond to entirely different things.",
+    },
     blindSpot: {
       headline: "You have cash locked in the operating cycle and no measure of how much.",
       body: "Almost every owner knows when cash is tight. Very few know the number of days causing it, which is what makes it fixable: receivables, stock and supplier terms are three separate levers, and they respond to different things. Until the cycle is split into its parts, tight cash looks like one problem instead of three.",
@@ -147,6 +216,15 @@ export const questions: RCQuestion[] = [
       { label: "I know my costs, but I have never worked out the point", score: 1 },
       { label: "I have never calculated it", score: 0 },
     ],
+    explainer: {
+      metric: "Break-even and margin of safety",
+      what:
+        "Break-even is the revenue at which you make neither a profit nor a loss. Margin of safety is how far above that point you are sitting today.",
+      how:
+        "Break-even revenue = fixed costs \u00f7 contribution margin ratio, where the contribution margin ratio is (revenue \u2212 variable costs) \u00f7 revenue. Margin of safety = (current revenue \u2212 break-even revenue) \u00f7 current revenue.",
+      reading:
+        "It turns \u201ccash feels tight\u201d into a measured distance. It also prices every fixed commitment you take on: each one raises break-even and shortens the runway by an amount you can calculate in advance.",
+    },
     blindSpot: {
       headline: "You do not know how much room you have.",
       body: "Break-even is fixed costs divided by the margin each sale contributes, and the gap between that point and today's revenue is your margin of safety. Without it, a slow quarter is just a feeling. With it, you know whether the quarter is uncomfortable or actually dangerous, and you know what each new fixed cost does to the distance.",
@@ -166,6 +244,15 @@ export const questions: RCQuestion[] = [
       { label: "I know a rise would help, but not by how much or what it would cost", score: 1 },
       { label: "We price off our costs, or off what competitors charge", score: 0 },
     ],
+    explainer: {
+      metric: "Contribution margin and the price/volume trade-off",
+      what:
+        "How much volume you could lose after raising prices before you are worse off than you were. It turns on contribution margin, not on revenue.",
+      how:
+        "Tolerable volume loss = price rise \u00f7 (contribution margin ratio + price rise). At a forty percent contribution margin, a five percent rise tolerates 0.05 \u00f7 0.45, which is 11.1 percent.",
+      reading:
+        "A price change carries almost no cost to deliver, so nearly all of it reaches the bottom line, which is why a few points of price usually beats a large volume win. The arithmetic is counterintuitive, and owners consistently assume the tolerable loss is far smaller than it is.",
+    },
     blindSpot: {
       headline: "Price is your strongest lever and it is the one you are not measuring.",
       body: "A price rise carries almost no cost to deliver, so nearly all of it reaches the bottom line. The arithmetic is genuinely counterintuitive: at a forty percent contribution margin, a five percent rise can lose more than eleven percent of volume and still leave you ahead. Owners consistently guess that the tolerable loss is far smaller than it is, and price too low as a result.",
@@ -183,6 +270,15 @@ export const questions: RCQuestion[] = [
       { label: "I could calculate it if I had to", score: 1 },
       { label: "I do not know", score: 0 },
     ],
+    explainer: {
+      metric: "Repeat rate and customer lifetime value",
+      what:
+        "The share of customers who buy more than once, and what a customer is worth across the whole relationship rather than on a single sale.",
+      how:
+        "Repeat rate = customers with more than one purchase \u00f7 total customers in the period. Lifetime value \u2248 average order value \u00d7 purchases per year \u00d7 years retained \u00d7 contribution margin.",
+      reading:
+        "Retention is the most commonly missed constraint in owner-run businesses, because the symptom looks like a marketing problem. Growth flattens, more is spent on acquisition, and the open back door stays hidden.",
+    },
     blindSpot: {
       headline: "You cannot see whether customers come back.",
       body: "Retention is the most commonly missed constraint in owner-run businesses, because the symptom looks like a marketing problem. Growth stays flat, so more is spent on acquisition, which papers over the fact that the back door is open.",
@@ -201,6 +297,15 @@ export const questions: RCQuestion[] = [
       { label: "I have a rough sense of both", score: 1 },
       { label: "Neither, really", score: 0 },
     ],
+    explainer: {
+      metric: "Market penetration and trade area",
+      what:
+        "How much of the demand inside the area you actually serve belongs to you, and how many direct competitors are sharing it.",
+      how:
+        "Penetration = your customers \u00f7 qualified households or businesses inside the trade area. The trade area itself is normally drawn by drive time rather than by radius, because that is how people actually travel.",
+      reading:
+        "Most owners know their competitors by name and almost none know their penetration by area. That gap hides two things at once: where you are already winning and should press, and where demand exists that nobody is serving.",
+    },
     blindSpot: {
       headline: "You are competing without a map.",
       body: "Most owners know their competitors by name and almost none know their penetration by area. That gap hides two things at once: where you are already winning and should press, and where demand exists that nobody is serving.",
@@ -219,10 +324,47 @@ export const questions: RCQuestion[] = [
       { label: "I look at profit, not at return on what is invested", score: 1 },
       { label: "I have never thought about it that way", score: 0 },
     ],
+    explainer: {
+      metric: "DuPont: return on assets, profit margin, asset turnover",
+      what:
+        "Return on assets splits into two things you control separately: the margin you earn on each sale, and how many sales you generate from each dollar of assets. Add borrowing and it extends to return on equity.",
+      how:
+        "ROA = profit margin \u00d7 asset turnover, where profit margin = net income \u00f7 revenue and asset turnover = revenue \u00f7 average total assets. ROE = ROA \u00d7 (average assets \u00f7 average equity), the last term being the leverage multiplier.",
+      reading:
+        "Two businesses can report the same return while one earns it on margin and the other borrows its way there. Separating the three tells you which, and that decides whether you have a pricing problem, an idle-asset problem or a balance-sheet problem.",
+    },
     blindSpot: {
       headline: "You cannot tell a good year from a borrowed one.",
       body: "Two businesses can report the same return while one earns it on margin and the other borrows its way there. Split the return into margin, asset productivity and leverage and the difference is obvious, and so is the fix: a pricing problem, an idle-asset problem and a balance-sheet problem look identical until they are separated. Leverage flatters the result every year until the one where it does not.",
       cost: "Improvement effort goes to the wrong lever, and the business looks healthier than it is for as long as rates and lenders stay friendly.",
+    },
+  },
+  {
+    id: "asset-reinvestment",
+    area: "Replacing what wears out",
+    component: "Aperture Analytics\u2122",
+    prompt:
+      "Are you spending enough on equipment, vehicles and premises to replace what is wearing out, or has that spending fallen behind?",
+    note: "What you spend on assets each year, set against the depreciation you book against them.",
+    options: [
+      { label: "I track it against depreciation, and I know how much life is left in what we own", score: 4 },
+      { label: "I know roughly whether we are keeping up", score: 2 },
+      { label: "We spend when something breaks, or when an opportunity comes up", score: 1 },
+      { label: "I have never looked at it that way", score: 0 },
+    ],
+    explainer: {
+      metric: "CAPEX-to-depreciation, PP&E percent used up, average useful life",
+      what:
+        "Whether you are replacing equipment, vehicles and premises as fast as they wear out, and how much life is left in what you already own.",
+      how:
+        "CAPEX-to-depreciation = capital expenditure \u00f7 depreciation expense. Percent used up = accumulated depreciation \u00f7 gross PP&E. Average useful life \u2248 gross PP&E \u00f7 annual depreciation expense.",
+      reading:
+        "A CAPEX-to-depreciation ratio held below 1.0 for several years means the asset base is shrinking, and it shows up as strong cash flow long before it shows up as a problem. Read it alongside percent used up: a base that is both heavily depreciated and under-replaced has a bill coming.",
+    },
+    blindSpot: {
+      headline: "Your asset base may be quietly running down.",
+      body: "When capital spending sits below depreciation year after year, the business is consuming equipment it is not replacing. That does not look like a problem while it is happening. It looks like unusually strong cash flow, for several years, until the replacement cycle arrives all at once. The matching figure is how used up the assets already are: accumulated depreciation measured against what they originally cost.",
+      cost: "It is the most common reason a profitable business cannot fund its own replacement cycle, and it is discovered in the year it can least afford to be.",
     },
   },
   {
@@ -237,6 +379,15 @@ export const questions: RCQuestion[] = [
       { label: "We have a direction, not really a plan", score: 1 },
       { label: "We mostly take what comes", score: 0 },
     ],
+    explainer: {
+      metric: "Weighted opportunity evaluation",
+      what:
+        "Whether the growth path you are on was compared against the alternatives on value, cost, risk and effect on the constraint, or simply adopted because it was first.",
+      how:
+        "Not a ratio. A weighted matrix: score each option against the dimensions that matter to you, weight the dimensions, and record why the rejected options were rejected.",
+      reading:
+        "A plan with no rejected alternatives is a default rather than a decision. The value of a roadmap is not the item at the top; it is the confidence that what sits below it was genuinely considered and set aside for a reason.",
+    },
     blindSpot: {
       headline: "Your growth plan has no rejected alternatives.",
       body: "A plan that was never weighed against other options is not a decision, it is a default. The value of a prioritized roadmap is not the item at the top; it is the confidence that the items below it were genuinely considered and set aside for a reason.",
@@ -255,6 +406,15 @@ export const questions: RCQuestion[] = [
       { label: "We went with judgment and moved", score: 1 },
       { label: "We committed and hoped", score: 0 },
     ],
+    explainer: {
+      metric: "Sensitivity and scenario analysis",
+      what:
+        "Testing a decision against the possibility of being wrong, before you commit: what happens to profit and to cash if volume, price or cost move against you.",
+      how:
+        "Move one input at a time to find which ones the answer is most sensitive to, then build a downside case around the worst two or three together, and set in advance the trigger that would tell you to stop.",
+      reading:
+        "Experienced owners are usually right, which is what makes this dangerous. The one time the instinct is wrong there is no early warning and no agreed trigger, so the cost is paid in full months later, when reversing is at its most expensive.",
+    },
     blindSpot: {
       headline: "Big decisions are being made without a downside case.",
       body: "Experienced owners are often right, which is exactly what makes this dangerous: the one time the instinct is wrong, there is no early warning and no pre-agreed trigger to stop. Modeling the downside is not pessimism; it is knowing in advance what would tell you to change course.",
@@ -273,6 +433,15 @@ export const questions: RCQuestion[] = [
       { label: "Mostly revenue and the bank balance", score: 1 },
       { label: "I check in when something feels off", score: 0 },
     ],
+    explainer: {
+      metric: "KPI targets and variance",
+      what:
+        "Numbers watched every month that each carry a target, a named owner and a threshold, so the number can say whether things are going well rather than only what happened.",
+      how:
+        "Variance = actual less target, judged against a threshold that turns it red, amber or green. Five to ten measures is usually the right count; more than that and none of them get watched.",
+      reading:
+        "A number without a target is a fact, not a signal. Without owners and thresholds, drift is only visible once it is large enough to feel, and by then a quarter has usually gone.",
+    },
     blindSpot: {
       headline: "You would find out late.",
       body: "A number without a target is a fact, not a signal; it cannot tell you whether things are going well. Without owners and thresholds, drift is only visible once it is large enough to feel, and by then a quarter has usually gone.",
@@ -291,6 +460,15 @@ export const questions: RCQuestion[] = [
       { label: "A few weeks, with help", score: 1 },
       { label: "I would rather not find out", score: 0 },
     ],
+    explainer: {
+      metric: "Quality of earnings and reconciled financials",
+      what:
+        "Whether three years of your financials would survive an outsider checking them: tied to the bank, consistent between periods, and supported by the records underneath.",
+      how:
+        "Not a ratio. The test is whether every balance traces to a source, whether the accounting policies are the same across all three years, and whether every adjustment is documented and explainable.",
+      reading:
+        "Not urgent right up until the day it is: an unsolicited offer, a covenant test, a partner exit. Buyers and lenders discount what they cannot verify quickly, and that discount is almost always larger than the cost of fixing it.",
+    },
     blindSpot: {
       headline: "Your numbers are not defensible on demand.",
       body: "This one is not urgent right up until the day it is: an unsolicited offer, a bank covenant, a partner exit. Reconciled financials are also the foundation everything else in this list depends on, so the work is never wasted.",
@@ -308,6 +486,15 @@ export const questions: RCQuestion[] = [
       { label: "We have experimented a little", score: 1 },
       { label: "Nowhere yet", score: 0 },
     ],
+    explainer: {
+      metric: "Measurable return on tooling",
+      what:
+        "Whether AI is producing a saving you can point at in hours or dollars, rather than being present in the business but unquantified.",
+      how:
+        "Name the task, measure the time or cost before and after, and net off the licence and setup cost. If it cannot be measured, it is not yet earning its place.",
+      reading:
+        "The answer is never simply more AI; it is AI in the two or three places where the return is measurable. It is easy to get wrong in both directions: spending on tools that do nothing, or avoiding it entirely while competitors compound small advantages.",
+    },
     blindSpot: {
       headline: "AI is not yet earning its place.",
       body: "This is the least urgent item on the list and the easiest to get wrong in both directions: spending on tools that do nothing, or avoiding it entirely while competitors compound small advantages. The answer is not more AI; it is AI in the two or three places where the return is measurable.",
@@ -328,6 +515,7 @@ const priority = [
   "concentration",
   "kpis",
   "return-drivers",
+  "asset-reinvestment",
   "market",
   "growth",
   "decisions",

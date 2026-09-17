@@ -60,6 +60,43 @@ function reportHtml(result: RCResult, answers: Record<string, number>): string {
           .join("")
       : "";
 
+  /*
+   * The study guide: every question's underlying metric, spelled out.
+   *
+   * This is the part of the email people keep. The panel in the quiz gives the
+   * definition and the arithmetic, and the results screen adds the reading, but
+   * both are transient. Here all three land in one place the owner can come
+   * back to, print, or hand to their bookkeeper, which is the whole reason for
+   * asking for an email address at all. Their own gaps are marked so the list
+   * has an order to work through rather than being fifteen equal items.
+   *
+   * Run-in bold labels rather than headings: Outlook collapses margins on
+   * stacked headings, and at fifteen entries the vertical rhythm falls apart.
+   */
+  const studyGuide = questions
+    .map((q, i) => {
+      const weak = (answers[q.id] ?? 0) <= 1;
+      const n = String(i + 1).padStart(2, "0");
+      const beat = (label: string, text: string) =>
+        `<p style="font-size:14px;line-height:1.65;color:${INK};margin:10px 0 0">
+           <strong style="color:${MAROON}">${label}</strong> ${esc(text)}
+         </p>`;
+      return `<table role="presentation" style="border-collapse:collapse;width:100%;margin-bottom:14px">
+        <tr><td style="padding:18px 20px;background:${weak ? SURFACE : "#ffffff"};
+          border:1px solid ${LINE};border-left:3px solid ${weak ? MAROON : LINE}">
+          <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${GRAY};font-weight:700;margin:0 0 5px">
+            ${n} &middot; ${esc(q.area)}${weak ? ` <span style="color:${MAROON}">&middot; one of your gaps</span>` : ""}
+          </p>
+          <div style="font-size:17px;font-weight:700;color:${INK};line-height:1.35">${esc(q.explainer.metric)}</div>
+          <p style="font-size:13px;line-height:1.6;color:${GRAY};margin:8px 0 0;font-style:italic">${esc(q.prompt)}</p>
+          ${beat("What it is.", q.explainer.what)}
+          ${beat("How it is calculated.", q.explainer.how)}
+          ${beat("What the number tells you.", q.explainer.reading)}
+        </td></tr>
+      </table>`;
+    })
+    .join("");
+
   const allRows = questions
     .map((q) => {
       const v = answers[q.id];
@@ -110,7 +147,7 @@ function reportHtml(result: RCResult, answers: Record<string, number>): string {
            <table role="presentation" style="border-collapse:collapse;width:100%;border-top:2px solid ${INK};margin-bottom:30px">
              ${gapRows}
            </table>`
-        : `<h2 style="font-size:19px;margin:0 0 6px;color:${INK}">You answered all ten with confidence</h2>
+        : `<h2 style="font-size:19px;margin:0 0 6px;color:${INK}">You answered all ${questions.length} with confidence</h2>
            <p style="font-size:14px;color:${GRAY};margin:0 0 30px;line-height:1.6">
              That is genuinely uncommon.
            </p>`
@@ -139,6 +176,17 @@ function reportHtml(result: RCResult, answers: Record<string, number>): string {
       ${allRows}
     </table>
 
+    <h2 style="font-size:19px;margin:0 0 6px;color:${INK}">The metrics behind the questions</h2>
+    <p style="font-size:14px;color:${GRAY};margin:0 0 18px;line-height:1.6">
+      Every question you just answered is the plain-language version of a standard financial or
+      operating measure. Here is each one: what it is, how it is calculated, and what the number
+      tells you once you have it. Your own gaps are marked, and they are the ones worth starting
+      with. Nothing here needs software you do not already have; most of it comes off a P&amp;L
+      and a balance sheet you already produce.
+    </p>
+    ${studyGuide}
+    <div style="height:14px"></div>
+
     <table role="presentation" style="border-collapse:collapse;width:100%;margin-bottom:26px">
       <tr><td style="padding:22px 24px;border:1px solid ${LINE}">
         <h2 style="font-size:18px;margin:0 0 10px;color:${INK}">What this is, and what it is not</h2>
@@ -162,6 +210,8 @@ function reportHtml(result: RCResult, answers: Record<string, number>): string {
     </table>
 
     <p style="font-size:14px;line-height:1.6;color:${INK};margin:0 0 26px">
+      Keep this one. The reference above is the same set of measures we run in an engagement, and
+      working through two or three of them on your own numbers is a genuinely useful afternoon.
       If anything here surprised you, reply to this message; it comes straight to me.<br>
       <span style="color:${GRAY}">Fenwick How &middot; Founder, The Aperture Method</span>
     </p>

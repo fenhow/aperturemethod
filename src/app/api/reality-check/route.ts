@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { EMAIL_RE } from "@/lib/contact";
 import { questions, scoreAnswers } from "@/lib/realityCheck";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
-import { reportHtml, ownerHtml } from "@/lib/realityCheckEmail";
+import { reportHtml, ownerHtml, SIGNATURE_CID } from "@/lib/realityCheckEmail";
+import { FENWICK_SIGNATURE_B64 } from "@/lib/onboarding/logo";
 import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
 
 /**
@@ -112,7 +113,19 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("[reality-check] pdf build failed, sending without it:", err);
   }
-  const attachments = pdf ? [pdf] : undefined;
+  /*
+   * The signature, inline. It rides as a cid attachment rather than an <img>
+   * pointing at the site: remote images are blocked by default on a first
+   * message from an unfamiliar sender, and a signature that renders as a broken
+   * icon is worse than none.
+   */
+  const signature = {
+    filename: "fenwick-how-signature.png",
+    contentBase64: FENWICK_SIGNATURE_B64,
+    cid: SIGNATURE_CID,
+    contentType: "image/png",
+  };
+  const attachments = pdf ? [pdf, signature] : [signature];
 
   // The visitor's copy is the one that matters. Send it first.
   const toVisitor = await sendEmail({

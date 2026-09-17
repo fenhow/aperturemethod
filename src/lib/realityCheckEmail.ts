@@ -23,6 +23,9 @@ import { siteConfig } from "@/lib/site";
  */
 
 
+/** The Content-ID the signature image is embedded under. */
+export const SIGNATURE_CID = "fenwick-signature";
+
 const MAROON = "#500000";
 const INK = "#1a1a1a";
 const GRAY = "#6b6b6b";
@@ -244,8 +247,16 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
         <a href="${siteUrl("/contact?ref=reality-check-report#book")}"
            style="display:inline-block;background:${MAROON};color:#ffffff;text-decoration:none;
            font-size:15px;font-weight:700;padding:14px 28px">Book a consultation</a>
-        <p style="font-size:13px;line-height:1.6;color:${GRAY};margin:16px 0 0">
-          Or reply to this message. It comes straight to me.<br>
+        <p style="font-size:13px;line-height:1.6;color:${GRAY};margin:18px 0 0">
+          Or reply to this message. It comes straight to me.
+        </p>
+        <!-- Inline via cid, not a remote URL: a first message from an unknown
+             sender usually has its remote images blocked, and a signature that
+             renders as a broken icon is worse than no signature. The alt text
+             carries the name either way. -->
+        <img src="cid:${SIGNATURE_CID}" alt="Fenwick How"
+             width="150" style="display:block;width:150px;max-width:150px;height:auto;margin:10px 0 2px;border:0">
+        <p style="font-size:13px;line-height:1.6;color:${GRAY};margin:0">
           <span style="color:${INK};font-weight:700">Fenwick How</span> &middot; Founder, The
           Aperture Method &middot;
           <a href="${siteUrl("/")}" style="color:${MAROON};font-weight:700;text-decoration:underline">aperturemethod.com</a>

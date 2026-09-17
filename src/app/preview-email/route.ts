@@ -1,5 +1,5 @@
 import { questions, scoreAnswers } from "@/lib/realityCheck";
-import { reportHtml, ownerHtml } from "@/lib/realityCheckEmail";
+import { reportHtml, ownerHtml, SIGNATURE_CID } from "@/lib/realityCheckEmail";
 import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
 
 /**
@@ -82,7 +82,16 @@ export async function GET(request: Request) {
         )
       : reportHtml(result, answers);
 
-  return new Response(html, {
+  /*
+   * The signature rides the real email as an inline cid attachment, and a
+   * browser has no way to resolve `cid:`, so in the preview it would render as
+   * a broken image and look like a bug that is not there. Point it at the
+   * public copy of the same file instead. This substitution exists ONLY in the
+   * preview; the sent message is untouched.
+   */
+  const preview = html.replace(`cid:${SIGNATURE_CID}`, "/fenwick-signature-black.png");
+
+  return new Response(preview, {
     headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" },
   });
 }

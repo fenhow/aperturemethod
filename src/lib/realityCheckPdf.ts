@@ -1,6 +1,6 @@
 import "server-only";
 import { PDFDocument, StandardFonts, rgb, PDFName, PDFString, PDFArray, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
-import { APERTURE_LOGO_WHITE_HORIZONTAL_B64 } from "./onboarding/logo";
+import { APERTURE_LOGO_WHITE_HORIZONTAL_B64, FENWICK_SIGNATURE_B64 } from "./onboarding/logo";
 import { questions, type RCResult } from "./realityCheck";
 import { siteConfig } from "./site";
 
@@ -85,6 +85,7 @@ class Doc {
   bold!: PDFFont;
   ital!: PDFFont;
   logo!: PDFImage;
+  sig!: PDFImage;
   recipient = "";
   date = "";
 
@@ -94,6 +95,7 @@ class Doc {
     this.bold = await this.doc.embedFont(StandardFonts.HelveticaBold);
     this.ital = await this.doc.embedFont(StandardFonts.HelveticaOblique);
     this.logo = await this.doc.embedPng(Buffer.from(APERTURE_LOGO_WHITE_HORIZONTAL_B64, "base64"));
+    this.sig = await this.doc.embedPng(Buffer.from(FENWICK_SIGNATURE_B64, "base64"));
     this.recipient = san(recipient);
     this.date = san(date);
     this.doc.setTitle("The Reality Check");
@@ -418,7 +420,17 @@ export async function generateRealityCheckPdf(
   d.link(MARGIN, btnY, BTN_W, BTN_H, bookingUrl);
   d.y = btnY - 24;
 
-  d.para("Or reply to the email this came with. It goes straight to me.", { size: 9.5, color: MUTED, after: 8 });
+  d.para("Or reply to the email this came with. It goes straight to me.", { size: 9.5, color: MUTED, after: 10 });
+
+  // Signed, not typed. Drawn above the name rather than replacing it: the
+  // handwriting is the gesture, the set name is what stays legible to anyone
+  // skim-reading or printing this in grayscale.
+  const sigW = 132;
+  const sigH = sigW * (d.sig.height / d.sig.width);
+  d.ensure(sigH + 40);
+  d.page.drawImage(d.sig, { x: MARGIN, y: d.y - sigH + 6, width: sigW, height: sigH });
+  d.y -= sigH + 6;
+
   d.para("Fenwick How", { font: d.bold, size: 10.5, color: INK, after: 1 });
   d.para("Founder, The Aperture Method", { size: 9.5, color: MUTED, after: 4 });
   d.para("aperturemethod.com", { size: 9.5, color: MAROON, font: d.bold });

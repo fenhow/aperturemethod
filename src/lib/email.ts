@@ -44,7 +44,23 @@ function getTransport(): Transporter {
   return transporter;
 }
 
-export type Attachment = { filename: string; contentBase64: string };
+/**
+ * A file on a message.
+ *
+ * `cid` makes it INLINE rather than a download: the HTML references it as
+ * <img src="cid:the-id">, and nodemailer marks the part inline so clients
+ * render it in place instead of listing it beside the real attachments. That
+ * is how a signature image reaches the reader without depending on a remote
+ * fetch, which most clients block by default on a first message from an
+ * unknown sender.
+ */
+export type Attachment = {
+  filename: string;
+  contentBase64: string;
+  /** Set to embed the file in the body rather than attach it. */
+  cid?: string;
+  contentType?: string;
+};
 
 export async function sendEmail(opts: {
   to: string | string[];
@@ -67,6 +83,8 @@ export async function sendEmail(opts: {
       attachments: opts.attachments?.map((a) => ({
         filename: a.filename,
         content: Buffer.from(a.contentBase64, "base64"),
+        ...(a.cid ? { cid: a.cid, contentDisposition: "inline" as const } : {}),
+        ...(a.contentType ? { contentType: a.contentType } : {}),
         contentType: "application/pdf",
       })),
     });

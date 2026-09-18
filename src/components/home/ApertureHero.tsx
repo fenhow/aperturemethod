@@ -3,7 +3,6 @@
 import { QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 import Image from "next/image";
 import Link from "next/link";
-import { FIGURES } from "@/lib/marketContext";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
@@ -205,39 +204,6 @@ export function ApertureHero() {
         </p>
 
         {/*
-          The market case, sitting between the supporting line and the action.
-
-          Deliberately not a button. There is one call to action in this hero and
-          it should stay the only one; this is the evidence under the claim, and
-          a number a reader can go and check does more work than another verb.
-
-          Layout: this is flowing text, not a flex row. It was three flex items
-          in a rounded-full pill, which on a phone wrapped into a tall oval with
-          the arrow orphaned on its own line. It is now a rounded rectangle that
-          wraps like a sentence on small screens and only becomes the stadium
-          pill at sm, where it fits on one line. The arrow is glued to the last
-          words with whitespace-nowrap so it can never wrap alone again.
-        */}
-        <Link
-          href="/the-intelligence-gap"
-          className="group mt-6 block w-full max-w-2xl rounded-2xl border border-white/25 px-5 py-3 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:inline-block sm:w-auto sm:rounded-full sm:py-2.5"
-        >
-          <span className="font-semibold text-paper">
-            {FIGURES.shareOfGdp.value} of US GDP
-          </span>{" "}
-          comes from small businesses like yours.{" "}
-          <span className="whitespace-nowrap">
-            See why that matters.
-            <span
-              className="ml-1.5 inline-block transition-transform duration-fast group-hover:translate-x-0.5"
-              aria-hidden="true"
-            >
-              &rarr;
-            </span>
-          </span>
-        </Link>
-
-        {/*
           Button and its qualifier on one line from sm up.
 
           Stacked, the caption cost 45px of vertical space to say something that
@@ -246,7 +212,7 @@ export function ApertureHero() {
           a phone it still stacks, because the two together are wider than the
           screen.
         */}
-        <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
+        <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
           <Link href="/reality-check" className="btn--on-dark">
             Take the Reality Check
           </Link>

@@ -4,7 +4,14 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
- * "How it works": the engagement model. Opens with the default door (a
+ * "How it works": the engagement model, and the only place on the homepage
+ * that carries fees.
+ *
+ * Its lede used to repeat two lines that the Method section above already
+ * makes: "take one result or the full path", which is that section's whole
+ * premise, and "the same senior partner throughout", which is the last
+ * sentence of its lede. Said once, higher up, they set expectations; said
+ * again here they read as a page that has lost track of what it has told you. Opens with the default door (a
  * fixed-fee Business X-Ray that routes the undecided), then the two ways
  * forward: one result (a single component) or the full path (the Method),
  * with Aperture Atlas as the ongoing layer.
@@ -22,7 +29,7 @@ export function HowItWorks() {
         <SectionHeading
           eyebrow="How it works"
           title="How does an engagement actually work?"
-          lede="You start with clarity and end with a system you run the business from. Every engagement starts the same way: a low-risk diagnostic that shows you exactly what you need. From there, take one result or the full path. Either way you finish in the same place: Aperture Atlas, your live intelligence platform. You work with the same senior partner throughout."
+          lede="You start with clarity and end with a system you run the business from. Every engagement starts the same way: a low-risk diagnostic that shows you exactly what you need, and finishes in the same place: Aperture Atlas, your live intelligence platform."
         />
       </Reveal>
 

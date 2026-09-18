@@ -11,6 +11,14 @@
  * The result is a Clarity Score, deliberately NOT the Aperture Score™, which
  * is evidence-based and has to be earned.
  *
+ * SEPT 2026, an M&A question was added and the AI question retired to make room.
+ * Valuation is the one consequential thing an owner of this size is routinely
+ * blind to, and it was uncovered: the readiness question asks whether the books
+ * would survive a buyer, not what the business is worth. The AI question was the
+ * only one not about knowing your own business, which is what this instrument
+ * measures, and its own copy called it the least urgent item on the list. AI
+ * keeps its place in the navigation and its own page.
+ *
  * SEPT 2026, the growth-plan question was retired. It asked whether the chosen
  * growth path had been weighed against alternatives, which is the same test the
  * decision-discipline question applies, and applies more sharply: one asks
@@ -455,29 +463,31 @@ export const questions: RCQuestion[] = [
     },
   },
   {
-    id: "ai",
-    area: "AI where it pays",
-    component: "AI, without the black box",
-    prompt: "Where in your business does AI currently save you measurable time or money?",
+    id: "exit-value",
+    area: "What it is worth",
+    component: "Aperture Analytics\u2122",
+    prompt:
+      "Whether you plan to sell in two years or twenty, do you know what the business is worth today, and which two or three things would move that number most?",
+    note: "Value is adjusted earnings times a multiple. The multiple is the part you control.",
     options: [
-      { label: "I can name where, and quantify the saving", score: 4 },
-      { label: "We use it, but I could not quantify the benefit", score: 2 },
-      { label: "We have experimented a little", score: 1 },
-      { label: "Nowhere yet", score: 0 },
+      { label: "I know the range, and I know which factors set the multiple", score: 4 },
+      { label: "I have a rough idea of the value, but not what drives the multiple", score: 2 },
+      { label: "I have heard a rule of thumb for my industry", score: 1 },
+      { label: "It has never been valued, and I have not thought about it", score: 0 },
     ],
     explainer: {
-      metric: "Measurable return on tooling",
+      metric: "Business valuation: adjusted earnings, the multiple, and net debt",
       what:
-        "Whether AI is producing a saving you can point at in hours or dollars, rather than being present in the business but unquantified.",
+        "What the business would change hands for. Adjusted earnings set the size of it, the multiple sets how many years of those earnings a buyer will pay for, and net debt comes off the top.",
       how:
-        "Name the task, measure the time or cost before and after, and net off the licence and setup cost. If it cannot be measured, it is not yet earning its place.",
+        "Equity value is roughly adjusted EBITDA times an evidenced multiple range, less net debt. The multiple is not a fixed industry number: it moves with customer concentration, how much of the business runs through the owner, how much revenue recurs, the growth rate, and whether the earnings survive scrutiny.",
       reading:
-        "The answer is never simply more AI; it is AI in the two or three places where the return is measurable. It is easy to get wrong in both directions: spending on tools that do nothing, or avoiding it entirely while competitors compound small advantages.",
+        "Owners work on earnings and leave the multiple alone, which is the larger lever of the two. Moving from a 3x business to a 4x business is a third more value at identical profit, and the changes that do it take years rather than weeks.",
     },
     blindSpot: {
-      headline: "AI is not yet earning its place.",
-      body: "This is the least urgent item on the list and the easiest to get wrong in both directions: spending on tools that do nothing, or avoiding it entirely while competitors compound small advantages. The answer is not more AI; it is AI in the two or three places where the return is measurable.",
-      cost: "Low today, compounding quietly. Worth deliberate attention once the items above are settled.",
+      headline: "You do not know what you have built.",
+      body: "A business is worth its adjusted earnings times a multiple, less net debt, and owners fixate on the earnings while the multiple quietly does the heavier work. The multiple is a measure of risk: how concentrated the customers are, how much of the business depends on you personally, how much revenue recurs, whether the books hold up under examination. Every one of those is something you can change, and every one takes years to change.",
+      cost: "Most owners find out their multiple during a negotiation, by which point every factor that would have raised it is already fixed.",
     },
   },
 ];
@@ -498,7 +508,7 @@ const priority = [
   "market",
   "decisions",
   "readiness",
-  "ai",
+  "exit-value",
 ];
 
 export type Band = {

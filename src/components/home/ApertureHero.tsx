@@ -20,9 +20,9 @@ type Slide = { eyebrow: string; title: string; sub: string; image: string; video
 
 const slides: Slide[] = [
   {
-    eyebrow: "Analytics, AI & strategy for owner-run businesses",
+    eyebrow: "Enterprise-level analytics, AI & strategy for owner-run businesses",
     title: "Big-company intelligence, built for your business.",
-    sub: "The financial, customer and market analysis big companies run in-house, done for your business instead, and explained in plain language.",
+    sub: "We bring the financial, customer, market, and competitive analysis used by large companies to owner-run businesses: uncovering what's driving performance, where opportunities are being missed, and where to focus next.",
     image: "/hero/hero-3-v7.jpg",
   },
   {
@@ -157,18 +157,52 @@ export function ApertureHero() {
       </button>
 
       {/* Foreground content */}
-      <Container className="relative z-10 w-full pb-14 pt-28 md:pb-20 md:pt-36">
-        <div className="max-w-2xl" aria-live="polite" aria-atomic="true">
+      {/* Top padding trimmed (md was pt-36) to pull the call to action back
+          above the fold on a standard laptop. The sticky header already
+          reserves its own height above this section, so this padding is pure
+          breathing room and 112px is still generous. */}
+      <Container className="relative z-10 w-full pb-14 pt-24 md:pb-20 md:pt-28">
+        {/*
+          Wider text column from lg up.
+
+          At max-w-2xl the headline broke onto THREE lines on a 1440 desktop
+          (672px of text in a 1440px viewport), and with the promise line added
+          below the lede that pushed "Take the Reality Check" past the bottom of
+          an 800px laptop viewport: the hero's only call to action, invisible
+          without scrolling. Letting the column run to 3xl at lg takes the
+          headline to two lines at its full 72px, which is ~90px back. The
+          measured width of "Big-company intelligence," at that size is 859px,
+          so 4xl (896px) is the first step that fits it; 3xl (768px) was tried
+          and still broke to three lines. The lede and the promise line keep
+          their own narrower caps so the reading measure stays sane. Phones
+          and tablets are untouched.
+        */}
+        <div className="max-w-2xl lg:max-w-4xl" aria-live="polite" aria-atomic="true">
           <p key={`e${index}`} className="eyebrow eyebrow--on-dark mb-5 animate-fade">
             {current.eyebrow}
           </p>
           <h1 key={`t${index}`} className="text-h1 font-semibold text-paper animate-fade-up md:text-display">
             {current.title}
           </h1>
-          <p key={`s${index}`} className="mt-6 max-w-xl text-body-lg text-white/75 animate-fade">
+          <p key={`s${index}`} className="mt-6 max-w-xl text-body-lg text-white/75 animate-fade lg:max-w-2xl">
             {current.sub}
           </p>
         </div>
+
+        {/*
+          The promise, stated once.
+
+          Deliberately NOT a link, and deliberately without the arrow it was
+          drafted with. The GDP line directly below it is already the one thing
+          in this hero a reader can click through to check, and two arrowed
+          lines stacked on top of each other read as two competing offers rather
+          than a claim followed by its evidence. This asserts; the line under it
+          proves. Sits outside the slide wrapper because it is true of all four
+          slides and should not re-animate every nine seconds.
+        */}
+        <p className="mt-5 max-w-xl text-body-lg font-semibold text-paper lg:max-w-2xl">
+          Your business deserves the same intelligence as the companies 100&times; your size.
+        </p>
 
         {/*
           The market case, sitting between the supporting line and the action.
@@ -186,7 +220,7 @@ export function ApertureHero() {
         */}
         <Link
           href="/the-intelligence-gap"
-          className="group mt-7 block w-full max-w-2xl rounded-2xl border border-white/25 px-5 py-3 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:inline-block sm:w-auto sm:rounded-full sm:py-2.5"
+          className="group mt-6 block w-full max-w-2xl rounded-2xl border border-white/25 px-5 py-3 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:inline-block sm:w-auto sm:rounded-full sm:py-2.5"
         >
           <span className="font-semibold text-paper">
             {FIGURES.shareOfGdp.value} of US GDP
@@ -203,14 +237,23 @@ export function ApertureHero() {
           </span>
         </Link>
 
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        {/*
+          Button and its qualifier on one line from sm up.
+
+          Stacked, the caption cost 45px of vertical space to say something that
+          belongs next to the button anyway: it is the answer to "what am I
+          committing to", and it reads better beside the verb than under it. On
+          a phone it still stacks, because the two together are wider than the
+          screen.
+        */}
+        <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
           <Link href="/reality-check" className="btn--on-dark">
             Take the Reality Check
           </Link>
+          <p className="text-caption text-white/55">
+            {QUESTION_COUNT} questions · about {APPROX_MINUTES} minutes · no email required
+          </p>
         </div>
-        <p className="mt-4 text-caption text-white/55">
-          {QUESTION_COUNT} questions · about {APPROX_MINUTES} minutes · no email required
-        </p>
 
 
         {/* Controls */}

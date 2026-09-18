@@ -4,9 +4,19 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 /**
- * A trigger + full-screen popup for viewing a PDF document in-app. The visitor
- * can page through the document full screen without leaving the site, with an
- * "open in a new tab" fallback for downloading or printing.
+ * A link that opens a PDF in a new tab, at the right page.
+ *
+ * This used to open a full-screen in-app viewer with an "open in a new tab"
+ * fallback inside it. It now goes straight to the new tab, by request, and the
+ * reasons are good ones: the browser's own PDF viewer handles paging, search,
+ * zoom, printing and saving better than an iframe can, it does not trap a
+ * reader inside a modal, and on iOS Safari an embedded PDF frequently refuses
+ * to render at all, which turned the most important proof link on the site
+ * into a blank rectangle on a phone.
+ *
+ * The name is kept, and so is the signature, so every call site is unchanged.
+ * The Viewer below is no longer reachable; it is left in place, unexported, for
+ * the moment someone wants the modal back on a specific page.
  */
 export function DocumentLightbox({
   href,
@@ -24,12 +34,16 @@ export function DocumentLightbox({
   /** Optional starting page in the PDF (1-indexed). */
   page?: number;
 }) {
-  const [open, setOpen] = useState(false);
   const target = page ? `${href}#page=${page}` : `${href}#view=FitH`;
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={triggerClassName}>
+      <a
+        href={target}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={triggerClassName}
+      >
         {triggerIcon && (
           <svg
             className="h-4 w-4 shrink-0"
@@ -48,8 +62,8 @@ export function DocumentLightbox({
           </svg>
         )}
         {triggerLabel}
-      </button>
-      {open && <Viewer src={target} href={target} title={title} onClose={() => setOpen(false)} />}
+        <span className="sr-only"> (opens in a new tab)</span>
+      </a>
     </>
   );
 }

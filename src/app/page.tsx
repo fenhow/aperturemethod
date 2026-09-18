@@ -18,7 +18,6 @@ import { HomeFaq } from "@/components/home/HomeFaq";
 import { HomeProblem } from "@/components/home/HomeProblem";
 import { HomeProof } from "@/components/home/HomeProof";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
-import { BusinessLabBand } from "@/components/education/BusinessLabBand";
 import { ThirtySeconds } from "@/components/home/ThirtySeconds";
 import { GdpRunRate } from "@/components/market/GdpRunRate";
 
@@ -318,9 +317,6 @@ export default function Home() {
       {/* The questions that come up before a first call, answered on the page
           people land on rather than four clicks away. Emits FAQPage schema. */}
       <HomeFaq />
-
-      {/* Aperture Business Lab: the free classroom session (community, not commercial) */}
-      <BusinessLabBand />
 
       {/* Final CTA */}
       <Section tone="dark" className="border-t border-white/10">

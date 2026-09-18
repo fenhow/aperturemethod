@@ -222,7 +222,7 @@ export default function FinancialAnalysisWorkbench() {
                   decide which comparisons the analysis is entitled to make</li>
               </ul>
               <div className="spacer"></div>
-              <a className="dl" href="/downloads/aperture-private-company-intake-template.xlsx">
+              <a className="dl" href="/downloads/aperture-private-company-intake-template.xlsx" target="_blank" rel="noopener noreferrer">
                 Download the template</a>
               <p className="fmeta">XLSX · 11 tabs · approx. 50 KB</p>
             </div>
@@ -241,7 +241,7 @@ export default function FinancialAnalysisWorkbench() {
                 <li>Illustrative figures; not a real company</li>
               </ul>
               <div className="spacer"></div>
-              <a className="dl" href="/downloads/aperture-private-company-intake-worked-example.xlsx">
+              <a className="dl" href="/downloads/aperture-private-company-intake-worked-example.xlsx" target="_blank" rel="noopener noreferrer">
                 Download the worked example</a>
               <p className="fmeta">XLSX · 11 tabs · approx. 55 KB</p>
             </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EXAMPLE_REPORT, reportPages } from "@/lib/exampleReport";
 import { XRAY_FEE, XRAY_CREDIT_TERMS } from "@/lib/pricing";
 import { FIGURES } from "@/lib/marketContext";
 import { Container } from "@/components/ui/Container";
@@ -21,7 +22,6 @@ import { BusinessLabBand } from "@/components/education/BusinessLabBand";
 import { ThirtySeconds } from "@/components/home/ThirtySeconds";
 import { GdpRunRate } from "@/components/market/GdpRunRate";
 
-const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 import { aperturePractices } from "@/lib/content";
 import { primaryCta, siteConfig, HOME_REVIEWED } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -256,7 +256,7 @@ export default function Home() {
                 <div className="mt-4">
                   <DocumentLightbox
                     href={EXAMPLE_REPORT}
-                    page={10}
+                    page={reportPages.businessXRay}
                     title="Example Report · Business X-Ray: Lumina Medical Aesthetics"
                     triggerLabel="See a real Business X-Ray in the example report"
                     triggerClassName="inline-flex items-center gap-2 text-small font-semibold text-maroon transition-colors hover:text-maroon-hover"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { EXAMPLE_REPORT } from "@/lib/exampleReport";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
@@ -10,7 +11,6 @@ import { LinkArrow } from "@/components/ui/LinkArrow";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { deliverables, type Deliverable } from "@/lib/deliverables";
 
-const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
 /**
  * Interactive deliverables index. Each card opens a quick-look modal that

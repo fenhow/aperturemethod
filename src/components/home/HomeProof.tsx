@@ -1,4 +1,5 @@
 import { Section } from "@/components/ui/Section";
+import { reportPages } from "@/lib/exampleReport";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
@@ -50,7 +51,7 @@ export function HomeProof() {
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
             <DocumentLightbox
               href={REPORT}
-              page={10}
+              page={reportPages.contents}
               title="Example Report · The Aperture Method: Lumina Medical Aesthetics"
               triggerLabel="Read the full example report"
               triggerClassName="btn--secondary"

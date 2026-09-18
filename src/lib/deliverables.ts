@@ -1,3 +1,4 @@
+import { reportPages } from "./exampleReport";
 /**
  * The tangible deliverables, the named artifacts a client actually receives,
  * each explained plainly (what it is + how we get it). Grouped by the component
@@ -25,7 +26,7 @@ export type Deliverable = {
 export const deliverables: Deliverable[] = [
   {
     slug: "business-x-ray",
-    reportPage: 10,
+    reportPage: reportPages.businessXRay,
     name: "Business X-Ray",
     component: "Aperture Insights",
     componentSlug: "insights",
@@ -44,7 +45,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "aperture-score",
-    reportPage: 10,
+    reportPage: reportPages.businessXRay,
     name: "Aperture Score",
     component: "Aperture Insights",
     componentSlug: "insights",
@@ -63,7 +64,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "profit-map",
-    reportPage: 16,
+    reportPage: reportPages.profitMap,
     name: "Profit Map",
     component: "Aperture Analytics",
     componentSlug: "analytics",
@@ -84,7 +85,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "customer-market-map",
-    reportPage: 21,
+    reportPage: reportPages.marketMap,
     name: "Customer & Market Map",
     component: "Aperture Intelligence",
     componentSlug: "intelligence",
@@ -103,7 +104,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "opportunity-matrix",
-    reportPage: 33,
+    reportPage: reportPages.opportunityMatrix,
     name: "Opportunity Matrix",
     component: "Aperture Compass",
     componentSlug: "compass",
@@ -122,7 +123,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "focus-plan",
-    reportPage: 33,
+    reportPage: reportPages.focusPlan,
     name: "Focus Plan",
     component: "Aperture Compass",
     componentSlug: "compass",
@@ -141,7 +142,7 @@ export const deliverables: Deliverable[] = [
   },
   {
     slug: "scoreboard",
-    reportPage: 38,
+    reportPage: reportPages.scoreboard,
     name: "Scoreboard",
     component: "Aperture Atlas",
     componentSlug: "atlas",

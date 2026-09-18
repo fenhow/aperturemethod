@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EXAMPLE_REPORT, EXAMPLE_REPORT_PAGES } from "@/lib/exampleReport";
 import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
@@ -99,9 +100,12 @@ const deliverables: Deliverable[] = [
   },
 ];
 
+/* Was a local copy claiming 41 pages. The bound volume is 80: it grew when the
+   analytics were deepened and this number did not follow. Both fields now come
+   from lib/exampleReport.ts. */
 const exampleReport = {
-  href: "/reports/Lumina-Aperture-Method-Example-Report.pdf",
-  pages: 41,
+  href: EXAMPLE_REPORT,
+  pages: EXAMPLE_REPORT_PAGES,
 };
 
 const techniques = [

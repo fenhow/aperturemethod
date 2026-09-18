@@ -1,3 +1,4 @@
+import { reportPages } from "./exampleReport";
 /**
  * Landing page content.
  *
@@ -330,7 +331,7 @@ export const businessXRay: LandingPage = {
           "A growing three-clinic med-spa. Revenue climbed 61% in three years while profit stayed essentially flat. The X-Ray read all seven lenses and named the constraint that explained it: new-patient retention, not pricing, and not demand.",
         note:
           "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears. No client work is published without written permission.",
-        report: { page: 10, label: "Read the full example report" },
+        report: { page: reportPages.businessXRay, label: "Read the full example report" },
         link: {
           href: "/case-studies/lumina-medical-aesthetics",
           label: "See the whole engagement",
@@ -572,7 +573,7 @@ export const profitMap: LandingPage = {
           "A growing three-clinic med-spa. Revenue climbed 61% in three years while profit stayed essentially flat. Separating the numbers showed why, and the scenario model let the owner test the fix before committing to it.",
         note:
           "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
-        report: { page: 18, label: "Read the full example report" },
+        report: { page: reportPages.profitMap, label: "Read the full example report" },
       },
     ],
   },
@@ -698,7 +699,7 @@ export const marketMap: LandingPage = {
           "Mapping Lumina's own patients showed where the best customers cluster and where demand was going unmet. The newest clinic turned out to still be building its base rather than underperforming, and the strongest untapped trade area was the Energy Corridor: a data-backed answer to where do we grow next, rather than an opinion about it.",
         note:
           "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
-        report: { page: 26, label: "Read the full example report" },
+        report: { page: reportPages.marketMap, label: "Read the full example report" },
         link: {
           href: "/case-studies/lumina-medical-aesthetics",
           label: "See the whole engagement",
@@ -824,7 +825,7 @@ export const focusPlan: LandingPage = {
           "Every option on Lumina's list was scored, including the one the owner arrived wanting: a fourth clinic. The plan that came out sequenced it differently. Fix retention first, then expand, and expand where the mapping pointed rather than where the opportunity happened to appear. The expansion was not refused, it was ordered.",
         note:
           "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
-        report: { page: 32, label: "Read the full example report" },
+        report: { page: reportPages.focusPlan, label: "Read the full example report" },
         link: {
           href: "/case-studies/lumina-medical-aesthetics",
           label: "See the whole engagement",
@@ -957,7 +958,7 @@ export const scoreboard: LandingPage = {
           "The full worked example runs all five phases through to the Scoreboard, showing the KPIs that were chosen, why those and not others, and how the Aperture Score was re-scored at the end to prove the movement rather than claim it.",
         note:
           "Lumina is a worked example built to demonstrate the method, not a client engagement, and it is labeled that way everywhere it appears.",
-        report: { page: 38, label: "Read the full example report" },
+        report: { page: reportPages.scoreboard, label: "Read the full example report" },
       },
     ],
   },

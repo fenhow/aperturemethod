@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { EXAMPLE_REPORT } from "@/lib/exampleReport";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
@@ -15,7 +16,6 @@ import { deliverables } from "@/lib/deliverables";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
 
-const EXAMPLE_REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
 /**
  * Component pages for The Aperture Method™: one product page per component

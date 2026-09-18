@@ -69,6 +69,18 @@ export function TheArc() {
           </Fragment>
         ))}
       </div>
+
+      {/* The key.
+
+          The five component cards below this row carry the same MBA / GIS /
+          DATA chips, as a pointer back to these three. Without this sentence a
+          reader takes "MBA" on a product card as a credential badge rather
+          than a cross-reference, which is both the wrong meaning and a boast
+          nobody asked for. One line turns three decorations into a legend. */}
+      <p className="mt-5 text-small text-muted">
+        Each of the five components below draws on one or more of these three. The tags on those
+        cards point back here.
+      </p>
     </div>
   );
 }

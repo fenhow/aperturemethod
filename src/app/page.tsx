@@ -175,8 +175,16 @@ export default function Home() {
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-h4 font-semibold tabular-nums text-maroon">{p.n}</span>
+                    {/* A reference, not a title.
+
+                        The same three letters name a card in the arc above and
+                        point back at it from here. Rendered identically they
+                        read as a credential stamped on the product. Prefixed
+                        and un-bordered, they read as what they are: a note
+                        about which capabilities power this component. */}
                     {p.cap && (
-                      <span className="rounded-full border border-line px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">
+                      <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
+                        <span className="opacity-60">Draws on </span>
                         {p.cap}
                       </span>
                     )}

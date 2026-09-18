@@ -47,49 +47,69 @@ export default function Home() {
       />
       <ApertureHero />
 
-      {/* The evidence strip: the claim, then the same claim as money moving.
+      {/* The stakes: the share, and the same share as money moving.
 
-          The share of GDP used to sit as a pill inside the hero. It was moved
-          down one screen, not deleted: the hero had four stacked lines of
-          argument before its only button, and this is the one line that is
-          evidence rather than assertion, so it belongs with the run rate that
-          answers it rather than competing with the call to action.
+          This was a thin dark band with no heading, wedged between the dark
+          hero and the white page, and it read as hero overflow rather than an
+          idea of its own. The counter is the single thing on this site nobody
+          else could build, and it was being spent as a ticker.
+
+          It is a section now, with an argument stated out loud. It sits here
+          rather than at the close on purpose: the problem section directly
+          below is personal and small-scale, so this is the macro frame that
+          makes it land. Big economy, underserved, and then "you cannot see
+          your own corner of it."
+
+          NOT using <Section>: globals.css collapses the top padding of a dark
+          section that follows another dark section, which is the rule that made
+          this hug the hero in the first place. The padding lives on the inner
+          container instead, where that rule cannot reach it, and a hairline top
+          border does the separating.
 
           A percentage is an argument; money moving is a feeling. The run rate
           is that share of the last published quarter divided by the seconds in
           a year, and it says so plainly. Read the note above GDP_RUN_RATE in
           marketContext.ts before changing a word of it. */}
-      <div className="bg-dark">
+      <section className="border-t border-white/10 bg-dark text-paper">
         <Container>
-          <div className="flex flex-col gap-4 py-6">
-            <Link
-              href="/the-intelligence-gap"
-              className="group block w-full max-w-2xl rounded-2xl border border-white/25 px-5 py-3 text-small text-white/80 transition-colors hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:inline-block sm:w-auto sm:rounded-full sm:py-2.5"
-            >
-              <span className="font-semibold text-paper">
-                {FIGURES.shareOfGdp.value} of US GDP
-              </span>{" "}
-              comes from small businesses like yours.{" "}
-              <span className="whitespace-nowrap">
-                See why that matters.
-                <span
-                  className="ml-1.5 inline-block transition-transform duration-fast group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                >
-                  &rarr;
-                </span>
-              </span>
-            </Link>
-
-            <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-              <GdpRunRate variant="inline" onDark />
-              <p className="shrink-0 text-small text-white/45">
-                Run rate from BEA, Q2 2026. Not a live reading.
+          <div className="py-14 md:py-20">
+            <Reveal className="max-w-measure">
+              <p className="eyebrow eyebrow--on-dark mb-5">The stakes</p>
+              <h2 className="text-h2 font-semibold text-paper">
+                {FIGURES.shareOfGdp.value} of the US economy runs on businesses like yours.
+              </h2>
+              <p className="mt-5 text-body-lg text-white/75">
+                Almost none of it gets the analysis a listed company takes for granted. Not because
+                the work does not apply at your size, but because nobody has been selling it to you.
+                That is the gap this firm exists to close.
               </p>
-            </div>
+            </Reveal>
+
+            <Reveal delay={80} className="mt-10">
+              <div className="flex flex-col gap-6 border-t border-white/15 pt-8 lg:flex-row lg:items-end lg:justify-between">
+                <GdpRunRate onDark />
+                <div className="shrink-0 lg:text-right">
+                  <p className="text-small text-white/45">
+                    Run rate from BEA, Q2 2026. Not a live reading.
+                  </p>
+                  <Link
+                    href="/the-intelligence-gap"
+                    className="group mt-2 inline-flex items-center gap-1.5 text-[15px] font-semibold text-paper transition-colors hover:text-maroon-onDark"
+                  >
+                    See why that matters
+                    <span
+                      className="inline-block transition-transform duration-fast group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    >
+                      &rarr;
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </Container>
-      </div>
+      </section>
 
       {/* The problem, before the solution. Short here; the full version is on
           the Business X-Ray landing page, which this links to. */}

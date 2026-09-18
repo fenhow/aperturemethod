@@ -17,6 +17,12 @@ import { Fragment } from "react";
  * built ON: the analysis, the geography, and the platform it all lands in. The
  * arrows already carry the sequence, and the MBA / GIS / DATA chips already
  * name each one, so the numerals were adding nothing except the collision.
+ *
+ * SHADED, not white. The five component cards sit a few hundred pixels below
+ * these in the same section, and both were white cards with a hairline border
+ * on a white background: two different kinds of thing, rendered identically,
+ * which is how a reader ends up counting eight of something. The surface tint
+ * says "these are a different axis" before a word is read.
  */
 const STAGES = [
   {
@@ -46,7 +52,7 @@ export function TheArc() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch">
         {STAGES.map((s, i) => (
           <Fragment key={s.cap}>
-            <div className="flex flex-1 flex-col rounded-lg border border-line bg-paper p-6 hover-lift">
+            <div className="flex flex-1 flex-col rounded-lg border border-line bg-surface p-6 hover-lift">
               <div className="flex items-center">
                 <span className="rounded-full border border-maroon/30 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-maroon">
                   {s.cap}

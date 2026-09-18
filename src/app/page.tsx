@@ -16,7 +16,6 @@ import { BookSection } from "@/components/home/BookSection";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { HomeProblem } from "@/components/home/HomeProblem";
 import { HomeProof } from "@/components/home/HomeProof";
-import { QuickContactCard } from "@/components/forms/QuickContactCard";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { BusinessLabBand } from "@/components/education/BusinessLabBand";
 import { ThirtySeconds } from "@/components/home/ThirtySeconds";
@@ -137,7 +136,17 @@ export default function Home() {
             its cards were the same five products already listed inside the
             X-Ray panel below. One place, one list, one answer. */}
         <div className="mt-8">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/*
+              Five cards, three columns, so the last row holds two. That is
+              deliberate. A contact form used to fill the sixth slot, and
+              because it is far taller than a product card the grid row
+              stretched to match it: cards 04 and 05 carried a block of dead
+              space under their text for no reason other than to square off a
+              grid. Asking for an email address in the middle of explaining
+              what the products are was also the wrong moment; the page has a
+              booking CTA above and below this. A short last row is nothing.
+            */}
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {aperturePractices.map((p, i) => (
               <Reveal key={p.n} variant="up" delay={(i % 3) * 80}>
                 <Link
@@ -165,11 +174,6 @@ export default function Home() {
                 </Link>
               </Reveal>
             ))}
-
-            {/* Quick contact: fills the sixth slot in the 3-column grid */}
-            <Reveal variant="up" delay={160}>
-              <QuickContactCard />
-            </Reveal>
           </div>
         </div>
 

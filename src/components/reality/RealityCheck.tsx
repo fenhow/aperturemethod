@@ -61,9 +61,32 @@ export function RealityCheck() {
           Start the Reality Check
         </button>
 
+        {/*
+          The written breakdown, named before anyone starts.
+
+          It used to be a surprise at the end, and people missed it. Nobody
+          scans a results page looking for an offer they were never told about.
+          This says what is coming and what is in it, so the form at the end is
+          something they were waiting for rather than something they stumble on.
+
+          Deliberately NOT a field. "No email required" is why people start this
+          thing, and it is promised on the homepage, here, and in the page's
+          search description. A box at the gate reads as a gate even when it is
+          optional, and it would be asking before anything has been given.
+        */}
+        <div className="mt-8 max-w-xl rounded-lg border border-line bg-surface p-5">
+          <p className="text-small font-semibold text-ink">What you get at the end</p>
+          <p className="mt-2 text-small text-muted">
+            Your Clarity Score and your single biggest blind spot, on screen, free, straight away.
+            If you want it, we will also email you the full written breakdown: every question with
+            your answer, all {QUESTION_COUNT} underlying measures explained with the arithmetic,
+            and a PDF you can keep or hand to whoever does your books.
+          </p>
+        </div>
+
         <p className="mt-6 text-caption text-muted">
-          Your answers stay in your browser. Nothing is sent anywhere unless you ask us to email
-          you the full breakdown at the end.
+          Your answers stay in your browser. Nothing is sent anywhere unless you ask for the
+          breakdown at the end.
         </p>
       </div>
     );
@@ -237,6 +260,7 @@ export function RealityCheck() {
         </div>
       ) : null}
 
+
       <ReportForm score={score} band={band.name} answers={answers} />
 
       <div className="mt-10 rounded-lg border border-line p-6 sm:p-8">
@@ -347,11 +371,22 @@ function ReportForm({
 
   return (
     <form onSubmit={onSubmit} className="mt-10 rounded-lg border border-line p-6 sm:p-8">
-      <h3 className="text-h4 font-semibold text-ink">Want the written breakdown?</h3>
+      {/*
+        The pitch, describing what this actually is.
+
+        It used to offer "the long version", which was accurate when the email
+        was a recap. It now carries a reference to every measure behind the
+        questions plus a branded PDF, and none of that was being said, so the
+        ask looked smaller than the thing on offer.
+      */}
+      <h3 className="text-h4 font-semibold text-ink">
+        Want all {QUESTION_COUNT} measures, with your answers, as a PDF?
+      </h3>
       <p className="mt-2 text-body text-muted">
-        Your score is above and it is yours either way. If you want the long version, every
-        question, your answer, and what the evidenced version looks like, we will email it to you
-        the moment you hit send. No sequence, no drip campaign.
+        Your score is above and it is yours either way. The written breakdown adds the part worth
+        keeping: every question with the answer you gave, then the measure behind it, how it is
+        calculated, and what the number tells you once you have it. It arrives as an email and a
+        branded PDF the moment you hit send. No sequence, no drip campaign.
       </p>
 
       <div className="mt-5 space-y-3">

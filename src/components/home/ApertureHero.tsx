@@ -15,7 +15,19 @@ import { cn } from "@/lib/utils";
  * aria-live title, pause/play, pauses on hover/focus, reduced-motion aware).
  */
 
-type Slide = { eyebrow: string; title: string; sub: string; image: string; video?: string };
+type Slide = {
+  eyebrow: string;
+  title: string;
+  sub: string;
+  image: string;
+  video?: string;
+  /**
+   * CSS object-position for the photo. Only needed when the subject is off
+   * center: the hero crops every image to fill the frame, and a subject near
+   * one edge gets cut. Defaults to center.
+   */
+  position?: string;
+};
 
 const slides: Slide[] = [
   {
@@ -42,6 +54,19 @@ const slides: Slide[] = [
     title: "Put AI to work, without the hype.",
     sub: "Understand it, implement what fits, and use it to hold your edge, with a person in the loop and models that are yours to keep.",
     image: "/hero/hero-4-v9.jpg",
+  },
+  {
+    /* The five phases as the eyebrow, and the banner's own line as the
+       headline. The photo is a wide 2.7:1 panorama with the peak at the far
+       right, so it is anchored right of center: at the default center crop a
+       laptop loses the summit and a phone shows only sky. The bright sky on
+       the left sits under the hero's existing left-to-right black gradient,
+       which is what keeps the white headline readable. */
+    eyebrow: "Understand · Quantify · Reveal · Navigate · Perform",
+    title: "Higher perspective. Greater opportunity.",
+    sub: "See the whole business from above, and the way forward gets obvious: clearer insights, stronger decisions, better results.",
+    image: "/hero/hero-5-mountain.jpg",
+    position: "72% center",
   },
 ];
 
@@ -126,7 +151,15 @@ export function ApertureHero() {
               <source src={s.video} type="video/mp4" />
             </video>
           ) : (
-            <Image src={s.image} alt="" fill priority={i === 0} sizes="100vw" className="object-cover" />
+            <Image
+              src={s.image}
+              alt=""
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className="object-cover"
+              style={s.position ? { objectPosition: s.position } : undefined}
+            />
           )}
           <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/25" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />

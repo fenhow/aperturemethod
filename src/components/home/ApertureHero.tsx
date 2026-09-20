@@ -57,16 +57,15 @@ const slides: Slide[] = [
   },
   {
     /* The five phases as the eyebrow, and the banner's own line as the
-       headline. The photo is a wide 2.7:1 panorama with the peak at the far
-       right, so it is anchored right of center: at the default center crop a
-       laptop loses the summit and a phone shows only sky. The bright sky on
-       the left sits under the hero's existing left-to-right black gradient,
-       which is what keeps the white headline readable. */
+       headline. Sunrise over the valley, the aperture mark on the right. A
+       wide 2.7:1 panorama with the sun at 48% across; the crop centers on it
+       so a phone, which sees only a narrow slice, still gets the sunrise. Chosen over a
+       monochrome mountain version: it is the only colour slide, on purpose. */
     eyebrow: "Understand · Quantify · Reveal · Navigate · Perform",
     title: "Higher perspective. Greater opportunity.",
     sub: "See the whole business from above, and the way forward gets obvious: clearer insights, stronger decisions, better results.",
-    image: "/hero/hero-5-mountain.jpg",
-    position: "72% center",
+    image: "/hero/hero-5-sun.jpg",
+    position: "48% center",
   },
 ];
 

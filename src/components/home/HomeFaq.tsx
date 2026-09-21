@@ -5,16 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { LastReviewed } from "@/components/ui/LastReviewed";
 import { HOME_REVIEWED } from "@/lib/site";
-import {
-  SNAPSHOT_FEE,
-  SNAPSHOT_CEILING,
-  XRAY_FEE,
-  XRAY_CREDIT_TERMS,
-  COMPONENT_FEE,
-  FULL_METHOD_FEE,
-  ATLAS_FEE,
-  ATLAS_TERMS,
-} from "@/lib/pricing";
+import { SNAPSHOT_CEILING, XRAY_FEE, XRAY_CREDIT_TERMS } from "@/lib/pricing";
 
 /**
  * The questions an owner asks before a first call.
@@ -35,11 +26,11 @@ import {
 const faqs = [
   {
     q: "What does it cost?",
-    a: `Everything is a fixed fee agreed before any work starts. The Business X-Ray is ${XRAY_FEE}, and it ${XRAY_CREDIT_TERMS}. Below ${SNAPSHOT_CEILING} the way in is the Aperture Snapshot at ${SNAPSHOT_FEE}. A single deep component is ${COMPONENT_FEE}. The full Method is ${FULL_METHOD_FEE}. Aperture Atlas, the live platform, starts at ${ATLAS_FEE}, and its terms are a ${ATLAS_TERMS}. No hourly billing, and no invoice you did not see coming.`,
+    a: `Everything is a fixed fee, agreed before any work starts. No hourly billing, and no invoice you did not see coming. The way in is the Business X-Ray at ${XRAY_FEE}, and it ${XRAY_CREDIT_TERMS}. Every other fee, from a single component to the full Method to the Atlas tiers, is published in full on the Pricing page rather than quoted here, so there is one place that can never disagree with your contract.`,
   },
   {
     q: "Is my business the right size for this?",
-    a: `It is built for owner-run companies doing roughly $5M to $20M in revenue, usually with more than one location, territory or profit center: big enough that the decisions carry real money, small enough that a large consultancy is not interested and would not be worth it if they were. Below ${SNAPSHOT_CEILING} we offer one product rather than the whole ladder, the Aperture Snapshot at ${SNAPSHOT_FEE}, and if even that is not the right fit we will tell you so.`,
+    a: `It is built for owner-run companies doing roughly $5M to $20M in revenue, usually with more than one location, territory or profit center: big enough that the decisions carry real money, small enough that a large consultancy is not interested and would not be worth it if they were. Below ${SNAPSHOT_CEILING} we offer one product rather than the whole ladder, the Aperture Snapshot, and if even that is not the right fit we will tell you so.`,
   },
   {
     q: "How long before I see anything useful?",

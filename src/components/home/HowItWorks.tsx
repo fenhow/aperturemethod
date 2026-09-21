@@ -16,19 +16,16 @@ import { Reveal } from "@/components/ui/Reveal";
  * forward: one result (a single component) or the full path (the Method),
  * with Aperture Atlas as the ongoing layer.
  *
- * Prices come from src/lib/pricing.ts, the ratified SOW schedule. They used to be
- * hard-coded here, and the comment that said "placeholders, swap for Fenwick's real
- * numbers" outlived the real numbers by some months.
+ * NO FEES IN THIS SECTION as of Sept 2026. It carried six of them, including a
+ * three-column Atlas price table, and together with the FAQ the homepage was
+ * quoting ten figures. They live on /pricing now, which puts the deliverable
+ * above its price and keeps the terms attached. The only figure left on the
+ * homepage is the X-Ray fee in the Method section above, which is there to
+ * qualify the reader rather than to sell. What remains here is the shape of
+ * the offer: what each step is, and what it is priced by.
  */
 import { ProductName } from "@/components/brand/ProductName";
-import {
-  PRICES,
-  SNAPSHOT_CEILING,
-  SNAPSHOT_CREDIT_TERMS,
-  ATLAS_TIERS,
-  ATLAS_TERMS,
-  ATLAS_PREPAY_TERMS,
-} from "@/lib/pricing";
+import { SNAPSHOT_CEILING, SNAPSHOT_CREDIT_TERMS, ATLAS_TIERS, ATLAS_TERMS } from "@/lib/pricing";
 
 export function HowItWorks() {
   return (
@@ -58,14 +55,6 @@ export function HowItWorks() {
               </p>
             </div>
             <div className="shrink-0 md:text-right">
-              {PRICES.xray && (
-                <p className="text-small uppercase tracking-overline text-muted">
-                  Fixed fee ·{" "}
-                  <span className="text-h4 font-semibold normal-case tracking-normal text-maroon">
-                    {PRICES.xray}
-                  </span>
-                </p>
-              )}
               {/* Named after the product, so it points at the product's page
                   rather than at the general booking form. */}
               <Link href="/business-x-ray" className="btn mt-4">
@@ -109,13 +98,7 @@ export function HowItWorks() {
               </p>
             </div>
             <div className="shrink-0 md:text-right">
-              <p className="text-small uppercase tracking-overline text-muted">
-                Fixed fee ·{" "}
-                <span className="text-h4 font-semibold normal-case tracking-normal text-maroon">
-                  {PRICES.snapshot}
-                </span>
-              </p>
-              <Link href="/snapshot" className="link-arrow mt-3">
+              <Link href="/snapshot" className="link-arrow">
                 What the Snapshot covers
                 <span className="arrow" aria-hidden="true">
                   &rarr;
@@ -141,16 +124,7 @@ export function HowItWorks() {
               fixed-fee project, the numbers, the market, or the plan, when you already know
               which one you need. Complete on its own.
             </p>
-            {PRICES.component && (
-              <p className="mt-6 text-small uppercase tracking-overline text-muted">
-                From{" "}
-                <span className="text-h4 font-semibold normal-case tracking-normal text-ink">
-                  {PRICES.component}
-                </span>{" "}
-                per deep component
-              </p>
-            )}
-            <Link href="#method" className="link-arrow mt-4">
+            <Link href="#method" className="link-arrow mt-6">
               Browse the five components
               <span className="arrow" aria-hidden="true">
                 &rarr;
@@ -167,15 +141,7 @@ export function HowItWorks() {
               All five components in sequence, from the first honest assessment to a living platform
               you run the business from. The complete transformation.
             </p>
-            {PRICES.full && (
-              <p className="mt-6 text-small uppercase tracking-overline text-white/50">
-                Full engagement · from{" "}
-                <span className="text-h4 font-semibold normal-case tracking-normal text-paper">
-                  {PRICES.full}
-                </span>
-              </p>
-            )}
-            <Link href="/the-aperture-method" className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-paper transition-colors hover:text-maroon-onDark">
+            <Link href="/the-aperture-method" className="mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-paper transition-colors hover:text-maroon-onDark">
               See the full Method
               <span aria-hidden="true">&rarr;</span>
             </Link>
@@ -199,25 +165,37 @@ export function HowItWorks() {
               </p>
             </div>
 
+            {/* Tier names, no fees. This was a three-column price table sitting
+                in the middle of a narrative section, which is what made the
+                homepage read like a menu. What a reader needs here is that
+                Atlas is priced by how many places they run; what it costs is
+                one click away and better presented there. */}
             <div className="grid gap-4 sm:grid-cols-3">
               {ATLAS_TIERS.map((t) => (
                 <div key={t.label} className="hover-lift rounded-lg border border-line bg-paper p-5">
-                  <p className="text-small text-muted">{t.label}</p>
-                  <p className="mt-1 text-h4 font-semibold text-ink">{t.fee}</p>
+                  <p className="text-h4 font-semibold text-ink">{t.label}</p>
                 </div>
               ))}
             </div>
 
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
               <p className="text-small text-muted">
-                {ATLAS_TERMS} · {ATLAS_PREPAY_TERMS}.
+                Priced by location count, on a {ATLAS_TERMS}.
               </p>
-              <Link href="/method/atlas" className="link-arrow shrink-0">
-                See the platform
-                <span className="arrow" aria-hidden="true">
-                  &rarr;
-                </span>
-              </Link>
+              <div className="flex shrink-0 flex-wrap items-center gap-x-6 gap-y-2">
+                <Link href="/pricing" className="link-arrow">
+                  See Atlas pricing
+                  <span className="arrow" aria-hidden="true">
+                    &rarr;
+                  </span>
+                </Link>
+                <Link href="/method/atlas" className="link-arrow">
+                  See the platform
+                  <span className="arrow" aria-hidden="true">
+                    &rarr;
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -233,7 +211,7 @@ export function HowItWorks() {
           this answers "which of these", and is priced on the size of that
           decision. See the FAQ copy in landing.ts and industries.ts, which
           draws the same line. */}
-      {PRICES.siteSelection && (
+      {true && (
         <Reveal delay={160} className="mt-6">
           <div className="flex flex-col items-start justify-between gap-3 rounded-lg border border-dashed border-line px-6 py-5 sm:flex-row sm:items-center">
             <p className="text-body text-muted">
@@ -243,7 +221,7 @@ export function HowItWorks() {
               A standalone <span className="font-semibold text-ink">Site Selection Study</span>{" "}
               scores candidate sites and territories on real geography, trade areas, drive times
               and demand, before you commit. A second location, a new city, a wider service area.{" "}
-              <span className="text-muted">Fixed fee, {PRICES.siteSelection}.</span>
+              <span className="text-muted">A standalone fixed-fee study.</span>
             </p>
             <Link href="/method/intelligence" className="link-arrow shrink-0">
               How we do it
@@ -255,10 +233,26 @@ export function HowItWorks() {
         </Reveal>
       )}
 
-      <p className="mt-6 text-small text-muted">
-        Indicative pricing: every engagement is fixed-fee and scoped to your business before you
-        commit.
-      </p>
+      {/* One route to the schedule, at the foot of the section.
+
+          The homepage used to carry ten separate fee figures across this
+          section and the FAQ. They are all on /pricing now, where the
+          deliverable sits above its price and the terms travel with it. The
+          single figure left on this page is the X-Ray fee, up in the Method
+          section, because that one qualifies the reader rather than selling
+          to them. */}
+      <div className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-line pt-6 sm:flex-row sm:items-center">
+        <p className="text-small text-muted">
+          Every engagement is a fixed fee, agreed and scoped before any work starts. No hourly
+          billing.
+        </p>
+        <Link href="/pricing" className="link-arrow shrink-0">
+          See every fee
+          <span className="arrow" aria-hidden="true">
+            &rarr;
+          </span>
+        </Link>
+      </div>
     </Section>
   );
 }

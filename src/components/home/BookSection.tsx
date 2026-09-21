@@ -1,11 +1,13 @@
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
-import { PreorderForm } from "@/components/forms/PreorderForm";
+import { LinkArrow } from "@/components/ui/LinkArrow";
 import { Book3D } from "@/components/home/Book3D";
 
 /**
  * "The Book" segment: a 3D cover mockup of the forthcoming Aperture Method
- * book by Fenwick How, marked in progress. The cover is built in CSS (no image
+ * book by Fenwick How, marked in progress. A teaser: the outline and the
+ * reservation form live on /book.
+ * The cover is built in CSS (no image
  * asset yet) so it can evolve with the brand.
  */
 export function BookSection() {
@@ -33,15 +35,12 @@ export function BookSection() {
             Written by Fenwick How, founder of The Aperture Method. In progress now.
           </p>
 
-          <div className="mt-8">
-            <div className="mb-3 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-small font-semibold text-ink">
-                <span className="h-1.5 w-1.5 rounded-full bg-maroon" aria-hidden="true" />
-                Coming soon
-              </span>
-              <span className="text-small text-muted">Reserve your copy, no charge now.</span>
-            </div>
-            <PreorderForm />
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-small font-semibold text-ink">
+              <span className="h-1.5 w-1.5 rounded-full bg-maroon" aria-hidden="true" />
+              Coming soon
+            </span>
+            <LinkArrow href="/book">See the outline and reserve a copy</LinkArrow>
           </div>
         </Reveal>
       </div>

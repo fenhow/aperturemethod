@@ -42,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },
     { path: "/about", priority: 0.7, changeFrequency: "monthly" },
     { path: "/what-we-believe", priority: 0.7, changeFrequency: "monthly" },
+    { path: "/book", priority: 0.6, changeFrequency: "monthly" },
     { path: "/founder", priority: 0.6, changeFrequency: "yearly" },
     { path: "/reality-check", priority: 0.9, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.8, changeFrequency: "yearly" },

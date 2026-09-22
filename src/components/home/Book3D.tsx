@@ -79,6 +79,9 @@ export function Book3D() {
               <br />
               Method<span className="book360__ftm">™</span>
             </h3>
+            <p className="book360__fsub">
+              See the whole business from above, and the way forward gets obvious.
+            </p>
             <p className="book360__fauthor">
               <span className="book360__frule" aria-hidden="true" />
               Fenwick How

@@ -26,8 +26,8 @@ import { Fragment } from "react";
  */
 const STAGES = [
   {
-    cap: "MBA",
-    label: "MBA-grade analytics",
+    cap: "A&M Mays MBA",
+    label: "Analysis and analytics",
     desc:
       "Profit drivers, forecasting, segmentation, break-even and optimization, applied to your business.",
   },
@@ -38,7 +38,7 @@ const STAGES = [
       "Geographic intelligence plus deep demographic & human data, age, sex, income, households, and spending, mapped to trade areas and exactly where your customers are.",
   },
   {
-    cap: "DATA",
+    cap: "Data / AI",
     label: "A living data platform",
     desc:
       "Every layer brought together on one always-on, visual dashboard you run the business from.",
@@ -78,8 +78,10 @@ export function TheArc() {
           than a cross-reference, which is both the wrong meaning and a boast
           nobody asked for. One line turns three decorations into a legend. */}
       <p className="mt-5 text-small text-muted">
-        Each of the five components below draws on one or more of these three. The tags on those
-        cards point back here.
+        Each of the five components below draws on one or more of these three. The course codes on
+        those cards are the graduate coursework already built into the Method: Fenwick is currently
+        completing an Executive MBA at Texas A&amp;M University&apos;s Mays Business School, and the
+        Method is revised as each course lands.
       </p>
     </div>
   );

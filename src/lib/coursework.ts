@@ -30,7 +30,7 @@ export const coursework: Course[] = [
   {
     code: "ACCT 610",
     title: "Financial Accounting",
-    products: ["Analytics"],
+    products: ["Insights", "Analytics"],
     built:
       "The Profit Map and the Financial Analysis Workbench: financial statements read the way an analyst reads them, ratio and earnings-quality analysis, and cash conversion.",
     landed: "2026-08-16",
@@ -49,9 +49,9 @@ export const coursework: Course[] = [
   {
     code: "SCMT 610",
     title: "Business Analytics",
-    products: ["Analytics", "Atlas"],
+    products: ["Insights", "Analytics", "Atlas"],
     built:
-      "The statistics under both: regression on what moves sales (weather, holidays, drive time, demographics), scenario and sensitivity testing in the Profit Map, and confidence intervals rather than guesses.",
+      "The statistics behind the analysis: regression on what moves sales (weather, holidays, drive time, demographics), scenario and sensitivity testing in the Profit Map, and confidence intervals rather than guesses.",
     landed: "2026-09-22",
     highlights: [
       "A weekly sales model (ordinary least squares) controlling for trend, season, holidays, marketing and a competitor opening",

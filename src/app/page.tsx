@@ -293,8 +293,9 @@ export default function Home() {
           <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
             <AtlasMarketMap className="block" />
             <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
-              A Market Map inside Atlas: customer density, drive-time bands and competitors, built
-              in ArcGIS. Press play to watch a year of growth, or select any hex for its numbers.
+              A Market Map inside Atlas: customers and competitors alongside what moves buyers,
+              including weather, traffic, billboards and new housing. Press play to watch a year of
+              growth, or select any hex or billboard for its numbers.
             </figcaption>
           </figure>
         </Reveal>

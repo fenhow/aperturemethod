@@ -14,10 +14,17 @@ export type Course = {
   products: string[];
   /** What the course built into the Method, in plain language. */
   built: string;
+  /** When the work landed on the site (ISO date) — drives the Coursework in Practice log. */
+  landed: string;
+  /** Concrete things the course added, for the log. Facts only, no course-content claims. */
+  highlights: string[];
+  /** Where to see it live. */
+  seeIt: { label: string; href: string }[];
 };
 
 export const PROGRAM = "Texas A&M Executive MBA";
 export const CURRICULUM_ANCHOR = "/the-aperture-method#curriculum";
+export const COURSEWORK_LOG = "/method-lab/coursework";
 
 export const coursework: Course[] = [
   {
@@ -26,6 +33,18 @@ export const coursework: Course[] = [
     products: ["Analytics"],
     built:
       "The Profit Map and the Financial Analysis Workbench: financial statements read the way an analyst reads them, ratio and earnings-quality analysis, and cash conversion.",
+    landed: "2026-08-16",
+    highlights: [
+      "The Financial Analysis Workbench: from a set of statements to a full written analysis, with an evidence grade on every add-back",
+      "Two complete worked examples published free: a listed retailer and an owner-managed fabricator, because the analysis has to change when the entity does",
+      "Ratio and DuPont analysis, an earnings-quality page (special items, impairments, non-GAAP) and a credit analysis step",
+      "A 10-K annotator that ties every footnote back to the figure it explains",
+    ],
+    seeIt: [
+      { label: "The published worked examples", href: "/method-lab/financial-analysis-workbench" },
+      { label: "Aperture Analytics", href: "/method/analytics" },
+      { label: "The Profit Map", href: "/profit-map" },
+    ],
   },
   {
     code: "SCMT 610",
@@ -33,6 +52,18 @@ export const coursework: Course[] = [
     products: ["Analytics", "Atlas"],
     built:
       "The statistics under both: regression on what moves sales (weather, holidays, drive time, demographics), scenario and sensitivity testing in the Profit Map, and confidence intervals rather than guesses.",
+    landed: "2026-09-22",
+    highlights: [
+      "A weekly sales model (ordinary least squares) controlling for trend, season, holidays, marketing and a competitor opening",
+      "Partial-effect plots for rain and temperature, including a curved fit that finds the temperature where sales peak",
+      "An event study of holiday lift, week by week, with 95% confidence intervals",
+      "A cross-sectional model across trade-area hexes: standardised betas for drive time, income, demographics, new housing and competition",
+      "Plain-English explainers on every chart: what it shows, how to read it, why it matters",
+    ],
+    seeIt: [
+      { label: "Aperture Atlas: “Why sales move”", href: "/method/atlas" },
+      { label: "Aperture Analytics", href: "/method/analytics" },
+    ],
   },
 ];
 

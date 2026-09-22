@@ -1,4 +1,5 @@
-import { coursework, PROGRAM } from "@/lib/coursework";
+import { COURSEWORK_LOG, coursework, PROGRAM } from "@/lib/coursework";
+import { LinkArrow } from "@/components/ui/LinkArrow";
 import { ProductName } from "@/components/brand/ProductName";
 
 /**
@@ -30,6 +31,9 @@ export function CurriculumMap() {
           </div>
         ))}
       </dl>
+      <p className="mt-4">
+        <LinkArrow href={COURSEWORK_LOG}>Coursework in Practice: the full log</LinkArrow>
+      </p>
     </div>
   );
 }

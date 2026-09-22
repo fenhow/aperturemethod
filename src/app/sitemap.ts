@@ -37,6 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/case-studies", priority: 0.7, changeFrequency: "monthly" },
     { path: "/case-studies/lumina-medical-aesthetics", priority: 0.8, changeFrequency: "monthly" },
     { path: "/method-lab/financial-analysis-workbench", priority: 0.7, changeFrequency: "monthly" },
+    { path: "/method-lab/coursework", priority: 0.5, changeFrequency: "monthly" },
     { path: "/insights", priority: 0.8, changeFrequency: "weekly" },
     { path: "/working-together", priority: 0.8, changeFrequency: "monthly" },
     { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },

@@ -12,7 +12,7 @@ import { siteConfig } from "@/lib/site";
  * Add any future published lab page to PUBLIC_LAB_PATHS here and to the
  * PUBLIC_METHOD_LAB allowlist in src/middleware.ts; the two must agree.
  */
-const PUBLIC_LAB_PATHS = ["/method-lab/financial-analysis-workbench"];
+const PUBLIC_LAB_PATHS = ["/method-lab/financial-analysis-workbench", "/method-lab/coursework"];
 
 export default function robots(): MetadataRoute.Robots {
   return {

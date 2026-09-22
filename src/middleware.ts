@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     // Published Method Lab work is deliberately public: it is the showcase, not
     // the confidential material. Everything NOT on this list stays gated, so the
     // Agent Workflow Map and the Architecture Reference are unaffected.
-    const PUBLIC_METHOD_LAB = ["/method-lab/financial-analysis-workbench"];
+    const PUBLIC_METHOD_LAB = ["/method-lab/financial-analysis-workbench", "/method-lab/coursework"];
     if (PUBLIC_METHOD_LAB.includes(path)) return NextResponse.next();
 
     const allowed = await hasMethodLabAccess(request.cookies.get(METHOD_LAB_COOKIE)?.value);

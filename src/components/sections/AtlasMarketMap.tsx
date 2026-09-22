@@ -292,7 +292,7 @@ export function AtlasMarketMap({ className }: { className?: string }) {
 
   useEffect(() => {
     if (!playing || pop) return;
-    const id = window.setTimeout(() => setMonth((m) => (m >= LAST ? 0 : m + 1)), month >= LAST ? 3200 : 1100);
+    const id = window.setTimeout(() => setMonth((m) => (m >= LAST ? 0 : m + 1)), month >= LAST ? 5500 : 2600);
     return () => window.clearTimeout(id);
   }, [playing, month, pop]);
 
@@ -602,11 +602,11 @@ const CSS = `
 .atl-stage{position:relative;aspect-ratio:8/5;overflow:hidden}
 .atl-mapwrap{position:absolute;inset:0}
 .atl-map{position:absolute;inset:0;width:100%;height:100%;display:block}
-.atl-hex{cursor:pointer;transition:fill .9s ease}
+.atl-hex{cursor:pointer;transition:fill 1.8s ease}
 .atl-hex:hover{fill-opacity:.9}
 .atl-bb{cursor:pointer}
-.atl circle{transition:opacity .6s ease}
-.atl-new{animation:atlIn 1s ease-out}
+.atl circle{transition:opacity 1.4s ease}
+.atl-new{animation:atlIn 2s ease-out}
 @keyframes atlIn{0%{opacity:0}40%{opacity:1}}
 .atl-pulse{animation:atlPulse 2.4s ease-out infinite;transform-origin:center;transform-box:fill-box}
 @keyframes atlPulse{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(3.2)}}

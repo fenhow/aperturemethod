@@ -13,6 +13,7 @@ import { ldService, ldWebPage, ldBreadcrumb } from "@/lib/seo";
 import type { LandingPage } from "@/lib/landing";
 import { Provenance } from "@/components/ui/Provenance";
 import { LANDING_PRODUCT } from "@/lib/coursework";
+import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
 
 const REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
@@ -157,6 +158,29 @@ export function LandingView({ page }: { page: LandingPage }) {
           )}
         </div>
       </Section>
+
+      {/* Live platform demo: only the Atlas landing page (/scoreboard) carries the map. */}
+      {page.slug === "/scoreboard" && (
+        <Section tone="dark">
+          <Reveal className="max-w-measure">
+            <p className="eyebrow eyebrow--on-dark mb-4">See it live</p>
+            <h2 className="text-h2 font-semibold text-paper">Your market, on one live map.</h2>
+            <p className="mt-5 text-body-lg text-white/75">
+              Press play to watch a year of growth, switch layers, or select any hex, billboard or venue for its numbers.
+            </p>
+          </Reveal>
+          <Reveal variant="up" delay={120} className="mt-10">
+            <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
+              <AtlasMarketMap className="block" showAnalysis={false} />
+            </figure>
+          </Reveal>
+          <Reveal className="mt-6">
+            <LinkArrow href="/method/atlas" onDark>
+              See the analysis behind it
+            </LinkArrow>
+          </Reveal>
+        </Section>
+      )}
 
       {/* The proof */}
       <Section tone="surface">

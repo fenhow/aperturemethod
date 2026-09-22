@@ -182,18 +182,16 @@ export default function Home() {
                         read as a credential stamped on the product. Prefixed
                         and un-bordered, they read as what they are: a note
                         about which capabilities power this component. */}
-                    {(() => {
-                      // Named courses replace the generic "MBA" tag; GIS / DATA stay.
-                      const draws = [
-                        ...coursesFor(p.short).map((c) => c.code),
-                        ...(p.cap ?? "").split(" · ").filter((x) => x && x !== "MBA"),
-                      ];
-                      return draws.length > 0 ? (
-                        <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
-  {draws.join(" · ")}
-                        </span>
-                      ) : null;
-                    })()}
+                    {/* The named course(s) this component draws on, when one has
+                        landed. Components with no course yet show nothing: a bare
+                        capability tag ("GIS") said less than the silence does. */}
+                    {coursesFor(p.short).length > 0 && (
+                      <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
+                        {coursesFor(p.short)
+                          .map((c) => c.code)
+                          .join(" · ")}
+                      </span>
+                    )}
                   </div>
                   <h3 className="mt-4 text-h4 font-semibold text-ink group-hover:text-maroon">
                     {p.product}&trade;

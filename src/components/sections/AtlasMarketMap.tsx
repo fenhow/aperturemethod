@@ -237,7 +237,7 @@ function buildGeometry() {
 }
 
 const SHIELDS: [string, number, number][] = [["I-45", 352, 60], ["SH 242", 262, 150], ["Woodlands Pkwy", 560, 322]];
-const PLACES: [string, number, number][] = [["THE WOODLANDS", 250, 290], ["SPRING", 110, 462], ["OAK RIDGE N.", 372, 30], ["CREEKSIDE", 36, 300]];
+const PLACES: [string, number, number][] = [["THE WOODLANDS", 250, 290], ["SPRING", 96, 428], ["OAK RIDGE N.", 372, 30], ["CREEKSIDE", 36, 300]];
 
 function WxIcon({ kind }: { kind: "sun" | "cloud" | "rain" | "storm" }) {
   const cloud = <path d="M9 22h15a5 5 0 0 0 0-10 7 7 0 0 0-13.5 1.5A4.5 4.5 0 0 0 9 22z" fill="#9aa4b2" />;
@@ -264,7 +264,7 @@ function WxIcon({ kind }: { kind: "sun" | "cloud" | "rain" | "storm" }) {
   );
 }
 
-export function AtlasMarketMap({ className }: { className?: string }) {
+export function AtlasMarketMap({ className, showAnalysis = true }: { className?: string; showAnalysis?: boolean }) {
   const uid = useId().replace(/:/g, "");
   const geo = useMemo(buildGeometry, []);
   const [mode, setMode] = useState<"dark" | "light">("dark");
@@ -493,8 +493,11 @@ export function AtlasMarketMap({ className }: { className?: string }) {
             ))}
           </svg>
 
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="atl-logo" src={mode === "dark" ? "/logo-icon-white.png" : "/logo-icon-black.png"} alt="Aperture" />
+          <div className="atl-brand" aria-label="Aperture Atlas">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={mode === "dark" ? "/logo-icon-white.png" : "/logo-icon-black.png"} alt="" />
+            <span className="atl-b1">APERTURE</span><span className="atl-b2">ATLAS</span><sup>™</sup>
+          </div>
 
           {pop && (
             <div className="atl-pop" style={{ left: `${(pop.x / W) * 100}%`, top: `${(pop.y / H) * 100}%` }}>
@@ -590,8 +593,8 @@ export function AtlasMarketMap({ className }: { className?: string }) {
 
         <div className="atl-attr">Sources: U.S. Census ACS 5-yr, client POS, NOAA, TxDOT AADT, county permits, OOH inventory · illustrative client · model R² {WEEKLY_MODEL.r2.toFixed(2)}</div>
       </div>
-      <AtlasAnalysis month={month} monthLabel={MONTHS[month]!}
-        c={{ ink: th.ink, mu: th.vars["--mu"]!, bd: th.vars["--bd"]!, accent: th.accent, pos: th.pos, neg: th.neg, dot: th.dot }} />
+      {showAnalysis && <AtlasAnalysis month={month} monthLabel={MONTHS[month]!} temp={temp} rain={rain} holRel={hol.rel} holName={hol.name}
+        c={{ ink: th.ink, mu: th.vars["--mu"]!, bd: th.vars["--bd"]!, accent: th.accent, pos: th.pos, neg: th.neg, dot: th.dot }} />}
     </div>
   );
 }
@@ -632,7 +635,11 @@ const CSS = `
 .atl-side{position:absolute;top:86px;right:14px;width:222px;display:flex;flex-direction:column;gap:8px}
 .atl-card{position:static;padding:10px 13px;font-size:12px}
 .atl-hol{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 7px}.atl-hol b{font-size:15px}.atl-hol span{color:var(--mu);font-size:11px}
-.atl-logo{position:absolute;left:12px;bottom:24px;width:30px;height:30px;opacity:.85;pointer-events:none}
+.atl-brand{position:absolute;left:14px;bottom:26px;display:flex;align-items:center;white-space:nowrap;line-height:1;font-size:17px;color:var(--tx);pointer-events:none;text-shadow:0 0 6px var(--bg)}
+.atl-brand img{width:44px;height:44px;margin-right:9px}
+.atl-b1{font-weight:600;letter-spacing:.06em}
+.atl-b2{font-weight:300;letter-spacing:.14em;margin-left:.3em}
+.atl-brand sup{font-size:.5em;margin-left:2px;align-self:flex-start;margin-top:12px}
 .atl-shimmer{animation:atlShimmer 3s ease-in-out infinite alternate}
 @keyframes atlShimmer{from{opacity:.75}to{opacity:1}}
 .atl-rainfall{animation:atlRain .45s linear infinite}
@@ -679,7 +686,7 @@ const CSS = `
  .atl-title{order:-1;margin-top:10px;justify-content:space-between}
  .atl-side{position:static;width:auto;display:grid;grid-template-columns:1fr 1fr;gap:0}
  .atl-card{margin:8px 10px 0}
- .atl-logo{bottom:10px;width:24px;height:24px}
+ .atl-brand{bottom:8px;left:8px;font-size:11px}.atl-brand img{width:26px;height:26px;margin-right:6px}.atl-brand sup{margin-top:6px}
  .atl-kpis{flex-wrap:wrap}.atl-kpis>div{flex:1 1 45%;border-left:0;border-top:1px solid var(--bd)}
  .atl-kpis>div:nth-child(-n+2){border-top:0}
  .atl-layers{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}

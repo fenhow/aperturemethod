@@ -291,13 +291,18 @@ export default function Home() {
 
         <Reveal variant="up" delay={120} className="mt-12">
           <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
-            <AtlasMarketMap className="block" />
+            <AtlasMarketMap className="block" showAnalysis={false} />
             <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
               A Market Map inside Atlas: customers and competitors alongside what moves buyers,
               including weather, traffic, billboards and new housing. Press play to watch a year of
               growth, or select any hex or billboard for its numbers.
             </figcaption>
           </figure>
+          <div className="mt-5">
+            <LinkArrow href="/method/atlas" onDark>
+              See the analysis behind it
+            </LinkArrow>
+          </div>
         </Reveal>
 
         <Reveal variant="up" delay={160} className="mt-6">

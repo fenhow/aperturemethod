@@ -5,6 +5,8 @@
  */
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 /**
  * The quantitative layer under the Atlas Market Map: "Why sales move".
  *  1. Rain vs sales: component-plus-residual plot from a weekly OLS model.
@@ -198,7 +200,69 @@ function Scatter({ c, pts, xr, yr, month, xTicks, yTicks, fx, children }: {
   );
 }
 
-export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; month: number; monthLabel: string }) {
+const INFO: { what: string; read: string; why: string }[] = [
+  {
+    what: "Each dot is one week of sales, after the model strips out season, holidays, trend and marketing. Left to right is inches of rain that week.",
+    read: "The line slopes down: wetter weeks sell less. r close to −1 means a strong, consistent relationship. The marker shows this Saturday's forecast.",
+    why: "When rain is forecast, trim staff hours, push online booking and run a rain-day offer instead of discovering the dip afterwards.",
+  },
+  {
+    what: "The same weekly sales, plotted against temperature. The curve is the model's fitted effect; the shaded band is 100°F and hotter.",
+    read: "Sales rise to a peak around the ideal temperature, then fall away in heat waves and cold snaps. The marker is this Saturday.",
+    why: "Schedule promotions for mild weeks. In a heat wave, shift appointments to mornings and evenings rather than cutting spend.",
+  },
+  {
+    what: "Average extra sales in the weeks around a holiday, compared with a normal week. The highlighted bar is where we are before the next holiday.",
+    read: "Taller bars mean bigger lift. The thin whisker is the 95% confidence range: if it doesn't cross zero, the effect is real, not noise.",
+    why: "Stock, staff and advertise three weeks out, when demand starts building, and expect a short dip after the holiday.",
+  },
+  {
+    what: "A model across 310 neighbourhood hexes showing which local factors raise or lower the share of households who buy.",
+    read: "Bars share one scale (standardised betas), so they compare directly. Red pulls penetration down, green lifts it. Stars mean statistically significant.",
+    why: "It tells you where to advertise, which areas are under-served, and whether a second location would sit in a strong or weak catchment.",
+  },
+];
+
+function InfoButton({ open, onClick }: { open: boolean; onClick: () => void }) {
+  return (
+    <button type="button" className="atl-q" aria-expanded={open} aria-label="What does this chart mean?" onClick={onClick}>?</button>
+  );
+}
+
+function InfoPanel({ i, onClose }: { i: number; onClose: () => void }) {
+  const d = INFO[i]!;
+  return (
+    <div className="atl-info" role="dialog" aria-label="Chart explanation">
+      <button type="button" className="atl-info-x" onClick={onClose} aria-label="Close explanation">✕</button>
+      <p><b>What it shows.</b> {d.what}</p>
+      <p><b>How to read it.</b> {d.read}</p>
+      <p><b>Why it matters.</b> {d.why}</p>
+    </div>
+  );
+}
+
+export function AtlasAnalysis({ c, month, monthLabel, temp, rain, holRel, holName }: {
+  c: AnalysisColors; month: number; monthLabel: string; temp: number; rain: number; holRel: number; holName: string;
+}) {
+  const [info, setInfo] = useState<number | null>(null);
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return setInView(true);
+    const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { setInView(true); io.disconnect(); } }, { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (info === null) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setInfo(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [info]);
+  const toggle = (i: number) => setInfo((v) => (v === i ? null : i));
+  const rainIn = Math.min(4, (rain / 100) * 1.1);
+  const tNow = Math.min(110, Math.max(40, temp));
   const yr: [number, number] = [-8000, 5000];
   const yTicks = [-6000, -3000, 0, 3000];
   const rainLine = [0, 4].map((x) => `${sx(x, 0, 4)},${sy(M.b[IX.rain]! * x, ...yr)}`).join(" ");
@@ -210,7 +274,7 @@ export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; mon
   const drive = cross.rows.find((d) => d.name === "Drive time")!;
 
   return (
-    <section className="atl-an" aria-label="Why sales move: illustrative quantitative analysis">
+    <section ref={ref} className={`atl-an${inView ? " in" : ""}`} aria-label="Why sales move: illustrative quantitative analysis">
       <header>
         <div>
           <div className="atl-h">The quantitative layer</div>
@@ -223,22 +287,38 @@ export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; mon
       </header>
       <div className="atl-an-grid">
         <figure>
-          <figcaption><b>Rain vs sales</b><span>r = {R_RAIN.toFixed(2)}</span></figcaption>
+          <figcaption><b>Rain vs sales</b><span>r = {R_RAIN.toFixed(2)}<InfoButton open={info === 0} onClick={() => toggle(0)} /></span></figcaption>
           <Scatter c={c} pts={rainPartial} xr={[0, 4]} yr={yr} month={month} xTicks={[0, 1, 2, 3, 4]} yTicks={yTicks} fx={(v) => `${v}"`}>
-            <polyline points={rainLine} fill="none" stroke={c.neg} strokeWidth={2} />
+            <polyline points={rainLine} fill="none" stroke={c.neg} strokeWidth={2} className="atl-draw" pathLength={1} />
+            <g className="atl-mv" style={{ transform: `translate(${sx(rainIn, 0, 4)}px,0px)` }}>
+              <line y1={PT} y2={CH - PB} stroke={c.ink} strokeDasharray="3 3" opacity={0.5} />
+              <text x={4} y={PT + 8} fontSize={9} fill={c.ink} fontWeight={600}>This Sat · {rain}%</text>
+            </g>
+            <g className="atl-mv" style={{ transform: `translate(${sx(rainIn, 0, 4)}px,${sy(M.b[IX.rain]! * rainIn, ...yr)}px)` }}>
+              <circle r={5} fill={c.neg} stroke={c.ink} strokeWidth={1.5} />
+            </g>
           </Scatter>
+          {info === 0 && <InfoPanel i={0} onClose={() => setInfo(null)} />}
           <p>Each inch of rain costs <b>{k$(M.b[IX.rain]!)}</b> in weekly sales (t = {M.t[IX.rain]!.toFixed(1)}{stars(M.t[IX.rain]!)}).</p>
         </figure>
         <figure>
-          <figcaption><b>Temperature vs sales</b><span>peak {PEAK_T.toFixed(0)}°F</span></figcaption>
+          <figcaption><b>Temperature vs sales</b><span>peak {PEAK_T.toFixed(0)}°F<InfoButton open={info === 1} onClick={() => toggle(1)} /></span></figcaption>
           <Scatter c={c} pts={tempPartial} xr={[40, 110]} yr={yr} month={month} xTicks={[50, 70, 90, 100, 110]} yTicks={yTicks} fx={(v) => `${v}°`}>
             <rect x={sx(100, 40, 110)} y={PT} width={sx(110, 40, 110) - sx(100, 40, 110)} height={CH - PT - PB} fill={c.neg} opacity={0.08} />
-            <polyline points={tCurve} fill="none" stroke={c.accent} strokeWidth={2} />
+            <polyline points={tCurve} fill="none" stroke={c.accent} strokeWidth={2} className="atl-draw" pathLength={1} />
+            <g className="atl-mv" style={{ transform: `translate(${sx(tNow, 40, 110)}px,0px)` }}>
+              <line y1={PT} y2={CH - PB} stroke={c.ink} strokeDasharray="3 3" opacity={0.5} />
+              <text x={tNow > 95 ? -4 : 4} y={PT + 8} fontSize={9} fill={c.ink} fontWeight={600} textAnchor={tNow > 95 ? "end" : "start"}>This Sat · {temp}°F</text>
+            </g>
+            <g className="atl-mv" style={{ transform: `translate(${sx(tNow, 40, 110)}px,${sy(tempEffect(tNow) - tempEffect(PEAK_T), ...yr)}px)` }}>
+              <circle r={5} fill={c.accent} stroke={c.ink} strokeWidth={1.5} />
+            </g>
           </Scatter>
+          {info === 1 && <InfoPanel i={1} onClose={() => setInfo(null)} />}
           <p>Sales peak near <b>{PEAK_T.toFixed(0)}°F</b>. At 104°F they run <b>{HEAT_DROP.toFixed(1)}%</b> below peak.</p>
         </figure>
         <figure>
-          <figcaption><b>Holiday lift</b><span>event study · 95% CI</span></figcaption>
+          <figcaption><b>Holiday lift</b><span>next: {holName}<InfoButton open={info === 2} onClick={() => toggle(2)} /></span></figcaption>
           <svg viewBox={`0 0 ${CW} ${CH}`} width="100%" role="img" aria-hidden>
             <Axes c={c} xTicks={[]} yTicks={[-10, 0, 10, 20, 30]} xr={[0, 1]} yr={[-12, liftMax]} fx={String} fy={(v) => `${v}%`} />
             {REL.map((k, i) => {
@@ -246,9 +326,11 @@ export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; mon
               const e = (1.96 * M.se[IX.rel + i]! / MEAN_SALES) * 100;
               const x = PL + i * bw + bw * 0.2;
               const y0 = sy(0, -12, liftMax), y1 = sy(v, -12, liftMax);
+              const now = k === holRel;
               return (
                 <g key={k}>
-                  <rect x={x} y={Math.min(y0, y1)} width={bw * 0.6} height={Math.abs(y1 - y0)} rx={2} fill={v >= 0 ? c.accent : c.neg} opacity={k === 0 ? 1 : 0.75} />
+                  <rect x={x} y={Math.min(y0, y1)} width={bw * 0.6} height={Math.abs(y1 - y0)} rx={2} fill={v >= 0 ? c.accent : c.neg}
+                    opacity={now ? 1 : 0.4} stroke={now ? c.ink : "none"} strokeWidth={1.5} className="atl-bar" style={{ transitionDelay: `${i * 90}ms` }} />
                   <line x1={x + bw * 0.3} x2={x + bw * 0.3} y1={sy(v - e, -12, liftMax)} y2={sy(v + e, -12, liftMax)} stroke={c.ink} strokeWidth={1} />
                   <text x={x + bw * 0.3} y={CH - 8} fontSize={9} fill={c.mu} textAnchor="middle">{k === 0 ? "Week of" : `${k > 0 ? "+" : ""}${k} wk`}</text>
                   <text x={x + bw * 0.3} y={Math.min(y1, y0) - 4} fontSize={9} fontWeight={600} fill={c.ink} textAnchor="middle">{v > 0 ? "+" : ""}{v.toFixed(0)}%</text>
@@ -256,10 +338,11 @@ export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; mon
               );
             })}
           </svg>
+          {info === 2 && <InfoPanel i={2} onClose={() => setInfo(null)} />}
           <p>Sales build for three weeks into a holiday (<b>+{HOLIDAY_LIFT_PCT[3]!.toFixed(0)}%</b> the week of), then dip after as demand is pulled forward.</p>
         </figure>
         <figure>
-          <figcaption><b>What drives penetration by area</b><span>R² = {cross.r2.toFixed(2)} · n = {cross.n}</span></figcaption>
+          <figcaption><b>What drives penetration by area</b><span>R² = {cross.r2.toFixed(2)} · n = {cross.n}<InfoButton open={info === 3} onClick={() => toggle(3)} /></span></figcaption>
           <svg viewBox={`0 0 ${CW} ${CH}`} width="100%" role="img" aria-hidden>
             <line x1={190} x2={190} y1={4} y2={CH - 14} stroke={c.bd} />
             {cross.rows.map((d, i) => {
@@ -268,7 +351,8 @@ export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; mon
               return (
                 <g key={d.name} fontSize={9.5}>
                   <text x={0} y={y + 10} fill={c.ink}>{d.name}</text>
-                  <rect x={d.beta >= 0 ? 190 : 190 - w} y={y} width={w} height={13} rx={2} fill={d.beta >= 0 ? c.pos : c.neg} opacity={0.85} />
+                  <rect x={d.beta >= 0 ? 190 : 190 - w} y={y} width={w} height={13} rx={2} fill={d.beta >= 0 ? c.pos : c.neg} opacity={0.85}
+                    className="atl-hbar" style={{ transformOrigin: "190px 0", transitionDelay: `${i * 90}ms` }} />
                   <text x={d.beta >= 0 ? 194 + w : 186 - w} y={y + 10} fill={c.mu} textAnchor={d.beta >= 0 ? "start" : "end"}>
                     {d.beta.toFixed(2)}{stars(d.t)}
                   </text>
@@ -276,6 +360,7 @@ export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; mon
               );
             })}
           </svg>
+          {info === 3 && <InfoPanel i={3} onClose={() => setInfo(null)} />}
           <p>Standardised betas across trade-area hexes. Every 5 extra minutes of drive time cuts penetration by <b>{Math.abs(drive.raw * 5).toFixed(1)} pts</b>.</p>
         </figure>
       </div>
@@ -287,13 +372,30 @@ export function AtlasAnalysis({ c, month, monthLabel }: { c: AnalysisColors; mon
 export const ANALYSIS_CSS = `
 .atl-an{padding:22px 18px 16px;border-top:1px solid var(--bd)}
 .atl-an header{display:flex;gap:24px;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
-.atl-an h3{margin:3px 0 0;font-size:18px;font-weight:600}
+.atl-an h3{margin:3px 0 0;font-size:18px;font-weight:600;color:var(--tx)}
 .atl-an header p{margin:0;max-width:560px;font-size:12px;line-height:1.5;color:var(--mu)}
 .atl-an header b{color:var(--tx)}
 .atl-an-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.atl-an figure{margin:0;background:var(--pn);border:1px solid var(--bd);border-radius:8px;padding:11px 12px}
+.atl-an figure{position:relative;margin:0;background:var(--pn);border:1px solid var(--bd);border-radius:8px;padding:11px 12px}
 .atl-an figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12.5px;margin-bottom:6px}
-.atl-an figcaption span{font-size:10.5px;color:var(--mu);white-space:nowrap}
+.atl-an figcaption span{font-size:10.5px;color:var(--mu);white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+.atl-q{all:unset;cursor:pointer;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--tx);border:1px solid var(--bd);transition:background .2s}
+.atl-q:hover,.atl-q[aria-expanded=true]{background:var(--on);color:#fff;border-color:var(--on)}
+.atl-q:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.atl-info{position:absolute;inset:38px 8px 8px;z-index:2;overflow:auto;background:var(--pop);border:1px solid var(--bd);border-radius:6px;padding:12px 30px 10px 12px;animation:atlInfo .25s ease-out}
+.atl-info p{margin:0 0 8px!important;font-size:11.5px;line-height:1.5;color:var(--tx)!important}
+.atl-info b{color:var(--acc)!important}
+.atl-info-x{all:unset;cursor:pointer;position:absolute;top:8px;right:10px;color:var(--mu);font-size:12px}
+@keyframes atlInfo{from{opacity:0;transform:translateY(4px)}}
+.atl-mv{transition:transform 1.6s cubic-bezier(.4,0,.2,1)}
+.atl-an circle{transition:r .8s ease,fill .8s ease,opacity .8s ease}
+.atl-bar{transition:opacity .8s ease,stroke .8s ease;transform-box:fill-box;transform-origin:bottom;transform:scaleY(0)}
+.atl-an.in .atl-bar{transform:scaleY(1);transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .8s ease}
+.atl-hbar{transform:scaleX(0);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.atl-an.in .atl-hbar{transform:scaleX(1)}
+.atl-draw{stroke-dasharray:1;stroke-dashoffset:1}
+.atl-an.in .atl-draw{stroke-dashoffset:0;transition:stroke-dashoffset 1.6s ease .2s}
+@media (prefers-reduced-motion:reduce){.atl-mv,.atl-an circle,.atl-bar,.atl-hbar,.atl-draw{transition:none!important}.atl-bar,.atl-hbar{transform:none}.atl-draw{stroke-dashoffset:0}}
 .atl-an figure p{margin:6px 0 0;font-size:11.5px;line-height:1.45;color:var(--mu)}
 .atl-an figure p b{color:var(--tx)}
 .atl-an-foot{margin-top:10px;font-size:10px;color:var(--attrtx)}

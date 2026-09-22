@@ -478,6 +478,17 @@
     box-shadow: 0 42px 84px -26px rgba(0, 0, 0, 0.6);
   }
   .book360__front { transform: translateZ(21px); padding: 34px 30px 26px; border-radius: 2px 6px 6px 2px; }
+  /* Front cover, photo edition (Sept 2026): "Higher Perspective" art with the
+     type set live on top, so contributor names change without new artwork. */
+  .book360__front--photo { padding: 0; background-color: #060606; background-size: cover; background-position: 50% 0; }
+  .book360__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 72%, rgba(6,6,6,.95) 86%, #060606 100%); }
+  .book360__ftype { position: relative; margin-top: auto; padding: 0 26px 24px; }
+  .book360__feyebrow { font-size: 7.5px; font-weight: 600; letter-spacing: 0.42em; text-transform: uppercase; color: rgba(255,255,255,.75); }
+  .book360__ftitle { margin-top: 7px; font-size: 30px; line-height: .96; font-weight: 600; letter-spacing: -0.035em; color: #fff; }
+  .book360__ftm { font-size: .35em; vertical-align: top; position: relative; top: .35em; font-weight: 400; }
+  .book360__fauthor { display: flex; align-items: center; gap: 8px; margin-top: 13px; font-size: 10px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: #fff; }
+  .book360__frule { width: 14px; height: 1px; background: #a3263a; }
+  .book360__fwith { margin-top: 6px; font-size: 7px; line-height: 1.4; letter-spacing: .03em; white-space: nowrap; color: rgba(255,255,255,.62); }
   .book360__back { transform: rotateY(180deg) translateZ(21px); padding: 28px 28px 24px; border-radius: 2px 6px 6px 2px; }
   .book360__spine {
     width: 42px;

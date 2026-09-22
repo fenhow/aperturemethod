@@ -7,6 +7,7 @@ import { PreorderForm } from "@/components/forms/PreorderForm";
 import { Book3D } from "@/components/home/Book3D";
 import { aperturePractices } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
+import { bookContributors } from "@/lib/book";
 
 export const metadata: Metadata = pageMeta({
   title: "The Book",
@@ -116,8 +117,28 @@ export default function BookPage() {
         </ol>
       </Section>
 
-      {/* Who it's for */}
+      {/* Contributors */}
       <Section tone="surface">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Written with"
+            title="Three experts, one method."
+            lede="Fenwick is writing the book with contributing authors in the three disciplines an owner-run business leans on most."
+          />
+        </Reveal>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {bookContributors.map((c) => (
+            <div key={c.area} className="rounded-2xl border border-line bg-paper p-6">
+              <p className="text-small font-semibold text-maroon">Contributing author · {c.area}</p>
+              <h3 className="mt-2 text-h4 font-semibold text-ink">{c.name ?? "To be announced"}</h3>
+              <p className="mt-3 text-body text-muted">{c.focus}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Who it's for */}
+      <Section>
         <div className="grid gap-12 lg:grid-cols-2">
           <Reveal>
             <SectionHeading eyebrow="Who it's for" title="Written for the person who signs the checks." />
@@ -151,7 +172,7 @@ export default function BookPage() {
       </Section>
 
       {/* Reserve */}
-      <Section id="reserve">
+      <Section id="reserve" tone="surface">
         <Reveal className="mx-auto max-w-2xl">
           <SectionHeading
             eyebrow="Reserve a copy"

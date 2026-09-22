@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { BOOK_COVER_ART, contributorLine } from "@/lib/book";
 
 /**
  * Interactive 3D book. Auto-rotates gently, and the visitor can grab and drag it
@@ -65,27 +66,24 @@ export function Book3D() {
       onPointerCancel={onUp}
     >
       <div className="book360__stage" ref={stageRef} style={{ animation: "none" }}>
-        {/* Front cover */}
-        <div className="book360__face book360__front">
-          <div className="book360__glow" aria-hidden="true" />
-          <span className="book360__frame" aria-hidden="true" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-icon-white.png" alt="" className="book360__mark" draggable={false} />
-          <p className="book360__eyebrow">A Business Methodology</p>
-          <h3 className="book360__title">
-            The
-            <br />
-            Aperture
-            <br />
-            Method<span className="book360__tm">™</span>
-          </h3>
-          <span className="book360__rule" aria-hidden="true" />
-          <p className="book360__sub">
-            Big-company intelligence, built for the businesses everyone else ignores.
-          </p>
-          <div className="book360__foot">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/fenwick-signature-black.png" alt="Fenwick How" className="book360__sig" draggable={false} />
+        {/* Front cover: photo art + live type (co-author names come from lib/book) */}
+        <div
+          className="book360__face book360__front book360__front--photo"
+          style={{ backgroundImage: `url(${BOOK_COVER_ART})` }}
+        >
+          <div className="book360__shade" aria-hidden="true" />
+          <div className="book360__ftype">
+            <p className="book360__feyebrow">A Business Methodology</p>
+            <h3 className="book360__ftitle">
+              The Aperture
+              <br />
+              Method<span className="book360__ftm">™</span>
+            </h3>
+            <p className="book360__fauthor">
+              <span className="book360__frule" aria-hidden="true" />
+              Fenwick How
+            </p>
+            <p className="book360__fwith">{contributorLine()}</p>
           </div>
         </div>
 

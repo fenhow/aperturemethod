@@ -32,7 +32,7 @@ export function BookSection() {
             the company from.
           </p>
           <p className="mt-4 max-w-measure text-body text-muted">
-            Written by Fenwick How, founder of The Aperture Method. In progress now.
+            Written by Fenwick How, with contributing authors in accounting, marketing and technology. In progress now.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">

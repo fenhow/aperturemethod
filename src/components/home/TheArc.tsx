@@ -27,21 +27,21 @@ import { Fragment } from "react";
 const STAGES = [
   {
     cap: "A&M Mays MBA",
-    label: "Decision-grade analysis",
+    label: "The numbers, properly read",
     desc:
-      "Profit drivers, pricing, break-even and forecasting. Graduate-level methods applied to your numbers.",
+      "Profit drivers, pricing, break-even and forecasting. Graduate-level methods applied to your accounts, not generic benchmarks.",
   },
   {
     cap: "GIS · Mapping",
-    label: "Your market, mapped",
+    label: "The market, properly mapped",
     desc:
       "Where your customers are, who they are, and where the next ones live. Trade areas, drive times, income and spending.",
   },
   {
     cap: "Data / AI",
-    label: "Always on, always current",
+    label: "A dashboard that stays yours",
     desc:
-      "Every layer on one dashboard you run the business from, and it stays yours when the engagement ends.",
+      "Every layer on one live view you run the business from, still current long after the engagement ends.",
   },
 ];
 
@@ -50,7 +50,14 @@ const STAGES = [
 export function TheArc() {
   return (
     <div>
-      <p className="eyebrow eyebrow--on-dark mb-6">What it is built on: three capabilities</p>
+      <p className="eyebrow eyebrow--on-dark mb-4">What it is built on</p>
+      <h2 className="max-w-measure text-h2 font-semibold text-paper">
+        Three capabilities most firms make you hire separately.
+      </h2>
+      <p className="mt-5 max-w-measure text-body-lg text-white/75">
+        Analysis, mapping and a live platform, run by one accountable lead, on one set of your numbers.
+      </p>
+      <div className="mt-10" />
       <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch">
         {STAGES.map((s, i) => (
           <Fragment key={s.cap}>

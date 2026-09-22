@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -8,6 +9,18 @@ import { Book3D } from "@/components/home/Book3D";
 import { aperturePractices } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
 import { bookContributors, bookExcerpt } from "@/lib/book";
+
+/**
+ * Book serif for the excerpt only (Source Serif 4, SIL OFL, self-hosted like
+ * Inter). Loaded by this route alone, so no other page pays for it. The cover
+ * and headings stay in Inter; the pages of a book are set in a serif.
+ */
+const bookSerif = localFont({
+  src: "../fonts/SourceSerif4-Variable.woff2",
+  weight: "200 900",
+  display: "swap",
+  variable: "--font-book",
+});
 
 export const metadata: Metadata = pageMeta({
   title: "The Book",
@@ -77,9 +90,20 @@ export default function BookPage() {
             <p className="mt-6 text-h2 font-semibold leading-tight text-paper">{bookExcerpt.lead}</p>
           </Reveal>
           <Reveal delay={80}>
-            <div className="mt-10 space-y-6 text-body-lg leading-relaxed text-white/80">
-              {bookExcerpt.paragraphs.map((p) => (
-                <p key={p.slice(0, 24)}>{p}</p>
+            <div
+              className={`${bookSerif.className} mt-10 space-y-6 text-[1.1875rem] leading-[1.75] text-white/85 md:text-[1.3rem]`}
+            >
+              {bookExcerpt.paragraphs.map((p, i) => (
+                <p
+                  key={p.slice(0, 24)}
+                  className={
+                    i === 0
+                      ? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:text-[4.1em] first-letter:font-semibold first-letter:leading-[0.8] first-letter:text-maroon-soft"
+                      : undefined
+                  }
+                >
+                  {p}
+                </p>
               ))}
             </div>
             <p className="mt-10 border-l-2 border-maroon pl-5 text-h4 font-semibold text-paper">

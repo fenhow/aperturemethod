@@ -53,13 +53,13 @@ export function contributorLine(): string {
 export const bookExcerpt = {
   chapter: "Chapter One",
   title: "The Intelligence Gap",
-  lead: "Big companies don't outgrow you because they're smarter. They outgrow you because they can see.",
+  lead: "Big companies don’t outgrow you because they’re smarter. They outgrow you because they can see.",
   paragraphs: [
-    "Walk into the headquarters of any national chain and you'll find people whose whole job is to answer questions most owners never get to ask. Which products actually make money once you count the time they take? Which customers cost more to keep than they're worth? Which neighborhoods are full of people who look exactly like your best customers and have never heard your name? They have analysts, finance teams, market data and maps. They make decisions with the lights on.",
+    "Walk into the headquarters of any national chain and you’ll find people whose whole job is to answer questions most owners never get to ask. Which products actually make money once you count the time they take? Which customers cost more to keep than they’re worth? Which neighborhoods are full of people who look exactly like your best customers and have never heard your name? They have analysts, finance teams, market data and maps. They make decisions with the lights on.",
     "Now picture the owner down the street. She has been in business eleven years. She knows every regular by name, can tell you which supplier is late before the truck arrives, and has kept the doors open through things that would have closed a lesser operation. She is not short on intelligence. She is short on visibility. Her numbers arrive once a month, a few weeks late, in a format built for her tax return, not her decisions. So she runs on instinct, and instinct is good. It is just not enough anymore.",
     "That is the gap this book is about. Not effort, not talent, not work ethic. Sight.",
     "Here is what I have learned, and it surprised me: the owner-run business usually already has the data. It is sitting in the accounting software, the point-of-sale system, the customer list, the calendar. What it lacks is a method. A way of asking the questions in the right order, so that each answer makes the next question sharper.",
-    "The Aperture Method is that order. First, understand where the business really stands, broadly and honestly. Then quantify what is driving the numbers. Then reveal the customers and markets you can't see from behind the counter. Then decide where to focus, which almost always means deciding what not to do. And finally, keep the picture current, so the clarity doesn't fade the week after the work is done.",
+    "The Aperture Method is that order. First, understand where the business really stands, broadly and honestly. Then quantify what is driving the numbers. Then reveal the customers and markets you can’t see from behind the counter. Then decide where to focus, which almost always means deciding what not to do. And finally, keep the picture current, so the clarity doesn’t fade the week after the work is done.",
   ],
   close: "None of this requires becoming a big company. It requires seeing like one.",
 };

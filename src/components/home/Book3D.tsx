@@ -80,7 +80,7 @@ export function Book3D() {
               Method<span className="book360__ftm">™</span>
             </h3>
             <p className="book360__fsub">
-              See the whole business from above, and the way forward gets obvious.
+              Big-company intelligence for owner&#8209;run businesses.
             </p>
             <p className="book360__fauthor">
               <span className="book360__frule" aria-hidden="true" />

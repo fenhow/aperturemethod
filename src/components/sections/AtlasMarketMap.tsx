@@ -6,6 +6,7 @@
 
 import { useEffect, useId, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
+import { ANALYSIS_CSS, AtlasAnalysis, HOLIDAY_LIFT_PCT, WEEKLY_MODEL, weatherImpactPct } from "./AtlasAnalysis";
 
 /**
  * Aperture Atlas "Market Map": a map-first dashboard in the style of an ArcGIS
@@ -34,9 +35,41 @@ const HOT = [
 ];
 const MONTHS = ["Sep 25", "Oct", "Nov", "Dec", "Jan 26", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep 26"];
 const LAST = MONTHS.length - 1;
-// Spring, TX: typical high (°F) and chance of rain on a Saturday, by month.
-const WX_TEMP = [88, 81, 72, 64, 62, 66, 73, 79, 86, 91, 94, 95, 90];
-const WX_RAIN = [35, 30, 25, 40, 45, 35, 40, 50, 65, 55, 30, 25, 40];
+// Spring, TX: Saturday forecast high (°F) and chance of rain, by month.
+const WX_TEMP = [92, 84, 72, 64, 58, 66, 74, 82, 88, 97, 103, 105, 96];
+const WX_RAIN = [20, 30, 25, 40, 70, 35, 45, 75, 85, 40, 5, 5, 30];
+function wxCondition(t: number, rain: number) {
+  if (rain >= 75) return { label: "Thunderstorms", icon: "storm" as const };
+  if (rain >= 50) return { label: "Rain", icon: "rain" as const };
+  if (t >= 100) return { label: "Extreme heat", icon: "sun" as const };
+  if (t >= 95) return { label: "Hot & sunny", icon: "sun" as const };
+  if (rain >= 35) return { label: "Chance of rain", icon: "cloud" as const };
+  return { label: t < 65 ? "Cool & clear" : "Clear", icon: "sun" as const };
+}
+// Next holiday per slider month; weight scales the modelled event-study lift.
+const HOLIDAYS = [
+  { name: "Halloween", when: "in 5 wks", rel: -3, w: 0.3 },
+  { name: "Black Friday", when: "in 4 wks", rel: -3, w: 1.2 },
+  { name: "Black Friday", when: "in 9 days", rel: -1, w: 1.2 },
+  { name: "Holiday gifting", when: "this week", rel: 0, w: 1.6 },
+  { name: "New Year resolutions", when: "this week", rel: 0, w: 0.7 },
+  { name: "Valentine's Day", when: "in 6 days", rel: -1, w: 1 },
+  { name: "Spring break", when: "in 2 wks", rel: -2, w: 0.5 },
+  { name: "Mother's Day", when: "in 3 wks", rel: -3, w: 1.8 },
+  { name: "Mother's Day", when: "in 4 days", rel: -1, w: 1.8 },
+  { name: "July 4th", when: "in 3 wks", rel: -3, w: 0.4 },
+  { name: "Back-to-school", when: "in 4 wks", rel: -3, w: 0.3 },
+  { name: "Labor Day", when: "in 2 wks", rel: -2, w: 0.5 },
+  { name: "Halloween", when: "in 5 wks", rel: -3, w: 0.3 },
+];
+const VENUES = [
+  { id: "V1", x: 455, y: 250, name: "Town Center Pavilion", crowd: 18 },
+  { id: "V2", x: 296, y: 178, name: "Waterway Market", crowd: 9 },
+  { id: "V3", x: 540, y: 272, name: "Riverside Park", crowd: 6 },
+];
+const EVENTS = ["Fall concert series", "Fall festival", "Holiday market opens", "Holiday lights", "Resolution 5K", "Valentine's market",
+  "Spring art fair", "Farmers market", "Mother's Day brunch walk", "Summer concerts", "Movie nights", "Back-to-school fair", "Fall concert series"];
+const EVENT_COLOR = "#9b7bff";
 const TRAFFIC = ["#f2d43d", "#f29b3d", "#e0533d"];
 const BILLBOARD = "#e8b04a";
 const HOUSING = "#4fb3a9";
@@ -118,7 +151,8 @@ const LAYER_GROUPS = [
   { title: "Buyer influences", items: [
     { key: "weather", label: "Weather" },
     { key: "traffic", label: "Traffic volume" },
-    { key: "billboards", label: "Billboards" },
+    { key: "billboards", label: "Key billboards" },
+    { key: "holidays", label: "Holidays & events" },
     { key: "housing", label: "New housing" },
     { key: "income", label: "Income (ACS)" },
   ] },
@@ -205,6 +239,31 @@ function buildGeometry() {
 const SHIELDS: [string, number, number][] = [["I-45", 352, 60], ["SH 242", 262, 150], ["Woodlands Pkwy", 560, 322]];
 const PLACES: [string, number, number][] = [["THE WOODLANDS", 250, 290], ["SPRING", 110, 462], ["OAK RIDGE N.", 372, 30], ["CREEKSIDE", 36, 300]];
 
+function WxIcon({ kind }: { kind: "sun" | "cloud" | "rain" | "storm" }) {
+  const cloud = <path d="M9 22h15a5 5 0 0 0 0-10 7 7 0 0 0-13.5 1.5A4.5 4.5 0 0 0 9 22z" fill="#9aa4b2" />;
+  return (
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden>
+      {kind === "sun" && (
+        <g stroke="#ffb21a" strokeWidth="2" strokeLinecap="round">
+          <circle cx="17" cy="17" r="6.5" fill="#ffb21a" />
+          {Array.from({ length: 8 }, (_, i) => {
+            const a = (i * Math.PI) / 4;
+            return <line key={i} x1={17 + 10 * Math.cos(a)} y1={17 + 10 * Math.sin(a)} x2={17 + 13.5 * Math.cos(a)} y2={17 + 13.5 * Math.sin(a)} />;
+          })}
+        </g>
+      )}
+      {kind === "cloud" && (<><circle cx="22" cy="11" r="5" fill="#ffb21a" />{cloud}</>)}
+      {(kind === "rain" || kind === "storm") && (
+        <>
+          {cloud}
+          <g stroke="#5fb3ff" strokeWidth="1.8" strokeLinecap="round"><line x1="12" y1="25" x2="10" y2="30" /><line x1="18" y1="25" x2="16" y2="30" /><line x1="24" y1="25" x2="22" y2="30" /></g>
+          {kind === "storm" && <path d="M19 21l-4 6h3l-2 5 5-7h-3l2-4z" fill="#ffd43d" />}
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function AtlasMarketMap({ className }: { className?: string }) {
   const uid = useId().replace(/:/g, "");
   const geo = useMemo(buildGeometry, []);
@@ -213,7 +272,7 @@ export function AtlasMarketMap({ className }: { className?: string }) {
   const [playing, setPlaying] = useState(false);
   const [layers, setLayers] = useState<Record<LayerKey, boolean>>({
     density: true, drive: true, customers: true, competitors: true,
-    weather: true, traffic: false, billboards: true, housing: false, income: false,
+    weather: true, traffic: false, billboards: true, holidays: true, housing: false, income: false,
   });
   const [pop, setPop] = useState<Popup | null>(null);
   const [clock, setClock] = useState("");
@@ -244,8 +303,13 @@ export function AtlasMarketMap({ className }: { className?: string }) {
   const compNew = compOpen.filter((c) => c.m > 0).length;
   const temp = WX_TEMP[month]!;
   const rain = WX_RAIN[month]!;
-  const impact = -Math.round(rain * 0.15 + Math.max(0, temp - 90) * 1.2);
-  const wxNote = rain >= 50 ? "Rain keeps walk-ins home" : temp >= 92 ? "Heat pushes visits to evenings" : "Good weather for walk-ins";
+  const cond = wxCondition(temp, rain);
+  const impact = weatherImpactPct(temp, rain);
+  const wxNote = rain >= 50 ? "Rain keeps walk-ins home" : temp >= 100 ? "Heat pushes visits to evenings" : temp >= 95 ? "Hot: mornings and evenings fill first" : "Good weather for walk-ins";
+  const hol = HOLIDAYS[month]!;
+  const holLift = HOLIDAY_LIFT_PCT[[-3, -2, -1, 0, 1].indexOf(hol.rel)]! * hol.w;
+  const hot = temp >= 95;
+  const wet = rain >= 50;
   const toggle = (k: LayerKey) => setLayers((l) => ({ ...l, [k]: !l[k] }));
 
   const kpis = [
@@ -263,11 +327,21 @@ export function AtlasMarketMap({ className }: { className?: string }) {
       ["Customers", String(c)],
       ["Penetration", `${((c / h.hh) * 100).toFixed(1)}%`, th.pos],
       ["Median income", `$${h.inc}k`],
+      ["Drive time", `${Math.max(1, Math.round((Math.hypot(h.cx - STORE.x, h.cy - STORE.y) / MI) * 2.6))} min`],
+    ] });
+  };
+  const openVenue = (v: (typeof VENUES)[number]) => {
+    if (pop?.key === v.id) return setPop(null);
+    setPop({ key: v.id, x: v.x, y: v.y, title: v.name, rows: [
+      ["Event", EVENTS[month]!],
+      ["Expected crowd", `${v.crowd}k / weekend`],
+      ["From client", `${(Math.hypot(v.x - STORE.x, v.y - STORE.y) / MI).toFixed(1)} mi`],
+      ["Walk-in lift", `+${(v.crowd * 0.6).toFixed(0)}%`, th.pos],
     ] });
   };
   const openBoard = (b: (typeof BILLBOARDS)[number]) => {
     if (pop?.key === b.id) return setPop(null);
-    setPop({ key: b.id, x: b.x, y: b.y, title: `Billboard ${b.id}`, rows: [
+    setPop({ key: b.id, x: b.x, y: b.y, title: `Key billboard ${b.id}`, rows: [
       ["Facing", b.face],
       ["Weekly impressions", `${b.imp}k`],
       ["From client", `${b.mi.toFixed(1)} mi`],
@@ -280,14 +354,16 @@ export function AtlasMarketMap({ className }: { className?: string }) {
   ];
   if (layers.competitors) legendRows.push({ icon: <rect x="2.5" y="2.5" width="7" height="7" transform="rotate(45 6 6)" fill="none" stroke={th.ink} strokeWidth="1.5" />, label: "Competitor" });
   if (layers.drive) legendRows.push({ icon: <line x1="0" y1="6" x2="12" y2="6" stroke={th.accent} strokeDasharray="3 2" strokeWidth="1.5" />, label: "Drive-time band" });
-  if (layers.billboards) legendRows.push({ icon: <rect x="1" y="3" width="10" height="6" rx="1" fill={BILLBOARD} />, label: "Billboard" });
+  if (layers.billboards) legendRows.push({ icon: <rect x="1" y="3" width="10" height="6" rx="1" fill={BILLBOARD} />, label: "Key billboard" });
   if (layers.traffic) legendRows.push({ icon: <line x1="0" y1="6" x2="12" y2="6" stroke={TRAFFIC[2]} strokeWidth="3" />, label: "Traffic volume (AADT)" });
-  if (layers.weather) legendRows.push({ icon: <circle cx="6" cy="6" r="5" fill={RAIN_COLOR} opacity=".6" />, label: "Rain (radar)" });
+  if (layers.holidays) legendRows.push({ icon: <circle cx="6" cy="6" r="4.5" fill={EVENT_COLOR} stroke="#fff" strokeWidth="1.2" />, label: "Event venue" });
+  if (layers.weather && wet) legendRows.push({ icon: <circle cx="6" cy="6" r="5" fill={RAIN_COLOR} opacity=".6" />, label: "Rain (radar)" });
+  if (layers.weather && hot) legendRows.push({ icon: <circle cx="6" cy="6" r="5" fill="#ff7a1a" opacity=".55" />, label: "Heat index" });
   if (layers.housing) legendRows.push({ icon: <rect x="1" y="1" width="10" height="10" fill={`url(#${uid}-hatch)`} stroke={HOUSING} />, label: "New housing permits" });
 
   return (
     <div className={cn("atl", className)} style={th.vars as React.CSSProperties}>
-      <style>{CSS}</style>
+      <style>{CSS + ANALYSIS_CSS}</style>
       <div className="atl-stage">
         <div className="atl-mapwrap">
           <svg className="atl-map" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet" role="img"
@@ -299,6 +375,14 @@ export function AtlasMarketMap({ className }: { className?: string }) {
                 <stop offset=".7" stopColor={RAIN_COLOR} stopOpacity=".55" />
                 <stop offset="1" stopColor={RAIN_COLOR} stopOpacity="0" />
               </radialGradient>
+              <radialGradient id={`${uid}-heat`}>
+                <stop offset="0" stopColor="#ff5a1a" stopOpacity=".55" />
+                <stop offset=".55" stopColor="#ff9a1a" stopOpacity=".25" />
+                <stop offset="1" stopColor="#ffb21a" stopOpacity="0" />
+              </radialGradient>
+              <pattern id={`${uid}-streak`} width="20" height="20" patternUnits="userSpaceOnUse">
+                <line x1="13" y1="0" x2="9" y2="11" stroke={mode === "dark" ? "#9fd3ff" : "#3b78b5"} strokeWidth="1" opacity={mode === "dark" ? 0.6 : 0.35} />
+              </pattern>
               <pattern id={`${uid}-hatch`} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                 <line x1="0" y1="0" x2="0" y2="6" stroke={HOUSING} strokeWidth="2" />
               </pattern>
@@ -350,12 +434,23 @@ export function AtlasMarketMap({ className }: { className?: string }) {
                 <rect x={c.x - 5} y={c.y - 5} width={10} height={10} transform={`rotate(45 ${c.x} ${c.y})`} fill={th.land} stroke={th.ink} strokeWidth={1.6} />
               </g>
             ))}
-            {layers.weather && (
-              <g pointerEvents="none" className="atl-drift" opacity={0.25 + rain / 160}>
+            {layers.weather && hot && (
+              <g pointerEvents="none">
+                <ellipse cx={400} cy={250} rx={170 + (temp - 95) * 12} ry={110 + (temp - 95) * 8} fill={`url(#${uid}-heat)`} className="atl-shimmer" />
+                <text x={400} y={250 + (110 + (temp - 95) * 8) * 0.72} fontSize={10.5} fontWeight={700} textAnchor="middle" fill="#ff8a3d" stroke={th.land} strokeWidth={3} paintOrder="stroke">
+                  Heat index {Math.round(temp + (temp - 88) * 0.6)}°F
+                </text>
+              </g>
+            )}
+            {layers.weather && rain >= 25 && (
+              <g pointerEvents="none" className="atl-drift" opacity={0.2 + rain / 160}>
                 {RAIN_CELLS.map(([x, y, rx, ry]) => (
                   <ellipse key={`${x}-${y}`} cx={x} cy={y} rx={rx * (0.6 + rain / 120)} ry={ry * (0.6 + rain / 120)} fill={`url(#${uid}-rain)`} />
                 ))}
               </g>
+            )}
+            {layers.weather && wet && (
+              <rect x={-40} y={-40} width={W + 80} height={H + 80} fill={`url(#${uid}-streak)`} className="atl-rainfall" pointerEvents="none" />
             )}
             <g pointerEvents="none">
               <circle cx={STORE.x} cy={STORE.y} r={9} fill={th.accent} className="atl-pulse" />
@@ -389,7 +484,17 @@ export function AtlasMarketMap({ className }: { className?: string }) {
                   stroke={pop?.key === b.id ? th.ink : th.casing} strokeWidth={pop?.key === b.id ? 1.8 : 1} />
               </g>
             ))}
+            {layers.holidays && VENUES.map((v) => (
+              <g key={v.id} transform={`translate(${v.x} ${v.y})`} className="atl-bb" onClick={() => openVenue(v)}>
+                <circle r={12} fill="transparent" />
+                <circle r={9} fill={EVENT_COLOR} opacity={0.25} className="atl-pulse" />
+                <circle r={5.5} fill={EVENT_COLOR} stroke={pop?.key === v.id ? th.ink : "#fff"} strokeWidth={1.4} />
+              </g>
+            ))}
           </svg>
+
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="atl-logo" src={mode === "dark" ? "/logo-icon-white.png" : "/logo-icon-black.png"} alt="Aperture" />
 
           {pop && (
             <div className="atl-pop" style={{ left: `${(pop.x / W) * 100}%`, top: `${(pop.y / H) * 100}%` }}>
@@ -421,17 +526,31 @@ export function AtlasMarketMap({ className }: { className?: string }) {
           ))}
         </div>
 
-        {layers.weather && (
-          <div className="atl-fl atl-wx">
-            <div className="atl-h">Weather · Saturday</div>
-            <div className="atl-wx-main">
-              <span className="atl-wx-t">{temp}°F</span>
-              <span>{rain >= 50 ? "Showers" : rain >= 35 ? "Chance of rain" : temp >= 90 ? "Hot, clear" : "Clear"}<br /><small>Rain {rain}%</small></span>
-            </div>
-            <div className="atl-wx-i"><span>Expected visits</span><b style={{ color: impact <= -6 ? th.neg : th.pos }}>{impact === 0 ? "±0%" : `${impact}%`}</b></div>
-            <div className="atl-wx-n">{wxNote}</div>
+        {(layers.weather || layers.holidays) && (
+          <div className="atl-side">
+            {layers.weather && (
+              <div className="atl-fl atl-card">
+                <div className="atl-h">Weather · Saturday</div>
+                <div className="atl-wx-main">
+                  <WxIcon kind={cond.icon} />
+                  <span className="atl-wx-t" style={{ color: temp >= 100 ? "#ff8a3d" : undefined }}>{temp}°F</span>
+                  <span>{cond.label}<br /><small>Rain {rain}%</small></span>
+                </div>
+                <div className="atl-wx-i"><span>Sales vs ideal day</span><b style={{ color: impact <= -2 ? th.neg : th.pos }}>{impact > -0.5 ? "±0" : impact.toFixed(0)}%</b></div>
+                <div className="atl-wx-n">{wxNote}</div>
+              </div>
+            )}
+            {layers.holidays && (
+              <div className="atl-fl atl-card">
+                <div className="atl-h">Next holiday</div>
+                <div className="atl-hol"><b>{hol.name}</b><span>{hol.when}</span></div>
+                <div className="atl-wx-i"><span>Expected lift</span><b style={{ color: th.pos }}>+{holLift.toFixed(0)}%</b></div>
+                <div className="atl-wx-n">Book staff and stock gift cards early</div>
+              </div>
+            )}
           </div>
         )}
+
 
         <div className="atl-fl atl-layers">
           {LAYER_GROUPS.map((g) => (
@@ -469,8 +588,10 @@ export function AtlasMarketMap({ className }: { className?: string }) {
           <div className="atl-ts"><span>Sep 25</span><span>Jan 26</span><span>May 26</span><span>Sep 26</span></div>
         </div>
 
-        <div className="atl-attr">Sources: U.S. Census ACS 5-yr, client POS, NOAA, TxDOT AADT, county permits, OOH inventory · illustrative client</div>
+        <div className="atl-attr">Sources: U.S. Census ACS 5-yr, client POS, NOAA, TxDOT AADT, county permits, OOH inventory · illustrative client · model R² {WEEKLY_MODEL.r2.toFixed(2)}</div>
       </div>
+      <AtlasAnalysis month={month} monthLabel={MONTHS[month]!}
+        c={{ ink: th.ink, mu: th.vars["--mu"]!, bd: th.vars["--bd"]!, accent: th.accent, pos: th.pos, neg: th.neg, dot: th.dot }} />
     </div>
   );
 }
@@ -508,10 +629,18 @@ const CSS = `
 .atl-k{font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.1em}
 .atl-v{font-size:19px;font-weight:600;margin-top:2px;white-space:nowrap}
 .atl-v em{font-style:normal;font-size:11px;margin-left:5px}
-.atl-wx{top:86px;right:14px;width:200px;padding:10px 13px;font-size:12px}
-.atl-wx-main{display:flex;align-items:center;gap:12px;margin:4px 0 8px;line-height:1.3}
+.atl-side{position:absolute;top:86px;right:14px;width:222px;display:flex;flex-direction:column;gap:8px}
+.atl-card{position:static;padding:10px 13px;font-size:12px}
+.atl-hol{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0 7px}.atl-hol b{font-size:15px}.atl-hol span{color:var(--mu);font-size:11px}
+.atl-logo{position:absolute;left:12px;bottom:24px;width:30px;height:30px;opacity:.85;pointer-events:none}
+.atl-shimmer{animation:atlShimmer 3s ease-in-out infinite alternate}
+@keyframes atlShimmer{from{opacity:.75}to{opacity:1}}
+.atl-rainfall{animation:atlRain .45s linear infinite}
+@keyframes atlRain{to{transform:translate(-7px,20px)}}
+.atl-wx-main{display:flex;align-items:center;gap:10px;margin:4px 0 8px;line-height:1.3}
+.atl-wx-main svg{flex:none}
 .atl-wx-main small{color:var(--mu);font-size:11px}
-.atl-wx-t{font-size:26px;font-weight:600;letter-spacing:-.02em}
+.atl-wx-t{font-size:23px;font-weight:600;letter-spacing:-.02em}
 .atl-wx-i{display:flex;justify-content:space-between;border-top:1px solid var(--bd);padding-top:7px}
 .atl-wx-i span{color:var(--mu)}
 .atl-wx-n{color:var(--mu);font-size:11px;margin-top:3px}
@@ -548,6 +677,9 @@ const CSS = `
  .atl-mapwrap{position:relative;aspect-ratio:8/5}
  .atl-fl{position:static;transform:none;width:auto;margin:8px 10px 0}
  .atl-title{order:-1;margin-top:10px;justify-content:space-between}
+ .atl-side{position:static;width:auto;display:grid;grid-template-columns:1fr 1fr;gap:0}
+ .atl-card{margin:8px 10px 0}
+ .atl-logo{bottom:10px;width:24px;height:24px}
  .atl-kpis{flex-wrap:wrap}.atl-kpis>div{flex:1 1 45%;border-left:0;border-top:1px solid var(--bd)}
  .atl-kpis>div:nth-child(-n+2){border-top:0}
  .atl-layers{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
@@ -557,6 +689,6 @@ const CSS = `
  .atl-attr{position:static;margin-top:10px}
  .atl-pop{transform:translate(-50%,14px);width:180px}
 }
-@media (max-width:520px){.atl-layers{grid-template-columns:1fr}.atl-t{font-size:14px}}
-@media (prefers-reduced-motion:reduce){.atl-pulse,.atl-new,.atl-eyebrow i,.atl-flow,.atl-drift{animation:none}.atl-hex,.atl circle{transition:none}}
+@media (max-width:520px){.atl-side{grid-template-columns:1fr}.atl-layers{grid-template-columns:1fr}.atl-t{font-size:14px}}
+@media (prefers-reduced-motion:reduce){.atl-pulse,.atl-new,.atl-eyebrow i,.atl-flow,.atl-drift,.atl-shimmer,.atl-rainfall{animation:none}.atl-hex,.atl circle{transition:none}}
 `;

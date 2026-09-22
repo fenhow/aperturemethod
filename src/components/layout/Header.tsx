@@ -11,6 +11,7 @@ import { MobileMenu } from "./MobileMenu";
 import { AuthBar } from "./AuthBar";
 import { LiveClock } from "./LiveClock";
 import { cn } from "@/lib/utils";
+import { courseCodesForHref } from "@/lib/coursework";
 
 /**
  * Sticky, two-row site header (Bain-style). A thin utility strip sits above the
@@ -310,6 +311,7 @@ export function Header() {
  * two ways of laying rows out, and the row itself should not care which.
  */
 function MegaPanelLink({ link, current }: { link: MegaLink; current: boolean }) {
+  const codes = courseCodesForHref(link.href);
   const inner = (
     <>
       <span className="flex items-baseline gap-2">
@@ -319,6 +321,22 @@ function MegaPanelLink({ link, current }: { link: MegaLink; current: boolean }) 
         <span className="text-[15px] font-semibold text-ink group-hover:text-maroon">
           {link.label}
         </span>
+        {codes.length > 0 && (
+          <span
+            className="rounded-sm border border-line px-1.5 py-px text-[10px] font-semibold uppercase tracking-[0.08em] text-muted"
+            title="Built on Texas A&M Executive MBA coursework"
+          >
+            MBA · {codes.join(" · ")}
+          </span>
+        )}
+        {link.step && (
+          <span
+            className="ml-auto self-center text-maroon opacity-40 transition-all duration-fast group-hover:translate-x-0.5 group-hover:opacity-100"
+            aria-hidden="true"
+          >
+            &rarr;
+          </span>
+        )}
       </span>
       {link.desc && (
         <span className={cn("mt-0.5 block text-small text-muted", link.step && "pl-[26px]")}>

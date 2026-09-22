@@ -11,6 +11,8 @@ import { ComparisonTable } from "@/components/sections/ComparisonTable";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ldService, ldWebPage, ldBreadcrumb } from "@/lib/seo";
 import type { LandingPage } from "@/lib/landing";
+import { Provenance } from "@/components/ui/Provenance";
+import { LANDING_PRODUCT } from "@/lib/coursework";
 
 const REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
@@ -145,6 +147,14 @@ export function LandingView({ page }: { page: LandingPage }) {
             <p className="text-body text-muted">{page.solution.howItRuns}</p>
             <p className="mt-6">{cta}</p>
           </Reveal>
+          {LANDING_PRODUCT[page.slug] && (
+            <Reveal delay={200} className="mt-10">
+              <LinkArrow href={`/method/${LANDING_PRODUCT[page.slug]!.toLowerCase()}`}>
+                How it works in full
+              </LinkArrow>
+              <Provenance short={LANDING_PRODUCT[page.slug]!} className="mt-6" />
+            </Reveal>
+          )}
         </div>
       </Section>
 

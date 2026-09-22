@@ -191,9 +191,9 @@ export default function Home() {
                     {p.product}&trade;
                   </h3>
                   <p className="mt-2 flex-1 text-small text-muted">{p.line}</p>
-                  <span className="link-arrow mt-5 text-[14px]">
-                    {p.short === "Atlas" ? "See the platform" : "Explore"}
-                    <span className="arrow" aria-hidden="true">
+                  <span className="mt-6 inline-flex items-center gap-2 self-start rounded-sm border border-ink px-4 py-2.5 text-[14px] font-semibold text-ink transition-colors duration-fast group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper">
+                    {p.short === "Atlas" ? "See the platform" : `Explore ${p.short}`}
+                    <span className="transition-transform duration-fast group-hover:translate-x-0.5" aria-hidden="true">
                       &rarr;
                     </span>
                   </span>

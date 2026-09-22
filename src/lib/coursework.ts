@@ -36,4 +36,17 @@ export const coursework: Course[] = [
   },
 ];
 
+/** Single-intent landing pages (the ones the menu opens) mapped to their product. */
+export const LANDING_PRODUCT: Record<string, string> = {
+  "/business-x-ray": "Insights",
+  "/profit-map": "Analytics",
+  "/market-map": "Intelligence",
+  "/focus-plan": "Compass",
+  "/scoreboard": "Atlas",
+};
+export const courseCodesForHref = (href: string) => {
+  const short = LANDING_PRODUCT[href];
+  return short ? coursesFor(short).map((c) => c.code) : [];
+};
+
 export const coursesFor = (short: string) => coursework.filter((c) => c.products.includes(short));

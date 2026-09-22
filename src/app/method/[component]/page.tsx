@@ -9,7 +9,6 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { Logo } from "@/components/brand/Logo";
-import { MarketMapLive } from "@/components/sections/MarketMapLive";
 import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { aperturePractices } from "@/lib/content";
@@ -215,12 +214,12 @@ export default function ComponentPage({ params }: { params: { component: string 
               {isAtlas ? (
                 <AtlasMarketMap className="block" />
               ) : (
-                <MarketMapLive tone="dark" className="block" />
+                <AtlasMarketMap className="block" showAnalysis={false} product="INTELLIGENCE" />
               )}
               <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
                 {isAtlas
                   ? "A Market Map inside Atlas, with the analysis underneath: what weather, holidays, drive time and demographics actually do to sales. Select the ? on any chart for a plain-English explanation."
-                  : "A Market Map: trade areas, drive-time rings, and where demand actually clusters."}
+                  : "A Market Map: trade areas, drive-time rings, competitors and what moves buyers, from weather to holidays."}
               </figcaption>
             </figure>
           </Reveal>

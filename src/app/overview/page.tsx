@@ -9,7 +9,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { CountUp } from "@/components/ui/CountUp";
 import { MethodAperture } from "@/components/sections/MethodAperture";
 import { ApertureDifference } from "@/components/sections/ApertureDifference";
-import { MarketMapLive } from "@/components/sections/MarketMapLive";
+import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { HeroRotator } from "@/components/home/HeroRotator";
 import { industries } from "@/lib/industries";
@@ -193,10 +193,10 @@ export default function Home() {
 
         <Reveal variant="up" delay={120} className="mt-10">
           <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
-            <MarketMapLive tone="dark" className="block" />
+            <AtlasMarketMap className="block" showAnalysis={false} />
             <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
-              A Market Map: trade areas, drive-time rings, and where demand actually clusters.
-              Spatial intelligence most consultants don&apos;t offer.
+              A Market Map: customers, competitors, drive-time trade areas and what moves buyers,
+              from weather to holidays. Spatial intelligence most consultants don&apos;t offer.
             </figcaption>
           </figure>
         </Reveal>

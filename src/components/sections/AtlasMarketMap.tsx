@@ -264,7 +264,7 @@ function WxIcon({ kind }: { kind: "sun" | "cloud" | "rain" | "storm" }) {
   );
 }
 
-export function AtlasMarketMap({ className, showAnalysis = true }: { className?: string; showAnalysis?: boolean }) {
+export function AtlasMarketMap({ className, showAnalysis = true, product = "ATLAS" }: { className?: string; showAnalysis?: boolean; product?: string }) {
   const uid = useId().replace(/:/g, "");
   const geo = useMemo(buildGeometry, []);
   const [mode, setMode] = useState<"dark" | "light">("dark");
@@ -493,10 +493,10 @@ export function AtlasMarketMap({ className, showAnalysis = true }: { className?:
             ))}
           </svg>
 
-          <div className="atl-brand" aria-label="Aperture Atlas">
+          <div className="atl-brand" aria-label={`Aperture ${product.charAt(0)}${product.slice(1).toLowerCase()}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={mode === "dark" ? "/logo-icon-white.png" : "/logo-icon-black.png"} alt="" />
-            <span className="atl-b1">APERTURE</span><span className="atl-b2">ATLAS</span><sup>™</sup>
+            <span className="atl-b1">APERTURE</span><span className="atl-b2">{product}</span><sup>™</sup>
           </div>
 
           {pop && (

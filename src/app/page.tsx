@@ -146,10 +146,18 @@ export default function Home() {
           </p>
         </Reveal>
 
-        <Reveal delay={80} className="mt-10">
+      </Section>
+
+      {/* The three capabilities, as a full-width dark band. They are a different
+          axis from the five components below, and the edge-to-edge black says so
+          before a word is read. */}
+      <Section tone="dark">
+        <Reveal>
           <TheArc />
         </Reveal>
+      </Section>
 
+      <Section>
         {/* The five components, moved here from the "Do I have to buy the whole
             thing?" section that used to follow. That section's whole answer was
             "no, take one or take all", which the lede above now says once, and

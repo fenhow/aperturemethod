@@ -47,7 +47,7 @@ const STAGES = [
 
 export function TheArc() {
   return (
-    <div className="rounded-lg bg-dark p-7 md:p-10">
+    <div>
       <p className="eyebrow eyebrow--on-dark mb-6">What it is built on: three capabilities</p>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch">
         {STAGES.map((s, i) => (
@@ -77,7 +77,7 @@ export function TheArc() {
           reader takes "MBA" on a product card as a credential badge rather
           than a cross-reference, which is both the wrong meaning and a boast
           nobody asked for. One line turns three decorations into a legend. */}
-      <p className="mt-6 text-small text-white/60">
+      <p className="mt-6 max-w-measure text-small text-white/60">
         Each of the five components below draws on one or more of these three. The course codes on
         those cards are the graduate coursework already built into the Method: Fenwick is currently
         completing an Executive MBA at Texas A&amp;M University&apos;s Mays Business School, and the

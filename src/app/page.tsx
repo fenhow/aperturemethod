@@ -7,7 +7,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
-import { MarketMapLive } from "@/components/sections/MarketMapLive";
+import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { ApertureHero } from "@/components/home/ApertureHero";
 import { TheArc } from "@/components/home/TheArc";
@@ -291,10 +291,10 @@ export default function Home() {
 
         <Reveal variant="up" delay={120} className="mt-12">
           <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
-            <MarketMapLive tone="dark" className="block" />
+            <AtlasMarketMap className="block" />
             <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
-              A Market Map inside Atlas: trade areas, drive-time rings, and where demand actually
-              clusters.
+              A Market Map inside Atlas: customer density, drive-time bands and competitors, built
+              in ArcGIS. Press play to watch a year of growth, or select any hex for its numbers.
             </figcaption>
           </figure>
         </Reveal>

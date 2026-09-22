@@ -406,7 +406,7 @@ export function ApertureIris() {
                   </span>
                 ) : (
                   <>
-                    <p className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-maroon-onDark">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-maroon-onDark">
                       {activeP.n}
                     </p>
                     <p className="mt-1 text-[clamp(15px,1.7vw,22px)] font-semibold uppercase leading-tight tracking-[.02em]">

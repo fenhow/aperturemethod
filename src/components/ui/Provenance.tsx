@@ -23,7 +23,10 @@ export function Provenance({ short, onDark = false, className }: { short: string
         <Link
           key={c.code}
           href={CURRICULUM_ANCHOR}
-          className={cn("underline-offset-4 transition-colors hover:underline", onDark ? "hover:text-white" : "hover:text-ink")}
+          className={cn(
+            "-my-1.5 inline-block py-2 underline-offset-4 transition-colors hover:underline",
+            onDark ? "hover:text-white" : "hover:text-ink"
+          )}
         >
           {c.code} · {c.title}
           {i < courses.length - 1 ? "," : ""}

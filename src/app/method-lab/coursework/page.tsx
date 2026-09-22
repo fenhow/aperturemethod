@@ -37,7 +37,7 @@ export default function Page() {
       <Section className="pt-28 md:pt-36">
         <Reveal className="max-w-measure">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-            <Link href="/method-lab" className="hover:text-maroon">Method Lab</Link> · Coursework in Practice
+            <Link href="/method-lab" className="-my-1.5 inline-block py-2 hover:text-maroon">Method Lab</Link> · Coursework in Practice
           </p>
           <h1 className="mt-4 text-h1 font-semibold text-ink">The Method, as the coursework lands.</h1>
           <p className="mt-6 text-body-lg text-body">

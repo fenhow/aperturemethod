@@ -463,6 +463,13 @@ export const profitMap: LandingPage = {
         matters: "Consistency is the whole point. A ratio calculated two ways is an argument. Calculated one way across several years, it is evidence.",
       },
       {
+        label: "Quick ratio",
+        note: "Could you pay this year's bills without selling a single unit of stock?",
+        what: "Cash, short-term investments and receivables divided by current liabilities. Inventory and prepaid expenses are left out on purpose.",
+        tells: "Whether the business can meet its near-term obligations from assets that turn into cash quickly, without relying on inventory selling on time.",
+        matters: "A healthy current ratio can hide a business that is really living on its inventory. The quick ratio strips that out, which is the first thing a lender or a buyer checks when stock is slow-moving.",
+      },
+      {
         label: "Cash conversion cycle",
         note: "Collection, inventory and payment days, priced as cash released or consumed.",
         what: "Days to collect, plus days of inventory, less days to pay, then converted into cash at your own daily rate of trade.",

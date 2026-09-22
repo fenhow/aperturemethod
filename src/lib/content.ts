@@ -152,6 +152,7 @@ export const methodPhases: MethodPhase[] = [
       { name: "Horizontal (trend) analysis", what: "Tracks every line across the periods. Common-size shows what the business is; this shows what it is doing." },
       { name: "DuPont return decomposition", what: "Splits return into profit margin and asset productivity. A margin problem and a productivity problem look identical in one number and need opposite responses." },
       { name: "Ratio analysis, six families", what: "Profitability, returns, liquidity, efficiency, coverage and cash flow, calculated the same way every period so the comparison is real." },
+      { name: "Quick ratio", what: "Cash, short-term investments and receivables against current liabilities, with inventory left out, so you see whether the bills can be paid without waiting for stock to sell." },
       { name: "Cash conversion cycle", what: "Days to collect, days of inventory and days to pay, then converted into the cash each one released or consumed at your own daily rate of trade." },
       { name: "Earnings quality", what: "Separates profit that is supported by cash from profit that is not, and normalizes owner pay, related-party rent and one-off items with an evidence grade on every add-back." },
       { name: "Credit and solvency", what: "Leverage measured with operating leases counted as the debt they are, plus interest coverage and a distress score. Leaving leases out is the most common way to understate how borrowed a business is." },

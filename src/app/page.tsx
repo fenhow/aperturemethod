@@ -24,6 +24,7 @@ import { aperturePractices } from "@/lib/content";
 import { primaryCta, siteConfig, HOME_REVIEWED } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ldWebPage } from "@/lib/seo";
+import { coursesFor } from "@/lib/coursework";
 
 /**
  * Homepage: the parent front door for The Aperture Method™. The methodology is
@@ -180,12 +181,19 @@ export default function Home() {
                         read as a credential stamped on the product. Prefixed
                         and un-bordered, they read as what they are: a note
                         about which capabilities power this component. */}
-                    {p.cap && (
-                      <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
-                        <span className="opacity-60">Draws on </span>
-                        {p.cap}
-                      </span>
-                    )}
+                    {(() => {
+                      // Named courses replace the generic "MBA" tag; GIS / DATA stay.
+                      const draws = [
+                        ...coursesFor(p.short).map((c) => c.code),
+                        ...(p.cap ?? "").split(" · ").filter((x) => x && x !== "MBA"),
+                      ];
+                      return draws.length > 0 ? (
+                        <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
+                          <span className="opacity-60">Draws on </span>
+                          {draws.join(" · ")}
+                        </span>
+                      ) : null;
+                    })()}
                   </div>
                   <h3 className="mt-4 text-h4 font-semibold text-ink group-hover:text-maroon">
                     {p.product}&trade;

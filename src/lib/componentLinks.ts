@@ -8,13 +8,13 @@
  * owner would search for. As each /method/<slug> page is folded in, add its
  * component here and redirect the old path in next.config.mjs.
  *
- * Atlas is folded in (Sept 2026). The other four still live at /method/<slug>.
+ * All five are folded in (Sept 2026); /method/<slug> redirects to its page.
  */
 export const COMPONENT_HREF: Record<string, string> = {
-  Insights: "/method/insights",
-  Analytics: "/method/analytics",
-  Intelligence: "/method/intelligence",
-  Compass: "/method/compass",
+  Insights: "/business-x-ray",
+  Analytics: "/profit-map",
+  Intelligence: "/market-map",
+  Compass: "/focus-plan",
   Atlas: "/scoreboard",
 };
 

@@ -31,8 +31,9 @@ const find = (component: string) =>
   aperturePractices.find((p) => slugOf(p.short) === component);
 
 export function generateStaticParams() {
-  // Atlas lives at /scoreboard now (redirected in next.config.mjs), so it is not built here.
-  return aperturePractices.filter((p) => p.short !== "Atlas").map((p) => ({ component: slugOf(p.short) }));
+  // Every component now lives at its plain-English URL (see src/lib/componentLinks.ts);
+  // /method/<slug> is redirected in next.config.mjs, so nothing is built here.
+  return [];
 }
 
 export function generateMetadata({

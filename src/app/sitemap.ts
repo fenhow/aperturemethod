@@ -57,16 +57,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   /**
-   * The five component pages. They are indexable, canonical to themselves and
-   * substantial, and they were simply absent from this list, which meant the
-   * deepest service pages on the site were the ones search engines were least
-   * likely to find. Generated from the same source the routes are.
+   * The five component pages. Each component now lives at its plain-English URL
+   * (see src/lib/componentLinks.ts), which is also its landing page, so anything
+   * already covered by landingRoutes is dropped here rather than listed twice.
    */
-  const componentRoutes: Route[] = aperturePractices.map((practice) => ({
-    path: componentHref(practice.short),
-    priority: 0.8,
-    changeFrequency: "monthly" as const,
-  }));
+  const componentRoutes: Route[] = aperturePractices
+    .map((practice) => componentHref(practice.short))
+    .filter((path) => !landingPages.some((l) => l.slug === path))
+    .map((path) => ({ path, priority: 0.8, changeFrequency: "monthly" as const }));
 
   /**
    * The landing pages. Priority 1.0 alongside the homepage, deliberately: each

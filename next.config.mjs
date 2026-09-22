@@ -34,6 +34,10 @@ const nextConfig = {
       // Aperture Atlas now has ONE page: /scoreboard, which absorbed
       // /method/atlas (Sept 2026). See src/lib/componentLinks.ts.
       { source: "/method/atlas", destination: "/scoreboard", permanent: true },
+      { source: "/method/insights", destination: "/business-x-ray", permanent: true },
+      { source: "/method/analytics", destination: "/profit-map", permanent: true },
+      { source: "/method/intelligence", destination: "/market-map", permanent: true },
+      { source: "/method/compass", destination: "/focus-plan", permanent: true },
 
       { source: "/look-closer", destination: "/business-lab", permanent: true },
       { source: "/look-closer/:path*", destination: "/business-lab/:path*", permanent: true },

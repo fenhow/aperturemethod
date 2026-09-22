@@ -397,6 +397,10 @@ export const businessXRay: LandingPage = {
       a: "Fenwick How, and nobody else. Data is handled on a least-access basis, stored securely, and covered by written terms signed before anything is sent. It is never sold, shared, or reused for another client, and everything built on it is yours to keep.",
     },
   ],
+  arc: {
+    prev: { n: "05", label: "Aperture Atlas™ · the Scoreboard", href: "/scoreboard" },
+    next: { n: "02", label: "Aperture Analytics™ · the Profit Map", href: "/profit-map" },
+  },
   reviewed: REVIEWED,
   breadcrumbParent: { name: "What you get", path: "/what-you-get" },
 };
@@ -638,6 +642,10 @@ export const profitMap: LandingPage = {
       a: `No. If you already know the question is financial, start here. The X-Ray exists for the case where you are not sure, and at ${XRAY_FEE} it is the cheaper way to find out than buying the wrong component.`,
     },
   ],
+  arc: {
+    prev: { n: "01", label: "Aperture Insights™ · the Business X-Ray", href: "/business-x-ray" },
+    next: { n: "03", label: "Aperture Intelligence™ · the Market Map", href: "/market-map" },
+  },
   reviewed: REVIEWED,
   breadcrumbParent: { name: "What you get", path: "/what-you-get" },
 };
@@ -766,6 +774,10 @@ export const marketMap: LandingPage = {
       a: "Two to three weeks once the customer data arrives. Geocoding is quick; the analysis and the honest reading of it are what take the time.",
     },
   ],
+  arc: {
+    prev: { n: "02", label: "Aperture Analytics™ · the Profit Map", href: "/profit-map" },
+    next: { n: "04", label: "Aperture Compass™ · the Focus Plan", href: "/focus-plan" },
+  },
   reviewed: REVIEWED,
   breadcrumbParent: { name: "What you get", path: "/what-you-get" },
 };
@@ -891,6 +903,10 @@ export const focusPlan: LandingPage = {
       a: "That is one of the things it is built for. Every option carries its score, its assumptions and its downside case, so the question why this and not that has a written answer rather than a recollection.",
     },
   ],
+  arc: {
+    prev: { n: "03", label: "Aperture Intelligence™ · the Market Map", href: "/market-map" },
+    next: { n: "05", label: "Aperture Atlas™ · the Scoreboard", href: "/scoreboard" },
+  },
   reviewed: REVIEWED,
   breadcrumbParent: { name: "What you get", path: "/what-you-get" },
 };

@@ -42,8 +42,8 @@ export const coursework: Course[] = [
     ],
     seeIt: [
       { label: "The published worked examples", href: "/method-lab/financial-analysis-workbench" },
-      { label: "Aperture Analytics", href: "/method/analytics" },
-      { label: "The Profit Map", href: "/profit-map" },
+      { label: "Aperture Analytics: the Profit Map", href: "/profit-map" },
+      
     ],
   },
   {
@@ -62,7 +62,7 @@ export const coursework: Course[] = [
     ],
     seeIt: [
       { label: "Aperture Atlas: “Why sales move”", href: "/scoreboard" },
-      { label: "Aperture Analytics", href: "/method/analytics" },
+      { label: "Aperture Analytics: the Profit Map", href: "/profit-map" },
     ],
   },
 ];

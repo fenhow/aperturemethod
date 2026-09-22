@@ -223,7 +223,7 @@ export function HowItWorks() {
               and demand, before you commit. A second location, a new city, a wider service area.{" "}
               <span className="text-muted">A standalone fixed-fee study.</span>
             </p>
-            <Link href="/method/intelligence" className="link-arrow shrink-0">
+            <Link href="/market-map" className="link-arrow shrink-0">
               How we do it
               <span className="arrow" aria-hidden="true">
                 &rarr;

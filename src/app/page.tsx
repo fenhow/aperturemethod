@@ -190,8 +190,7 @@ export default function Home() {
                       ];
                       return draws.length > 0 ? (
                         <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
-                          <span className="opacity-60">Draws on </span>
-                          {draws.join(" · ")}
+  {draws.join(" · ")}
                         </span>
                       ) : null;
                     })()}

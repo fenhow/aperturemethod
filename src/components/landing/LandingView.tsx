@@ -15,6 +15,7 @@ import { Provenance } from "@/components/ui/Provenance";
 import { LANDING_PRODUCT } from "@/lib/coursework";
 import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { methodPhases } from "@/lib/content";
 
 const REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
@@ -151,30 +152,31 @@ export function LandingView({ page }: { page: LandingPage }) {
           </Reveal>
           {LANDING_PRODUCT[page.slug] && (
             <Reveal delay={200} className="mt-10">
-              <LinkArrow href={`/method/${LANDING_PRODUCT[page.slug]!.toLowerCase()}`}>
-                How it works in full
-              </LinkArrow>
-              <Provenance short={LANDING_PRODUCT[page.slug]!} className="mt-6" />
+              <Provenance short={LANDING_PRODUCT[page.slug]!} />
             </Reveal>
           )}
         </div>
       </Section>
 
-      {/* Live platform demo: only the Atlas landing page (/scoreboard) carries the map. */}
-      {page.slug === "/scoreboard" && (
+      {/* Live map: Atlas carries it with the analysis; Intelligence without. */}
+      {(page.slug === "/scoreboard" || page.slug === "/market-map") && (
         <Section tone="dark">
           <Reveal className="max-w-measure">
             <p className="eyebrow eyebrow--on-dark mb-4">See it live</p>
             <h2 className="text-h2 font-semibold text-paper">Your market, on one live map.</h2>
             <p className="mt-5 text-body-lg text-white/75">
-              Press play to watch a year of growth, switch layers, or select any hex, billboard or venue for its
-              numbers. Underneath it is the analysis: what weather, holidays, drive time and demographics actually do
-              to sales.
+              {page.slug === "/scoreboard"
+                ? "Press play to watch a year of growth, switch layers, or select any hex, billboard or venue for its numbers. Underneath it is the analysis: what weather, holidays, drive time and demographics actually do to sales."
+                : "Customers, competitors, drive-time trade areas and the things that move buyers, on one map. Press play to watch a year of growth, or select any hex for its numbers."}
             </p>
           </Reveal>
           <Reveal variant="up" delay={120} className="mt-10">
             <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
-              <AtlasMarketMap className="block" />
+              {page.slug === "/scoreboard" ? (
+                <AtlasMarketMap className="block" />
+              ) : (
+                <AtlasMarketMap className="block" showAnalysis={false} product="INTELLIGENCE" />
+              )}
             </figure>
           </Reveal>
           <Reveal className="mt-6">
@@ -266,6 +268,38 @@ export function LandingView({ page }: { page: LandingPage }) {
           </p>
         </Reveal>
       </Section>
+
+      {/* Under the hood: frameworks from the Method that the cards above do not name. */}
+      {(() => {
+        const short = LANDING_PRODUCT[page.slug];
+        if (!short) return null;
+        const named = new Set(page.solution.cards.map((c) => c.label.toLowerCase()));
+        const extra = (methodPhases.find((m) => m.short === short)?.frameworks ?? []).filter(
+          (f) => !named.has(f.name.toLowerCase())
+        );
+        if (extra.length < 3) return null;
+        return (
+          <Section>
+            <Reveal className="max-w-measure">
+              <SectionHeading
+                eyebrow="Under the hood"
+                title="The frameworks behind it."
+                lede="The same techniques big-company teams use, applied, in plain language, to your business."
+              />
+            </Reveal>
+            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {extra.map((f, i) => (
+                <Reveal key={f.name} variant="up" delay={(i % 3) * 70}>
+                  <div className="hover-lift h-full rounded-lg border border-line bg-paper p-6">
+                    <h3 className="text-h4 font-semibold text-ink">{f.name}</h3>
+                    <p className="mt-2 text-small text-muted">{f.what}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </Section>
+        );
+      })()}
 
       {/* Where it fits: the arc, for pages that ARE a component of the Method. */}
       {page.arc && (

@@ -27,21 +27,21 @@ import { Fragment } from "react";
 const STAGES = [
   {
     cap: "A&M Mays MBA",
-    label: "Analysis and analytics",
+    label: "Decision-grade analysis",
     desc:
-      "Profit drivers, forecasting, segmentation, break-even and optimization, applied to your business.",
+      "Profit drivers, pricing, break-even and forecasting. Graduate-level methods applied to your numbers.",
   },
   {
-    cap: "GIS",
-    label: "Spatial intelligence",
+    cap: "GIS · Mapping",
+    label: "Your market, mapped",
     desc:
-      "Geographic intelligence plus deep demographic & human data, age, sex, income, households, and spending, mapped to trade areas and exactly where your customers are.",
+      "Where your customers are, who they are, and where the next ones live. Trade areas, drive times, income and spending.",
   },
   {
     cap: "Data / AI",
-    label: "A living data platform",
+    label: "Always on, always current",
     desc:
-      "Every layer brought together on one always-on, visual dashboard you run the business from.",
+      "Every layer on one dashboard you run the business from, and it stays yours when the engagement ends.",
   },
 ];
 

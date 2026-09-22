@@ -7,7 +7,7 @@ import { PreorderForm } from "@/components/forms/PreorderForm";
 import { Book3D } from "@/components/home/Book3D";
 import { aperturePractices } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
-import { bookContributors } from "@/lib/book";
+import { bookContributors, bookExcerpt } from "@/lib/book";
 
 export const metadata: Metadata = pageMeta({
   title: "The Book",
@@ -48,15 +48,17 @@ export default function BookPage() {
               The methodology, written down.
             </h1>
             <p className="mt-6 max-w-measure text-body-lg text-body">
-              Big companies don&apos;t outgrow you because they&apos;re smarter. They outgrow you
-              because they can see. This book lays out, end to end, how an owner-run business gets
-              that same view: the questions, the measures, and the order to take them in.
+              The Aperture Method, laid out end to end: how an owner-run business gets the same view
+              of itself that big companies have, and the questions, measures and order to take them in.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-small font-semibold text-ink">
                 <span className="h-1.5 w-1.5 rounded-full bg-maroon" aria-hidden="true" />
                 Being written now
               </span>
+              <a href="#excerpt" className="link-arrow text-small font-semibold">
+                Read an excerpt
+              </a>
               <a href="#reserve" className="link-arrow text-small font-semibold">
                 Reserve your copy
               </a>
@@ -65,25 +67,32 @@ export default function BookPage() {
         </div>
       </Section>
 
-      {/* Premise */}
-      <Section tone="surface">
-        <Reveal className="max-w-measure">
-          <SectionHeading
-            eyebrow="The premise"
-            title="The last businesses without real intelligence."
-          />
-          <p className="mt-6 text-body-lg text-body">
-            Large companies have analysts, finance teams and market data telling them where the
-            money is made and lost. Owner-run businesses, which employ most of the country, usually
-            have a bookkeeper, a bank balance and a gut feel. The gap isn&apos;t effort or talent. It
-            is visibility.
-          </p>
-          <p className="mt-5 text-body text-muted">
-            The Aperture Method closes that gap in five steps, each one answering a single question
-            before the next begins. The book walks through every step in plain language, with the
-            same tools used in the work itself.
-          </p>
-        </Reveal>
+      {/* Excerpt: replaces the old premise block, which said the same thing less well */}
+      <Section tone="dark" id="excerpt">
+        <div className="mx-auto max-w-measure">
+          <Reveal>
+            <p className="eyebrow eyebrow--on-dark">
+              From {bookExcerpt.chapter} · {bookExcerpt.title}
+            </p>
+            <p className="mt-6 text-h2 font-semibold leading-tight text-paper">{bookExcerpt.lead}</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <div className="mt-10 space-y-6 text-body-lg leading-relaxed text-white/80">
+              {bookExcerpt.paragraphs.map((p) => (
+                <p key={p.slice(0, 24)}>{p}</p>
+              ))}
+            </div>
+            <p className="mt-10 border-l-2 border-maroon pl-5 text-h4 font-semibold text-paper">
+              {bookExcerpt.close}
+            </p>
+            <div className="mt-10 flex flex-wrap items-center gap-6">
+              <a href="#reserve" className="link-arrow text-small font-semibold text-paper hover:text-maroon-soft">
+                Reserve your copy
+              </a>
+              <span className="text-small text-white/50">Fenwick How · The Aperture Method</span>
+            </div>
+          </Reveal>
+        </div>
       </Section>
 
       {/* Outline */}

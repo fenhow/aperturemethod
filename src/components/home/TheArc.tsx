@@ -45,6 +45,8 @@ const STAGES = [
   },
 ];
 
+/* Deploy touch, 22 Sept 2026: a webhook missed a commit and Vercel rebuilt the
+   previous one; this line exists only to give the next push something to carry. */
 export function TheArc() {
   return (
     <div>

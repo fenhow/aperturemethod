@@ -30,9 +30,9 @@ export const coursework: Course[] = [
   {
     code: "SCMT 610",
     title: "Business Analytics",
-    products: ["Atlas"],
+    products: ["Analytics", "Atlas"],
     built:
-      "The quantitative layer in Atlas: regression on what moves sales (weather, holidays, drive time, demographics), with confidence intervals rather than guesses.",
+      "The statistics under both: regression on what moves sales (weather, holidays, drive time, demographics), scenario and sensitivity testing in the Profit Map, and confidence intervals rather than guesses.",
   },
 ];
 

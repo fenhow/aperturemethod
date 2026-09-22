@@ -71,6 +71,9 @@ export function LandingView({ page }: { page: LandingPage }) {
             <p className="eyebrow mb-5">{page.eyebrow}</p>
             <h1 className="heading-gradient text-display font-semibold">{page.h1}</h1>
             <p className="mt-6 text-body-lg text-body">{page.sub}</p>
+            {LANDING_PRODUCT[page.slug] && (
+              <Provenance short={LANDING_PRODUCT[page.slug]!} className="mt-6" />
+            )}
           </Reveal>
 
           <Reveal delay={80}>
@@ -150,11 +153,6 @@ export function LandingView({ page }: { page: LandingPage }) {
             <p className="text-body text-muted">{page.solution.howItRuns}</p>
             <p className="mt-6">{cta}</p>
           </Reveal>
-          {LANDING_PRODUCT[page.slug] && (
-            <Reveal delay={200} className="mt-10">
-              <Provenance short={LANDING_PRODUCT[page.slug]!} />
-            </Reveal>
-          )}
         </div>
       </Section>
 

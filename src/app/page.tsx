@@ -186,10 +186,16 @@ export default function Home() {
                         landed. Components with no course yet show nothing: a bare
                         capability tag ("GIS") said less than the silence does. */}
                     {coursesFor(p.short).length > 0 && (
-                      <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted">
-                        {coursesFor(p.short)
-                          .map((c) => c.code)
-                          .join(" · ")}
+                      <span
+                        className="text-[11px] font-medium uppercase tracking-[0.1em] text-muted"
+                        title="Graduate coursework built into this component. See Coursework in Practice."
+                      >
+                        MBA{" "}
+                        <span className="font-semibold text-maroon">
+                          {coursesFor(p.short)
+                            .map((c) => c.code)
+                            .join(" · ")}
+                        </span>
                       </span>
                     )}
                   </div>

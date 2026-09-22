@@ -27,6 +27,16 @@ type Slide = {
    * one edge gets cut. Defaults to center.
    */
   position?: string;
+  /**
+   * Mirror the photo left-to-right. Used on the aperture slide so the iris
+   * sits in the open right half instead of behind the headline.
+   */
+  flip?: boolean;
+  /**
+   * Let the right half of the photo show through: the overlay stays dark
+   * behind the text and fades out past the middle, so the subject reads.
+   */
+  revealRight?: boolean;
 };
 
 const slides: Slide[] = [
@@ -35,6 +45,8 @@ const slides: Slide[] = [
     title: "Big-company intelligence, built for your business.",
     sub: "We bring the financial, customer, market, and competitive analysis used by large companies to owner-run businesses: uncovering what's driving performance, where opportunities are being missed, and where to focus next.",
     image: "/hero/hero-3-v7.jpg",
+    flip: true,
+    revealRight: true,
   },
   {
     eyebrow: "Know your numbers",
@@ -156,11 +168,18 @@ export function ApertureHero() {
               fill
               priority={i === 0}
               sizes="100vw"
-              className="object-cover"
+              className={cn("object-cover", s.flip && "-scale-x-100")}
               style={s.position ? { objectPosition: s.position } : undefined}
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/25" />
+          <div
+            className={cn(
+              "absolute inset-0",
+              s.revealRight
+                ? "bg-[linear-gradient(90deg,rgba(0,0,0,.86)_0%,rgba(0,0,0,.55)_38%,rgba(0,0,0,.08)_62%,rgba(0,0,0,0)_100%)] max-md:bg-none max-md:bg-black/65"
+                : "bg-gradient-to-r from-black/85 via-black/55 to-black/25"
+            )}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
         </div>
       ))}

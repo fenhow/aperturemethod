@@ -7,7 +7,6 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
-import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
 import { RevenueForecastLive } from "@/components/sections/RevenueForecastLive";
 import { ApertureHero } from "@/components/home/ApertureHero";
 import { TheArc } from "@/components/home/TheArc";
@@ -290,27 +289,16 @@ export default function Home() {
         </Reveal>
 
         <Reveal variant="up" delay={120} className="mt-12">
-          <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
-            <AtlasMarketMap className="block" showAnalysis={false} />
-            <figcaption className="border-t border-white/10 px-6 py-4 text-small text-white/60">
-              A Market Map inside Atlas: customers and competitors alongside what moves buyers,
-              including weather, traffic, billboards and new housing. Press play to watch a year of
-              growth, or select any hex or billboard for its numbers.
-            </figcaption>
-          </figure>
-          <div className="mt-5">
-            <LinkArrow href="/method/atlas" onDark>
-              See the analysis behind it
-            </LinkArrow>
-          </div>
-        </Reveal>
-
-        <Reveal variant="up" delay={160} className="mt-6">
           <RevenueForecastLive />
           <p className="mt-3 text-small text-white/55">
             A live revenue forecast: Atlas doesn&apos;t just show your numbers, it continuously
             projects where the business is heading.
           </p>
+          <div className="mt-6">
+            <LinkArrow href="/method/atlas" onDark>
+              See Atlas in action
+            </LinkArrow>
+          </div>
         </Reveal>
       </Section>
 

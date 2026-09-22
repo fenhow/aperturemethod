@@ -5,7 +5,9 @@
  */
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { CURRICULUM_ANCHOR, PROGRAM, coursesFor } from "@/lib/coursework";
 
 /**
  * The quantitative layer under the Atlas Market Map: "Why sales move".
@@ -364,7 +366,11 @@ export function AtlasAnalysis({ c, month, monthLabel, temp, rain, holRel, holNam
           <p>Standardised betas across trade-area hexes. Every 5 extra minutes of drive time cuts penetration by <b>{Math.abs(drive.raw * 5).toFixed(1)} pts</b>.</p>
         </figure>
       </div>
-      <div className="atl-an-foot">*** p &lt; .01 · ** p &lt; .05 · * p &lt; .10. Partial-effect plots show each factor after removing the others. Synthetic data for an illustrative client.</div>
+      <div className="atl-an-foot">*** p &lt; .01 · ** p &lt; .05 · * p &lt; .10. Partial-effect plots show each factor after removing the others. Synthetic data for an illustrative client.
+        {coursesFor("Atlas").map((c) => (
+          <span key={c.code} className="atl-prov"> Applied from <Link href={CURRICULUM_ANCHOR}>{c.code} · {c.title}</Link> · {PROGRAM}</span>
+        ))}
+      </div>
     </section>
   );
 }
@@ -399,6 +405,8 @@ export const ANALYSIS_CSS = `
 .atl-an figure p{margin:6px 0 0;font-size:11.5px;line-height:1.45;color:var(--mu)}
 .atl-an figure p b{color:var(--tx)}
 .atl-an-foot{margin-top:10px;font-size:10px;color:var(--attrtx)}
+.atl-prov{display:block;margin-top:6px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.atl-prov a{color:var(--acc);text-decoration:none}.atl-prov a:hover{text-decoration:underline}
 @media (max-width:1080px){.atl-an-grid{grid-template-columns:1fr 1fr}.atl-an header{flex-direction:column;align-items:flex-start;gap:6px}}
 @media (max-width:620px){.atl-an-grid{grid-template-columns:1fr}.atl-an{padding:18px 10px 12px}}
 `;

@@ -6,6 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProductName } from "@/components/brand/ProductName";
 import { methodPhases } from "@/lib/content";
+import { CurriculumMap } from "@/components/sections/CurriculumMap";
 
 /**
  * "Under the hood" depth layer: the named frameworks applied in each of the
@@ -59,6 +60,7 @@ export function MethodFrameworks() {
           School, and the Method is revised as that coursework lands, so what you engage is current
           rather than a toolkit assembled once and left alone.
         </p>
+        <CurriculumMap />
       </Reveal>
 
       <div ref={rootRef} className="mt-12 divide-y divide-line rounded-lg border border-line bg-paper">

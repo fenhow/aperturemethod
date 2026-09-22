@@ -7,6 +7,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { Provenance } from "@/components/ui/Provenance";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { Logo } from "@/components/brand/Logo";
 import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
@@ -110,6 +111,7 @@ export default function ComponentPage({ params }: { params: { component: string 
               {p.truth}
             </p>
           )}
+          <Provenance short={p.short} className="mt-10" />
         </Reveal>
       </Section>
 

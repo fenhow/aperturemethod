@@ -16,6 +16,7 @@ import { aperturePractices } from "@/lib/content";
 import { deliverables } from "@/lib/deliverables";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
+import { componentHref } from "@/lib/componentLinks";
 
 
 /**
@@ -30,7 +31,8 @@ const find = (component: string) =>
   aperturePractices.find((p) => slugOf(p.short) === component);
 
 export function generateStaticParams() {
-  return aperturePractices.map((p) => ({ component: slugOf(p.short) }));
+  // Atlas lives at /scoreboard now (redirected in next.config.mjs), so it is not built here.
+  return aperturePractices.filter((p) => p.short !== "Atlas").map((p) => ({ component: slugOf(p.short) }));
 }
 
 export function generateMetadata({
@@ -248,7 +250,7 @@ export default function ComponentPage({ params }: { params: { component: string 
         </Reveal>
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-stretch">
           <Link
-            href={`/method/${slugOf(prev.short)}`}
+            href={componentHref(prev.short)}
             className="group flex flex-1 flex-col rounded-lg border border-line bg-paper p-6 hover-lift"
           >
             <span className="text-small text-muted">← Previous · {prev.n}</span>
@@ -257,7 +259,7 @@ export default function ComponentPage({ params }: { params: { component: string 
             </span>
           </Link>
           <Link
-            href={`/method/${slugOf(next.short)}`}
+            href={componentHref(next.short)}
             className="group flex flex-1 flex-col rounded-lg border border-line bg-paper p-6 text-right hover-lift"
           >
             <span className="text-small text-muted">Next · {next.n} →</span>

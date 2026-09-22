@@ -10,6 +10,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LinkArrow } from "@/components/ui/LinkArrow";
 import { DocumentLightbox } from "@/components/ui/DocumentLightbox";
 import { deliverables, type Deliverable } from "@/lib/deliverables";
+import { componentHrefFromSlug } from "@/lib/componentLinks";
 
 
 /**
@@ -162,7 +163,7 @@ export function DeliverablesExplorer() {
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <SectionHeading eyebrow={`Produced in ${g.component}™`} title={g.component + "™"} />
-              <LinkArrow href={`/method/${g.componentSlug}`}>About this component</LinkArrow>
+              <LinkArrow href={componentHrefFromSlug(g.componentSlug)}>About this component</LinkArrow>
             </div>
           </Reveal>
           <div className="mt-8 grid gap-6 md:grid-cols-2">

@@ -14,6 +14,7 @@ import type { LandingPage } from "@/lib/landing";
 import { Provenance } from "@/components/ui/Provenance";
 import { LANDING_PRODUCT } from "@/lib/coursework";
 import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
@@ -166,17 +167,19 @@ export function LandingView({ page }: { page: LandingPage }) {
             <p className="eyebrow eyebrow--on-dark mb-4">See it live</p>
             <h2 className="text-h2 font-semibold text-paper">Your market, on one live map.</h2>
             <p className="mt-5 text-body-lg text-white/75">
-              Press play to watch a year of growth, switch layers, or select any hex, billboard or venue for its numbers.
+              Press play to watch a year of growth, switch layers, or select any hex, billboard or venue for its
+              numbers. Underneath it is the analysis: what weather, holidays, drive time and demographics actually do
+              to sales.
             </p>
           </Reveal>
           <Reveal variant="up" delay={120} className="mt-10">
             <figure className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.03]">
-              <AtlasMarketMap className="block" showAnalysis={false} />
+              <AtlasMarketMap className="block" />
             </figure>
           </Reveal>
           <Reveal className="mt-6">
-            <LinkArrow href="/method/atlas" onDark>
-              See the analysis behind it
+            <LinkArrow href="/the-aperture-method" onDark>
+              Where this sits in the Method
             </LinkArrow>
           </Reveal>
         </Section>
@@ -263,6 +266,32 @@ export function LandingView({ page }: { page: LandingPage }) {
           </p>
         </Reveal>
       </Section>
+
+      {/* Where it fits: the arc, for pages that ARE a component of the Method. */}
+      {page.arc && (
+        <Section tone="surface">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Where it fits"
+              title="One component of a five-part method."
+              lede="Every component is a complete engagement on its own, and a step in the larger arc. Take this one, or run the whole Method."
+            />
+          </Reveal>
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-stretch">
+            <Link href={page.arc.prev.href} className="group flex flex-1 flex-col rounded-lg border border-line bg-paper p-6 hover-lift">
+              <span className="text-small text-muted">← Previous · {page.arc.prev.n}</span>
+              <span className="mt-1 text-h4 font-semibold text-ink group-hover:text-maroon">{page.arc.prev.label}</span>
+            </Link>
+            <Link href={page.arc.next.href} className="group flex flex-1 flex-col rounded-lg border border-line bg-paper p-6 text-right hover-lift">
+              <span className="text-small text-muted">Next · {page.arc.next.n} →</span>
+              <span className="mt-1 text-h4 font-semibold text-ink group-hover:text-maroon">{page.arc.next.label}</span>
+            </Link>
+          </div>
+          <p className="mt-8">
+            <LinkArrow href="/the-aperture-method">Explore the full Method</LinkArrow>
+          </p>
+        </Section>
+      )}
 
       {/* The objections, and the date */}
       <Section tone="surface">

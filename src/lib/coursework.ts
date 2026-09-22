@@ -61,7 +61,7 @@ export const coursework: Course[] = [
       "Plain-English explainers on every chart: what it shows, how to read it, why it matters",
     ],
     seeIt: [
-      { label: "Aperture Atlas: “Why sales move”", href: "/method/atlas" },
+      { label: "Aperture Atlas: “Why sales move”", href: "/scoreboard" },
       { label: "Aperture Analytics", href: "/method/analytics" },
     ],
   },

@@ -25,6 +25,7 @@ import { primaryCta, siteConfig, HOME_REVIEWED } from "@/lib/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ldWebPage } from "@/lib/seo";
 import { coursesFor } from "@/lib/coursework";
+import { componentHref } from "@/lib/componentLinks";
 
 /**
  * Homepage: the parent front door for The Aperture Method™. The methodology is
@@ -169,7 +170,7 @@ export default function Home() {
             {aperturePractices.map((p, i) => (
               <Reveal key={p.n} variant="up" delay={(i % 3) * 80}>
                 <Link
-                  href={`/method/${p.short.toLowerCase()}`}
+                  href={componentHref(p.short)}
                   className="group flex h-full flex-col rounded-lg border border-line bg-paper p-7 hover-lift"
                 >
                   <div className="flex items-center justify-between">
@@ -303,7 +304,7 @@ export default function Home() {
             projects where the business is heading.
           </p>
           <div className="mt-6">
-            <LinkArrow href="/method/atlas" onDark>
+            <LinkArrow href="/scoreboard" onDark>
               See Atlas in action
             </LinkArrow>
           </div>

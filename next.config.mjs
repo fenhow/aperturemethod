@@ -31,6 +31,9 @@ const nextConfig = {
     // were handed the old URL on printed material, so this redirect is
     // permanent and must not be removed.
     return [
+      // Aperture Atlas now has ONE page: /scoreboard, which absorbed
+      // /method/atlas (Sept 2026). See src/lib/componentLinks.ts.
+      { source: "/method/atlas", destination: "/scoreboard", permanent: true },
 
       { source: "/look-closer", destination: "/business-lab", permanent: true },
       { source: "/look-closer/:path*", destination: "/business-lab/:path*", permanent: true },

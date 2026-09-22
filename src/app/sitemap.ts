@@ -5,6 +5,7 @@ import { deliverables } from "@/lib/deliverables";
 import { aperturePractices } from "@/lib/content";
 import { landingPages } from "@/lib/landing";
 import { industries } from "@/lib/industries";
+import { componentHref } from "@/lib/componentLinks";
 
 /**
  * XML sitemap (served at /sitemap.xml). Generated from the same content sources
@@ -62,7 +63,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
    * likely to find. Generated from the same source the routes are.
    */
   const componentRoutes: Route[] = aperturePractices.map((practice) => ({
-    path: `/method/${practice.short.toLowerCase()}`,
+    path: componentHref(practice.short),
     priority: 0.8,
     changeFrequency: "monthly" as const,
   }));

@@ -12,6 +12,7 @@ import { deliverables, deliverableBySlug } from "@/lib/deliverables";
 import { SevenLenses } from "@/components/sections/SevenLenses";
 import { primaryCta } from "@/lib/site";
 import { pageMeta } from "@/lib/seo";
+import { componentHrefFromSlug } from "@/lib/componentLinks";
 
 
 /**
@@ -72,7 +73,7 @@ export default function DeliverablePage({ params }: { params: { component: strin
             <p className="mt-4 text-small text-white/55">
               Produced in{" "}
               <Link
-                href={`/method/${d.componentSlug}`}
+                href={componentHrefFromSlug(d.componentSlug)}
                 className="font-semibold text-white/80 underline decoration-white/30 underline-offset-2 hover:text-white"
               >
                 {d.component}™

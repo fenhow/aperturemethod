@@ -117,6 +117,15 @@ export type LandingPage = {
   faqHeading: string;
   faqs: LandingFaq[];
   reviewed: string;
+  /**
+   * Set when this page IS one of the five components of the Method (not just a
+   * service page): it prints the "Where it fits" arc at the foot. Atlas is the
+   * first page to carry it, now that /method/atlas folds in here.
+   */
+  arc?: {
+    prev: { n: string; label: string; href: string };
+    next: { n: string; label: string; href: string };
+  };
   breadcrumbParent: { name: string; path: string };
 };
 
@@ -1007,6 +1016,10 @@ export const scoreboard: LandingPage = {
       a: "Your Aperture Score is re-scored against the same published rubric used at the start: same seven lenses, same twenty-nine sub-criteria, same anchors. That is what turns better into a number, and it is why the baseline taken during the X-Ray is worth having.",
     },
   ],
+  arc: {
+    prev: { n: "04", label: "Aperture Compass™ · the Focus Plan", href: "/focus-plan" },
+    next: { n: "01", label: "Aperture Insights™ · the Business X-Ray", href: "/business-x-ray" },
+  },
   reviewed: REVIEWED,
   breadcrumbParent: { name: "What you get", path: "/what-you-get" },
 };

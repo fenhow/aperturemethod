@@ -189,7 +189,7 @@ export function HowItWorks() {
                     &rarr;
                   </span>
                 </Link>
-                <Link href="/method/atlas" className="link-arrow">
+                <Link href="/scoreboard" className="link-arrow">
                   See the platform
                   <span className="arrow" aria-hidden="true">
                     &rarr;

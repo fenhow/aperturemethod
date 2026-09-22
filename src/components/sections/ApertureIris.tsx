@@ -5,6 +5,7 @@ import Link from "next/link";
 import { aperturePractices } from "@/lib/content";
 import { deliverables } from "@/lib/deliverables";
 import { cn } from "@/lib/utils";
+import { componentHref } from "@/lib/componentLinks";
 
 /**
  * The Aperture, a working five-blade iris that opens.
@@ -562,7 +563,7 @@ export function ApertureIris() {
                   ← {prevP?.short}
                 </button>
                 <Link
-                  href={`/method/${chosen.short.toLowerCase()}`}
+                  href={componentHref(chosen.short)}
                   className="text-small font-semibold text-maroon-onDark transition-colors hover:text-paper"
                 >
                   Full {chosen.short} page →

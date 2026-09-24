@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   Aperture Analytics Workbench v5.7
-  Built 2026-09-24 14:48 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Built 2026-09-24 14:53 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -768,6 +768,11 @@ h4.fgroup:first-child{margin-top:4px}
 .vlight.old .vdot{background:#E74C3C;box-shadow:0 0 7px #E74C3C}
 .vlight.old{color:#fff;background:rgba(231,76,60,.28)}
 @media print{.vlight{display:none!important}}
+/* the same light on the sign-in card, which is white */
+.vlight.gvl{margin:8px 0 0;background:#F3F3F3;color:#4D4D4D;font-size:10.5px}
+.vlight.gvl.ok{background:#E9F8EF;color:#1E7A45}
+.vlight.gvl.ahead{background:#FDF4E1;color:#8A5A00}
+.vlight.gvl.old{background:#FBE9E7;color:#A12B1F}
 .unitbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;background:#F7F5F2;border-left:3px solid #9A9A9A}
 .unitbar select{font:inherit;font-size:12px;padding:4px 6px}
 .unitread{font-size:12px;color:#4D4D4D;flex:1 1 320px}
@@ -986,6 +991,7 @@ body.is-locked>.toolbar{display:none!important}
       <h1>Aperture Analytics<span class="tm">™</span></h1>
       <h2>Financial Analysis Workbench</h2>
       <p class="gver" id="gateVer"></p>
+      <p class="vlight gvl" id="gLight" hidden><span class="vdot"></span><span id="gText"></span></p>
       <p class="gnote">This is the standalone copy. The credentials are in the boxes below,
         grayed out: type them in to open it.</p>
       <form id="gateForm" autocomplete="off">
@@ -2424,7 +2430,7 @@ const BRAND={
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
   version:'5.7',
-  built:'2026-09-24 14:48 UTC',
+  built:'2026-09-24 14:53 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -13892,10 +13898,17 @@ showBand('guide');
 const VMANIFEST_KEY='analytics';
 /* the notification waits for the sign-in screen to close, or nobody would see it */
 function vWhenOpen(){return new Promise(r=>{const c=()=>document.body.classList.contains('is-locked')?setTimeout(c,400):r();c();});}
+function vMirror(){
+  const el=$('vLight'),tx=$('vText'),g=$('gLight'),gt=$('gText'); if(!g||!gt||!el)return;
+  g.hidden=el.hidden; g.className=el.className+' gvl'; gt.textContent=tx.textContent; g.title=el.title;
+}
 async function versionCheck(){
+  try{ await versionCheck0(); } finally { vMirror(); }
+}
+async function versionCheck0(){
   const el=$('vLight'), tx=$('vText');
   if(!el||!tx||BRAND.version==='dev')return;
-  el.hidden=false; el.className='vlight'; tx.textContent='Checking this is the current version…';
+  el.hidden=false; el.className='vlight'; tx.textContent='Checking this is the current version…'; vMirror();
   const onSite=/^https?:$/.test(location.protocol)&&/aperturemethod\.com$/i.test(location.hostname);
   const hosts=[BRAND.siteUrl, BRAND.siteUrl.replace('://www.','://')];
   const urls=onSite?['/versions.json']:hosts.map(h=>h+'/versions.json');

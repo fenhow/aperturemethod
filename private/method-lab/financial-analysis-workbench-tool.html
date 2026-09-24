@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v5.6
-  Built 2026-09-22 14:33 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v5.7
+  Built 2026-09-24 14:48 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -758,6 +758,16 @@ h4.fgroup:first-child{margin-top:4px}
 .btn.danger.armed{background:var(--maroon);color:#fff;border-color:var(--maroon)}
 .sbnote{font-size:11.5px;color:var(--maroon)}
 .masttools{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+/* Version light: is this copy the release the website says is current? */
+.vlight{display:inline-flex;align-items:center;gap:7px;margin:5px 0 0;padding:2px 9px 2px 7px;border-radius:10px;
+  font-size:10.5px;letter-spacing:.02em;background:rgba(255,255,255,.08);color:#C9C9C9}
+.vlight[hidden]{display:none!important}
+.vlight .vdot{width:9px;height:9px;border-radius:50%;background:#8C8C8C;flex:none}
+.vlight.ok .vdot{background:#2ECC71;box-shadow:0 0 7px #2ECC71}
+.vlight.ahead .vdot{background:#F0B429;box-shadow:0 0 7px #F0B429}
+.vlight.old .vdot{background:#E74C3C;box-shadow:0 0 7px #E74C3C}
+.vlight.old{color:#fff;background:rgba(231,76,60,.28)}
+@media print{.vlight{display:none!important}}
 .unitbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;background:#F7F5F2;border-left:3px solid #9A9A9A}
 .unitbar select{font:inherit;font-size:12px;padding:4px 6px}
 .unitread{font-size:12px;color:#4D4D4D;flex:1 1 320px}
@@ -1006,10 +1016,11 @@ body.is-locked>.toolbar{display:none!important}
     </div>
     <p class="eyebrow mastphase">Aperture Analytics™ · Phase 02 Quantify</p>
     <p class="buildstamp" id="buildStamp"></p>
+    <p class="vlight" id="vLight" hidden><span class="vdot"></span><span id="vText"></span></p>
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v5.6 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v5.7 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" id="recsBtn" onclick="openRecs()" title="The closing page: what we observed, and the decisions that follow">Recommendations</button>
@@ -2412,8 +2423,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'5.6',
-  built:'2026-09-22 14:33 UTC',
+  version:'5.7',
+  built:'2026-09-24 14:48 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -13869,6 +13880,64 @@ showBand('guide');
   el.title='Compare this against the build you last published. The filename does not change '+
     'between builds; this line does.';
 })();
+/* VERSION LIGHT. The website publishes versions.json, written by release.py from the
+   builds it has just propagated. Every copy of this bench (standalone, StandAlone
+   bundle, website, Operations Console) reads it on open and says, with a coloured
+   light, whether it is the current release:
+     green  this copy IS the published release (version and build stamp both match)
+     amber  this copy is NEWER than the website: built but not yet pushed
+     red    this copy is OLDER than the website: get the current one
+     grey   could not check (offline, or the site unreachable). Nothing is blocked.
+   Only version numbers travel; no client data is sent anywhere. */
+const VMANIFEST_KEY='analytics';
+/* the notification waits for the sign-in screen to close, or nobody would see it */
+function vWhenOpen(){return new Promise(r=>{const c=()=>document.body.classList.contains('is-locked')?setTimeout(c,400):r();c();});}
+async function versionCheck(){
+  const el=$('vLight'), tx=$('vText');
+  if(!el||!tx||BRAND.version==='dev')return;
+  el.hidden=false; el.className='vlight'; tx.textContent='Checking this is the current version…';
+  const onSite=/^https?:$/.test(location.protocol)&&/aperturemethod\.com$/i.test(location.hostname);
+  const hosts=[BRAND.siteUrl, BRAND.siteUrl.replace('://www.','://')];
+  const urls=onSite?['/versions.json']:hosts.map(h=>h+'/versions.json');
+  let cur=null;
+  for(const u of urls){
+    try{
+      const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),6000);
+      const r=await fetch(u,{cache:'no-store',signal:ctl.signal}); clearTimeout(t);
+      if(!r.ok)continue;
+      const m=await r.json(); cur=m&&m.benches&&m.benches[VMANIFEST_KEY];
+      if(cur)break;
+    }catch(e){}
+  }
+  const mine='v'+BRAND.version+' · built '+BRAND.built;
+  if(!cur){
+    el.classList.add('unk');
+    tx.textContent='Version not checked · '+mine;
+    el.title='The current-release list on the website could not be reached (offline, or the site is down). '+
+      'This copy still works; it just cannot confirm it is the latest.';
+    return;
+  }
+  const live='v'+cur.version+' · built '+cur.built;
+  if(cur.version===BRAND.version&&cur.built===BRAND.built){
+    el.classList.add('ok');
+    tx.textContent='Current version · '+mine;
+    el.title='This copy matches the release the website lists as current.';
+    vWhenOpen().then(()=>toast('Current version: v'+BRAND.version));
+  }else if(String(BRAND.built)>String(cur.built)){
+    el.classList.add('ahead');
+    tx.textContent='Newer than the website · '+mine+' · live is '+live;
+    el.title='This build has not been published yet. Run release.py, then commit and push aperture-website.';
+    vWhenOpen().then(()=>toast('This build is newer than the website: not yet published'));
+  }else{
+    el.classList.add('old');
+    tx.textContent='Out of date · current is '+live+' · this copy is '+mine;
+    el.title='A newer release exists. Use the copy in 02 Analytics, the Operations Console, or the Method Lab.';
+    vWhenOpen().then(()=>toast('This copy is out of date: v'+cur.version+' is current'));
+    status('<b>This copy of the workbench is out of date.</b> The current release is <b>'+esc(live)+
+      '</b>; this one is '+esc(mine)+'. Open the current copy before starting new work.');
+  }
+}
+versionCheck();
 renderGuide();
 /* one declaration, one decode, however many pages the report runs to */
 (function(){

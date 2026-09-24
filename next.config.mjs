@@ -65,6 +65,18 @@ const nextConfig = {
     return [
       { source: "/:path*", headers: securityHeaders },
       {
+        // The current-release list the workbench and the Operations Console read on
+        // open to show their version light. Written by release.py. The standalone copies
+        // open from disk (origin "null") or from a blob inside the console, so this one
+        // file must be readable cross-origin, and it must never be cached or a stale
+        // list would light an old copy green. Version numbers only.
+        source: "/versions.json",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Cache-Control", value: "no-store, max-age=0" },
+        ],
+      },
+      {
         // Fingerprinted/versioned static media in /public — cache hard.
         source: "/:all*(png|jpg|jpeg|webp|avif|svg|ico|woff2)",
         headers: [

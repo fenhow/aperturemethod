@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v5.7
-  Built 2026-09-24 14:53 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v5.9
+  Built 2026-09-24 15:50 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -564,6 +564,19 @@ h4.fgroup:first-child{margin-top:4px}
 .page .pfoot b{color:var(--type);font-weight:600}
 .page .pfoot .mid{color:var(--maroon);font-weight:600}
 .page h3.ph{font-size:22px;font-weight:300;margin:0 0 4px;letter-spacing:-.01em}
+.page h4.sh.rfh{color:#C00000}
+.asmbox{border-left:3px solid #B7791F;background:#FFF6E3;padding:6px 12px 2px;margin:6px 0 8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page h4.sh.asmh{color:#8A5A00}
+.asmtag{display:inline-block;font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:#fff;background:#B7791F;
+  padding:1px 5px;border-radius:2px;vertical-align:1px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.doctag{display:inline-block;font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:#1E7A45;border:1px solid #9BD3B0;
+  padding:0 5px;border-radius:2px;vertical-align:1px}
+table.asmt tr.asmrow td{background:#FFF6E3;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page p.asmnote{font-size:9px;color:#6B6B6B;margin-top:4px}
+.page p.rflead{color:#7A0000;font-weight:600}
+table.rflags{border-left:3px solid #C00000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+table.rflags td{background:#FDECEC;border-bottom:1px solid #F2C9C9}
+table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
 .page h4.sh{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--maroon);
   font-weight:600;margin:15px 0 6px}
 .page p{font-size:10.5px;line-height:1.55;margin:0 0 8px;color:#1A1A1A}
@@ -1026,7 +1039,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v5.7 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v5.9 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" id="recsBtn" onclick="openRecs()" title="The closing page: what we observed, and the decisions that follow">Recommendations</button>
@@ -2429,8 +2442,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'5.7',
-  built:'2026-09-24 14:53 UTC',
+  version:'5.9',
+  built:'2026-09-24 15:50 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2892,6 +2905,8 @@ function cloneTax(k){
 const UNIT_LABEL={millions:'$ millions',thousands:'$ thousands',units:'whole units',billions:'$ billions'};
 const UNIT_SCALE={millions:1e6,thousands:1e3,units:1,billions:1e9};
 function unitScale(){return UNIT_SCALE[S.meta.units]||1;}
+/* true once a multiple range has been entered; without one the report states no value */
+function hasMultRange(){const m=(S.entity&&S.entity.mult)||{};return !!(m.low||m.base||m.high);}
 const $=id=>document.getElementById(id);
 const hide=id=>{const e=$(id);if(e)e.style.display='none';};
 const show=id=>{const e=$(id);if(e)e.style.display='';};
@@ -3103,7 +3118,7 @@ const RATIOS=[
  {g:'Productivity',n:'Operating income per employee',f:i=>{const v=profitPerEmployee(i);return v==null?null:v*unitScale();},t:'cur0',
   na:()=>E().employees.some(x=>x!=null&&x!=='')?null:'No headcount recorded — enter it on the Profile tab.'},
  {g:'Valuation — observed',n:'Market capitalization',f:i=>marketCap(i),t:'cur',
-  na:()=>isPublic()?(E().price.some(x=>x!=null&&x!=='')?null:'No share price recorded — enter it on the Profile tab.'):'No public market. A closely held company has no observable price; see the constructed valuation below.',
+  na:()=>isPublic()?(E().price.some(x=>x!=null&&x!=='')?null:'No share price recorded — enter it on the Profile tab.'):'No public market. A closely held company has no observable price'+(hasMultRange()?'; see the constructed valuation below.':', and no value is stated in this report.'),
   d:'Share price × shares outstanding. The value of the equity only.'},
  {g:'Valuation — observed',n:'Enterprise value (incl. leases)',f:i=>enterpriseValue(i,true),t:'cur',
   na:()=>isPublic()?(marketCap(latestIdx())==null?'No share price recorded.':null):'No public market.',
@@ -9924,6 +9939,80 @@ function repTableParts(st,mode){
   });
   return {head:head,rows:rows};
 }
+
+/* VALUATION FRONT. For a private company whose value rests on an assumed replacement
+   cost for the owner, the executive summary opens with the bridge from the reported
+   EBITDA to the assumed EBITDA a multiple is applied to, a sensitivity to that one
+   assumption, and the list of every assumption with its source. Every assumed figure
+   carries an ASSUMPTION tag so it cannot be read as the seller's own. Returns null
+   (nothing printed) when there is no owner add-back or no multiple range. */
+/* the tag already says it: drop a typed 'ASSUMPTION' prefix so it is not said twice */
+function unTag(x){return String(x||'').replace(/^\s*ASSUMPTION\s*(·|:|,)?\s*(NOT A SELLER FIGURE\.?)?\s*/i,'');}
+function valuationFront(i){
+  if(isPublic()||i==null)return null;
+  const val=(a)=>{const v=a.values[i];return (v==null||v==='')?0:Number(v);};
+  const base=S.addbacks.filter(a=>a.kind==='ownerBase'), own=S.addbacks.filter(a=>a.kind==='ownerComp');
+  if(!base.length||!own.length||!hasMultRange())return null;
+  /* the workbench splits officer pay in two: ownerBase is the part a hired manager would
+     cost (the replacement), ownerComp the part above it. Together they are the pay as booked. */
+  const repl=base.reduce((t,a)=>t+val(a),0), above=own.reduce((t,a)=>t+val(a),0);
+  const officers=repl+above, e=ebitda(i);
+  const other=S.addbacks.filter(a=>a.kind!=='ownerBase'&&a.kind!=='ownerComp');
+  const otherT=other.reduce((t,a)=>t+val(a),0);
+  const beforeOfficers=e==null?null:e+officers+otherT;
+  const adj=adjEbitda(i), m=E().mult, mm=[m.low,m.base,m.high].map(x=>x===''||x==null?null:Number(x));
+  const TAG='<span class="asmtag">Assumption</span>', DOC='<span class="doctag">Seller figure</span>';
+  const f=v=>v==null?'—':fmt(v);
+  let b='<div class="asmbox"><h4 class="sh asmh">Assumed EBITDA and value: read this first</h4>'+
+    '<p>Reported EBITDA is not the figure a buyer can price on here. The officers take most of the profit as salary, '+
+    'so the reported figure describes the business at the current owner’s pay, not at the cost of running it after a sale. '+
+    'To reach an EBITDA a multiple can be applied to, officer pay is added back and a market cost for a hired manager is '+
+    'deducted in its place. That replacement cost is <b>an assumption, not a seller figure</b>, and so is the multiple range. '+
+    'Both are labeled wherever they appear, and both are replaced as soon as the seller’s payroll and a real offer are in hand.</p></div>';
+  let t='<table class="rp asmt"><colgroup><col><col style="width:16%"><col style="width:15%"></colgroup><thead><tr><th class="lbl">'+
+    esc(periodLabel(i))+': from reported to assumed EBITDA</th><th>Amount</th><th class="lbl">Basis</th></tr></thead><tbody>';
+  t+='<tr><td class="lbl">EBITDA as reported (operating income plus depreciation)</td><td>'+f(e)+'</td><td class="lbl">'+DOC+'</td></tr>';
+  t+='<tr><td class="lbl">Add back: officer salaries, as booked</td><td>'+f(officers)+'</td><td class="lbl">'+DOC+'</td></tr>';
+  other.forEach(a=>{t+='<tr><td class="lbl">'+(val(a)<0?'Less: ':'Add: ')+esc(a.label)+'</td><td>'+f(val(a))+'</td><td class="lbl">'+
+    (a.conf==='Documented'?DOC:TAG)+'</td></tr>';});
+  t+='<tr class="tot"><td class="lbl"><b>Earnings before officer pay</b></td><td><b>'+f(beforeOfficers)+'</b></td><td class="lbl">'+DOC+'</td></tr>';
+  t+='<tr class="asmrow"><td class="lbl">Less: market cost of a hired general manager</td><td>'+f(-repl)+'</td><td class="lbl">'+TAG+'</td></tr>';
+  t+='<tr class="tot asmrow"><td class="lbl"><b>Assumed EBITDA</b> (Adjusted EBITDA)</td><td><b>'+f(adj)+'</b></td><td class="lbl">'+TAG+'</td></tr>';
+  t+='</tbody></table>';
+  const out=['<div>'+b+'</div>',t];
+  /* sensitivity: the one assumption that moves the answer */
+  const steps=[repl-50000,repl,repl+50000,repl+100000].filter(x=>x>=0);
+  let s2='<table class="rp asmt"><thead><tr><th class="lbl">If the hired manager costs…</th><th>Assumed EBITDA</th>'+
+    mm.map((x,k)=>'<th>'+(x==null?'—':['Low','Base','High'][k]+' · '+x.toFixed(1)+'×')+'</th>').join('')+'</tr></thead><tbody>';
+  steps.forEach(r=>{const a=beforeOfficers==null?null:beforeOfficers-r;
+    s2+='<tr'+(r===repl?' class="asmrow"':'')+'><td class="lbl">'+fmt(r)+(r===repl?' <span class="asmtag">used</span>':'')+'</td><td>'+f(a)+'</td>'+
+      mm.map(x=>'<td>'+(x==null||a==null?'—':fmt(a*x))+'</td>').join('')+'</tr>';});
+  s2+='</tbody></table><p class="asmnote">Indicative enterprise value, before real estate, surplus cash and any working-capital adjustment. '+
+    'Every $50,000 of manager cost moves the base value by '+fmt(50000*(mm[1]||0))+'. This is a starting point for negotiation, not an opinion of value.</p>';
+  out.push('<h4 class="sh asmh">Sensitivity to the manager assumption</h4>'+s2);
+  /* the assumptions themselves */
+  const A=[];
+  own.forEach(a=>A.push([a.label,'Replacement cost '+fmt(repl)+' a year',a.note||'',a.conf||'Estimated']));
+  S.addbacks.filter(a=>a.kind!=='ownerBase'&&a.kind!=='ownerComp'&&a.conf!=='Documented').forEach(a=>A.push([a.label,fmt(val(a)),a.note||'',a.conf]));
+  A.push(['Valuation multiple range',mm.map(x=>x==null?'—':x.toFixed(1)+'×').join(' · ')+' '+pick(MULT_BASIS,m.basis).l,m.source||'',E().valuationNote||'']);
+  let s3='<table class="rp txt asmt"><colgroup><col style="width:22%"><col style="width:20%"><col></colgroup><thead><tr><th class="lbl">Assumption</th>'+
+    '<th class="lbl">Value used</th><th class="lbl">Source, and what replaces it</th></tr></thead><tbody>'+
+    A.map(x=>'<tr><td class="lbl"><span class="asmtag">Assumption</span> '+esc(unTag(x[0]))+'</td><td class="lbl">'+esc(x[1])+'</td><td class="lbl">'+esc(unTag(x[2]))+
+      (x[3]&&x[3]!=='Estimated'?' '+esc(x[3]):'')+'</td></tr>').join('')+'</tbody></table>';
+  out.push('<h4 class="sh asmh">The assumptions, and what replaces them</h4>'+s3);
+  return out;
+}
+/* Risk factors that open with "RED FLAGS" print as a red, numbered block, so a reader
+   cannot skim past them. First line is the lead-in; each following line is one flag. */
+function redFlagsBlock(t){
+  const L=String(t).split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  const lead=L.shift().replace(/^red flags[:.,\s]*/i,'');
+  return '<h4 class="sh rfh">Red flags: what needs attention'+citeTag('risks')+'</h4>'+
+    (lead?'<p class="rflead">'+esc(lead)+'</p>':'')+
+    '<table class="rp txt rflags"><colgroup><col style="width:6%"><col></colgroup><tbody>'+
+    L.map((x,n)=>'<tr><td class="lbl rfn">'+(n+1)+'</td><td class="lbl">'+esc(x.replace(/^\(?\d+[.)]\s*/,''))+'</td></tr>').join('')+
+    '</tbody></table>';
+}
 function repNote2(t){
   t=(t||'').trim(); if(!t)return '';
   return t.split(/\n{2,}/).map(x=>'<p>'+esc(x).replace(/\n/g,'<br>')+'</p>').join('');
@@ -10293,6 +10382,7 @@ function buildReport(){
     SB.push('<h4 class="sh">Headline judgment</h4>'+
       evalBlock('Headline judgment',null,repNote('headline')||
         '<p style="color:#8C8C8C">[No headline judgment recorded. Add one on the Findings tab.]</p>'));
+    {const vf=valuationFront(i); if(vf)vf.forEach(x=>SB.push(x));}
     SB.push('<div class="kpis">'+kpis.map(k=>'<div class="kb"><div class="k">'+esc(k[0])+'</div><div class="v">'+k[1]+'</div><div class="d">'+esc(k[2])+'</div></div>').join('')+'</div>');
     let b='';
     /* (a) fiscal year end · (b) business activities · (c) audit report · (d) departure from standard */
@@ -10329,7 +10419,8 @@ function buildReport(){
       b+='<p style="font-size:9.5px;color:#500000"><b>Departure —</b> '+esc(IN().departureNote)+citeTag('departure')+'</p>';
     const cams=(IN().cams||S.notes.auditor||'').trim();
     if(cams)b+='<h4 class="sh">Critical audit matters and concerns raised'+citeTag('cams')+'</h4>'+repNote2(cams);
-    if((IN().keyRisks||'').trim())b+='<h4 class="sh">Risk factors carried forward'+citeTag('risks')+'</h4>'+repNote2(IN().keyRisks);
+    if((IN().keyRisks||'').trim())b+=(/^\s*red flags/i.test(IN().keyRisks)?redFlagsBlock(IN().keyRisks)
+      :'<h4 class="sh">Risk factors carried forward'+citeTag('risks')+'</h4>'+repNote2(IN().keyRisks));
     if((IN().subsequent||'').trim())b+='<h4 class="sh">Subsequent events'+citeTag('subsequent')+'</h4>'+repNote2(IN().subsequent);
     b+=evalBlock('Binding constraint: candidates','constraint');
     splitBlocks(b).forEach(x=>SB.push(x));
@@ -10362,7 +10453,8 @@ function buildReport(){
     if(lf.tax==='pass')cav+='<li class="w"><b>The tax line is not comparable</b><span>A '+esc(lf.l.toLowerCase())+
       ' pays no material entity-level income tax. Net margin, return on assets, return on equity and earnings per share are all structurally overstated against a taxpaying peer. Comparisons in this report are drawn on operating margin and EBITDA for that reason.</span></li>';
     if(isPublic())cav+='<li class="o"><b>Value is observed, not assumed</b><span>Market capitalization and enterprise value are computed from the share price. Multiples are read from the market rather than applied to it.</span></li>';
-    else cav+='<li class="n"><b>Value has to be constructed</b><span>With no observable price, valuation rests on normalized earnings and an evidenced multiple range. The range is the answer; the base case alone would be a false precision.</span></li>';
+    else if(hasMultRange())cav+='<li class="n"><b>Value has to be constructed</b><span>With no observable price, valuation rests on normalized earnings and an evidenced multiple range. The range is the answer; the base case alone would be a false precision.</span></li>';
+    else cav+='<li class="n"><b>No value is stated</b><span>There is no observable price and no multiple range has been entered, so this report describes the business and states no value. A range is added only once the earnings it would apply to are confirmed.</span></li>';
     if(yrs!=null&&yrs<5)cav+='<li class="n"><b>Short operating history</b><span>'+yrs+
       ' years. Trend statements in this report describe a moment rather than a pattern and should be treated as provisional.</span></li>';
     cav+='</ul>';
@@ -10405,8 +10497,9 @@ function buildReport(){
       '<h4 class="sh">Reconciliation to normalized earnings</h4>'+r+
       (it!=null?'<p style="font-size:9px;color:#8C8C8C;margin-top:8px">Normalizations represent '+pct(it,0)+
         ' of reported EBITDA in '+esc(periodLabel(i))+'. Items graded <b>asserted by management</b> are '+
-        'hypotheses until documented, and at the multiples applied in this report each dollar that fails '+
-        'in diligence removes several dollars of value.</p>':''),'Normalization'));
+        'hypotheses until documented'+(hasMultRange()?', and at the multiples applied in this report each dollar that fails '+
+        'in diligence removes several dollars of value.':'. '+(S.addbacks.length&&S.addbacks.every(a=>a.conf==='Documented')?
+        'Every item here is documented from the source statements; none is estimated.':'No value is stated in this report, so none is yet at stake.'))+'</p>':''),'Normalization'));
   }
   if(has('valuation')){
     const i=latestIdx(),b=pick(MULT_BASIS,E().mult.basis),bv=multBasisValue(i);
@@ -10698,9 +10791,12 @@ function buildReport(){
     B.push('<p>'+(pubv
       ? 'The question is whether the shares are worth owning at the price being asked. The pages before '+
         'this one are the evidence; this one is the answer, and the score below is how it was reached.'
-      : 'There is no market price here, so the question is whether the business is worth buying at the '+
-        'multiple range constructed in the Valuation section. The pages before this one are the '+
-        'evidence; this one is the answer.')+'</p>');
+      : (hasMultRange()
+        ? 'There is no market price here, so the question is whether the business is worth buying at the '+
+          'multiple range constructed in the Valuation section. The pages before this one are the '+
+          'evidence; this one is the answer.'
+        : 'There is no market price here and no multiple range has been entered, so this page judges the '+
+          'business itself, not a price. The pages before this one are the evidence; this one is the answer.'))+'</p>');
     B.push(evalBlock('The thesis','thesis'));
     let g='<h4 class="sh">How the score was reached</h4>'+
       '<table class="rp"><thead><tr><th class="lbl">Component</th><th style="width:9%">Weight</th>'+
@@ -12273,7 +12369,7 @@ function thesisScore(){
   if(isAssured()&&!isCleanOpinion()){s6-=25; r6+='; the opinion is not the standard unqualified form';}
   if(IN().goingConcern==='substantial'){s6-=50; r6+='; substantial doubt about going concern';}
   if(IN().icfr==='weakness'){s6-=15; r6+='; a material weakness in internal control is recorded';}
-  push('evidence','Evidence confidence',10,s6,r6,'Verification and sources, Evidence and assumptions');
+  push('evidence','Evidence confidence',10,s6,r6,(S.ui.repSections||[]).includes('evidence')?'Verification and sources, Evidence and assumptions':'Verification and sources');
 
   const scored=C.filter(x=>x.score!=null);
   const wsum=scored.reduce((a,x)=>a+x.w,0);
@@ -12327,9 +12423,13 @@ function renderThesis(){
   if(le)le.innerHTML=pubv
     ? 'The question this page answers is whether you would put money into this company at the price '+
       'the market is asking, and why. Everything before it is evidence for the answer.'
-    : 'There is no market price here, so the question is whether you would buy this business at the '+
-      'multiple range constructed in the Valuation section, and why. Everything before this page is '+
-      'evidence for the answer.';
+    : (hasMultRange()
+      ? 'There is no market price here, so the question is whether you would buy this business at the '+
+        'multiple range constructed in the Valuation section, and why. Everything before this page is '+
+        'evidence for the answer.'
+      : 'There is no market price here and no multiple range has been entered, so the question is whether '+
+        'the business itself is worth pursuing, and on what evidence. Everything before this page is '+
+        'evidence for the answer.');
   const row=$('thScoreRow');
   if(row)row.innerHTML=
     '<div class="kpi"><div class="k">Score'+helpMark('thscore')+'</div><div class="v '+thScoreClass(S2.total)+'">'+

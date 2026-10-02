@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { BOOK_COVER_ART, contributorLine } from "@/lib/book";
+import { BOOK_COVER_ART, BOOK_BACK_ART, contributorLine } from "@/lib/book";
 
 /**
  * Interactive 3D book. Auto-rotates gently, and the visitor can grab and drag it
@@ -91,54 +91,11 @@ export function Book3D() {
           </div>
         </div>
 
-        {/* Back cover */}
-        <div className="book360__face book360__back">
-          <span className="book360__frame" aria-hidden="true" />
-          <p className="book360__kicker">Look Closer</p>
-          <p className="book360__bhead">
-            You don&apos;t need to be bigger. You need to <span>see more.</span>
-          </p>
-          <p className="book360__excerpt">
-            A five-step way to see your business clearly, find what is working and what is not, and
-            decide what to fix first.
-          </p>
-          <ol className="book360__phases" aria-label="The five phases">
-            <li><span>01</span>Understand</li>
-            <li><span>02</span>Quantify</li>
-            <li><span>03</span>Reveal</li>
-            <li><span>04</span>Navigate</li>
-            <li className="book360__phase--last"><span>05</span>Perform</li>
-          </ol>
-          <div className="book360__backwrap">
-            <div className="book360__authorbox">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/fenwick-how.jpg" alt="Fenwick How" className="book360__photo" draggable={false} />
-              <div>
-                <p className="book360__aname">Fenwick How</p>
-                <p className="book360__arole">
-                  Founder, The Aperture Method · Executive MBA in progress, Mays Business School,
-                  Texas A&amp;M University
-                </p>
-              </div>
-            </div>
-            <div className="book360__backfoot">
-              <div>
-                <p className="book360__cat">Business · Strategy</p>
-                <p className="book360__imprint">aperturemethod.com</p>
-              </div>
-              <div className="book360__qrwrap">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/book/reality-check-qr.png"
-                  alt="QR code for the free Reality Check"
-                  className="book360__qr"
-                  draggable={false}
-                />
-                <p className="book360__qrcap">Score your business</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Back cover: rendered from the approved Look Closer back-cover design (public/book/back-cover.jpg) */}
+        <div
+          className="book360__face book360__back book360__back--art"
+          style={{ backgroundImage: `url(${BOOK_BACK_ART})` }}
+        />
 
         {/* Spine + edges */}
         <div className="book360__face book360__spine" aria-hidden="true">

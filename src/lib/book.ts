@@ -36,6 +36,9 @@ export const bookContributors: BookContributor[] = [
 /** Front-cover art (photo only; all type is live HTML so names can change). */
 export const BOOK_COVER_ART = "/book/cover-art.jpg";
 
+/** Back cover: a flat render of the approved Look Closer back-cover design. */
+export const BOOK_BACK_ART = "/book/back-cover.jpg";
+
 /** "with A · B · C" once all are named, otherwise the areas. */
 export function contributorLine(): string {
   const named = bookContributors.filter((c) => c.name);

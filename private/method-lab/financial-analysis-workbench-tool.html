@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v5.15
-  Built 2026-10-02 01:42 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v5.16
+  Built 2026-10-02 01:51 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -96,7 +96,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   --good:#1C6B3C; --bad:#A31414; --watch:#8A6A16;
   /* the verdict scale: five bands from green to red, used on the thesis page
      and nowhere else, so a color on any other page never reads as a verdict */
-  --v5:#1C6B3C; --v4:#4E7A2A; --v3:#8A6A16; --v2:#B4541A; --v1:#A31414; --v0:#7A7A7A;
+  --v5:#1E8E3E; --v4:#7CB342; --v3:#F0A000; --v2:#E2680F; --v1:#C62828; --v0:#9A9A9A;
   --sans:"Graphik","Graphik Web","GraphikApp",-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   --sans-semi:"Graphik Semibold","Graphik","Graphik Web",-apple-system,"Inter","Helvetica Neue",Arial,sans-serif;
   --mono:"SF Mono",ui-monospace,"Roboto Mono",Menlo,Consolas,monospace;
@@ -526,6 +526,8 @@ h4.fgroup:first-child{margin-top:4px}
 .cover .phase-anchor{position:absolute;right:16mm;bottom:40mm;font-size:150px;font-weight:200;
   color:rgba(80,0,0,.07);line-height:.8;letter-spacing:-.05em}
 .cover h1{font-size:36px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px;line-height:1.12;color:var(--type)}
+.cover h1 .ctick{display:inline-block;margin-left:12px;padding:3px 10px;vertical-align:11px;
+  font-size:14px;font-weight:600;letter-spacing:.1em;color:#fff;background:var(--maroon);border-radius:2px}
 .cover h2{font-size:15px;font-weight:400;color:#4D4D4D;margin:0;letter-spacing:.01em}
 .cover .eyebrow{color:var(--maroon);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
   font-weight:600;margin:0 0 4px;opacity:1}
@@ -653,26 +655,30 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
 .page .verdictbar{display:flex;gap:18px;align-items:stretch;border:.6px solid var(--rule);
   border-top:3px solid var(--maroon);background:#FAF8F8;padding:13px 16px;margin:0 0 14px}
 .page .verdictbar .vb1{flex:1}
-.page .verdictbar .vb2{flex:0 0 88px;border-left:.6px solid var(--rule);padding-left:16px}
+.page .verdictbar .vb2{flex:0 0 108px;border-left:.6px solid var(--rule);padding-left:16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .page .verdictbar .vbk{font-size:7px;letter-spacing:.19em;text-transform:uppercase;
   color:#8C8C8C;font-weight:600;margin-bottom:3px}
 .page .verdictbar .vbv{font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--maroon);line-height:1.15}
-.page .verdictbar .vbn{font-size:24px;font-weight:600;color:var(--type);line-height:1.05;
-  font-variant-numeric:tabular-nums}
-.page .verdictbar .vbn.sm{font-size:14px;padding-top:6px}
+.page .verdictbar .vbn{font-size:40px;font-weight:600;color:var(--type);line-height:1;
+  font-variant-numeric:tabular-nums;margin-top:2px}
+.page .verdictbar .vbn.sm{font-size:21px;padding-top:0;margin-top:4px}
 .page .verdictbar .vbd{font-size:8px;color:#6E6E6E;margin-top:3px;line-height:1.4}
+.page .verdictbar .vb2 .vbd{margin-top:5px}
+.page .verdictbar .vbv{padding-bottom:2px}
 /* --- the verdict scale ---------------------------------------------------- */
 .sv5{color:var(--v5)} .sv4{color:var(--v4)} .sv3{color:var(--v3)}
 .sv2{color:var(--v2)} .sv1{color:var(--v1)} .sv0{color:var(--v0)}
-.smeter{display:flex;gap:2px;align-items:stretch;height:9px;max-width:260px;position:relative;margin-top:7px}
-.smeter i{flex:1;background:#E8E4E4;border-radius:1px}
+.smeter{display:flex;gap:3px;align-items:stretch;height:20px;max-width:340px;position:relative;margin-top:10px}
+.smeter i{flex:1;background:#E8E4E4;border-radius:2px}
 .smeter i.b5{background:var(--v5)} .smeter i.b4{background:var(--v4)}
 .smeter i.b3{background:var(--v3)} .smeter i.b2{background:var(--v2)}
 .smeter i.b1{background:var(--v1)}
-.smeter i.off{opacity:.18}
-.smeter b{position:absolute;top:-4px;width:2.5px;height:17px;background:#111;border-radius:1px}
-.smleg{display:flex;justify-content:space-between;max-width:260px;font-size:7.5px;
-  letter-spacing:.12em;text-transform:uppercase;color:#9A9A9A;margin-top:3px}
+.smeter i.off{opacity:.3}
+.smeter b{position:absolute;top:-5px;width:3.5px;height:30px;background:#111;border-radius:2px;
+  box-shadow:0 0 0 2px #fff}
+.smleg{display:flex;justify-content:space-between;max-width:340px;font-size:8px;
+  letter-spacing:.12em;text-transform:uppercase;color:#8C8C8C;margin-top:5px;font-weight:600}
 .vchip{display:inline-block;font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
   padding:3px 9px;border:1.2px solid currentColor;border-radius:2px}
 .page .verdictbar.v5{border-top-color:var(--v5)} .page .verdictbar.v4{border-top-color:var(--v4)}
@@ -774,9 +780,6 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
 .page .srcline{display:block;font-size:7px;letter-spacing:.08em;text-transform:none;
   color:var(--maroon);font-weight:600;margin-top:2px}
 .page .cite{vertical-align:baseline;font-size:6.8px;margin-left:5px}
-.page a.fxl{color:inherit;text-decoration:none;border-bottom:.5px dotted #B59A9A}
-.page a.fxl:after{content:'\2192';font-size:6.5px;color:var(--maroon);vertical-align:2px;margin-left:3px}
-@media print{.page a.fxl{color:inherit}}
 .page .fc{scroll-margin-top:12mm}
 
 .toolbar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--off-white);
@@ -1095,7 +1098,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v5.15 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v5.16 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" id="recsBtn" onclick="openRecs()" title="The closing page: what we observed, and the decisions that follow">Recommendations</button>
@@ -2506,8 +2509,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'5.15',
-  built:'2026-10-02 01:42 UTC',
+  version:'5.16',
+  built:'2026-10-02 01:51 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -10357,12 +10360,10 @@ function reportStamp(){
     .find(x=>x.type==='timeZoneName')||{}).value||'';}catch(e){}
   return day+' · '+tm+(tz?' '+tz:'');
 }
-/* A printed page cannot hover. What it can do is link: every measure that has
-   an explainer card in the appendix carries a link to it, which a PDF reader
-   follows like any other internal link, and which costs a printed page nothing
-   but a thin maroon underline. The link is only drawn when the appendix is
-   actually in the document, because a link to a page that was not printed is
-   worse than no link. */
+/* The appendix cards keep their anchors — the contents links and any future
+   cross-reference need them — but the measure names in the tables are plain
+   text again: a page of dotted underlines read as clutter on a client document,
+   which is the right call and Fenwick's to make. */
 function fxId(name){
   return 'fx-'+String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 }
@@ -10379,11 +10380,7 @@ const FX_ALIAS={
 function fxKey(name){return FX_ALIAS[name]||name;}
 function fxHas(name){return !!(typeof FORMULA!=='undefined'&&FORMULA[fxKey(name)]);}
 let FX_LINKS=0;
-function fxLink(name,label){
-  const t=esc(label==null?name:label);
-  if(!FX_LINKS||!fxHas(name))return t;
-  return '<a class="fxl" href="#'+fxId(fxKey(name))+'">'+t+'</a>';
-}
+function fxLink(name,label){return esc(label==null?name:label);}
 function pageWrap(title,body,eyebrow){
   const m=repMeta();
   return '<div class="page"><div class="phead">'+
@@ -10938,7 +10935,6 @@ function buildReport(){
   recalcAll();
   const m=repMeta(),sel=S.ui.repSections,i=latestIdx();
   let P=[];
-  FX_LINKS=sel.includes('method')?1:0;
   const has=k=>sel.includes(k);
 
   if(has('cover')){
@@ -10947,7 +10943,7 @@ function buildReport(){
       '<p class="coverby">By Fenwick How</p>'+
       '<p class="eyebrow">The Aperture Method\u2122 \u00b7 Phase 02 \u2014 Quantify</p>'+
       '<div class="crule"></div>'+
-      '<h1>'+esc(m.co)+'</h1>'+
+      '<h1>'+esc(m.co)+(isPublic()&&S.meta.ticker?'<span class="ctick">'+esc(S.meta.ticker)+'</span>':'')+'</h1>'+
       '<h2>Financial Analysis &amp; Profit Map</h2>'+
       coverStatus()+
       '<div style="height:10mm"></div>'+
@@ -11256,9 +11252,6 @@ function buildReport(){
       });
       return t+'</tbody></table>';
     });
-    if(FX_LINKS)blocks.unshift('<p style="font-size:9px;color:#4D4D4D;margin:0 0 8px">Every ratio name '+
-      'below is a link. It opens that measure’s card at the back of this document: the formula, the '+
-      'figures put through it for the most recent period, what it tells you and where it misleads.</p>');
     blocks.push('<p style="font-size:9px;color:#8C8C8C;margin-top:10px">Ratios using average balances '+
       'require an opening balance sheet and are therefore blank in the earliest period. Days measures '+
       'assume a 365-day year.</p>');

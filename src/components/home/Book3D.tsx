@@ -94,12 +94,21 @@ export function Book3D() {
         {/* Back cover */}
         <div className="book360__face book360__back">
           <span className="book360__frame" aria-hidden="true" />
-          <p className="book360__kicker">From the book</p>
-          <p className="book360__excerpt">
-            You don&apos;t need to be bigger. You need to <b>see more</b>. Your numbers, your
-            customers, your market. The business already has the data; this book is about turning it
-            into decisions.
+          <p className="book360__kicker">Look Closer</p>
+          <p className="book360__bhead">
+            You don&apos;t need to be bigger. You need to <span>see more.</span>
           </p>
+          <p className="book360__excerpt">
+            A five-step way to see your business clearly, find what is working and what is not, and
+            decide what to fix first.
+          </p>
+          <ol className="book360__phases" aria-label="The five phases">
+            <li><span>01</span>Understand</li>
+            <li><span>02</span>Quantify</li>
+            <li><span>03</span>Reveal</li>
+            <li><span>04</span>Navigate</li>
+            <li className="book360__phase--last"><span>05</span>Perform</li>
+          </ol>
           <div className="book360__backwrap">
             <div className="book360__authorbox">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -107,20 +116,25 @@ export function Book3D() {
               <div>
                 <p className="book360__aname">Fenwick How</p>
                 <p className="book360__arole">
-                  Executive MBA in progress · Mays Business School, Texas A&amp;M University
+                  Founder, The Aperture Method · Executive MBA in progress, Mays Business School,
+                  Texas A&amp;M University
                 </p>
               </div>
             </div>
             <div className="book360__backfoot">
               <div>
                 <p className="book360__cat">Business · Strategy</p>
-                <p className="book360__imprint">Aperture Press</p>
+                <p className="book360__imprint">aperturemethod.com</p>
               </div>
-              <div className="book360__bcwrap">
-                <div className="book360__barcodebox">
-                  <div className="book360__bars" />
-                </div>
-                <p className="book360__isbn">978-1-9600000-1-2</p>
+              <div className="book360__qrwrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/book/reality-check-qr.png"
+                  alt="QR code for the free Reality Check"
+                  className="book360__qr"
+                  draggable={false}
+                />
+                <p className="book360__qrcap">Score your business</p>
               </div>
             </div>
           </div>

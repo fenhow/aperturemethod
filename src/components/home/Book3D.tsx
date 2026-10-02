@@ -95,9 +95,9 @@ export function Book3D() {
           <span className="book360__frame" aria-hidden="true" />
           <p className="book360__kicker">From the book</p>
           <p className="book360__excerpt">
-            Big companies don&apos;t outgrow you because they&apos;re smarter. They outgrow you
-            because they can <b>see</b>. Their numbers, their customers, their market. Your business
-            already has the data; this book is about turning it into decisions.
+            You don&apos;t need to be bigger. You need to <b>see more</b>. Your numbers, your
+            customers, your market. The business already has the data; this book is about turning it
+            into decisions.
           </p>
           <div className="book360__backwrap">
             <div className="book360__authorbox">

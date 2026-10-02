@@ -53,7 +53,7 @@ export function contributorLine(): string {
 export const bookExcerpt = {
   chapter: "Chapter One",
   title: "The Intelligence Gap",
-  lead: "Big companies don’t outgrow you because they’re smarter. They outgrow you because they can see.",
+  lead: "You don’t need to be bigger. You need to see more.",
   paragraphs: [
     "Walk into the headquarters of any national chain and you’ll find people whose whole job is to answer questions most owners never get to ask. Which products actually make money once you count the time they take? Which customers cost more to keep than they’re worth? Which neighborhoods are full of people who look exactly like your best customers and have never heard your name? They have analysts, finance teams, market data and maps. They make decisions with the lights on.",
     "Now picture the owner down the street. She has been in business eleven years. She knows every regular by name, can tell you which supplier is late before the truck arrives, and has kept the doors open through things that would have closed a lesser operation. She is not short on intelligence. She is short on visibility. Her numbers arrive once a month, a few weeks late, in a format built for her tax return, not her decisions. So she runs on instinct, and instinct is good. It is just not enough anymore.",

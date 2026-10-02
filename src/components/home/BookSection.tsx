@@ -4,8 +4,8 @@ import { LinkArrow } from "@/components/ui/LinkArrow";
 import { Book3D } from "@/components/home/Book3D";
 
 /**
- * "The Book" segment: a 3D cover mockup of the forthcoming Aperture Method
- * book by Fenwick How, marked in progress. A teaser: the outline and the
+ * "The Book" segment: a 3D cover mockup of Look Closer, the forthcoming
+ * Aperture Method book by Fenwick How, marked in progress. A teaser: the outline and the
  * reservation form live on /book.
  * The cover is built in CSS (no image
  * asset yet) so it can evolve with the brand.
@@ -26,7 +26,7 @@ export function BookSection() {
             The methodology, written down.
           </h2>
           <p className="mt-6 max-w-measure text-body-lg text-body">
-            The Aperture Method is becoming a book, the full system laid out end to end: why owner-run
+            The Aperture Method is becoming a book, <em className="not-italic font-semibold text-ink">Look Closer</em>: the full system laid out end to end: why owner-run
             businesses are the last ones without real intelligence, and the five-component path that
             brings a business into focus, from the first honest assessment to a living platform you run
             the company from.

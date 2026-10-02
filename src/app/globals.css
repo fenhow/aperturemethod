@@ -485,6 +485,7 @@
   .book360__ftype { position: relative; margin-top: auto; padding: 0 26px 24px; }
   .book360__feyebrow { font-size: 9.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,.94); text-shadow: 0 1px 6px rgba(0,0,0,.5); }
   .book360__ftitle { margin-top: 8px; font-size: 35px; line-height: .96; font-weight: 600; letter-spacing: -0.035em; color: #fff; }
+  .book360__fmethod { margin-top: 5px; font-size: 13px; line-height: 1.2; font-weight: 500; letter-spacing: -0.01em; color: rgba(255,255,255,.95); }
   .book360__ftm { font-size: .35em; vertical-align: top; position: relative; top: .35em; font-weight: 400; }
   .book360__fauthor { display: flex; align-items: center; gap: 8px; margin-top: 15px; font-size: 10px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: #fff; }
   .book360__frule { width: 14px; height: 1px; background: rgba(255,255,255,.35); }

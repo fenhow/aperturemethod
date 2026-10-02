@@ -23,9 +23,9 @@ const bookSerif = localFont({
 });
 
 export const metadata: Metadata = pageMeta({
-  title: "The Book",
+  title: "Look Closer · The Book",
   description:
-    "The Aperture Method is becoming a book by Fenwick How: why owner-run businesses are the last ones without real intelligence, and the five-component path that brings a business into focus. In progress. Reserve a copy, no charge.",
+    "Look Closer: The Aperture Method is becoming a book by Fenwick How: why owner-run businesses are the last ones without real intelligence, and the five-component path that brings a business into focus. In progress. Reserve a copy, no charge.",
   path: "/book",
 });
 
@@ -61,7 +61,7 @@ export default function BookPage() {
               The methodology, written down.
             </h1>
             <p className="mt-6 max-w-measure text-body-lg text-body">
-              The Aperture Method, laid out end to end: how an owner-run business gets the same view
+              <span className="font-semibold text-ink">Look Closer</span> lays out The Aperture Method end to end: how an owner-run business gets the same view
               of itself that big companies have, and the questions, measures and order to take them in.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -113,7 +113,7 @@ export default function BookPage() {
               <a href="#reserve" className="link-arrow text-small font-semibold text-paper hover:text-maroon-soft">
                 Reserve your copy
               </a>
-              <span className="text-small text-white/50">Fenwick How · The Aperture Method</span>
+              <span className="text-small text-white/50">Fenwick How · Look Closer: The Aperture Method</span>
             </div>
           </Reveal>
         </div>

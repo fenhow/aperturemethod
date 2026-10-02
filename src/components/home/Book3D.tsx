@@ -57,7 +57,7 @@ export function Book3D() {
       className="book360"
       style={{ cursor: "grab", touchAction: "none" }}
       role="img"
-      aria-label="The Aperture Method book: drag to rotate"
+      aria-label="Look Closer: The Aperture Method book by Fenwick How. Drag to rotate"
       onMouseEnter={() => (s.current.hovering = true)}
       onMouseLeave={() => (s.current.hovering = false)}
       onPointerDown={onDown}
@@ -75,10 +75,11 @@ export function Book3D() {
           <div className="book360__ftype">
             <p className="book360__feyebrow">A Business Methodology</p>
             <h3 className="book360__ftitle">
-              The Aperture
-              <br />
-              Method<span className="book360__ftm">™</span>
+              Look Closer
             </h3>
+            <p className="book360__fmethod">
+              The Aperture Method<span className="book360__ftm">™</span>
+            </p>
             <p className="book360__fsub">
               Big-company intelligence for owner&#8209;run businesses.
             </p>
@@ -127,7 +128,7 @@ export function Book3D() {
 
         {/* Spine + edges */}
         <div className="book360__face book360__spine" aria-hidden="true">
-          <span className="book360__spinetext">The Aperture Method™ · Fenwick How</span>
+          <span className="book360__spinetext">Look Closer · The Aperture Method™ · Fenwick How</span>
         </div>
         <div className="book360__face book360__pages" aria-hidden="true" />
         <div className="book360__face book360__top" aria-hidden="true" />

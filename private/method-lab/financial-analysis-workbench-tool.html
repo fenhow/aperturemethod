@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v5.13
-  Built 2026-10-02 01:19 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v5.15
+  Built 2026-10-02 01:42 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -94,6 +94,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   --positive:#1A1A1A; --neutral:#7A7A7A;
   /* the scorecard, and only the scorecard: good, poor, and untested */
   --good:#1C6B3C; --bad:#A31414; --watch:#8A6A16;
+  /* the verdict scale: five bands from green to red, used on the thesis page
+     and nowhere else, so a color on any other page never reads as a verdict */
+  --v5:#1C6B3C; --v4:#4E7A2A; --v3:#8A6A16; --v2:#B4541A; --v1:#A31414; --v0:#7A7A7A;
   --sans:"Graphik","Graphik Web","GraphikApp",-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   --sans-semi:"Graphik Semibold","Graphik","Graphik Web",-apple-system,"Inter","Helvetica Neue",Arial,sans-serif;
   --mono:"SF Mono",ui-monospace,"Roboto Mono",Menlo,Consolas,monospace;
@@ -658,6 +661,32 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
   font-variant-numeric:tabular-nums}
 .page .verdictbar .vbn.sm{font-size:14px;padding-top:6px}
 .page .verdictbar .vbd{font-size:8px;color:#6E6E6E;margin-top:3px;line-height:1.4}
+/* --- the verdict scale ---------------------------------------------------- */
+.sv5{color:var(--v5)} .sv4{color:var(--v4)} .sv3{color:var(--v3)}
+.sv2{color:var(--v2)} .sv1{color:var(--v1)} .sv0{color:var(--v0)}
+.smeter{display:flex;gap:2px;align-items:stretch;height:9px;max-width:260px;position:relative;margin-top:7px}
+.smeter i{flex:1;background:#E8E4E4;border-radius:1px}
+.smeter i.b5{background:var(--v5)} .smeter i.b4{background:var(--v4)}
+.smeter i.b3{background:var(--v3)} .smeter i.b2{background:var(--v2)}
+.smeter i.b1{background:var(--v1)}
+.smeter i.off{opacity:.18}
+.smeter b{position:absolute;top:-4px;width:2.5px;height:17px;background:#111;border-radius:1px}
+.smleg{display:flex;justify-content:space-between;max-width:260px;font-size:7.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:#9A9A9A;margin-top:3px}
+.vchip{display:inline-block;font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  padding:3px 9px;border:1.2px solid currentColor;border-radius:2px}
+.page .verdictbar.v5{border-top-color:var(--v5)} .page .verdictbar.v4{border-top-color:var(--v4)}
+.page .verdictbar.v3{border-top-color:var(--v3)} .page .verdictbar.v2{border-top-color:var(--v2)}
+.page .verdictbar.v1{border-top-color:var(--v1)} .page .verdictbar.v0{border-top-color:var(--v0)}
+.page .verdictbar .vbv.sv5{color:var(--v5)} .page .verdictbar .vbv.sv4{color:var(--v4)}
+.page .verdictbar .vbv.sv3{color:var(--v3)} .page .verdictbar .vbv.sv2{color:var(--v2)}
+.page .verdictbar .vbv.sv1{color:var(--v1)} .page .verdictbar .vbv.sv0{color:var(--v0)}
+.page .verdictbar .vbn.sv5{color:var(--v5)} .page .verdictbar .vbn.sv4{color:var(--v4)}
+.page .verdictbar .vbn.sv3{color:var(--v3)} .page .verdictbar .vbn.sv2{color:var(--v2)}
+.page .verdictbar .vbn.sv1{color:var(--v1)}
+.page .verdictbar.v5{background:#F3F8F4} .page .verdictbar.v4{background:#F5F8F2}
+.page .verdictbar.v3{background:#FBF8F0} .page .verdictbar.v2{background:#FDF5F0}
+.page .verdictbar.v1{background:#FCF2F2} .page .verdictbar.v0{background:#F7F7F7}
 .page .toc{margin-top:4px}
 /* a part divider: one sheet that says which half of the document you are in */
 /* Top aligned. Centerd, a divider drifts to a different height on every
@@ -745,6 +774,10 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
 .page .srcline{display:block;font-size:7px;letter-spacing:.08em;text-transform:none;
   color:var(--maroon);font-weight:600;margin-top:2px}
 .page .cite{vertical-align:baseline;font-size:6.8px;margin-left:5px}
+.page a.fxl{color:inherit;text-decoration:none;border-bottom:.5px dotted #B59A9A}
+.page a.fxl:after{content:'\2192';font-size:6.5px;color:var(--maroon);vertical-align:2px;margin-left:3px}
+@media print{.page a.fxl{color:inherit}}
+.page .fc{scroll-margin-top:12mm}
 
 .toolbar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--off-white);
   padding:11px 30px;display:flex;gap:11px;align-items:center;justify-content:space-between;
@@ -1062,7 +1095,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v5.13 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v5.15 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" id="recsBtn" onclick="openRecs()" title="The closing page: what we observed, and the decisions that follow">Recommendations</button>
@@ -2473,8 +2506,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'5.13',
-  built:'2026-10-02 01:19 UTC',
+  version:'5.15',
+  built:'2026-10-02 01:42 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -5749,7 +5782,7 @@ function repCredit(P){
   const c=chron(), M=credModules(), off=k=>M.find(x=>x.k===k);
   const kv=(rows,head)=>'<table class="rp"><thead><tr><th class="lbl">'+esc(head)+'</th>'+
     c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>'+
-    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+esc(r[0])+'</td>'+
+    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+fxLink(r[0])+'</td>'+
       c.map(x=>'<td>'+r[1](x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   const note=t=>'<p style="font-size:9px;color:#8C8C8C;margin-top:5px">'+t+'</p>';
   const ev=(k,l)=>{const h=repNote(k);return h?evalBlock(l,null,h):
@@ -10324,6 +10357,33 @@ function reportStamp(){
     .find(x=>x.type==='timeZoneName')||{}).value||'';}catch(e){}
   return day+' · '+tm+(tz?' '+tz:'');
 }
+/* A printed page cannot hover. What it can do is link: every measure that has
+   an explainer card in the appendix carries a link to it, which a PDF reader
+   follows like any other internal link, and which costs a printed page nothing
+   but a thin maroon underline. The link is only drawn when the appendix is
+   actually in the document, because a link to a page that was not printed is
+   worse than no link. */
+function fxId(name){
+  return 'fx-'+String(name).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+const FX_ALIAS={
+ 'Debt-to-equity ratio':'Total debt ÷ equity (incl. operating leases)',
+ 'Debt-to-equity, excluding operating leases':'Debt ÷ equity (excl. leases)',
+ 'EBITDA-to-interest ratio':'EBITDA ÷ interest',
+ 'Free cash flow-to-debt ratio':'Free cash flow ÷ total debt',
+ 'Z-Score':'Altman Z-Score',
+ 'Interest coverage, operating income basis':'Interest coverage (operating income ÷ interest)',
+ 'Common equity per common share':'Book value per share',
+ 'Annual dividends per share':'Dividends per share'
+};
+function fxKey(name){return FX_ALIAS[name]||name;}
+function fxHas(name){return !!(typeof FORMULA!=='undefined'&&FORMULA[fxKey(name)]);}
+let FX_LINKS=0;
+function fxLink(name,label){
+  const t=esc(label==null?name:label);
+  if(!FX_LINKS||!fxHas(name))return t;
+  return '<a class="fxl" href="#'+fxId(fxKey(name))+'">'+t+'</a>';
+}
 function pageWrap(title,body,eyebrow){
   const m=repMeta();
   return '<div class="page"><div class="phead">'+
@@ -10694,7 +10754,7 @@ function repDisclosure(P){
   const off=k=>M.find(x=>x.k===k);
   const kv=(rows,head)=>'<table class="rp"><thead><tr><th class="lbl">'+esc(head)+'</th>'+
     c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>'+
-    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+esc(r[0])+'</td>'+
+    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+fxLink(r[0])+'</td>'+
       c.map(x=>'<td>'+r[1](x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
 
   /* 1 — segments */
@@ -10878,6 +10938,7 @@ function buildReport(){
   recalcAll();
   const m=repMeta(),sel=S.ui.repSections,i=latestIdx();
   let P=[];
+  FX_LINKS=sel.includes('method')?1:0;
   const has=k=>sel.includes(k);
 
   if(has('cover')){
@@ -11189,12 +11250,15 @@ function buildReport(){
       let t=head+'<tr class="sec"><td colspan="'+(c.length+1)+'">'+esc(g)+'</td></tr>';
       RATIOS.filter(r=>r.g===g).forEach(R=>{
         const reason=R.na?R.na():null;
-        t+='<tr'+(reason?' class="na"':'')+'><td class="lbl">'+esc(R.n)+
+        t+='<tr'+(reason?' class="na"':'')+'><td class="lbl">'+fxLink(R.n)+
           (reason?'<br><span class="nawhy">Not applicable \u2014 '+esc(reason)+'</span>':'')+'</td>'+
           c.map(x=>'<td>'+(reason?'n/a':fmtRatio(R.f(x),R.t))+'</td>').join('')+'</tr>';
       });
       return t+'</tbody></table>';
     });
+    if(FX_LINKS)blocks.unshift('<p style="font-size:9px;color:#4D4D4D;margin:0 0 8px">Every ratio name '+
+      'below is a link. It opens that measure’s card at the back of this document: the formula, the '+
+      'figures put through it for the most recent period, what it tells you and where it misleads.</p>');
     blocks.push('<p style="font-size:9px;color:#8C8C8C;margin-top:10px">Ratios using average balances '+
       'require an opening balance sheet and are therefore blank in the earliest period. Days measures '+
       'assume a 365-day year.</p>');
@@ -11362,12 +11426,20 @@ function buildReport(){
     const V2=thVerdict(), S2=V2.score, conf=thConfidence(S2), pubv=isPublic();
     const ttl=pubv?'Investment thesis':'Acquisition thesis';
     const B=[];
-    B.push('<div class="verdictbar '+esc(V2.tone)+'">'+
-      '<div class="vb1"><div class="vbk">Verdict</div><div class="vbv">'+esc(V2.l)+'</div>'+
+    const vb=(V_BAND[V2.v]!=null)?V_BAND[V2.v]:scoreBand(S2.total);
+    B.push('<div class="verdictbar '+esc(V2.tone)+' v'+vb+'">'+
+      '<div class="vb1"><div class="vbk">Verdict</div>'+
+      '<div class="vbv sv'+vb+'">'+esc(V2.l)+'</div>'+
       '<div class="vbd">'+(V2.byHand?'Set by the analyst':'Proposed by the score')+
-      ', on '+esc(pubv?'a listed entity':'a privately held entity')+'</div></div>'+
-      '<div class="vb2"><div class="vbk">Score</div><div class="vbn">'+
-        (S2.total==null?'—':num(S2.total,0))+'</div><div class="vbd">of 100</div></div>'+
+      ', on '+esc(pubv?'a listed entity':'a privately held entity')+
+      ((V2.byHand&&thProposed(S2)!==V2.v)
+        ? '. The score alone would read <b>'+esc((thVerdicts().find(x=>x.v===thProposed(S2))||{}).l||'')+
+          '</b>, and the meter below is the score, not the verdict'
+        :'')+'</div>'+
+      scoreMeter(S2.total,'Do not '+esc(pubv?'invest':'acquire'),esc(pubv?'Invest':'Acquire'))+'</div>'+
+      '<div class="vb2"><div class="vbk">Score</div><div class="vbn sv'+scoreBand(S2.total)+'">'+
+        (S2.total==null?'—':num(S2.total,0))+'</div><div class="vbd">of 100 · '+
+        esc(BAND_WORD[scoreBand(S2.total)])+'</div></div>'+
       '<div class="vb2"><div class="vbk">Confidence</div><div class="vbn sm">'+esc(conf)+
         '</div><div class="vbd">in the verdict</div></div></div>');
     B.push('<p>'+(pubv
@@ -11385,15 +11457,20 @@ function buildReport(){
       '<th style="width:9%">Score</th><th class="lbl">What it read</th></tr></thead><tbody>';
     S2.components.forEach(c=>{
       g+='<tr><td class="lbl"><b>'+esc(c.l)+'</b><span class="srcline">'+esc(c.where)+'</span></td>'+
-         '<td>'+c.w+'</td><td>'+(c.score==null?'n/a':num(c.score,0))+'</td>'+
+         '<td>'+c.w+'</td><td class="'+thScoreClass(c.score)+'" style="font-weight:600">'+
+         (c.score==null?'n/a':num(c.score,0))+'</td>'+
          '<td class="lbl">'+esc(c.read)+'</td></tr>';
     });
-    g+='<tr class="tot"><td class="lbl">Weighted score</td><td>'+num(S2.covered,0)+'</td><td>'+
+    g+='<tr class="tot"><td class="lbl">Weighted score</td><td>'+num(S2.covered,0)+'</td>'+
+       '<td class="'+thScoreClass(S2.total)+'">'+
        (S2.total==null?'—':num(S2.total,0))+'</td><td class="lbl">'+
        (S2.missing.length?esc(S2.missing.map(x=>x.l.toLowerCase()).join(', '))+
          ' could not be scored on the data present':'All six components scored')+
        '</td></tr></tbody></table>'+
-      '<p style="font-size:9px;color:#8C8C8C">Each component is scored 0 to 100 against fixed '+
+      '<p style="font-size:9px;color:#8C8C8C">The color is the same scale throughout this page: '+
+      '<b class="sv5">70 and above</b>, <b class="sv4">55 to 69</b>, <b class="sv3">40 to 54</b>, '+
+      '<b class="sv2">25 to 39</b>, <b class="sv1">below 25</b>. '+
+      'Each component is scored 0 to 100 against fixed '+
       'thresholds and weighted as shown. Where a component could not be computed it is excluded and '+
       'the total is the weighted average of the rest, with the weight covered stated beside it. '+
       'The thresholds are a convention, not a law: disagree with the weighting rather than with the total.</p>';
@@ -11546,7 +11623,7 @@ function buildReport(){
       lastG=R.g;
     });
     const card=x=>(x.g?'<h4 class="sh" style="margin-top:14px">'+esc(x.g)+'</h4>':'')+
-      '<div class="fc"><div class="fch"><b>'+esc(x.name)+'</b>'+(x.res?'<span class="fcr">'+esc(x.res)+'</span>':'')+'</div>'+
+      '<div class="fc" id="'+fxId(x.name)+'"><div class="fch"><b>'+esc(x.name)+'</b>'+(x.res?'<span class="fcr">'+esc(x.res)+'</span>':'')+'</div>'+
       '<div class="fcr2"><span class="fcl">Formula</span><span class="fcv m">'+String(x.f).split('\n').map(esc).join('<br>')+'</span></div>'+
       ((x.ex&&x.ex!=='—')?'<div class="fcr2"><span class="fcl">Worked</span><span class="fcv m">'+String(x.ex).split('\n').map(esc).join('<br>')+'</span></div>':'')+
       '<div class="fcr2"><span class="fcl">What it says</span><span class="fcv">'+esc(x.r)+'</span></div>'+
@@ -11581,7 +11658,7 @@ function repSpecial(P){
   const c=chron();
   const kv=(rows,head)=>'<table class="rp"><thead><tr><th class="lbl">'+esc(head)+'</th>'+
     c.map(x=>'<th>'+esc(periodLabel(x))+'</th>').join('')+'</tr></thead><tbody>'+
-    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+esc(r[0])+'</td>'+
+    rows.map(r=>'<tr'+(r[2]?' class="tot"':'')+'><td class="lbl">'+fxLink(r[0])+'</td>'+
       c.map(x=>'<td>'+r[1](x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   const note=t=>'<p style="font-size:9px;color:#8C8C8C;margin-top:5px">'+t+'</p>';
   const B=[];
@@ -12852,6 +12929,26 @@ const TH_VERDICTS_PRIVATE=[
 const TH_CONF=[{v:'auto',l:'— from the evidence —'},{v:'High',l:'High'},
                {v:'Medium',l:'Medium'},{v:'Low',l:'Low'}];
 function thVerdicts(){return isPublic()?TH_VERDICTS_PUBLIC:TH_VERDICTS_PRIVATE;}
+/* One scale for the whole page: five bands, green through red, with gray kept
+   for "no view formed". The verdict takes its band from the verdict itself,
+   because the analyst can overrule the arithmetic and the color must follow the
+   decision rather than the number it departed from. */
+const V_BAND={invest:5,conditional:3,price:2,no:1,insufficient:0};
+function scoreBand(v){
+  if(v==null)return 0;
+  return v>=70?5:(v>=55?4:(v>=40?3:(v>=25?2:1)));
+}
+const BAND_WORD={5:'strong',4:'sound',3:'mixed',2:'weak',1:'poor',0:'not scored'};
+/* A five-segment meter with a marker at the score: the same information as the
+   number, for a reader who takes in a shape faster than a figure. */
+function scoreMeter(v,lo,hi){
+  const b=scoreBand(v), pos=v==null?null:Math.max(0,Math.min(100,v));
+  let h='<div class="smeter">';
+  for(let k=1;k<=5;k++)h+='<i class="b'+k+(b===k?'':' off')+'"></i>';
+  h+=(pos==null?'':'<b style="left:calc('+num(pos,1)+'% - 1.25px)"></b>')+'</div>'+
+     '<div class="smleg"><span>'+esc(lo||'0')+'</span><span>'+esc(hi||'100')+'</span></div>';
+  return h;
+}
 function thAct(){return isPublic()?'invest in':'acquire';}
 
 /* piecewise: pairs of [input, score], descending or ascending, linearly joined */
@@ -13027,7 +13124,7 @@ const TH_NOTES=[
  {k:'thesis',l:'The thesis, in your own words',
   p:'Three or four paragraphs. This is the page a reader turns to first and quotes afterwards.'}
 ];
-function thScoreClass(v){return v==null?'':(v>=70?'pos':(v>=45?'':'neg'));}
+function thScoreClass(v){return v==null?'sv0':'sv'+scoreBand(v);}
 function renderThesis(){
   const S2=thesisScore(), V2=thVerdict(), conf=thConfidence(S2);
   const pubv=isPublic();
@@ -13046,9 +13143,13 @@ function renderThesis(){
   const row=$('thScoreRow');
   if(row)row.innerHTML=
     '<div class="kpi"><div class="k">Score'+helpMark('thscore')+'</div><div class="v '+thScoreClass(S2.total)+'">'+
-      (S2.total==null?'—':num(S2.total,0))+'</div><div class="d">out of 100, weighted</div></div>'+
-    '<div class="kpi"><div class="k">Verdict'+helpMark('thverdict')+'</div><div class="v" style="font-size:19px;line-height:1.2">'+
-      esc(V2.l)+'</div><div class="d">'+(V2.byHand?'set by hand':'proposed from the score')+'</div></div>'+
+      (S2.total==null?'—':num(S2.total,0))+'</div><div class="d">out of 100, weighted · '+
+      esc(BAND_WORD[scoreBand(S2.total)])+'</div>'+scoreMeter(S2.total,
+        'Do not '+(pubv?'invest':'acquire'),(pubv?'Invest':'Acquire'))+'</div>'+
+    '<div class="kpi"><div class="k">Verdict'+helpMark('thverdict')+'</div>'+
+      '<div class="v '+('sv'+((V_BAND[V2.v]!=null)?V_BAND[V2.v]:scoreBand(S2.total)))+
+      '" style="font-size:19px;line-height:1.2">'+esc(V2.l)+'</div>'+
+      '<div class="d">'+(V2.byHand?'set by hand':'proposed from the score')+'</div></div>'+
     '<div class="kpi"><div class="k">Confidence'+helpMark('thconf')+'</div><div class="v">'+esc(conf)+'</div>'+
       '<div class="d">'+(S.thesis.conf&&S.thesis.conf!=='auto'?'set by hand':'from the evidence')+'</div></div>'+
     '<div class="kpi"><div class="k">Weight covered'+helpMark('thcovered')+'</div><div class="v '+(S2.covered>=90?'pos':(S2.covered>=70?'':'neg'))+
@@ -13064,7 +13165,8 @@ function renderThesis(){
         '<th class="lbl" style="width:26%">Where the evidence is</th></tr></thead><tbody>';
   S2.components.forEach(c=>{
     g+='<tr><td class="lbl"><b>'+esc(c.l)+'</b>'+helpMark('th_'+c.k,'How '+c.l+' is scored')+'</td><td>'+c.w+'</td>'+
-       '<td class="'+thScoreClass(c.score)+'">'+(c.score==null?'n/a':num(c.score,0))+'</td>'+
+       '<td class="'+thScoreClass(c.score)+'" style="font-weight:600">'+
+       (c.score==null?'n/a':num(c.score,0))+'</td>'+
        '<td class="lbl">'+esc(c.read)+'</td><td class="lbl">'+esc(c.where)+'</td></tr>';
   });
   g+='<tr class="total"><td class="lbl">Weighted score</td><td>'+num(S2.covered,0)+'</td>'+

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   Aperture Analytics Workbench v5.9
-  Built 2026-09-24 15:50 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Built 2026-10-02 00:44 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -91,6 +91,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   --off-white:#FFFFFF; --muted:#8C8C8C; --hairline:#262626;
   --paper:#FFFFFF; --type:#000000; --rule:#E0E0E0; --wash:#F5F5F5;
   --positive:#1A1A1A; --neutral:#7A7A7A;
+  /* the scorecard, and only the scorecard: good, poor, and untested */
+  --good:#1C6B3C; --bad:#A31414; --watch:#8A6A16;
   --sans:"Graphik","Graphik Web","GraphikApp",-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   --sans-semi:"Graphik Semibold","Graphik","Graphik Web",-apple-system,"Inter","Helvetica Neue",Arial,sans-serif;
   --mono:"SF Mono",ui-monospace,"Roboto Mono",Menlo,Consolas,monospace;
@@ -564,19 +566,6 @@ h4.fgroup:first-child{margin-top:4px}
 .page .pfoot b{color:var(--type);font-weight:600}
 .page .pfoot .mid{color:var(--maroon);font-weight:600}
 .page h3.ph{font-size:22px;font-weight:300;margin:0 0 4px;letter-spacing:-.01em}
-.page h4.sh.rfh{color:#C00000}
-.asmbox{border-left:3px solid #B7791F;background:#FFF6E3;padding:6px 12px 2px;margin:6px 0 8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.page h4.sh.asmh{color:#8A5A00}
-.asmtag{display:inline-block;font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:#fff;background:#B7791F;
-  padding:1px 5px;border-radius:2px;vertical-align:1px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.doctag{display:inline-block;font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:#1E7A45;border:1px solid #9BD3B0;
-  padding:0 5px;border-radius:2px;vertical-align:1px}
-table.asmt tr.asmrow td{background:#FFF6E3;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.page p.asmnote{font-size:9px;color:#6B6B6B;margin-top:4px}
-.page p.rflead{color:#7A0000;font-weight:600}
-table.rflags{border-left:3px solid #C00000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-table.rflags td{background:#FDECEC;border-bottom:1px solid #F2C9C9}
-table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
 .page h4.sh{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--maroon);
   font-weight:600;margin:15px 0 6px}
 .page p{font-size:10.5px;line-height:1.55;margin:0 0 8px;color:#1A1A1A}
@@ -613,6 +602,13 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
 .page ul.fl li.w{border-left-color:var(--maroon)}
 .page ul.fl li.o{border-left-color:var(--positive)}
 .page ul.fl li.n{border-left-color:var(--neutral)}
+.page ul.fl li.g{border-left-color:var(--good)}
+.page ul.fl li.g b{color:var(--good)}
+.page ul.fl li.r{border-left-color:var(--bad)}
+.page ul.fl li.r b{color:var(--bad)}
+.page ul.fl li.m{border-left-color:var(--watch)}
+.page ul.fl li.m b{color:var(--watch)}
+.page .scnote{font-size:9px;color:#6E6E6E;margin:2px 0 8px}
 .page ul.fl li b{display:block;font-size:10.5px;margin-bottom:1px}
 .page ul.fl li span{color:#4D4D4D;font-size:9.5px}
 
@@ -657,7 +653,7 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
    sheet \u2014 pushing it down to center the title would make the header wander
    from page to page \u2014 so the page keeps its normal top padding and the
    title block is dropped below it instead. */
-.page.divider{justify-content:flex-start;padding:17mm 22mm 0}
+.page.divider{justify-content:flex-start;padding:17mm 22mm 17mm}
 .page.divider .dvin{margin-top:14mm}
 .page.divider .pfoot{margin-top:auto}
 .page.divider .dvin{position:relative;z-index:2}
@@ -715,6 +711,23 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
   color:var(--maroon);font-weight:600;margin:0 0 5px}
 .page .evalbox p{font-size:9.5px;line-height:1.55;margin:0 0 6px;color:#333}
 .page .evalbox p:last-child{margin-bottom:0}
+.page .plainbox{border:.6px solid var(--rule);border-left:2.4px solid #9A9A9A;background:#FAFAFA;
+  padding:9px 12px 8px;margin:-6px 0 14px}
+.page .plainbox .evh{font-size:7.5px;letter-spacing:.17em;text-transform:uppercase;
+  color:#6E6E6E;font-weight:600;margin:0 0 5px}
+.page .plainbox p{font-size:9.5px;line-height:1.6;margin:0 0 6px;color:#333}
+.page .plainbox p:last-child{margin-bottom:0}
+.page .plainbox .pfine{display:block;margin-top:7px;padding-top:5px;border-top:.5px solid var(--rule);
+  font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#9A9A9A;font-weight:600}
+.page .evalbox .seeded{display:block;margin-top:7px;padding-top:5px;border-top:.5px solid var(--rule);
+  font-size:7px;letter-spacing:.17em;text-transform:uppercase;color:#8C8C8C;font-weight:600}
+.seedchip{display:none;align-items:center;gap:5px;font-size:9px;letter-spacing:.11em;
+  text-transform:uppercase;color:#8C6A2B;background:#FBF6EC;border:1px solid #E7D9BF;
+  padding:3px 8px;margin-left:2px}
+.seedchip.on{display:inline-flex}
+.seedhint{display:none;font-size:11.5px;line-height:1.5;color:#6E6E6E;margin-top:7px;
+  padding-left:10px;border-left:2px solid #E0E0E0}
+.seedhint.on{display:block}
 .page .srcline{display:block;font-size:7px;letter-spacing:.08em;text-transform:none;
   color:var(--maroon);font-weight:600;margin-top:2px}
 .page .cite{vertical-align:baseline;font-size:6.8px;margin-left:5px}
@@ -771,21 +784,6 @@ table.rflags td.rfn{color:#C00000;font-weight:700;text-align:center}
 .btn.danger.armed{background:var(--maroon);color:#fff;border-color:var(--maroon)}
 .sbnote{font-size:11.5px;color:var(--maroon)}
 .masttools{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
-/* Version light: is this copy the release the website says is current? */
-.vlight{display:inline-flex;align-items:center;gap:7px;margin:5px 0 0;padding:2px 9px 2px 7px;border-radius:10px;
-  font-size:10.5px;letter-spacing:.02em;background:rgba(255,255,255,.08);color:#C9C9C9}
-.vlight[hidden]{display:none!important}
-.vlight .vdot{width:9px;height:9px;border-radius:50%;background:#8C8C8C;flex:none}
-.vlight.ok .vdot{background:#2ECC71;box-shadow:0 0 7px #2ECC71}
-.vlight.ahead .vdot{background:#F0B429;box-shadow:0 0 7px #F0B429}
-.vlight.old .vdot{background:#E74C3C;box-shadow:0 0 7px #E74C3C}
-.vlight.old{color:#fff;background:rgba(231,76,60,.28)}
-@media print{.vlight{display:none!important}}
-/* the same light on the sign-in card, which is white */
-.vlight.gvl{margin:8px 0 0;background:#F3F3F3;color:#4D4D4D;font-size:10.5px}
-.vlight.gvl.ok{background:#E9F8EF;color:#1E7A45}
-.vlight.gvl.ahead{background:#FDF4E1;color:#8A5A00}
-.vlight.gvl.old{background:#FBE9E7;color:#A12B1F}
 .unitbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;background:#F7F5F2;border-left:3px solid #9A9A9A}
 .unitbar select{font:inherit;font-size:12px;padding:4px 6px}
 .unitread{font-size:12px;color:#4D4D4D;flex:1 1 320px}
@@ -1004,7 +1002,6 @@ body.is-locked>.toolbar{display:none!important}
       <h1>Aperture Analytics<span class="tm">™</span></h1>
       <h2>Financial Analysis Workbench</h2>
       <p class="gver" id="gateVer"></p>
-      <p class="vlight gvl" id="gLight" hidden><span class="vdot"></span><span id="gText"></span></p>
       <p class="gnote">This is the standalone copy. The credentials are in the boxes below,
         grayed out: type them in to open it.</p>
       <form id="gateForm" autocomplete="off">
@@ -1035,7 +1032,6 @@ body.is-locked>.toolbar{display:none!important}
     </div>
     <p class="eyebrow mastphase">Aperture Analytics™ · Phase 02 Quantify</p>
     <p class="buildstamp" id="buildStamp"></p>
-    <p class="vlight" id="vLight" hidden><span class="vdot"></span><span id="vText"></span></p>
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
@@ -1734,9 +1730,17 @@ body.is-locked>.toolbar{display:none!important}
       comparatives at once, which is how tracing actually works. Rows marked <b>key</b> must be
       verified before the draft mark comes off. Derived rows inherit the state of their components
       and need no tick of their own.</p>
+    <div class="hint" id="xbrlHint" style="border-left-color:#7A7A7A"><b>Figures that came in from
+      XBRL are the filer's own tagged facts</b>, so there is nothing to re-key and nothing to mis-read:
+      the number in this model is the number in the filing. <b>Accept the filing's own tags</b> ticks
+      those lines and records that this is how they were verified, which is what the report then says.
+      It settles the figures, not the mapping — which element became which line of this model is still
+      worth one pass against the face of the statements — and it leaves anything typed, pasted or read
+      from a PDF for you to tick yourself.</div>
     <div id="qcLedger"></div>
     <div class="btnrow">
-      <button class="btn" onclick="verifyAll(null,true)">Verify every traced figure</button>
+      <button class="btn" onclick="verifyXbrl()" id="xbrlVerifyBtn">Accept the filing’s own tags</button>
+      <button class="btn ghost" onclick="verifyAll(null,true)">Verify every traced figure</button>
       <button class="btn ghost" onclick="verifyAll(null,false)">Clear all verification</button>
       <button class="btn ghost" onclick="applyPrimaryDoc()">Apply primary document to blank sources</button>
     </div>
@@ -2443,7 +2447,7 @@ const BRAND={
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
   version:'5.9',
-  built:'2026-09-24 15:50 UTC',
+  built:'2026-10-02 00:44 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -2858,6 +2862,10 @@ function blankState(){
     periods:['','','',''],
     rows:{bs:cloneTax('bs'),is:cloneTax('is'),cf:cloneTax('cf')},
     notes:{},evidence:[],actions:[],
+    /* what the engine wrote, per field, so the document can say which prose is
+       seeded and which is the analyst's. A field stops counting as seeded the
+       moment its text differs from what was seeded into it. */
+    seeded:{},
     thesis:{verdict:'auto',conf:'auto'},
     /* Note-level disclosure inputs. Deliberately NOT S.notes, which holds the
        analyst's written commentary: this is the data behind the statements,
@@ -2905,8 +2913,6 @@ function cloneTax(k){
 const UNIT_LABEL={millions:'$ millions',thousands:'$ thousands',units:'whole units',billions:'$ billions'};
 const UNIT_SCALE={millions:1e6,thousands:1e3,units:1,billions:1e9};
 function unitScale(){return UNIT_SCALE[S.meta.units]||1;}
-/* true once a multiple range has been entered; without one the report states no value */
-function hasMultRange(){const m=(S.entity&&S.entity.mult)||{};return !!(m.low||m.base||m.high);}
 const $=id=>document.getElementById(id);
 const hide=id=>{const e=$(id);if(e)e.style.display='none';};
 const show=id=>{const e=$(id);if(e)e.style.display='';};
@@ -2998,6 +3004,7 @@ function renderAllDerived(){
   renderStrengthen();renderDisclosure();renderCredit();renderEntry();renderMarket();renderSpecial();renderRecs();renderThesis();renderMethod();renderQC();updateMast();
   if(typeof growAll==='function')growAll(document.querySelector('.panel.active')||document);
   if(typeof markAllDone==='function')markAllDone(document);
+  if(typeof paintSeeds==='function')paintSeeds();
 }
 
 /* ---------- 5. DERIVED METRICS ----------------------------------------- */
@@ -3118,7 +3125,7 @@ const RATIOS=[
  {g:'Productivity',n:'Operating income per employee',f:i=>{const v=profitPerEmployee(i);return v==null?null:v*unitScale();},t:'cur0',
   na:()=>E().employees.some(x=>x!=null&&x!=='')?null:'No headcount recorded — enter it on the Profile tab.'},
  {g:'Valuation — observed',n:'Market capitalization',f:i=>marketCap(i),t:'cur',
-  na:()=>isPublic()?(E().price.some(x=>x!=null&&x!=='')?null:'No share price recorded — enter it on the Profile tab.'):'No public market. A closely held company has no observable price'+(hasMultRange()?'; see the constructed valuation below.':', and no value is stated in this report.'),
+  na:()=>isPublic()?(E().price.some(x=>x!=null&&x!=='')?null:'No share price recorded — enter it on the Profile tab.'):'No public market. A closely held company has no observable price; see the constructed valuation below.',
   d:'Share price × shares outstanding. The value of the equity only.'},
  {g:'Valuation — observed',n:'Enterprise value (incl. leases)',f:i=>enterpriseValue(i,true),t:'cur',
   na:()=>isPublic()?(marketCap(latestIdx())==null?'No share price recorded.':null):'No public market.',
@@ -3233,6 +3240,7 @@ function go(p){
   window.scrollTo({top:0,behavior:'instant'});
   const el=$('panel-'+p);
   if(el&&typeof growAll==='function'){growAll(el);markAllDone(el);}
+  if(typeof paintSeeds==='function')paintSeeds();
 }
 document.getElementById('tabs').addEventListener('click',e=>{
   const b=e.target.closest('button'); if(b)go(b.dataset.p);});
@@ -3699,14 +3707,56 @@ function verifyAll(st,on){
   const stamp=new Date().toISOString().slice(0,10);
   ['bs','is','cf'].filter(x=>!st||x===st).forEach(x=>S.rows[x].forEach(r=>{
     const q=rowQC(x,r); if(!q||q.state==='empty'||q.state==='derived')return;
-    r.verified=!!on; r.vAt=on?stamp:'';
+    r.verified=!!on; r.vAt=on?stamp:''; r.vBy=on?'hand':'';
   }));
   recalcAll();
   toast(on?'All traced figures marked verified':'Verification cleared');
 }
+/* How many lines in the model came in as the filer's own tagged facts. */
+function xbrlRows(){
+  const out=[];
+  ['bs','is','cf'].forEach(st=>S.rows[st].forEach((r,ri)=>{
+    const q=rowQC(st,r);
+    if(q&&q.state!=='empty'&&q.state!=='derived'&&r.src&&r.src.kind==='xbrl')out.push({st,ri,r});
+  }));
+  return out;
+}
+function xbrlOpen(){return xbrlRows().filter(x=>!x.r.verified).length;}
+/* Accepting the tags is a real verification step, not a shortcut: the figure in
+   the model is the figure the filer tagged, element by element. What it does
+   NOT settle is which line of this model each element was mapped to, and that
+   is said on the Verify page and again in the report. */
+function verifyXbrl(){
+  const X=xbrlRows();
+  if(!X.length){toast('Nothing in the model came from an XBRL import');return;}
+  const stamp=new Date().toISOString().slice(0,10);
+  let n=0;
+  X.forEach(({r})=>{
+    if(r.verified)return;
+    r.verified=true; r.vAt=stamp; r.vBy='xbrl';
+    if(!r.src.doc)r.src.doc=S.qc.primaryDoc||'SEC XBRL company facts';
+    n++;
+  });
+  recalcAll();
+  const t=qcTally();
+  status(n?('Accepted <b>'+n+'</b> figure'+(n===1?'':'s')+' as tagged by the filer. Key figures now '+
+    '<b>'+t.reqDone+' of '+t.req+'</b>. The tags settle the <b>figures</b>; they do not settle which '+
+    'line each element was mapped to, so review the statements once against the filing and tick '+
+    'anything you typed yourself by hand.')
+    :'Every XBRL-tagged figure was already verified.');
+  toast(n?n+' tagged figures accepted':'Nothing left to accept');
+}
+function vTally(){
+  let tags=0,hand=0;
+  ['bs','is','cf'].forEach(st=>S.rows[st].forEach(r=>{
+    const q=rowQC(st,r); if(!q||q.state!=='verified')return;
+    if(r.vBy==='xbrl')tags++;else hand++;
+  }));
+  return {tags,hand};
+}
 function toggleVerify(st,ri,on){
   const r=S.rows[st][ri];
-  r.verified=!!on; r.vAt=on?new Date().toISOString().slice(0,10):'';
+  r.verified=!!on; r.vAt=on?new Date().toISOString().slice(0,10):''; r.vBy=on?'hand':'';
   renderQC(); renderStatement();
   const t=qcTally();
   status(t.complete?'Key figures <b>fully verified</b> — the report will build without the draft mark.'
@@ -3722,6 +3772,10 @@ function renderQC(){
       '<div class="v">'+t.reqDone+' / '+t.req+'</div><div class="d">'+(t.complete?'complete':'required before sign-off')+'</div></div>'+
     '<div class="kpi"><div class="k">Other traced figures</div><div class="v">'+t.optDone+' / '+t.opt+'</div><div class="d">optional</div></div>'+
     '<div class="kpi"><div class="k">Derived, not traced</div><div class="v">'+t.derived+'</div><div class="d">inherit their components</div></div>'+
+    (function(){const v=vTally(),o=xbrlOpen();
+      return '<div class="kpi"><div class="k">How they were verified</div><div class="v">'+v.tags+' / '+v.hand+
+        '</div><div class="d">'+(v.tags||v.hand?'from the filing’s tags / checked by hand':'none yet')+
+        (o?' · '+o+' tagged lines still unticked':'')+'</div></div>';})()+
     '<div class="kpi"><div class="k">Overall</div><div class="v">'+t.pct+'%</div>'+
       '<div class="d"><span class="pbar"><span style="width:'+t.pct+'%"></span></span></div></div>'+
     '</div>'+
@@ -3789,8 +3843,10 @@ function renderQC(){
         '<td class="lbl">'+(der?'':'<input class="lblin" value="'+esc((r.src&&r.src.page)||'')+'" placeholder="p."'+
            ' oninput="S.rows[\''+st+'\']['+ri+'].src.page=this.value;renderAllDerived()">')+'</td>'+
         '<td class="lbl">'+(der?'<span style="color:#A3A3A3">derived</span>'
-          :(q.state==='verified'?'<span style="color:var(--maroon);font-weight:600">Verified</span>'
-            :'<span style="color:#7A7A7A">Unverified</span>'))+'</td>'+
+          :(q.state==='verified'?'<span style="color:var(--maroon);font-weight:600">Verified</span>'+
+              (r.vBy==='xbrl'?'<span class="srctag" style="margin-left:6px">tagged</span>':'')
+            :'<span style="color:#7A7A7A">Unverified</span>'+
+              (r.src&&r.src.kind==='xbrl'?'<span class="srctag" style="margin-left:6px">tagged</span>':'')))+'</td>'+
         '<td class="lbl" style="color:#7A7A7A">'+esc(r.vAt||'')+'</td></tr>';
     });
     h+='</tbody></table></div>';
@@ -3845,7 +3901,7 @@ function cellEdit(el){
   const changed=(r.values[i]!==v);
   r.values[i]=v;
   if(r.calc) r.overridden[i]=(v!=null);
-  if(changed&&r.verified){r.verified=false;r.vAt='';toast('“'+r.label+'” edited — verification cleared');}
+  if(changed&&r.verified){r.verified=false;r.vAt='';r.vBy='';toast('“'+r.label+'” edited — verification cleared');}
   recalcAll();
 }
 function delRow(st,ri){S.rows[st].splice(ri,1);recalcAll();}
@@ -4156,11 +4212,11 @@ function draftCmt(k){
   const d=CMT[k]; if(!d)return;
   const t=(d.mode==='cs')?draftVertical(d.st):draftHorizontal(d.st);
   if(!t){toast(d.mode==='cs'?'No figures to draft from':'Two periods of figures are needed');return;}
-  S.notes[k]=t;
-  const el=$('cmt_'+k); if(el){el.value=t;autoGrow(el);markDone(el);}
+  seedWrite(k,t,$('cmt_'+k),false);
   toast('Draft written. Now rewrite it.');
 }
-function clearCmt(k){S.notes[k]='';const el=$('cmt_'+k);if(el){el.value='';autoGrow(el);markDone(el);}}
+function clearCmt(k){S.notes[k]='';if(S.seeded)S.seeded[k]=null;
+  const el=$('cmt_'+k);if(el){el.value='';autoGrow(el);markDone(el);}paintSeeds();}
 /* One row of controls for every written field in the tool, so the orange draft
    button, the clear button and the written mark cannot drift apart between the
    Analysis, Findings, Thesis and Strengthen tabs. */
@@ -4168,7 +4224,9 @@ function draftRow(fn,arg,clearFn){
   return '<div class="btnrow" style="margin-top:9px">'+
     '<button class="btn draft mini2" onclick="'+fn+'(\''+arg+'\')">Draft from the model</button>'+
     '<button class="btn ghost mini2" onclick="'+clearFn+'(\''+arg+'\')">Clear</button>'+
-    '<span class="donechk"><b>\u2713</b>Written</span></div>';
+    '<span class="donechk"><b>\u2713</b>Written</span>'+
+    '<span class="seedchip" data-seed="'+arg+'">Seeded by the Aperture AI engine</span></div>'+
+    '<div class="seedhint" data-seedhint="'+arg+'"></div>';
 }
 /* The mark follows the content, not the button. Most written fields sit in a
    .cmtbox; the synthesis box on Strengthen has markup of its own, so fall back
@@ -4184,6 +4242,8 @@ function markDone(el){
   if(box)box.classList.toggle('done',!!String(el.value||'').trim());
 }
 function markAllDone(root){(root||document).querySelectorAll('textarea').forEach(markDone);}
+document.addEventListener('input',e=>{
+  if(e.target&&e.target.tagName==='TEXTAREA'&&typeof paintSeeds==='function')paintSeeds();},true);
 function cmtBox(k){
   const d=CMT[k];
   return '<div class="cmtbox"><label class="f">'+esc(d.l)+'</label>'+
@@ -5030,7 +5090,7 @@ function roleEdit(st,role,i,v){
   const r=rowByRole(st,role); if(!r)return;
   const x=parseNum(v), changed=(r.values[i]!==x);
   r.values[i]=x; if(r.calc)r.overridden[i]=(x!=null);
-  if(changed&&r.verified){r.verified=false;r.vAt='';toast('“'+r.label+'” edited — verification cleared');}
+  if(changed&&r.verified){r.verified=false;r.vAt='';r.vBy='';toast('“'+r.label+'” edited — verification cleared');}
   recalcAll();
 }
 
@@ -6860,6 +6920,203 @@ function repRecs(P){
     'Key findings and recommendations (continued)','Recommendations',P);
 }
 
+
+/* ---------- 13i. THE SCORECARD -------------------------------------------
+   Three questions a client asks before any of the working: what is going
+   well, what is not, and what this analysis could not see. The first two are
+   mechanical — each item is a test against the model with its own figure
+   attached — and the third is the honest half of the page: every module that
+   did not run, every figure still owed, and the evidence this tool never
+   sees, each with what it would change. Nothing here is a judgment; the
+   judgment is the headline above it and the recommendations at the end. */
+function scorecard(){
+  const i=latestIdx(), p=prevIdx(), c=chron(), good=[], bad=[], gaps=[];
+  if(i==null)return {good,bad,gaps};
+  const G=(t,w)=>good.push({t,w}), B=(t,w)=>bad.push({t,w}), M=(t,w)=>gaps.push({t,w});
+  const rev=V('is','revenue',i), gp=V('is','grossProfit',i), oi=V('is','operatingIncome',i),
+        ni=V('is','netIncome',i), cfo=V('cf','cfo',i), cap=V('cf','capex',i),
+        dep=V('cf','depAmort',i), ta=V('bs','totalAssets',i), eq=V('bs','totalEquity',i);
+  const gm=div(gp,rev), om=div(oi,rev), roa=div(ni,avgBal('bs','totalAssets',i));
+  const pv=(st,role)=>p==null?null:V(st,role,p);
+
+  /* --- revenue, margin and returns ------------------------------------- */
+  if(p!=null&&rev!=null&&pv('is','revenue')){
+    const g=(rev-pv('is','revenue'))/Math.abs(pv('is','revenue'));
+    if(g>=0.02)G('Revenue grew '+pct(g,1),'Against '+periodLabel(p)+'. Growth is the easiest thing to '+
+      'keep going and the hardest to start, so a rising top line buys time for everything else.');
+    else if(g<=-0.02)B('Revenue fell '+pct(Math.abs(g),1),'Against '+periodLabel(p)+'. A fixed cost base '+
+      'does not fall with it, which is why a revenue decline reaches operating income magnified.');
+  }
+  const cg=revCagr();
+  if(cg!=null&&c.length>=3){
+    if(cg>=0.03)G('Revenue compounding at '+pct(cg,1)+' a year','Across '+c.length+' periods, so the '+
+      'direction is a trend rather than one good year.');
+    else if(cg<=-0.02)B('Revenue contracting at '+pct(Math.abs(cg),1)+' a year','Across '+c.length+
+      ' periods. A single weak year can be explained; a slope has to be answered.');
+  }
+  if(p!=null&&gm!=null){
+    const g0=div(pv('is','grossProfit'),pv('is','revenue'));
+    if(g0!=null&&gm>=g0+0.003)G('Gross margin improved to '+pct(gm,1),'From '+pct(g0,1)+'. On this '+
+      'revenue each point is worth '+amtW(rev*0.01)+', so the gain is the cheapest profit in the business.');
+    else if(g0!=null&&gm<=g0-0.003)B('Gross margin fell to '+pct(gm,1),'From '+pct(g0,1)+' — '+
+      amtW(rev*(g0-gm))+' of profit at the prior margin. Price, input cost and mix each have a '+
+      'different fix, and the split is not visible from the face of the statements.');
+  }
+  if(p!=null&&om!=null){
+    const o0=div(pv('is','operatingIncome'),pv('is','revenue'));
+    if(o0!=null&&om>=o0+0.003)G('Operating margin widened to '+pct(om,1),'From '+pct(o0,1)+
+      '. Overhead grew more slowly than revenue.');
+    else if(o0!=null&&om<=o0-0.003)B('Operating margin narrowed to '+pct(om,1),'From '+pct(o0,1)+
+      '. Cost is growing faster than the revenue carrying it.');
+    else if(om!=null&&om<0.03)B('Operating margin is thin at '+pct(om,1),'There is little room between '+
+      'this and a loss, so a small revenue fall or cost rise matters more here than the percentage suggests.');
+  }
+  if(roa!=null&&p!=null){
+    const r0=div(pv('is','netIncome'),avgBal('bs','totalAssets',p));
+    if(r0!=null&&roa>=r0+0.005)G('Return on assets rose to '+pct(roa,1),'From '+pct(r0,1)+
+      ' on average balances — the capital already in the business is working harder.');
+    else if(r0!=null&&roa<=r0-0.005)B('Return on assets fell to '+pct(roa,1),'From '+pct(r0,1)+
+      ' on average balances. Either margin or asset productivity gave way; the DuPont page says which.');
+  }
+  if(ni!=null&&ni<0)B('The business made a loss of '+amtW(Math.abs(ni)),'In '+periodLabel(i)+
+    '. Every return measure below the line is negative by construction, so read the operating lines instead.');
+
+  /* --- cash ------------------------------------------------------------- */
+  const conv=(ni&&ni>0&&cfo!=null)?cfo/ni:null;
+  if(conv!=null&&conv>=1)G('Profit is converting to cash at '+num(conv,2)+'×','Operating cash flow '+
+    'against net income. Reported earnings are being collected rather than carried in working capital.');
+  else if(conv!=null&&conv<0.8)B('Only '+num(conv,2)+'× of profit arrived as cash','Operating cash flow '+
+    'against net income. The gap is almost always working capital, and it is money the business cannot spend.');
+  const f=fcf(i);
+  if(f!=null&&f>0)G('Free cash flow of '+amtW(f),'After capital expenditure — what the business actually '+
+    'had left to repay debt, invest or distribute.');
+  else if(f!=null&&f<=0)B('Free cash flow is negative at '+amtW(f),'After capital expenditure. Whatever '+
+    'the profit line says, this year consumed cash rather than produced it.');
+  if(cap!=null&&dep){
+    const r=Math.abs(cap)/Math.abs(dep);
+    if(r<0.9)B('Capital expenditure is only '+num(r,2)+'× depreciation','The asset base is being used up '+
+      'faster than it is replaced. Cash flow looks better in exactly the years this happens.');
+    else if(r>1.1)G('Reinvesting at '+num(r,2)+'× depreciation','Spending above the rate the asset base '+
+      'is being consumed, which is a growth decision rather than maintenance.');
+  }
+
+  /* --- balance sheet, credit and liquidity ------------------------------ */
+  if(typeof currentS3==='function'){
+    const cr=currentS3(i);
+    if(cr!=null&&cr>=1.2)G('Current ratio of '+num(cr,2),'Short-term assets cover short-term obligations '+
+      'with room, so an ordinary swing in the cycle does not need the bank.');
+    else if(cr!=null&&cr<1)B('Current ratio of '+num(cr,2)+' is below 1','Current liabilities exceed '+
+      'current assets. Normal where suppliers fund the inventory, dangerous where they do not.');
+  }
+  if(typeof deS3==='function'){
+    const d=deS3(i), t=tieS3(i), y=yearsToRepay(i);
+    if(d!=null&&d<=1)G('Total debt is '+num(d,2)+'× equity','Including operating leases. There is '+
+      'borrowing capacity here, which is an option worth having before it is needed.');
+    else if(d!=null&&d>2)B('Total debt is '+num(d,2)+'× equity','Including operating leases. The lenders '+
+      'have more in this business than the owners do, and they are paid first.');
+    if(t!=null&&t>=5)G('Interest covered '+num(t,1)+'× by EBIT','Comfortably above the level at which a '+
+      'lender starts asking questions.');
+    else if(t!=null&&t<2)B('Interest covered only '+num(t,1)+'× by EBIT','A small fall in earnings puts '+
+      'the interest bill at risk, which is the covenant most loans are written around.');
+    if(y!=null&&y>6)B(num(y,1)+' years of free cash flow to repay the debt','At the present rate. Interest '+
+      'cover is an annual test; this is the structural one.');
+    else if(y!=null&&y<=3)G('Debt repayable in '+num(y,1)+' years of free cash flow','At the present rate — '+
+      'a structural position, not just an affordable interest bill.');
+  }
+  if(typeof zScore==='function'&&zScore(i)!=null){
+    const z=zScore(i), zone=zZone(z);
+    if(zone==='safe')G(zModel().l+' of '+num(z,2)+' — safe zone','The bankruptcy screen puts this '+
+      'business well away from the distress range on five weighted ratios.');
+    else if(zone==='distress')B(zModel().l+' of '+num(z,2)+' — distress zone','The screen places it in '+
+      'the range where failures cluster. It is a screen, not a verdict, but it is not ignorable.');
+    else B(zModel().l+' of '+num(z,2)+' — gray zone','Neither safe nor distressed. The direction of travel '+
+      'matters more than the reading.');
+  }
+  if(eq!=null&&eq<0)B('Shareholders’ equity is negative','Liabilities exceed assets as carried. Every '+
+    'leverage and return-on-equity measure is meaningless until this is explained.');
+  const gw=V('bs','goodwill',i);
+  if(gw!=null&&ta&&gw/ta>0.2)B('Goodwill is '+pct(gw/ta,0)+' of total assets','Price paid above the assets '+
+    'acquired. It earns its place only while those businesses perform, and the write-down always arrives late.');
+  const bk=breakeven(i);
+  if(bk&&bk.mos!=null){
+    if(bk.mos>=0.3)G('Revenue can fall '+pct(bk.mos,1)+' before the business loses money','A wide margin '+
+      'of safety: operating leverage is working for it rather than against it.');
+    else if(bk.mos<0.15)B('Revenue can fall only '+pct(bk.mos,1)+' before the business loses money',
+      'A thin margin of safety. This is an operating-leverage problem, not a sales problem.');
+  }
+  if(typeof spYears==='function'&&spYears().length>=3)
+    B('Special items appear in '+spYears().length+' of '+c.length+' years','What is presented as '+
+      'exceptional is recurring, and adjusted earnings that exclude it overstate what the business earns.');
+  if(typeof discHas==='function'&&discHas('segments')){
+    const T=(typeof mixTable==='function')?mixTable('segments'):null;
+    if(T){const top=T.rows.map(r=>({n:r.name,s:T.share(r,T.cols.length-1)})).filter(x=>x.s!=null)
+             .sort((a,b)=>b.s-a.s)[0];
+      if(top&&top.s>0.5)B('One segment is '+pct(top.s,0)+' of revenue','‘'+top.n+'’. A consolidated top '+
+        'line hides where the result is actually being earned, and where the risk sits.');
+      else if(top&&top.s<0.4)G('No single segment is more than '+pct(top.s,0)+' of revenue',
+        'Revenue is spread across the reported segments rather than resting on one.');}
+  }
+
+  /* --- what the analysis could not test -------------------------------- */
+  if(c.length<3)M('Only '+c.length+' period'+(c.length===1?'':'s')+' of figures',
+    'Three is the minimum that separates a trend from a one-off year, and four lets an unusual year be '+
+    'seen for what it is. A fourth column would change how firmly every movement on this page can be read.');
+  if(!chron().some(x=>V('cf','cfo',x)!=null))M('No cash flow statement',
+    'Cash conversion, free cash flow, the credit payback tests and the cash bridge are all left out. '+
+    'Profit without cash is the most common way a good-looking year turns out not to be one.');
+  if(typeof discModules==='function')discModules().filter(m=>!m.on&&!m.na).forEach(m=>
+    M(m.l+' — not performed','Needs '+m.need+'. Entered on 11 Notes, it would show what the face of the '+
+      'statements cannot.'));
+  if(typeof credModules==='function')credModules().filter(m=>!m.on&&!m.na).forEach(m=>
+    M(m.l+' — not performed','Needs '+m.need+'.'));
+  if(typeof entryOutstanding==='function')entryOutstanding().filter(x=>x.req).forEach(x=>
+    M(x.l+' not entered',(x.n||'')+(x.w?' — '+x.w:'')+'. It is typed on 02 Entry; no filing carries it.'));
+  if(typeof spHas==='function'&&!spHas())M('No special-items register',
+    'Reported profit is taken at face value. Impairments, write-downs, settlements and one-off charges '+
+    'entered on the Special items page would change adjusted earnings and the valuation built on them.');
+  if(typeof ngHas==='function'&&!ngHas())M('No company-reported adjusted figures captured',
+    'Whatever EBITDA the company quotes to its bank, its board or a buyer is not here to be tested '+
+    'against the same measure built from these statements. The gap between the two is usually the argument.');
+  if(isPrivate()&&!S.addbacks.length)M('No normalization schedule',
+    'Owner compensation, related-party rent and personal expenses have not been adjusted, so adjusted '+
+    'EBITDA and SDE equal reported EBITDA. In an owner-managed business this usually understates earnings.');
+  if(isPrivate()&&!(E().mult.low||E().mult.base||E().mult.high))M('No multiple range entered',
+    'Without a sourced range from comparable transactions there is no value conclusion, only earnings.');
+  const q=qcTally();
+  if(q.req&&q.reqDone<q.req)M(q.reqDone+' of '+q.req+' key figures traced to a source',
+    'The rest are imported or typed but not yet verified on 06 Verify, which is why the cover says DRAFT. '+
+    'It does not change a number; it changes how much weight any of them will carry.');
+  const b=pick(BASIS,E().basis);
+  if(['compiled','management','tax','unknown'].includes(E().basis))M('Statements are '+b.l.toLowerCase(),
+    b.w+' Every figure in this report inherits that standing.');
+  if(!E().employees.some(x=>x!=null&&x!==''))M('No headcount',
+    'Revenue and profit per employee are the simplest productivity measures there are, and neither is computed.');
+  M('No customer-level data','Revenue by customer, and the profitability of each, are not captured '+
+    'anywhere in this analysis. Concentration is the risk most often understated by an owner, and a '+
+    'single customer list would change the risk section and possibly the valuation.');
+  M('No order book, pipeline or trading since the year end','Everything here ends at '+periodLabel(i)+
+    '. Backlog and year-to-date figures are what say whether the last full year still describes the business.');
+  M('No debt schedule, covenants or maturity profile','Rates, maturities and covenant thresholds decide '+
+    'what this business is free to do next. A covenant test can outrank every ratio in this report.');
+  return {good,bad,gaps};
+}
+function scoreBlocks(){
+  const S1=scorecard(), B=[];
+  const list=(cls,items)=>'<ul class="fl">'+items.map(x=>'<li class="'+cls+'"><b>'+esc(x.t)+'</b><span>'+
+    esc(x.w)+'</span></li>').join('')+'</ul>';
+  B.push('<h4 class="sh">What is working</h4>'+
+    (S1.good.length?list('g',S1.good)
+      :'<p class="scnote">Nothing in the model tests positively on the measures above. That is a finding in itself.</p>'));
+  B.push('<h4 class="sh">What is not</h4>'+
+    (S1.bad.length?list('r',S1.bad)
+      :'<p class="scnote">No test on the measures above reads negatively for these periods.</p>'));
+  B.push('<h4 class="sh">What this analysis could not test, and what it would change</h4>'+
+    '<p class="scnote">Absence of evidence, listed. Each line is either a module that did not run, a '+
+    'figure still owed, or evidence this analysis never sees — with what having it would change.</p>'+
+    list('m',S1.gaps));
+  return B;
+}
+
 /* ---------- 13. SVG CHART PRIMITIVES ----------------------------------- */
 const CH={maroon:'#500000',deep:'#2E0000',ink:'#000000',muted:'#8C8C8C',rule:'#E0E0E0',
   positive:'#1A1A1A',neutral:'#7A7A7A',gray:['#1A1A1A','#4D4D4D','#7A7A7A','#A3A3A3','#C7C7C7']};
@@ -6876,7 +7133,13 @@ function niceScale(min,max,n){
   return {lo,hi,ticks};
 }
 function lineChart(series,labels,opt){
-  opt=opt||{}; const W=560,H=250,mL=58,mR=opt.mR||88,mT=14,mB=34;
+  opt=opt||{};
+  const W=560,H=250,mL=58,mT=14,mB=34;
+  /* The series are labeled where they end rather than in a legend, so the right
+     margin has to be as wide as the longest name or the label prints into the
+     page margin. 10px semibold runs about 5.6px a character. */
+  const longest=Math.max(0,...series.map(s=>String(s.name||'').length));
+  const mR=Math.min(190,Math.max(opt.mR||88,Math.round(longest*5.6)+16));
   const all=series.flatMap(s=>s.data).filter(v=>v!=null&&isFinite(v));
   if(!all.length)return emptyChart();
   let mn=Math.min(...all),mx=Math.max(...all);
@@ -7241,7 +7504,7 @@ const NOTE_DRAFT={
   const i=latestIdx(), rev=V('is','revenue',i), om=div(V('is','operatingIncome',i),rev);
   const co=(S.meta.company||'The business').trim();
   let t='';
-  if(rev!=null)t+=co+' turned over '+fmt(rev)+' ('+repMeta().units+') in the period to '+periodLabel(i)+
+  if(rev!=null)t+=co+' turned over '+amtW(rev)+' in the period to '+periodLabel(i)+
     (om!=null?', at an operating margin of '+pct(om,1):'')+'. ';
   else t+=co+'. ';
   t+=R.slice(0,3).map(x=>x.t).join('. ')+'. ';
@@ -7518,21 +7781,59 @@ NOTE_DRAFT.notesread=function(){
   return b.join(' ')+'\n\n[Say what these disclosures change about the conclusion reached '+
     'on the face of the statements. If they change nothing, say that too, and say why.]';
 };
+/* Every drafter ends with the instruction to the analyst in square brackets.
+   That instruction belongs beside the box, not inside the prose: left in the
+   text it reaches the client's document, which is where Fenwick found it. It
+   is split off here, shown under the field, and the field is recorded as
+   seeded so the report can mark it as the engine's words rather than his. */
+function splitSeed(t){
+  const m=String(t||'').match(/\s*\[([^\]]+)\]\s*$/);
+  return m?{t:String(t).slice(0,m.index).trim(),h:m[1].replace(/\s+/g,' ').trim()}:{t:String(t||'').trim(),h:''};
+}
+function seedWrite(k,raw,el,append){
+  const d=splitSeed(raw);
+  if(!d.t)return false;
+  const cur=append?(S.notes[k]||'').trim():'';
+  S.notes[k]=cur?cur+'\n\n'+d.t:d.t;
+  S.seeded=S.seeded||{};
+  S.seeded[k]=cur?null:{t:d.t,h:d.h};      /* appended under the analyst's own words is his, not ours */
+  if(d.h)SEED_HINT[k]=d.h;
+  if(el){el.value=S.notes[k];autoGrow(el);markDone(el);}
+  paintSeeds();
+  return !!cur;
+}
+const SEED_HINT={};
+function seedHint(k){
+  const s=S.seeded&&S.seeded[k];
+  return (s&&s.h)||SEED_HINT[k]||'';
+}
+/* Seeded means: the engine wrote it and nobody has touched it since. */
+function isSeeded(k){
+  const s=S.seeded&&S.seeded[k];
+  return !!(s&&s.t&&(S.notes[k]||'').trim()===s.t.trim());
+}
+function paintSeeds(){
+  document.querySelectorAll('[data-seed]').forEach(e=>
+    e.classList.toggle('on',isSeeded(e.dataset.seed)));
+  document.querySelectorAll('[data-seedhint]').forEach(e=>{
+    const h=seedHint(e.dataset.seedhint);
+    e.textContent=h?'What to write here: '+h:'';
+    e.classList.toggle('on',!!h);
+  });
+}
 function draftNote(k){
   const f=NOTE_DRAFT[k];
   if(!f){toast('No draft available for that field');return;}
   let t=null;
   try{t=f();}catch(e){t=null;}
   if(!t){toast('Not enough in the model to draft that one yet');return;}
-  const el=$('ta_note_'+k);
-  const cur=(S.notes[k]||'').trim();
   /* never overwrite work: an existing note keeps its place and the draft goes
      underneath it, which is also how an analyst actually uses this */
-  S.notes[k]=cur?cur+'\n\n'+t:t;
-  if(el){el.value=S.notes[k];autoGrow(el);markDone(el);}
-  toast(cur?'Draft appended below your text':'Draft written. Now rewrite it.');
+  const appended=seedWrite(k,t,$('ta_note_'+k),true);
+  toast(appended?'Draft appended below your text':'Draft written. Now rewrite it.');
 }
-function clearNote(k){S.notes[k]='';const el=$('ta_note_'+k);if(el){el.value='';autoGrow(el);markDone(el);}}
+function clearNote(k){S.notes[k]='';if(S.seeded)S.seeded[k]=null;
+  const el=$('ta_note_'+k);if(el){el.value='';autoGrow(el);markDone(el);}paintSeeds();}
 
 function renderNotes(){
   $('noteFields').innerHTML=NOTE_FIELDS.map(f=>
@@ -7849,8 +8150,13 @@ function commitImport(){
       touched=true;
     }
     if(touched){
-      row.src={doc:IMP.src.doc||row.src.doc||'',page:IMP.src.page||row.src.page||''};
-      row.verified=false; row.vAt='';
+      /* Where the figure came from, kept with it. A row carrying an XBRL
+         element name was tagged by the filer itself, which is a different
+         standard of evidence from a number somebody typed, and 06 Verify
+         treats the two differently. */
+      row.src={doc:IMP.src.doc||row.src.doc||'',page:IMP.src.page||row.src.page||'',
+               tag:r.tag||'',kind:r.tag?'xbrl':'manual'};
+      row.verified=false; row.vAt=''; row.vBy='';
     }
     imported++;
   });
@@ -9049,7 +9355,7 @@ function draftSynthesis(){
     t+='That ordering is a starting point for the conversation, not a conclusion — it says where the money is, not whether it can be reached.\n\n';
   }
   t+='[Replace this paragraph with your own judgment. The model can rank the levers; it cannot tell you which of them this management team can actually pull, and that is usually the binding question.]';
-  S.notes.sowhat=t; $('ta_sowhat').value=t; autoGrow($('ta_sowhat')); markDone($('ta_sowhat'));
+  seedWrite('sowhat',t,$('ta_sowhat'),false);
   toast('Draft written — now rewrite it');
 }
 
@@ -9705,8 +10011,13 @@ function paginateBlocks(blocks,titleFirst,titleRest,eyebrow,P){
   let first=true,acc=[];
   const flush=()=>{
     if(!acc.length)return;
+    /* Last guard before a sheet is emitted. Every placement above is measured,
+       but a measurement taken against a probe can read a line short; rather
+       than let a page spill off the paper, the tail moves to the next one. */
+    let carry=[];
+    while(acc.length>1&&!fits(first?titleFirst:titleRest,acc.join('')))carry.unshift(acc.pop());
     P.push(pageWrap(first?titleFirst:titleRest,acc.join(''),eyebrow));
-    first=false;acc=[];
+    first=false;acc=carry;
   };
   /* measure inside the real page furniture — a long client name in the running
      header wraps and changes the available height, so an approximation is not
@@ -9747,25 +10058,60 @@ function paginateBlocks(blocks,titleFirst,titleRest,eyebrow,P){
       const rows=tb[2].split(/(?=<tr)/).filter(x=>x.trim());
       if(rows.length>1)return chunk(t,tb[1],rows,tb[3]);
     }
-    const m=b.match(/^(<div class="evalbox">(?:<div class="evh">.*?<\/div>)?)([\s\S]*)(<\/div>)$/);
+    const m=b.match(/^(<div class="(?:evalbox|plainbox)">(?:<div class="evh">.*?<\/div>)?)([\s\S]*)(<\/div>)$/);
     const open=m?m[1]:'', inner=m?m[2]:b, close=m?m[3]:'';
+    if(m&&/<div/.test(inner))return [b];
     const ps=inner.split(/(?=<p)/).filter(Boolean);
     if(ps.length<2)return [b];
     return chunk(t,open,ps,close);
   };
+  /* The pieces a block can be cut into, if it can be cut at all: table rows
+     with the column header repeated, or the paragraphs inside an evaluation
+     box. Anything else — a chart, a card, a list — moves whole, because a bad
+     cut is worse than a short page. */
+  const pieces=b=>{
+    const tb=b.match(/^([\s\S]*?<table[^>]*>[\s\S]*?<tbody>)([\s\S]*?)(<\/tbody>[\s\S]*)$/);
+    if(tb){
+      const rows=tb[2].split(/(?=<tr)/).filter(x=>x.trim());
+      if(rows.length>2)return {prefix:tb[1],parts:rows,suffix:tb[3]};
+      return null;
+    }
+    const m=b.match(/^(<div class="(?:evalbox|plainbox)">(?:<div class="evh">.*?<\/div>)?)([\s\S]*)(<\/div>)$/);
+    if(!m||/<div/.test(m[2]))return null;
+    const ps=m[2].split(/(?=<p)/).filter(Boolean);
+    return ps.length>2?{prefix:m[1],parts:ps,suffix:m[3]}:null;
+  };
   blocks.forEach(b=>{
-    const t=first?titleFirst:titleRest;
-    if(!fits(t,b)){
+    const t=()=>first?titleFirst:titleRest;
+    /* it fits where we are */
+    if(acc.length?fits(t(),acc.join('')+b):fits(t(),b)){acc.push(b);return;}
+    /* It does not. Rather than leave a third of the sheet blank and start the
+       block overleaf, cut it at a row or paragraph boundary where it can be
+       cut: what fits stays here, the rest carries over. */
+    const PC=pieces(b);
+    if(!PC){
+      /* nothing to cut on here: it starts a page of its own, and if it is
+         taller than one page it is cut the old way rather than spilling */
       if(acc.length)flush();
-      splitTall(first?titleFirst:titleRest,b).forEach(part=>{
-        const t2=first?titleFirst:titleRest;
-        if(acc.length&&!fits(t2,acc.join('')+part))flush();
+      splitTall(t(),b).forEach(part=>{
+        if(acc.length&&!fits(t(),acc.join('')+part))flush();
         acc.push(part);
       });
       return;
     }
-    if(acc.length&&!fits(t,acc.join('')+b))flush();
-    acc.push(b);
+    let cur=[];
+    PC.parts.forEach(x=>{
+      const cand=PC.prefix+cur.concat(x).join('')+PC.suffix;
+      if(cur.length&&!fits(t(),acc.join('')+cand)){
+        acc.push(PC.prefix+cur.join('')+PC.suffix);flush();cur=[];
+      }
+      cur.push(x);
+    });
+    if(cur.length){
+      const piece=PC.prefix+cur.join('')+PC.suffix;
+      if(acc.length&&!fits(t(),acc.join('')+piece))flush();
+      acc.push(piece);
+    }
   });
   flush();
   host.remove();
@@ -9939,80 +10285,6 @@ function repTableParts(st,mode){
   });
   return {head:head,rows:rows};
 }
-
-/* VALUATION FRONT. For a private company whose value rests on an assumed replacement
-   cost for the owner, the executive summary opens with the bridge from the reported
-   EBITDA to the assumed EBITDA a multiple is applied to, a sensitivity to that one
-   assumption, and the list of every assumption with its source. Every assumed figure
-   carries an ASSUMPTION tag so it cannot be read as the seller's own. Returns null
-   (nothing printed) when there is no owner add-back or no multiple range. */
-/* the tag already says it: drop a typed 'ASSUMPTION' prefix so it is not said twice */
-function unTag(x){return String(x||'').replace(/^\s*ASSUMPTION\s*(·|:|,)?\s*(NOT A SELLER FIGURE\.?)?\s*/i,'');}
-function valuationFront(i){
-  if(isPublic()||i==null)return null;
-  const val=(a)=>{const v=a.values[i];return (v==null||v==='')?0:Number(v);};
-  const base=S.addbacks.filter(a=>a.kind==='ownerBase'), own=S.addbacks.filter(a=>a.kind==='ownerComp');
-  if(!base.length||!own.length||!hasMultRange())return null;
-  /* the workbench splits officer pay in two: ownerBase is the part a hired manager would
-     cost (the replacement), ownerComp the part above it. Together they are the pay as booked. */
-  const repl=base.reduce((t,a)=>t+val(a),0), above=own.reduce((t,a)=>t+val(a),0);
-  const officers=repl+above, e=ebitda(i);
-  const other=S.addbacks.filter(a=>a.kind!=='ownerBase'&&a.kind!=='ownerComp');
-  const otherT=other.reduce((t,a)=>t+val(a),0);
-  const beforeOfficers=e==null?null:e+officers+otherT;
-  const adj=adjEbitda(i), m=E().mult, mm=[m.low,m.base,m.high].map(x=>x===''||x==null?null:Number(x));
-  const TAG='<span class="asmtag">Assumption</span>', DOC='<span class="doctag">Seller figure</span>';
-  const f=v=>v==null?'—':fmt(v);
-  let b='<div class="asmbox"><h4 class="sh asmh">Assumed EBITDA and value: read this first</h4>'+
-    '<p>Reported EBITDA is not the figure a buyer can price on here. The officers take most of the profit as salary, '+
-    'so the reported figure describes the business at the current owner’s pay, not at the cost of running it after a sale. '+
-    'To reach an EBITDA a multiple can be applied to, officer pay is added back and a market cost for a hired manager is '+
-    'deducted in its place. That replacement cost is <b>an assumption, not a seller figure</b>, and so is the multiple range. '+
-    'Both are labeled wherever they appear, and both are replaced as soon as the seller’s payroll and a real offer are in hand.</p></div>';
-  let t='<table class="rp asmt"><colgroup><col><col style="width:16%"><col style="width:15%"></colgroup><thead><tr><th class="lbl">'+
-    esc(periodLabel(i))+': from reported to assumed EBITDA</th><th>Amount</th><th class="lbl">Basis</th></tr></thead><tbody>';
-  t+='<tr><td class="lbl">EBITDA as reported (operating income plus depreciation)</td><td>'+f(e)+'</td><td class="lbl">'+DOC+'</td></tr>';
-  t+='<tr><td class="lbl">Add back: officer salaries, as booked</td><td>'+f(officers)+'</td><td class="lbl">'+DOC+'</td></tr>';
-  other.forEach(a=>{t+='<tr><td class="lbl">'+(val(a)<0?'Less: ':'Add: ')+esc(a.label)+'</td><td>'+f(val(a))+'</td><td class="lbl">'+
-    (a.conf==='Documented'?DOC:TAG)+'</td></tr>';});
-  t+='<tr class="tot"><td class="lbl"><b>Earnings before officer pay</b></td><td><b>'+f(beforeOfficers)+'</b></td><td class="lbl">'+DOC+'</td></tr>';
-  t+='<tr class="asmrow"><td class="lbl">Less: market cost of a hired general manager</td><td>'+f(-repl)+'</td><td class="lbl">'+TAG+'</td></tr>';
-  t+='<tr class="tot asmrow"><td class="lbl"><b>Assumed EBITDA</b> (Adjusted EBITDA)</td><td><b>'+f(adj)+'</b></td><td class="lbl">'+TAG+'</td></tr>';
-  t+='</tbody></table>';
-  const out=['<div>'+b+'</div>',t];
-  /* sensitivity: the one assumption that moves the answer */
-  const steps=[repl-50000,repl,repl+50000,repl+100000].filter(x=>x>=0);
-  let s2='<table class="rp asmt"><thead><tr><th class="lbl">If the hired manager costs…</th><th>Assumed EBITDA</th>'+
-    mm.map((x,k)=>'<th>'+(x==null?'—':['Low','Base','High'][k]+' · '+x.toFixed(1)+'×')+'</th>').join('')+'</tr></thead><tbody>';
-  steps.forEach(r=>{const a=beforeOfficers==null?null:beforeOfficers-r;
-    s2+='<tr'+(r===repl?' class="asmrow"':'')+'><td class="lbl">'+fmt(r)+(r===repl?' <span class="asmtag">used</span>':'')+'</td><td>'+f(a)+'</td>'+
-      mm.map(x=>'<td>'+(x==null||a==null?'—':fmt(a*x))+'</td>').join('')+'</tr>';});
-  s2+='</tbody></table><p class="asmnote">Indicative enterprise value, before real estate, surplus cash and any working-capital adjustment. '+
-    'Every $50,000 of manager cost moves the base value by '+fmt(50000*(mm[1]||0))+'. This is a starting point for negotiation, not an opinion of value.</p>';
-  out.push('<h4 class="sh asmh">Sensitivity to the manager assumption</h4>'+s2);
-  /* the assumptions themselves */
-  const A=[];
-  own.forEach(a=>A.push([a.label,'Replacement cost '+fmt(repl)+' a year',a.note||'',a.conf||'Estimated']));
-  S.addbacks.filter(a=>a.kind!=='ownerBase'&&a.kind!=='ownerComp'&&a.conf!=='Documented').forEach(a=>A.push([a.label,fmt(val(a)),a.note||'',a.conf]));
-  A.push(['Valuation multiple range',mm.map(x=>x==null?'—':x.toFixed(1)+'×').join(' · ')+' '+pick(MULT_BASIS,m.basis).l,m.source||'',E().valuationNote||'']);
-  let s3='<table class="rp txt asmt"><colgroup><col style="width:22%"><col style="width:20%"><col></colgroup><thead><tr><th class="lbl">Assumption</th>'+
-    '<th class="lbl">Value used</th><th class="lbl">Source, and what replaces it</th></tr></thead><tbody>'+
-    A.map(x=>'<tr><td class="lbl"><span class="asmtag">Assumption</span> '+esc(unTag(x[0]))+'</td><td class="lbl">'+esc(x[1])+'</td><td class="lbl">'+esc(unTag(x[2]))+
-      (x[3]&&x[3]!=='Estimated'?' '+esc(x[3]):'')+'</td></tr>').join('')+'</tbody></table>';
-  out.push('<h4 class="sh asmh">The assumptions, and what replaces them</h4>'+s3);
-  return out;
-}
-/* Risk factors that open with "RED FLAGS" print as a red, numbered block, so a reader
-   cannot skim past them. First line is the lead-in; each following line is one flag. */
-function redFlagsBlock(t){
-  const L=String(t).split(/\n+/).map(x=>x.trim()).filter(Boolean);
-  const lead=L.shift().replace(/^red flags[:.,\s]*/i,'');
-  return '<h4 class="sh rfh">Red flags: what needs attention'+citeTag('risks')+'</h4>'+
-    (lead?'<p class="rflead">'+esc(lead)+'</p>':'')+
-    '<table class="rp txt rflags"><colgroup><col style="width:6%"><col></colgroup><tbody>'+
-    L.map((x,n)=>'<tr><td class="lbl rfn">'+(n+1)+'</td><td class="lbl">'+esc(x.replace(/^\(?\d+[.)]\s*/,''))+'</td></tr>').join('')+
-    '</tbody></table>';
-}
 function repNote2(t){
   t=(t||'').trim(); if(!t)return '';
   return t.split(/\n{2,}/).map(x=>'<p>'+esc(x).replace(/\n/g,'<br>')+'</p>').join('');
@@ -10027,8 +10299,109 @@ function repNote(k){
 function evalBlock(label,k,html){
   const body=(html!=null)?html:repNote(k);
   if(!body||!String(body).trim())return '';
-  return '<div class="evalbox">'+(label?'<div class="evh">'+esc(label)+'</div>':'')+body+'</div>';
+  const seed=(k&&isSeeded(k))?'<span class="seeded">Content seeded by the Aperture AI engine</span>':'';
+  return '<div class="evalbox">'+(label?'<div class="evh">'+esc(label)+'</div>':'')+body+seed+'</div>';
 }
+/* ---------- 19a3. THE SAME THING, IN PLAIN WORDS -------------------------
+   Under each piece of commentary, the figures said the way a reader would say
+   them at a kitchen table: cents in the dollar, dollars for every hundred,
+   times over. It is written from the model, never from the commentary above
+   it, so it cannot contradict a number — but it also cannot read the
+   analyst's mind, and it says so at the foot of the box. */
+/* Money the way it is said out loud: 14,670 in $ millions is "$14.7 billion". */
+function plainAmt(v){
+  if(v==null)return '—';
+  const sc={millions:1e6,thousands:1e3,billions:1e9,units:1}[S.meta.units]||1;
+  let x=Math.abs(v)*sc; const sign=v<0?'-':'';
+  const step=[[1e9,'billion'],[1e6,'million'],[1e3,'thousand']].find(st=>x>=st[0]);
+  if(!step)return sign+'$'+fmt(Math.abs(v)*sc/1,0);
+  const n=x/step[0];
+  return sign+'$'+num(n,n<10?1:(n<100?1:0))+' '+step[1];
+}
+function plainTerms(k){
+  const i=latestIdx(), p=prevIdx(), c=chron();
+  if(i==null)return '';
+  const rev=V('is','revenue',i), gp=V('is','grossProfit',i), oi=V('is','operatingIncome',i),
+        ni=V('is','netIncome',i), ta=V('bs','totalAssets',i), eq=V('bs','totalEquity',i),
+        cfo=V('cf','cfo',i), cap=V('cf','capex',i);
+  const cents=v=>v==null?null:Math.round(v*100);
+  const P=[];
+  if(k==='profitability'){
+    const gm=div(gp,rev), om=div(oi,rev), nm=div(ni,rev);
+    if(gm==null&&om==null)return '';
+    let t='Of every dollar of sales, ';
+    if(gm!=null)t+=cents(gm)+' cents was left after paying for what was sold';
+    if(om!=null)t+=(gm!=null?', and ':'')+cents(om)+' cents was still there after wages, rent and the rest of running the business';
+    if(nm!=null)t+='. After interest and tax, '+cents(nm)+' cents of that dollar was profit';
+    P.push(t+'.');
+    if(p!=null){
+      const g0=div(V('is','grossProfit',p),V('is','revenue',p)), o0=div(V('is','operatingIncome',p),V('is','revenue',p));
+      if(g0!=null&&gm!=null&&Math.abs(gm-g0)>=0.001)
+        P.push('A year earlier it kept '+cents(g0)+' cents on the first measure'+
+          (o0!=null?' and '+cents(o0)+' cents on the second':'')+'. The difference is worth '+
+          plainAmt(Math.abs(rev*(gm-g0)))+' a year at today’s sales — '+
+          (gm>g0?'in the company’s favor.':'against it.'));
+    }
+  }
+  if(k==='returns'){
+    const roa=div(ni,avgBal('bs','totalAssets',i)), roe=div(ni,avgBal('bs','totalEquity',i)),
+          at=div(rev,avgBal('bs','totalAssets',i));
+    if(roa==null&&roe==null)return '';
+    if(roa!=null)P.push('The business has '+plainAmt(ta)+' of things it owns — buildings, equipment, stock, '+
+      'money owed by customers. Last year it earned $'+num(roa*100,2)+' of profit for every $100 of that.');
+    if(at!=null)P.push('Those assets produced '+num(at,2)+' dollars of sales each, so every dollar tied up '+
+      'in the business turned over '+num(at,2)+' times in the year.');
+    if(roe!=null&&eq!=null&&eq>0)P.push('The owners have '+plainAmt(eq)+' of their own money in it, and '+
+      'earned $'+num(roe*100,2)+' on every $100 of that.');
+  }
+  if(k==='balance'){
+    const cr=(typeof currentS3==='function')?currentS3(i):div(V('bs','totalCurrentAssets',i),V('bs','totalCurrentLiabilities',i));
+    const d=(typeof deS3==='function')?deS3(i):null, t=(typeof tieS3==='function')?tieS3(i):null;
+    if(cr==null&&d==null)return '';
+    if(cr!=null)P.push('For every dollar the business must pay within the next year, it holds '+
+      num(cr,2)+' dollars of cash, stock and money owed to it'+
+      (cr<1?' — less than it owes, so it depends on next year’s trading to pay this year’s bills.'
+           :' — more than it owes, with '+num(cr-1,2)+' dollars to spare.'));
+    if(d!=null)P.push('Lenders and landlords have put '+num(d,2)+' dollars into this business for every '+
+      'dollar the owners have'+(d>1?'. They are paid before the owners are.':'.'));
+    if(t!=null)P.push('Profit before interest and tax covers the interest bill '+num(t,1)+' times over.');
+  }
+  if(k==='cash'){
+    const f=fcf(i);
+    if(cfo==null&&ni==null)return '';
+    if(ni!=null&&cfo!=null)P.push('The business reported '+plainAmt(ni)+' of profit and actually collected '+
+      plainAmt(cfo)+' of cash from trading. '+(cfo>=ni
+        ?'More cash came in than profit was reported, which is the right way round.'
+        :'Less cash came in than profit was reported: the difference is sitting in stock, in money '+
+         'customers have not paid, or in bills that were paid early.'));
+    if(cap!=null)P.push('It spent '+plainAmt(Math.abs(cap))+' on equipment, vehicles and premises'+
+      (f!=null?', which left '+plainAmt(f)+(f>0?' for debt, dividends or saving.':' — a shortfall that had to come from somewhere else.'):'.'));
+  }
+  if(k==='constraint'){
+    const L=(typeof levers==='function')?levers().filter(x=>x.oi!=null).sort((a,b)=>b.oi-a.oi)[0]:null;
+    const b=breakeven(i);
+    if(!L&&!(b&&b.mos!=null))return '';
+    if(L)P.push('On the arithmetic alone, the change that would add the most money is '+L.n.toLowerCase()+
+      ': '+L.move+' is worth '+plainAmt(L.oi)+' a year. That says where the money is, not whether this team can get it.');
+    if(b&&b.mos!=null)P.push('Sales could fall '+pct(b.mos,1)+' before the business stopped making money '+
+      'on its trading. Below that, the fixed bills are larger than what the sales bring in.');
+  }
+  if(k==='limits'){
+    P.push('This reads '+c.length+' year'+(c.length===1?'':'s')+' of figures'+
+      (S.qc.primaryDoc?' from '+S.qc.primaryDoc:'')+'. Nothing here is an audit: the figures are '+
+      'taken as the company reported them, and the analysis is about what they add up to.');
+    const q=qcTally();
+    if(q.req&&q.reqDone<q.req)P.push('Of the '+q.req+' figures everything else is built on, '+q.reqDone+
+      ' have been checked back to the document so far.');
+    P.push('It cannot see what the statements do not carry: who the customers are, what is on order, '+
+      'what the contracts say, or who does the work.');
+  }
+  if(!P.length)return '';
+  return '<div class="plainbox"><div class="evh">In plain terms</div>'+
+    P.map(x=>'<p>'+esc(x)+'</p>').join('')+
+    '<span class="pfine">Written from the figures by the Aperture AI engine — not from the commentary above</span></div>';
+}
+
 /* ---------- 19a2. PARTS AND THE NOTES IN THE REPORT ----------------------
    The document now reads in three movements: what the statements say, what
    sits behind them, and what an analyst concludes. A divider sheet in front of
@@ -10380,9 +10753,9 @@ function buildReport(){
     ];
     const SB=[];
     SB.push('<h4 class="sh">Headline judgment</h4>'+
-      evalBlock('Headline judgment',null,repNote('headline')||
-        '<p style="color:#8C8C8C">[No headline judgment recorded. Add one on the Findings tab.]</p>'));
-    {const vf=valuationFront(i); if(vf)vf.forEach(x=>SB.push(x));}
+      (repNote('headline')?evalBlock('Headline judgment','headline')
+        :evalBlock('Headline judgment',null,
+          '<p style="color:#8C8C8C">[No headline judgment recorded. Add one on 12 Findings.]</p>')));
     SB.push('<div class="kpis">'+kpis.map(k=>'<div class="kb"><div class="k">'+esc(k[0])+'</div><div class="v">'+k[1]+'</div><div class="d">'+esc(k[2])+'</div></div>').join('')+'</div>');
     let b='';
     /* (a) fiscal year end · (b) business activities · (c) audit report · (d) departure from standard */
@@ -10419,11 +10792,11 @@ function buildReport(){
       b+='<p style="font-size:9.5px;color:#500000"><b>Departure —</b> '+esc(IN().departureNote)+citeTag('departure')+'</p>';
     const cams=(IN().cams||S.notes.auditor||'').trim();
     if(cams)b+='<h4 class="sh">Critical audit matters and concerns raised'+citeTag('cams')+'</h4>'+repNote2(cams);
-    if((IN().keyRisks||'').trim())b+=(/^\s*red flags/i.test(IN().keyRisks)?redFlagsBlock(IN().keyRisks)
-      :'<h4 class="sh">Risk factors carried forward'+citeTag('risks')+'</h4>'+repNote2(IN().keyRisks));
+    if((IN().keyRisks||'').trim())b+='<h4 class="sh">Risk factors carried forward'+citeTag('risks')+'</h4>'+repNote2(IN().keyRisks);
     if((IN().subsequent||'').trim())b+='<h4 class="sh">Subsequent events'+citeTag('subsequent')+'</h4>'+repNote2(IN().subsequent);
     b+=evalBlock('Binding constraint: candidates','constraint');
     splitBlocks(b).forEach(x=>SB.push(x));
+    scoreBlocks().forEach(x=>SB.push(x));
     paginateBlocks(SB,'Executive summary','Executive summary (continued)','Summary',P);
   }
 
@@ -10453,8 +10826,7 @@ function buildReport(){
     if(lf.tax==='pass')cav+='<li class="w"><b>The tax line is not comparable</b><span>A '+esc(lf.l.toLowerCase())+
       ' pays no material entity-level income tax. Net margin, return on assets, return on equity and earnings per share are all structurally overstated against a taxpaying peer. Comparisons in this report are drawn on operating margin and EBITDA for that reason.</span></li>';
     if(isPublic())cav+='<li class="o"><b>Value is observed, not assumed</b><span>Market capitalization and enterprise value are computed from the share price. Multiples are read from the market rather than applied to it.</span></li>';
-    else if(hasMultRange())cav+='<li class="n"><b>Value has to be constructed</b><span>With no observable price, valuation rests on normalized earnings and an evidenced multiple range. The range is the answer; the base case alone would be a false precision.</span></li>';
-    else cav+='<li class="n"><b>No value is stated</b><span>There is no observable price and no multiple range has been entered, so this report describes the business and states no value. A range is added only once the earnings it would apply to are confirmed.</span></li>';
+    else cav+='<li class="n"><b>Value has to be constructed</b><span>With no observable price, valuation rests on normalized earnings and an evidenced multiple range. The range is the answer; the base case alone would be a false precision.</span></li>';
     if(yrs!=null&&yrs<5)cav+='<li class="n"><b>Short operating history</b><span>'+yrs+
       ' years. Trend statements in this report describe a moment rather than a pattern and should be treated as provisional.</span></li>';
     cav+='</ul>';
@@ -10497,9 +10869,8 @@ function buildReport(){
       '<h4 class="sh">Reconciliation to normalized earnings</h4>'+r+
       (it!=null?'<p style="font-size:9px;color:#8C8C8C;margin-top:8px">Normalizations represent '+pct(it,0)+
         ' of reported EBITDA in '+esc(periodLabel(i))+'. Items graded <b>asserted by management</b> are '+
-        'hypotheses until documented'+(hasMultRange()?', and at the multiples applied in this report each dollar that fails '+
-        'in diligence removes several dollars of value.':'. '+(S.addbacks.length&&S.addbacks.every(a=>a.conf==='Documented')?
-        'Every item here is documented from the source statements; none is estimated.':'No value is stated in this report, so none is yet at stake.'))+'</p>':''),'Normalization'));
+        'hypotheses until documented, and at the multiples applied in this report each dollar that fails '+
+        'in diligence removes several dollars of value.</p>':''),'Normalization'));
   }
   if(has('valuation')){
     const i=latestIdx(),b=pick(MULT_BASIS,E().mult.basis),bv=multBasisValue(i);
@@ -10632,13 +11003,26 @@ function buildReport(){
     paginateBlocks(blocks,'Ratio analysis','Ratio analysis (continued)','Ratios',P);
   }
   if(has('charts')){
-    const defs=chartDefs();
-    for(let k=0;k<defs.length;k+=2){
-      const pair=defs.slice(k,k+2);
-      const body=pair.map(d=>'<div style="margin-bottom:9mm"><h4 class="sh" style="margin-top:0">'+esc(d.t)+'</h4>'+
-        d.svg()+'<p style="font-size:8.5px;color:#8C8C8C;margin-top:4px">'+esc(d.cap)+'</p></div>').join('');
-      P.push(pageWrap(k===0?'Charts':'',body,'Charts'));
-    }
+    /* A chart with nothing to draw prints as an empty box, and two of them make
+       a page that reads as blank. Only charts that actually drew are printed;
+       what was left out is named once, at the foot, so the absence is still
+       reported rather than hidden. */
+    const all=chartDefs().map(d=>{let h='';try{h=d.svg();}catch(e){h='';}return {...d,h};});
+    const defs=all.filter(d=>/^\s*<svg/.test(d.h)), out=all.filter(d=>!/^\s*<svg/.test(d.h));
+    if(defs.length){
+      for(let k=0;k<defs.length;k+=2){
+        const pair=defs.slice(k,k+2);
+        const last=k+2>=defs.length;
+        let body=pair.map(d=>'<div style="margin-bottom:9mm"><h4 class="sh" style="margin-top:0">'+esc(d.t)+'</h4>'+
+          d.h+'<p style="font-size:8.5px;color:#8C8C8C;margin-top:4px">'+esc(d.cap)+'</p></div>').join('');
+        if(last&&out.length)body+='<p class="scnote" style="border-top:.6px solid var(--rule);padding-top:7px">'+
+          '<b>Not drawn:</b> '+esc(out.map(d=>d.t.toLowerCase()).join('; '))+
+          '. Each needs figures the model does not carry for these periods.</p>';
+        P.push(pageWrap(k===0?'Charts':'',body,'Charts'));
+      }
+    } else P.push(pageWrap('Charts',npBlock('Charts',
+      'figures to plot. The charts are drawn from the statements, so they appear as soon as the '+
+      'statements carry two periods of data'),'Charts'));
   }
   if(has('credit'))repCredit(P);
   if(has('notes')){
@@ -10678,8 +11062,8 @@ function buildReport(){
      ['constraint','Binding constraint — candidates'],['questions','Open questions for management'],
      ['limits','Limitations and scope']].filter(([k])=>S.notes[k]&&S.notes[k].trim());
     /* paginate on approximate character budget so a page never spills */
-    paginateBlocks(secs.map(([k,l])=>evalBlock(l,k)),
-      'Analyst commentary','Analyst commentary (continued)','Commentary',P);
+    const CB=[]; secs.forEach(([k,l])=>{CB.push(evalBlock(l,k));const pt=plainTerms(k);if(pt)CB.push(pt);});
+    paginateBlocks(CB,'Analyst commentary','Analyst commentary (continued)','Commentary',P);
   }
   if(has('implications')){
     const R=autoRead(),i=latestIdx(),b=breakeven(i);
@@ -10791,12 +11175,9 @@ function buildReport(){
     B.push('<p>'+(pubv
       ? 'The question is whether the shares are worth owning at the price being asked. The pages before '+
         'this one are the evidence; this one is the answer, and the score below is how it was reached.'
-      : (hasMultRange()
-        ? 'There is no market price here, so the question is whether the business is worth buying at the '+
-          'multiple range constructed in the Valuation section. The pages before this one are the '+
-          'evidence; this one is the answer.'
-        : 'There is no market price here and no multiple range has been entered, so this page judges the '+
-          'business itself, not a price. The pages before this one are the evidence; this one is the answer.'))+'</p>');
+      : 'There is no market price here, so the question is whether the business is worth buying at the '+
+        'multiple range constructed in the Valuation section. The pages before this one are the '+
+        'evidence; this one is the answer.')+'</p>');
     B.push(evalBlock('The thesis','thesis'));
     let g='<h4 class="sh">How the score was reached</h4>'+
       '<table class="rp"><thead><tr><th class="lbl">Component</th><th style="width:9%">Weight</th>'+
@@ -10856,6 +11237,12 @@ function buildReport(){
       '<div class="kb"><div class="k">Derived figures</div><div class="v">'+t.derived+'</div><div class="d">inherit their components</div></div>'+
       '<div class="kb"><div class="k">Verified by</div><div class="v" style="font-size:13px;line-height:1.3">'+
         esc(S.qc.verifier||'—')+'</div><div class="d">'+esc(S.qc.primaryDoc||'no primary document recorded')+'</div></div></div>'+
+      (function(){const v=vTally(); if(!v.tags&&!v.hand)return '';
+        return '<p style="font-size:9.5px;color:#4D4D4D">Of the figures verified, <b>'+v.tags+
+          '</b> were accepted as the filer’s own XBRL tags — the figure in this model is the figure '+
+          'the company tagged in its filing, element by element — and <b>'+v.hand+'</b> were checked '+
+          'by hand against the document. Accepting a tag settles the figure; it does not settle which '+
+          'statement line each element was mapped to, and that mapping was reviewed before import.</p>';})()+
       (t.complete
         ? '<p style="color:#500000"><b>All key figures have been traced to source and verified.</b> '+
           'This report is issued as final on the evidence recorded here.</p>'
@@ -11274,6 +11661,18 @@ function migrate(o){
   const base=blankState();
   const st={...base,...o,meta:{...base.meta,...(o.meta||{})},ui:{...base.ui,...(o.ui||{})}};
   st.actions=Array.isArray(o.actions)?o.actions:[];
+  st.seeded=(o.seeded&&typeof o.seeded==='object')?o.seeded:{};
+  /* Sessions saved before 5.7 carry the instruction to the analyst inside the
+     prose, where it printed into the client's document. It is lifted out here
+     and shown beside the field instead. */
+  if(st.notes&&typeof st.notes==='object')Object.keys(st.notes).forEach(k=>{
+    const v=st.notes[k];
+    if(typeof v!=='string')return;
+    const m=v.match(/\s*\[([^\]]{40,})\]\s*$/);
+    if(!m)return;
+    st.notes[k]=v.slice(0,m.index).trim();
+    SEED_HINT[k]=m[1].replace(/\s+/g,' ').trim();
+  });
   st.thesis={...base.thesis,...(o.thesis||{})};
   st.disc={...base.disc,...(o.disc||{})};
   st.disc.na={...((o.disc||{}).na||{})};
@@ -12369,7 +12768,7 @@ function thesisScore(){
   if(isAssured()&&!isCleanOpinion()){s6-=25; r6+='; the opinion is not the standard unqualified form';}
   if(IN().goingConcern==='substantial'){s6-=50; r6+='; substantial doubt about going concern';}
   if(IN().icfr==='weakness'){s6-=15; r6+='; a material weakness in internal control is recorded';}
-  push('evidence','Evidence confidence',10,s6,r6,(S.ui.repSections||[]).includes('evidence')?'Verification and sources, Evidence and assumptions':'Verification and sources');
+  push('evidence','Evidence confidence',10,s6,r6,'Verification and sources, Evidence and assumptions');
 
   const scored=C.filter(x=>x.score!=null);
   const wsum=scored.reduce((a,x)=>a+x.w,0);
@@ -12423,13 +12822,9 @@ function renderThesis(){
   if(le)le.innerHTML=pubv
     ? 'The question this page answers is whether you would put money into this company at the price '+
       'the market is asking, and why. Everything before it is evidence for the answer.'
-    : (hasMultRange()
-      ? 'There is no market price here, so the question is whether you would buy this business at the '+
-        'multiple range constructed in the Valuation section, and why. Everything before this page is '+
-        'evidence for the answer.'
-      : 'There is no market price here and no multiple range has been entered, so the question is whether '+
-        'the business itself is worth pursuing, and on what evidence. Everything before this page is '+
-        'evidence for the answer.');
+    : 'There is no market price here, so the question is whether you would buy this business at the '+
+      'multiple range constructed in the Valuation section, and why. Everything before this page is '+
+      'evidence for the answer.';
   const row=$('thScoreRow');
   if(row)row.innerHTML=
     '<div class="kpi"><div class="k">Score'+helpMark('thscore')+'</div><div class="v '+thScoreClass(S2.total)+'">'+
@@ -13986,71 +14381,6 @@ showBand('guide');
   el.title='Compare this against the build you last published. The filename does not change '+
     'between builds; this line does.';
 })();
-/* VERSION LIGHT. The website publishes versions.json, written by release.py from the
-   builds it has just propagated. Every copy of this bench (standalone, StandAlone
-   bundle, website, Operations Console) reads it on open and says, with a coloured
-   light, whether it is the current release:
-     green  this copy IS the published release (version and build stamp both match)
-     amber  this copy is NEWER than the website: built but not yet pushed
-     red    this copy is OLDER than the website: get the current one
-     grey   could not check (offline, or the site unreachable). Nothing is blocked.
-   Only version numbers travel; no client data is sent anywhere. */
-const VMANIFEST_KEY='analytics';
-/* the notification waits for the sign-in screen to close, or nobody would see it */
-function vWhenOpen(){return new Promise(r=>{const c=()=>document.body.classList.contains('is-locked')?setTimeout(c,400):r();c();});}
-function vMirror(){
-  const el=$('vLight'),tx=$('vText'),g=$('gLight'),gt=$('gText'); if(!g||!gt||!el)return;
-  g.hidden=el.hidden; g.className=el.className+' gvl'; gt.textContent=tx.textContent; g.title=el.title;
-}
-async function versionCheck(){
-  try{ await versionCheck0(); } finally { vMirror(); }
-}
-async function versionCheck0(){
-  const el=$('vLight'), tx=$('vText');
-  if(!el||!tx||BRAND.version==='dev')return;
-  el.hidden=false; el.className='vlight'; tx.textContent='Checking this is the current version…'; vMirror();
-  const onSite=/^https?:$/.test(location.protocol)&&/aperturemethod\.com$/i.test(location.hostname);
-  const hosts=[BRAND.siteUrl, BRAND.siteUrl.replace('://www.','://')];
-  const urls=onSite?['/versions.json']:hosts.map(h=>h+'/versions.json');
-  let cur=null;
-  for(const u of urls){
-    try{
-      const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),6000);
-      const r=await fetch(u,{cache:'no-store',signal:ctl.signal}); clearTimeout(t);
-      if(!r.ok)continue;
-      const m=await r.json(); cur=m&&m.benches&&m.benches[VMANIFEST_KEY];
-      if(cur)break;
-    }catch(e){}
-  }
-  const mine='v'+BRAND.version+' · built '+BRAND.built;
-  if(!cur){
-    el.classList.add('unk');
-    tx.textContent='Version not checked · '+mine;
-    el.title='The current-release list on the website could not be reached (offline, or the site is down). '+
-      'This copy still works; it just cannot confirm it is the latest.';
-    return;
-  }
-  const live='v'+cur.version+' · built '+cur.built;
-  if(cur.version===BRAND.version&&cur.built===BRAND.built){
-    el.classList.add('ok');
-    tx.textContent='Current version · '+mine;
-    el.title='This copy matches the release the website lists as current.';
-    vWhenOpen().then(()=>toast('Current version: v'+BRAND.version));
-  }else if(String(BRAND.built)>String(cur.built)){
-    el.classList.add('ahead');
-    tx.textContent='Newer than the website · '+mine+' · live is '+live;
-    el.title='This build has not been published yet. Run release.py, then commit and push aperture-website.';
-    vWhenOpen().then(()=>toast('This build is newer than the website: not yet published'));
-  }else{
-    el.classList.add('old');
-    tx.textContent='Out of date · current is '+live+' · this copy is '+mine;
-    el.title='A newer release exists. Use the copy in 02 Analytics, the Operations Console, or the Method Lab.';
-    vWhenOpen().then(()=>toast('This copy is out of date: v'+cur.version+' is current'));
-    status('<b>This copy of the workbench is out of date.</b> The current release is <b>'+esc(live)+
-      '</b>; this one is '+esc(mine)+'. Open the current copy before starting new work.');
-  }
-}
-versionCheck();
 renderGuide();
 /* one declaration, one decode, however many pages the report runs to */
 (function(){

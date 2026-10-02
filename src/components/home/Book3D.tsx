@@ -99,7 +99,14 @@ export function Book3D() {
 
         {/* Spine + edges */}
         <div className="book360__face book360__spine" aria-hidden="true">
-          <span className="book360__spinetext">Look Closer · The Aperture Method™ · Fenwick How</span>
+          {/* Matches the approved Look Closer spine: title + method at the head, author at the foot */}
+          <div className="book360__spinerow">
+            <span className="book360__spinetitle">Look Closer</span>
+            <span className="book360__spinesub">The Aperture Method™</span>
+            <span className="book360__spinegap" />
+            <span className="book360__spinerule" />
+            <span className="book360__spineauthor">Fenwick How</span>
+          </div>
         </div>
         <div className="book360__face book360__pages" aria-hidden="true" />
         <div className="book360__face book360__top" aria-hidden="true" />

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-  Aperture Analytics Workbench v5.12
-  Built 2026-10-02 00:54 UTC by build.py, SELF-CONTAINED (Method Lab edition).
+  Aperture Analytics Workbench v5.13
+  Built 2026-10-02 01:19 UTC by build.py, SELF-CONTAINED (Method Lab edition).
   SheetJS and pdf.js are inlined; this file needs no network at all.
   Do not hand-edit: change src/template.src.html and rebuild BOTH editions.
 -->
@@ -1062,7 +1062,7 @@ body.is-locked>.toolbar{display:none!important}
   </div>
   <div class="meta">
     <strong class="coname" id="mastCo">— no entity —</strong>
-    <div id="mastSub">Method Lab edition · v5.12 · self-contained</div>
+    <div id="mastSub">Method Lab edition · v5.13 · self-contained</div>
     <div class="masttools">
       <button class="btn ghost mini2" onclick="go('import')">Import data</button>
       <button class="btn ghost mini2" id="recsBtn" onclick="openRecs()" title="The closing page: what we observed, and the decisions that follow">Recommendations</button>
@@ -2473,8 +2473,8 @@ const BRAND={
      builds, so the file has to be able to say which one it is: this is what a
      person compares against when they want to know whether the copy in their
      folder is the copy that was last published. */
-  version:'5.12',
-  built:'2026-10-02 00:54 UTC',
+  version:'5.13',
+  built:'2026-10-02 01:19 UTC',
   legal:'The Aperture Method™ is the proprietary methodology and intellectual property of Fenwick How.',
   /* A client engagement is confidential; a published example is not — and a report
      that says both is a contradiction a careful reader will find. Driven by the
@@ -5143,9 +5143,26 @@ function deExLeases(i){return div(totalDebt(i),V('bs','totalEquity',i));}
 
 /* ---- 10 c  coverage ------------------------------------------------------ */
 function intS3(i){const x=V('is','interestExpense',i);return x==null?null:Math.abs(x);}
-function ebitS3(i){
+/* The class definition is net income plus interest plus tax, which needs all
+   three. A filer that reports interest netted inside another line leaves the
+   middle term empty, and the whole credit section used to go dark with it.
+   Operating income IS earnings before interest and taxes on the face of the
+   statement, so it stands in, and every figure built on it says which basis it
+   used rather than quietly changing meaning. */
+function ebitBasis(i){
   const n=V('is','netIncome',i),x=intS3(i),t=V('is','taxExpense',i);
-  return (n==null||x==null||t==null)?null:n+x+t;
+  if(n!=null&&x!=null&&t!=null)return 'class';
+  return V('is','operatingIncome',i)!=null?'operating':null;
+}
+function ebitS3(i){
+  const b=ebitBasis(i);
+  if(b==='class')return V('is','netIncome',i)+intS3(i)+V('is','taxExpense',i);
+  if(b==='operating')return V('is','operatingIncome',i);
+  return null;
+}
+function ebitBasisWord(){
+  const c=chron(), any=c.some(i=>ebitBasis(i)==='operating');
+  return any?'operating income basis where interest expense is not reported separately':'';
 }
 function amortS3(i){return credVal('amort',i);}
 function depS3(i){return discVal('depExpense',i);}
@@ -5276,7 +5293,44 @@ function zParts(i){
 function zScore(i){return zParts(i).z;}
 function zZone(z){const M=zModel();return z==null?null:(z>M.safe?'safe':(z<M.distress?'distress':'gray'));}
 const ZONE_WORD={safe:'Safe zone',gray:'Gray zone',distress:'Distress zone'};
+/* Which inputs are actually missing, named, so a reader is never left with a
+   row of dashes and no explanation. */
+function missingFor(list){
+  const c=chron(), out=[];
+  list.forEach(x=>{ if(!c.some(i=>x.f(i)!=null))out.push(x.l); });
+  return out;
+}
+function covMissing(){
+  return missingFor([
+    {l:'interest expense',f:i=>intS3(i)},
+    {l:'income tax expense',f:i=>V('is','taxExpense',i)},
+    {l:'net income',f:i=>V('is','netIncome',i)},
+    {l:'operating income',f:i=>V('is','operatingIncome',i)},
+    {l:'operating cash flow',f:i=>V('cf','cfo',i)},
+    {l:'capital expenditure',f:i=>V('cf','capex',i)}]);
+}
+function zMissing(){
+  const L=[{l:'working capital (current assets and current liabilities)',f:i=>workingCapital(i)},
+           {l:'retained earnings',f:i=>V('bs','retainedEarnings',i)},
+           {l:'EBIT (net income, interest and tax, or operating income)',f:i=>ebitS3(i)},
+           {l:'revenue',f:i=>V('is','revenue',i)},
+           {l:'total assets',f:i=>V('bs','totalAssets',i)},
+           {l:'total liabilities',f:i=>V('bs','totalLiabilities',i)}];
+  if(zKey()==='public'){
+    L.push({l:'common shares outstanding',f:i=>sharesOutS3(i)});
+    L.push({l:'share price at period end — typed on 02 Entry, no filing carries it',f:i=>sharePrice(i)});
+  } else L.push({l:'total equity',f:i=>V('bs','totalEquity',i)});
+  return missingFor(L);
+}
+function needLine(miss,what){
+  if(!miss.length)return '';
+  return '<p class="ihint" style="margin-top:8px;color:#500000"><b>Still needed for '+esc(what)+':</b> '+
+    esc(miss.join('; '))+'. Nothing is computed from a figure that is not there, which is why those '+
+    'rows read as a dash.</p>';
+}
 function zNeed(){
+  const m=(typeof zMissing==='function')?zMissing():[];
+  if(m.length)return m.join('; ');
   return zKey()==='public'
     ? 'working capital, retained earnings, EBIT, total assets, total liabilities, revenue, the share count and a period-end share price'
     : 'working capital, retained earnings, EBIT, total assets, total liabilities, total equity and revenue';
@@ -5303,8 +5357,9 @@ function credModules(){
   const M=[
    {k:'debt',l:'Total debt and capital structure',on:chron().some(x=>deS3(x)!=null),
     need:'the debt and operating lease liabilities on the balance sheet, and total equity'},
-   {k:'coverage',l:'Coverage',on:chron().some(x=>tieS3(x)!=null),
-    need:'net income, interest expense and income tax expense'},
+   {k:'coverage',l:'Coverage',on:chron().some(x=>tieS3(x)!=null||ebitdaCovS3(x)!=null||fcfToDebt(x)!=null),
+    need:(typeof covMissing==='function'&&covMissing().length)?covMissing().join('; ')
+      :'net income, interest expense and income tax expense'},
    {k:'liquidity',l:'Liquidity',on:chron().some(x=>currentS3(x)!=null),
     need:'current assets and current liabilities'},
    {k:'ratings',l:'Credit ratings',on:ratingRows().length>0,
@@ -5390,7 +5445,7 @@ function renderCredCoverage(){
   h+=cRow('Net income',i=>cCur(V('is','netIncome',i)));
   h+=cRow('Interest expense',i=>cCur(intS3(i)));
   h+=cRow('Income tax expense',i=>cCur(V('is','taxExpense',i)));
-  h+=cRow('Earnings before interest and taxes (EBIT)',i=>cCur(ebitS3(i)),'subtotal');
+  h+=cRow('Earnings before interest and taxes (EBIT)',i=>cCur(ebitS3(i)),'subtotal',ebitBasisWord()?'operating income basis':'');
   h+=cRow('Times interest earned',i=>cX(tieS3(i)),'total');
   h+=cRow('Depreciation expense',i=>cIn(depS3(i),'discSetArr(\'depExpense\','+i+',this.value)'),'','also on 11 Notes');
   h+=cRow('Amortization expense',cArrIn('amort'),'','from the notes');
@@ -5407,7 +5462,12 @@ function renderCredCoverage(){
   const cfda=chron().some(i=>ebitdaBasis(i)==='cf');
   h+='</tbody></table>'+(cfda?'<p class="ihint" style="margin-top:8px">Where depreciation is not '+
     'entered, EBITDA uses the cash flow statement’s combined depreciation and amortization line, '+
-    'and the amortization row is ignored for that period so nothing is counted twice.</p>':'');
+    'and the amortization row is ignored for that period so nothing is counted twice.</p>':'')+
+    (ebitBasisWord()?'<p class="ihint" style="margin-top:8px">Interest expense is not reported '+
+      'separately in every period, so EBIT is taken as <b>operating income</b> for those years — '+
+      'which is what the line means on the face of the statement. Times interest earned and '+
+      'EBITDA-to-interest still need the interest figure itself.</p>':'')+
+    needLine(covMissing(),'the coverage tests');
   $('credCovGrid').innerHTML=h;
 }
 
@@ -5569,7 +5629,8 @@ function renderCredZ(){
   h+='</tr><tr class="memo"><td class="lbl">Zone</td><td></td>';
   disp().forEach(i=>{const z=zZone(zScore(i));h+='<td class="'+({safe:'pos',distress:'neg'}[z]||'')+'">'+
     (z?ZONE_WORD[z]:'—')+'</td>';});
-  h+='</tr></tbody></table><p class="ihint" style="margin-top:8px">Zones for this model: above '+
+  h+='</tr></tbody></table>'+needLine(zMissing(),zModel().l)+
+    '<p class="ihint" style="margin-top:8px">Zones for this model: above '+
     num(M.safe,2)+' safe, '+num(M.distress,2)+' to '+num(M.safe,2)+' gray, below '+num(M.distress,2)+
     ' distress. Each cell shows the ratio, then the ratio times its weight.</p>';
   $('credZGrid').innerHTML=h;
@@ -5728,6 +5789,12 @@ function repCredit(P){
       ['Years of free cash flow to pay off debt',x=>{const y=yearsToRepay(x);
         return y!=null?num(y,1):(fcf(x)!=null&&fcf(x)<=0&&totalDebtS3(x)?'never':'—');}],
       ['Interest coverage, operating income basis',x=>cX(div(V('is','operatingIncome',x),intS3(x)))]],'Coverage'));
+    if(ebitBasisWord())B.push(note('<b>Interest expense is not reported separately in every period.</b> '+
+      'For those years EBIT is taken as operating income, which is what the line means on the face of '+
+      'the statement. Times interest earned and EBITDA-to-interest need the interest figure itself and '+
+      'are reported as not computed until it is entered.'));
+    if(covMissing().length)B.push(note('<b style="color:#500000">Still needed for the coverage tests:</b> '+
+      esc(covMissing().join('; '))+'.'));
     B.push(note('EBIT here is built up from net income (net income + interest + tax), so it includes '+
       'investment income and other non-operating items; the last row gives the operating-income basis '+
       'for comparison. '+(c.some(x=>ebitdaBasis(x)==='cf')?'Where depreciation from the notes was not '+
@@ -5775,6 +5842,8 @@ function repCredit(P){
       return P.X[k]==null?'—':num(P.X[k],4)+' → '+(P.s?num(P.s[k],3):'—');}]).concat([
       ['Z-Score',x=>zScore(x)==null?'—':num(zScore(x),2),1],
       ['Zone',x=>{const z=zZone(zScore(x));return z?ZONE_WORD[z]:'—';}]]),'Component'));
+    if(zMissing().length)Z.push(note('<b style="color:#500000">Still needed for '+esc(Mz.l)+':</b> '+
+      esc(zMissing().join('; '))+'.'));
     Z.push(note(esc(Mz.l)+': '+esc(Mz.v)+'. Above '+num(Mz.safe,2)+' is the safe zone, '+num(Mz.distress,2)+
       ' to '+num(Mz.safe,2)+' gray, below '+num(Mz.distress,2)+' distress. '+(pub?esc(shareUnitRead()):
       'With no public price, book equity stands in for market value, with the weights re-estimated to suit.')));
@@ -8318,7 +8387,12 @@ const XBRL_MAP={
   restructuring:['RestructuringCharges','BusinessExitCosts1','RestructuringSettlementAndImpairmentProvisions'],
   impairment:['GoodwillImpairmentLoss','AssetImpairmentCharges'],
   operatingIncome:['OperatingIncomeLoss'],
-  interestExpense:['InterestExpense','InterestExpenseDebt','InterestExpenseNonoperating'],
+  /* A filer that reports "interest expense, net" tags it under one of the net
+     concepts, and the plain InterestExpense element was retired in the 2024
+     taxonomy. Without one of these the whole coverage block goes dark. */
+  interestExpense:['InterestExpense','InterestExpenseNetOfCapitalizedInterest','InterestExpenseNonoperating',
+                   'InterestExpenseDebt','InterestAndDebtExpense','InterestExpenseOperating',
+                   'InterestIncomeExpenseNet','InterestIncomeExpenseNonoperatingNet',{abs:1}],
   interestIncome:['InvestmentIncomeInterest'],
   otherIncome:['OtherNonoperatingIncomeExpense'],
   pretaxIncome:['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest',
@@ -8438,6 +8512,7 @@ function parseCompanyFacts(json,fileName){
         const e=byEnd[d]; if(!e)return null;
         let v=Number(e.val);
         if(opt.neg)v=-v;
+        if(opt.abs)v=Math.abs(v);
         if(perShare)return Math.round(v*1e6)/1e6;   /* already per share — leave alone */
         /* share counts are scaled like the money, so price x shares lands in
            the same magnitude as the statements (see the units note on the Import tab) */
@@ -10236,6 +10311,19 @@ function splitBlocks(html){
   html.split(/(?=<h4 class="sh")/).forEach(part=>{ if(part.trim())out.push(part); });
   return out.length?out:[html];
 }
+/* When this copy of the document was produced. The engagement date is what the
+   work is dated; this is when the pages in the reader's hand were made, which is
+   the question asked of any printed report that circulates. */
+let REPORT_STAMP='';
+function reportStamp(){
+  const d=new Date();
+  const day=d.toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'});
+  const tm=d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});
+  let tz='';
+  try{tz=(new Intl.DateTimeFormat(undefined,{timeZoneName:'short'}).formatToParts(d)
+    .find(x=>x.type==='timeZoneName')||{}).value||'';}catch(e){}
+  return day+' · '+tm+(tz?' '+tz:'');
+}
 function pageWrap(title,body,eyebrow){
   const m=repMeta();
   return '<div class="page"><div class="phead">'+
@@ -10786,8 +10874,10 @@ function repDisclosure(P){
   paginateBlocks(C,'The cycle, the assets and what it changes','The cycle, the assets and what it changes (continued)','The notes',P);
 }
 function buildReport(){
+  REPORT_STAMP=reportStamp();
   recalcAll();
-  const m=repMeta(),sel=S.ui.repSections,i=latestIdx(),P=[];
+  const m=repMeta(),sel=S.ui.repSections,i=latestIdx();
+  let P=[];
   const has=k=>sel.includes(k);
 
   if(has('cover')){
@@ -10810,6 +10900,7 @@ function buildReport(){
         '<div><b>Units</b>'+esc(m.units)+'</div>'+
         (m.analyst?'<div><b>Prepared by</b>'+esc(m.analyst)+'</div>':'')+
         (m.date?'<div><b>Date</b>'+esc(m.date)+'</div>':'')+
+        '<div><b>Report generated</b>'+esc(REPORT_STAMP||reportStamp())+'</div>'+
         (S.qc.primaryDoc?'<div><b>Primary source</b>'+esc(S.qc.primaryDoc)+'</div>':
           (m.source?'<div><b>Source</b>'+esc(m.source)+'</div>':''))+
         (function(){const t=qcTally();
@@ -11463,6 +11554,19 @@ function buildReport(){
       '</div>';
     paginateBlocks(items.map(card),'Derivation of every figure','','Method',P);
   }
+  /* A page with nothing on it is the one thing a reader cannot interpret. Any
+     sheet whose body carries no table, chart, list, box or sentence is dropped
+     here, whatever built it — the cover and the part dividers are pages by
+     design and are never dropped. */
+  P=P.filter(h=>{
+    const d=document.createElement('div'); d.innerHTML=h;
+    const pg=d.firstElementChild; if(!pg)return false;
+    if(pg.classList.contains('cover')||pg.classList.contains('divider'))return true;
+    const body=pg.querySelector('.pbody'); if(!body)return true;
+    const words=(body.textContent||'').replace(/\s+/g,' ').trim();
+    const stuff=body.querySelector('table,svg,img,ul,ol,.evalbox,.plainbox,.npb,.kpis,.fc,.findblk,.toc');
+    return !!stuff||words.length>40;
+  });
   $('reportDoc').innerHTML=P.join('');
   if(has('toc')&&has('cover'))insertTOC();
   /* page numbers */

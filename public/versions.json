@@ -1,14 +1,14 @@
 {
   "about": "Current releases of the Aperture Method benches. Written by release.py; read by every copy on open to show whether it is current. Version numbers only.",
-  "generated": "2026-10-02 00:55 UTC",
+  "generated": "2026-10-02 01:19 UTC",
   "benches": {
     "analytics": {
-      "version": "5.12",
-      "built": "2026-10-02 00:54 UTC"
+      "version": "5.13",
+      "built": "2026-10-02 01:19 UTC"
     },
     "console": {
       "version": "0.2",
-      "built": "2026-10-02 00:55 UTC"
+      "built": "2026-10-02 01:19 UTC"
     },
     "insights": {
       "version": "0.1",

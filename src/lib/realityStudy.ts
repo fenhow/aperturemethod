@@ -17,6 +17,10 @@
  * Anonymity is a promise made on the page. Nothing here identifies a person or a
  * company: bands, not figures; three ZIP digits, not five. If you add a field,
  * change the page copy first and keep it unidentifying.
+ *
+ * @illustrative-figures — the dollar amounts in the "wtp" question are survey
+ * answer ranges for measuring willingness to pay (capstone H2), not our fees.
+ * Our fees still live only in src/lib/pricing.ts.
  */
 
 export type StudyOption = { value: string; label: string };

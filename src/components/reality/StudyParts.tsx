@@ -12,6 +12,7 @@
 import { useState } from "react";
 import { siteConfig } from "@/lib/site";
 import {
+  heardFromOptions,
   studyFields,
   STUDY_TARGET,
   STUDY_COUNT_FLOOR,
@@ -119,6 +120,7 @@ export function StudyCalibrate({ onRate }: { onRate: (n: number) => void }) {
 export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) => void }) {
   const [profile, setProfile] = useState<StudyProfile>({});
   const [zip3, setZip3] = useState("");
+  const [heard, setHeard] = useState("");
 
   function pick(id: StudyFieldId, value: string) {
     setProfile((p) => ({ ...p, [id]: p[id] === value ? undefined : value }));
@@ -127,6 +129,7 @@ export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) 
   function submit() {
     const out: StudyProfile = { ...profile };
     if (/^\d{3}$/.test(zip3)) out.zip3 = zip3;
+    if (heard) out.heard_from = heard;
     onDone(out);
   }
 
@@ -142,6 +145,25 @@ export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) 
       </p>
 
       <div className="mt-8 space-y-8">
+        <div>
+          <label htmlFor="rc-heard" className="text-body font-semibold text-ink">
+            How did you hear about this study?
+          </label>
+          <select
+            id="rc-heard"
+            value={heard}
+            onChange={(e) => setHeard(e.target.value)}
+            className="mt-3 block w-full max-w-sm rounded-md border border-line bg-paper px-4 py-3 text-body text-ink outline-none transition focus:border-maroon"
+          >
+            <option value="">Choose one (optional)</option>
+            {heardFromOptions.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {studyFields.map((f) => (
           <fieldset key={f.id}>
             <legend className="text-body font-semibold text-ink">{f.prompt}</legend>
@@ -236,7 +258,7 @@ export function StudyThanks({ selfRating, score }: { selfRating: number | null; 
   }
 
   async function copyLink() {
-    const url = `${window.location.origin}/reality-check/study?src=share`;
+    const url = `${window.location.origin}/study`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);

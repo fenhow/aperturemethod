@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { Section } from "@/components/ui/Section";
 import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
 import { loadStudy, MIN_N_TO_READ, MIN_SECONDS, type Count, type StudyStats } from "@/lib/realityStudyStats";
-import { studyFields } from "@/lib/realityStudy";
+import { sourceLabel, studyFields } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
 import { fmtP, type ProportionTest } from "@/lib/stats";
 import {
@@ -87,7 +87,7 @@ export default async function StudyAdminPage({ searchParams }: { searchParams: S
           <div className="flex flex-wrap gap-3">
             <a href={`/method-lab/study/report${qs(filter)}`} target="_blank" rel="noopener" className="btn">Download PDF report</a>
             <a href="/method-lab/study/export" className="btn--secondary">Download CSV</a>
-            <Link href="/reality-check/study" className="btn--secondary">Open the study</Link>
+            <Link href="/study" className="btn--secondary">Open the study</Link>
             <a href="/method-lab" className="btn--secondary">Method Lab</a>
           </div>
         </div>
@@ -300,7 +300,7 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
                       <td className="py-2 pr-3 whitespace-nowrap">
                         {new Date(r.created_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" })}
                       </td>
-                      <td className="py-2 pr-3">{r.source ?? "direct"}</td>
+                      <td className="py-2 pr-3">{sourceLabel(r.source)}</td>
                       <td className="py-2 pr-3 tabular-nums">{r.score}</td>
                       <td className="py-2 pr-3 tabular-nums">{r.self_rating ?? "—"}</td>
                       <td className="py-2 pr-3">{label("revenue", r.revenue)}</td>
@@ -487,11 +487,11 @@ function Filters({ s, filter }: { s: StudyStats; filter: Search }) {
           <Link key={o.value} href={href({ industry: o.value })} className={chip(filter.industry === o.value)}>{o.label}</Link>
         ))}
       </FilterRow>
-      <FilterRow label="Source">
+      <FilterRow label="Heard via">
         <Link href={href({ source: undefined })} className={chip(!filter.source)}>All</Link>
         {s.sources.map((o) => (
           <Link key={o.source} href={href({ source: o.source })} className={chip(filter.source === o.source)}>
-            {o.source} · {o.count}
+            {sourceLabel(o.source)} · {o.count}
           </Link>
         ))}
       </FilterRow>

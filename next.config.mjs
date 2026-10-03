@@ -40,6 +40,10 @@ const nextConfig = {
       { source: "/method/compass", destination: "/focus-plan", permanent: true },
 
       { source: "/look-closer", destination: "/business-lab", permanent: true },
+
+      // The ONE link shared for the capstone study (Oct 2026). Temporary (307)
+      // so the destination can move without browsers caching it forever.
+      { source: "/study", destination: "/reality-check/study", permanent: false },
       { source: "/look-closer/:path*", destination: "/business-lab/:path*", permanent: true },
     ];
   },

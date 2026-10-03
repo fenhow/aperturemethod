@@ -8,12 +8,10 @@ import { STUDY_TARGET } from "@/lib/realityStudy";
 /**
  * /reality-check/study — the capstone research version of the Reality Check.
  *
- * Shared by link (LinkedIn, chambers, partners, EMBA classmates), not found by
- * search: noindex keeps organic visitors out of the research cohort so the
- * sample is the one the outreach recruited. Tag every link you share, e.g.
- *   /reality-check/study?utm_source=linkedin
- *   /reality-check/study?utm_source=chamber-woodlands
- *   /reality-check/study?src=partner-smith-cpa
+ * Shared as ONE link, aperturemethod.com/study (a redirect in next.config),
+ * not found by search: noindex keeps organic visitors out of the research
+ * cohort. The channel is asked in the profile ("How did you hear about this
+ * study?") rather than carried in tagged URLs. ?src=test still marks test runs.
  *
  * Responses land in Supabase `reality_check_responses` with cohort = 'study'.
  * Read the results from the views in supabase/migrations/0004.

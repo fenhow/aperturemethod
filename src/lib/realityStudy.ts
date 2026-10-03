@@ -148,7 +148,33 @@ export const studyFields: StudyField[] = [
   },
 ];
 
-export type StudyProfile = Partial<Record<StudyFieldId, string>> & { zip3?: string };
+/**
+ * "How did you hear about this study?" (Oct 2026). One shared link replaced the
+ * tagged links, so the channel is asked instead. Stored in the existing
+ * `source` column, which is what the dashboard and PDF already break down by.
+ * A URL tag starting "test" still wins, so test runs stay excluded.
+ */
+export const heardFromOptions: StudyOption[] = [
+  { value: "linkedin", label: "LinkedIn" },
+  { value: "email", label: "An email from Fenwick" },
+  { value: "chamber", label: "A chamber or business group" },
+  { value: "colleague", label: "A colleague or friend" },
+  { value: "event", label: "An event or talk" },
+  { value: "emba", label: "Texas A&M EMBA network" },
+  { value: "other", label: "Somewhere else" },
+];
+
+export function cleanHeardFrom(v: unknown): string | null {
+  return typeof v === "string" && heardFromOptions.some((o) => o.value === v) ? v : null;
+}
+
+/** Display name for a stored source value (answer, URL tag, or none). */
+export function sourceLabel(v: string | null | undefined): string {
+  if (!v || v === "direct") return "Not stated";
+  return heardFromOptions.find((o) => o.value === v)?.label ?? v;
+}
+
+export type StudyProfile = Partial<Record<StudyFieldId, string>> & { zip3?: string; heard_from?: string };
 
 /** Server-side whitelist. Unknown keys and values are dropped silently. */
 export function cleanProfile(input: unknown): StudyProfile {

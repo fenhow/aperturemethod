@@ -2,7 +2,7 @@ import "server-only";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type PDFImage } from "pdf-lib";
 import { APERTURE_LOGO_WHITE_HORIZONTAL_B64 } from "./onboarding/logo";
 import { questions } from "./realityCheck";
-import { studyFields } from "./realityStudy";
+import { sourceLabel, studyFields } from "./realityStudy";
 import { MIN_N_TO_READ, MIN_SECONDS, type StudyStats } from "./realityStudyStats";
 import { fmtP, type ProportionTest } from "./stats";
 import {
@@ -401,9 +401,9 @@ export async function generateStudyReportPdf(
 
     /* ── sources */
     if (s.sources.length) {
-      d.section("Where responses came from", 100);
+      d.section("How participants heard about the study", 100);
       const tot = s.sources.reduce((a, b) => a + b.count, 0);
-      for (const src of s.sources) d.bar(src.source, `${src.count} · ${r0((100 * src.count) / tot)}%`, (100 * src.count) / tot, { size: 8.5 });
+      for (const src of s.sources) d.bar(sourceLabel(src.source), `${src.count} · ${r0((100 * src.count) / tot)}%`, (100 * src.count) / tot, { size: 8.5 });
     }
   }
 
@@ -414,7 +414,7 @@ export async function generateStudyReportPdf(
     `Instrument. The Reality Check: ${questions.length} questions, each asking for a number, a name or a timeframe, scored 4 / 2 / 1 / 0 and summed to a Clarity Score out of 100. It measures how well an owner knows the business, not how good the business is.`,
     "Self-rating. Asked before the first question so the quiz cannot colour it, on a 1 to 10 scale, multiplied by 10 to compare with the score.",
     "Profile. Optional, asked after the last question and before the score, in bands only (revenue, headcount, industry, role, years, region, three ZIP digits).",
-    `Sample. Recruited through tagged links at aperturemethod.com/reality-check/study. Usable means first attempt, at least ${MIN_SECONDS} seconds, and not tagged as a test. ${s.totalRows} completed in total; left out: ${ex}.`,
+    `Sample. Recruited through one shared link, aperturemethod.com/study; the channel is self-reported ("How did you hear about this study?"). Usable means first attempt, at least ${MIN_SECONDS} seconds, and not tagged as a test. ${s.totalRows} completed in total; left out: ${ex}.`,
     "Anonymity. No name, email, company or address is stored with a response. Benchmark-report emails are held in a separate table with no link to answers.",
     "Statistics. Proportions carry Wilson 95% confidence intervals. H1 and H2 are tested against their registered thresholds with an exact one-sided binomial test. The self-rating gap uses a paired t-test with Cohen's d; the self-rating and score relationship uses Spearman's rho (Pearson's r alongside); differences in score between groups use one-way ANOVA. Significance means p < 0.05.",
     "Limitations. A self-selected convenience sample, not a random one: results describe the owners who took part and should not be generalised without that caveat. The same applies to every p-value and interval in this report.",

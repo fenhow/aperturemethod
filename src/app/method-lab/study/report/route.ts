@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
 import { loadStudy } from "@/lib/realityStudyStats";
-import { studyFields } from "@/lib/realityStudy";
+import { sourceLabel, studyFields } from "@/lib/realityStudy";
 import { generateStudyReportPdf } from "@/lib/realityStudyPdf";
 
 /**
@@ -29,7 +29,7 @@ export async function GET(request: Request) {
 
   const label = (id: "revenue" | "industry", v?: string) =>
     v ? studyFields.find((f) => f.id === id)?.options.find((o) => o.value === v)?.label ?? v : null;
-  const parts = [label("revenue", filter.revenue), label("industry", filter.industry), filter.source ? `source ${filter.source}` : null].filter(Boolean);
+  const parts = [label("revenue", filter.revenue), label("industry", filter.industry), filter.source ? `heard via ${sourceLabel(filter.source)}` : null].filter(Boolean);
 
   const { bytes, filename } = await generateStudyReportPdf(s, parts.length ? parts.join(", ") : null);
   return new NextResponse(Buffer.from(bytes), {

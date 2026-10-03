@@ -3,7 +3,7 @@ import { questions, scoreAnswers } from "@/lib/realityCheck";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 import { completionHtml } from "@/lib/realityCheckEmail";
 import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
-import { cleanProfile, cleanSelfRating, cleanTag, UUID_RE } from "@/lib/realityStudy";
+import { cleanHeardFrom, cleanProfile, cleanSelfRating, cleanTag, UUID_RE } from "@/lib/realityStudy";
 
 /**
  * Reality Check: the anonymous completion ping.
@@ -117,11 +117,18 @@ async function store(
     typeof body.durationS === "number" && body.durationS >= 0 && body.durationS < 86400
       ? Math.round(body.durationS)
       : null;
+  // The dropdown answer becomes the source, unless the run was tagged as a test.
+  const urlSource = cleanTag(body.source);
+  const heard =
+    body.stage === "profile" && body.profile && typeof body.profile === "object"
+      ? cleanHeardFrom((body.profile as Record<string, unknown>).heard_from)
+      : null;
+  const source = urlSource?.startsWith("test") ? urlSource : heard ?? urlSource;
   const row = {
     run_id: body.runId,
     updated_at: new Date().toISOString(),
     cohort: body.cohort === "study" ? "study" : "site",
-    source: cleanTag(body.source),
+    source,
     medium: cleanTag(body.medium),
     campaign: cleanTag(body.campaign),
     question_count: questions.length,

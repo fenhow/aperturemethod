@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { questions, scoreAnswers } from "@/lib/realityCheck";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 import { completionHtml } from "@/lib/realityCheckEmail";
+import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
+import { cleanProfile, cleanSelfRating, cleanTag, UUID_RE } from "@/lib/realityStudy";
 
 /**
  * Reality Check: the anonymous completion ping.
@@ -17,13 +19,32 @@ import { completionHtml } from "@/lib/realityCheckEmail";
  *
  * Best-effort in both directions: a failure here must never affect the visitor,
  * so the client ignores the response and this always answers ok.
+ *
+ * Storage (Oct 2026, for the capstone study). Every finished run is also saved
+ * as one anonymous row in Supabase `reality_check_responses`, keyed by a random
+ * run id the browser makes up. The study page calls this twice per run: once
+ * when the last question is answered (stage "finish") and again if the optional
+ * profile is filled in (stage "profile"), which updates the same row. Only the
+ * first call emails Fenwick. See supabase/migrations/0004.
  */
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  let body: { answers?: Record<string, number> };
+  let body: {
+    answers?: Record<string, number>;
+    runId?: string;
+    stage?: "finish" | "profile";
+    cohort?: string;
+    source?: string;
+    medium?: string;
+    campaign?: string;
+    selfRating?: number;
+    durationS?: number;
+    repeat?: boolean;
+    profile?: unknown;
+  };
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -48,6 +69,11 @@ export async function POST(request: Request) {
 
   const result = scoreAnswers(answers);
 
+  await store(body, answers, result);
+
+  // The profile follow-up updates the stored row only; the alert went already.
+  if (body.stage === "profile") return NextResponse.json({ ok: true });
+
   if (!emailConfigured) {
     console.info("[reality-check] completion (SMTP not configured):", {
       score: result.score,
@@ -64,4 +90,57 @@ export async function POST(request: Request) {
   if (!sent.ok) console.error("[reality-check] completion alert failed:", sent.error);
 
   return NextResponse.json({ ok: true });
+}
+
+async function store(
+  body: {
+    runId?: string;
+    stage?: string;
+    cohort?: string;
+    source?: string;
+    medium?: string;
+    campaign?: string;
+    selfRating?: number;
+    durationS?: number;
+    repeat?: boolean;
+    profile?: unknown;
+  },
+  answers: Record<string, number>,
+  result: ReturnType<typeof scoreAnswers>
+) {
+  if (!serviceRoleConfigured || typeof body.runId !== "string" || !UUID_RE.test(body.runId)) {
+    console.info("[reality-check] response not stored (no run id or Supabase not configured)");
+    return;
+  }
+  const profile = body.stage === "profile" ? cleanProfile(body.profile) : {};
+  const duration =
+    typeof body.durationS === "number" && body.durationS >= 0 && body.durationS < 86400
+      ? Math.round(body.durationS)
+      : null;
+  const row = {
+    run_id: body.runId,
+    updated_at: new Date().toISOString(),
+    cohort: body.cohort === "study" ? "study" : "site",
+    source: cleanTag(body.source),
+    medium: cleanTag(body.medium),
+    campaign: cleanTag(body.campaign),
+    question_count: questions.length,
+    answers,
+    score: result.score,
+    band: result.band.name,
+    gaps: result.gaps.length,
+    blind_spot: result.blindSpot?.id ?? null,
+    self_rating: cleanSelfRating(body.selfRating),
+    duration_s: duration,
+    repeat_taker: body.repeat === true,
+    ...(body.stage === "profile" ? { profile_done: true, ...profile } : {}),
+  };
+  try {
+    const { error } = await createAdminClient()
+      .from("reality_check_responses")
+      .upsert(row, { onConflict: "run_id" });
+    if (error) console.error("[reality-check] store failed:", error.message);
+  } catch (err) {
+    console.error("[reality-check] store threw:", err);
+  }
 }

@@ -1,16 +1,75 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
+import { StudyIntro, StudyCalibrate, StudyProfileForm, StudyThanks } from "@/components/reality/StudyParts";
+import type { StudyProfile } from "@/lib/realityStudy";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
-type Stage = "intro" | "quiz" | "result";
+type Stage = "intro" | "calibrate" | "quiz" | "profile" | "result";
 
-export function RealityCheck() {
+/** A random id per run, so the study's two pings land on one stored row. */
+function newRunId(): string {
+  try {
+    return crypto.randomUUID();
+  } catch {
+    return "";
+  }
+}
+
+const STUDY_DONE_KEY = "rc-study-done";
+
+/**
+ * mode "site" is the public quiz at /reality-check. mode "study" is the capstone
+ * research version at /reality-check/study: consent intro, a self-rating before
+ * question one, an optional profile after the last, and a thank-you in place of
+ * the sales block. The questions and scoring are identical in both.
+ */
+export function RealityCheck({
+  mode = "site",
+  studyCount,
+}: {
+  mode?: "site" | "study";
+  studyCount?: number;
+} = {}) {
+  const study = mode === "study";
   const [stage, setStage] = useState<Stage>("intro");
+  const [selfRating, setSelfRating] = useState<number | null>(null);
+  const runId = useRef<string>("");
+  const startedAt = useRef<number>(0);
+  const tags = useRef<{ source?: string; medium?: string; campaign?: string; repeat?: boolean }>({});
+
+  // Where the visitor came from (UTM or ?src=), and whether this browser has
+  // already finished the study once. Both are stored, neither blocks anyone.
+  useEffect(() => {
+    try {
+      const u = new URLSearchParams(window.location.search);
+      tags.current = {
+        source: u.get("utm_source") ?? u.get("src") ?? undefined,
+        medium: u.get("utm_medium") ?? undefined,
+        campaign: u.get("utm_campaign") ?? undefined,
+        repeat: study ? window.localStorage.getItem(STUDY_DONE_KEY) === "1" : false,
+      };
+    } catch {
+      /* storage blocked: fine */
+    }
+  }, [study]);
+
+  function beginQuiz() {
+    if (study) {
+      try {
+        tags.current.repeat = window.localStorage.getItem(STUDY_DONE_KEY) === "1";
+      } catch {
+        /* fine */
+      }
+    }
+    runId.current = newRunId();
+    startedAt.current = Date.now();
+    setStage("quiz");
+  }
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   /** Guards the completion ping so one run is only ever recorded once. */
@@ -27,7 +86,7 @@ export function RealityCheck() {
       setIdx(idx + 1);
       if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      setStage("result");
+      setStage(study ? "profile" : "result");
       reportCompletion(next);
       if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -53,19 +112,76 @@ export function RealityCheck() {
       void fetch("/api/reality-check/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers: finalAnswers }),
+        body: JSON.stringify(payload(finalAnswers, "finish")),
         keepalive: true,
       }).catch(() => {});
     } catch {
       /* never surfaced */
     }
+    if (study) {
+      try {
+        window.localStorage.setItem(STUDY_DONE_KEY, "1");
+      } catch {
+        /* fine */
+      }
+    }
+  }
+
+  function payload(finalAnswers: Record<string, number>, stage: "finish" | "profile", profile?: StudyProfile) {
+    return {
+      answers: finalAnswers,
+      runId: runId.current || undefined,
+      stage,
+      cohort: study ? "study" : "site",
+      ...tags.current,
+      selfRating: selfRating ?? undefined,
+      durationS: startedAt.current ? Math.round((Date.now() - startedAt.current) / 1000) : undefined,
+      profile,
+    };
+  }
+
+  /** The study's second ping: the optional profile, onto the same row. */
+  function finishProfile(profile: StudyProfile | null) {
+    if (profile && Object.keys(profile).length > 0) {
+      try {
+        void fetch("/api/reality-check/complete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload(answers, "profile", profile)),
+          keepalive: true,
+        }).catch(() => {});
+      } catch {
+        /* never surfaced */
+      }
+    }
+    setStage("result");
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function restart() {
     reported.current = false;
     setAnswers({});
     setIdx(0);
+    setSelfRating(null);
     setStage("intro");
+  }
+
+  /* ─────────────────────────────── study-only screens */
+  if (study && stage === "intro") {
+    return <StudyIntro onStart={() => setStage("calibrate")} count={studyCount} />;
+  }
+  if (study && stage === "calibrate") {
+    return (
+      <StudyCalibrate
+        onRate={(n) => {
+          setSelfRating(n);
+          beginQuiz();
+        }}
+      />
+    );
+  }
+  if (study && stage === "profile") {
+    return <StudyProfileForm onDone={finishProfile} />;
   }
 
   /* ─────────────────────────────── intro */
@@ -114,7 +230,7 @@ export function RealityCheck() {
 
         <button
           type="button"
-          onClick={() => setStage("quiz")}
+          onClick={beginQuiz}
           className="btn mt-9 w-full justify-center sm:w-auto sm:px-10"
         >
           Start the Reality Check
@@ -315,8 +431,21 @@ export function RealityCheck() {
       ) : null}
 
 
+      {study ? <StudyThanks selfRating={selfRating} score={score} /> : null}
+
+      {/* The breakdown form carries a name and email to Fenwick, so in the
+          study it is labelled as separate from the anonymous record. */}
+      {study ? (
+        <p className="mt-10 -mb-6 text-caption text-muted">
+          Optional, and separate from the study: if you ask for the written breakdown below, it is
+          emailed to you and Fenwick receives a copy with your name. The anonymous study record
+          is not linked to it.
+        </p>
+      ) : null}
+
       <ReportForm score={score} band={band.name} answers={answers} />
 
+      {study ? null : (
       <div className="mt-10 rounded-lg border border-line p-6 sm:p-8">
         <h3 className="text-h4 font-semibold text-ink">What this is, and what it is not</h3>
         <p className="mt-3 text-body text-muted">
@@ -334,8 +463,10 @@ export function RealityCheck() {
           </Link>
         </div>
       </div>
+      )}
 
       <div className="mt-8 flex items-center justify-between">
+        {study ? <span /> : (
         <button
           type="button"
           onClick={restart}
@@ -343,6 +474,7 @@ export function RealityCheck() {
         >
           Take it again
         </button>
+        )}
         <Link href="/who-its-for" className="text-caption font-semibold text-maroon hover:underline">
           See the nine things owners come to us for →
         </Link>

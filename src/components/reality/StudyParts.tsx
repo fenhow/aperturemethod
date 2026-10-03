@@ -10,7 +10,6 @@
  */
 
 import { useState } from "react";
-import { siteConfig } from "@/lib/site";
 import {
   heardFromOptions,
   studyFields,
@@ -20,6 +19,9 @@ import {
   type StudyFieldId,
 } from "@/lib/realityStudy";
 import { QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
+
+/** Questions about the study go straight to Fenwick (Oct 2026). */
+const STUDY_CONTACT = "fen@aperturemethod.com";
 
 /* ─────────────────────────────── intro + consent */
 
@@ -69,8 +71,8 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
           <p className="whitespace-nowrap font-semibold text-ink">Fenwick How &middot; The Aperture Method</p>
           <p className="mt-1">
             Questions about the study:{" "}
-            <a href={`mailto:${siteConfig.email}`} className="font-semibold text-maroon hover:underline">
-              {siteConfig.email}
+            <a href={`mailto:${STUDY_CONTACT}`} className="font-semibold text-maroon hover:underline">
+              {STUDY_CONTACT}
             </a>
           </p>
         </div>

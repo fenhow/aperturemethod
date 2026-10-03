@@ -128,6 +128,11 @@ export const studyFields: StudyField[] = [
       { value: "software-only", label: "Software dashboards, no person" },
     ],
   },
+  /*
+   * Band edges are deliberate (Oct 2026): $3,000 is H2's falsification line and
+   * $4,500 is the actual Business X-Ray fee (src/lib/pricing.ts XRAY_FEE), so
+   * both can be read straight off the answers. Change them only with H2.
+   */
   {
     id: "wtp",
     prompt:
@@ -136,9 +141,9 @@ export const studyFields: StudyField[] = [
       { value: "would-not-pay", label: "I would not pay for this" },
       { value: "under-1500", label: "Under $1,500" },
       { value: "1500-3000", label: "$1,500 to $3,000" },
-      { value: "3000-5000", label: "$3,000 to $5,000" },
-      { value: "5000-10000", label: "$5,000 to $10,000" },
-      { value: "over-10000", label: "Over $10,000" },
+      { value: "3000-4500", label: "$3,000 to $4,499" },
+      { value: "4500-7500", label: "$4,500 to $7,500" },
+      { value: "over-7500", label: "Over $7,500" },
     ],
   },
 ];

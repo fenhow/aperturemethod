@@ -4,6 +4,11 @@ import { APERTURE_LOGO_WHITE_HORIZONTAL_B64 } from "./onboarding/logo";
 import { questions } from "./realityCheck";
 import { studyFields } from "./realityStudy";
 import { MIN_N_TO_READ, MIN_SECONDS, type StudyStats } from "./realityStudyStats";
+import { fmtP, type ProportionTest } from "./stats";
+import {
+  VERDICT_LABEL, STATS_CAVEAT, correlationSentence, groupSentence, moeSentence,
+  overconfidenceSentence, proportionSentence,
+} from "./realityStudyReadout";
 
 /**
  * The Reality Check research study as a clean, branded PDF report.
@@ -164,28 +169,43 @@ class Report {
     this.y -= th + 12;
   }
 
-  hypothesis(code: string, claim: string, value: string, measure: string, test: string, verdict: string, x: number, w: number, top: number) {
-    const h = 132;
+  hypothesis(code: string, claim: string, t: ProportionTest, measure: string, test: string, extra: string | null, x: number, w: number, top: number) {
+    const h = 158;
+    const verdict = VERDICT_LABEL[t.verdict];
+    const value = t.n ? `${Math.round(t.pct)}%` : "-";
     this.page.drawRectangle({ x, y: top - h, width: w, height: h, borderColor: LINE, borderWidth: 0.6, color: WHITE });
     this.page.drawRectangle({ x, y: top - h, width: 3, height: h, color: MAROON });
     this.page.drawText(code, { x: x + 14, y: top - 20, size: 13, font: this.bold, color: MAROON });
     const vw = this.bold.widthOfTextAtSize(san(verdict), 7.5) + 14;
-    this.page.drawRectangle({ x: x + w - vw - 12, y: top - 24, width: vw, height: 14, color: verdict.startsWith("Leaning supported") ? MAROON : verdict.startsWith("Leaning against") ? INK : LINE });
-    this.page.drawText(san(verdict), { x: x + w - vw - 5, y: top - 19.5, size: 7.5, font: this.bold, color: verdict.startsWith("Leaning") ? WHITE : INK });
+    const dark = t.verdict === "supported" || t.verdict === "against";
+    this.page.drawRectangle({ x: x + w - vw - 12, y: top - 24, width: vw, height: 14, color: t.verdict === "supported" ? MAROON : t.verdict === "against" ? INK : LINE });
+    this.page.drawText(san(verdict), { x: x + w - vw - 5, y: top - 19.5, size: 7.5, font: this.bold, color: dark ? WHITE : INK });
     let yy = top - 38;
     for (const ln of this.wrap(claim, this.bold, 8.5, w - 28)) {
       this.page.drawText(ln, { x: x + 14, y: yy, size: 8.5, font: this.bold, color: INK });
       yy -= 11;
     }
     this.page.drawText(san(value), { x: x + 14, y: yy - 20, size: 22, font: this.bold, color: INK });
+    if (t.ci) {
+      const ciT = san(`95% CI ${Math.round(t.ci.lo)}-${Math.round(t.ci.hi)}%  ·  ${fmtP(t.verdict === "against" ? t.pBelow : t.pAbove)}`);
+      this.page.drawText(ciT, { x: x + 14 + this.bold.widthOfTextAtSize(value, 22) + 10, y: yy - 18, size: 8, font: this.bold, color: MAROON });
+    }
     yy -= 32;
     for (const ln of this.wrap(measure, this.reg, 7.5, w - 28)) {
       this.page.drawText(ln, { x: x + 14, y: yy, size: 7.5, font: this.reg, color: MUTED });
       yy -= 9.5;
     }
-    for (const ln of this.wrap(test, this.reg, 7, w - 28)) {
-      this.page.drawText(ln, { x: x + 14, y: top - h + 10, size: 7, font: this.reg, color: MUTED });
+    if (extra) {
+      yy -= 2;
+      for (const ln of this.wrap(extra, this.reg, 7.5, w - 28)) {
+        this.page.drawText(ln, { x: x + 14, y: yy, size: 7.5, font: this.reg, color: INK });
+        yy -= 9.5;
+      }
     }
+    const tl = this.wrap(test, this.reg, 7, w - 28);
+    tl.forEach((ln, i) => {
+      this.page.drawText(ln, { x: x + 14, y: top - h + 10 + (tl.length - 1 - i) * 8.5, size: 7, font: this.reg, color: MUTED });
+    });
     return h;
   }
 
@@ -278,6 +298,8 @@ export async function generateStudyReportPdf(
         `Before the first question they rated their own knowledge at ${r0(s.meanSelf)} on the same 100-point scale. ${r0(s.pctOverconfident)}% rated themselves above the score they then earned, a mean gap of ${s.meanOverconfidence! > 0 ? "+" : ""}${r0(s.meanOverconfidence)} points.`
       );
     }
+    const oc = overconfidenceSentence(s);
+    if (oc) parts.push(oc);
     const top = s.byQuestion[0];
     if (top) parts.push(`The question owners were least able to answer was "${top.area}": ${r0(top.pct)}% could not answer it with confidence.`);
     d.para(parts.join(" "), { size: 10.5, after: 6 });
@@ -292,37 +314,48 @@ export async function generateStudyReportPdf(
   if (s.n > 0) {
     d.y -= 4;
     d.tiles([
-      { label: "Avg Clarity Score", value: r0(s.meanScore), sub: `Median ${r0(s.medianScore)}, out of 100` },
+      { label: "Avg Clarity Score", value: r0(s.meanScore), sub: `Median ${r0(s.medianScore)}${s.stats.meanScore ? ` · 95% CI ${r0(s.stats.meanScore.ci.lo)}-${r0(s.stats.meanScore.ci.hi)}` : ""}` },
       { label: "What owners think", value: r0(s.meanSelf), sub: `Self-rating x10 (n = ${s.nRated})` },
-      { label: "Overconfidence gap", value: s.meanOverconfidence === null ? "-" : `${s.meanOverconfidence > 0 ? "+" : ""}${r0(s.meanOverconfidence)}`, sub: `${r0(s.pctOverconfident)}% rated above their score` },
+      { label: "Overconfidence gap", value: s.meanOverconfidence === null ? "-" : `${s.meanOverconfidence > 0 ? "+" : ""}${r0(s.meanOverconfidence)}`, sub: `${r0(s.pctOverconfident)}% rated above their score${s.stats.overconfidence ? ` · ${fmtP(s.stats.overconfidence.p)}` : ""}` },
       { label: "Could not answer", value: r1(s.meanGaps), sub: `Questions on average, of ${questions.length}` },
     ]);
 
     /* ── hypotheses */
     d.section("The hypotheses", 170);
-    const verdict = (pct: number, n: number, ok: boolean) => (n === 0 ? "No data yet" : n < MIN_N_TO_READ ? "Too early to read" : ok ? "Leaning supported" : "Leaning against");
     const top = d.y;
     const w = (CW - 12) / 2;
     d.hypothesis(
-      "H1", "$1-20M owner-run firms lack access to decision-grade analysis.",
-      s.h1.n ? `${r0(s.h1.pct)}%` : "-",
+      "H1", "$1-20M owner-run firms lack access to decision-grade analysis.", s.h1,
       `of $1-20M firms get analysis from no one, only a bookkeeper or CPA, or software alone (n = ${s.h1.n})`,
-      "Falsified if fewer than 40% report no access.",
-      verdict(s.h1.pct, s.h1.n, s.h1.pct >= 40), M, w, top
+      "Falsified if fewer than 40% report no access. Tested: is the true share above 40%?",
+      null, M, w, top
     );
     const h = d.hypothesis(
-      "H2", "Owners will pay for a fixed-fee diagnostic.",
-      s.h2.n ? `${r0(s.h2.pct)}%` : "-",
+      "H2", "Owners will pay for a fixed-fee diagnostic.", s.h2,
       `would pay $3,000 or more for an independent diagnostic (n = ${s.h2.n})`,
-      "Falsified if willingness to pay clusters below $3,000.",
-      verdict(s.h2.pct, s.h2.n, s.h2.pct >= 50), M + w + 12, w, top
+      "Falsified if willingness to pay clusters below $3,000. Tested: do most owners say $3,000 or more?",
+      s.h2AtPrice.n && s.h2AtPrice.ci
+        ? `At the actual $4,500 fee: ${r0(s.h2AtPrice.pct)}% would pay it or more (95% CI ${r0(s.h2AtPrice.ci.lo)}-${r0(s.h2AtPrice.ci.hi)}%).`
+        : null,
+      M + w + 12, w, top
     );
     d.y = top - h - 8;
-    d.para(`Self-selected convenience sample; label as such. Readings under ${MIN_N_TO_READ} responses are provisional.`, { size: 7.5, color: MUTED });
+
+    /* ── how sure */
+    d.section("How sure can we be?", 150);
+    for (const t of [overconfidenceSentence(s), correlationSentence(s), `H1: ${proportionSentence(s.h1, "H1")}`, `H2: ${proportionSentence(s.h2, "H2")}`, moeSentence(s)]) {
+      if (!t) continue;
+      d.ensure(30);
+      d.page.drawRectangle({ x: M, y: d.y - 2, width: 4, height: 4, color: MAROON });
+      d.para(t, { size: 9, x: M + 12, after: 6 });
+    }
+    d.para(STATS_CAVEAT, { size: 7.5, color: MUTED });
 
     /* ── perceived vs measured */
     d.section("What owners think vs what they can evidence", 260);
     d.para("Each dot is one owner. Dots above the dashed line rated themselves higher than they scored.", { size: 8.5, color: MUTED, after: 6 });
+    const cs = correlationSentence(s);
+    if (cs) d.para(cs, { size: 8.5, after: 6 });
     if (s.scatter.length) d.scatter(s.scatter);
     else d.para("No self-ratings recorded yet.", { size: 9 });
 
@@ -340,8 +373,8 @@ export async function generateStudyReportPdf(
 
     /* ── questions */
     d.section("Where owners are guessing", 200);
-    d.para("Share who could not answer each question with confidence (an answer scoring 0 or 1 of 4), highest first.", { size: 8.5, color: MUTED, after: 6 });
-    for (const q of s.byQuestion) d.bar(q.area, `${r0(q.pct)}%`, q.pct);
+    d.para("Share who could not answer each question with confidence (an answer scoring 0 or 1 of 4), highest first. Brackets show the 95% confidence interval.", { size: 8.5, color: MUTED, after: 6 });
+    for (const q of s.byQuestion) d.bar(q.area, `${r0(q.pct)}%${q.ci ? `  (${r0(q.ci.lo)}-${r0(q.ci.hi)})` : ""}`, q.pct);
 
     if (s.blindSpots.length) {
       d.section("Most common biggest blind spot", 120);
@@ -362,6 +395,8 @@ export async function generateStudyReportPdf(
         continue;
       }
       for (const r of rows) d.bar(r.label, `${r.n} · ${r0(r.pct)}%${r.avgScore !== null ? ` · avg ${r0(r.avgScore)}` : ""}`, r.pct, { size: 8 });
+      const g = s.stats.groups[key];
+      d.para(groupSentence(g), { size: 7.5, color: g && g.p < 0.05 ? MAROON : MUTED, after: 2 });
     }
 
     /* ── sources */
@@ -381,7 +416,8 @@ export async function generateStudyReportPdf(
     "Profile. Optional, asked after the last question and before the score, in bands only (revenue, headcount, industry, role, years, region, three ZIP digits).",
     `Sample. Recruited through tagged links at aperturemethod.com/reality-check/study. Usable means first attempt, at least ${MIN_SECONDS} seconds, and not tagged as a test. ${s.totalRows} completed in total; left out: ${ex}.`,
     "Anonymity. No name, email, company or address is stored with a response. Benchmark-report emails are held in a separate table with no link to answers.",
-    "Limitations. A self-selected convenience sample, not a random one: results describe the owners who took part and should not be generalised without that caveat.",
+    "Statistics. Proportions carry Wilson 95% confidence intervals. H1 and H2 are tested against their registered thresholds with an exact one-sided binomial test. The self-rating gap uses a paired t-test with Cohen's d; the self-rating and score relationship uses Spearman's rho (Pearson's r alongside); differences in score between groups use one-way ANOVA. Significance means p < 0.05.",
+    "Limitations. A self-selected convenience sample, not a random one: results describe the owners who took part and should not be generalised without that caveat. The same applies to every p-value and interval in this report.",
   ]) {
     const [head, ...rest] = line.split(". ");
     d.ensure(30);

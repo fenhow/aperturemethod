@@ -82,7 +82,7 @@ select
         filter (where revenue in ('1-5m', '5-20m')), 1)       as h1_pct_no_analysis_1_20m,
   count(*) filter (where revenue in ('1-5m', '5-20m'))        as n_1_20m,
   -- H2: share who would pay $3,000 or more
-  round(100.0 * avg((wtp in ('3000-5000', '5000-10000', 'over-10000'))::int)
+  round(100.0 * avg((wtp in ('3000-4500', '4500-7500', 'over-7500'))::int)
         filter (where wtp is not null), 1)                    as h2_pct_pay_3000_plus
 from public.v_rc_study_clean;
 

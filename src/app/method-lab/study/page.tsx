@@ -5,6 +5,16 @@ import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
 import { loadStudy, MIN_N_TO_READ, MIN_SECONDS, type Count, type StudyStats } from "@/lib/realityStudyStats";
 import { studyFields } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
+import { fmtP, type ProportionTest } from "@/lib/stats";
+import {
+  VERDICT_LABEL,
+  STATS_CAVEAT,
+  correlationSentence,
+  groupSentence,
+  moeSentence,
+  overconfidenceSentence,
+  proportionSentence,
+} from "@/lib/realityStudyReadout";
 
 /**
  * /method-lab/study — the Reality Check research study, read for the capstone.
@@ -126,6 +136,7 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
             : "Nothing left out so far."}{" "}
           (Usable means first attempt, at least {MIN_SECONDS} seconds, not tagged test.)
         </p>
+        <p className="mt-1 text-caption text-muted">{moeSentence(s)}</p>
       </div>
 
       {/* ───────── filters */}
@@ -148,7 +159,11 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
 
           {/* ───────── headline */}
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Tile label="Average Clarity Score" value={f0(s.meanScore)} sub={`Median ${f0(s.medianScore)} · out of 100`} />
+            <Tile
+              label="Average Clarity Score"
+              value={f0(s.meanScore)}
+              sub={`Median ${f0(s.medianScore)}${s.stats.meanScore ? ` · 95% CI ${f0(s.stats.meanScore.ci.lo)}–${f0(s.stats.meanScore.ci.hi)}` : ""}`}
+            />
             <Tile
               label="What owners think"
               value={f0(s.meanSelf)}
@@ -157,7 +172,7 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
             <Tile
               label="Overconfidence gap"
               value={s.meanOverconfidence === null ? "—" : `${s.meanOverconfidence > 0 ? "+" : ""}${f0(s.meanOverconfidence)}`}
-              sub={`${f0(s.pctOverconfident)}% rated themselves above their score`}
+              sub={`${f0(s.pctOverconfident)}% rated above their score${s.stats.overconfidence ? ` · ${fmtP(s.stats.overconfidence.p)}` : ""}`}
             />
             <Tile label="Questions they could not answer" value={f1(s.meanGaps)} sub={`On average, of ${questions.length}`} />
           </div>
@@ -168,31 +183,42 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
             <Hypothesis
               code="H1"
               claim="$1–20M owner-run firms lack access to decision-grade analysis."
-              test="Falsified if fewer than 40% report no access."
-              value={s.h1.pct}
-              n={s.h1.n}
-              supports={s.h1.pct >= 40}
+              test="Falsified if fewer than 40% report no access. Tested: is the true share above 40%?"
+              t={s.h1}
               measure="of $1–20M firms get analysis from no one, only their bookkeeper or CPA, or software alone"
+              extra={null}
             />
             <Hypothesis
               code="H2"
               claim="Owners will pay for a fixed-fee diagnostic."
-              test="Falsified if willingness to pay clusters below $3,000."
-              value={s.h2.pct}
-              n={s.h2.n}
-              supports={s.h2.pct >= 50}
+              test="Falsified if willingness to pay clusters below $3,000. Tested: do most owners say $3,000 or more?"
+              t={s.h2}
               measure="would pay $3,000 or more for an independent diagnostic"
+              extra={
+                s.h2AtPrice.n
+                  ? `At the actual $4,500 fee: ${f0(s.h2AtPrice.pct)}% would pay it or more (95% CI ${f0(s.h2AtPrice.ci?.lo)}–${f0(s.h2AtPrice.ci?.hi)}%).`
+                  : null
+              }
             />
           </div>
-          <p className="mt-3 text-caption text-muted">
-            Self-selected convenience sample. Report it that way, and label any reading under {MIN_N_TO_READ} responses as provisional.
-          </p>
+          {/* ───────── how sure */}
+          <Panel title="How sure can we be?">
+            <ul className="space-y-3 text-body text-body">
+              {[overconfidenceSentence(s), correlationSentence(s), `H1: ${proportionSentence(s.h1, "H1")}`, `H2: ${proportionSentence(s.h2, "H2")}`]
+                .filter(Boolean)
+                .map((t) => (
+                  <li key={t!} className="border-l-2 border-maroon pl-4">{t}</li>
+                ))}
+            </ul>
+            <p className="mt-5 text-caption text-muted">{STATS_CAVEAT}</p>
+          </Panel>
 
           {/* ───────── perceived vs measured */}
           <Panel title="What owners think vs what they can evidence">
             <p className="text-small text-muted">
               Each dot is one owner. Above the line: they rated themselves higher than they scored.
             </p>
+            {correlationSentence(s) ? <p className="mt-2 text-small text-ink">{correlationSentence(s)}</p> : null}
             <Scatter points={s.scatter} />
           </Panel>
 
@@ -210,14 +236,16 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
           <Panel title="Where owners are guessing">
             <p className="text-small text-muted">
               Share who could not answer each question with confidence (their answer scored 0 or 1). This is the
-              demand map: the higher the bar, the more owners lack that number.
+              demand map: the higher the bar, the more owners lack that number. Brackets show the 95% confidence interval.
             </p>
             <ul className="mt-5 space-y-3">
               {s.byQuestion.map((q) => (
                 <li key={q.id}>
                   <div className="flex items-baseline justify-between gap-4 text-small">
                     <span className="font-semibold text-ink" title={q.prompt}>{q.area}</span>
-                    <span className="shrink-0 tabular-nums text-muted">{f0(q.pct)}%</span>
+                    <span className="shrink-0 tabular-nums text-muted">
+                      {f0(q.pct)}%{q.ci ? <span className="text-caption"> ({f0(q.ci.lo)}–{f0(q.ci.hi)})</span> : null}
+                    </span>
                   </div>
                   <div className="mt-1 h-2 w-full overflow-hidden rounded-full bg-line">
                     <div className="h-full bg-maroon" style={{ width: `${Math.max(q.pct, 0.5)}%` }} />
@@ -243,6 +271,9 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
             {(Object.keys(s.profile) as (keyof StudyStats["profile"])[]).map((k) => (
               <Panel key={k} title={studyFields.find((f) => f.id === k)!.prompt} compact>
                 <ProfileBars rows={s.profile[k]} />
+                <p className={`mt-3 text-caption ${s.stats.groups[k]?.p !== undefined && s.stats.groups[k]!.p < 0.05 ? "font-semibold text-maroon" : "text-muted"}`}>
+                  {groupSentence(s.stats.groups[k])}
+                </p>
               </Panel>
             ))}
           </div>
@@ -315,21 +346,26 @@ function Tile({ label, value, sub }: { label: string; value: string; sub: string
 }
 
 function Hypothesis(p: {
-  code: string; claim: string; test: string; value: number; n: number; supports: boolean; measure: string;
+  code: string; claim: string; test: string; t: ProportionTest; measure: string; extra: string | null;
 }) {
-  const early = p.n < MIN_N_TO_READ;
-  const verdict = p.n === 0 ? "No data yet" : early ? "Too early to read" : p.supports ? "Leaning supported" : "Leaning against";
+  const v = p.t.verdict;
+  const pill =
+    v === "supported" ? "bg-maroon text-white" : v === "against" ? "bg-ink text-white" : "bg-line text-ink";
   return (
     <div className="rounded-lg border border-line border-l-4 border-l-maroon bg-surface p-6">
       <div className="flex items-baseline justify-between gap-3">
         <p className="text-h4 font-semibold text-maroon">{p.code}</p>
-        <span className={`rounded-full px-3 py-1 text-caption font-semibold ${!early && p.n ? (p.supports ? "bg-maroon text-white" : "bg-ink text-white") : "bg-line text-ink"}`}>
-          {verdict}
-        </span>
+        <span className={`rounded-full px-3 py-1 text-caption font-semibold ${pill}`}>{VERDICT_LABEL[v]}</span>
       </div>
       <p className="mt-2 text-body font-semibold text-ink">{p.claim}</p>
-      <p className="mt-4 text-[36px] font-semibold leading-none text-ink tabular-nums">{p.n ? `${f0(p.value)}%` : "—"}</p>
-      <p className="mt-2 text-small text-muted">{p.measure} (n = {p.n})</p>
+      <p className="mt-4 text-[36px] font-semibold leading-none text-ink tabular-nums">{p.t.n ? `${f0(p.t.pct)}%` : "—"}</p>
+      {p.t.ci ? (
+        <p className="mt-1 text-small font-semibold text-maroon tabular-nums">
+          95% CI {f0(p.t.ci.lo)}–{f0(p.t.ci.hi)}% · {fmtP(p.t.verdict === "against" ? p.t.pBelow : p.t.pAbove)}
+        </p>
+      ) : null}
+      <p className="mt-2 text-small text-muted">{p.measure} (n = {p.t.n})</p>
+      {p.extra ? <p className="mt-2 text-small text-ink">{p.extra}</p> : null}
       <p className="mt-3 text-caption text-muted">{p.test}</p>
     </div>
   );

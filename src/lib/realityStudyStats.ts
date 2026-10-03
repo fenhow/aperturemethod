@@ -2,6 +2,7 @@ import "server-only";
 import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
 import { questions, bands } from "@/lib/realityCheck";
 import { studyFields, STUDY_TARGET, type StudyFieldId } from "@/lib/realityStudy";
+import { anova, correlation, marginOfError, meanTest, proportionTest, wilson, type Anova } from "@/lib/stats";
 
 /**
  * Everything the /admin/study dashboard shows, computed from the raw rows.
@@ -35,6 +36,12 @@ export type StudyRow = {
 } & Partial<Record<StudyFieldId, string | null>>;
 
 export type Count = { key: string; label: string; n: number; pct: number; avgScore: number | null };
+
+/** H1's falsification line and H2's, as registered in the capstone plan. */
+export const H1_THRESHOLD = 40;
+export const H2_THRESHOLD = 50;
+const PAY_3000 = ["3000-4500", "4500-7500", "over-7500"];
+const PAY_4500 = ["4500-7500", "over-7500"];
 
 const isTest = (r: StudyRow) => (r.source ?? "").startsWith("test");
 
@@ -84,6 +91,16 @@ export async function loadStudy(filter: { revenue?: string; industry?: string; s
     .from("reality_check_study_optins")
     .select("id", { count: "exact", head: true });
 
+  return computeStudy(all, optins ?? 0, filter);
+}
+
+/** Pure computation, separate from the database read so it can be tested. */
+export function computeStudy(
+  all: StudyRow[],
+  optins: number,
+  filter: { revenue?: string; industry?: string; source?: string }
+) {
+
   const exclusions = new Map<string, number>();
   const cleanAll: StudyRow[] = [];
   for (const r of all) {
@@ -109,7 +126,7 @@ export async function loadStudy(filter: { revenue?: string; industry?: string; s
     .map((q) => {
       const answered = rows.filter((r) => typeof r.answers?.[q.id] === "number");
       const cannot = answered.filter((r) => r.answers[q.id]! <= 1).length;
-      return { id: q.id, area: q.area, prompt: q.prompt, n: answered.length, pct: pct(cannot, answered.length) };
+      return { id: q.id, area: q.area, prompt: q.prompt, n: answered.length, pct: pct(cannot, answered.length), ci: wilson(cannot, answered.length) };
     })
     .sort((a, b) => b.pct - a.pct);
 
@@ -135,7 +152,19 @@ export async function loadStudy(filter: { revenue?: string; industry?: string; s
   const h1Hit = h1Pool.filter((r) => ["no-one", "bookkeeper-cpa", "software-only"].includes(r.analysis_source!));
   // H2: would pay $3,000 or more.
   const h2Pool = rows.filter((r) => r.wtp);
-  const h2Hit = h2Pool.filter((r) => ["3000-5000", "5000-10000", "over-10000"].includes(r.wtp!));
+  const h2Hit = h2Pool.filter((r) => PAY_3000.includes(r.wtp!));
+  const h2Price = h2Pool.filter((r) => PAY_4500.includes(r.wtp!));
+
+  // Does the average score genuinely differ between groups, or is it chance?
+  const groupTest = (key: StudyFieldId): Anova | null => {
+    const field = studyFields.find((f) => f.id === key)!;
+    return anova(
+      field.options
+        .filter((o) => o.value !== "prefer-not")
+        .map((o) => rows.filter((r) => r[key] === o.value).map((r) => r.score))
+    );
+  };
+  const overconfidentN = gapsPerRated.filter((g) => g > 0).length;
 
   const sources = new Map<string, number>();
   for (const r of cleanAll) sources.set(r.source ?? "direct", (sources.get(r.source ?? "direct") ?? 0) + 1);
@@ -145,7 +174,7 @@ export async function loadStudy(filter: { revenue?: string; industry?: string; s
     totalRows: all.length,
     cleanTotal: cleanAll.length,
     exclusions: [...exclusions.entries()].map(([reason, count]) => ({ reason, count })),
-    optins: optins ?? 0,
+    optins,
     n,
     filtered: Boolean(filter.revenue || filter.industry || filter.source),
     meanScore: mean(scores),
@@ -161,8 +190,27 @@ export async function loadStudy(filter: { revenue?: string; industry?: string; s
     blindSpots,
     bandCounts,
     histogram,
-    h1: { n: h1Pool.length, pct: pct(h1Hit.length, h1Pool.length) },
-    h2: { n: h2Pool.length, pct: pct(h2Hit.length, h2Pool.length) },
+    h1: proportionTest(h1Hit.length, h1Pool.length, H1_THRESHOLD),
+    h2: proportionTest(h2Hit.length, h2Pool.length, H2_THRESHOLD),
+    h2AtPrice: { n: h2Pool.length, pct: pct(h2Price.length, h2Pool.length), ci: wilson(h2Price.length, h2Pool.length) },
+    stats: {
+      moe: marginOfError(n),
+      moeAtTarget: marginOfError(STUDY_TARGET),
+      meanScore: meanTest(scores),
+      overconfidence: meanTest(gapsPerRated),
+      overconfidentCi: wilson(overconfidentN, gapsPerRated.length),
+      correlation: correlation(rated.map((r) => r.self_rating! * 10), rated.map((r) => r.score)),
+      groups: {
+        revenue: groupTest("revenue"),
+        employees: groupTest("employees"),
+        industry: groupTest("industry"),
+        role: groupTest("role"),
+        years: groupTest("years"),
+        region: groupTest("region"),
+        analysis_source: groupTest("analysis_source"),
+        wtp: groupTest("wtp"),
+      } as Record<StudyFieldId, Anova | null>,
+    },
     profile: {
       revenue: countBy(rows, "revenue"),
       employees: countBy(rows, "employees"),
@@ -178,4 +226,4 @@ export async function loadStudy(filter: { revenue?: string; industry?: string; s
   };
 }
 
-export type StudyStats = NonNullable<Awaited<ReturnType<typeof loadStudy>>>;
+export type StudyStats = ReturnType<typeof computeStudy>;

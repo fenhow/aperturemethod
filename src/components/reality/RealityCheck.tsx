@@ -128,9 +128,8 @@ export function RealityCheck() {
         */}
         <p className="mt-6 text-caption text-muted">
           Your answers stay in your browser while you work through them. When you finish, we record
-          the answers anonymously so we can tell which questions are hard to answer. Nothing that
-          identifies you, no name, no email, no company, is sent unless you ask for the breakdown at
-          the end.
+          the answers anonymously to keep improving the questions. Nothing that identifies you, no
+          name, no email, no company, is sent unless you ask for the breakdown at the end.
         </p>
       </div>
     );

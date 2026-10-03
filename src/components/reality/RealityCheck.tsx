@@ -53,6 +53,33 @@ export function RealityCheck() {
           {QUESTION_COUNT} questions. About {APPROX_MINUTES} minutes. No email required to see your score.
         </p>
 
+        {/*
+          The written breakdown, named before anyone starts, and ABOVE the start
+          button (Oct 2026).
+
+          It used to sit below the button as quiet grey text, and people missed
+          it twice: once here, because they clicked Start before reading it, and
+          again on the results screen, where the form reads as an afterthought.
+          Now it is the last thing seen before starting, with the email offer in
+          the heading rather than buried in the third sentence.
+
+          Deliberately still NOT a field. "No email required" is why people start
+          this thing, and it is promised on the homepage, here, and in the page's
+          search description. A box at the gate reads as a gate even when it is
+          optional, and it would be asking before anything has been given.
+        */}
+        <div className="mt-8 max-w-xl rounded-lg border border-line border-l-4 border-l-maroon bg-surface p-5">
+          <p className="text-small font-semibold text-ink">
+            Want your results emailed to you? You can ask for that at the end.
+          </p>
+          <p className="mt-2 text-small text-muted">
+            Your Clarity Score and your single biggest blind spot appear on screen, free, straight
+            away. At the end you can enter your email and we will send the full written breakdown:
+            every question with your answer, all {QUESTION_COUNT} underlying measures explained with
+            the arithmetic, and a PDF you can keep or hand to whoever does your books.
+          </p>
+        </div>
+
         <button
           type="button"
           onClick={() => setStage("quiz")}
@@ -60,30 +87,6 @@ export function RealityCheck() {
         >
           Start the Reality Check
         </button>
-
-        {/*
-          The written breakdown, named before anyone starts.
-
-          It used to be a surprise at the end, and people missed it. Nobody
-          scans a results page looking for an offer they were never told about.
-          This says what is coming and what is in it, so the form at the end is
-          something they were waiting for rather than something they stumble on.
-
-          Deliberately NOT a field. "No email required" is why people start this
-          thing, and it is promised on the homepage, here, and in the page's
-          search description. A box at the gate reads as a gate even when it is
-          optional, and it would be asking before anything has been given.
-        */}
-        <div className="mt-8 max-w-xl rounded-lg border border-line bg-surface p-5">
-          <p className="text-small font-semibold text-ink">What you get at the end</p>
-          <p className="mt-2 text-small text-muted">
-            Your Clarity Score and your single biggest blind spot, on screen, free, straight away.
-            If you want it, we will also email you the full written breakdown: every question with
-            your answer, all {QUESTION_COUNT} underlying measures explained with the arithmetic,
-            and a PDF you can keep or hand to whoever does your books.
-          </p>
-        </div>
-
         <p className="mt-6 text-caption text-muted">
           Your answers stay in your browser. Nothing is sent anywhere unless you ask for the
           breakdown at the end.
@@ -118,6 +121,17 @@ export function RealityCheck() {
             style={{ width: `${Math.max(progress, 4)}%` }}
           />
         </div>
+
+        {/* Second reminder of the emailed breakdown, on the way in and on the
+            way out, because the intro card is 15 questions behind them by the
+            time the form appears. */}
+        {idx === 0 || idx === questions.length - 1 ? (
+          <p className="mt-4 text-caption text-muted">
+            {idx === 0
+              ? "You can have the full written breakdown emailed to you at the end."
+              : "Last one. Your score is next, and you can have the full written breakdown emailed to you."}
+          </p>
+        ) : null}
 
         <h2 className="mt-8 text-h3 font-semibold leading-snug text-ink">{q.prompt}</h2>
         {q.note ? <p className="mt-3 text-body text-muted">{q.note}</p> : null}

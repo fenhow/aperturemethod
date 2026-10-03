@@ -28,7 +28,7 @@ const STUDY_CONTACT = "fen@aperturemethod.com";
 export function StudyIntro({ onStart, count }: { onStart: () => void; count?: number }) {
   return (
     <div className="mx-auto max-w-3xl">
-      <p className="eyebrow mb-4">Research study · The Reality Check</p>
+      <p className="eyebrow mb-4">Executive MBA Capstone Research · The Reality Check</p>
       <h1 className="max-w-2xl text-h1 font-semibold text-ink">
         How well do owners really know their own businesses?
       </h1>

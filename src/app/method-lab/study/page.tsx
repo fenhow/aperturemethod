@@ -26,6 +26,14 @@ const f0 = (x: number | null | undefined) => (x === null || x === undefined ? "â
 
 type Search = { revenue?: string; industry?: string; source?: string };
 
+/** The current filter as a query string, so the PDF matches what is on screen. */
+function qs(f: Search) {
+  const q = new URLSearchParams();
+  for (const [k, v] of Object.entries(f)) if (v) q.set(k, v);
+  const out = q.toString();
+  return out ? `?${out}` : "";
+}
+
 export default async function StudyAdminPage({ searchParams }: { searchParams: Search }) {
   if (!(await hasMethodLabAccess(cookies().get(METHOD_LAB_COOKIE)?.value))) {
     return (
@@ -67,7 +75,8 @@ export default async function StudyAdminPage({ searchParams }: { searchParams: S
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href="/method-lab/study/export" className="btn">Download CSV</a>
+            <a href={`/method-lab/study/report${qs(filter)}`} target="_blank" rel="noopener" className="btn">Download PDF report</a>
+            <a href="/method-lab/study/export" className="btn--secondary">Download CSV</a>
             <Link href="/reality-check/study" className="btn--secondary">Open the study</Link>
             <a href="/method-lab" className="btn--secondary">Method Lab</a>
           </div>

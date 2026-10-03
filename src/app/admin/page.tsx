@@ -89,7 +89,7 @@ export default async function AdminPage() {
           to them.
         </p>
         <p className="mt-4">
-          <a href="/admin/study" className="text-small font-semibold text-maroon hover:underline">
+          <a href="/method-lab/study" className="text-small font-semibold text-maroon hover:underline">
             Reality Check study results →
           </a>
         </p>

@@ -84,8 +84,15 @@ export async function sendEmail(opts: {
         filename: a.filename,
         content: Buffer.from(a.contentBase64, "base64"),
         ...(a.cid ? { cid: a.cid, contentDisposition: "inline" as const } : {}),
+        /*
+         * Oct 2026: a hardcoded contentType: "application/pdf" used to sit
+         * here, AFTER the spread, so it won for every attachment. The inline
+         * signature PNG went out labelled as a PDF and every mail client drew
+         * a broken-image box in its place. Each attachment now carries its own
+         * type, and anything without one (the report PDF) is inferred by
+         * nodemailer from the filename.
+         */
         ...(a.contentType ? { contentType: a.contentType } : {}),
-        contentType: "application/pdf",
       })),
     });
     return { ok: true };

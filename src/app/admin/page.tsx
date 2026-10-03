@@ -88,6 +88,11 @@ export default async function AdminPage() {
           Your documents and every client intake in one place. Clients only ever see files assigned
           to them.
         </p>
+        <p className="mt-4">
+          <a href="/admin/study" className="text-small font-semibold text-maroon hover:underline">
+            Reality Check study results →
+          </a>
+        </p>
         <div className="mt-8">
           <AdminDashboard
             adminId={user.id}

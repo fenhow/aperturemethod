@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
@@ -13,6 +13,8 @@ export function RealityCheck() {
   const [stage, setStage] = useState<Stage>("intro");
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
+  /** Guards the completion ping so one run is only ever recorded once. */
+  const reported = useRef(false);
 
   const result = useMemo(() => scoreAnswers(answers), [answers]);
   const q: RCQuestion = questions[idx]!;
@@ -26,11 +28,41 @@ export function RealityCheck() {
       if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       setStage("result");
+      reportCompletion(next);
       if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 
+  /*
+   * The anonymous completion ping (Oct 2026).
+   *
+   * Every finished run is recorded: the answers and the score, never a name, an
+   * email or a company, because none has been given at this point. The intro
+   * says this in plain language before anyone starts. It tells us which
+   * questions people cannot answer, which is the only way to know whether these
+   * are the right questions.
+   *
+   * Fire and forget, once per run: it must not delay the result, and a failed
+   * ping must never be something the visitor sees. The guard stops a second
+   * send when someone goes Back and re-answers the last question.
+   */
+  function reportCompletion(finalAnswers: Record<string, number>) {
+    if (reported.current) return;
+    reported.current = true;
+    try {
+      void fetch("/api/reality-check/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: finalAnswers }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch {
+      /* never surfaced */
+    }
+  }
+
   function restart() {
+    reported.current = false;
     setAnswers({});
     setIdx(0);
     setStage("intro");
@@ -87,9 +119,18 @@ export function RealityCheck() {
         >
           Start the Reality Check
         </button>
+        {/*
+          The privacy line, rewritten Oct 2026 when the anonymous completion
+          ping was added. It used to say nothing was sent unless you asked for
+          the breakdown, and that stopped being true the moment we started
+          recording finished runs. The wording below is what the code actually
+          does, no more and no less.
+        */}
         <p className="mt-6 text-caption text-muted">
-          Your answers stay in your browser. Nothing is sent anywhere unless you ask for the
-          breakdown at the end.
+          Your answers stay in your browser while you work through them. When you finish, we record
+          the answers anonymously so we can tell which questions are hard to answer. Nothing that
+          identifies you, no name, no email, no company, is sent unless you ask for the breakdown at
+          the end.
         </p>
       </div>
     );

@@ -272,12 +272,13 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
 }
 
 /** The lead notification Fenwick receives. */
-export function ownerHtml(
-  who: { name: string; company: string; title: string; email: string },
-  result: RCResult,
-  answers: Record<string, number>
-): string {
-  const rows = questions
+/**
+ * One row per question: the area, and the option they picked. Gaps (a score of
+ * 0 or 1) are shown in maroon and flagged, so the weak spots are findable at a
+ * glance. Shared by the lead alert and the anonymous completion alert.
+ */
+function answerRows(answers: Record<string, number>): string {
+  return questions
     .map((q) => {
       const v = answers[q.id];
       const chosen = q.options.find((o) => o.score === v);
@@ -292,6 +293,14 @@ export function ownerHtml(
       </tr>`;
     })
     .join("");
+}
+
+export function ownerHtml(
+  who: { name: string; company: string; title: string; email: string },
+  result: RCResult,
+  answers: Record<string, number>
+): string {
+  const rows = answerRows(answers);
 
   const roleLine = [who.title, who.company].filter(Boolean).map(esc).join(" · ");
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:660px">
@@ -333,5 +342,48 @@ export function ownerHtml(
       shaded.
     </p>
     ${walkthroughHtml(answers)}
+  </div>`;
+}
+
+/**
+ * The anonymous completion alert (Oct 2026).
+ *
+ * Sent when ANYONE finishes the quiz, whether or not they ask for the written
+ * breakdown. It carries the score and the answers and nothing else: no name, no
+ * email, no company, because none of that has been given at this point and the
+ * page says plainly that this is what gets recorded.
+ *
+ * It exists to show which questions people cannot answer, which is the only way
+ * to know whether the questions are the right ones. It is not a lead: when
+ * someone does give their details, the separate lead alert follows.
+ */
+export function completionHtml(result: RCResult, answers: Record<string, number>): string {
+  return `<div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:660px">
+    <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${MAROON};font-weight:700;margin:0">
+      Reality Check: completed, anonymous
+    </p>
+    <p style="margin:6px 0 16px;font-size:12px;color:${GRAY};line-height:1.5">
+      Someone finished the Reality Check. They have not given their details, so there is nobody to
+      reply to here. If they ask for the written breakdown, a separate alert follows with their name
+      and email.
+    </p>
+    <p style="font-size:16px;margin:0 0 6px">
+      <strong>${result.score}/100 &middot; ${esc(result.band.name)}</strong>
+    </p>
+    <p style="font-size:15px;margin:0 0 6px">
+      Could not answer with confidence: <strong>${result.gaps.length} of ${questions.length}</strong>
+    </p>
+    <p style="font-size:15px;margin:0 0 18px">
+      ${
+        result.blindSpot
+          ? `Biggest blind spot: <strong>${esc(result.blindSpot.area)}</strong>, ${esc(
+              result.blindSpot.blindSpot.headline
+            )} <span style="color:${GRAY}">(${esc(result.blindSpot.component)})</span>`
+          : `<span style="color:${GRAY}">No blind spot: full marks throughout.</span>`
+      }
+    </p>
+    <table style="border-collapse:collapse;width:100%;border-top:2px solid ${INK}">${answerRows(
+      answers
+    )}</table>
   </div>`;
 }

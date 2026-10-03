@@ -1,5 +1,5 @@
 import { questions, scoreAnswers } from "@/lib/realityCheck";
-import { reportHtml, ownerHtml, SIGNATURE_CID } from "@/lib/realityCheckEmail";
+import { reportHtml, ownerHtml, completionHtml, SIGNATURE_CID } from "@/lib/realityCheckEmail";
 import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
 
 /**
@@ -13,7 +13,8 @@ import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
  * template on demand, in the browser, instantly, with nothing sent to anyone.
  *
  *   /preview-email              the customer's report
- *   /preview-email?who=owner    the lead alert
+ *   /preview-email?who=owner       the lead alert
+ *   /preview-email?who=completion  the anonymous completion alert
  *   /preview-email?score=low    someone with a lot of gaps
  *   /preview-email?score=high   someone with almost none
  *   /preview-email?pdf=1        the attached PDF, rendered in the browser
@@ -73,8 +74,11 @@ export async function GET(request: Request) {
     });
   }
 
+  const who = params.get("who");
   const html =
-    params.get("who") === "owner"
+    who === "completion"
+      ? completionHtml(result, answers)
+      : who === "owner"
       ? ownerHtml(
           { name: "Sample Owner", company: "Sample Co", title: "Owner", email: "owner@example.com" },
           result,

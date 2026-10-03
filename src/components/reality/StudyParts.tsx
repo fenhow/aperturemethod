@@ -65,13 +65,15 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
           </li>
           <li>For owners and senior managers of operating businesses, 18 or over.</li>
         </ul>
-        <p className="mt-4 text-caption text-muted">
-          Questions about the study:{" "}
-          <a href={`mailto:${siteConfig.email}`} className="font-semibold text-maroon hover:underline">
-            {siteConfig.email}
-          </a>
-          . Fenwick How, The Aperture Method.
-        </p>
+        <div className="mt-5 border-t border-line pt-4 text-caption text-muted">
+          <p className="whitespace-nowrap font-semibold text-ink">Fenwick How &middot; The Aperture Method</p>
+          <p className="mt-1">
+            Questions about the study:{" "}
+            <a href={`mailto:${siteConfig.email}`} className="font-semibold text-maroon hover:underline">
+              {siteConfig.email}
+            </a>
+          </p>
+        </div>
       </div>
 
       <button
@@ -92,7 +94,7 @@ export function StudyCalibrate({ onRate }: { onRate: (n: number) => void }) {
     <div className="mx-auto max-w-2xl">
       <p className="text-caption text-muted">Before the first question</p>
       <h2 className="mt-6 text-h3 font-semibold leading-snug text-ink">
-        On a scale of 1 to 10, how well do you know the numbers behind your business?
+        On a scale of 1 to 10, how well do you know your business?
       </h2>
       <p className="mt-3 text-body text-muted">Go with your first instinct.</p>
       <div className="mt-7 grid grid-cols-5 gap-2 sm:grid-cols-10">

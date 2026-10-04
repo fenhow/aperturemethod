@@ -82,8 +82,19 @@ export function AnalysisCards({ heading, cards }: { heading: string; cards: Anal
                 }}
                 className="group flex h-full flex-col rounded-lg border border-line bg-paper p-5 text-left transition-all duration-fast enabled:hover:-translate-y-0.5 enabled:hover:border-maroon enabled:hover:shadow-[0_10px_24px_-14px_rgba(80,0,0,0.5)] disabled:cursor-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-maroon"
               >
-                <span className="text-small font-semibold tabular-nums text-maroon">
-                  {String(i + 1).padStart(2, "0")}
+                <span className="flex items-start justify-between gap-3">
+                  <span className="text-small font-semibold tabular-nums text-maroon">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {detailed && (
+                    <span
+                      aria-hidden="true"
+                      title="What is this?"
+                      className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-maroon/40 text-[13px] font-semibold leading-none text-maroon transition-colors duration-fast group-hover:border-maroon group-hover:bg-maroon group-hover:text-paper"
+                    >
+                      ?
+                    </span>
+                  )}
                 </span>
                 <p className="mt-2 text-body font-semibold text-ink">{card.label}</p>
                 {card.note && <p className="mt-1.5 flex-1 text-small text-muted">{card.note}</p>}

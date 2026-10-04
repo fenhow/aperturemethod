@@ -22,7 +22,7 @@ import {
 } from "@/lib/realityStudy";
 import { QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
-/** Questions about the study go straight to Fenwick (Oct 2026). */
+/** Questions about the survey go straight to Fenwick (Oct 2026). */
 const STUDY_CONTACT = "fen@aperturemethod.com";
 
 /* ─────────────────────────────── intro + consent */
@@ -35,9 +35,9 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
         How well do owners really know their own businesses?
       </h1>
       <p className="mt-5 text-body-lg text-muted">
-        I am putting that question to {STUDY_TARGET} owner-run businesses. It takes about{" "}
-        {APPROX_MINUTES + 1} minutes and it is anonymous. You see your own Clarity Score and your
-        biggest blind spot the moment you finish.
+        I am putting that question to {STUDY_TARGET} owner-run businesses in a short survey. It
+        takes about {APPROX_MINUTES + 1} minutes and it is anonymous. You see your own Clarity Score
+        and your biggest blind spot the moment you finish.
       </p>
 
       {typeof count === "number" && count >= STUDY_COUNT_FLOOR ? (
@@ -45,6 +45,13 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
           {count} owners have taken part so far. The goal is {STUDY_TARGET}.
         </p>
       ) : null}
+
+      {/* Normalising the gap up front (Oct 2026): people answer more honestly
+          when told a low result is common and expected. */}
+      <p className="mt-5 max-w-2xl text-body font-semibold text-ink">
+        Most owners can&rsquo;t answer half of these, and that is the point. There are no wrong
+        answers here, only honest ones.
+      </p>
 
       <div className="mt-8 max-w-2xl rounded-lg border border-line border-l-4 border-l-maroon bg-surface p-5 sm:p-6">
         <p className="text-small font-semibold text-ink">Before you start</p>
@@ -72,7 +79,7 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
         <div className="mt-5 border-t border-line pt-4 text-caption text-muted">
           <p className="whitespace-nowrap font-semibold text-ink">Fenwick How &middot; The Aperture Method</p>
           <p className="mt-1">
-            Questions about the study:{" "}
+            Questions about the survey:{" "}
             <a href={`mailto:${STUDY_CONTACT}`} className="font-semibold text-maroon hover:underline">
               {STUDY_CONTACT}
             </a>
@@ -85,7 +92,38 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
         onClick={onStart}
         className="btn mt-9 w-full justify-center sm:w-auto sm:px-10"
       >
-        I agree. Start
+        I agree. Start the survey
+      </button>
+    </div>
+  );
+}
+
+/* ─────────────────────────────── the honesty commitment */
+
+/**
+ * One tap before the first question (Oct 2026). A small commitment made at the
+ * START reduces over-reporting more than a reminder at the end, and it sets
+ * the standard every answer is held to: what you could show today.
+ */
+export function StudyCommit({ onCommit }: { onCommit: () => void }) {
+  return (
+    <div className="mx-auto max-w-2xl">
+      <p className="text-caption text-muted">Before you begin</p>
+      <h2 className="mt-6 text-h3 font-semibold leading-snug text-ink">One small promise to yourself</h2>
+      <p className="mt-3 text-body text-muted">
+        The result is only useful if it is real. Nobody will see your answers with your name on
+        them, so there is nothing to gain by rounding up.
+      </p>
+      <button
+        type="button"
+        onClick={onCommit}
+        className="mt-8 w-full rounded-lg border-2 border-maroon bg-paper px-6 py-5 text-left transition-colors hover:bg-surface"
+      >
+        <span className="block text-body font-semibold text-ink">
+          &ldquo;I&rsquo;ll answer based on what I could show today, not what I could find by next
+          week.&rdquo;
+        </span>
+        <span className="mt-2 block text-small font-semibold text-maroon">Agreed, let&rsquo;s start &rarr;</span>
       </button>
     </div>
   );
@@ -153,7 +191,7 @@ export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) 
       <div className="mt-8 space-y-8">
         <div>
           <label htmlFor="rc-heard" className="text-body font-semibold text-ink">
-            How did you hear about this study?
+            How did you hear about this survey?
           </label>
           <select
             id="rc-heard"
@@ -277,7 +315,7 @@ export function StudyThanks({ selfRating, score }: { selfRating: number | null; 
   return (
     <div id="study-thanks" className="mt-10 scroll-mt-28 rounded-lg border border-line bg-surface p-6 sm:p-8">
       <p className="eyebrow mb-3">Thank you</p>
-      <h3 className="text-h4 font-semibold text-ink">Your answers are now part of the study.</h3>
+      <h3 className="text-h4 font-semibold text-ink">Your answers are now part of the research.</h3>
       {selfRating ? (
         <p className="mt-3 text-body text-body">
           Before you started you rated yourself <span className="font-semibold">{selfRating} out of 10</span>.
@@ -298,7 +336,7 @@ export function StudyThanks({ selfRating, score }: { selfRating: number | null; 
             Want the benchmark report when it is published?
           </label>
           <p className="mt-1 text-caption text-muted">
-            See how your score compares with every business in the study. Your email is stored on
+            See how your score compares with every business that took part. Your email is stored on
             its own, with no link to your answers.
           </p>
           <div className="mt-3 flex flex-col gap-3 sm:flex-row">
@@ -339,10 +377,10 @@ export function StudyThanks({ selfRating, score }: { selfRating: number | null; 
       <div className="mt-8 border-t border-line pt-6">
         <p className="text-body font-semibold text-ink">Know another owner who would take it?</p>
         <p className="mt-1 text-caption text-muted">
-          The study needs {STUDY_TARGET} businesses. Passing the link on is the biggest help.
+          The survey needs {STUDY_TARGET} businesses. Passing the link on is the biggest help.
         </p>
         <button type="button" onClick={copyLink} className="btn--secondary mt-4 w-full justify-center sm:w-auto sm:px-8">
-          {copied ? "Link copied" : "Copy the study link"}
+          {copied ? "Link copied" : "Copy the survey link"}
         </button>
       </div>
     </div>
@@ -408,7 +446,7 @@ export function StudyThankYouModal() {
       >
         <p className="eyebrow mb-3">Thank you</p>
         <h2 id="study-ty-title" className="text-h3 font-semibold leading-snug text-ink">
-          Your answers are in. Thank you for being part of the study.
+          Your answers are in. Thank you for taking part.
         </h2>
         <p className="mt-3 text-body text-muted">
           Every response brings the research closer to {STUDY_TARGET} businesses and makes the findings

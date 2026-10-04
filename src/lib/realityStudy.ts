@@ -40,7 +40,8 @@ export type StudyFieldId =
   | "years"
   | "region"
   | "analysis_source"
-  | "wtp";
+  | "wtp"
+  | "candor";
 
 /** The target for the capstone sample. Used on the page and in the counter. */
 export const STUDY_TARGET = 100;
@@ -144,6 +145,21 @@ export const studyFields: StudyField[] = [
       { value: "3000-4500", label: "$3,000 to $4,499" },
       { value: "4500-7500", label: "$4,500 to $7,500" },
       { value: "over-7500", label: "Over $7,500" },
+    ],
+  },
+  /*
+   * Asked last (Oct 2026). Anonymous respondents admit rounding up surprisingly
+   * often, and this lets the analysis check whether less-candid answers skew
+   * the results. Needs the `candor` column (migration 0005).
+   */
+  {
+    id: "candor",
+    prompt: "Last one: how candid were your answers?",
+    why: "No judgement either way. It helps make sense of the results.",
+    options: [
+      { value: "completely", label: "Completely candid" },
+      { value: "mostly", label: "Mostly candid" },
+      { value: "rounded-up", label: "I rounded up a little" },
     ],
   },
 ];

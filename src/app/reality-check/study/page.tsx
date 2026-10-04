@@ -22,7 +22,7 @@ export const revalidate = 600;
 export const metadata: Metadata = {
   ...pageMeta({
     title: "Executive MBA Capstone Research: How well do owners know their own businesses?",
-    description: `Executive MBA capstone research: an anonymous ${STUDY_TARGET}-business study. Take the Reality Check, see your own Clarity Score and biggest blind spot instantly, and get the benchmark report free.`,
+    description: `Executive MBA capstone research: an anonymous ${STUDY_TARGET}-business survey. Take the Reality Check, see your own Clarity Score and biggest blind spot instantly, and get the benchmark report free.`,
     path: "/reality-check/study",
   }),
   robots: { index: false, follow: true },

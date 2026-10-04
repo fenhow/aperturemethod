@@ -223,6 +223,7 @@ export function computeStudy(
         region: groupTest("region"),
         analysis_source: groupTest("analysis_source"),
         wtp: groupTest("wtp"),
+        candor: groupTest("candor"),
       } as Record<StudyFieldId, Anova | null>,
     },
     profile: {
@@ -234,6 +235,7 @@ export function computeStudy(
       region: countBy(rows, "region"),
       analysis_source: countBy(rows, "analysis_source"),
       wtp: countBy(rows, "wtp"),
+      candor: countBy(rows, "candor"),
     },
     sources: [...sources.entries()].map(([source, count]) => ({ source, count })).sort((a, b) => b.count - a.count),
     recent: all.map((r) => ({ ...r, excluded: exclusionReason(r) })),

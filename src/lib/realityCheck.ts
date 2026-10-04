@@ -80,6 +80,12 @@ export type RCQuestion = {
 
 export const MAX_PER_QUESTION = 4;
 
+/*
+ * Lowest-answer wording softened (Oct 2026). "Honestly, no" and "I would rather
+ * not find out" read as admitting failure, and people shade answers to avoid
+ * that (social desirability bias). "Not yet" and "I'd be guessing" say the same
+ * thing without the sting. Scores are unchanged.
+ */
 export const questions: RCQuestion[] = [
   {
     id: "constraint",
@@ -91,7 +97,7 @@ export const questions: RCQuestion[] = [
       { label: "I can name it, and I could show you the numbers behind it", score: 4 },
       { label: "I can name it, but the evidence is mostly instinct", score: 2 },
       { label: "I have three or four candidates and no clear winner", score: 1 },
-      { label: "Honestly, no", score: 0 },
+      { label: "Not yet", score: 0 },
     ],
     explainer: {
       metric: "The binding constraint",
@@ -173,7 +179,7 @@ export const questions: RCQuestion[] = [
       { label: "I know the number within a few points", score: 4 },
       { label: "I could estimate it and be close", score: 2 },
       { label: "I would have to pull it together", score: 1 },
-      { label: "I have never looked", score: 0 },
+      { label: "I haven't looked at it yet", score: 0 },
     ],
     explainer: {
       metric: "Revenue concentration",
@@ -201,7 +207,7 @@ export const questions: RCQuestion[] = [
       { label: "I know the number, and I track which way it is moving", score: 4 },
       { label: "I have worked it out at some point", score: 2 },
       { label: "I know when cash is tight, but not the number", score: 1 },
-      { label: "I have never calculated it", score: 0 },
+      { label: "I haven't calculated it yet", score: 0 },
     ],
     explainer: {
       metric: "Cash conversion cycle, DSO and receivables turnover",
@@ -228,7 +234,7 @@ export const questions: RCQuestion[] = [
       { label: "I know the number, in dollars and as a percentage", score: 4 },
       { label: "I know roughly where break-even sits", score: 2 },
       { label: "I know my costs, but I have never worked out the point", score: 1 },
-      { label: "I have never calculated it", score: 0 },
+      { label: "I haven't calculated it yet", score: 0 },
     ],
     explainer: {
       metric: "Break-even and margin of safety",
@@ -282,7 +288,7 @@ export const questions: RCQuestion[] = [
       { label: "I track it, and I know the trend", score: 4 },
       { label: "I know it roughly", score: 2 },
       { label: "I could calculate it if I had to", score: 1 },
-      { label: "I do not know", score: 0 },
+      { label: "I'd be guessing", score: 0 },
     ],
     explainer: {
       metric: "Repeat rate and customer lifetime value",
@@ -336,7 +342,7 @@ export const questions: RCQuestion[] = [
       { label: "I know which of the three drives my return, and which has slipped", score: 4 },
       { label: "I watch margin closely; the other two much less", score: 2 },
       { label: "I look at profit, not at return on what is invested", score: 1 },
-      { label: "I have never thought about it that way", score: 0 },
+      { label: "I haven't looked at it that way yet", score: 0 },
     ],
     explainer: {
       metric: "DuPont: return on assets, profit margin, asset turnover",
@@ -364,7 +370,7 @@ export const questions: RCQuestion[] = [
       { label: "I track it against depreciation, and I know how much life is left in what we own", score: 4 },
       { label: "I know roughly whether we are keeping up", score: 2 },
       { label: "We spend when something breaks, or when an opportunity comes up", score: 1 },
-      { label: "I have never looked at it that way", score: 0 },
+      { label: "I haven't looked at it that way yet", score: 0 },
     ],
     explainer: {
       metric: "CAPEX-to-depreciation, PP&E percent used up, average useful life",
@@ -391,7 +397,7 @@ export const questions: RCQuestion[] = [
       { label: "Yes, including a downside case", score: 4 },
       { label: "We discussed the risk, but did not model it", score: 2 },
       { label: "We went with judgment and moved", score: 1 },
-      { label: "We committed and hoped", score: 0 },
+      { label: "Instinct alone, without really weighing the risk", score: 0 },
     ],
     explainer: {
       metric: "Sensitivity and scenario analysis",
@@ -445,7 +451,7 @@ export const questions: RCQuestion[] = [
       { label: "They are ready now", score: 4 },
       { label: "A few days of tidying", score: 2 },
       { label: "A few weeks, with help", score: 1 },
-      { label: "I would rather not find out", score: 0 },
+      { label: "Months, or I'm honestly not sure", score: 0 },
     ],
     explainer: {
       metric: "Quality of earnings and reconciled financials",
@@ -473,7 +479,7 @@ export const questions: RCQuestion[] = [
       { label: "I know the range, and I know which factors set the multiple", score: 4 },
       { label: "I have a rough idea of the value, but not what drives the multiple", score: 2 },
       { label: "I have heard a rule of thumb for my industry", score: 1 },
-      { label: "It has never been valued, and I have not thought about it", score: 0 },
+      { label: "It hasn't been valued yet", score: 0 },
     ],
     explainer: {
       metric: "Business valuation: adjusted earnings, the multiple, and net debt",

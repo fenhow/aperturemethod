@@ -5,11 +5,11 @@ import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
-import { StudyIntro, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
+import { StudyIntro, StudyCommit, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
 import type { StudyProfile } from "@/lib/realityStudy";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
-type Stage = "intro" | "calibrate" | "quiz" | "profile" | "result";
+type Stage = "intro" | "commit" | "calibrate" | "quiz" | "profile" | "result";
 
 /** A random id per run, so the study's two pings land on one stored row. */
 function newRunId(): string {
@@ -184,7 +184,10 @@ export function RealityCheck({
 
   /* ─────────────────────────────── study-only screens */
   if (study && stage === "intro") {
-    return <StudyIntro onStart={() => setStage("calibrate")} count={studyCount} />;
+    return <StudyIntro onStart={() => setStage("commit")} count={studyCount} />;
+  }
+  if (study && stage === "commit") {
+    return <StudyCommit onCommit={() => setStage("calibrate")} />;
   }
   if (study && stage === "calibrate") {
     return (
@@ -297,6 +300,14 @@ export function RealityCheck({
         {/* Second reminder of the emailed breakdown, on the way in and on the
             way out, because the intro card is 15 questions behind them by the
             time the form appears. */}
+        {/* Midway reassurance (Oct 2026): the point where honest answers
+            start to feel uncomfortable is where they most need permission. */}
+        {idx === Math.floor(questions.length / 2) ? (
+          <p className="mt-4 rounded-md bg-surface px-4 py-3 text-small text-ink">
+            Halfway there. Remember, gaps are exactly what this is designed to find, so an honest
+            &ldquo;not yet&rdquo; is worth more than a hopeful yes.
+          </p>
+        ) : null}
         {idx === 0 || idx === questions.length - 1 ? (
           <p className="mt-4 text-caption text-muted">
             {idx === 0
@@ -455,9 +466,9 @@ export function RealityCheck({
           study it is labelled as separate from the anonymous record. */}
       {study ? (
         <p className="mt-10 -mb-6 text-caption text-muted">
-          Optional, and separate from the study: if you ask for the written breakdown below, it is
-          emailed to you and Fenwick receives a copy with your name. The anonymous study record
-          is not linked to it.
+          Optional, and separate from the survey: if you ask for the written breakdown below, it is
+          emailed to you and Fenwick receives a copy with your name. Your anonymous survey answers
+          are not linked to it.
         </p>
       ) : null}
 

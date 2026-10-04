@@ -143,9 +143,15 @@ async function store(
     ...(body.stage === "profile" ? { profile_done: true, ...profile } : {}),
   };
   try {
-    const { error } = await createAdminClient()
-      .from("reality_check_responses")
-      .upsert(row, { onConflict: "run_id" });
+    const db = createAdminClient().from("reality_check_responses");
+    let { error } = await db.upsert(row, { onConflict: "run_id" });
+    // Until migration 0005 adds the candor column, save everything else rather
+    // than losing the whole response over one optional answer.
+    if (error && /candor/.test(error.message) && "candor" in row) {
+      const { candor: _drop, ...rest } = row as typeof row & { candor?: string };
+      void _drop;
+      ({ error } = await createAdminClient().from("reality_check_responses").upsert(rest, { onConflict: "run_id" }));
+    }
     if (error) console.error("[reality-check] store failed:", error.message);
   } catch (err) {
     console.error("[reality-check] store threw:", err);

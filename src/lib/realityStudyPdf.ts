@@ -418,6 +418,7 @@ export async function generateStudyReportPdf(
     "Anonymity. No name, email, company or address is stored with a response. Benchmark-report emails are held in a separate table with no link to answers.",
     "Statistics. Proportions carry Wilson 95% confidence intervals. H1 and H2 are tested against their registered thresholds with an exact one-sided binomial test. The self-rating gap uses a paired t-test with Cohen's d; the self-rating and score relationship uses Spearman's rho (Pearson's r alongside); differences in score between groups use one-way ANOVA. Significance means p < 0.05.",
     "Limitations. A self-selected convenience sample, not a random one: results describe the owners who took part and should not be generalised without that caveat. The same applies to every p-value and interval in this report.",
+    "Social desirability. Owners may shade answers to avoid appearing not to know their own business. Anonymity, evidence-based questions, a stated norm that gaps are common, an up-front honesty commitment and softened answer wording were used to reduce this. Any remaining bias can only push scores up, so the gaps reported here are conservative: the true gap is at least this large.",
   ]) {
     const [head, ...rest] = line.split(". ");
     d.ensure(30);

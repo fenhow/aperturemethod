@@ -33,6 +33,8 @@ export type StudyRow = {
   repeat_taker: boolean;
   profile_done: boolean;
   zip3: string | null;
+  /** Set by Fenwick from the dashboard (Exclude button). Null = counted. */
+  excluded_reason?: string | null;
 } & Partial<Record<StudyFieldId, string | null>>;
 
 export type Count = { key: string; label: string; n: number; pct: number; avgScore: number | null };
@@ -45,7 +47,17 @@ const PAY_4500 = ["4500-7500", "over-7500"];
 
 const isTest = (r: StudyRow) => (r.source ?? "").startsWith("test");
 
+/** The reasons offered by the dashboard's Exclude button. */
+export const EXCLUDE_REASONS = [
+  "My own test",
+  "Not a business owner or manager",
+  "Duplicate response",
+  "Not a serious answer",
+  "Other",
+] as const;
+
 export function exclusionReason(r: StudyRow): string | null {
+  if (r.excluded_reason) return `Removed: ${r.excluded_reason}`;
   if (isTest(r)) return "Tagged as a test";
   if (r.repeat_taker) return "Repeat attempt";
   if (r.duration_s !== null && r.duration_s < MIN_SECONDS) return `Under ${MIN_SECONDS} seconds`;
@@ -222,7 +234,7 @@ export function computeStudy(
       wtp: countBy(rows, "wtp"),
     },
     sources: [...sources.entries()].map(([source, count]) => ({ source, count })).sort((a, b) => b.count - a.count),
-    recent: all.slice(0, 25).map((r) => ({ ...r, excluded: exclusionReason(r) })),
+    recent: all.map((r) => ({ ...r, excluded: exclusionReason(r) })),
   };
 }
 

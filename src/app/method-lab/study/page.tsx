@@ -2,7 +2,8 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { Section } from "@/components/ui/Section";
 import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
-import { loadStudy, MIN_N_TO_READ, MIN_SECONDS, type Count, type StudyStats } from "@/lib/realityStudyStats";
+import { loadStudy, EXCLUDE_REASONS, MIN_N_TO_READ, MIN_SECONDS, type Count, type StudyStats } from "@/lib/realityStudyStats";
+import { ExcludeControl } from "@/components/reality/ExcludeControl";
 import { sourceLabel, studyFields } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
 import { fmtP, type ProportionTest } from "@/lib/stats";
@@ -34,7 +35,7 @@ export const dynamic = "force-dynamic";
 const f1 = (x: number | null | undefined) => (x === null || x === undefined ? "—" : x.toFixed(1));
 const f0 = (x: number | null | undefined) => (x === null || x === undefined ? "—" : Math.round(x).toString());
 
-type Search = { revenue?: string; industry?: string; source?: string };
+type Search = { revenue?: string; industry?: string; source?: string; all?: string };
 
 /** The current filter as a query string, so the PDF matches what is on screen. */
 function qs(f: Search) {
@@ -104,14 +105,14 @@ export default async function StudyAdminPage({ searchParams }: { searchParams: S
             <p className="text-body text-muted">Set SUPABASE_SERVICE_ROLE_KEY on Vercel to read the study.</p>
           </Panel>
         ) : (
-          <Dashboard s={s} filter={filter} />
+          <Dashboard s={s} filter={filter} showAll={searchParams.all === "1"} />
         )}
       </div>
     </Section>
   );
 }
 
-function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
+function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; showAll: boolean }) {
   const progress = Math.min(100, (s.cleanTotal / s.target) * 100);
   const early = s.n < MIN_N_TO_READ;
 
@@ -278,8 +279,16 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
             ))}
           </div>
 
-          {/* ───────── recent */}
-          <Panel title="Latest responses">
+        </>
+      )}
+
+      {/* ───────── every response, with Exclude / Restore. Shown even when
+          nothing is counted yet, so excluded rows can always be restored. */}
+          <Panel title={showAll ? `All responses (${s.recent.length})` : "Latest responses"}>
+            <p className="-mt-2 mb-4 text-caption text-muted">
+              Exclude takes a response out of every figure and the PDF but keeps it on record; Restore puts it back. Delete removes it permanently.
+              Grey rows are not counted.
+            </p>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[720px] text-left text-[13px] leading-snug">
                 <thead className="text-[11px] uppercase tracking-overline text-muted">
@@ -291,11 +300,12 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
                     <th className="py-2 pr-3">Revenue</th>
                     <th className="py-2 pr-3">Industry</th>
                     <th className="py-2 pr-3">Time</th>
-                    <th className="py-2">Counted</th>
+                    <th className="py-2 pr-3">Counted</th>
+                    <th className="py-2"><span className="sr-only">Action</span></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {s.recent.map((r) => (
+                  {(showAll ? s.recent : s.recent.slice(0, 25)).map((r) => (
                     <tr key={r.run_id} className={`border-b border-line ${r.excluded ? "text-muted" : "text-ink"}`}>
                       <td className="py-2 pr-3 whitespace-nowrap">
                         {new Date(r.created_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" })}
@@ -306,15 +316,28 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
                       <td className="py-2 pr-3 whitespace-nowrap">{label("revenue", r.revenue)}</td>
                       <td className="py-2 pr-3">{label("industry", r.industry)}</td>
                       <td className="py-2 pr-3 whitespace-nowrap tabular-nums">{r.duration_s === null ? "—" : `${Math.floor(r.duration_s / 60)}m ${r.duration_s % 60}s`}</td>
-                      <td className="py-2 whitespace-nowrap">{r.excluded ? r.excluded : "Yes"}</td>
+                      <td className="py-2 pr-3">{r.excluded ? r.excluded : "Yes"}</td>
+                      <td className="py-2 text-right">
+                        <ExcludeControl
+                          runId={r.run_id}
+                          removed={Boolean(r.excluded_reason)}
+                          canExclude={!r.excluded || Boolean(r.excluded_reason)}
+                          reasons={EXCLUDE_REASONS}
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+            {s.recent.length > 25 ? (
+              <p className="mt-4 text-small">
+                <Link href={showAll ? "/method-lab/study" : "/method-lab/study?all=1"} className="font-semibold text-maroon hover:underline">
+                  {showAll ? "Show the latest 25 only" : `Show all ${s.recent.length} responses`}
+                </Link>
+              </p>
+            ) : null}
           </Panel>
-        </>
-      )}
     </>
   );
 }

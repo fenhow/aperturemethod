@@ -79,16 +79,33 @@ export function RealityCheck({
   const q: RCQuestion = questions[idx]!;
   const progress = Math.round((idx / questions.length) * 100);
 
+  /*
+   * Back to the top on every step (Oct 2026): starting, each new question, the
+   * profile, and the result. It runs AFTER React has drawn the new screen. The
+   * old version scrolled inside the click handler, before the re-render, so on
+   * a long page the smooth scroll was cut short and people were left looking
+   * at the bottom of a screen they had not read. Instant rather than smooth,
+   * because a jump you do not notice beats an animation that can be cut off.
+   * Skipped on the very first render so arriving at the page does not jump.
+   */
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    const id = requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
+    return () => cancelAnimationFrame(id);
+  }, [stage, idx]);
+
   function choose(score: number) {
     const next = { ...answers, [q.id]: score };
     setAnswers(next);
     if (idx + 1 < questions.length) {
       setIdx(idx + 1);
-      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       setStage(study ? "profile" : "result");
       reportCompletion(next);
-      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 
@@ -155,7 +172,6 @@ export function RealityCheck({
       }
     }
     setStage("result");
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function restart() {

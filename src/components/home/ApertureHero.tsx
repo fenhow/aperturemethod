@@ -250,7 +250,9 @@ export function ApertureHero() {
           proves. Sits outside the slide wrapper because it is true of all four
           slides and should not re-animate every nine seconds.
         */}
-        <p className="mt-5 max-w-xl text-body-lg font-semibold text-paper lg:max-w-2xl">
+        {/* One line on desktop (Oct 2026): slightly smaller and allowed the full
+            hero width there; phones still wrap it naturally. */}
+        <p className="mt-5 max-w-xl text-body-lg font-semibold text-paper lg:max-w-none lg:whitespace-nowrap lg:text-[18px]">
           Your business deserves the same intelligence as the companies 100&times; your size.
         </p>
 

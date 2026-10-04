@@ -162,6 +162,10 @@ export const megaNav: MegaEntry[] = [
      * the one thing that cannot happen. It sits beside "Working Together"
      * because that is where a serious reader already is when the question
      * occurs to them. The link carries the word, never the number.
+     *
+     * Oct 2026: removed from this menu again. Pricing now has its own
+     * top-level link in the nav bar, so listing it here as well was a
+     * duplicate. The reasoning above still holds; the top-level link meets it.
      */
     columns: [
       {
@@ -171,7 +175,6 @@ export const megaNav: MegaEntry[] = [
           { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
           { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
           { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
-          { label: "Pricing", href: "/pricing", desc: "Every fee, published" },
           { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
           { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
           { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
@@ -199,7 +202,6 @@ export const megaNav: MegaEntry[] = [
       { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
       { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
       { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
-      { label: "Pricing", href: "/pricing", desc: "Every fee, published" },
       { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
       { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
       { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },

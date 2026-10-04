@@ -27,7 +27,7 @@ import { pageMeta } from "@/lib/seo";
 export const metadata: Metadata = pageMeta({
   title: "Buying a Business? A Pre-Offer Financial Review",
   description:
-    "Before you sign the offer, know what you are actually buying. A fixed-fee, senior-led review of a target's real earnings, risks and value, in two to three weeks.",
+    "Before you sign the offer, know what you are actually buying. A fixed-fee, senior-led review of a target's real earnings, risks and value, in three business days from a complete data package.",
   path: "/buying-a-business",
 });
 
@@ -120,7 +120,7 @@ const faqs = [
   },
   {
     q: "How long does it take, and what does it cost?",
-    a: "Two to three weeks once the data arrives. The fee is fixed and agreed before any work starts, quoted on the size and complexity of the deal.",
+    a: "Three business days once we have the complete data package. If records arrive in pieces, the clock starts when the last piece lands. The fee is fixed and agreed before any work starts, quoted on the size and complexity of the deal.",
   },
   {
     q: "Do you help people sell their business?",
@@ -149,7 +149,7 @@ export default function BuyingABusinessPage() {
           <p className="mt-6 max-w-2xl text-body-lg text-white/75">
             A seller&apos;s numbers are prepared to sell the business. A pre-offer review rebuilds
             them from the evidence: what the business really earns, what it depends on, what will
-            hold it back, and what it is worth to you. Fixed fee, senior-led, two to three weeks.
+            hold it back, and what it is worth to you. Fixed fee, senior-led, three business days from complete data.
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
             <Link href={bookHref} className="btn--on-dark">
@@ -229,7 +229,7 @@ export default function BuyingABusinessPage() {
         <Reveal>
           <SectionHeading
             eyebrow="How it works"
-            title="Three steps, two to three weeks."
+            title="Three steps, three business days."
             lede="The same analytical engine that runs every Aperture engagement, pointed at the business you are about to buy."
           />
         </Reveal>

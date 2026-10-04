@@ -5,7 +5,7 @@ import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
-import { StudyIntro, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal } from "@/components/reality/StudyParts";
+import { StudyIntro, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
 import type { StudyProfile } from "@/lib/realityStudy";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
@@ -431,6 +431,7 @@ export function RealityCheck({
       ) : null}
 
 
+      {study ? <StudyConfetti /> : null}
       {study ? <StudyThankYouModal /> : null}
       {study ? <StudyThanks selfRating={selfRating} score={score} /> : null}
 

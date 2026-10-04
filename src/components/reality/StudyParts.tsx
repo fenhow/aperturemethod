@@ -451,3 +451,112 @@ export function StudyThankYouModal() {
     document.body
   );
 }
+
+/* ─────────────────────────────── completion confetti */
+
+/**
+ * A short burst of confetti when the study is finished (Oct 2026).
+ * Plain canvas, no library. Brand colours only. Runs about four seconds,
+ * never blocks clicks (pointer-events: none), and is skipped entirely for
+ * anyone who has asked their system to reduce motion.
+ */
+const CONFETTI_COLORS = ["#500000", "#8c2b2b", "#c9756c", "#e8c9c4", "#ffffff", "#1a1a1a"];
+
+export function StudyConfetti() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setDone(true);
+      return;
+    }
+    const canvas = ref.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const W = () => window.innerWidth;
+    const H = () => window.innerHeight;
+    const count = W() < 640 ? 110 : 180;
+    type P = { x: number; y: number; vx: number; vy: number; r: number; rot: number; vr: number; w: number; h: number; c: string; tilt: number };
+    const parts: P[] = [];
+    for (let i = 0; i < count; i++) {
+      // Two cannons from the lower corners, angled up and inwards.
+      const left = i % 2 === 0;
+      const angle = (left ? -60 : -120) + (Math.random() * 30 - 15);
+      const speed = 16 + Math.random() * 10;
+      parts.push({
+        x: left ? -10 : W() + 10,
+        y: H() * 0.85,
+        vx: Math.cos((angle * Math.PI) / 180) * speed,
+        vy: Math.sin((angle * Math.PI) / 180) * speed,
+        r: 0,
+        rot: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.3,
+        w: 6 + Math.random() * 6,
+        h: 8 + Math.random() * 8,
+        c: CONFETTI_COLORS[i % CONFETTI_COLORS.length]!,
+        tilt: Math.random() * Math.PI,
+      });
+    }
+
+    const start = performance.now();
+    const DURATION = 4200;
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = now - start;
+      ctx.clearRect(0, 0, W(), H());
+      const fade = t > DURATION - 900 ? Math.max(0, (DURATION - t) / 900) : 1;
+      for (const p of parts) {
+        p.vy += 0.22; // gravity
+        p.vx *= 0.982; // air
+        p.vy *= 0.982;
+        if (p.vy > 3.2) p.vy = 3.2; // flutter down slowly rather than drop
+        p.vx += Math.sin(p.tilt) * 0.08; // a little sideways drift
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        p.tilt += 0.12;
+        ctx.save();
+        ctx.globalAlpha = fade;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.scale(1, Math.cos(p.tilt)); // the flutter
+        ctx.fillStyle = p.c;
+        if (p.c === "#ffffff") {
+          ctx.strokeStyle = "#e4e2df";
+          ctx.lineWidth = 0.6;
+          ctx.strokeRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        }
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+      if (t < DURATION) raf = requestAnimationFrame(tick);
+      else setDone(true);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  if (done) return null;
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-[140] h-full w-full"
+    />
+  );
+}

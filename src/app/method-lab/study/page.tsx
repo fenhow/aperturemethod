@@ -293,7 +293,7 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
               <table className="w-full min-w-[720px] text-left text-[13px] leading-snug">
                 <thead className="text-[11px] uppercase tracking-overline text-muted">
                   <tr className="border-b border-line">
-                    <th className="py-2 pr-3">When</th>
+                    <th className="py-2 pr-3">Date &amp; time</th>
                     <th className="py-2 pr-3">Source</th>
                     <th className="py-2 pr-3">Score</th>
                     <th className="py-2 pr-3">Self</th>
@@ -308,7 +308,8 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
                   {(showAll ? s.recent : s.recent.slice(0, 25)).map((r) => (
                     <tr key={r.run_id} className={`border-b border-line ${r.excluded ? "text-muted" : "text-ink"}`}>
                       <td className="py-2 pr-3 whitespace-nowrap">
-                        {new Date(r.created_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" })}
+                        <span className="block">{stampDate(r.created_at)}</span>
+                        <span className="block text-[11px] text-muted">{stampTime(r.created_at)}</span>
                       </td>
                       <td className="py-2 pr-3">{sourceLabel(r.source)}</td>
                       <td className="py-2 pr-3 tabular-nums">{r.score}</td>
@@ -316,7 +317,14 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
                       <td className="py-2 pr-3 whitespace-nowrap">{label("revenue", r.revenue)}</td>
                       <td className="py-2 pr-3">{label("industry", r.industry)}</td>
                       <td className="py-2 pr-3 whitespace-nowrap tabular-nums">{r.duration_s === null ? "—" : `${Math.floor(r.duration_s / 60)}m ${r.duration_s % 60}s`}</td>
-                      <td className="py-2 pr-3">{r.excluded ? r.excluded : "Yes"}</td>
+                      <td className="py-2 pr-3">
+                        {r.excluded ? r.excluded : "Yes"}
+                        {r.excluded_reason && r.updated_at ? (
+                          <span className="block text-[11px] text-muted">
+                            on {stampDate(r.updated_at)}, {stampTime(r.updated_at)}
+                          </span>
+                        ) : null}
+                      </td>
                       <td className="py-2 text-right">
                         <ExcludeControl
                           runId={r.run_id}
@@ -343,6 +351,17 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
 }
 
 /* ───────────────────────── pieces */
+
+/** Every timestamp on the dashboard is shown in Central time, labelled. */
+function stampDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "America/Chicago" });
+}
+function stampTime(iso: string) {
+  return (
+    new Date(iso).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "America/Chicago" }) +
+    " CT"
+  );
+}
 
 function label(field: "revenue" | "industry", value: string | null | undefined) {
   if (!value) return "—";

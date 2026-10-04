@@ -40,7 +40,17 @@ export async function GET() {
     .limit(10000);
   if (error) return NextResponse.json({ ok: false, message: error.message }, { status: 500 });
 
-  const header = ["counted", "excluded_reason", ...COLS, ...questions.map((q) => `q_${q.id}`)];
+  const header = [
+    "counted", "excluded_reason", "date_ct", "time_ct", "excluded_at_ct",
+    ...COLS, ...questions.map((q) => `q_${q.id}`),
+  ];
+  const ct = (iso: string | undefined | null, part: "date" | "time" | "both") => {
+    if (!iso) return "";
+    const d = new Date(iso);
+    const date = d.toLocaleDateString("en-CA", { timeZone: "America/Chicago" }); // YYYY-MM-DD
+    const time = d.toLocaleTimeString("en-GB", { timeZone: "America/Chicago", hour12: false });
+    return part === "date" ? date : part === "time" ? time : `${date} ${time}`;
+  };
   const lines = [header.join(",")];
   for (const r of (data ?? []) as StudyRow[]) {
     const why = exclusionReason(r);
@@ -48,6 +58,9 @@ export async function GET() {
       [
         why ? "no" : "yes",
         why ?? "",
+        ct(r.created_at, "date"),
+        ct(r.created_at, "time"),
+        r.excluded_reason ? ct(r.updated_at, "both") : "",
         ...COLS.map((c) => (r as unknown as Record<string, unknown>)[c]),
         ...questions.map((q) => r.answers?.[q.id]),
       ].map(cell).join(",")

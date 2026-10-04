@@ -20,6 +20,8 @@ export const MIN_N_TO_READ = 30;
 export type StudyRow = {
   run_id: string;
   created_at: string;
+  /** Last change: the second ping, or an Exclude / Restore from the dashboard. */
+  updated_at?: string;
   source: string | null;
   medium: string | null;
   campaign: string | null;

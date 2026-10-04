@@ -192,14 +192,14 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
             <Hypothesis
               code="H2"
               claim="Owners will pay for a fixed-fee diagnostic."
-              test="Falsified if willingness to pay clusters below $3,000. Tested: do most owners say $3,000 or more?"
+              test="Falsified if willingness to pay clusters below $3,000. Tested on owners and co-owners of $1M+ businesses, current question only."
               t={s.h2}
-              measure="would pay $3,000 or more for an independent diagnostic"
-              extra={
-                s.h2AtPrice.n
-                  ? `At the actual $4,500 fee: ${f0(s.h2AtPrice.pct)}% would pay it or more (95% CI ${f0(s.h2AtPrice.ci?.lo)}–${f0(s.h2AtPrice.ci?.hi)}%).`
-                  : null
-              }
+              measure="of owners and co-owners at $1M+ businesses would pay $3,000 or more"
+              extra={[
+                s.h2AtPrice.n ? `At the actual $4,500 fee: ${f0(s.h2AtPrice.pct)}% would pay it or more.` : null,
+                s.h2Everyone.n ? `All respondents, for context: ${f0(s.h2Everyone.pct)}% would pay $3,000 or more (n = ${s.h2Everyone.n}).` : null,
+                s.h2Legacy.n ? `Earlier version of the question (before the result, service not described): ${f0(s.h2Legacy.pct)}% (n = ${s.h2Legacy.n}). Reported separately, not pooled.` : null,
+              ].filter(Boolean).join(" ") || null}
             />
           </div>
           {/* ───────── how sure */}

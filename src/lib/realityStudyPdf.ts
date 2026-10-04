@@ -332,11 +332,13 @@ export async function generateStudyReportPdf(
     );
     const h = d.hypothesis(
       "H2", "Owners will pay for a fixed-fee diagnostic.", s.h2,
-      `would pay $3,000 or more for an independent diagnostic (n = ${s.h2.n})`,
-      "Falsified if willingness to pay clusters below $3,000. Tested: do most owners say $3,000 or more?",
-      s.h2AtPrice.n && s.h2AtPrice.ci
-        ? `At the actual $4,500 fee: ${r0(s.h2AtPrice.pct)}% would pay it or more (95% CI ${r0(s.h2AtPrice.ci.lo)}-${r0(s.h2AtPrice.ci.hi)}%).`
-        : null,
+      `of owners and co-owners at $1M+ businesses would pay $3,000 or more (n = ${s.h2.n})`,
+      "Falsified if willingness to pay clusters below $3,000. Current question version, target group only.",
+      [
+        s.h2AtPrice.n ? `At the actual $4,500 fee: ${r0(s.h2AtPrice.pct)}%.` : null,
+        s.h2Everyone.n ? `All respondents: ${r0(s.h2Everyone.pct)}% (n = ${s.h2Everyone.n}).` : null,
+        s.h2Legacy.n ? `Earlier question version: ${r0(s.h2Legacy.pct)}% (n = ${s.h2Legacy.n}), not pooled.` : null,
+      ].filter(Boolean).join(" ") || null,
       M + w + 12, w, top
     );
     d.y = top - h - 8;
@@ -414,6 +416,7 @@ export async function generateStudyReportPdf(
     `Instrument. The Reality Check: ${questions.length} questions, each asking for a number, a name or a timeframe, scored 4 / 2 / 1 / 0 and summed to a Clarity Score out of 100. It measures how well an owner knows the business, not how good the business is.`,
     "Self-rating. Asked before the first question so the quiz cannot colour it, on a 1 to 10 scale, multiplied by 10 to compare with the score.",
     "Profile. Optional, asked after the last question and before the score, in bands only (revenue, headcount, industry, role, years, region, three ZIP digits).",
+    "Willingness to pay. Asked after the result, once respondents had seen their own gaps, with the service described (scope, deliverable, timeline) and no fee shown, so the actual price could not anchor answers. Bands run low to high with the refusal option last, and respondents were told nobody would follow up. H2 is read only for owners and co-owners of $1M+ businesses. Answers to an earlier version of the question are reported separately. No verdict is given below 30 answers. Stated willingness to pay is supporting evidence; the capstone's primary H2 test is conversion in qualified conversations.",
     `Sample. Recruited through one shared link, aperturemethod.com/study; the channel is self-reported ("How did you hear about this study?"). Usable means first attempt, at least ${MIN_SECONDS} seconds, and not tagged as a test. ${s.totalRows} completed in total; left out: ${ex}.`,
     "Anonymity. No name, email, company or address is stored with a response. Benchmark-report emails are held in a separate table with no link to answers.",
     "Statistics. Proportions carry Wilson 95% confidence intervals. H1 and H2 are tested against their registered thresholds with an exact one-sided binomial test. The self-rating gap uses a paired t-test with Cohen's d; the self-rating and score relationship uses Spearman's rho (Pearson's r alongside); differences in score between groups use one-way ANOVA. Significance means p < 0.05.",

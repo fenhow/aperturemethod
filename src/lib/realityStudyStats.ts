@@ -37,6 +37,8 @@ export type StudyRow = {
   zip3: string | null;
   /** Set by Fenwick from the dashboard (Exclude button). Null = counted. */
   excluded_reason?: string | null;
+  /** Version of the price question answered; null = version 1. */
+  wtp_version?: number | null;
 } & Partial<Record<StudyFieldId, string | null>>;
 
 export type Count = { key: string; label: string; n: number; pct: number; avgScore: number | null };
@@ -165,9 +167,22 @@ export function computeStudy(
   const h1Pool = rows.filter((r) => (r.revenue === "1-5m" || r.revenue === "5-20m") && r.analysis_source);
   const h1Hit = h1Pool.filter((r) => ["no-one", "bookkeeper-cpa", "software-only"].includes(r.analysis_source!));
   // H2: would pay $3,000 or more.
-  const h2Pool = rows.filter((r) => r.wtp);
+  /*
+   * H2 is read on its own terms (Oct 2026): version-2 answers only (asked after
+   * the result, service described, no fee shown), from the people the fee is
+   * for, owners and co-owners of $1M+ businesses. Everyone else is shown for
+   * context, and version-1 answers are reported separately, never pooled.
+   */
+  const v2 = rows.filter((r) => r.wtp && r.wtp_version === 2);
+  const isTarget = (r: StudyRow) =>
+    ["owner-founder", "co-owner-partner"].includes(r.role ?? "") &&
+    ["1-5m", "5-20m", "20m-plus"].includes(r.revenue ?? "");
+  const h2Pool = v2.filter(isTarget);
   const h2Hit = h2Pool.filter((r) => PAY_3000.includes(r.wtp!));
   const h2Price = h2Pool.filter((r) => PAY_4500.includes(r.wtp!));
+  const v2All3000 = v2.filter((r) => PAY_3000.includes(r.wtp!)).length;
+  const v1 = rows.filter((r) => r.wtp && !r.wtp_version);
+  const v1Hit = v1.filter((r) => PAY_3000.includes(r.wtp!)).length;
 
   // Does the average score genuinely differ between groups, or is it chance?
   const groupTest = (key: StudyFieldId): Anova | null => {
@@ -207,6 +222,8 @@ export function computeStudy(
     h1: proportionTest(h1Hit.length, h1Pool.length, H1_THRESHOLD),
     h2: proportionTest(h2Hit.length, h2Pool.length, H2_THRESHOLD),
     h2AtPrice: { n: h2Pool.length, pct: pct(h2Price.length, h2Pool.length), ci: wilson(h2Price.length, h2Pool.length) },
+    h2Everyone: { n: v2.length, pct: pct(v2All3000, v2.length), ci: wilson(v2All3000, v2.length) },
+    h2Legacy: { n: v1.length, pct: pct(v1Hit, v1.length) },
     stats: {
       moe: marginOfError(n),
       moeAtTarget: marginOfError(STUDY_TARGET),
@@ -234,7 +251,7 @@ export function computeStudy(
       years: countBy(rows, "years"),
       region: countBy(rows, "region"),
       analysis_source: countBy(rows, "analysis_source"),
-      wtp: countBy(rows, "wtp"),
+      wtp: countBy(v2, "wtp"),
       candor: countBy(rows, "candor"),
     },
     sources: [...sources.entries()].map(([source, count]) => ({ source, count })).sort((a, b) => b.count - a.count),

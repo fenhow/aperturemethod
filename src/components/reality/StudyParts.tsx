@@ -15,6 +15,7 @@ import Link from "next/link";
 import {
   heardFromOptions,
   studyFields,
+  WTP_SERVICE,
   STUDY_TARGET,
   STUDY_COUNT_FLOOR,
   type StudyProfile,
@@ -208,7 +209,7 @@ export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) 
           </select>
         </div>
 
-        {studyFields.map((f) => (
+        {studyFields.filter((f) => f.inProfile !== false).map((f) => (
           <fieldset key={f.id}>
             <legend className="text-body font-semibold text-ink">{f.prompt}</legend>
             {f.why ? <p className="mt-1 text-caption text-muted">{f.why}</p> : null}
@@ -596,5 +597,85 @@ export function StudyConfetti() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-[140] h-full w-full"
     />
+  );
+}
+
+/* ─────────────────────────────── the price question, after the result */
+
+/**
+ * Version 2 of the price question (Oct 2026). Shown on the result page, once
+ * the respondent has seen their own gaps, with the service described and no
+ * fee shown. Optional; answering or skipping both close it.
+ */
+export function StudyPricing({ onAnswer }: { onAnswer: (value: string | null) => void }) {
+  const field = studyFields.find((f) => f.id === "wtp")!;
+  const [picked, setPicked] = useState<string | null>(null);
+  const [done, setDone] = useState<"answered" | "skipped" | null>(null);
+
+  if (done) {
+    return done === "answered" ? (
+      <p className="mt-10 rounded-lg border border-line px-6 py-4 text-small text-muted">
+        Thank you. That answer is recorded anonymously and helps the research.
+      </p>
+    ) : null;
+  }
+
+  return (
+    <div className="mt-10 rounded-lg border border-line p-6 sm:p-8">
+      <p className="eyebrow mb-3">One research question</p>
+      <h3 className="text-h4 font-semibold text-ink">Now that you have seen your gaps</h3>
+      <p className="mt-2 text-body text-muted">Imagine a service that closed them:</p>
+      <ul className="mt-3 space-y-1.5 text-body text-ink">
+        {WTP_SERVICE.map((line) => (
+          <li key={line} className="flex gap-3">
+            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-maroon" />
+            <span>{line}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-5 text-body font-semibold text-ink">{field.prompt}</p>
+      <p className="mt-1 text-caption text-muted">
+        This is a research question, not an offer. Your answer is anonymous and nobody will
+        follow up.
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {field.options.map((o) => (
+          <button
+            key={o.value}
+            type="button"
+            aria-pressed={picked === o.value}
+            onClick={() => setPicked(o.value)}
+            className={`rounded-full border px-4 py-2 text-small transition-colors ${
+              picked === o.value ? "border-maroon bg-maroon text-white" : "border-line bg-paper text-ink hover:border-maroon"
+            }`}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <button
+          type="button"
+          disabled={!picked}
+          onClick={() => {
+            onAnswer(picked);
+            setDone("answered");
+          }}
+          className="btn justify-center px-8 disabled:opacity-40"
+        >
+          Submit answer
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            onAnswer(null);
+            setDone("skipped");
+          }}
+          className="text-caption font-semibold text-muted transition-colors hover:text-ink"
+        >
+          Skip this question
+        </button>
+      </div>
+    </div>
   );
 }

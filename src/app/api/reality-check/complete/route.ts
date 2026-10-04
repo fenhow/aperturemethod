@@ -3,7 +3,7 @@ import { questions, scoreAnswers } from "@/lib/realityCheck";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 import { completionHtml } from "@/lib/realityCheckEmail";
 import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
-import { cleanHeardFrom, cleanProfile, cleanSelfRating, cleanTag, UUID_RE } from "@/lib/realityStudy";
+import { WTP_VERSION, cleanHeardFrom, cleanProfile, cleanSelfRating, cleanTag, cleanWtp, UUID_RE } from "@/lib/realityStudy";
 
 /**
  * Reality Check: the anonymous completion ping.
@@ -35,7 +35,8 @@ export async function POST(request: Request) {
   let body: {
     answers?: Record<string, number>;
     runId?: string;
-    stage?: "finish" | "profile";
+    stage?: "finish" | "profile" | "pricing";
+    wtp?: string;
     cohort?: string;
     source?: string;
     medium?: string;
@@ -71,8 +72,8 @@ export async function POST(request: Request) {
 
   await store(body, answers, result);
 
-  // The profile follow-up updates the stored row only; the alert went already.
-  if (body.stage === "profile") return NextResponse.json({ ok: true });
+  // Follow-ups update the stored row only; the alert went already.
+  if (body.stage === "profile" || body.stage === "pricing") return NextResponse.json({ ok: true });
 
   if (!emailConfigured) {
     console.info("[reality-check] completion (SMTP not configured):", {
@@ -104,6 +105,7 @@ async function store(
     durationS?: number;
     repeat?: boolean;
     profile?: unknown;
+    wtp?: string;
   },
   answers: Record<string, number>,
   result: ReturnType<typeof scoreAnswers>
@@ -141,15 +143,21 @@ async function store(
     duration_s: duration,
     repeat_taker: body.repeat === true,
     ...(body.stage === "profile" ? { profile_done: true, ...profile } : {}),
+    ...(body.stage === "pricing" && cleanWtp(body.wtp) ? { wtp: cleanWtp(body.wtp)!, wtp_version: WTP_VERSION } : {}),
   };
+  // The profile never carries the price question any more (version 2 asks it
+  // after the result), so a profile ping must not touch an existing answer.
+  if (body.stage === "profile") delete (row as Record<string, unknown>).wtp;
   try {
     const db = createAdminClient().from("reality_check_responses");
     let { error } = await db.upsert(row, { onConflict: "run_id" });
     // Until migration 0005 adds the candor column, save everything else rather
     // than losing the whole response over one optional answer.
-    if (error && /candor/.test(error.message) && "candor" in row) {
-      const { candor: _drop, ...rest } = row as typeof row & { candor?: string };
-      void _drop;
+    // Same for the version tag on the price question (migration 0005).
+    if (error && /(candor|wtp_version)/.test(error.message)) {
+      const rest = { ...(row as Record<string, unknown>) };
+      delete rest.candor;
+      delete rest.wtp_version;
       ({ error } = await createAdminClient().from("reality_check_responses").upsert(rest, { onConflict: "run_id" }));
     }
     if (error) console.error("[reality-check] store failed:", error.message);

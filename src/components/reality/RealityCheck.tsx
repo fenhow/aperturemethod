@@ -5,7 +5,7 @@ import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
-import { StudyIntro, StudyCommit, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
+import { StudyIntro, StudyCommit, StudyPricing, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
 import type { StudyProfile } from "@/lib/realityStudy";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
@@ -155,6 +155,21 @@ export function RealityCheck({
       durationS: startedAt.current ? Math.round((Date.now() - startedAt.current) / 1000) : undefined,
       profile,
     };
+  }
+
+  /** The price question (version 2), answered on the result page. */
+  function sendPricing(value: string | null) {
+    if (!value) return;
+    try {
+      void fetch("/api/reality-check/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload(answers, "finish"), stage: "pricing", wtp: value }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch {
+      /* never surfaced */
+    }
   }
 
   /** The study's second ping: the optional profile, onto the same row. */
@@ -460,6 +475,7 @@ export function RealityCheck({
 
       {study ? <StudyConfetti /> : null}
       {study ? <StudyThankYouModal /> : null}
+      {study ? <StudyPricing onAnswer={sendPricing} /> : null}
       {study ? <StudyThanks selfRating={selfRating} score={score} /> : null}
 
       {/* The breakdown form carries a name and email to Fenwick, so in the

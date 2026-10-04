@@ -107,7 +107,7 @@ export function marginOfError(n: number): number | null {
 export type ProportionTest = {
   k: number; n: number; pct: number; ci: Interval | null;
   threshold: number; pAbove: number | null; pBelow: number | null;
-  verdict: "supported" | "against" | "inconclusive" | "no-data";
+  verdict: "supported" | "against" | "inconclusive" | "early" | "no-data";
 };
 
 /**
@@ -115,12 +115,20 @@ export type ProportionTest = {
  * "supported": significantly above (exact one-sided binomial, p < alpha).
  * "against": significantly below. Otherwise inconclusive at this sample size.
  */
+/**
+ * No verdict below this many answers (Oct 2026). An exact test can reach
+ * p < 0.05 with five like-minded answers (5 of 5 below a 50% line gives
+ * p = 0.03), which is arithmetically true and practically meaningless.
+ */
+export const MIN_N_FOR_VERDICT = 30;
+
 export function proportionTest(k: number, n: number, thresholdPct: number): ProportionTest {
   const p0 = thresholdPct / 100;
   if (!n) return { k, n, pct: 0, ci: null, threshold: thresholdPct, pAbove: null, pBelow: null, verdict: "no-data" };
   const pAbove = binomUpper(k, n, p0);
   const pBelow = binomLower(k, n, p0);
-  const verdict = pAbove < ALPHA ? "supported" : pBelow < ALPHA ? "against" : "inconclusive";
+  const verdict =
+    n < MIN_N_FOR_VERDICT ? "early" : pAbove < ALPHA ? "supported" : pBelow < ALPHA ? "against" : "inconclusive";
   return { k, n, pct: (100 * k) / n, ci: wilson(k, n), threshold: thresholdPct, pAbove, pBelow, verdict };
 }
 

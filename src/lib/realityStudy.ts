@@ -30,6 +30,8 @@ export type StudyField = {
   /** Why we ask, shown small under the prompt. Keep it honest and short. */
   why?: string;
   options: StudyOption[];
+  /** False for questions asked somewhere other than the profile screen. */
+  inProfile?: boolean;
 };
 
 export type StudyFieldId =
@@ -133,18 +135,29 @@ export const studyFields: StudyField[] = [
    * Band edges are deliberate (Oct 2026): $3,000 is H2's falsification line and
    * $4,500 is the actual Business X-Ray fee (src/lib/pricing.ts XRAY_FEE), so
    * both can be read straight off the answers. Change them only with H2.
+   *
+   * Version 2 (Oct 2026), rebuilt to cut bias:
+   *  - asked AFTER the result, when the respondent has seen their own gaps,
+   *    because that is when a real buyer weighs it;
+   *  - the service is described (what, who, how long), because people price
+   *    an undefined service low by reflex;
+   *  - the actual fee is NOT shown, so it cannot anchor the answer;
+   *  - bands run low to high with "would not pay" LAST, not first;
+   *  - it says plainly that nobody will follow up, so it cannot read as a pitch.
+   * Rows answered on version 1 (inside the profile, undescribed, before the
+   * result) are kept but reported separately; see wtp_version.
    */
   {
     id: "wtp",
-    prompt:
-      "What is the most you would pay for an independent, fixed-fee diagnostic that answered the questions you just could not?",
+    inProfile: false,
+    prompt: "If this were offered as a fixed-fee service, what is the most your business would pay for it?",
     options: [
-      { value: "would-not-pay", label: "I would not pay for this" },
       { value: "under-1500", label: "Under $1,500" },
       { value: "1500-3000", label: "$1,500 to $3,000" },
       { value: "3000-4500", label: "$3,000 to $4,499" },
       { value: "4500-7500", label: "$4,500 to $7,500" },
       { value: "over-7500", label: "Over $7,500" },
+      { value: "would-not-pay", label: "I wouldn't pay for this" },
     ],
   },
   /*
@@ -188,6 +201,22 @@ export function cleanHeardFrom(v: unknown): string | null {
 export function sourceLabel(v: string | null | undefined): string {
   if (!v || v === "direct") return "Not stated";
   return heardFromOptions.find((o) => o.value === v)?.label ?? v;
+}
+
+/** The current version of the price question. Version 1 rows have wtp_version null. */
+export const WTP_VERSION = 2;
+
+/** The price question's description of what is being priced. Neutral, no fee. */
+export const WTP_SERVICE = [
+  "An independent review of your business by a senior analyst",
+  "Your own numbers analysed: profit by product and customer, cash, pricing",
+  "The one constraint holding you back, named with the evidence behind it",
+  "A written report and a short, prioritised plan, in two to three weeks",
+];
+
+export function cleanWtp(v: unknown): string | null {
+  const f = studyFields.find((x) => x.id === "wtp")!;
+  return typeof v === "string" && f.options.some((o) => o.value === v) ? v : null;
 }
 
 export type StudyProfile = Partial<Record<StudyFieldId, string>> & { zip3?: string; heard_from?: string };

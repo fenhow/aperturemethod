@@ -1,6 +1,6 @@
--- The Aperture Method: Reality Check responses (Oct 2026).
+-- The Aperture Method: Clarity Check responses (Oct 2026).
 --
--- One row per finished Reality Check, anonymous by design. Feeds the EMBA
+-- One row per finished Clarity Check, anonymous by design. Feeds the EMBA
 -- capstone study (cohort = 'study', from /reality-check/study) and keeps the
 -- public quiz's completions too (cohort = 'site'), so the two can be compared
 -- without ever being mixed.

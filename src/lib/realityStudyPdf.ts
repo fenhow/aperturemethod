@@ -413,7 +413,7 @@ export async function generateStudyReportPdf(
   d.section("Method and limitations", 150);
   const ex = s.exclusions.length ? s.exclusions.map((e) => `${e.count} ${e.reason.toLowerCase()}`).join(", ") : "none";
   for (const line of [
-    `Instrument. The Clarity Check (named the Reality Check in the capstone plan): ${questions.length} questions, each asking for a number, a name or a timeframe, scored 4 / 2 / 1 / 0 and summed to a Clarity Score out of 100. It measures how well an owner knows the business, not how good the business is.`,
+    `Instrument. The Clarity Check: ${questions.length} questions, each asking for a number, a name or a timeframe, scored 4 / 2 / 1 / 0 and summed to a Clarity Score out of 100. It measures how well an owner knows the business, not how good the business is.`,
     "Self-rating. Asked before the first question so the quiz cannot colour it, on a 1 to 10 scale, multiplied by 10 to compare with the score.",
     "Profile. Optional, asked after the last question and before the score, in bands only (revenue, headcount, industry, role, years, region, three ZIP digits).",
     "Willingness to pay. Asked after the result, once respondents had seen their own gaps, with the service described (scope, deliverable, timeline) and no fee shown, so the actual price could not anchor answers. Bands run low to high with the refusal option last, and respondents were told nobody would follow up. H2 is read only for owners and co-owners of $1M+ businesses. Answers to an earlier version of the question are reported separately. No verdict is given below 30 answers. Stated willingness to pay is supporting evidence; the capstone's primary H2 test is conversion in qualified conversations.",

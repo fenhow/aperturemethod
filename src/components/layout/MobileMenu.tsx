@@ -136,6 +136,17 @@ export function MobileMenu({
                         </li>
                       )
                     )}
+                    {entry.hub.extra ? (
+                      <li>
+                        <Link
+                          href={entry.hub.extra.href}
+                          onClick={onClose}
+                          className="mt-2 inline-flex items-center gap-2 rounded-lg border border-maroon px-4 py-2 text-body font-semibold text-maroon transition-colors hover:bg-maroon hover:text-paper"
+                        >
+                          {entry.hub.extra.label} <span aria-hidden="true">&rarr;</span>
+                        </Link>
+                      </li>
+                    ) : null}
                   </ul>
                 </li>
               )

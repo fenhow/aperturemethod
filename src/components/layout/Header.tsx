@@ -244,9 +244,10 @@ export function Header() {
                   would otherwise stretch to the height of the tallest link
                   column and leave a lake of empty surface under the blurb.
                 */}
+                <div className="flex flex-col gap-3 self-start">
                 <Link
                   href={activeGroup.hub.href ?? activeGroup.href}
-                  className="group flex flex-col self-start rounded-lg bg-surface p-6 transition-colors hover:bg-maroon/[0.06]"
+                  className="group flex flex-col rounded-lg bg-surface p-6 transition-colors hover:bg-maroon/[0.06]"
                 >
                   <div>
                     <p className="eyebrow mb-3">{activeGroup.hub.eyebrow}</p>
@@ -262,6 +263,27 @@ export function Header() {
                     </span>
                   </p>
                 </Link>
+                {activeGroup.hub.extra ? (
+                  <Link
+                    href={activeGroup.hub.extra.href}
+                    className="group flex items-center justify-between gap-4 rounded-lg border border-maroon px-5 py-3.5 transition-colors hover:bg-maroon"
+                  >
+                    <span>
+                      <span className="block text-body font-semibold text-maroon transition-colors group-hover:text-paper">
+                        {activeGroup.hub.extra.label}
+                      </span>
+                      {activeGroup.hub.extra.note ? (
+                        <span className="block text-small text-muted transition-colors group-hover:text-white/80">
+                          {activeGroup.hub.extra.note}
+                        </span>
+                      ) : null}
+                    </span>
+                    <span aria-hidden="true" className="text-maroon transition-colors group-hover:text-paper">
+                      &rarr;
+                    </span>
+                  </Link>
+                ) : null}
+                </div>
 
                 {/*
                   Two layouts, chosen by the group.

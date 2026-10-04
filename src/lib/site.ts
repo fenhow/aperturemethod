@@ -96,6 +96,12 @@ export type MegaHub = {
   blurb: string;
   linkLabel: string;
   /**
+   * A separate offer shown as a button under the hub box (Oct 2026). Used for
+   * Buying a Business: it is not part of the Method, so it sits beside the
+   * Method's description rather than in its list of pages.
+   */
+  extra?: { label: string; href: string; note?: string };
+  /**
    * Where the hub panel points, when that is not the group's own page.
    * The Method group is the case this exists for: the nav item belongs on the
    * overview, and the panel belongs on the page that starts an engagement.
@@ -138,6 +144,7 @@ export const megaNav: MegaEntry[] = [
         "We analyze your financials, operations, customers, market, and competition to uncover what is driving performance, where value is being lost, and where the greatest opportunities exist. Engage us for a focused analysis in the areas that matter most, or apply the full Aperture Method across your business. Either way, we turn those insights into clear priorities, measurable actions, and a live view of results.",
       linkLabel: "Explore the Method & choose where to focus",
       href: "/the-aperture-method",
+      extra: { label: "Buying a Business", href: "/buying-a-business", note: "A pre-offer review of a target" },
     },
     /*
      * Two columns, each with its own heading, rather than one list flowing
@@ -175,10 +182,8 @@ export const megaNav: MegaEntry[] = [
           { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
           { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
           { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
-          { label: "Buying a Business", href: "/buying-a-business", desc: "A pre-offer review of a target" },
           { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
           { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
-          { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
         ],
       },
       {
@@ -203,10 +208,8 @@ export const megaNav: MegaEntry[] = [
       { label: "What We Do", href: "/what-we-do", desc: "Seven capabilities, one firm" },
       { label: "What You Get", href: "/what-you-get", desc: "The tangible deliverables" },
       { label: "Working Together", href: "/working-together", desc: "What an engagement is like" },
-      { label: "Buying a Business", href: "/buying-a-business", desc: "A pre-offer review of a target" },
       { label: "Who It's For", href: "/who-its-for", desc: "The businesses we fit" },
       { label: "Why This Exists", href: "/the-intelligence-gap", desc: "The gap, and the data behind it" },
-      { label: "By Industry", href: "/industries", desc: "How this reads in your sector" },
     ],
   },
   {

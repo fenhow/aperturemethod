@@ -281,8 +281,8 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
           {/* ───────── recent */}
           <Panel title="Latest responses">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] text-left text-small">
-                <thead className="text-caption uppercase tracking-overline text-muted">
+              <table className="w-full min-w-[720px] text-left text-[13px] leading-snug">
+                <thead className="text-[11px] uppercase tracking-overline text-muted">
                   <tr className="border-b border-line">
                     <th className="py-2 pr-3">When</th>
                     <th className="py-2 pr-3">Source</th>
@@ -303,10 +303,10 @@ function Dashboard({ s, filter }: { s: StudyStats; filter: Search }) {
                       <td className="py-2 pr-3">{sourceLabel(r.source)}</td>
                       <td className="py-2 pr-3 tabular-nums">{r.score}</td>
                       <td className="py-2 pr-3 tabular-nums">{r.self_rating ?? "—"}</td>
-                      <td className="py-2 pr-3">{label("revenue", r.revenue)}</td>
+                      <td className="py-2 pr-3 whitespace-nowrap">{label("revenue", r.revenue)}</td>
                       <td className="py-2 pr-3">{label("industry", r.industry)}</td>
-                      <td className="py-2 pr-3 tabular-nums">{r.duration_s === null ? "—" : `${Math.round(r.duration_s / 60)}m ${r.duration_s % 60}s`}</td>
-                      <td className="py-2">{r.excluded ? r.excluded : "Yes"}</td>
+                      <td className="py-2 pr-3 whitespace-nowrap tabular-nums">{r.duration_s === null ? "—" : `${Math.floor(r.duration_s / 60)}m ${r.duration_s % 60}s`}</td>
+                      <td className="py-2 whitespace-nowrap">{r.excluded ? r.excluded : "Yes"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -470,21 +470,14 @@ function Filters({ s, filter }: { s: StudyStats; filter: Search }) {
     return `/method-lab/study${qs ? `?${qs}` : ""}`;
   };
   const chip = (on: boolean) =>
-    `rounded-full border px-3 py-1.5 text-caption transition-colors ${on ? "border-maroon bg-maroon text-white" : "border-line text-ink hover:border-maroon"}`;
+    `whitespace-nowrap rounded-full border px-3 py-1 text-[13px] transition-colors ${on ? "border-maroon bg-maroon text-white" : "border-line text-ink hover:border-maroon"}`;
   const revenue = studyFields.find((f) => f.id === "revenue")!;
-  const industry = studyFields.find((f) => f.id === "industry")!;
   return (
     <div className="mt-8 space-y-3">
       <FilterRow label="Revenue">
         <Link href={href({ revenue: undefined })} className={chip(!filter.revenue)}>All</Link>
         {revenue.options.filter((o) => o.value !== "prefer-not").map((o) => (
           <Link key={o.value} href={href({ revenue: o.value })} className={chip(filter.revenue === o.value)}>{o.label}</Link>
-        ))}
-      </FilterRow>
-      <FilterRow label="Industry">
-        <Link href={href({ industry: undefined })} className={chip(!filter.industry)}>All</Link>
-        {industry.options.map((o) => (
-          <Link key={o.value} href={href({ industry: o.value })} className={chip(filter.industry === o.value)}>{o.label}</Link>
         ))}
       </FilterRow>
       <FilterRow label="Heard via">
@@ -507,7 +500,7 @@ function Filters({ s, filter }: { s: StudyStats; filter: Search }) {
 function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="w-20 shrink-0 text-caption font-semibold uppercase tracking-overline text-muted">{label}</span>
+      <span className="w-full shrink-0 whitespace-nowrap text-[11px] font-semibold uppercase tracking-overline text-muted sm:w-28">{label}</span>
       {children}
     </div>
   );

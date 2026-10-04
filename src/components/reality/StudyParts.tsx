@@ -9,7 +9,9 @@
  * firm, and never implies the university endorses or runs the study.
  */
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import Link from "next/link";
 import {
   heardFromOptions,
   studyFields,
@@ -273,7 +275,7 @@ export function StudyThanks({ selfRating, score }: { selfRating: number | null; 
   }
 
   return (
-    <div className="mt-10 rounded-lg border border-line bg-surface p-6 sm:p-8">
+    <div id="study-thanks" className="mt-10 scroll-mt-28 rounded-lg border border-line bg-surface p-6 sm:p-8">
       <p className="eyebrow mb-3">Thank you</p>
       <h3 className="text-h4 font-semibold text-ink">Your answers are now part of the study.</h3>
       {selfRating ? (
@@ -344,5 +346,108 @@ export function StudyThanks({ selfRating, score }: { selfRating: number | null; 
         </button>
       </div>
     </div>
+  );
+}
+
+/* ─────────────────────────────── the completion pop-up */
+
+/**
+ * Shown once, a moment after the result appears (Oct 2026). Thanks the
+ * participant first, then offers the next steps without pushing: their
+ * results (the default), the benchmark report, and the site for anyone who
+ * wants to know more. Closes on the button, Escape, or a click outside.
+ */
+export function StudyThankYouModal() {
+  const [open, setOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setOpen(true), 700);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    panelRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  if (!open) return null;
+
+  const toReport = () => {
+    setOpen(false);
+    setTimeout(() => {
+      document.getElementById("study-thanks")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById("rc-optin")?.focus({ preventScroll: true });
+    }, 50);
+  };
+
+  const links = [
+    { href: "/", label: "Explore The Aperture Method", note: "What the firm does for owner-run businesses" },
+    { href: "/the-aperture-method", label: "See how the Method works", note: "Five phases, from diagnosis to results" },
+    { href: "/contact#book", label: "Talk with Fenwick", note: "A no-pressure 30-minute conversation" },
+  ];
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[130] flex items-end justify-center bg-ink/50 backdrop-blur-[2px] sm:items-center sm:p-6"
+      onClick={() => setOpen(false)}
+    >
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="study-ty-title"
+        tabIndex={-1}
+        onClick={(e) => e.stopPropagation()}
+        className="max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-lg bg-paper p-7 shadow-xl outline-none sm:rounded-lg sm:p-9"
+      >
+        <p className="eyebrow mb-3">Thank you</p>
+        <h2 id="study-ty-title" className="text-h3 font-semibold leading-snug text-ink">
+          Your answers are in. Thank you for being part of the study.
+        </h2>
+        <p className="mt-3 text-body text-muted">
+          Every response brings the research closer to {STUDY_TARGET} businesses and makes the findings
+          stronger. Your Clarity Score and biggest blind spot are waiting for you now.
+        </p>
+
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <button type="button" onClick={() => setOpen(false)} className="btn w-full justify-center sm:w-auto sm:px-8">
+            See my results
+          </button>
+          <button type="button" onClick={toReport} className="btn--secondary w-full justify-center sm:w-auto sm:px-6">
+            Get the free benchmark report
+          </button>
+        </div>
+
+        <div className="mt-8 border-t border-line pt-6">
+          <p className="text-small font-semibold text-ink">Want to know more?</p>
+          <ul className="mt-3 space-y-1">
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="group flex items-baseline justify-between gap-4 rounded-md px-2 py-2 -mx-2 transition-colors hover:bg-surface"
+                >
+                  <span>
+                    <span className="block text-body font-semibold text-maroon">{l.label}</span>
+                    <span className="block text-caption text-muted">{l.note}</span>
+                  </span>
+                  <span aria-hidden="true" className="text-maroon transition-transform group-hover:translate-x-0.5">&rarr;</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <p className="mt-6 text-caption text-muted">Fenwick How &middot; fen@aperturemethod.com</p>
+      </div>
+    </div>,
+    document.body
   );
 }

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import type { RCExplainer } from "@/lib/realityCheck";
 
 /**
- * The teaching panel behind a Reality Check question.
+ * The teaching panel behind a Clarity Check question.
  *
  * Two modes, and the difference between them is the whole point:
  *

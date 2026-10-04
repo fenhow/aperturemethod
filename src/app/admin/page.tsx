@@ -90,7 +90,7 @@ export default async function AdminPage() {
         </p>
         <p className="mt-4">
           <a href="/method-lab/study" className="text-small font-semibold text-maroon hover:underline">
-            Reality Check study results →
+            Clarity Check study results →
           </a>
         </p>
         <div className="mt-8">

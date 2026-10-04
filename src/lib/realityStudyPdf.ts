@@ -11,7 +11,7 @@ import {
 } from "./realityStudyReadout";
 
 /**
- * The Reality Check research study as a clean, branded PDF report.
+ * The Clarity Check research study as a clean, branded PDF report.
  * Built from the same numbers as /method-lab/study (src/lib/realityStudyStats.ts),
  * so the PDF and the dashboard can never disagree.
  *
@@ -64,7 +64,7 @@ class Report {
     this.bold = await this.doc.embedFont(StandardFonts.HelveticaBold);
     this.logo = await this.doc.embedPng(Buffer.from(APERTURE_LOGO_WHITE_HORIZONTAL_B64, "base64"));
     this.subtitle = san(subtitle);
-    this.doc.setTitle("Reality Check Research Study: Results");
+    this.doc.setTitle("Clarity Check Research Study: Results");
     this.doc.setAuthor("Fenwick How, The Aperture Method");
     this.doc.setSubject("EMBA capstone research results");
 
@@ -74,7 +74,7 @@ class Report {
     const lw = 200;
     const lh = lw * (this.logo.height / this.logo.width);
     this.page.drawImage(this.logo, { x: M, y: PAGE_H - 32 - lh, width: lw, height: lh });
-    this.page.drawText("Reality Check Research Study", { x: M, y: PAGE_H - 92, size: 21, font: this.bold, color: WHITE });
+    this.page.drawText("Clarity Check Research Study", { x: M, y: PAGE_H - 92, size: 21, font: this.bold, color: WHITE });
     this.page.drawText(this.subtitle, { x: M, y: PAGE_H - 110, size: 10, font: this.reg, color: rgb(0.92, 0.85, 0.85) });
     this.right("AS OF", PAGE_H - 40, 7, this.bold, GOLD);
     this.right(san(asOf), PAGE_H - 56, 11, this.bold, WHITE);
@@ -89,7 +89,7 @@ class Report {
   newPage() {
     this.page = this.doc.addPage([PAGE_W, PAGE_H]);
     this.page.drawRectangle({ x: M, y: PAGE_H - 50, width: 3, height: 11, color: MAROON });
-    this.page.drawText("Reality Check Research Study: Results", { x: M + 10, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED });
+    this.page.drawText("Clarity Check Research Study: Results", { x: M + 10, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED });
     this.right(this.subtitle, PAGE_H - 47, 8, this.reg, MUTED);
     this.page.drawLine({ start: { x: M, y: PAGE_H - 58 }, end: { x: PAGE_W - M, y: PAGE_H - 58 }, thickness: 0.5, color: LINE });
     this.y = PAGE_H - 82;
@@ -290,7 +290,7 @@ export async function generateStudyReportPdf(
     d.para("No usable responses yet. This report fills in automatically as owners complete the study.");
   } else {
     const parts = [
-      `${s.n} owner-run businesses${filterLabel ? ` in this segment` : ""} completed the Reality Check with a usable response (${s.cleanTotal} of ${s.target} toward the study target overall).`,
+      `${s.n} owner-run businesses${filterLabel ? ` in this segment` : ""} completed the Clarity Check with a usable response (${s.cleanTotal} of ${s.target} toward the study target overall).`,
       `Their average Clarity Score was ${r0(s.meanScore)} out of 100 (median ${r0(s.medianScore)}), and on average they could not answer ${r1(s.meanGaps)} of the ${questions.length} questions with confidence.`,
     ];
     if (s.nRated) {
@@ -413,7 +413,7 @@ export async function generateStudyReportPdf(
   d.section("Method and limitations", 150);
   const ex = s.exclusions.length ? s.exclusions.map((e) => `${e.count} ${e.reason.toLowerCase()}`).join(", ") : "none";
   for (const line of [
-    `Instrument. The Reality Check: ${questions.length} questions, each asking for a number, a name or a timeframe, scored 4 / 2 / 1 / 0 and summed to a Clarity Score out of 100. It measures how well an owner knows the business, not how good the business is.`,
+    `Instrument. The Clarity Check (named the Reality Check in the capstone plan): ${questions.length} questions, each asking for a number, a name or a timeframe, scored 4 / 2 / 1 / 0 and summed to a Clarity Score out of 100. It measures how well an owner knows the business, not how good the business is.`,
     "Self-rating. Asked before the first question so the quiz cannot colour it, on a 1 to 10 scale, multiplied by 10 to compare with the score.",
     "Profile. Optional, asked after the last question and before the score, in bands only (revenue, headcount, industry, role, years, region, three ZIP digits).",
     "Willingness to pay. Asked after the result, once respondents had seen their own gaps, with the service described (scope, deliverable, timeline) and no fee shown, so the actual price could not anchor answers. Bands run low to high with the refusal option last, and respondents were told nobody would follow up. H2 is read only for owners and co-owners of $1M+ businesses. Answers to an earlier version of the question are reported separately. No verdict is given below 30 answers. Stated willingness to pay is supporting evidence; the capstone's primary H2 test is conversion in qualified conversations.",
@@ -432,5 +432,5 @@ export async function generateStudyReportPdf(
   d.footers();
   const bytes = await d.doc.save();
   const stamp = now.toISOString().slice(0, 10);
-  return { bytes, filename: `Reality Check Study - Results ${stamp}.pdf` };
+  return { bytes, filename: `Clarity Check Study - Results ${stamp}.pdf` };
 }

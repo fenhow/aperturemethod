@@ -265,8 +265,8 @@ export function FitChecks() {
                 <Link href={primaryCta.href} className="btn w-full justify-center sm:w-auto sm:px-8">
                   {primaryCta.label}
                 </Link>
-                <Link href="/reality-check" className="btn--secondary w-full justify-center sm:w-auto sm:px-8">
-                  Take the full Reality Check
+                <Link href="/clarity-check" className="btn--secondary w-full justify-center sm:w-auto sm:px-8">
+                  Take the full Clarity Check
                 </Link>
               </div>
             </div>

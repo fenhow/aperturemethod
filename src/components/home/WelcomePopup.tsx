@@ -25,7 +25,7 @@ const CONSENT_KEY = "am_cookie_consent_v1";
  * or a form with a modal is how you lose the submission: the pop-up never
  * auto-opens here. The floating "Big Picture" button still does.
  */
-const NO_AUTO_OPEN = ["/reality-check", "/onboarding", "/contact", "/portal", "/admin", "/method-lab"];
+const NO_AUTO_OPEN = ["/clarity-check", "/onboarding", "/contact", "/portal", "/admin", "/method-lab"];
 
 export function WelcomePopup({ delayMs = 4000 }: { delayMs?: number }) {
   const pathname = usePathname();

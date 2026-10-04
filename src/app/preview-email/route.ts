@@ -3,7 +3,7 @@ import { reportHtml, ownerHtml, completionHtml, SIGNATURE_CID } from "@/lib/real
 import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
 
 /**
- * /preview-email — see a Reality Check email without sending one.
+ * /preview-email — see a Clarity Check email without sending one.
  *
  * WHY THIS EXISTS. Submitting the form fires two messages a second apart with
  * near-identical subject lines, one to the visitor and one to the lead inbox.

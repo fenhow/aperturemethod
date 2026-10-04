@@ -4,7 +4,7 @@ import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 
 /**
- * Reality Check study: "send me the benchmark report when it is published".
+ * Clarity Check study: "send me the benchmark report when it is published".
  *
  * Stores the email ONLY, in its own table with no link to any response. That
  * separation is what lets the study page call the answers anonymous while still
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   if (emailConfigured) {
     const sent = await sendEmail({
       to: NOTIFY_EMAIL,
-      subject: "Reality Check study: benchmark report requested",
+      subject: "Clarity Check study: benchmark report requested",
       html: `<p>Send the benchmark report to <strong>${email.replace(/</g, "&lt;")}</strong> when it is published.</p>`,
     });
     if (sent.ok) return NextResponse.json({ ok: true });

@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * The research-study pieces of the Reality Check (Oct 2026). Used only when
- * <RealityCheck mode="study" /> runs at /reality-check/study. The quiz itself is
+ * The research-study pieces of the Clarity Check (Oct 2026). Used only when
+ * <RealityCheck mode="study" /> runs at /clarity-check/study. The quiz itself is
  * shared with the public page so both measure exactly the same thing.
  *
  * Wording rule for the Texas A&M line: it is a statement about Fenwick, not the
@@ -31,7 +31,7 @@ const STUDY_CONTACT = "fen@aperturemethod.com";
 export function StudyIntro({ onStart, count }: { onStart: () => void; count?: number }) {
   return (
     <div className="mx-auto max-w-3xl">
-      <p className="eyebrow mb-4">Executive MBA Capstone Research · The Reality Check</p>
+      <p className="eyebrow mb-4">Executive MBA Capstone Research · The Clarity Check</p>
       <h1 className="max-w-2xl text-h1 font-semibold text-ink">
         How well do owners really know their own businesses?
       </h1>

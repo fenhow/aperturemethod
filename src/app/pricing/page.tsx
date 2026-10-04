@@ -123,7 +123,7 @@ const faqs = [
   },
   {
     q: "Is there anything cheaper than this?",
-    a: "The Reality Check is free, takes a few minutes and needs no email to see your score. It will tell you honestly whether any of this is worth your time. Below that there is nothing to sell you, and if the answer is that you do not need a consultant right now, you will be told that rather than sold something smaller.",
+    a: "The Clarity Check is free, takes a few minutes and needs no email to see your score. It will tell you honestly whether any of this is worth your time. Below that there is nothing to sell you, and if the answer is that you do not need a consultant right now, you will be told that rather than sold something smaller.",
   },
 ];
 
@@ -163,8 +163,8 @@ export default function PricingPage() {
             <Link href="#ladder" className="btn--on-dark">
               See the whole schedule ↓
             </Link>
-            <Link href="/reality-check" className="btn--ghost">
-              Or take the free Reality Check
+            <Link href="/clarity-check" className="btn--ghost">
+              Or take the free Clarity Check
             </Link>
           </div>
         </Reveal>
@@ -442,11 +442,11 @@ export default function PricingPage() {
             onDark
             eyebrow="Next"
             title="Not sure which rung you are on?"
-            lede="Take the Reality Check. It is free, it takes a few minutes, no email is required to see your score, and it will tell you plainly whether any of this is worth your money right now."
+            lede="Take the Clarity Check. It is free, it takes a few minutes, no email is required to see your score, and it will tell you plainly whether any of this is worth your money right now."
           />
           <div className="mt-9 flex flex-wrap gap-4">
-            <Link href="/reality-check" className="btn--on-dark">
-              Take the Reality Check
+            <Link href="/clarity-check" className="btn--on-dark">
+              Take the Clarity Check
             </Link>
             <Link href={primaryCta.href} className="btn--ghost">
               {primaryCta.label}

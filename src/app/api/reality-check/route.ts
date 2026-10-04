@@ -7,7 +7,7 @@ import { FENWICK_SIGNATURE_B64 } from "@/lib/onboarding/logo";
 import { generateRealityCheckPdf } from "@/lib/realityCheckPdf";
 
 /**
- * Reality Check: the written breakdown.
+ * Clarity Check: the written breakdown.
  *
  * The score is always shown on screen. When someone asks for the long version
  * we send it to them immediately, and send Fenwick a copy as a lead
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
   // The visitor's copy is the one that matters. Send it first.
   const toVisitor = await sendEmail({
     to: email,
-    subject: `Your Reality Check: ${result.score}/100, ${result.band.name}`,
+    subject: `Your Clarity Check: ${result.score}/100, ${result.band.name}`,
     html: reportHtml(result, answers),
     replyTo: NOTIFY_EMAIL,
     attachments,
@@ -147,7 +147,7 @@ export async function POST(request: Request) {
   // Owner notification is best-effort. Never fail the visitor over it.
   const toOwner = await sendEmail({
     to: NOTIFY_EMAIL,
-    subject: `Reality Check: ${name}${company ? ` (${company})` : ""}, ${result.score}/100 (${result.band.name})`,
+    subject: `Clarity Check: ${name}${company ? ` (${company})` : ""}, ${result.score}/100 (${result.band.name})`,
     html: ownerHtml({ name, company, title, email }, result, answers),
     replyTo: email,
     attachments,

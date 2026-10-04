@@ -1,5 +1,5 @@
 /**
- * The Reality Check, a fifteen-question self-assessment of how well an owner
+ * The Clarity Check, a fifteen-question self-assessment of how well an owner
  * actually knows their own business.
  *
  * Design rule: every question must be unanswerable without real knowledge.

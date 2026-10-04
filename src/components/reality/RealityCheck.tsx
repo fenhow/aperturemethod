@@ -23,8 +23,8 @@ function newRunId(): string {
 const STUDY_DONE_KEY = "rc-study-done";
 
 /**
- * mode "site" is the public quiz at /reality-check. mode "study" is the capstone
- * research version at /reality-check/study: consent intro, a self-rating before
+ * mode "site" is the public quiz at /clarity-check. mode "study" is the capstone
+ * research version at /clarity-check/study: consent intro, a self-rating before
  * question one, an optional profile after the last, and a thank-you in place of
  * the sales block. The questions and scoring are identical in both.
  */
@@ -227,7 +227,7 @@ export function RealityCheck({
     */
     return (
       <div className="mx-auto max-w-3xl">
-        <p className="eyebrow mb-4">The Reality Check</p>
+        <p className="eyebrow mb-4">The Clarity Check</p>
         <h1 className="max-w-2xl text-h1 font-semibold text-ink">
           How well do you actually know your business?
         </h1>
@@ -267,7 +267,7 @@ export function RealityCheck({
           onClick={beginQuiz}
           className="btn mt-9 w-full justify-center sm:w-auto sm:px-10"
         >
-          Start the Reality Check
+          Start the Clarity Check
         </button>
         {/*
           The privacy line, rewritten Oct 2026 when the anonymous completion

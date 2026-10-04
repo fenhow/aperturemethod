@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 /**
- * The thank-you panel shown after the Reality Check breakdown is emailed, which
+ * The thank-you panel shown after the Clarity Check breakdown is emailed, which
  * then moves the reader on to Pricing.
  *
  * WHY A COUNTDOWN RATHER THAN AN IMMEDIATE REDIRECT. The results screen holds
@@ -76,7 +76,7 @@ export function ThankYouRedirect({ email }: { email: string }) {
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-lg rounded-t-lg bg-paper p-7 shadow-xl outline-none sm:rounded-lg sm:p-9"
       >
-        <p className="eyebrow mb-3">The Reality Check</p>
+        <p className="eyebrow mb-3">The Clarity Check</p>
         <h2 id="rc-thanks-title" className="text-h3 font-semibold text-ink">
           Thank you. It is on its way.
         </h2>

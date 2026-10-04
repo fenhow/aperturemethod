@@ -217,7 +217,7 @@ export function ApertureHero() {
 
           At max-w-2xl the headline broke onto THREE lines on a 1440 desktop
           (672px of text in a 1440px viewport), and with the promise line added
-          below the lede that pushed "Take the Reality Check" past the bottom of
+          below the lede that pushed "Take the Clarity Check" past the bottom of
           an 800px laptop viewport: the hero's only call to action, invisible
           without scrolling. Letting the column run to 3xl at lg takes the
           headline to two lines at its full 72px, which is ~90px back. The
@@ -266,8 +266,8 @@ export function ApertureHero() {
           screen.
         */}
         <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
-          <Link href="/reality-check" className="btn--on-dark">
-            Take the Reality Check
+          <Link href="/clarity-check" className="btn--on-dark">
+            Take the Clarity Check
           </Link>
           <p className="text-caption text-white/55">
             {QUESTION_COUNT} questions · about {APPROX_MINUTES} minutes · no email required

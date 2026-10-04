@@ -18,7 +18,7 @@ import {
 } from "@/lib/realityStudyReadout";
 
 /**
- * /method-lab/study — the Reality Check research study, read for the capstone.
+ * /method-lab/study — the Clarity Check research study, read for the capstone.
  *
  * Behind the Method Lab passphrase (Fenwick chose this over the email sign-in,
  * Oct 2026). The middleware gates every /method-lab path; the cookie is checked
@@ -79,9 +79,9 @@ export default async function StudyAdminPage({ searchParams }: { searchParams: S
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow mb-3">Method Lab · Research study</p>
-            <h1 className="text-h1 font-semibold text-ink">Reality Check study</h1>
+            <h1 className="text-h1 font-semibold text-ink">Clarity Check study</h1>
             <p className="mt-3 max-w-2xl text-body text-muted">
-              Every completed run of /reality-check/study, read for the capstone. Figures use the
+              Every completed run of /clarity-check/study, read for the capstone. Figures use the
               clean sample only; what was left out, and why, is listed below the progress bar.
             </p>
           </div>

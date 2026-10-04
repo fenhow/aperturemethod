@@ -43,7 +43,13 @@ const nextConfig = {
 
       // The ONE link shared for the capstone study (Oct 2026). Temporary (307)
       // so the destination can move without browsers caching it forever.
-      { source: "/study", destination: "/reality-check/study", permanent: false },
+      { source: "/study", destination: "/clarity-check/study", permanent: false },
+
+      // Renamed Oct 2026: the Reality Check is now the Clarity Check. The old
+      // address was on the homepage, in emails and in shared links, so it
+      // forwards permanently and must not be removed.
+      { source: "/reality-check", destination: "/clarity-check", permanent: true },
+      { source: "/reality-check/:path*", destination: "/clarity-check/:path*", permanent: true },
       { source: "/look-closer/:path*", destination: "/business-lab/:path*", permanent: true },
     ];
   },

@@ -5,7 +5,7 @@ import { questions, type RCResult } from "./realityCheck";
 import { siteConfig } from "./site";
 
 /**
- * The Reality Check, as a branded PDF attached to the breakdown email.
+ * The Clarity Check, as a branded PDF attached to the breakdown email.
  *
  * WHY A SEPARATE BUILDER rather than reusing lib/onboarding/pdf.ts. That module
  * builds the documents a client SIGNS, and its `Doc` class is bound to the
@@ -98,7 +98,7 @@ class Doc {
     this.sig = await this.doc.embedPng(Buffer.from(FENWICK_SIGNATURE_B64, "base64"));
     this.recipient = san(recipient);
     this.date = san(date);
-    this.doc.setTitle("The Reality Check");
+    this.doc.setTitle("The Clarity Check");
     this.doc.setAuthor("The Aperture Method");
     this.addPage(true);
   }
@@ -118,7 +118,7 @@ class Doc {
       this.page.drawImage(this.logo, { x: MARGIN, y: PAGE_H - 34 - lh, width: lw, height: lh });
       // The document's own name, set large. At 10.5pt it read as a caption
       // under the logo rather than as the title of the thing you are holding.
-      this.page.drawText("The Reality Check", {
+      this.page.drawText("The Clarity Check", {
         x: MARGIN, y: PAGE_H - 90, size: 21, font: this.bold, color: rgb(1, 1, 1),
       });
       const recip = this.recipient.length > 40 ? this.recipient.slice(0, 40) + "..." : this.recipient;
@@ -137,7 +137,7 @@ class Doc {
        * instead, and it survives being printed in black and white.
        */
       this.page.drawRectangle({ x: MARGIN, y: PAGE_H - 50, width: 3, height: 11, color: MAROON });
-      this.page.drawText("The Aperture Method: The Reality Check", {
+      this.page.drawText("The Aperture Method: The Clarity Check", {
         x: MARGIN + 10, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED,
       });
       this.rightText(this.recipient, PAGE_H - 47, 8, this.reg, MUTED);
@@ -439,5 +439,5 @@ export async function generateRealityCheckPdf(
   const bytes = await d.doc.save();
   const safe = (who.company?.trim() || who.name).replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "your-business";
   const stamp = date.replace(/[^0-9]/g, "").slice(0, 8);
-  return { bytes, filename: `Reality-Check-${safe}-${stamp}.pdf` };
+  return { bytes, filename: `Clarity-Check-${safe}-${stamp}.pdf` };
 }

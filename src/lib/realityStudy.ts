@@ -1,8 +1,8 @@
 /**
- * The Reality Check research study (Oct 2026).
+ * The Clarity Check research study (Oct 2026).
  *
  * Fenwick's EMBA capstone needs evidence from at least 100 owner-run businesses.
- * The study runs the SAME quiz as /reality-check, at /reality-check/study, and
+ * The study runs the SAME quiz as /clarity-check, at /clarity-check/study, and
  * adds two things the public quiz does not ask:
  *
  *   1. A self-rating BEFORE question one ("how well do you know your business,

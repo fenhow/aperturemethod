@@ -6,7 +6,7 @@ import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
 import { STUDY_TARGET } from "@/lib/realityStudy";
 
 /**
- * /reality-check/study — the capstone research version of the Reality Check.
+ * /clarity-check/study — the capstone research version of the Clarity Check.
  *
  * Shared as ONE link, aperturemethod.com/study (a redirect in next.config),
  * not found by search: noindex keeps organic visitors out of the research
@@ -22,8 +22,8 @@ export const revalidate = 600;
 export const metadata: Metadata = {
   ...pageMeta({
     title: "Executive MBA Capstone Research: How well do owners know their own businesses?",
-    description: `Executive MBA capstone research: an anonymous ${STUDY_TARGET}-business survey. Take the Reality Check, see your own Clarity Score and biggest blind spot instantly, and get the benchmark report free.`,
-    path: "/reality-check/study",
+    description: `Executive MBA capstone research: an anonymous ${STUDY_TARGET}-business survey. Take the Clarity Check, see your own Clarity Score and biggest blind spot instantly, and get the benchmark report free.`,
+    path: "/clarity-check/study",
   }),
   robots: { index: false, follow: true },
 };

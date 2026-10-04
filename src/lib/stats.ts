@@ -1,5 +1,5 @@
 /**
- * Small, dependency-free inferential statistics for the Reality Check study.
+ * Small, dependency-free inferential statistics for the Clarity Check study.
  *
  * Everything reduces to the regularised incomplete beta function, which gives
  * exact tails for the t, F and binomial distributions. Implementation follows

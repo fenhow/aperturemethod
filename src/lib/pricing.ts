@@ -19,7 +19,7 @@
  * stated as arithmetic: you bought Phase 1 for $4,500, the rest is $20,500, not a discount.
  *
  * REVISED 11 August 2026 (Fenwick, after the "Where the Money Is" proposal): the X-Ray moved
- * $2,500 → $4,500: the entry fee's job is to QUALIFY, and the free /reality-check quiz is the
+ * $2,500 → $4,500: the entry fee's job is to QUALIFY, and the free /clarity-check quiz is the
  * top-of-funnel, so the X-Ray must not be priced as a lead magnet. It also makes the credit a
  * real closing device ($20,500 rather than $25,000). Atlas was tiered by location count, an
  * annual prepay added, and the Site Selection Study introduced as a value-priced standalone.

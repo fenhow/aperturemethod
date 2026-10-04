@@ -2,7 +2,7 @@ import { questions, scoreAnswers, type RCResult } from "@/lib/realityCheck";
 import { siteConfig } from "@/lib/site";
 
 /**
- * Reality Check: the two emails, and nothing else.
+ * Clarity Check: the two emails, and nothing else.
  *
  * These used to live inside the API route. A Next.js route file may only export
  * the HTTP verbs and a handful of config keys, so nothing else could import the
@@ -12,7 +12,7 @@ import { siteConfig } from "@/lib/site";
  * here now so /preview-email can render either on demand, in development, with
  * nothing sent.
  *
- * Reality Check: the written breakdown.
+ * Clarity Check: the written breakdown.
  *
  * The score is always shown on screen. When someone asks for the long version
  * we send it to them immediately, and send Fenwick a copy as a lead
@@ -144,7 +144,7 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
   <div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:640px;margin:0 auto;padding:32px 24px">
 
     <p style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:${MAROON};font-weight:700;margin:0 0 22px">
-      The Aperture Method&trade; &middot; The Reality Check
+      The Aperture Method&trade; &middot; The Clarity Check
     </p>
 
     <table role="presentation" style="border-collapse:collapse;width:100%;margin-bottom:26px">
@@ -265,8 +265,8 @@ export function reportHtml(result: RCResult, answers: Record<string, number>): s
     </table>
 
     <p style="font-size:12px;color:${GRAY};border-top:1px solid ${LINE};padding-top:16px;margin:0;line-height:1.6">
-      You received this because you asked for your Reality Check breakdown at
-      ${esc(siteUrl("/reality-check"))}. We will not add you to a sequence.
+      You received this because you asked for your Clarity Check breakdown at
+      ${esc(siteUrl("/clarity-check"))}. We will not add you to a sequence.
     </p>
   </div></body></html>`;
 }
@@ -305,11 +305,11 @@ export function ownerHtml(
   const roleLine = [who.title, who.company].filter(Boolean).map(esc).join(" · ");
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:660px">
     <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${MAROON};font-weight:700;margin:0">
-      Reality Check: new lead
+      Clarity Check: new lead
     </p>
     <p style="margin:6px 0 0;font-size:12px;color:${GRAY};line-height:1.5">
       This is your internal alert. Their copy went out separately, subject
-      &ldquo;Your Reality Check: ${result.score}/100&rdquo;.
+      &ldquo;Your Clarity Check: ${result.score}/100&rdquo;.
     </p>
     <h2 style="font-size:22px;margin:8px 0 2px">${esc(who.name)}</h2>
     ${roleLine ? `<p style="margin:0 0 2px;color:${INK};font-size:14px">${roleLine}</p>` : ""}
@@ -360,10 +360,10 @@ export function ownerHtml(
 export function completionHtml(result: RCResult, answers: Record<string, number>): string {
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:660px">
     <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${MAROON};font-weight:700;margin:0">
-      Reality Check: completed, anonymous
+      Clarity Check: completed, anonymous
     </p>
     <p style="margin:6px 0 16px;font-size:12px;color:${GRAY};line-height:1.5">
-      Someone finished the Reality Check. They have not given their details, so there is nobody to
+      Someone finished the Clarity Check. They have not given their details, so there is nobody to
       reply to here. If they ask for the written breakdown, a separate alert follows with their name
       and email.
     </p>

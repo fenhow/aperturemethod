@@ -6,7 +6,7 @@ import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
 import { WTP_VERSION, cleanHeardFrom, cleanProfile, cleanSelfRating, cleanTag, cleanWtp, UUID_RE } from "@/lib/realityStudy";
 
 /**
- * Reality Check: the anonymous completion ping.
+ * Clarity Check: the anonymous completion ping.
  *
  * Fired by the quiz the moment someone reaches their result, whether or not
  * they go on to ask for the written breakdown. It sends Fenwick the score and
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
 
   const sent = await sendEmail({
     to: NOTIFY_EMAIL,
-    subject: `Reality Check completed (anonymous): ${result.score}/100, ${result.band.name}`,
+    subject: `Clarity Check completed (anonymous): ${result.score}/100, ${result.band.name}`,
     html: completionHtml(result, answers),
   });
   if (!sent.ok) console.error("[reality-check] completion alert failed:", sent.error);

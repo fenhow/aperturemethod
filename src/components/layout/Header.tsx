@@ -22,6 +22,14 @@ import { cn } from "@/lib/utils";
  */
 export function Header() {
   const pathname = usePathname();
+  /*
+   * The Method Lab is a separate place with its own header
+   * (src/app/method-lab/layout.tsx). The marketing nav has no business in
+   * there: it offers a prospect's journey to someone reading internal build
+   * notes, and it was why the same Lab material looked like two different
+   * systems depending on whether the page was an HTML document or a React page.
+   */
+  const inMethodLab = pathname === "/method-lab" || pathname.startsWith("/method-lab/");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
@@ -71,6 +79,8 @@ export function Header() {
 
   const active = megaNav.find((e) => e.kind === "group" && e.label === openGroup);
   const activeGroup = active && active.kind === "group" ? active : null;
+
+  if (inMethodLab) return null;
 
   return (
     <>

@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 import { methodLabConfigured } from "@/lib/methodLab";
+import { METHOD_LAB_NAV, METHOD_LAB_NOTICE } from "@/lib/methodLabNav";
 
 /**
  * One header and one footer for everything in the Method Lab.
@@ -26,72 +27,90 @@ import { methodLabConfigured } from "@/lib/methodLab";
 
 const NO_INDEX = "noindex, nofollow, noarchive, nosnippet";
 
-/** The one wording. Changing it here changes it everywhere in the Lab. */
-export const METHOD_LAB_NOTICE =
-  "Confidential · Internal & invited viewers only · Not for distribution";
-
 const SITE = "https://www.aperturemethod.com/";
 
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+
 const CHROME_CSS = `
-.ml-bar{position:sticky;top:0;z-index:2147483000;display:flex;align-items:center;gap:14px;
-  background:#500000;color:#fff;padding:7px 12px;font:700 11.5px/1.4 Arial,Helvetica,sans-serif;
-  letter-spacing:.14em;text-transform:uppercase}
-.ml-bar a,.ml-bar button{font:inherit;font-size:11px;color:#fff;background:transparent;
-  border:1px solid rgba(255,255,255,.5);border-radius:3px;padding:4px 11px;text-decoration:none;
-  white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s}
+.ml-head{position:sticky;top:0;z-index:2147483000;font:400 13px/1.5 Arial,Helvetica,sans-serif}
+.ml-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;background:#500000;color:#fff;
+  padding:7px 16px;font:700 11px/1.4 Arial,Helvetica,sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.ml-bar a,.ml-bar button{font:inherit;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.5);
+  border-radius:3px;padding:4px 11px;text-decoration:none;white-space:nowrap;cursor:pointer;
+  transition:background .15s,border-color .15s}
 .ml-bar a:hover,.ml-bar button:hover{background:rgba(255,255,255,.14);border-color:#fff}
-.ml-bar form{margin:0;flex:none}
-.ml-bar .ml-note{flex:1;text-align:center;letter-spacing:.14em}
-.ml-foot{border-top:1px solid #e2e0e0;margin-top:48px;padding:22px 28px 42px;
-  font:400 12.5px/1.6 Arial,Helvetica,sans-serif;color:#6b6b6b;background:#fff;
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
-.ml-foot .ml-f-links{display:flex;flex-wrap:wrap;gap:16px}
-.ml-foot a{color:#500000;font-weight:700;text-decoration:none}
-.ml-foot a:hover{text-decoration:underline}
-.ml-foot button{font:inherit;color:#500000;font-weight:700;background:none;border:0;padding:0;
-  cursor:pointer;text-decoration:none}
-.ml-foot button:hover{text-decoration:underline}
+.ml-bar form{margin:0}
+.ml-bar .ml-note{flex:1;text-align:center;min-width:220px}
+.ml-nav{background:#fff;border-bottom:1px solid #e2e0e0}
+.ml-nav-in{max-width:1180px;margin:0 auto;padding:11px 28px;display:flex;flex-wrap:wrap;
+  align-items:center;gap:10px 24px}
+.ml-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#1a1a1a;
+  font:700 12.5px/1 Arial,Helvetica,sans-serif;letter-spacing:.12em}
+.ml-brand img{width:22px;height:22px;display:block}
+.ml-links{display:flex;flex-wrap:wrap;gap:8px 20px}
+.ml-links a{color:#6b6b6b;text-decoration:none;font-size:12.5px}
+.ml-links a:hover{color:#1a1a1a}
+.ml-links a[aria-current]{color:#500000;font-weight:700}
+.ml-foot{border-top:1px solid #e2e0e0;margin-top:48px;background:#fff;
+  font:400 12.5px/1.6 Arial,Helvetica,sans-serif;color:#6b6b6b}
+.ml-foot-in{max-width:1180px;margin:0 auto;padding:22px 28px 48px;display:flex;flex-wrap:wrap;
+  align-items:center;justify-content:space-between;gap:12px}
+.ml-foot a,.ml-foot button{color:#500000;font-weight:700;text-decoration:none;font:inherit;
+  background:none;border:0;padding:0;cursor:pointer}
+.ml-foot a:hover,.ml-foot button:hover{text-decoration:underline}
 .ml-foot form{margin:0}
-@media print{.ml-bar,.ml-foot{display:none}}
-@media (max-width:640px){
-  .ml-bar{flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:10px}
-  .ml-bar .ml-note{order:3;flex-basis:100%;text-align:left;line-height:1.5}
-}
+.ml-f-links{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+@media print{.ml-head,.ml-foot{display:none}}
 `;
 
-const BAR = `<div class="ml-bar">
-  <a href="${SITE}">&#8592; Back to the site</a>
-  <span class="ml-note">${METHOD_LAB_NOTICE.replace(/&/g, "&amp;")}</span>
-  <a href="/method-lab">Method Lab home</a>
-  <form method="POST" action="/api/method-lab/signout"><button type="submit">&#10005; Exit Method Lab</button></form>
-</div>`;
+/** The Lab's nav, as links. `here` marks the document being viewed. */
+function navLinks(here: string): string {
+  return METHOD_LAB_NAV.map(
+    (i) =>
+      `<a href="${i.href}"${i.href === here ? ' aria-current="page"' : ""}>${esc(i.label)}</a>`
+  ).join("");
+}
 
-const FOOT = `<div class="ml-foot">
-  <span>The Aperture Method&trade; &middot; Method Lab &middot; ${METHOD_LAB_NOTICE.replace(
-    /&/g,
-    "&amp;"
-  )}</span>
+function header(here: string): string {
+  return `<div class="ml-head">
+  <div class="ml-bar">
+    <a href="${SITE}">&#8592; Back to the site</a>
+    <span class="ml-note">${esc(METHOD_LAB_NOTICE)}</span>
+    <form method="POST" action="/api/method-lab/signout"><button type="submit">&#10005; Exit Method Lab</button></form>
+  </div>
+  <div class="ml-nav"><div class="ml-nav-in">
+    <a class="ml-brand" href="/method-lab"><img src="/logo-icon-black.png" alt="">METHOD LAB</a>
+    <nav class="ml-links">${navLinks(here)}</nav>
+  </div></div>
+</div>`;
+}
+
+const FOOT = `<div class="ml-foot"><div class="ml-foot-in">
+  <span>The Aperture Method&trade; &middot; Method Lab &middot; ${esc(METHOD_LAB_NOTICE)}</span>
   <span class="ml-f-links">
     <a href="/method-lab">Method Lab home</a>
     <a href="${SITE}">Back to the site</a>
     <form method="POST" action="/api/method-lab/signout"><button type="submit">Exit Method Lab</button></form>
   </span>
-</div>`;
+</div></div>`;
 
 /** Any bar a document still carries in its own markup. */
 const OLD_BAR = /<div class="confbar"[\s\S]*?<\/div>\s*(?=<)/i;
 
-/** Wraps a Method Lab document in the shared bar and footer. */
-export function withMethodLabChrome(html: string): string {
+/**
+ * Wraps a Method Lab document in the Lab's header and footer.
+ *
+ * `here` is the document's own path, so the nav can mark it as the current one.
+ */
+export function withMethodLabChrome(html: string, here = ""): string {
   let out = html.replace(OLD_BAR, "");
 
-  // After the opening <body …>, whatever attributes it carries.
   const body = /<body[^>]*>/i.exec(out);
   if (body) {
     const at = body.index + body[0].length;
-    out = `${out.slice(0, at)}<style>${CHROME_CSS}</style>${BAR}${out.slice(at)}`;
+    out = `${out.slice(0, at)}<style>${CHROME_CSS}</style>${header(here)}${out.slice(at)}`;
   } else {
-    out = `<style>${CHROME_CSS}</style>${BAR}${out}`;
+    out = `<style>${CHROME_CSS}</style>${header(here)}${out}`;
   }
 
   const close = out.toLowerCase().lastIndexOf("</body>");
@@ -101,11 +120,14 @@ export function withMethodLabChrome(html: string): string {
 }
 
 /**
- * Serves one of the gated documents in `private/method-lab/`, with the shared
- * chrome around it. The files are kept out of `public/` on purpose: anything in
- * `public/` is served statically and cannot be gated by middleware.
+ * Serves one of the gated documents in `private/method-lab/`, inside the Lab's
+ * chrome. The files are kept out of `public/` on purpose: anything in `public/`
+ * is served statically and cannot be gated by middleware.
  */
-export async function serveMethodLabDocument(fileName: string): Promise<NextResponse> {
+export async function serveMethodLabDocument(
+  fileName: string,
+  here = ""
+): Promise<NextResponse> {
   if (!methodLabConfigured) {
     return new NextResponse("Not found", { status: 404 });
   }
@@ -114,7 +136,7 @@ export async function serveMethodLabDocument(fileName: string): Promise<NextResp
 
   try {
     const html = await fs.readFile(file, "utf8");
-    return new NextResponse(withMethodLabChrome(html), {
+    return new NextResponse(withMethodLabChrome(html, here), {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
         "X-Robots-Tag": NO_INDEX,

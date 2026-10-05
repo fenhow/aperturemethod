@@ -21,5 +21,5 @@ export const dynamic = "force-dynamic";
  * every document in the Lab opens with the same chrome and the same wording.
  */
 export async function GET() {
-  return serveMethodLabDocument("filings.html");
+  return serveMethodLabDocument("filings.html", "/method-lab/filings");
 }

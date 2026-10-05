@@ -5,6 +5,7 @@ import { OG_IMAGE, ldOrganization, ldWebsite } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { CookieConsent } from "@/components/consent/CookieConsent";
 import { CreatorMark } from "@/components/layout/CreatorMark";
 import { Analytics } from "@/components/analytics/Analytics";
@@ -106,7 +107,9 @@ export default function RootLayout({
         <main id="main" className="flex-1">
           {children}
         </main>
-        <Footer />
+        <SiteChrome>
+          <Footer />
+        </SiteChrome>
         <CookieConsent />
         <CreatorMark />
         <Analytics />

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { Section } from "@/components/ui/Section";
-import { MethodLabBar, MethodLabFooter } from "@/components/methodlab/MethodLabChrome";
 import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
 import { EXCLUDE_REASONS, MIN_SECONDS } from "@/lib/realityStudyStats";
 import { ctToday, loadSite, parseRange, type SiteStats } from "@/lib/websiteCheckStats";
@@ -57,10 +56,7 @@ export default async function WebsiteCheckPage({ searchParams }: { searchParams:
     loadError = e instanceof Error ? e.message : "Could not read the responses table.";
   }
 
-  /* The Lab bar and footer, same wording as every gated document. */
   return (
-    <>
-      <MethodLabBar />
     <Section className="pt-28 md:pt-36">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -95,8 +91,6 @@ export default async function WebsiteCheckPage({ searchParams }: { searchParams:
         )}
       </div>
     </Section>
-      <MethodLabFooter />
-    </>
   );
 }
 

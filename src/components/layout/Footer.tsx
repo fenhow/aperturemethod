@@ -122,15 +122,10 @@ export function Footer() {
             >
               Client login
             </Link>
-            {/* Private area, passphrase-gated, unlinked from the main nav and
-                excluded from the sitemap. rel="nofollow" keeps crawlers off it. */}
-            <Link
-              href="/method-lab"
-              rel="nofollow"
-              className="-my-2 py-2 text-white/60 transition-colors duration-fast hover:text-white"
-            >
-              Method Lab
-            </Link>
+            {/* The Method Lab used to hang here. Oct 2026: the Lab is a separate
+                place with its own header, footer and navigation, and the website
+                no longer points at it. Anyone who belongs in there knows the URL
+                and has the passphrase. */}
             <CookiePreferencesButton className="-my-2 py-2 text-white/60 transition-colors duration-fast hover:text-white" />
             <p>{siteConfig.tagline}</p>
           </div>

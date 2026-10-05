@@ -45,6 +45,7 @@ export async function POST(request: Request) {
     durationS?: number;
     repeat?: boolean;
     profile?: unknown;
+    referrer?: string;
   };
   try {
     body = (await request.json()) as typeof body;
@@ -85,8 +86,16 @@ export async function POST(request: Request) {
 
   const sent = await sendEmail({
     to: NOTIFY_EMAIL,
-    subject: `Clarity Check completed (anonymous): ${result.score}/100, ${result.band.name}`,
-    html: completionHtml(result, answers),
+    subject: `${body.cohort === "study" ? "Survey response" : "Clarity Check (website)"} completed (anonymous): ${result.score}/100, ${result.band.name}`,
+    html: completionHtml(result, answers, {
+      survey: body.cohort === "study",
+      referrer: typeof body.referrer === "string" ? body.referrer : null,
+      source: cleanTag(body.source),
+      medium: cleanTag(body.medium),
+      campaign: cleanTag(body.campaign),
+      durationS: typeof body.durationS === "number" ? Math.round(body.durationS) : null,
+      repeat: body.repeat === true,
+    }),
   });
   if (!sent.ok) console.error("[reality-check] completion alert failed:", sent.error);
 

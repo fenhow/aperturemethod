@@ -40,7 +40,7 @@ export function RealityCheck({
   const [selfRating, setSelfRating] = useState<number | null>(null);
   const runId = useRef<string>("");
   const startedAt = useRef<number>(0);
-  const tags = useRef<{ source?: string; medium?: string; campaign?: string; repeat?: boolean }>({});
+  const tags = useRef<{ source?: string; medium?: string; campaign?: string; repeat?: boolean; referrer?: string }>({});
 
   // Where the visitor came from (UTM or ?src=), and whether this browser has
   // already finished the study once. Both are stored, neither blocks anyone.
@@ -52,6 +52,8 @@ export function RealityCheck({
         medium: u.get("utm_medium") ?? undefined,
         campaign: u.get("utm_campaign") ?? undefined,
         repeat: study ? window.localStorage.getItem(STUDY_DONE_KEY) === "1" : false,
+        // The site they arrived from, for the alert email only (not stored).
+        referrer: document.referrer ? document.referrer.slice(0, 300) : undefined,
       };
     } catch {
       /* storage blocked: fine */

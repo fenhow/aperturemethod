@@ -357,7 +357,55 @@ export function ownerHtml(
  * to know whether the questions are the right ones. It is not a lead: when
  * someone does give their details, the separate lead alert follows.
  */
-export function completionHtml(result: RCResult, answers: Record<string, number>): string {
+export type CompletionOrigin = {
+  survey: boolean;
+  referrer: string | null;
+  source: string | null;
+  medium: string | null;
+  campaign: string | null;
+  durationS: number | null;
+  repeat: boolean;
+};
+
+/** Plain-English name for the site someone arrived from. */
+function arrivedFrom(referrer: string | null): string {
+  if (!referrer) return "Direct: typed the link, or opened it from an email, text or app";
+  let host = "";
+  try {
+    host = new URL(referrer).hostname.replace(/^www\./, "");
+  } catch {
+    return "Unknown";
+  }
+  if (host.endsWith("aperturemethod.com")) return "Another page on your website";
+  if (host.includes("linkedin") || host === "lnkd.in") return "LinkedIn";
+  if (host.includes("google.")) return "Google";
+  if (host.includes("bing.")) return "Bing";
+  if (host.includes("facebook") || host === "fb.com" || host === "l.facebook.com") return "Facebook";
+  if (host.includes("instagram")) return "Instagram";
+  if (host === "t.co" || host.includes("twitter") || host === "x.com") return "X (Twitter)";
+  if (host.includes("outlook") || host.includes("mail.")) return `Web email (${host})`;
+  return host;
+}
+
+function originBlock(o: CompletionOrigin): string {
+  const row = (k: string, v: string) =>
+    `<tr><td style="padding:4px 14px 4px 0;font-size:13px;color:${GRAY};white-space:nowrap;vertical-align:top">${k}</td><td style="padding:4px 0;font-size:13px;color:${INK}"><strong>${esc(v)}</strong></td></tr>`;
+  const tag = [o.source, o.medium, o.campaign].filter(Boolean).join(" / ");
+  const mins = o.durationS === null ? null : o.durationS < 60 ? `${o.durationS} seconds` : `${Math.floor(o.durationS / 60)} min ${o.durationS % 60} s`;
+  return `<table style="border-collapse:collapse;margin:0 0 16px;background:#F6F1EF;border-left:3px solid ${MAROON}">
+    <tr><td style="padding:10px 14px">
+      <table style="border-collapse:collapse">
+        ${row("Where", o.survey ? "Capstone survey (aperturemethod.com/study)" : "Website Clarity Check (not the survey)")}
+        ${row("Arrived from", arrivedFrom(o.referrer))}
+        ${tag ? row("Link tag", tag) : ""}
+        ${mins ? row("Time taken", mins) : ""}
+        ${o.repeat ? row("Note", "This browser has finished the survey before") : ""}
+      </table>
+    </td></tr>
+  </table>`;
+}
+
+export function completionHtml(result: RCResult, answers: Record<string, number>, origin?: CompletionOrigin): string {
   return `<div style="font-family:Arial,Helvetica,sans-serif;color:${INK};max-width:660px">
     <p style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${MAROON};font-weight:700;margin:0">
       Clarity Check: completed, anonymous
@@ -367,6 +415,7 @@ export function completionHtml(result: RCResult, answers: Record<string, number>
       reply to here. If they ask for the written breakdown, a separate alert follows with their name
       and email.
     </p>
+    ${origin ? originBlock(origin) : ""}
     <p style="font-size:16px;margin:0 0 6px">
       <strong>${result.score}/100 &middot; ${esc(result.band.name)}</strong>
     </p>

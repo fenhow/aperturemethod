@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
 import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
 import { questions } from "@/lib/realityCheck";
-import { siteExclusion, type SiteRow } from "@/lib/websiteCheckStats";
+import { parseRange, siteExclusion, type SiteRow } from "@/lib/websiteCheckStats";
 
 /**
  * /method-lab/website/export — every website Clarity Check row (cohort 'site')
@@ -30,23 +30,31 @@ const ct = (iso: string | undefined | null, part: "date" | "time" | "both") => {
   return part === "date" ? date : part === "time" ? time : `${date} ${time}`;
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   if (!(await hasMethodLabAccess(cookies().get(METHOD_LAB_COOKIE)?.value))) {
     return NextResponse.json({ ok: false }, { status: 403 });
   }
   if (!serviceRoleConfigured) return NextResponse.json({ ok: false, message: "Service key not set." }, { status: 503 });
 
-  const { data, error } = await createAdminClient()
+  const q = new URL(request.url).searchParams;
+  const range = parseRange({ range: q.get("range") ?? undefined, from: q.get("from") ?? undefined, to: q.get("to") ?? undefined });
+  const query = createAdminClient()
     .from("reality_check_responses")
     .select("*")
     .eq("cohort", "site")
     .order("created_at", { ascending: true })
     .limit(10000);
+  const { data: raw, error } = await query;
   if (error) return NextResponse.json({ ok: false, message: error.message }, { status: 500 });
 
   const header = ["counted", "excluded_reason", "date_ct", "time_ct", "excluded_at_ct", ...COLS, ...questions.map((q) => `q_${q.id}`)];
   const lines = [header.join(",")];
-  for (const r of (data ?? []) as SiteRow[]) {
+  // Same calendar-day filter as the dashboard, in Central time.
+  const inRange = (r: SiteRow) => {
+    const day = new Date(r.created_at).toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
+    return (!range.from || day >= range.from) && (!range.to || day <= range.to);
+  };
+  for (const r of ((raw ?? []) as SiteRow[]).filter(inRange)) {
     const why = siteExclusion(r);
     lines.push(
       [

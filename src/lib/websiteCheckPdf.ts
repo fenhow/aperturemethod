@@ -10,7 +10,7 @@ export async function generateWebsiteReportPdf(s: SiteStats): Promise<{ bytes: U
   const now = new Date();
   const asOf = now.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "America/Chicago" });
   const d = new Report();
-  await d.init("Website results · aperturemethod.com/clarity-check", asOf, `${s.n} completed · ${s.last30} in the last 30 days`, "Website Clarity Check");
+  await d.init(`${s.range.label} · aperturemethod.com/clarity-check`, asOf, `${s.n} completed in this range`, "Website Clarity Check");
 
   d.section("Summary", 80);
   if (s.n === 0) {
@@ -20,7 +20,7 @@ export async function generateWebsiteReportPdf(s: SiteStats): Promise<{ bytes: U
     const spot = s.blindSpots[0];
     d.para(
       [
-        `${s.n} visitors completed the free Clarity Check on the website (${s.last7} in the last 7 days, ${s.last30} in the last 30).`,
+        `${s.n} visitors completed the free Clarity Check on the website (${s.range.label.toLowerCase()}).`,
         `Their average Clarity Score was ${r0(s.meanScore)} out of 100 (median ${r0(s.medianScore)}), and on average they could not answer ${r1(s.meanGaps)} of the ${questions.length} questions with confidence.`,
         top ? `The question visitors were least able to answer was "${top.area}": ${r0(top.pct)}% could not answer it with confidence.` : "",
         spot ? `The most common biggest blind spot was ${spot.area} (${spot.n} of ${s.n}).` : "",
@@ -38,8 +38,8 @@ export async function generateWebsiteReportPdf(s: SiteStats): Promise<{ bytes: U
       },
     ]);
 
-    d.section("Completions per week (last 12 weeks)", 150);
-    d.y -= d.histogram(s.weekly.map((w) => ({ label: w.label, n: w.n })), M, CW) + 6;
+    d.section(s.trendUnit === "day" ? "Completions per day" : "Completions per week", 150);
+    d.y -= d.histogram(s.trend, M, CW) + 6;
 
     d.section("Clarity Score distribution", 150);
     d.y -= d.histogram(s.histogram, M, CW) + 6;

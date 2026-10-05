@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
   const result = scoreAnswers(answers);
 
-  await store(body, answers, result);
+  const saved = await store(body, answers, result);
 
   // Follow-ups update the stored row only; the alert went already.
   if (body.stage === "profile" || body.stage === "pricing") return NextResponse.json({ ok: true });
@@ -95,6 +95,7 @@ export async function POST(request: Request) {
       campaign: cleanTag(body.campaign),
       durationS: typeof body.durationS === "number" ? Math.round(body.durationS) : null,
       repeat: body.repeat === true,
+      saved,
     }),
   });
   if (!sent.ok) console.error("[reality-check] completion alert failed:", sent.error);
@@ -118,10 +119,10 @@ async function store(
   },
   answers: Record<string, number>,
   result: ReturnType<typeof scoreAnswers>
-) {
+): Promise<string | null> {
   if (!serviceRoleConfigured || typeof body.runId !== "string" || !UUID_RE.test(body.runId)) {
     console.info("[reality-check] response not stored (no run id or Supabase not configured)");
-    return;
+    return !serviceRoleConfigured ? "Supabase service key not set" : "No run id from the browser";
   }
   const profile = body.stage === "profile" ? cleanProfile(body.profile) : {};
   const duration =
@@ -169,8 +170,13 @@ async function store(
       delete rest.wtp_version;
       ({ error } = await createAdminClient().from("reality_check_responses").upsert(rest, { onConflict: "run_id" }));
     }
-    if (error) console.error("[reality-check] store failed:", error.message);
+    if (error) {
+      console.error("[reality-check] store failed:", error.message);
+      return error.message;
+    }
+    return null;
   } catch (err) {
     console.error("[reality-check] store threw:", err);
+    return err instanceof Error ? err.message : "Unknown error";
   }
 }

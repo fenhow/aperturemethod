@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { Section } from "@/components/ui/Section";
 import { METHOD_LAB_COOKIE, hasMethodLabAccess } from "@/lib/methodLab";
 import { EXCLUDE_REASONS, MIN_SECONDS } from "@/lib/realityStudyStats";
-import { loadSite, type SiteStats } from "@/lib/websiteCheckStats";
+import { ctToday, loadSite, parseRange, type SiteStats } from "@/lib/websiteCheckStats";
 import { ExcludeControl } from "@/components/reality/ExcludeControl";
 import { sourceLabel } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
@@ -23,7 +23,18 @@ const f0 = (x: number | null | undefined) => (x === null || x === undefined ? "�
 const f1 = (x: number | null | undefined) => (x === null || x === undefined ? "—" : x.toFixed(1));
 const tag = (v: string | null | undefined) => (v ? sourceLabel(v) : "No link tag");
 
-export default async function WebsiteCheckPage({ searchParams }: { searchParams: { all?: string } }) {
+type Search = { all?: string; range?: string; from?: string; to?: string };
+
+/** The range part of the query string, so the PDF, CSV and "show all" keep it. */
+function rangeQs(q: Search, extra?: Record<string, string>) {
+  const p = new URLSearchParams();
+  for (const k of ["range", "from", "to"] as const) if (q[k]) p.set(k, q[k]!);
+  for (const [k, v] of Object.entries(extra ?? {})) p.set(k, v);
+  const out = p.toString();
+  return out ? `?${out}` : "";
+}
+
+export default async function WebsiteCheckPage({ searchParams }: { searchParams: Search }) {
   if (!(await hasMethodLabAccess(cookies().get(METHOD_LAB_COOKIE)?.value))) {
     return (
       <Section className="pt-28 md:pt-36">
@@ -40,7 +51,7 @@ export default async function WebsiteCheckPage({ searchParams }: { searchParams:
   let s: SiteStats | null = null;
   let loadError: string | null = null;
   try {
-    s = await loadSite();
+    s = await loadSite(parseRange(searchParams));
   } catch (e) {
     loadError = e instanceof Error ? e.message : "Could not read the responses table.";
   }
@@ -59,8 +70,8 @@ export default async function WebsiteCheckPage({ searchParams }: { searchParams:
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href="/method-lab/website/report" target="_blank" rel="noopener" className="btn">Download PDF report</a>
-            <a href="/method-lab/website/export" className="btn--secondary">Download CSV</a>
+            <a href={`/method-lab/website/report${rangeQs(searchParams)}`} target="_blank" rel="noopener" className="btn">Download PDF report</a>
+            <a href={`/method-lab/website/export${rangeQs(searchParams)}`} className="btn--secondary">Download CSV</a>
             <Link href="/clarity-check" className="btn--secondary">Open the Clarity Check</Link>
             <a href="/method-lab/study" className="btn--secondary">Survey dashboard</a>
             <a href="/method-lab" className="btn--secondary">Method Lab</a>
@@ -76,19 +87,27 @@ export default async function WebsiteCheckPage({ searchParams }: { searchParams:
             <p className="text-body text-muted">Set SUPABASE_SERVICE_ROLE_KEY on Vercel to read the responses.</p>
           </Panel>
         ) : (
-          <Dashboard s={s} showAll={searchParams.all === "1"} />
+          <Dashboard s={s} q={searchParams} />
         )}
       </div>
     </Section>
   );
 }
 
-function Dashboard({ s, showAll }: { s: SiteStats; showAll: boolean }) {
+function Dashboard({ s, q }: { s: SiteStats; q: Search }) {
+  const showAll = q.all === "1";
   return (
     <>
+      <RangeBar q={q} label={s.range.label} />
+      <p className="mt-3 text-caption text-muted">
+        {s.firstStored && s.lastStored
+          ? `Saving since ${stampDate(s.firstStored)}. Latest response saved ${stampDate(s.lastStored)}, ${stampTime(s.lastStored)}.`
+          : "Nothing saved yet."}{" "}
+        Every completion email now says whether that response was saved.
+      </p>
       {/* ───────── headline */}
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Tile label="Completed" value={String(s.n)} sub={`${s.last7} in the last 7 days · ${s.last30} in the last 30`} />
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Tile label="Completed" value={String(s.n)} sub={`${s.range.label} · ${s.last7} in the last 7 days, ${s.last30} in the last 30`} />
         <Tile label="Average Clarity Score" value={f0(s.meanScore)} sub={`Median ${f0(s.medianScore)}`} />
         <Tile label="Questions they could not answer" value={f1(s.meanGaps)} sub={`On average, of ${questions.length}`} />
         <Tile
@@ -106,13 +125,17 @@ function Dashboard({ s, showAll }: { s: SiteStats; showAll: boolean }) {
 
       {s.n === 0 ? (
         <Panel title="No website completions yet">
-          <p className="text-body text-muted">Completed runs of /clarity-check will appear here.</p>
+          <p className="text-body text-muted">
+            {s.range.label === "All time" ? "Completed runs of /clarity-check will appear here." : "Nothing in this date range. Try a wider one."}
+          </p>
         </Panel>
       ) : (
         <>
-          <Panel title="Completions per week">
-            <WeekChart data={s.weekly} />
-            <p className="mt-3 text-caption text-muted">Last 12 weeks, Monday to Sunday, Central time.</p>
+          <Panel title={s.trendUnit === "day" ? "Completions per day" : "Completions per week"}>
+            <WeekChart data={s.trend} />
+            <p className="mt-3 text-caption text-muted">
+              {s.trendUnit === "day" ? "Each bar is one day" : "Each bar is a week, Monday to Sunday (latest 26 weeks at most)"}, Central time.
+            </p>
           </Panel>
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -220,7 +243,7 @@ function Dashboard({ s, showAll }: { s: SiteStats; showAll: boolean }) {
         </div>
         {s.recent.length > 25 ? (
           <p className="mt-4 text-small">
-            <Link href={showAll ? "/method-lab/website" : "/method-lab/website?all=1"} className="font-semibold text-maroon hover:underline">
+            <Link href={`/method-lab/website${showAll ? rangeQs(q) : rangeQs(q, { all: "1" })}`} className="font-semibold text-maroon hover:underline">
               {showAll ? "Show the latest 25 only" : `Show all ${s.recent.length} responses`}
             </Link>
           </p>
@@ -231,6 +254,47 @@ function Dashboard({ s, showAll }: { s: SiteStats; showAll: boolean }) {
 }
 
 /* ───────────────────────── pieces */
+
+function RangeBar({ q, label }: { q: Search; label: string }) {
+  const chip = (on: boolean) =>
+    `whitespace-nowrap rounded-full border px-3 py-1 text-[13px] transition-colors ${on ? "border-maroon bg-maroon text-white" : "border-line text-ink hover:border-maroon"}`;
+  const custom = Boolean(q.from || q.to);
+  const presets: { key: string; text: string }[] = [
+    { key: "7", text: "Last 7 days" },
+    { key: "30", text: "Last 30 days" },
+    { key: "90", text: "Last 90 days" },
+    { key: "365", text: "Last 12 months" },
+    { key: "", text: "All time" },
+  ];
+  return (
+    <div className="mt-8 rounded-lg border border-line bg-surface p-4 sm:p-5">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="w-full shrink-0 text-[11px] font-semibold uppercase tracking-overline text-muted sm:w-24">Date range</span>
+        {presets.map((p) => (
+          <Link
+            key={p.text}
+            href={p.key ? `/method-lab/website?range=${p.key}` : "/method-lab/website"}
+            className={chip(!custom && (q.range ?? "") === p.key)}
+          >
+            {p.text}
+          </Link>
+        ))}
+      </div>
+      <form method="get" action="/method-lab/website" className="mt-3 flex flex-wrap items-center gap-2 text-[13px] sm:pl-[104px]">
+        <label className="flex items-center gap-2 text-muted">
+          From
+          <input type="date" name="from" defaultValue={q.from ?? ""} max={ctToday()} className="rounded border border-line bg-white px-2 py-1 text-ink" />
+        </label>
+        <label className="flex items-center gap-2 text-muted">
+          to
+          <input type="date" name="to" defaultValue={q.to ?? ""} max={ctToday()} className="rounded border border-line bg-white px-2 py-1 text-ink" />
+        </label>
+        <button type="submit" className={chip(custom)}>Apply</button>
+        <span className="text-caption text-muted">Showing: <strong className="text-ink">{label}</strong></span>
+      </form>
+    </div>
+  );
+}
 
 function stampDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "America/Chicago" });

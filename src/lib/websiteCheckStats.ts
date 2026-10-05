@@ -16,13 +16,52 @@ import { MIN_SECONDS, type StudyRow } from "@/lib/realityStudyStats";
 
 export type SiteRow = StudyRow;
 
+/** A date range from the dashboard, as Central-time calendar days (YYYY-MM-DD). */
+export type SiteRange = { from?: string; to?: string; label: string };
+
+const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** Epoch ms of midnight Central time on a YYYY-MM-DD day (DST-safe). */
+function ctMidnight(day: string): number {
+  const [y, m, d] = day.split("-").map(Number) as [number, number, number];
+  const guess = Date.UTC(y, m - 1, d, 6); // midnight CST
+  const h = Number(new Date(guess).toLocaleString("en-US", { timeZone: "America/Chicago", hour: "numeric", hour12: false }));
+  return h === 1 ? guess - 3_600_000 : guess; // CDT: midnight is an hour earlier
+}
+
+/** Today in Central time as YYYY-MM-DD. */
+export function ctToday(now = Date.now()): string {
+  return new Date(now).toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
+}
+
+/** Turns ?range= / ?from= / ?to= into a range. Default: all time. */
+export function parseRange(q: { range?: string; from?: string; to?: string }, now = Date.now()): SiteRange {
+  const from = q.from && DAY_RE.test(q.from) ? q.from : undefined;
+  const to = q.to && DAY_RE.test(q.to) ? q.to : undefined;
+  if (from || to) {
+    const fmt = (d: string) => new Date(ctMidnight(d) + 12 * 3_600_000).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "America/Chicago" });
+    return { from, to, label: `${from ? fmt(from) : "Start"} to ${to ? fmt(to) : "today"}` };
+  }
+  const days = Number(q.range);
+  if ([7, 30, 90, 365].includes(days)) {
+    const start = ctToday(now - (days - 1) * DAY);
+    return { from: start, label: days === 365 ? "Last 12 months" : `Last ${days} days` };
+  }
+  return { label: "All time" };
+}
+
 export type SiteStats = {
+  range: SiteRange;
+  /** Daily when the range is a month or less, otherwise weekly. */
+  trendUnit: "day" | "week";
+  firstStored: string | null;
+  lastStored: string | null;
   totalRows: number;
   n: number;
   exclusions: { reason: string; count: number }[];
   last7: number;
   last30: number;
-  weekly: { label: string; n: number }[];
+  trend: { label: string; n: number }[];
   meanScore: number | null;
   medianScore: number | null;
   meanGaps: number | null;
@@ -60,9 +99,14 @@ function weekStart(t: number): number {
   return ct.getTime() - dow * DAY;
 }
 
-export function computeSite(all: SiteRow[], now = Date.now()): SiteStats {
+export function computeSite(allRows: SiteRow[], range: SiteRange = { label: "All time" }, now = Date.now()): SiteStats {
+  const time = (r: SiteRow) => new Date(r.created_at).getTime();
+  const lo = range.from ? ctMidnight(range.from) : -Infinity;
+  const hi = range.to ? ctMidnight(range.to) + DAY : Infinity;
+  const all = allRows.filter((r) => time(r) >= lo && time(r) < hi);
   const tagged = all.map((r) => ({ ...r, excluded: siteExclusion(r) }));
   const rows = tagged.filter((r) => !r.excluded);
+  const countedEver = allRows.filter((r) => !siteExclusion(r));
   const n = rows.length;
   const scores = rows.map((r) => r.score);
 
@@ -73,13 +117,25 @@ export function computeSite(all: SiteRow[], now = Date.now()): SiteStats {
     exMap.set(key, (exMap.get(key) ?? 0) + 1);
   }
 
-  const time = (r: SiteRow) => new Date(r.created_at).getTime();
-  const thisWeek = weekStart(now);
-  const weekly = Array.from({ length: 12 }, (_, i) => {
-    const start = thisWeek - (11 - i) * 7 * DAY;
-    const label = new Date(start).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-    return { label, n: rows.filter((r) => weekStart(time(r)) === start).length };
-  });
+  // Trend: from the range start (or the first response) to the range end (or now).
+  const firstTs = allRows.length ? Math.min(...allRows.map(time)) : now;
+  const startTs = Number.isFinite(lo) ? lo : Math.min(firstTs, now - 11 * 7 * DAY);
+  const endTs = Number.isFinite(hi) ? Math.min(hi - 1, now) : now;
+  const trendUnit: "day" | "week" = endTs - startTs <= 31 * DAY ? "day" : "week";
+  const dayKey = (t: number) => ctToday(t);
+  const short = (t: number) => new Date(t).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "America/Chicago" });
+  let trend: { label: string; n: number }[];
+  if (trendUnit === "day") {
+    // Step a day at a time and de-duplicate, so a DST change never doubles or drops a day.
+    const keys = new Map<string, number>();
+    for (let t = startTs; dayKey(t) <= dayKey(endTs); t += DAY) keys.set(dayKey(t), t);
+    keys.set(dayKey(endTs), endTs);
+    trend = [...keys].map(([key, t]) => ({ label: short(t), n: rows.filter((r) => dayKey(time(r)) === key).length }));
+  } else {
+    const weeks: number[] = [];
+    for (let w = weekStart(startTs); w <= weekStart(endTs); w += 7 * DAY) weeks.push(w);
+    trend = weeks.slice(-26).map((w) => ({ label: short(w + 12 * 3_600_000), n: rows.filter((r) => weekStart(time(r)) === w).length }));
+  }
 
   const byQuestion = questions
     .map((q) => {
@@ -92,13 +148,18 @@ export function computeSite(all: SiteRow[], now = Date.now()): SiteStats {
   const srcMap = new Map<string | null, number>();
   for (const r of rows) srcMap.set(r.source ?? null, (srcMap.get(r.source ?? null) ?? 0) + 1);
 
+  const stamps = allRows.map(time);
   return {
+    range,
+    trendUnit,
+    firstStored: stamps.length ? new Date(Math.min(...stamps)).toISOString() : null,
+    lastStored: stamps.length ? new Date(Math.max(...stamps)).toISOString() : null,
     totalRows: all.length,
     n,
     exclusions: [...exMap].map(([reason, count]) => ({ reason, count })),
-    last7: rows.filter((r) => now - time(r) < 7 * DAY).length,
-    last30: rows.filter((r) => now - time(r) < 30 * DAY).length,
-    weekly,
+    last7: countedEver.filter((r) => now - time(r) < 7 * DAY).length,
+    last30: countedEver.filter((r) => now - time(r) < 30 * DAY).length,
+    trend,
     meanScore: mean(scores),
     medianScore: median(scores),
     meanGaps: mean(rows.map((r) => r.gaps)),
@@ -123,7 +184,7 @@ export function computeSite(all: SiteRow[], now = Date.now()): SiteStats {
 }
 
 /** Null when the service key is not set; throws on a database error. */
-export async function loadSite(): Promise<SiteStats | null> {
+export async function loadSite(range?: SiteRange): Promise<SiteStats | null> {
   if (!serviceRoleConfigured) return null;
   const { data, error } = await createAdminClient()
     .from("reality_check_responses")
@@ -132,5 +193,5 @@ export async function loadSite(): Promise<SiteStats | null> {
     .order("created_at", { ascending: true })
     .limit(10000);
   if (error) throw new Error(error.message);
-  return computeSite((data ?? []) as SiteRow[]);
+  return computeSite((data ?? []) as SiteRow[], range);
 }

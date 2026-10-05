@@ -365,6 +365,8 @@ export type CompletionOrigin = {
   campaign: string | null;
   durationS: number | null;
   repeat: boolean;
+  /** Null when the response was stored; otherwise why it was not. */
+  saved?: string | null;
 };
 
 /** Plain-English name for the site someone arrived from. */
@@ -392,6 +394,12 @@ function originBlock(o: CompletionOrigin): string {
     `<tr><td style="padding:4px 14px 4px 0;font-size:13px;color:${GRAY};white-space:nowrap;vertical-align:top">${k}</td><td style="padding:4px 0;font-size:13px;color:${INK}"><strong>${esc(v)}</strong></td></tr>`;
   const tag = [o.source, o.medium, o.campaign].filter(Boolean).join(" / ");
   const mins = o.durationS === null ? null : o.durationS < 60 ? `${o.durationS} seconds` : `${Math.floor(o.durationS / 60)} min ${o.durationS % 60} s`;
+  const savedRow =
+    o.saved === undefined
+      ? ""
+      : o.saved === null
+        ? row("Saved", "Yes, it is on your dashboard")
+        : `<tr><td style="padding:4px 14px 4px 0;font-size:13px;color:#b00020;white-space:nowrap;vertical-align:top">Saved</td><td style="padding:4px 0;font-size:13px;color:#b00020"><strong>NO. Not saved to the dashboard: ${esc(o.saved)}</strong></td></tr>`;
   return `<table style="border-collapse:collapse;margin:0 0 16px;background:#F6F1EF;border-left:3px solid ${MAROON}">
     <tr><td style="padding:10px 14px">
       <table style="border-collapse:collapse">
@@ -400,6 +408,7 @@ function originBlock(o: CompletionOrigin): string {
         ${tag ? row("Link tag", tag) : ""}
         ${mins ? row("Time taken", mins) : ""}
         ${o.repeat ? row("Note", "This browser has finished the survey before") : ""}
+        ${savedRow}
       </table>
     </td></tr>
   </table>`;

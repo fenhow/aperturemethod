@@ -32,35 +32,62 @@ const SITE = "https://www.aperturemethod.com/";
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
 const CHROME_CSS = `
-.ml-head{position:sticky;top:0;z-index:2147483000;font:400 13px/1.5 Arial,Helvetica,sans-serif}
-.ml-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;background:#500000;color:#fff;
-  padding:7px 16px;font:700 11px/1.4 Arial,Helvetica,sans-serif;letter-spacing:.14em;text-transform:uppercase}
-.ml-bar a,.ml-bar button{font:inherit;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.5);
-  border-radius:3px;padding:4px 11px;text-decoration:none;white-space:nowrap;cursor:pointer;
-  transition:background .15s,border-color .15s}
+/*
+ * Reset first, then build.
+ *
+ * These documents are self-contained pages written at different times, each with
+ * its own stylesheet: one sets a 14px body, another 15px, several style bare
+ * <a>, <nav>, <form> and <img>. Left to inherit, the same bar came out 84px tall
+ * on one document and 114px on the next, because the navigation wrapped to two
+ * lines inside a container the document had re-margined. So every element of the
+ * chrome is stripped back with all:unset and then given explicit values; nothing
+ * is inherited from the document except what is set here.
+ */
+.ml-head,.ml-head *,.ml-foot,.ml-foot *{all:unset;box-sizing:border-box}
+.ml-head,.ml-foot{display:block;font-family:Arial,Helvetica,sans-serif;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%}
+.ml-head{position:sticky;top:0;z-index:2147483000;isolation:isolate}
+.ml-bar{display:flex;flex-wrap:nowrap;align-items:center;gap:16px;background:#500000;color:#fff;
+  padding:0 16px;min-height:38px;font-size:11px;line-height:1.3;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase}
+.ml-bar a,.ml-bar button{display:inline-block;font-size:11px;line-height:1.3;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:#fff;background:transparent;
+  border:1px solid rgba(255,255,255,.5);border-radius:3px;padding:4px 11px;white-space:nowrap;
+  cursor:pointer;text-decoration:none}
 .ml-bar a:hover,.ml-bar button:hover{background:rgba(255,255,255,.14);border-color:#fff}
-.ml-bar form{margin:0}
-.ml-bar .ml-note{flex:1;text-align:center;min-width:220px}
-.ml-nav{background:#fff;border-bottom:1px solid #e2e0e0}
-.ml-nav-in{max-width:1180px;margin:0 auto;padding:11px 28px;display:flex;flex-wrap:wrap;
-  align-items:center;gap:10px 24px}
-.ml-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#1a1a1a;
-  font:700 12.5px/1 Arial,Helvetica,sans-serif;letter-spacing:.12em}
-.ml-brand img{width:22px;height:22px;display:block}
-.ml-links{display:flex;flex-wrap:wrap;gap:8px 20px}
-.ml-links a{color:#6b6b6b;text-decoration:none;font-size:12.5px}
+.ml-bar form{display:block;flex:0 0 auto}
+.ml-bar .ml-note{flex:1 1 auto;text-align:center;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.ml-nav{display:block;background:#fff;border-bottom:1px solid #e2e0e0}
+.ml-nav-in{display:flex;flex-wrap:nowrap;align-items:center;gap:24px;max-width:1180px;
+  width:100%;margin:0 auto;padding:9px 16px;min-height:44px}
+.ml-brand{display:flex;align-items:center;gap:9px;flex:0 0 auto;color:#1a1a1a;font-size:12.5px;
+  line-height:1;font-weight:700;letter-spacing:.12em;text-decoration:none;cursor:pointer}
+.ml-brand img{display:block;width:21px;height:21px;flex:0 0 auto}
+/* One line, always. Too many links for the width scrolls sideways inside the
+   nav rather than growing the header and shifting the page under it. */
+.ml-links{display:flex;flex-wrap:nowrap;align-items:center;gap:20px;overflow-x:auto;
+  scrollbar-width:none;min-width:0}
+.ml-links::-webkit-scrollbar{display:none}
+.ml-links a{display:block;color:#6b6b6b;font-size:12.5px;line-height:1.3;white-space:nowrap;
+  text-decoration:none;cursor:pointer}
 .ml-links a:hover{color:#1a1a1a}
 .ml-links a[aria-current]{color:#500000;font-weight:700}
-.ml-foot{border-top:1px solid #e2e0e0;margin-top:48px;background:#fff;
-  font:400 12.5px/1.6 Arial,Helvetica,sans-serif;color:#6b6b6b}
-.ml-foot-in{max-width:1180px;margin:0 auto;padding:22px 28px 48px;display:flex;flex-wrap:wrap;
-  align-items:center;justify-content:space-between;gap:12px}
-.ml-foot a,.ml-foot button{color:#500000;font-weight:700;text-decoration:none;font:inherit;
-  background:none;border:0;padding:0;cursor:pointer}
+.ml-foot{border-top:1px solid #e2e0e0;margin-top:48px;background:#fff;color:#6b6b6b;
+  font-size:12.5px;line-height:1.6}
+.ml-foot-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:12px;max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+.ml-foot span{display:inline}
+.ml-foot a,.ml-foot button{display:inline-block;color:#500000;font-size:12.5px;line-height:1.6;
+  font-weight:700;text-decoration:none;cursor:pointer}
 .ml-foot a:hover,.ml-foot button:hover{text-decoration:underline}
-.ml-foot form{margin:0}
+.ml-foot form{display:inline-block}
 .ml-f-links{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
 @media print{.ml-head,.ml-foot{display:none}}
+@media (max-width:720px){
+  .ml-bar .ml-note{display:none}
+  .ml-nav-in{padding-left:12px;padding-right:12px;gap:16px}
+}
 `;
 
 /** The Lab's nav, as links. `here` marks the document being viewed. */
@@ -98,25 +125,58 @@ const FOOT = `<div class="ml-foot"><div class="ml-foot-in">
 const OLD_BAR = /<div class="confbar"[\s\S]*?<\/div>\s*(?=<)/i;
 
 /**
+ * The spans of every <script> block, so a tag written inside JavaScript is never
+ * mistaken for the document's own.
+ *
+ * The Financial Analysis Workbench bundles a spreadsheet library that builds
+ * HTML in strings, and the first "<body>" in that file is 500KB of JavaScript
+ * deep. Injecting there put the Lab header inside a string literal: the header
+ * never appeared, and the only clue was a tool that quietly had no chrome.
+ */
+function scriptSpans(html: string): [number, number][] {
+  const spans: [number, number][] = [];
+  const re = /<script\b[^>]*>[\s\S]*?<\/script\s*>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html))) spans.push([m.index, m.index + m[0].length]);
+  return spans;
+}
+
+const inside = (spans: [number, number][], i: number) =>
+  spans.some(([a, b]) => i > a && i < b);
+
+/** The document's real <body> tag: the first one that is not inside a script. */
+function bodyOpen(html: string, spans: [number, number][]): RegExpExecArray | null {
+  const re = /<body[^>]*>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html))) if (!inside(spans, m.index)) return m;
+  return null;
+}
+
+/** The document's real </body>: the last one that is not inside a script. */
+function bodyClose(html: string, spans: [number, number][]): number {
+  const re = /<\/body\s*>/gi;
+  let at = -1;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html))) if (!inside(spans, m.index)) at = m.index;
+  return at;
+}
+
+/**
  * Wraps a Method Lab document in the Lab's header and footer.
  *
  * `here` is the document's own path, so the nav can mark it as the current one.
  */
 export function withMethodLabChrome(html: string, here = ""): string {
-  let out = html.replace(OLD_BAR, "");
+  const out = html.replace(OLD_BAR, "");
+  const spans = scriptSpans(out);
 
-  const body = /<body[^>]*>/i.exec(out);
-  if (body) {
-    const at = body.index + body[0].length;
-    out = `${out.slice(0, at)}<style>${CHROME_CSS}</style>${header(here)}${out.slice(at)}`;
-  } else {
-    out = `<style>${CHROME_CSS}</style>${header(here)}${out}`;
-  }
+  const open = bodyOpen(out, spans);
+  const at = open ? open.index + open[0].length : 0;
+  const withHead = `${out.slice(0, at)}<style>${CHROME_CSS}</style>${header(here)}${out.slice(at)}`;
 
-  const close = out.toLowerCase().lastIndexOf("</body>");
-  out = close === -1 ? out + FOOT : out.slice(0, close) + FOOT + out.slice(close);
-
-  return out;
+  // The footer goes before the closing tag, measured on the string we now have.
+  const close = bodyClose(withHead, scriptSpans(withHead));
+  return close === -1 ? withHead + FOOT : withHead.slice(0, close) + FOOT + withHead.slice(close);
 }
 
 /**

@@ -32,24 +32,31 @@ export function MethodLabHeader() {
   const pathname = usePathname() ?? "";
   const isPublic = isPublicMethodLabPath(pathname);
 
+  /*
+   * These measurements are deliberate and are matched exactly by the injected
+   * version in src/lib/methodLabChrome.ts: a 38px notice bar over a 44px nav
+   * row, 11px and 12.5px type, one line of links that scrolls sideways rather
+   * than wrapping. Before this, a React page in the Lab wore a 169px header and
+   * a document wore an 83px one, so moving between them jumped the page.
+   */
   return (
     <header className="sticky top-0 z-50">
       {/* Row 1: what this place is. */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 bg-maroon px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-paper">
+      <div className="flex min-h-[38px] flex-nowrap items-center gap-4 bg-maroon px-4 text-[11px] font-bold uppercase leading-[1.3] tracking-[0.14em] text-paper">
         <a
           href="https://www.aperturemethod.com/"
-          className="rounded-[3px] border border-white/50 px-3 py-1 transition-colors hover:border-white hover:bg-white/15"
+          className="shrink-0 whitespace-nowrap rounded-[3px] border border-white/50 px-[11px] py-1 transition-colors hover:border-white hover:bg-white/15"
         >
           &larr; Back to the site
         </a>
-        <span className="order-3 w-full sm:order-none sm:w-auto sm:flex-1 sm:text-center">
+        <span className="hidden min-w-0 flex-1 truncate text-center sm:block">
           {isPublic ? METHOD_LAB_PUBLIC_NOTICE : METHOD_LAB_NOTICE}
         </span>
         {isPublic ? null : (
-          <form method="POST" action="/api/method-lab/signout" className="m-0">
+          <form method="POST" action="/api/method-lab/signout" className="m-0 shrink-0">
             <button
               type="submit"
-              className="rounded-[3px] border border-white/50 px-3 py-1 font-bold uppercase tracking-[0.14em] transition-colors hover:border-white hover:bg-white/15"
+              className="whitespace-nowrap rounded-[3px] border border-white/50 px-[11px] py-1 text-[11px] font-bold uppercase leading-[1.3] tracking-[0.14em] transition-colors hover:border-white hover:bg-white/15"
             >
               &times; Exit Method Lab
             </button>
@@ -59,20 +66,20 @@ export function MethodLabHeader() {
 
       {/* Row 2: where you are, and everything else in here. */}
       <div className="border-b border-line bg-paper">
-        <div className="mx-auto flex max-w-[1180px] flex-wrap items-center gap-x-6 gap-y-3 px-7 py-3">
-          <Link href="/method-lab" className="flex items-center gap-3">
+        <div className="mx-auto flex min-h-[44px] max-w-[1180px] flex-nowrap items-center gap-6 px-4 py-[9px]">
+          <Link href="/method-lab" className="flex shrink-0 items-center gap-[9px]">
             <Image
               src="/logo-icon-black.png"
               alt=""
-              width={22}
-              height={22}
-              className="h-[22px] w-[22px]"
+              width={21}
+              height={21}
+              className="h-[21px] w-[21px]"
             />
-            <span className="text-small font-semibold tracking-[0.12em] text-ink">
+            <span className="text-[12.5px] font-bold leading-none tracking-[0.12em] text-ink">
               METHOD LAB
             </span>
           </Link>
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <nav className="flex min-w-0 flex-nowrap items-center gap-5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {METHOD_LAB_NAV.map((item) => {
               const here = pathname === item.href;
               return (
@@ -81,8 +88,8 @@ export function MethodLabHeader() {
                   href={item.href}
                   className={
                     here
-                      ? "text-caption font-semibold text-maroon"
-                      : "text-caption text-muted transition-colors hover:text-ink"
+                      ? "whitespace-nowrap text-[12.5px] font-bold leading-[1.3] text-maroon"
+                      : "whitespace-nowrap text-[12.5px] leading-[1.3] text-muted transition-colors hover:text-ink"
                   }
                   aria-current={here ? "page" : undefined}
                 >
@@ -103,7 +110,7 @@ export function MethodLabFooter() {
 
   return (
     <footer className="mt-12 border-t border-line">
-      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-3 px-7 py-6 pb-12 text-caption text-muted">
+      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-3 px-4 pb-12 pt-[22px] text-[12.5px] leading-[1.6] text-muted">
         <span>
           The Aperture Method&trade; · Method Lab ·{" "}
           {isPublic ? METHOD_LAB_PUBLIC_NOTICE : METHOD_LAB_NOTICE}

@@ -22,9 +22,9 @@ import {
  * logo, gold label, Helvetica) so the two documents look like one firm.
  */
 
-const MAROON = rgb(0x50 / 255, 0, 0);
-const INK = rgb(0.1, 0.1, 0.1);
-const MUTED = rgb(0.42, 0.42, 0.42);
+export const MAROON = rgb(0x50 / 255, 0, 0);
+export const INK = rgb(0.1, 0.1, 0.1);
+export const MUTED = rgb(0.42, 0.42, 0.42);
 const LINE = rgb(0.86, 0.86, 0.86);
 const SURFACE = rgb(0.96, 0.955, 0.955);
 const GOLD = rgb(0xc9 / 255, 0xa2 / 255, 0x4b / 255);
@@ -33,23 +33,23 @@ type Color = ReturnType<typeof rgb>;
 
 const PAGE_W = 612;
 const PAGE_H = 792;
-const M = 56;
-const CW = PAGE_W - M * 2;
+export const M = 56;
+export const CW = PAGE_W - M * 2;
 const BOTTOM = 72;
 
 const MAP: Record<string, string> = {
   "−": "-", "≈": "~", "→": "->", "–": "-", "—": "-", "‘": "'", "’": "'", "“": '"', "”": '"',
   "…": "...", "×": "x", " ": " ",
 };
-function san(s: string): string {
+export function san(s: string): string {
   return Array.from(s ?? "")
     .map((ch) => MAP[ch] ?? ((ch.codePointAt(0) ?? 0) <= 255 || ch === "™" ? ch : ""))
     .join("");
 }
-const r0 = (x: number | null | undefined) => (x === null || x === undefined ? "-" : String(Math.round(x)));
-const r1 = (x: number | null | undefined) => (x === null || x === undefined ? "-" : x.toFixed(1));
+export const r0 = (x: number | null | undefined) => (x === null || x === undefined ? "-" : String(Math.round(x)));
+export const r1 = (x: number | null | undefined) => (x === null || x === undefined ? "-" : x.toFixed(1));
 
-class Report {
+export class Report {
   doc!: PDFDocument;
   page!: PDFPage;
   y = 0;
@@ -57,16 +57,18 @@ class Report {
   bold!: PDFFont;
   logo!: PDFImage;
   subtitle = "";
+  title = "Clarity Check Research Study";
 
-  async init(subtitle: string, asOf: string, nLabel: string) {
+  async init(subtitle: string, asOf: string, nLabel: string, title = "Clarity Check Research Study") {
+    this.title = title;
     this.doc = await PDFDocument.create();
     this.reg = await this.doc.embedFont(StandardFonts.Helvetica);
     this.bold = await this.doc.embedFont(StandardFonts.HelveticaBold);
     this.logo = await this.doc.embedPng(Buffer.from(APERTURE_LOGO_WHITE_HORIZONTAL_B64, "base64"));
     this.subtitle = san(subtitle);
-    this.doc.setTitle("Clarity Check Research Study: Results");
+    this.doc.setTitle(`${this.title}: Results`);
     this.doc.setAuthor("Fenwick How, The Aperture Method");
-    this.doc.setSubject("EMBA capstone research results");
+    this.doc.setSubject(this.title === "Clarity Check Research Study" ? "EMBA capstone research results" : `${this.title} results`);
 
     this.page = this.doc.addPage([PAGE_W, PAGE_H]);
     const BAND = 132;
@@ -74,7 +76,7 @@ class Report {
     const lw = 200;
     const lh = lw * (this.logo.height / this.logo.width);
     this.page.drawImage(this.logo, { x: M, y: PAGE_H - 32 - lh, width: lw, height: lh });
-    this.page.drawText("Clarity Check Research Study", { x: M, y: PAGE_H - 92, size: 21, font: this.bold, color: WHITE });
+    this.page.drawText(san(this.title), { x: M, y: PAGE_H - 92, size: 21, font: this.bold, color: WHITE });
     this.page.drawText(this.subtitle, { x: M, y: PAGE_H - 110, size: 10, font: this.reg, color: rgb(0.92, 0.85, 0.85) });
     this.right("AS OF", PAGE_H - 40, 7, this.bold, GOLD);
     this.right(san(asOf), PAGE_H - 56, 11, this.bold, WHITE);
@@ -89,7 +91,7 @@ class Report {
   newPage() {
     this.page = this.doc.addPage([PAGE_W, PAGE_H]);
     this.page.drawRectangle({ x: M, y: PAGE_H - 50, width: 3, height: 11, color: MAROON });
-    this.page.drawText("Clarity Check Research Study: Results", { x: M + 10, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED });
+    this.page.drawText(san(`${this.title}: Results`), { x: M + 10, y: PAGE_H - 47, size: 8, font: this.reg, color: MUTED });
     this.right(this.subtitle, PAGE_H - 47, 8, this.reg, MUTED);
     this.page.drawLine({ start: { x: M, y: PAGE_H - 58 }, end: { x: PAGE_W - M, y: PAGE_H - 58 }, thickness: 0.5, color: LINE });
     this.y = PAGE_H - 82;
@@ -421,7 +423,7 @@ export async function generateStudyReportPdf(
     "Anonymity. No name, email, company or address is stored with a response. Benchmark-report emails are held in a separate table with no link to answers.",
     "Statistics. Proportions carry Wilson 95% confidence intervals. H1 and H2 are tested against their registered thresholds with an exact one-sided binomial test. The self-rating gap uses a paired t-test with Cohen's d; the self-rating and score relationship uses Spearman's rho (Pearson's r alongside); differences in score between groups use one-way ANOVA. Significance means p < 0.05.",
     "Limitations. A self-selected convenience sample, not a random one: results describe the owners who took part and should not be generalised without that caveat. The same applies to every p-value and interval in this report.",
-    "Social desirability. Owners may shade answers to avoid appearing not to know their own business. Anonymity, evidence-based questions, a stated norm that gaps are common, an up-front honesty commitment and softened answer wording were used to reduce this. Any remaining bias can only push scores up, so the gaps reported here are conservative: the true gap is at least this large.",
+    "Social desirability. Owners may shade answers to avoid appearing not to know their own business. Anonymity, evidence-based questions, a neutral permission statement (every business tracks different things; there are no wrong answers), an up-front honesty commitment and softened answer wording were used to reduce this. The permission statement deliberately gives no expected result, so it does not anchor answers in either direction. Remaining social-desirability bias would push scores up, so the gaps reported here are likely conservative.",
   ]) {
     const [head, ...rest] = line.split(". ");
     d.ensure(30);

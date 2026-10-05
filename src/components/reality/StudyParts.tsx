@@ -47,11 +47,13 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
         </p>
       ) : null}
 
-      {/* Normalising the gap up front (Oct 2026): people answer more honestly
-          when told a low result is common and expected. */}
+      {/* Permission to not know, without a norm (Oct 2026). The first version
+          said "most owners can't answer half of these", which told people what
+          result to expect and could pull answers down to match it. This keeps
+          the honesty cue and drops the anchor. */}
       <p className="mt-5 max-w-2xl text-body font-semibold text-ink">
-        Most owners can&rsquo;t answer half of these, and that is the point. There are no wrong
-        answers here, only honest ones.
+        Every business tracks different things, so answer with what you know today. There are no
+        wrong answers here, only honest ones.
       </p>
 
       <div className="mt-8 max-w-2xl rounded-lg border border-line border-l-4 border-l-maroon bg-surface p-5 sm:p-6">

@@ -89,6 +89,7 @@ export default async function StudyAdminPage({ searchParams }: { searchParams: S
             <a href={`/method-lab/study/report${qs(filter)}`} target="_blank" rel="noopener" className="btn">Download PDF report</a>
             <a href="/method-lab/study/export" className="btn--secondary">Download CSV</a>
             <Link href="/study" className="btn--secondary">Open the study</Link>
+            <a href="/method-lab/website" className="btn--secondary">Website dashboard</a>
             <a href="/method-lab" className="btn--secondary">Method Lab</a>
           </div>
         </div>

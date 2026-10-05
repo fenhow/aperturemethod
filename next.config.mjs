@@ -6,6 +6,7 @@ const nextConfig = {
   experimental: {
     outputFileTracingIncludes: {
       "/method-lab": ["./private/method-lab/index.html"],
+      "/method-lab/customer-market-map": ["./private/method-lab/customer-market-map.html"],
       "/api/method-lab/download": ["./private/method-lab/downloads/**"],
     },
   },

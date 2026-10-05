@@ -122,10 +122,19 @@ export function Footer() {
             >
               Client login
             </Link>
-            {/* The Method Lab used to hang here. Oct 2026: the Lab is a separate
-                place with its own header, footer and navigation, and the website
-                no longer points at it. Anyone who belongs in there knows the URL
-                and has the passphrase. */}
+            {/* The Method Lab. A separate place with its own header, footer and
+                navigation (src/app/method-lab/layout.tsx): the door back in sits
+                here in the quietest row, with the client login, rather than in a
+                column someone is reading to decide whether to hire us.
+                rel="nofollow" keeps crawlers off it; the passphrase does the
+                actual gating. */}
+            <Link
+              href="/method-lab"
+              rel="nofollow"
+              className="-my-2 py-2 text-white/60 transition-colors duration-fast hover:text-white"
+            >
+              Method Lab
+            </Link>
             <CookiePreferencesButton className="-my-2 py-2 text-white/60 transition-colors duration-fast hover:text-white" />
             <p>{siteConfig.tagline}</p>
           </div>

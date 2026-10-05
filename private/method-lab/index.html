@@ -253,7 +253,7 @@ td.step{font-weight:600;white-space:nowrap;width:1%}
 .gitem .d{font-size:13.5px;color:var(--gray);margin-top:3px}
 
 /* downloads */
-.dl{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+/* Stacked, one card per row (Oct 2026). Three to a row left every card as tall as the wordiest one, with the action links wrapping two to a line under a column of white space. Full width, a card at a time, reads in one pass. */.dl{display:grid;grid-template-columns:1fr;gap:10px}.dlc .d{margin-top:2px;max-width:92ch}.dlc .a{margin-top:14px;padding-top:0;flex-wrap:wrap;row-gap:6px}
 @media(max-width:860px){.dl{grid-template-columns:1fr}}
 .dlc{border:1px solid var(--rule);padding:18px 20px;color:inherit;display:flex;flex-direction:column;
   transition:.16s;background:var(--white)}

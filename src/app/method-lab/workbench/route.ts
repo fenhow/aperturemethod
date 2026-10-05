@@ -1,7 +1,4 @@
-import { promises as fs } from "fs";
-import path from "path";
-import { NextResponse } from "next/server";
-import { methodLabConfigured } from "@/lib/methodLab";
+import { serveMethodLabDocument } from "@/lib/methodLabChrome";
 
 /**
  * Serves the Aperture Analytics Financial Analysis Workbench, the tool itself.
@@ -15,33 +12,14 @@ import { methodLabConfigured } from "@/lib/methodLab";
  * /method-lab/financial-analysis-workbench: the proof is published, the press
  * is not.
  */
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const NO_INDEX = "noindex, nofollow, noarchive, nosnippet";
-
+/**
+ * The shared Method Lab bar and footer are added by serveMethodLabDocument, so
+ * every document in the Lab opens with the same chrome and the same wording.
+ */
 export async function GET() {
-  if (!methodLabConfigured) {
-    return new NextResponse("Not found", { status: 404 });
-  }
-
-  const file = path.join(
-    process.cwd(),
-    "private",
-    "method-lab",
-    "financial-analysis-workbench-tool.html"
-  );
-
-  try {
-    const html = await fs.readFile(file, "utf8");
-    return new NextResponse(html, {
-      headers: {
-        "Content-Type": "text/html; charset=utf-8",
-        "X-Robots-Tag": NO_INDEX,
-        "Cache-Control": "private, no-store, max-age=0",
-      },
-    });
-  } catch {
-    return new NextResponse("Not found", { status: 404 });
-  }
+  return serveMethodLabDocument("financial-analysis-workbench-tool.html");
 }

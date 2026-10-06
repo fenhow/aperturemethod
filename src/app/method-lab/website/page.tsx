@@ -13,7 +13,7 @@ import { questions } from "@/lib/realityCheck";
  * read as demand and marketing data. Fenwick asked for it (Oct 2026) once he
  * saw website completions arriving by email but nowhere on the survey
  * dashboard. Deliberately separate from /method-lab/study: the website version
- * has no honesty commitment, profile or price question, so it never feeds the
+ * has no honesty commitment, profile or follow-up questions, so it never feeds the
  * capstone figures. Method Lab passphrase only (middleware, and checked here).
  */
 

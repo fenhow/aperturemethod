@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 const COLS = [
   "created_at", "source", "medium", "campaign", "score", "band", "gaps", "blind_spot",
   "self_rating", "duration_s", "repeat_taker", "profile_done", "revenue", "employees",
-  "industry", "role", "years", "region", "zip3", "analysis_source", "wtp",
+  "industry", "role", "years", "region", "zip3", "analysis_source", "candor", "need", "help_pref", "followup_version", "wtp", "wtp_version",
 ] as const;
 
 const cell = (v: unknown) => {

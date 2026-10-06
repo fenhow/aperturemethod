@@ -7,7 +7,7 @@ import { MIN_SECONDS, type StudyRow } from "@/lib/realityStudyStats";
 /**
  * The website Clarity Check (/clarity-check, cohort 'site'), read as marketing
  * and demand data. Kept entirely apart from the capstone survey: the website
- * version has no honesty commitment, no profile and no price question, so its
+ * version has no honesty commitment, no profile and no follow-up questions, so its
  * rows never enter the study figures, and the study's rows never enter these.
  *
  * Counted means: not removed from the dashboard, not tagged as a test, and

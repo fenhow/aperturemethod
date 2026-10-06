@@ -3,7 +3,7 @@ import { questions, scoreAnswers } from "@/lib/realityCheck";
 import { sendEmail, emailConfigured, NOTIFY_EMAIL } from "@/lib/email";
 import { completionHtml } from "@/lib/realityCheckEmail";
 import { createAdminClient, serviceRoleConfigured } from "@/lib/supabase/admin";
-import { WTP_VERSION, cleanHeardFrom, cleanProfile, cleanSelfRating, cleanTag, cleanWtp, UUID_RE } from "@/lib/realityStudy";
+import { FOLLOWUP_VERSION, cleanField, cleanHeardFrom, cleanProfile, cleanSelfRating, cleanTag, UUID_RE } from "@/lib/realityStudy";
 
 /**
  * Clarity Check: the anonymous completion ping.
@@ -35,8 +35,9 @@ export async function POST(request: Request) {
   let body: {
     answers?: Record<string, number>;
     runId?: string;
-    stage?: "finish" | "profile" | "pricing";
-    wtp?: string;
+    stage?: "finish" | "profile" | "help";
+    need?: string;
+    help?: string;
     cohort?: string;
     source?: string;
     medium?: string;
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
   const saved = await store(body, answers, result);
 
   // Follow-ups update the stored row only; the alert went already.
-  if (body.stage === "profile" || body.stage === "pricing") return NextResponse.json({ ok: true });
+  if (body.stage === "profile" || body.stage === "help") return NextResponse.json({ ok: true });
 
   if (!emailConfigured) {
     console.info("[reality-check] completion (SMTP not configured):", {
@@ -115,7 +116,8 @@ async function store(
     durationS?: number;
     repeat?: boolean;
     profile?: unknown;
-    wtp?: string;
+    need?: string;
+    help?: string;
   },
   answers: Record<string, number>,
   result: ReturnType<typeof scoreAnswers>
@@ -153,7 +155,13 @@ async function store(
     duration_s: duration,
     repeat_taker: body.repeat === true,
     ...(body.stage === "profile" ? { profile_done: true, ...profile } : {}),
-    ...(body.stage === "pricing" && cleanWtp(body.wtp) ? { wtp: cleanWtp(body.wtp)!, wtp_version: WTP_VERSION } : {}),
+    ...(body.stage === "help"
+      ? {
+          ...(cleanField("need", body.need) ? { need: cleanField("need", body.need) } : {}),
+          ...(cleanField("help", body.help) ? { help_pref: cleanField("help", body.help) } : {}),
+          followup_version: FOLLOWUP_VERSION,
+        }
+      : {}),
   };
   // The profile never carries the price question any more (version 2 asks it
   // after the result), so a profile ping must not touch an existing answer.
@@ -164,10 +172,11 @@ async function store(
     // Until migration 0005 adds the candor column, save everything else rather
     // than losing the whole response over one optional answer.
     // Same for the version tag on the price question (migration 0005).
-    if (error && /(candor|wtp_version)/.test(error.message)) {
+    // And for the version 3 follow-ups (migration 0006: need, help_pref,
+    // followup_version): the row still saves, and the error names the fix.
+    if (error && /(candor|wtp_version|need|help_pref|followup_version)/.test(error.message)) {
       const rest = { ...(row as Record<string, unknown>) };
-      delete rest.candor;
-      delete rest.wtp_version;
+      for (const k of ["candor", "wtp_version", "need", "help_pref", "followup_version"]) delete rest[k];
       ({ error } = await createAdminClient().from("reality_check_responses").upsert(rest, { onConflict: "run_id" }));
     }
     if (error) {

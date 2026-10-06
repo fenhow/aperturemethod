@@ -68,7 +68,7 @@ export async function generateWebsiteReportPdf(s: SiteStats): Promise<{ bytes: U
   const ex = s.exclusions.length ? s.exclusions.map((e) => `${e.count} ${e.reason.toLowerCase()}`).join(", ") : "none";
   d.para(
     `Counted means finished in at least ${MIN_SECONDS} seconds and not tagged as a test. ${s.totalRows} completed in total; left out: ${ex}. ` +
-      "This is the public website version: visitors saw no honesty commitment, profile or price question, so these results are reported separately from the capstone survey and never pooled with it. Visitors are self-selected; read the figures as demand signals, not population estimates.",
+      "This is the public website version: visitors saw no honesty commitment, profile or follow-up questions, so these results are reported separately from the capstone survey and never pooled with it. Visitors are self-selected; read the figures as demand signals, not population estimates.",
     { size: 8.5, color: MUTED }
   );
 

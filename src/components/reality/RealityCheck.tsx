@@ -5,7 +5,7 @@ import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
-import { StudyIntro, StudyCommit, StudyPricing, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
+import { StudyIntro, StudyCommit, StudyHelp, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
 import type { StudyProfile } from "@/lib/realityStudy";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
@@ -159,14 +159,14 @@ export function RealityCheck({
     };
   }
 
-  /** The price question (version 2), answered on the result page. */
-  function sendPricing(value: string | null) {
-    if (!value) return;
+  /** The two research questions (version 3), answered on the result page. */
+  function sendHelp(value: { need?: string; help?: string } | null) {
+    if (!value || (!value.need && !value.help)) return;
     try {
       void fetch("/api/reality-check/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload(answers, "finish"), stage: "pricing", wtp: value }),
+        body: JSON.stringify({ ...payload(answers, "finish"), stage: "help", need: value.need, help: value.help }),
         keepalive: true,
       }).catch(() => {});
     } catch {
@@ -477,7 +477,7 @@ export function RealityCheck({
 
       {study ? <StudyConfetti /> : null}
       {study ? <StudyThankYouModal /> : null}
-      {study ? <StudyPricing onAnswer={sendPricing} /> : null}
+      {study ? <StudyHelp onAnswer={sendHelp} /> : null}
       {study ? <StudyThanks selfRating={selfRating} score={score} /> : null}
 
       {/* The breakdown form carries a name and email to Fenwick, so in the

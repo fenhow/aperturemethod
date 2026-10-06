@@ -15,7 +15,6 @@ import Link from "next/link";
 import {
   heardFromOptions,
   studyFields,
-  WTP_SERVICE,
   STUDY_TARGET,
   STUDY_COUNT_FLOOR,
   type StudyProfile,
@@ -602,70 +601,73 @@ export function StudyConfetti() {
   );
 }
 
-/* ─────────────────────────────── the price question, after the result */
+/* ─────────────────────────────── two research questions, after the result */
 
 /**
- * Version 2 of the price question (Oct 2026). Shown on the result page, once
- * the respondent has seen their own gaps, with the service described and no
- * fee shown. Optional; answering or skipping both close it.
+ * Version 3 follow-ups (6 Oct 2026), replacing the price question. About help
+ * in general, not our service: no brand, no price, no email, and the two
+ * independent-review options sit among the real alternatives. Optional;
+ * answering either question, or skipping, closes it.
  */
-export function StudyPricing({ onAnswer }: { onAnswer: (value: string | null) => void }) {
-  const field = studyFields.find((f) => f.id === "wtp")!;
-  const [picked, setPicked] = useState<string | null>(null);
+export function StudyHelp({ onAnswer }: { onAnswer: (value: { need?: string; help?: string } | null) => void }) {
+  const need = studyFields.find((f) => f.id === "need")!;
+  const help = studyFields.find((f) => f.id === "help")!;
+  const [picked, setPicked] = useState<{ need?: string; help?: string }>({});
   const [done, setDone] = useState<"answered" | "skipped" | null>(null);
 
   if (done) {
     return done === "answered" ? (
       <p className="mt-10 rounded-lg border border-line px-6 py-4 text-small text-muted">
-        Thank you. That answer is recorded anonymously and helps the research.
+        Thank you. Your answers are recorded anonymously and help the research.
       </p>
     ) : null;
   }
 
+  const chip = (on: boolean) =>
+    `rounded-full border px-4 py-2 text-left text-small transition-colors ${
+      on ? "border-maroon bg-maroon text-white" : "border-line bg-paper text-ink hover:border-maroon"
+    }`;
+
   return (
     <div className="mt-10 rounded-lg border border-line p-6 sm:p-8">
-      <p className="eyebrow mb-3">One research question</p>
-      <h3 className="text-h4 font-semibold text-ink">Now that you have seen your gaps</h3>
-      <p className="mt-2 text-body text-muted">Imagine a service that closed them:</p>
-      <ul className="mt-3 space-y-1.5 text-body text-ink">
-        {WTP_SERVICE.map((line) => (
-          <li key={line} className="flex gap-3">
-            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-maroon" />
-            <span>{line}</span>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-5 text-body font-semibold text-ink">{field.prompt}</p>
-      <p className="mt-1 text-caption text-muted">
-        This is a research question, not an offer. Your answer is anonymous and nobody will
-        follow up.
-      </p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {field.options.map((o) => (
-          <button
-            key={o.value}
-            type="button"
-            aria-pressed={picked === o.value}
-            onClick={() => setPicked(o.value)}
-            className={`rounded-full border px-4 py-2 text-small transition-colors ${
-              picked === o.value ? "border-maroon bg-maroon text-white" : "border-line bg-paper text-ink hover:border-maroon"
-            }`}
-          >
-            {o.label}
-          </button>
-        ))}
-      </div>
-      <div className="mt-6 flex flex-wrap items-center gap-4">
+      <p className="eyebrow mb-3">Two quick research questions</p>
+      <p className="text-caption text-muted">Nobody will contact you about your answers.</p>
+
+      {[need, help].map((field, i) => (
+        <div key={field.id} className="mt-6">
+          <p className="text-body font-semibold text-ink">
+            {i + 1}. {field.prompt}
+          </p>
+          <div className={`mt-3 flex gap-2 ${field.id === "need" ? "flex-wrap" : "flex-col items-start"}`}>
+            {field.options.map((o) => {
+              const on = picked[field.id as "need" | "help"] === o.value;
+              return (
+                <button
+                  key={o.value}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setPicked((p) => ({ ...p, [field.id]: o.value }))}
+                  className={chip(on)}
+                >
+                  {o.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      <div className="mt-8 flex flex-wrap items-center gap-4">
         <button
           type="button"
-          disabled={!picked}
+          disabled={!picked.need && !picked.help}
           onClick={() => {
             onAnswer(picked);
             setDone("answered");
           }}
           className="btn justify-center px-8 disabled:opacity-40"
         >
-          Submit answer
+          Submit answers
         </button>
         <button
           type="button"
@@ -675,7 +677,7 @@ export function StudyPricing({ onAnswer }: { onAnswer: (value: string | null) =>
           }}
           className="text-caption font-semibold text-muted transition-colors hover:text-ink"
         >
-          Skip this question
+          Skip these questions
         </button>
       </div>
     </div>

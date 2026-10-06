@@ -43,6 +43,8 @@ export type StudyFieldId =
   | "region"
   | "analysis_source"
   | "wtp"
+  | "need"
+  | "help"
   | "candor";
 
 /** The target for the capstone sample. Used on the page and in the counter. */
@@ -121,7 +123,7 @@ export const studyFields: StudyField[] = [
   },
   {
     id: "analysis_source",
-    prompt: "Today, who gives you financial or strategic analysis of the business?",
+    prompt: "Today, who is your main source of financial or strategic analysis for the business?",
     why: "Meaning analysis you make decisions from, not bookkeeping or tax filing.",
     options: [
       { value: "no-one", label: "No one. I work it out myself" },
@@ -146,6 +148,11 @@ export const studyFields: StudyField[] = [
    *  - it says plainly that nobody will follow up, so it cannot read as a pitch.
    * Rows answered on version 1 (inside the profile, undescribed, before the
    * result) are kept but reported separately; see wtp_version.
+   *
+   * RETIRED (6 Oct 2026). Fenwick replaced the price question with the two
+   * "need" and "help" questions below: a price question with no real offer
+   * pulls answers low, and it read as a set-up for a sales pitch. Kept here
+   * only so earlier answers still display; nobody is asked it any more.
    */
   {
     id: "wtp",
@@ -161,13 +168,45 @@ export const studyFields: StudyField[] = [
     ],
   },
   /*
+   * Version 3 follow-ups (6 Oct 2026), asked after the result in place of the
+   * price question. Deliberately about HELP IN GENERAL, not our service: the
+   * two independent-review options sit among the real alternatives an owner
+   * has (a tool, their CPA, doing it themselves), no brand, no price, no email,
+   * so it reads as research rather than a funnel. "need" measures whether
+   * there is a need; "help" measures what kind of help they would actually use.
+   * Capstone H2 is now read from these (see realityStudyStats.ts).
+   */
+  {
+    id: "need",
+    inProfile: false,
+    prompt: "Looking at your result, how much would an outside view of these numbers help your business right now?",
+    options: [
+      { value: "not-at-all", label: "Not at all" },
+      { value: "a-little", label: "A little" },
+      { value: "somewhat", label: "Somewhat" },
+      { value: "a-lot", label: "A lot" },
+    ],
+  },
+  {
+    id: "help",
+    inProfile: false,
+    prompt: "If you did want help with this, which would suit you best?",
+    options: [
+      { value: "tool", label: "A tool or template I could use myself" },
+      { value: "cpa", label: "My current CPA or bookkeeper doing more of it" },
+      { value: "review-walkthrough", label: "An independent review, with a meeting to walk through it" },
+      { value: "review-implement", label: "An independent review, plus help putting the fixes in place" },
+      { value: "self", label: "I'd rather handle it without outside help" },
+    ],
+  },
+  /*
    * Asked last (Oct 2026). Anonymous respondents admit rounding up surprisingly
    * often, and this lets the analysis check whether less-candid answers skew
    * the results. Needs the `candor` column (migration 0005).
    */
   {
     id: "candor",
-    prompt: "Last one: how candid were your answers?",
+    prompt: "How candid were your answers?",
     why: "No judgement either way. It helps make sense of the results.",
     options: [
       { value: "completely", label: "Completely candid" },
@@ -206,13 +245,13 @@ export function sourceLabel(v: string | null | undefined): string {
 /** The current version of the price question. Version 1 rows have wtp_version null. */
 export const WTP_VERSION = 2;
 
-/** The price question's description of what is being priced. Neutral, no fee. */
-export const WTP_SERVICE = [
-  "An independent review of your business by a senior analyst",
-  "Your own numbers analysed: profit by product and customer, cash, pricing",
-  "The one constraint holding you back, named with the evidence behind it",
-  "A written report and a short, prioritised plan, in two to three weeks",
-];
+/** Version of the follow-up questions. 3 = need + help (6 Oct 2026). */
+export const FOLLOWUP_VERSION = 3;
+
+export function cleanField(id: "need" | "help", v: unknown): string | null {
+  const f = studyFields.find((x) => x.id === id)!;
+  return typeof v === "string" && f.options.some((o) => o.value === v) ? v : null;
+}
 
 export function cleanWtp(v: unknown): string | null {
   const f = studyFields.find((x) => x.id === "wtp")!;
@@ -227,6 +266,7 @@ export function cleanProfile(input: unknown): StudyProfile {
   if (!input || typeof input !== "object") return out;
   const raw = input as Record<string, unknown>;
   for (const f of studyFields) {
+    if (f.inProfile === false) continue; // asked elsewhere (price, need, help)
     const v = raw[f.id];
     if (typeof v === "string" && f.options.some((o) => o.value === v)) out[f.id] = v;
   }

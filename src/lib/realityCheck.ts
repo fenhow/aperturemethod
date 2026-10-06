@@ -119,8 +119,8 @@ export const questions: RCQuestion[] = [
     area: "Profit by line",
     component: "Aperture Analytics™",
     prompt:
-      "Which of your products or services is your least profitable, after allocating overhead?",
-    note: "Not lowest revenue. Lowest profit, with shared costs allocated.",
+      "Which of your products or services makes you the least profit once its share of overhead (rent, admin, office salaries) is counted?",
+    note: "Not lowest sales. Lowest profit after its fair share of shared costs.",
     options: [
       { label: "I know exactly, and I could show you the math", score: 4 },
       { label: "I know roughly which one it is", score: 2 },
@@ -147,8 +147,8 @@ export const questions: RCQuestion[] = [
     area: "What the profit really is",
     component: "Aperture Analytics™",
     prompt:
-      "If you paid yourself a market salary, charged market rent on any property you own, and stripped out the one-off items, what would last year's profit be?",
-    note: "In a private company, reported profit reflects tax decisions as much as performance.",
+      "In a normal year, what does the business really earn? Count your own pay at what you'd pay a hired manager, and leave out one-time items like a lawsuit, an insurance payout or a big one-off repair.",
+    note: "This is the profit a buyer or a bank looks at, which is often different from the tax return.",
     options: [
       { label: "I know that number, and I could defend every adjustment", score: 4 },
       { label: "I have a sense of it, but I have never written it down", score: 2 },

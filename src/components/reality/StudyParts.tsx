@@ -397,24 +397,24 @@ export function StudyThanks({ selfRating, score }: { selfRating: number | null; 
  * results (the default), the benchmark report, and the site for anyone who
  * wants to know more. Closes on the button, Escape, or a click outside.
  */
-export function StudyThankYouModal() {
-  const [open, setOpen] = useState(false);
+export function StudyThankYouModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const t = setTimeout(() => setOpen(true), 700);
-    return () => clearTimeout(t);
-  }, []);
+  // Opened by the last two research questions (answered or skipped), not on a
+  // timer (6 Oct 2026): popping up on arrival said "your answers are in" before
+  // they were, and pulled people away before the final questions.
+  const setOpen = (v: boolean) => {
+    if (!v) onClose();
+  };
 
   useEffect(() => {
     if (!open) return;
     panelRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, onClose]);
 
   if (!open) return null;
 
@@ -452,12 +452,12 @@ export function StudyThankYouModal() {
         </h2>
         <p className="mt-3 text-body text-muted">
           Every response brings the research closer to {STUDY_TARGET} businesses and makes the findings
-          stronger. Your Clarity Score and biggest blind spot are waiting for you now.
+          stronger. Your Clarity Score and biggest blind spot stay on this page.
         </p>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <button type="button" onClick={() => setOpen(false)} className="btn w-full justify-center sm:w-auto sm:px-8">
-            See my results
+            Back to my results
           </button>
           <button type="button" onClick={toReport} className="btn--secondary w-full justify-center sm:w-auto sm:px-6">
             Get the free benchmark report
@@ -609,7 +609,14 @@ export function StudyConfetti() {
  * independent-review options sit among the real alternatives. Optional;
  * answering either question, or skipping, closes it.
  */
-export function StudyHelp({ onAnswer }: { onAnswer: (value: { need?: string; help?: string } | null) => void }) {
+export function StudyHelp({
+  onAnswer,
+  onDone,
+}: {
+  onAnswer: (value: { need?: string; help?: string } | null) => void;
+  /** Answered or skipped: the survey is now complete. */
+  onDone?: () => void;
+}) {
   const need = studyFields.find((f) => f.id === "need")!;
   const help = studyFields.find((f) => f.id === "help")!;
   const [picked, setPicked] = useState<{ need?: string; help?: string }>({});
@@ -629,9 +636,11 @@ export function StudyHelp({ onAnswer }: { onAnswer: (value: { need?: string; hel
     }`;
 
   return (
-    <div className="mt-10 rounded-lg border border-line p-6 sm:p-8">
-      <p className="eyebrow mb-3">Two quick research questions</p>
-      <p className="text-caption text-muted">Nobody will contact you about your answers.</p>
+    <div id="study-help" className="mt-10 scroll-mt-24 rounded-lg border-2 border-maroon bg-surface p-6 sm:p-8">
+      <p className="eyebrow mb-3">Last step · two quick research questions</p>
+      <p className="text-caption text-muted">
+        These finish the survey. Nobody will contact you about your answers.
+      </p>
 
       {[need, help].map((field, i) => (
         <div key={field.id} className="mt-6">
@@ -664,6 +673,7 @@ export function StudyHelp({ onAnswer }: { onAnswer: (value: { need?: string; hel
           onClick={() => {
             onAnswer(picked);
             setDone("answered");
+            onDone?.();
           }}
           className="btn justify-center px-8 disabled:opacity-40"
         >
@@ -674,6 +684,7 @@ export function StudyHelp({ onAnswer }: { onAnswer: (value: { need?: string; hel
           onClick={() => {
             onAnswer(null);
             setDone("skipped");
+            onDone?.();
           }}
           className="text-caption font-semibold text-muted transition-colors hover:text-ink"
         >
@@ -681,5 +692,58 @@ export function StudyHelp({ onAnswer }: { onAnswer: (value: { need?: string; hel
         </button>
       </div>
     </div>
+  );
+}
+
+/* ─────────────────────────────── keeping the last step from being missed */
+
+const goToHelp = () =>
+  document.getElementById("study-help")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+/** One line at the top of the result: the survey is not quite finished. */
+export function StudyResultsNote({ done }: { done: boolean }) {
+  if (done) return null;
+  return (
+    <p className="mb-6 rounded-md border-l-4 border-maroon bg-surface px-4 py-3 text-small text-ink">
+      Your results are below. Two quick research questions after them finish the survey.{" "}
+      <button type="button" onClick={goToHelp} className="font-semibold text-maroon underline underline-offset-2">
+        Go to them
+      </button>
+    </p>
+  );
+}
+
+/**
+ * A small pill pinned to the bottom of the screen while the last two
+ * questions are unanswered and out of view. Hides as soon as they are on
+ * screen, and for good once answered or skipped. Never covers content for
+ * long and never blocks reading.
+ */
+export function StudyHelpNudge({ done }: { done: boolean }) {
+  const [inView, setInView] = useState(false);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 2500);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const el = document.getElementById("study-help");
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setInView(Boolean(e?.isIntersecting)), { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [done]);
+
+  if (done || inView || !ready) return null;
+  return (
+    <button
+      type="button"
+      onClick={goToHelp}
+      className="fixed bottom-5 left-1/2 z-[120] -translate-x-1/2 rounded-full bg-maroon px-5 py-3 text-small font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
+    >
+      2 quick questions left to finish the survey &darr;
+    </button>
   );
 }

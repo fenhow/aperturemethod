@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
-import { StudyIntro, StudyCommit, StudyHelp, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti } from "@/components/reality/StudyParts";
+import { StudyIntro, StudyCommit, StudyHelp, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti, StudyResultsNote, StudyHelpNudge } from "@/components/reality/StudyParts";
 import type { StudyProfile } from "@/lib/realityStudy";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
 
@@ -38,6 +38,10 @@ export function RealityCheck({
   const study = mode === "study";
   const [stage, setStage] = useState<Stage>("intro");
   const [selfRating, setSelfRating] = useState<number | null>(null);
+  /** The two research questions after the result: answered or skipped. */
+  const [helpDone, setHelpDone] = useState(false);
+  const [thanksOpen, setThanksOpen] = useState(false);
+  const closeThanks = useCallback(() => setThanksOpen(false), []);
   const runId = useRef<string>("");
   const startedAt = useRef<number>(0);
   const tags = useRef<{ source?: string; medium?: string; campaign?: string; repeat?: boolean; referrer?: string }>({});
@@ -193,6 +197,8 @@ export function RealityCheck({
 
   function restart() {
     reported.current = false;
+    setHelpDone(false);
+    setThanksOpen(false);
     setAnswers({});
     setIdx(0);
     setSelfRating(null);
@@ -382,6 +388,8 @@ export function RealityCheck({
 
   return (
     <div className="mx-auto max-w-3xl">
+      {study ? <StudyResultsNote done={helpDone} /> : null}
+      {study ? <StudyHelpNudge done={helpDone} /> : null}
       <p className="eyebrow mb-4">Your result</p>
 
       <div className="rounded-lg border border-line bg-surface p-8 sm:p-10">
@@ -475,9 +483,19 @@ export function RealityCheck({
       ) : null}
 
 
-      {study ? <StudyConfetti /> : null}
-      {study ? <StudyThankYouModal /> : null}
-      {study ? <StudyHelp onAnswer={sendHelp} /> : null}
+      {/* Confetti marks the END of the survey (after the last two questions), not
+          the score, so nobody mistakes the result page for the finish line. */}
+      {study && helpDone ? <StudyConfetti /> : null}
+      {study ? <StudyThankYouModal open={thanksOpen} onClose={closeThanks} /> : null}
+      {study ? (
+        <StudyHelp
+          onAnswer={sendHelp}
+          onDone={() => {
+            setHelpDone(true);
+            setTimeout(() => setThanksOpen(true), 600);
+          }}
+        />
+      ) : null}
       {study ? <StudyThanks selfRating={selfRating} score={score} /> : null}
 
       {/* The breakdown form carries a name and email to Fenwick, so in the
@@ -620,6 +638,17 @@ function ReportForm({
         keeping: every question with the answer you gave, then the measure behind it, how it is
         calculated, and what the number tells you once you have it. It arrives as an email and a
         branded PDF the moment you hit send. No sequence, no drip campaign.
+      </p>
+      <p className="mt-3 text-small">
+        <a
+          href="/clarity-check/sample-report"
+          target="_blank"
+          rel="noopener"
+          className="font-semibold text-maroon underline underline-offset-2 hover:no-underline"
+        >
+          See the sample report
+        </a>{" "}
+        <span className="text-muted">(PDF, example answers)</span>
       </p>
 
       <div className="mt-5 space-y-3">

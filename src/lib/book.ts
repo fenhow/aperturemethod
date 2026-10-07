@@ -41,8 +41,9 @@ export const BOOK_ISBN = "979-8-234-25960-8";
 export const BOOK_PUBLISHER = "Aperture Press";
 export const BOOK_ISBN_VERIFY_URL = "https://isbnsearch.org/isbn/9798234259608";
 
-/** Back cover: a flat render of the approved Look Closer back-cover design. */
-export const BOOK_BACK_ART = "/book/back-cover.jpg";
+/** Back cover: a flat render of the approved Look Closer back-cover design.
+ * Bump the filename (v2, v3...) on every re-render: the CDN and browsers cache by name. */
+export const BOOK_BACK_ART = "/book/look-closer-back-v2.jpg";
 
 /** "with A · B · C" once all are named, otherwise the areas. */
 export function contributorLine(): string {

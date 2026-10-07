@@ -8,7 +8,7 @@ import { PreorderForm } from "@/components/forms/PreorderForm";
 import { Book3D } from "@/components/home/Book3D";
 import { aperturePractices } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
-import { bookContributors, bookExcerpt } from "@/lib/book";
+import { bookContributors, bookExcerpt, BOOK_ISBN, BOOK_ISBN_VERIFY_URL, BOOK_PUBLISHER } from "@/lib/book";
 
 /**
  * Book serif for the excerpt only (Source Serif 4, SIL OFL, self-hosted like
@@ -76,6 +76,18 @@ export default function BookPage() {
                 Reserve your copy
               </a>
             </div>
+            <p className="mt-6 text-small text-muted">
+              {BOOK_PUBLISHER} · Paperback · ISBN <span className="font-semibold text-ink tabular-nums">{BOOK_ISBN}</span>
+              {" · "}
+              <a
+                href={BOOK_ISBN_VERIFY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-maroon"
+              >
+                Verify this ISBN
+              </a>
+            </p>
           </Reveal>
         </div>
       </Section>

@@ -36,6 +36,11 @@ export const bookContributors: BookContributor[] = [
 /** Front-cover art (photo only; all type is live HTML so names can change). */
 export const BOOK_COVER_ART = "/book/cover-art.jpg";
 
+/** Registered ISBN (Bowker, paperback). Shown on /book with a public lookup link. */
+export const BOOK_ISBN = "979-8-234-25960-8";
+export const BOOK_PUBLISHER = "Aperture Press";
+export const BOOK_ISBN_VERIFY_URL = "https://isbnsearch.org/isbn/9798234259608";
+
 /** Back cover: a flat render of the approved Look Closer back-cover design. */
 export const BOOK_BACK_ART = "/book/back-cover.jpg";
 

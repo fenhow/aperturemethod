@@ -92,10 +92,15 @@ export function Book3D() {
         </div>
 
         {/* Back cover: rendered from the approved Look Closer back-cover design (public/book/back-cover.jpg) */}
-        <div
-          className="book360__face book360__back book360__back--art"
-          style={{ backgroundImage: `url(${BOOK_BACK_ART})` }}
-        />
+        <div className="book360__face book360__back book360__back--art">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={BOOK_BACK_ART}
+            alt=""
+            className="book360__backimg"
+            draggable={false}
+          />
+        </div>
 
         {/* Spine + edges */}
         <div className="book360__face book360__spine" aria-hidden="true">

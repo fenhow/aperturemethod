@@ -463,6 +463,7 @@
     top: 0;
     left: 0;
     overflow: hidden;
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
   .book360__front,
@@ -492,7 +493,8 @@
   .book360__fsub { margin-top: 10px; max-width: 230px; font-size: 11.5px; line-height: 1.35; font-weight: 500; color: rgba(255,255,255,.88); }
   .book360__fwith { margin-top: 6px; font-size: 7px; line-height: 1.4; letter-spacing: .03em; white-space: nowrap; color: rgba(255,255,255,.62); }
   .book360__back { transform: rotateY(180deg) translateZ(21px); padding: 28px 28px 24px; border-radius: 2px 6px 6px 2px; }
-  .book360__back--art { padding: 0; background-color: #0b0b0b; background-size: cover; background-position: center; }
+  .book360__back--art { padding: 0; background: #0b0b0b; }
+  .book360__backimg { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
   .book360__spine {
     width: 42px;
     height: 452px;

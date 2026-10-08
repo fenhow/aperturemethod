@@ -166,7 +166,7 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
           ) : null}
 
           {/* ───────── headline */}
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <Tile
               label="Average Clarity Score"
               value={f0(s.meanScore)}
@@ -175,14 +175,14 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
             <Tile
               label="What owners think"
               value={f0(s.meanSelf)}
-              sub={`Average self-rating, ×10 to match the score (n = ${s.nRated})`}
+              sub={`Self-rating ×10, to match the score · n = ${s.nRated}`}
             />
             <Tile
               label="Overconfidence gap"
               value={s.meanOverconfidence === null ? "—" : `${s.meanOverconfidence > 0 ? "+" : ""}${f0(s.meanOverconfidence)}`}
               sub={`${f0(s.pctOverconfident)}% rated above their score${s.stats.overconfidence ? ` · ${fmtP(s.stats.overconfidence.p)}` : ""}`}
             />
-            <Tile label="Questions they could not answer" value={f1(s.meanGaps)} sub={`On average, of ${questions.length}`} />
+            <Tile label="Questions they could not answer" value={f1(s.meanGaps)} sub={`On average, out of ${questions.length}`} />
           </div>
 
           {/* ───────── hypotheses */}
@@ -449,12 +449,26 @@ function Panel({ title, children, compact }: { title: string; children: React.Re
   );
 }
 
+/**
+ * A headline figure.
+ *
+ * The four tiles sit in a row, so they are built to line up with each other
+ * rather than each sizing itself: the label block reserves two lines whether it
+ * needs them or not, the figure sits on a common baseline, and the note is
+ * pinned to the bottom of the card. Before this the labels ran to three lines
+ * at some widths and the numbers stepped down the row like a staircase.
+ *
+ * The label is also set tighter (11px, less letter-spacing) so the longest of
+ * them, "Questions they could not answer", fits on two lines rather than three.
+ */
 function Tile({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
-    <div className="rounded-lg border border-line p-5">
-      <p className="text-caption uppercase tracking-overline text-muted">{label}</p>
-      <p className="mt-2 text-[40px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
-      <p className="mt-2 text-caption text-muted">{sub}</p>
+    <div className="flex h-full flex-col rounded-lg border border-line p-5">
+      <p className="min-h-[2.4em] text-[11px] font-semibold uppercase leading-[1.2] tracking-[0.1em] text-muted">
+        {label}
+      </p>
+      <p className="mt-3 text-[38px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
+      <p className="mt-auto pt-3 text-caption leading-snug text-muted">{sub}</p>
     </div>
   );
 }

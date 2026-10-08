@@ -106,7 +106,7 @@ function Dashboard({ s, q }: { s: SiteStats; q: Search }) {
         Every completion email now says whether that response was saved.
       </p>
       {/* ───────── headline */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Tile label="Completed" value={String(s.n)} sub={`${s.range.label} · ${s.last7} in the last 7 days, ${s.last30} in the last 30`} />
         <Tile label="Average Clarity Score" value={f0(s.meanScore)} sub={`Median ${f0(s.medianScore)}`} />
         <Tile label="Questions they could not answer" value={f1(s.meanGaps)} sub={`On average, of ${questions.length}`} />
@@ -315,12 +315,16 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
+/** Same tile as the study dashboard: two-line label block, figures on a
+ *  common baseline, note pinned to the bottom so a row of them lines up. */
 function Tile({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
-    <div className="rounded-lg border border-line p-5">
-      <p className="text-caption uppercase tracking-overline text-muted">{label}</p>
-      <p className="mt-2 text-[40px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
-      <p className="mt-2 text-caption text-muted">{sub}</p>
+    <div className="flex h-full flex-col rounded-lg border border-line p-5">
+      <p className="min-h-[2.4em] text-[11px] font-semibold uppercase leading-[1.2] tracking-[0.1em] text-muted">
+        {label}
+      </p>
+      <p className="mt-3 text-[38px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
+      <p className="mt-auto pt-3 text-caption leading-snug text-muted">{sub}</p>
     </div>
   );
 }

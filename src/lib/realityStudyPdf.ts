@@ -181,8 +181,57 @@ export class Report {
     this.y -= th + 12;
   }
 
+  /**
+   * The small sampling curve inside a hypothesis card: where the true share
+   * could sit, given this many answers. Mirrors ProportionCurve on the
+   * dashboard, including the rule that it is not drawn at all below
+   * MIN_N_FOR_SHARE answers, where it would be a spike at 0% or 100%.
+   */
+  proportionCurve(t: ProportionTest, x: number, w: number, top: number, h = 54) {
+    const L = x + 14, R = x + w - 14, base = top - h + 14;
+    const p = Math.min(0.999, Math.max(0.001, t.pct / 100));
+    const se = Math.max(0.045, Math.sqrt((p * (1 - p)) / Math.max(1, t.n)));
+    const px = (v: number) => L + (v / 100) * (R - L);
+    const dens = (v: number) => Math.exp(-(((v / 100 - p) / se) ** 2) / 2);
+    const py = (d: number) => base + d * (h - 22);
+
+    // The supporting tail, as a stack of thin columns (pdf-lib has no path fill).
+    for (let v = t.threshold; v <= 100; v += 1) {
+      const x0 = px(v), x1 = px(Math.min(100, v + 1));
+      this.page.drawRectangle({ x: x0, y: base, width: Math.max(0.6, x1 - x0), height: py(dens(v)) - base, color: MAROON, opacity: 0.12 });
+    }
+    // The curve itself.
+    let prev: { x: number; y: number } | null = null;
+    for (let i = 0; i <= 100; i++) {
+      const v = i;
+      const pt = { x: px(v), y: py(dens(v)) };
+      if (prev) this.page.drawLine({ start: prev, end: pt, thickness: 1, color: MAROON });
+      prev = pt;
+    }
+    this.page.drawLine({ start: { x: L, y: base }, end: { x: R, y: base }, thickness: 0.5, color: LINE });
+    // The falsification line, and what we measured.
+    this.page.drawLine({ start: { x: px(t.threshold), y: base }, end: { x: px(t.threshold), y: base + h - 20 }, thickness: 0.8, color: INK, dashArray: [3, 2] });
+    const lab = san(`line ${t.threshold}%`);
+    this.page.drawText(lab, { x: px(t.threshold) - this.reg.widthOfTextAtSize(lab, 6) / 2, y: base + h - 18, size: 6, font: this.reg, color: INK });
+    this.page.drawLine({ start: { x: px(t.pct), y: base }, end: { x: px(t.pct), y: py(1) }, thickness: 1.2, color: MAROON });
+    // The 95% interval, as a bracket under the axis.
+    if (t.ci) {
+      const yb = base - 6;
+      this.page.drawLine({ start: { x: px(t.ci.lo), y: yb }, end: { x: px(t.ci.hi), y: yb }, thickness: 1, color: MAROON });
+      for (const e of [t.ci.lo, t.ci.hi]) {
+        this.page.drawLine({ start: { x: px(e), y: yb - 3 }, end: { x: px(e), y: yb + 3 }, thickness: 1, color: MAROON });
+      }
+      this.page.drawText(san(`${Math.round(t.ci.lo)}%`), { x: px(t.ci.lo), y: yb - 12, size: 6, font: this.reg, color: MUTED });
+      const hi = san(`${Math.round(t.ci.hi)}%`);
+      this.page.drawText(hi, { x: px(t.ci.hi) - this.reg.widthOfTextAtSize(hi, 6), y: yb - 12, size: 6, font: this.reg, color: MUTED });
+    }
+  }
+
   hypothesis(code: string, claim: string, t: ProportionTest, measure: string, test: string, extra: string | null, x: number, w: number, top: number) {
-    const h = 158;
+    /* Oct 2026: taller than it was, to carry the sampling curve the dashboard
+       added. A card with no curve (a thin sample) keeps the same height so the
+       two cards still line up side by side. */
+    const h = 232;
     const verdict = VERDICT_LABEL[t.verdict];
     /* Same rule as the dashboard: no share under MIN_N_FOR_SHARE answers. */
     const thin = t.n < MIN_N_FOR_SHARE;
@@ -221,9 +270,17 @@ export class Report {
       }
     }
     const tl = this.wrap(test, this.reg, 7, w - 28);
+    const testTop = top - h + 10 + (tl.length - 1) * 8.5;
     tl.forEach((ln, i) => {
       this.page.drawText(ln, { x: x + 14, y: top - h + 10 + (tl.length - 1 - i) * 8.5, size: 7, font: this.reg, color: MUTED });
     });
+
+    if (!thin) {
+      const capY = testTop + 16;
+      const cap = "Normal approximation, for the shape; the p-value is the exact binomial.";
+      this.page.drawText(san(cap), { x: x + 14, y: capY, size: 6, font: this.reg, color: MUTED });
+      this.proportionCurve(t, x, w, capY + 62, 54);
+    }
     return h;
   }
 
@@ -251,6 +308,122 @@ export class Report {
     this.page.drawText(xl, { x: (L + R) / 2 - this.reg.widthOfTextAtSize(xl, 7.5) / 2, y: B - 25, size: 7.5, font: this.reg, color: MUTED });
     this.page.drawText("Clarity Score", { x: M + 2, y: (T + B) / 2 - 25, size: 7.5, font: this.reg, color: MUTED, rotate: { type: "degrees" as never, angle: 90 } as never });
     this.y = B - 40;
+  }
+
+  /**
+   * A histogram with a normal curve of the same mean and standard deviation
+   * over it, the mean and +/-1 SD marked, and the 95% confidence interval of
+   * the mean shaded behind. The paper twin of DistributionChart on the
+   * dashboard, so the report and the screen cannot disagree.
+   *
+   * The curve is a comparison, not a claim: it is the shape the t-test assumes.
+   * The caption on the page says so.
+   */
+  distribution(o: {
+    values: number[];
+    min: number;
+    max: number;
+    binWidth: number;
+    mean: number | null;
+    sd: number | null;
+    ci: { lo: number; hi: number } | null;
+    zeroLine?: boolean;
+    xLabel: string;
+  }) {
+    const H = 170;
+    this.ensure(H + 26);
+    const L = M + 10, R = PAGE_W - M - 10;
+    const top = this.y - 4;
+    const base = top - H + 30;
+    const px = (v: number) => L + ((v - o.min) / (o.max - o.min)) * (R - L);
+
+    const bins: { lo: number; hi: number; n: number }[] = [];
+    for (let lo = o.min; lo < o.max; lo += o.binWidth) {
+      const hi = lo + o.binWidth;
+      const last = hi >= o.max;
+      bins.push({ lo, hi, n: o.values.filter((v) => v >= lo && (last ? v <= hi : v < hi)).length });
+    }
+    const dens = (v: number) =>
+      o.mean === null || !o.sd ? 0 : Math.exp(-((v - o.mean) ** 2) / (2 * o.sd * o.sd)) / (o.sd * Math.sqrt(2 * Math.PI));
+    const curvePeak = o.mean === null || !o.sd ? 0 : o.values.length * o.binWidth * dens(o.mean);
+    const peak = Math.max(1, ...bins.map((b) => b.n), curvePeak) * 1.15;
+    const py = (count: number) => base + (count / peak) * (H - 52);
+
+    // 95% CI of the mean, behind everything.
+    if (o.ci) {
+      this.page.drawRectangle({
+        x: px(o.ci.lo), y: base, width: Math.max(1, px(o.ci.hi) - px(o.ci.lo)), height: H - 44,
+        color: MAROON, opacity: 0.07,
+      });
+    }
+
+    // Bars, with the count above each one that has any.
+    for (const b of bins) {
+      const bx = px(b.lo) + 1.5;
+      const bw = Math.max(1, px(b.hi) - px(b.lo) - 3);
+      if (b.n) {
+        this.page.drawRectangle({ x: bx, y: base, width: bw, height: py(b.n) - base, color: MAROON, opacity: 0.55 });
+        const t = String(b.n);
+        this.page.drawText(t, { x: bx + bw / 2 - this.reg.widthOfTextAtSize(t, 6.5) / 2, y: py(b.n) + 3, size: 6.5, font: this.reg, color: MUTED });
+      }
+    }
+
+    // The fitted curve.
+    if (o.mean !== null && o.sd) {
+      let prev: { x: number; y: number } | null = null;
+      for (let i = 0; i <= 120; i++) {
+        const v = o.min + ((o.max - o.min) * i) / 120;
+        const pt = { x: px(v), y: py(o.values.length * o.binWidth * dens(v)) };
+        if (prev) this.page.drawLine({ start: prev, end: pt, thickness: 1.1, color: INK, opacity: 0.75 });
+        prev = pt;
+      }
+    }
+
+    // Reference lines.
+    if (o.zeroLine) {
+      this.page.drawLine({ start: { x: px(0), y: base }, end: { x: px(0), y: base + H - 44 }, thickness: 0.8, color: MUTED, dashArray: [3, 3] });
+      const t = "no gap";
+      this.page.drawText(t, { x: px(0) - this.reg.widthOfTextAtSize(t, 6.5) / 2, y: base + H - 42, size: 6.5, font: this.reg, color: MUTED });
+    }
+    if (o.mean !== null) {
+      this.page.drawLine({ start: { x: px(o.mean), y: base }, end: { x: px(o.mean), y: base + H - 50 }, thickness: 1.2, color: MAROON });
+      const t = san(`mean ${Math.round(o.mean)}`);
+      this.page.drawText(t, { x: px(o.mean) - this.bold.widthOfTextAtSize(t, 6.5) / 2, y: base + H - 48, size: 6.5, font: this.bold, color: MAROON });
+      if (o.sd) {
+        for (const k of [-1, 1]) {
+          const v = o.mean + k * o.sd;
+          if (v < o.min || v > o.max) continue;
+          this.page.drawLine({ start: { x: px(v), y: base }, end: { x: px(v), y: base + H - 58 }, thickness: 0.6, color: MAROON, opacity: 0.5, dashArray: [2, 2] });
+          const lab = `${k > 0 ? "+" : "-"}1 SD`;
+          this.page.drawText(lab, { x: px(v) - this.reg.widthOfTextAtSize(lab, 6) / 2, y: base + H - 56, size: 6, font: this.reg, color: MUTED });
+        }
+      }
+    }
+
+    // Axis and ticks.
+    this.page.drawLine({ start: { x: L, y: base }, end: { x: R, y: base }, thickness: 0.5, color: LINE });
+    for (let v = o.min; v <= o.max; v += o.binWidth * 2) {
+      const t = String(Math.round(v));
+      this.page.drawText(t, { x: px(v) - this.reg.widthOfTextAtSize(t, 6.5) / 2, y: base - 11, size: 6.5, font: this.reg, color: MUTED });
+    }
+    const xl = san(o.xLabel);
+    this.page.drawText(xl, { x: (L + R) / 2 - this.reg.widthOfTextAtSize(xl, 7.5) / 2, y: base - 24, size: 7.5, font: this.reg, color: MUTED });
+    this.y = base - 36;
+  }
+
+  /** The readings under a chart: evenly spaced, centred, with a rule above. */
+  statRow(items: { k: string; v: string }[]) {
+    this.ensure(34);
+    this.page.drawLine({ start: { x: M, y: this.y + 6 }, end: { x: PAGE_W - M, y: this.y + 6 }, thickness: 0.5, color: LINE });
+    const cw = CW / items.length;
+    items.forEach((it, i) => {
+      const cx = M + i * cw + cw / 2;
+      const k = san(it.k.toUpperCase());
+      const v = san(it.v);
+      this.page.drawText(k, { x: cx - this.bold.widthOfTextAtSize(k, 6) / 2, y: this.y - 6, size: 6, font: this.bold, color: MUTED });
+      this.page.drawText(v, { x: cx - this.bold.widthOfTextAtSize(v, 9) / 2, y: this.y - 19, size: 9, font: this.bold, color: INK });
+    });
+    this.y -= 32;
   }
 
   histogram(data: { label: string; n: number }[], x0: number, w: number) {
@@ -379,17 +552,47 @@ export async function generateStudyReportPdf(
     if (s.scatter.length) d.scatter(s.scatter);
     else d.para("No self-ratings recorded yet.", { size: 9 });
 
-    /* ── distribution */
-    d.section("How the scores are spread", 170);
-    const half = (CW - 24) / 2;
-    const topY = d.y;
-    d.page.drawText("Clarity Score distribution", { x: M, y: topY, size: 8.5, font: d.bold, color: INK });
-    d.y = topY - 12;
-    const hh = d.histogram(s.histogram, M, half);
-    d.page.drawText("Result bands", { x: M + half + 24, y: topY, size: 8.5, font: d.bold, color: INK });
-    d.y = topY - 18;
-    for (const b of s.bandCounts) d.bar(b.name, `${b.n} · ${r0(b.pct)}%`, b.pct, { x: M + half + 24, w: half, size: 8 });
-    d.y = Math.min(d.y, topY - 12 - hh) - 4;
+    /* ── distributions, with the curve the statistics assume */
+    d.section("Where the scores fall", 230);
+    d.para(
+      "Every Clarity Score, in ten-point bins. The line is a normal distribution with the same mean and standard deviation, drawn for comparison: it is what the t-test assumes, not a claim that the scores are normal. The shaded band is the 95% confidence interval of the mean.",
+      { size: 8, color: MUTED, after: 4 }
+    );
+    d.distribution({
+      values: s.scoreValues, min: 0, max: 100, binWidth: 10,
+      mean: s.meanScore, sd: s.stats.meanScore?.sd ?? null, ci: s.stats.meanScore?.ci ?? null,
+      xLabel: "Clarity Score",
+    });
+    d.statRow([
+      { k: "n", v: String(s.n) },
+      { k: "Mean", v: r1(s.meanScore) },
+      { k: "Median", v: r0(s.medianScore) },
+      { k: "SD", v: r1(s.stats.meanScore?.sd ?? null) },
+      { k: "95% CI of the mean", v: s.stats.meanScore ? `${r1(s.stats.meanScore.ci.lo)} to ${r1(s.stats.meanScore.ci.hi)}` : "-" },
+    ]);
+
+    d.section("The overconfidence gap", 230);
+    d.para(
+      "Self-rating minus Clarity Score, one value per respondent. Right of the dashed line is an owner who rated themselves above what they could evidence.",
+      { size: 8, color: MUTED, after: 4 }
+    );
+    d.distribution({
+      values: s.gapValues, min: -50, max: 50, binWidth: 10,
+      mean: s.meanOverconfidence, sd: s.stats.overconfidence?.sd ?? null, ci: s.stats.overconfidence?.ci ?? null,
+      zeroLine: true, xLabel: "Self-rating minus score (points)",
+    });
+    d.statRow([
+      { k: "n", v: String(s.nRated) },
+      { k: "Mean gap", v: r1(s.meanOverconfidence) },
+      { k: "SD", v: r1(s.stats.overconfidence?.sd ?? null) },
+      { k: "Paired t-test", v: s.stats.overconfidence ? `t(${s.stats.overconfidence.n - 1}) = ${s.stats.overconfidence.t.toFixed(2)}` : "-" },
+      { k: "Significance", v: s.stats.overconfidence ? fmtP(s.stats.overconfidence.p) : "-" },
+      { k: "Effect size d", v: s.stats.overconfidence ? s.stats.overconfidence.d.toFixed(2) : "-" },
+    ]);
+
+    /* ── bands, which used to share a row with the old histogram */
+    d.section("Result bands", 140);
+    for (const b of s.bandCounts) d.bar(b.name, `${b.n} · ${r0(b.pct)}%`, b.pct);
 
     /* ── questions */
     d.section("Where owners are guessing", 200);

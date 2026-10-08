@@ -6,6 +6,8 @@ import { loadStudy, EXCLUDE_REASONS, MIN_N_TO_READ, MIN_SECONDS, type Count, typ
 import { ExcludeControl } from "@/components/reality/ExcludeControl";
 import { sourceLabel, studyFields } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
+import { H1_NOTE, H2_NOTE, type MethodNote } from "@/lib/realityStudyMethod";
+import { StatNote } from "@/components/methodlab/StatNote";
 import { MIN_N_FOR_SHARE, fmtP, type ProportionTest } from "@/lib/stats";
 import {
   VERDICT_LABEL,
@@ -192,6 +194,7 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
               t={s.h1}
               measure="of $1–20M firms get analysis from no one, only their bookkeeper or CPA, or software alone"
               extra={null}
+              note={H1_NOTE}
             />
             <Hypothesis
               code="H2"
@@ -204,6 +207,7 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
                 s.h2Everyone.n ? `All respondents, for context: ${share(s.h2Everyone)}.` : null,
                 s.h2Legacy.n ? `The retired price question was answered ${s.h2Legacy.n} times; reported separately, not used for H2.` : null,
               ].filter(Boolean).join(" ") || null}
+              note={H2_NOTE}
             />
           </div>
           {/* ───────── how sure */}
@@ -393,6 +397,8 @@ function Tile({ label, value, sub }: { label: string; value: string; sub: string
 
 function Hypothesis(p: {
   code: string; claim: string; test: string; t: ProportionTest; measure: string; extra: string | null;
+  /** How this figure is worked out, behind the "?" beside it. */
+  note: MethodNote;
 }) {
   const v = p.t.verdict;
   const pill =
@@ -400,7 +406,10 @@ function Hypothesis(p: {
   return (
     <div className="rounded-lg border border-line border-l-4 border-l-maroon bg-surface p-6">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="text-h4 font-semibold text-maroon">{p.code}</p>
+        <span className="flex items-center gap-2">
+          <span className="text-h4 font-semibold text-maroon">{p.code}</span>
+          <StatNote title={`${p.code}: ${p.claim}`} note={p.note} />
+        </span>
         <span className={`rounded-full px-3 py-1 text-caption font-semibold ${pill}`}>{VERDICT_LABEL[v]}</span>
       </div>
       <p className="mt-2 text-body font-semibold text-ink">{p.claim}</p>

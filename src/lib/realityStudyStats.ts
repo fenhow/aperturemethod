@@ -58,6 +58,13 @@ const REVIEW = ["review-walkthrough", "review-implement"];
 
 const isTest = (r: StudyRow) => (r.source ?? "").startsWith("test");
 
+/** The human label for a stored profile value ("1-5m" -> "$1M-$5M"). */
+function labelFor(fieldId: string, value: string | null | undefined): string | null {
+  if (!value) return null;
+  const f = studyFields.find((x) => x.id === fieldId);
+  return f?.options.find((o) => o.value === value)?.label ?? value;
+}
+
 /** The reasons offered by the dashboard's Exclude button. */
 export const EXCLUDE_REASONS = [
   "My own test",
@@ -229,7 +236,25 @@ export function computeStudy(
     nRated: rated.length,
     meanGaps: mean(rows.map((r) => r.gaps)),
     profileRate: pct(rows.filter((r) => r.profile_done).length, n),
-    scatter: rated.map((r) => ({ self: r.self_rating!, score: r.score })),
+    /*
+     * The scatter carries enough to answer "who is that dot?" on hover: the two
+     * plotted values, the gap between them, and the little context that makes a
+     * point interpretable. No name, no email, no run id: this is a research
+     * dashboard, not a lead list, and a dot should stay a respondent.
+     */
+    scatter: rated.map((r) => ({
+      self: r.self_rating!,
+      score: r.score,
+      gap: r.self_rating! * 10 - r.score,
+      band: r.band ?? null,
+      revenue: labelFor("revenue", r.revenue),
+      role: labelFor("role", r.role),
+      gaps: r.gaps,
+      when: r.created_at ? r.created_at.slice(0, 10) : null,
+    })),
+    /** Raw series, for the distribution charts (histogram + fitted curve). */
+    scoreValues: scores,
+    gapValues: gapsPerRated,
     byQuestion,
     blindSpots,
     bandCounts,

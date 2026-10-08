@@ -8,6 +8,7 @@ import { sourceLabel, studyFields } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
 import { H1_NOTE, H2_NOTE, type MethodNote } from "@/lib/realityStudyMethod";
 import { StatNote } from "@/components/methodlab/StatNote";
+import { DistributionChart, ScoreScatter } from "@/components/methodlab/StudyCharts";
 import { MIN_N_FOR_SHARE, fmtP, type ProportionTest } from "@/lib/stats";
 import {
   VERDICT_LABEL,
@@ -228,12 +229,75 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
               Each dot is one owner. Above the line: they rated themselves higher than they scored.
             </p>
             {correlationSentence(s) ? <p className="mt-2 text-small text-ink">{correlationSentence(s)}</p> : null}
-            <Scatter points={s.scatter} />
+            <ScoreScatter points={s.scatter} />
           </Panel>
 
-          {/* ───────── distribution */}
+          {/* ───────── distributions, with the curve the statistics assume */}
+          <Panel title="Where the scores fall">
+            <p className="text-small text-muted">
+              Every Clarity Score, in ten-point bins. The line is a normal distribution with the same
+              mean and standard deviation, drawn for comparison: it is what the t-test assumes, not a
+              claim that the scores are normal. The shaded band is the 95% confidence interval of the
+              mean. Hover a bar for the count.
+            </p>
+            <DistributionChart
+              values={s.scoreValues}
+              min={0}
+              max={100}
+              binWidth={10}
+              mean={s.meanScore}
+              sd={s.stats.meanScore?.sd ?? null}
+              ci={s.stats.meanScore?.ci ?? null}
+              xLabel="Clarity Score"
+            />
+            <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-small">
+              <Stat k="n" v={`${s.n}`} />
+              <Stat k="Mean" v={f1(s.meanScore)} />
+              <Stat k="Median" v={f0(s.medianScore)} />
+              <Stat k="SD" v={f1(s.stats.meanScore?.sd ?? null)} />
+              <Stat
+                k="95% CI of the mean"
+                v={s.stats.meanScore ? `${f1(s.stats.meanScore.ci.lo)} to ${f1(s.stats.meanScore.ci.hi)}` : "—"}
+              />
+            </dl>
+          </Panel>
+
+          <Panel title="The overconfidence gap">
+            <p className="text-small text-muted">
+              Self-rating minus Clarity Score, one value per respondent. Right of the dashed line is an
+              owner who rated themselves above what they could evidence. The curve and the shaded band
+              are as above: a normal distribution of the same mean and spread, and the 95% confidence
+              interval of the mean gap.
+            </p>
+            <DistributionChart
+              values={s.gapValues}
+              min={-50}
+              max={50}
+              binWidth={10}
+              mean={s.meanOverconfidence}
+              sd={s.stats.overconfidence?.sd ?? null}
+              ci={s.stats.overconfidence?.ci ?? null}
+              zeroLine
+              xLabel="Self-rating minus score (points)"
+            />
+            <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-small">
+              <Stat k="n" v={`${s.nRated}`} />
+              <Stat k="Mean gap" v={f1(s.meanOverconfidence)} />
+              <Stat k="SD" v={f1(s.stats.overconfidence?.sd ?? null)} />
+              <Stat
+                k="Paired t-test"
+                v={
+                  s.stats.overconfidence
+                    ? `t(${s.stats.overconfidence.n - 1}) = ${s.stats.overconfidence.t.toFixed(2)} · ${fmtP(s.stats.overconfidence.p)}`
+                    : "—"
+                }
+              />
+              <Stat k="Effect size d" v={s.stats.overconfidence ? s.stats.overconfidence.d.toFixed(2) : "—"} />
+            </dl>
+          </Panel>
+
           <div className="grid gap-6 md:grid-cols-2">
-            <Panel title="Clarity Score distribution">
+            <Panel title="Clarity Score bins">
               <Histogram data={s.histogram} />
             </Panel>
             <Panel title="Result bands">
@@ -445,6 +509,16 @@ function Hypothesis(p: {
   );
 }
 
+/** One label-and-figure pair under a chart. */
+function Stat({ k, v }: { k: string; v: string }) {
+  return (
+    <div>
+      <dt className="text-caption uppercase tracking-overline text-muted">{k}</dt>
+      <dd className="mt-0.5 font-semibold tabular-nums text-ink">{v}</dd>
+    </div>
+  );
+}
+
 function Bars({ rows }: { rows: { label: string; n: number; pct: number }[] }) {
   return (
     <ul className="space-y-3">
@@ -503,35 +577,6 @@ function Histogram({ data }: { data: { label: string; n: number }[] }) {
         ))}
       </div>
     </div>
-  );
-}
-
-function Scatter({ points }: { points: { self: number; score: number }[] }) {
-  // x = self-rating 1..10 (as 10..100), y = Clarity Score 0..100.
-  const W = 640, H = 340, L = 48, B = 36, T = 12, R = 12;
-  const x = (v: number) => L + ((v - 0) / 100) * (W - L - R);
-  const y = (v: number) => T + (1 - v / 100) * (H - T - B);
-  // Small deterministic jitter so identical answers do not stack into one dot.
-  const jitter = (i: number) => ((i * 7919) % 11) - 5;
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="mt-4 w-full" role="img" aria-label="Self-rating against Clarity Score">
-      {[0, 25, 50, 75, 100].map((v) => (
-        <g key={v}>
-          <line x1={L} x2={W - R} y1={y(v)} y2={y(v)} stroke="currentColor" className="text-line" />
-          <text x={L - 8} y={y(v) + 4} textAnchor="end" fontSize="11" fill="#6b6b6b">{v}</text>
-        </g>
-      ))}
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((v) => (
-        <text key={v} x={x(v * 10)} y={H - B + 18} textAnchor="middle" fontSize="11" fill="#6b6b6b">{v}</text>
-      ))}
-      <line x1={x(0)} y1={y(0)} x2={x(100)} y2={y(100)} stroke="#6b6b6b" strokeDasharray="4 4" />
-      <text x={x(96)} y={y(100) + 14} textAnchor="end" fontSize="11" fill="#6b6b6b">score matches self-rating</text>
-      {points.map((p, i) => (
-        <circle key={i} cx={x(p.self * 10) + jitter(i)} cy={y(p.score) + jitter(i + 3) / 2} r="5" fill="#500000" fillOpacity="0.55" />
-      ))}
-      <text x={(L + W - R) / 2} y={H - 2} textAnchor="middle" fontSize="11" fill="#6b6b6b">Self-rating before the quiz (1–10)</text>
-      <text x={12} y={(T + H - B) / 2} textAnchor="middle" fontSize="11" fill="#6b6b6b" transform={`rotate(-90 12 ${(T + H - B) / 2})`}>Clarity Score</text>
-    </svg>
   );
 }
 

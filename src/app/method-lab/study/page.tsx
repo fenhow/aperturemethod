@@ -250,7 +250,7 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
               ci={s.stats.meanScore?.ci ?? null}
               xLabel="Clarity Score"
             />
-            <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-small">
+            <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-line pt-5 text-center sm:grid-cols-3 lg:grid-cols-5">
               <Stat k="n" v={`${s.n}`} />
               <Stat k="Mean" v={f1(s.meanScore)} />
               <Stat k="Median" v={f0(s.medianScore)} />
@@ -280,18 +280,17 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
               zeroLine
               xLabel="Self-rating minus score (points)"
             />
-            <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-small">
+            <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-line pt-5 text-center sm:grid-cols-3 lg:grid-cols-6">
               <Stat k="n" v={`${s.nRated}`} />
               <Stat k="Mean gap" v={f1(s.meanOverconfidence)} />
               <Stat k="SD" v={f1(s.stats.overconfidence?.sd ?? null)} />
+              {/* t and p are two readings, and together they wrapped onto a
+                  second line in one cell while its neighbours sat on one. */}
               <Stat
                 k="Paired t-test"
-                v={
-                  s.stats.overconfidence
-                    ? `t(${s.stats.overconfidence.n - 1}) = ${s.stats.overconfidence.t.toFixed(2)} · ${fmtP(s.stats.overconfidence.p)}`
-                    : "—"
-                }
+                v={s.stats.overconfidence ? `t(${s.stats.overconfidence.n - 1}) = ${s.stats.overconfidence.t.toFixed(2)}` : "—"}
               />
+              <Stat k="Significance" v={s.stats.overconfidence ? fmtP(s.stats.overconfidence.p) : "—"} />
               <Stat k="Effect size d" v={s.stats.overconfidence ? s.stats.overconfidence.d.toFixed(2) : "—"} />
             </dl>
           </Panel>
@@ -564,12 +563,19 @@ function Hypothesis(p: {
   );
 }
 
-/** One label-and-figure pair under a chart. */
+/**
+ * One label-and-figure pair under a chart.
+ *
+ * They sit in an even grid rather than a wrapped row: five readings bunched at
+ * the left of a 1,180px panel read as a sentence someone forgot to finish, and
+ * the eye cannot compare them. Equal columns, centred, with a rule above the
+ * row to separate the numbers from the chart they come from.
+ */
 function Stat({ k, v }: { k: string; v: string }) {
   return (
-    <div>
-      <dt className="text-caption uppercase tracking-overline text-muted">{k}</dt>
-      <dd className="mt-0.5 font-semibold tabular-nums text-ink">{v}</dd>
+    <div className="min-w-0">
+      <dt className="text-[10.5px] font-semibold uppercase leading-[1.3] tracking-[0.1em] text-muted">{k}</dt>
+      <dd className="mt-1 text-body font-semibold tabular-nums text-ink">{v}</dd>
     </div>
   );
 }

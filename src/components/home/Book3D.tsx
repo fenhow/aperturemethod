@@ -81,7 +81,9 @@ export function Book3D() {
               The Aperture Method<span className="book360__ftm">™</span>
             </p>
             <p className="book360__fsub">
-              Big-company intelligence for owner&#8209;run businesses.
+              Big-company intelligence
+              <br />
+              for owner&#8209;run businesses.
             </p>
             <p className="book360__fauthor">
               <span className="book360__frule" aria-hidden="true" />

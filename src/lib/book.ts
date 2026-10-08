@@ -18,7 +18,7 @@ export type BookContributor = {
 export const bookContributors: BookContributor[] = [
   {
     area: "Accounting",
-    name: null,
+    name: "Bradford F. Hepfer, PhD, CPA",
     focus: "Reading the statements, measuring what matters, and trusting the numbers you decide on.",
   },
   {
@@ -43,13 +43,16 @@ export const BOOK_ISBN_VERIFY_URL = "https://isbnsearch.org/isbn/9798234259608";
 
 /** Back cover: a flat render of the approved Look Closer back-cover design.
  * Bump the filename (v2, v3...) on every re-render: the CDN and browsers cache by name. */
-export const BOOK_BACK_ART = "/book/look-closer-back-v2.jpg";
+export const BOOK_BACK_ART = "/book/look-closer-back-v4.jpg";
 
-/** "with A · B · C" once all are named, otherwise the areas. */
+/** "with A · B · C" once all are named; "with A, and contributing experts" while some are; otherwise the areas. */
 export function contributorLine(): string {
   const named = bookContributors.filter((c) => c.name);
   if (named.length === bookContributors.length) {
     return `with ${named.map((c) => c.name).join(" · ")}`;
+  }
+  if (named.length > 0) {
+    return `with ${named.map((c) => c.name).join(" · ")}, and contributing experts`;
   }
   return `with contributors in ${bookContributors.map((c) => c.area).join(" · ")}`;
 }

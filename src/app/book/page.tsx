@@ -168,13 +168,21 @@ export default function BookPage() {
           <SectionHeading
             eyebrow="Written with"
             title="Three experts, one method."
-            lede="Fenwick is writing the book with contributing authors in the three disciplines an owner-run business leans on most."
+            lede="Fenwick is writing the book with contributing authors in the disciplines an owner-run business leans on most. The first has signed on; the others will be announced as they join."
           />
         </Reveal>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {bookContributors.map((c) => (
             <div key={c.area} className="rounded-2xl border border-line bg-paper p-6">
-              <p className="text-small font-semibold text-maroon">Contributing author · {c.area}</p>
+              {c.photo && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={c.photo}
+                  alt={c.name ?? ""}
+                  className="mb-4 h-16 w-16 rounded-full object-cover object-top"
+                />
+              )}
+              <p className="text-small font-semibold text-maroon">Contributing author · {c.role ?? c.area}</p>
               <h3 className="mt-2 text-h4 font-semibold text-ink">{c.name ?? "To be announced"}</h3>
               <p className="mt-3 text-body text-muted">{c.focus}</p>
             </div>

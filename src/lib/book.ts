@@ -13,13 +13,19 @@ export type BookContributor = {
   name: string | null;
   /** One line on what they bring, shown on /book once named. */
   focus: string;
+  /** Optional label shown instead of the area on /book (e.g. "Accounting & Finance"). */
+  role?: string;
+  /** Optional headshot under /public, black and white to match Fenwick's. */
+  photo?: string;
 };
 
 export const bookContributors: BookContributor[] = [
   {
     area: "Accounting",
     name: "Bradford F. Hepfer, PhD, CPA",
-    focus: "Reading the statements, measuring what matters, and trusting the numbers you decide on.",
+    role: "Accounting & Finance",
+    photo: "/book/bradford-hepfer.jpg",
+    focus: "Writes and reviews the book’s financial chapters: reading the statements, managing cash, and trusting the numbers you decide on.",
   },
   {
     area: "Marketing",

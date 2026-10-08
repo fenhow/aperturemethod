@@ -4,11 +4,21 @@ import { APERTURE_LOGO_WHITE_HORIZONTAL_B64 } from "./onboarding/logo";
 import { questions } from "./realityCheck";
 import { sourceLabel, studyFields } from "./realityStudy";
 import { MIN_N_TO_READ, MIN_SECONDS, type StudyStats } from "./realityStudyStats";
-import { fmtP, type ProportionTest } from "./stats";
+import { MIN_N_FOR_SHARE, fmtP, type ProportionTest } from "./stats";
 import {
   VERDICT_LABEL, STATS_CAVEAT, correlationSentence, groupSentence, moeSentence,
   overconfidenceSentence, proportionSentence,
 } from "./realityStudyReadout";
+
+/**
+ * A share, or a plain count while there are too few answers for a share to mean
+ * anything. Same threshold as the dashboard (MIN_N_FOR_SHARE).
+ */
+function share(t: { n: number; pct: number }): string {
+  return t.n < MIN_N_FOR_SHARE
+    ? `${Math.round((t.pct / 100) * t.n)} of ${t.n}`
+    : `${Math.round(t.pct)}% (n = ${t.n})`;
+}
 
 /**
  * The Clarity Check research study as a clean, branded PDF report.
@@ -174,7 +184,9 @@ export class Report {
   hypothesis(code: string, claim: string, t: ProportionTest, measure: string, test: string, extra: string | null, x: number, w: number, top: number) {
     const h = 158;
     const verdict = VERDICT_LABEL[t.verdict];
-    const value = t.n ? `${Math.round(t.pct)}%` : "-";
+    /* Same rule as the dashboard: no share under MIN_N_FOR_SHARE answers. */
+    const thin = t.n < MIN_N_FOR_SHARE;
+    const value = thin ? `${t.n}` : `${Math.round(t.pct)}%`;
     this.page.drawRectangle({ x, y: top - h, width: w, height: h, borderColor: LINE, borderWidth: 0.6, color: WHITE });
     this.page.drawRectangle({ x, y: top - h, width: 3, height: h, color: MAROON });
     this.page.drawText(code, { x: x + 14, y: top - 20, size: 13, font: this.bold, color: MAROON });
@@ -188,9 +200,13 @@ export class Report {
       yy -= 11;
     }
     this.page.drawText(san(value), { x: x + 14, y: yy - 20, size: 22, font: this.bold, color: INK });
-    if (t.ci) {
-      const ciT = san(`95% CI ${Math.round(t.ci.lo)}-${Math.round(t.ci.hi)}%  ·  ${fmtP(t.verdict === "against" ? t.pBelow : t.pAbove)}`);
-      this.page.drawText(ciT, { x: x + 14 + this.bold.widthOfTextAtSize(value, 22) + 10, y: yy - 18, size: 8, font: this.bold, color: MAROON });
+    const side = thin
+      ? san(`${t.n === 1 ? "answer" : "answers"} so far  ·  too few to report a share (from ${MIN_N_FOR_SHARE})`)
+      : t.ci
+        ? san(`95% CI ${Math.round(t.ci.lo)}-${Math.round(t.ci.hi)}%  ·  ${fmtP(t.verdict === "against" ? t.pBelow : t.pAbove)}`)
+        : null;
+    if (side) {
+      this.page.drawText(side, { x: x + 14 + this.bold.widthOfTextAtSize(value, 22) + 10, y: yy - 18, size: 8, font: this.bold, color: MAROON });
     }
     yy -= 32;
     for (const ln of this.wrap(measure, this.reg, 7.5, w - 28)) {
@@ -337,8 +353,8 @@ export async function generateStudyReportPdf(
       `of owners and co-owners at $1M+ businesses say an outside view would help somewhat or a lot (n = ${s.h2.n})`,
       "Survey measure (need): not supported if 50% or fewer say so. Payment is tested by conversion (falsified below 1 in 8).",
       [
-        s.h2Fit.n ? `Fit: ${r0(s.h2Fit.pct)}% of them would choose an independent review (n = ${s.h2Fit.n}).` : null,
-        s.h2Everyone.n ? `All respondents: ${r0(s.h2Everyone.pct)}% (n = ${s.h2Everyone.n}).` : null,
+        s.h2Fit.n ? `Fit: ${share(s.h2Fit)} of them would choose an independent review.` : null,
+        s.h2Everyone.n ? `All respondents: ${share(s.h2Everyone)}.` : null,
         s.h2Legacy.n ? `Retired price question: ${s.h2Legacy.n} answers, not used.` : null,
       ].filter(Boolean).join(" ") || null,
       M + w + 12, w, top

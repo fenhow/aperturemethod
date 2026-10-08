@@ -122,6 +122,19 @@ export type ProportionTest = {
  */
 export const MIN_N_FOR_VERDICT = 30;
 
+/**
+ * Below this many answers, no percentage is reported at all.
+ *
+ * Oct 2026: after the survey questions changed, H2's new measure had exactly one
+ * answer, and that one answer was a no. The dashboard printed "0%" in 36-point
+ * type with a confidence interval of 0-79% beside it. The arithmetic was right
+ * and the impression was false: nothing is 0% because one person said no, and
+ * the same card would have read "100%" had that person said yes. A share needs a
+ * handful of answers before it means anything, so below this the card shows the
+ * count and says it is too early.
+ */
+export const MIN_N_FOR_SHARE = 5;
+
 export function proportionTest(k: number, n: number, thresholdPct: number): ProportionTest {
   const p0 = thresholdPct / 100;
   if (!n) return { k, n, pct: 0, ci: null, threshold: thresholdPct, pAbove: null, pBelow: null, verdict: "no-data" };

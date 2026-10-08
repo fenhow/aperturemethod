@@ -6,7 +6,7 @@ import { loadStudy, EXCLUDE_REASONS, MIN_N_TO_READ, MIN_SECONDS, type Count, typ
 import { ExcludeControl } from "@/components/reality/ExcludeControl";
 import { sourceLabel, studyFields } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
-import { fmtP, type ProportionTest } from "@/lib/stats";
+import { MIN_N_FOR_SHARE, fmtP, type ProportionTest } from "@/lib/stats";
 import {
   VERDICT_LABEL,
   STATS_CAVEAT,
@@ -34,6 +34,9 @@ export const dynamic = "force-dynamic";
 
 const f1 = (x: number | null | undefined) => (x === null || x === undefined ? "—" : x.toFixed(1));
 const f0 = (x: number | null | undefined) => (x === null || x === undefined ? "—" : Math.round(x).toString());
+/** A share, or a plain count while a share would read as 0% or 100%. */
+const share = (t: { n: number; pct: number }) =>
+  t.n < MIN_N_FOR_SHARE ? `${Math.round((t.pct / 100) * t.n)} of ${t.n}` : `${Math.round(t.pct)}% (n = ${t.n})`;
 
 type Search = { revenue?: string; industry?: string; source?: string; all?: string };
 
@@ -197,8 +200,8 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
               t={s.h2}
               measure="of owners and co-owners at $1M+ businesses say an outside view would help somewhat or a lot"
               extra={[
-                s.h2Fit.n ? `Fit: ${f0(s.h2Fit.pct)}% of them would choose an independent review over a tool, their CPA or doing it themselves (n = ${s.h2Fit.n}).` : null,
-                s.h2Everyone.n ? `All respondents, for context: ${f0(s.h2Everyone.pct)}% (n = ${s.h2Everyone.n}).` : null,
+                s.h2Fit.n ? `Fit: ${share(s.h2Fit)} of them would choose an independent review over a tool, their CPA or doing it themselves.` : null,
+                s.h2Everyone.n ? `All respondents, for context: ${share(s.h2Everyone)}.` : null,
                 s.h2Legacy.n ? `The retired price question was answered ${s.h2Legacy.n} times; reported separately, not used for H2.` : null,
               ].filter(Boolean).join(" ") || null}
             />
@@ -401,13 +404,32 @@ function Hypothesis(p: {
         <span className={`rounded-full px-3 py-1 text-caption font-semibold ${pill}`}>{VERDICT_LABEL[v]}</span>
       </div>
       <p className="mt-2 text-body font-semibold text-ink">{p.claim}</p>
-      <p className="mt-4 text-[36px] font-semibold leading-none text-ink tabular-nums">{p.t.n ? `${f0(p.t.pct)}%` : "—"}</p>
-      {p.t.ci ? (
-        <p className="mt-1 text-small font-semibold text-maroon tabular-nums">
-          95% CI {f0(p.t.ci.lo)}–{f0(p.t.ci.hi)}% · {fmtP(p.t.verdict === "against" ? p.t.pBelow : p.t.pAbove)}
-        </p>
-      ) : null}
-      <p className="mt-2 text-small text-muted">{p.measure} (n = {p.t.n})</p>
+      {/* A share needs a handful of answers behind it. One answer reads as 0% or
+          100% and means neither, so below MIN_N_FOR_SHARE the card shows how many
+          answers there are and says plainly that it is too early. */}
+      {p.t.n >= MIN_N_FOR_SHARE ? (
+        <>
+          <p className="mt-4 text-[36px] font-semibold leading-none text-ink tabular-nums">
+            {f0(p.t.pct)}%
+          </p>
+          {p.t.ci ? (
+            <p className="mt-1 text-small font-semibold text-maroon tabular-nums">
+              95% CI {f0(p.t.ci.lo)}–{f0(p.t.ci.hi)}% · {fmtP(p.t.verdict === "against" ? p.t.pBelow : p.t.pAbove)}
+            </p>
+          ) : null}
+          <p className="mt-2 text-small text-muted">{p.measure} (n = {p.t.n})</p>
+        </>
+      ) : (
+        <>
+          <p className="mt-4 text-[36px] font-semibold leading-none text-muted tabular-nums">
+            {p.t.n} <span className="text-[18px] font-semibold">{p.t.n === 1 ? "answer" : "answers"}</span>
+          </p>
+          <p className="mt-1 text-small font-semibold text-maroon">
+            Too few to report a share. From {MIN_N_FOR_SHARE}.
+          </p>
+          <p className="mt-2 text-small text-muted">Measuring: {p.measure}.</p>
+        </>
+      )}
       {p.extra ? <p className="mt-2 text-small text-ink">{p.extra}</p> : null}
       <p className="mt-3 text-caption text-muted">{p.test}</p>
     </div>

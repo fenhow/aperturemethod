@@ -1,4 +1,4 @@
-import { ALPHA, MIN_N_FOR_VERDICT, corrWord, effectWord, fmtP, type Anova, type ProportionTest } from "@/lib/stats";
+import { ALPHA, MIN_N_FOR_SHARE, MIN_N_FOR_VERDICT, corrWord, effectWord, fmtP, type Anova, type ProportionTest } from "@/lib/stats";
 import type { StudyStats } from "@/lib/realityStudyStats";
 
 /**
@@ -26,8 +26,13 @@ export const VERDICT_LABEL: Record<ProportionTest["verdict"], string> = {
 
 export function proportionSentence(t: ProportionTest, what: string): string {
   if (t.verdict === "no-data") return "No answers yet.";
-  if (t.verdict === "early")
+  if (t.verdict === "early") {
+    /* Under a handful of answers, even an "early reading" misleads: one answer
+       reads as 0% or 100%. Report the count and nothing else. */
+    if (t.n < MIN_N_FOR_SHARE)
+      return `Only ${t.n} answer${t.n === 1 ? "" : "s"} so far, too few to put a share on: a single answer would read as 0% or 100%. A share is reported from ${MIN_N_FOR_SHARE} answers, a verdict on ${what} from ${MIN_N_FOR_VERDICT}.`;
     return `Only ${t.n} answer${t.n === 1 ? "" : "s"} so far; no verdict until at least ${MIN_N_FOR_VERDICT}. Early reading ${Math.round(t.pct)}% (95% confidence interval ${ci(t.ci)}), which is still too wide to call ${what}.`;
+  }
   const range = `95% confidence interval ${ci(t.ci)}`;
   if (t.verdict === "supported")
     return `We can be 95% confident the true share is above ${t.threshold}% (${range}; one-sided exact binomial ${fmtP(t.pAbove)}).`;

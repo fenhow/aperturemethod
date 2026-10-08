@@ -457,17 +457,20 @@ function Panel({ title, children, compact }: { title: string; children: React.Re
  * pinned to the bottom of the card. Before this the labels ran to three lines
  * at some widths and the numbers stepped down the row like a staircase.
  *
- * The label is also set tighter (11px, less letter-spacing) so the longest of
- * them, "Questions they could not answer", fits on two lines rather than three.
+ * The label is also set tighter (10.5px, less letter-spacing) so the longest of
+ * them, "Questions they could not answer", fits on two lines rather than three,
+ * and everything is centred on the figure: in a row of four, a centred column
+ * reads as one object, while left-aligned text of different lengths reads as
+ * four ragged ones.
  */
 function Tile({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
-    <div className="flex h-full flex-col rounded-lg border border-line p-5">
-      <p className="min-h-[2.4em] text-[11px] font-semibold uppercase leading-[1.2] tracking-[0.1em] text-muted">
+    <div className="flex h-full flex-col items-center rounded-lg border border-line p-5 text-center">
+      <p className="min-h-[2.4em] text-[10.5px] font-semibold uppercase leading-[1.2] tracking-[0.1em] text-muted">
         {label}
       </p>
-      <p className="mt-3 text-[38px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
-      <p className="mt-auto pt-3 text-caption leading-snug text-muted">{sub}</p>
+      <p className="mt-2 text-[40px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
+      <p className="mt-auto max-w-[22ch] pt-3 text-[11.5px] leading-[1.45] text-muted">{sub}</p>
     </div>
   );
 }

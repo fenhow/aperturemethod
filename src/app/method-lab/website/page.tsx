@@ -319,12 +319,12 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
  *  common baseline, note pinned to the bottom so a row of them lines up. */
 function Tile({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
-    <div className="flex h-full flex-col rounded-lg border border-line p-5">
-      <p className="min-h-[2.4em] text-[11px] font-semibold uppercase leading-[1.2] tracking-[0.1em] text-muted">
+    <div className="flex h-full flex-col items-center rounded-lg border border-line p-5 text-center">
+      <p className="min-h-[2.4em] text-[10.5px] font-semibold uppercase leading-[1.2] tracking-[0.1em] text-muted">
         {label}
       </p>
-      <p className="mt-3 text-[38px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
-      <p className="mt-auto pt-3 text-caption leading-snug text-muted">{sub}</p>
+      <p className="mt-2 text-[40px] font-semibold leading-none text-maroon tabular-nums">{value}</p>
+      <p className="mt-auto max-w-[22ch] pt-3 text-[11.5px] leading-[1.45] text-muted">{sub}</p>
     </div>
   );
 }

@@ -32,7 +32,7 @@ export function BookSection() {
             the company from.
           </p>
           <p className="mt-4 max-w-measure text-body text-muted">
-            Written by Fenwick How, with Bradford F. Hepfer, Ph.D., CPA, on accounting and finance, and contributing authors in marketing and technology. In progress now.
+            Written by Fenwick How, with Bradford Hepfer, PhD, CPA, on accounting and finance, and contributing authors in marketing and technology. In progress now.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">

@@ -26,13 +26,13 @@ export type BookContributor = {
 export const bookContributors: BookContributor[] = [
   {
     area: "Accounting",
-    name: "Bradford F. Hepfer, Ph.D., CPA",
+    name: "Bradford Hepfer, PhD, CPA",
     role: "Accounting & Finance",
-    photo: "/book/bradford-hepfer-v2.jpg",
+    photo: "/book/bradford-hepfer-v3.jpg",
     bio: [
-      "Dr. Bradford (Brad) Hepfer, Ph.D., CPA, is an associate professor of accounting and holds the Deborah D. Shelton Professorship in Taxation at Texas A&M’s Mays Business School. Dr. Hepfer conducts capital markets-based research at the intersection of financial accounting and taxation. More specifically, his work examines the capital market consequences of corporate financial reporting, the effects of corporate taxation, and the factors that shape corporate tax policy, with the primary goal of providing novel insights for business leaders, investors, policymakers, and regulators.",
-      "Dr. Hepfer’s research has been published in top-tier academic journals, including The Accounting Review, Journal of Accounting and Economics, Contemporary Accounting Research, and Review of Accounting Studies. He serves on the editorial board of Accounting Open and previously served on that of the Journal of the American Taxation Association.",
-      "An experienced educator, Dr. Hepfer has taught financial accounting and taxation at both the undergraduate and graduate levels and has received recognition for teaching excellence at the university and department levels. Previously, he was an associate professor of accounting and Arthur Andersen/Norman Tucker Faculty Fellow at the University of Iowa Tippie College of Business. Before earning his doctorate from the University of Iowa, he was a senior tax associate at PricewaterhouseCoopers. He is a Certified Public Accountant, licensed in Illinois.",
+      "Bradford Hepfer, PhD, CPA, is an associate professor of accounting and the Deborah D. Shelton Professor in Taxation at Texas A&M University’s Mays Business School. His research examines how financial reporting and taxation shape business decisions, capital markets, and corporate policy, with an emphasis on generating insights relevant to business leaders, investors, policymakers, and regulators.",
+      "Dr. Hepfer’s work has been published in leading academic journals, including The Accounting Review, Journal of Accounting and Economics, Contemporary Accounting Research, and Review of Accounting Studies. He has taught financial accounting and taxation at both the undergraduate and graduate levels and has received recognition for teaching excellence.",
+      "Before entering academia, Dr. Hepfer worked at PricewaterhouseCoopers. He earned his PhD from the University of Iowa and is a Certified Public Accountant licensed in Illinois.",
     ],
     courses: [
       "Financial Accounting and Reporting",
@@ -64,7 +64,7 @@ export const BOOK_ISBN_VERIFY_URL = "https://isbnsearch.org/isbn/9798234259608";
 
 /** Back cover: a flat render of the approved Look Closer back-cover design.
  * Bump the filename (v2, v3...) on every re-render: the CDN and browsers cache by name. */
-export const BOOK_BACK_ART = "/book/look-closer-back-v7.jpg";
+export const BOOK_BACK_ART = "/book/look-closer-back-v8.jpg";
 
 /** "with A · B · C" once all are named; "with A, and contributing experts" while some are; otherwise the areas. */
 export function contributorLine(): string {

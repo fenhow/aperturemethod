@@ -28,7 +28,7 @@ function Tooltip({ tip }: { tip: Tip }) {
   if (!tip) return null;
   return (
     <div
-      className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded-md border border-line bg-paper px-3 py-2 text-caption leading-snug text-ink shadow-lg"
+      className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-line bg-paper px-2.5 py-1.5 text-[11px] leading-[1.35] text-ink shadow-lg"
       style={{ left: `${tip.x}%`, top: `${tip.y}%` }}
     >
       {tip.lines.map((l, i) => (
@@ -308,4 +308,80 @@ function binLines(b: { lo: number; hi: number; n: number }, total: number, unit:
     `${b.n} ${b.n === 1 ? "response" : "responses"}`,
     total ? `${Math.round((100 * b.n) / total)}% of ${total}` : "",
   ].filter(Boolean);
+}
+
+/**
+ * The sampling distribution behind a single proportion, small enough to sit in
+ * a hypothesis card.
+ *
+ * It answers the question the big number cannot: given this many answers, where
+ * could the true share actually be? The curve is the normal approximation
+ * centred on what we measured, the shaded tail is the side of the falsification
+ * line that would support the hypothesis, and the bracket underneath is the
+ * 95% confidence interval.
+ *
+ * The curve is a picture, not the test. The p-value on the card comes from an
+ * exact binomial, which is what you should quote at these sample sizes; the
+ * normal curve is drawn because a shape communicates uncertainty in a way a pair
+ * of numbers does not. The caption on the card says so.
+ */
+export function ProportionCurve({
+  pct,
+  n,
+  ci,
+  threshold,
+}: {
+  pct: number;
+  n: number;
+  ci: { lo: number; hi: number } | null;
+  threshold: number;
+}) {
+  const W = 320, H = 108, T = 10, B = 26, L = 6, R = 6;
+  const p = Math.min(0.999, Math.max(0.001, pct / 100));
+  // Standard error of the proportion, floored so a 0% or 100% reading still
+  // draws a curve with visible width rather than a spike.
+  const se = Math.max(0.045, Math.sqrt((p * (1 - p)) / Math.max(1, n)));
+  const x = (v: number) => L + (v / 100) * (W - L - R);
+  const dens = (v: number) => Math.exp(-(((v / 100 - p) / se) ** 2) / 2);
+  const yTop = T + 4;
+  const base = H - B;
+  const y = (d: number) => base - d * (base - yTop);
+
+  const pts = Array.from({ length: 161 }, (_, i) => (100 * i) / 160);
+  const line = pts.map((v, i) => `${i ? "L" : "M"}${x(v).toFixed(1)},${y(dens(v)).toFixed(1)}`).join(" ");
+  const tail = pts.filter((v) => v >= threshold);
+  const fill = tail.length
+    ? `M${x(tail[0]!).toFixed(1)},${base} ` +
+      tail.map((v) => `L${x(v).toFixed(1)},${y(dens(v)).toFixed(1)}`).join(" ") +
+      ` L${x(tail[tail.length - 1]!).toFixed(1)},${base} Z`
+    : "";
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="mt-4 w-full" role="img"
+      aria-label={`Where the true share could sit: measured ${Math.round(pct)}%, falsification line ${threshold}%`}>
+      {fill ? <path d={fill} fill={MAROON} fillOpacity={0.14} /> : null}
+      <path d={line} fill="none" stroke={MAROON} strokeWidth={1.75} />
+      <line x1={L} x2={W - R} y1={base} y2={base} stroke={LINE} />
+
+      {/* The falsification line: above it supports the hypothesis, below it does not. */}
+      <line x1={x(threshold)} x2={x(threshold)} y1={yTop - 4} y2={base} stroke={INK} strokeDasharray="4 3" />
+      <text x={x(threshold)} y={yTop - 6} textAnchor="middle" fontSize="9" fill={INK} stroke="#fff" strokeWidth={3} paintOrder="stroke">
+        line {threshold}%
+      </text>
+
+      {/* What we measured. */}
+      <line x1={x(pct)} x2={x(pct)} y1={y(1)} y2={base} stroke={MAROON} strokeWidth={2} />
+
+      {/* The 95% interval, as a bracket under the axis. */}
+      {ci ? (
+        <g>
+          <line x1={x(ci.lo)} x2={x(ci.hi)} y1={base + 9} y2={base + 9} stroke={MAROON} strokeWidth={2} />
+          <line x1={x(ci.lo)} x2={x(ci.lo)} y1={base + 5} y2={base + 13} stroke={MAROON} strokeWidth={2} />
+          <line x1={x(ci.hi)} x2={x(ci.hi)} y1={base + 5} y2={base + 13} stroke={MAROON} strokeWidth={2} />
+          <text x={x(ci.lo)} y={base + 24} textAnchor="start" fontSize="9" fill={MUTED}>{Math.round(ci.lo)}%</text>
+          <text x={x(ci.hi)} y={base + 24} textAnchor="end" fontSize="9" fill={MUTED}>{Math.round(ci.hi)}%</text>
+        </g>
+      ) : null}
+    </svg>
+  );
 }

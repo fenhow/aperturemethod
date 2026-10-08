@@ -6,9 +6,9 @@ import { loadStudy, EXCLUDE_REASONS, MIN_N_TO_READ, MIN_SECONDS, type Count, typ
 import { ExcludeControl } from "@/components/reality/ExcludeControl";
 import { sourceLabel, studyFields } from "@/lib/realityStudy";
 import { questions } from "@/lib/realityCheck";
-import { H1_NOTE, H2_NOTE, type MethodNote } from "@/lib/realityStudyMethod";
+import { H1_NOTE, H2_NOTE, VERDICT_NOTE, type MethodNote } from "@/lib/realityStudyMethod";
 import { StatNote } from "@/components/methodlab/StatNote";
-import { DistributionChart, ScoreScatter } from "@/components/methodlab/StudyCharts";
+import { DistributionChart, ProportionCurve, ScoreScatter } from "@/components/methodlab/StudyCharts";
 import { MIN_N_FOR_SHARE, fmtP, type ProportionTest } from "@/lib/stats";
 import {
   VERDICT_LABEL,
@@ -459,52 +459,93 @@ function Tile({ label, value, sub }: { label: string; value: string; sub: string
   );
 }
 
+/**
+ * One hypothesis, as a card.
+ *
+ * Laid out in four bands with a rule between each, so the eye has somewhere to
+ * stop: what is claimed, what was measured, where the true share could sit, and
+ * what would falsify it. Before this they ran together as one column of text at
+ * four different sizes, and the two cards did not line up with each other.
+ *
+ * Two "?" buttons: one on the code, for how the figure is calculated, and one on
+ * the verdict tag, for what the tag means and when it changes.
+ */
 function Hypothesis(p: {
   code: string; claim: string; test: string; t: ProportionTest; measure: string; extra: string | null;
-  /** How this figure is worked out, behind the "?" beside it. */
   note: MethodNote;
 }) {
   const v = p.t.verdict;
   const pill =
     v === "supported" ? "bg-maroon text-white" : v === "against" ? "bg-ink text-white" : "bg-line text-ink";
+  const thin = p.t.n < MIN_N_FOR_SHARE;
+
   return (
-    <div className="rounded-lg border border-line border-l-4 border-l-maroon bg-surface p-6">
-      <div className="flex items-baseline justify-between gap-3">
-        <span className="flex items-center gap-2">
-          <span className="text-h4 font-semibold text-maroon">{p.code}</span>
-          <StatNote title={`${p.code}: ${p.claim}`} note={p.note} />
-        </span>
-        <span className={`rounded-full px-3 py-1 text-caption font-semibold ${pill}`}>{VERDICT_LABEL[v]}</span>
+    <div className="flex flex-col rounded-lg border border-line border-l-4 border-l-maroon bg-surface">
+      {/* 1 · the claim */}
+      <div className="p-6 pb-5">
+        <div className="flex items-center justify-between gap-3">
+          <span className="flex items-center gap-2">
+            <span className="text-h4 font-semibold leading-none text-maroon">{p.code}</span>
+            <StatNote title={`${p.code}: ${p.claim}`} note={p.note} />
+          </span>
+          <span className="flex items-center gap-2">
+            <span className={`rounded-full px-3 py-1 text-caption font-semibold ${pill}`}>{VERDICT_LABEL[v]}</span>
+            <StatNote title={`Verdict: ${VERDICT_LABEL[v]}`} note={VERDICT_NOTE} />
+          </span>
+        </div>
+        <p className="mt-3 text-body font-semibold leading-snug text-ink">{p.claim}</p>
       </div>
-      <p className="mt-2 text-body font-semibold text-ink">{p.claim}</p>
-      {/* A share needs a handful of answers behind it. One answer reads as 0% or
-          100% and means neither, so below MIN_N_FOR_SHARE the card shows how many
-          answers there are and says plainly that it is too early. */}
-      {p.t.n >= MIN_N_FOR_SHARE ? (
-        <>
-          <p className="mt-4 text-[36px] font-semibold leading-none text-ink tabular-nums">
-            {f0(p.t.pct)}%
-          </p>
-          {p.t.ci ? (
-            <p className="mt-1 text-small font-semibold text-maroon tabular-nums">
-              95% CI {f0(p.t.ci.lo)}–{f0(p.t.ci.hi)}% · {fmtP(p.t.verdict === "against" ? p.t.pBelow : p.t.pAbove)}
+
+      {/* 2 · what was measured */}
+      <div className="border-t border-line px-6 py-5">
+        {thin ? (
+          <>
+            <p className="flex items-baseline gap-2">
+              <span className="text-[34px] font-semibold leading-none text-muted tabular-nums">{p.t.n}</span>
+              <span className="text-body font-semibold text-muted">{p.t.n === 1 ? "answer" : "answers"}</span>
             </p>
-          ) : null}
-          <p className="mt-2 text-small text-muted">{p.measure} (n = {p.t.n})</p>
-        </>
-      ) : (
-        <>
-          <p className="mt-4 text-[36px] font-semibold leading-none text-muted tabular-nums">
-            {p.t.n} <span className="text-[18px] font-semibold">{p.t.n === 1 ? "answer" : "answers"}</span>
+            <p className="mt-2 text-small font-semibold text-maroon">
+              Too few to report a share. From {MIN_N_FOR_SHARE}.
+            </p>
+            <p className="mt-2 max-w-measure text-small leading-snug text-muted">Measuring: {p.measure}.</p>
+          </>
+        ) : (
+          <>
+            <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="text-[34px] font-semibold leading-none text-ink tabular-nums">{f0(p.t.pct)}%</span>
+              {p.t.ci ? (
+                <span className="text-small font-semibold text-maroon tabular-nums">
+                  95% CI {f0(p.t.ci.lo)}–{f0(p.t.ci.hi)}% · {fmtP(p.t.verdict === "against" ? p.t.pBelow : p.t.pAbove)}
+                </span>
+              ) : null}
+            </p>
+            <p className="mt-2 max-w-measure text-small leading-snug text-muted">
+              {p.measure} <span className="whitespace-nowrap tabular-nums">(n = {p.t.n})</span>
+            </p>
+          </>
+        )}
+        {p.extra ? <p className="mt-3 max-w-measure text-small leading-snug text-ink">{p.extra}</p> : null}
+      </div>
+
+      {/* 3 · where the true share could sit. Hidden on a thin sample: a curve
+          drawn from one answer is a spike at 0% or 100%, which looks like
+          certainty and is the opposite of it. */}
+      {p.t.n >= MIN_N_FOR_SHARE ? (
+        <div className="border-t border-line px-6 pb-4 pt-5">
+          <p className="text-caption font-semibold uppercase tracking-overline text-muted">
+            Where the true share could sit
           </p>
-          <p className="mt-1 text-small font-semibold text-maroon">
-            Too few to report a share. From {MIN_N_FOR_SHARE}.
+          <ProportionCurve pct={p.t.pct} n={p.t.n} ci={p.t.ci} threshold={p.t.threshold} />
+          <p className="mt-1 text-caption leading-snug text-muted">
+            Normal approximation, drawn for the shape. The p-value above comes from the exact binomial.
           </p>
-          <p className="mt-2 text-small text-muted">Measuring: {p.measure}.</p>
-        </>
-      )}
-      {p.extra ? <p className="mt-2 text-small text-ink">{p.extra}</p> : null}
-      <p className="mt-3 text-caption text-muted">{p.test}</p>
+        </div>
+      ) : null}
+
+      {/* 4 · what would falsify it */}
+      <div className="mt-auto border-t border-line px-6 py-4">
+        <p className="text-caption leading-snug text-muted">{p.test}</p>
+      </div>
     </div>
   );
 }

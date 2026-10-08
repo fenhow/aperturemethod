@@ -29,6 +29,21 @@ const P: MethodNote[number] = {
   p: `p is the chance of seeing a result at least this far from the falsification line if the line were exactly true. Below ${ALPHA} counts as statistically significant here. No verdict is given at all until ${MIN_N_FOR_VERDICT} answers, and no percentage is shown under ${MIN_N_FOR_SHARE}, because one or two answers read as 0% or 100% and mean neither.`,
 };
 
+export const VERDICT_NOTE: MethodNote = [
+  {
+    h: "What the tag means",
+    p: `No data yet: nobody has answered. Early signal: fewer than ${MIN_N_FOR_VERDICT} answers, so the figure is reported but no verdict is drawn. Not yet conclusive: enough answers, but the interval still straddles the falsification line. Statistically supported: we can be 95% confident the true share is above the line. Statistically rejected: 95% confident it is below.`,
+  },
+  {
+    h: "Why a verdict waits",
+    p: `A handful of answers can sit anywhere. Holding the verdict until ${MIN_N_FOR_VERDICT} answers, and holding the percentage itself until ${MIN_N_FOR_SHARE}, stops an early run of agreeable respondents from reading as proof. The tag moves on its own as answers arrive; nobody sets it by hand.`,
+  },
+  {
+    h: "The test behind it",
+    p: `One-sided exact binomial against the registered falsification line, at ${ALPHA}. Exact rather than normal-approximate, because at these sample sizes the approximation is not trustworthy. The curve on the card is the normal approximation, drawn to show the spread; the p-value is not taken from it.`,
+  },
+];
+
 export const H1_NOTE: MethodNote = [
   {
     h: "The question behind it",

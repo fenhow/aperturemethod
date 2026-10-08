@@ -212,15 +212,32 @@ function Dashboard({ s, filter, showAll }: { s: StudyStats; filter: Search; show
             />
           </div>
           {/* ───────── how sure */}
+          {/*
+            One reading per row, each with a label, so the panel can be scanned
+            rather than read end to end. It used to be four unlabelled sentences
+            of equal weight running the full width of the page: the reader had
+            to parse each one to find out which test it belonged to, and the
+            H1 and H2 lines opened with the same eleven words.
+          */}
           <Panel title="How sure can we be?">
-            <ul className="space-y-3 text-body text-body">
-              {[overconfidenceSentence(s), correlationSentence(s), `H1: ${proportionSentence(s.h1, "H1")}`, `H2: ${proportionSentence(s.h2, "H2")}`]
-                .filter(Boolean)
-                .map((t) => (
-                  <li key={t!} className="border-l-2 border-maroon pl-4">{t}</li>
+            <dl className="divide-y divide-line">
+              {[
+                { k: "Overconfidence", v: overconfidenceSentence(s) },
+                { k: "Self-rating vs score", v: correlationSentence(s) },
+                { k: "H1 · Access", v: proportionSentence(s.h1, "H1") },
+                { k: "H2 · Need", v: proportionSentence(s.h2, "H2") },
+              ]
+                .filter((r) => r.v)
+                .map((r) => (
+                  <div key={r.k} className="grid gap-x-6 gap-y-1 py-4 first:pt-0 last:pb-0 sm:grid-cols-[150px_1fr]">
+                    <dt className="text-[11px] font-semibold uppercase leading-[1.4] tracking-[0.1em] text-maroon">
+                      {r.k}
+                    </dt>
+                    <dd className="max-w-[72ch] text-small leading-relaxed text-body">{r.v}</dd>
+                  </div>
                 ))}
-            </ul>
-            <p className="mt-5 text-caption text-muted">{STATS_CAVEAT}</p>
+            </dl>
+            <p className="mt-5 border-t border-line pt-4 text-caption leading-snug text-muted">{STATS_CAVEAT}</p>
           </Panel>
 
           {/* ───────── perceived vs measured */}

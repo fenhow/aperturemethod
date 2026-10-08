@@ -24,7 +24,7 @@ export const bookContributors: BookContributor[] = [
     area: "Accounting",
     name: "Bradford F. Hepfer, PhD, CPA",
     role: "Accounting & Finance",
-    photo: "/book/bradford-hepfer.jpg",
+    photo: "/book/bradford-hepfer-v2.jpg",
     focus: "Writes and reviews the book’s financial chapters: reading the statements, managing cash, and trusting the numbers you decide on.",
   },
   {
@@ -49,7 +49,7 @@ export const BOOK_ISBN_VERIFY_URL = "https://isbnsearch.org/isbn/9798234259608";
 
 /** Back cover: a flat render of the approved Look Closer back-cover design.
  * Bump the filename (v2, v3...) on every re-render: the CDN and browsers cache by name. */
-export const BOOK_BACK_ART = "/book/look-closer-back-v4.jpg";
+export const BOOK_BACK_ART = "/book/look-closer-back-v5.jpg";
 
 /** "with A · B · C" once all are named; "with A, and contributing experts" while some are; otherwise the areas. */
 export function contributorLine(): string {

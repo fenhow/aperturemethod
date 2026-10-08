@@ -8,7 +8,7 @@ import { PreorderForm } from "@/components/forms/PreorderForm";
 import { Book3D } from "@/components/home/Book3D";
 import { aperturePractices } from "@/lib/content";
 import { pageMeta } from "@/lib/seo";
-import { bookContributors, bookExcerpt, BOOK_ISBN, BOOK_ISBN_VERIFY_URL, BOOK_PUBLISHER } from "@/lib/book";
+import { bookContributors, bookExcerpt, BOOK_ISBN, BOOK_PUBLISHER } from "@/lib/book";
 
 /**
  * Book serif for the excerpt only (Source Serif 4, SIL OFL, self-hosted like
@@ -78,15 +78,6 @@ export default function BookPage() {
             </div>
             <p className="mt-6 text-small text-muted">
               {BOOK_PUBLISHER} · Paperback · ISBN <span className="font-semibold text-ink tabular-nums">{BOOK_ISBN}</span>
-              {" · "}
-              <a
-                href={BOOK_ISBN_VERIFY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-2 hover:text-maroon"
-              >
-                Verify this ISBN
-              </a>
             </p>
           </Reveal>
         </div>
@@ -162,31 +153,58 @@ export default function BookPage() {
         </ol>
       </Section>
 
-      {/* Contributors */}
+      {/* Contributors: only confirmed authors are shown; empty seats stay hidden */}
       <Section tone="surface">
         <Reveal>
           <SectionHeading
             eyebrow="Written with"
-            title="Three experts, one method."
-            lede="Fenwick is writing the book with contributing authors in the disciplines an owner-run business leans on most. The first has signed on; the others will be announced as they join."
+            title="The experts behind the book."
+            lede="Fenwick is writing Look Closer with contributing authors in the disciplines an owner-run business leans on most. More will be announced as they join."
           />
         </Reveal>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {bookContributors.map((c) => (
-            <div key={c.area} className="rounded-2xl border border-line bg-paper p-6">
-              {c.photo && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={c.photo}
-                  alt={c.name ?? ""}
-                  className="mb-4 h-16 w-16 rounded-full object-cover object-top"
-                />
-              )}
-              <p className="text-small font-semibold text-maroon">Contributing author · {c.role ?? c.area}</p>
-              <h3 className="mt-2 text-h4 font-semibold text-ink">{c.name ?? "To be announced"}</h3>
-              <p className="mt-3 text-body text-muted">{c.focus}</p>
-            </div>
-          ))}
+        <div className="mt-12 flex flex-col gap-6">
+          {bookContributors
+            .filter((c) => c.name)
+            .map((c) => (
+              <Reveal key={c.area}>
+                <article className="rounded-2xl border border-line bg-paper p-6 md:p-8">
+                  <div className="flex flex-col gap-6 md:flex-row md:items-start">
+                    {c.photo && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={c.photo}
+                        alt={c.name ?? ""}
+                        className="h-28 w-28 shrink-0 rounded-full object-cover"
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-small font-semibold text-maroon">
+                        Contributing author · {c.role ?? c.area}
+                      </p>
+                      <h3 className="mt-2 text-h3 font-semibold text-ink">{c.name}</h3>
+                      {(c.bio ?? [c.focus]).map((para) => (
+                        <p key={para.slice(0, 32)} className="mt-4 max-w-measure text-body text-body">
+                          {para}
+                        </p>
+                      ))}
+                      {c.courses && c.courses.length > 0 && (
+                        <div className="mt-6">
+                          <p className="text-small font-semibold text-ink">Courses taught</p>
+                          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                            {c.courses.map((course) => (
+                              <li key={course} className="flex gap-3 text-body text-muted">
+                                <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-maroon" aria-hidden="true" />
+                                {course}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
         </div>
       </Section>
 

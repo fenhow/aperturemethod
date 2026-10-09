@@ -69,8 +69,14 @@ export default function BookPage() {
                 <span className="h-1.5 w-1.5 rounded-full bg-maroon" aria-hidden="true" />
                 Being written now
               </span>
-              <a href="#excerpt" className="link-arrow text-small font-semibold">
+              {/* A pill to match "Being written now" beside it, filled maroon
+                  so the one you can act on is the one that stands out. */}
+              <a
+                href="#excerpt"
+                className="inline-flex items-center gap-2 rounded-full bg-maroon px-4 py-2 text-small font-semibold text-paper transition-colors hover:bg-maroon-hover"
+              >
                 Read an excerpt
+                <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
             <p className="mt-6 text-small text-muted">

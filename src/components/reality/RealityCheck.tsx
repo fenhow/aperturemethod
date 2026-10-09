@@ -270,6 +270,44 @@ export function RealityCheck({
           </p>
         </div>
 
+        {/*
+          The privacy promise, Oct 2026. This was one grey caption at the foot
+          of the page and people were missing it: the honest worry about a
+          questionnaire like this is "who finds out how I answered", and that
+          deserves a straight answer in full view, not small print. Every line
+          below is what the code actually does — the stored row carries the
+          answers, the score and the timings and nothing else. If that ever
+          changes, change this first.
+        */}
+        <div className="mt-8 max-w-xl rounded-lg border border-line bg-surface p-5">
+          <p className="text-small font-semibold text-ink">
+            Nothing you answer is attached to you.
+          </p>
+          <ul className="mt-3 space-y-2 text-small text-muted">
+            <li>
+              No name, no email, no company, no IP address is stored with your answers. There is no
+              account and no sign-in, so there is nothing for an answer to be attached to.
+            </li>
+            <li>
+              What is kept is the answers, the score and how long it took, in one anonymous pile
+              with everyone else&rsquo;s. We use it to find out which questions are hard to answer.
+            </li>
+            <li>
+              Nobody is told how you scored &mdash; not your bank, not your accountant, not anyone
+              at your company. We could not tell them if we wanted to, because we do not know who
+              answered.
+            </li>
+            <li>
+              If you ask for the written breakdown at the end, that is the one place a name and
+              email appear. They are used to send it to you, and they are never joined to the
+              anonymous record.
+            </li>
+          </ul>
+          <p className="mt-3 text-small text-muted">
+            Your answers also stay in your browser while you work through them; nothing is recorded
+            until you reach the end.
+          </p>
+        </div>
         <button
           type="button"
           onClick={beginQuiz}
@@ -277,18 +315,6 @@ export function RealityCheck({
         >
           Start the Clarity Check
         </button>
-        {/*
-          The privacy line, rewritten Oct 2026 when the anonymous completion
-          ping was added. It used to say nothing was sent unless you asked for
-          the breakdown, and that stopped being true the moment we started
-          recording finished runs. The wording below is what the code actually
-          does, no more and no less.
-        */}
-        <p className="mt-6 text-caption text-muted">
-          Your answers stay in your browser while you work through them. When you finish, we record
-          the answers anonymously to keep improving the questions. Nothing that identifies you, no
-          name, no email, no company, is sent unless you ask for the breakdown at the end.
-        </p>
       </div>
     );
   }
@@ -507,6 +533,14 @@ export function RealityCheck({
           are not linked to it.
         </p>
       ) : null}
+
+      {study ? null : (
+        <p className="mt-10 -mb-6 text-caption text-muted">
+          Optional, and separate from the survey: the breakdown is emailed to you, and Fenwick gets
+          a copy so he can answer if you have questions. Your name and email are not joined to the
+          anonymous record of your answers.
+        </p>
+      )}
 
       <ReportForm score={score} band={band.name} answers={answers} />
 

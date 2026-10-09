@@ -65,8 +65,9 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
           </li>
           <li>
             <span className="font-semibold text-ink">Your answers are anonymous.</span> No name,
-            email, company or address is collected with them, and results are only ever reported
-            as totals across all businesses, never one at a time.
+            email, company, address or IP is collected with them, so nothing you select can be
+            traced back to you or your business. Results are only ever reported as totals across
+            all businesses, never one at a time, and no individual response is shown to anyone.
           </li>
           <li>
             The research supports the capstone project for my Executive MBA at Texas A&amp;M, and a

@@ -41,12 +41,12 @@ export type OnboardingErrors = Record<string, string>;
 
 export function validateOnboarding(p: Partial<OnboardingPayload>): OnboardingErrors {
   const e: OnboardingErrors = {};
-  if (p.kind !== "intake" && p.kind !== "agreement") e.kind = "Unknown form.";
+  if (p.kind !== "intake" && p.kind !== "agreement" && p.kind !== "nda") e.kind = "Unknown form.";
   if (!p.signerName?.trim()) e.signerName = "Please enter your full name.";
   if (!p.signerEmail?.trim() || !EMAIL_RE.test(p.signerEmail.trim()))
     e.signerEmail = "Please enter a valid email address.";
   if (!p.company?.trim()) e.company = "Please enter your company / legal name.";
-  if (p.kind === "agreement" && !p.signerTitle?.trim())
+  if ((p.kind === "agreement" || p.kind === "nda") && !p.signerTitle?.trim())
     e.signerTitle = "Please enter your title.";
   if (p.kind === "intake" && (!p.segments || p.segments.length === 0))
     e.segments = "Please choose at least one part of the Method to complete.";
@@ -60,4 +60,5 @@ export function validateOnboarding(p: Partial<OnboardingPayload>): OnboardingErr
 export const KIND_LABEL: Record<OnboardingKind, string> = {
   intake: "Client Intake Form",
   agreement: "New Customer Agreement",
+  nda: "Mutual Non-Disclosure Agreement",
 };

@@ -11,7 +11,7 @@
 // ---------------------------------------------------------------------------
 // Shared kinds
 // ---------------------------------------------------------------------------
-export type OnboardingKind = "intake" | "agreement";
+export type OnboardingKind = "intake" | "agreement" | "nda";
 
 export type FieldType =
   | "text"
@@ -242,16 +242,26 @@ export const agreementClauses: Clause[] = [
     title: "Confidentiality",
     body: [
       "Each Party may receive confidential information of the other (“Confidential Information”). The receiving Party will use it only to perform under this Agreement, protect it with at least reasonable care, and not disclose it except to personnel or contractors with a need to know who are bound by similar obligations. This does not apply to information that is public through no fault of the receiving Party, independently developed, or rightfully received from a third party. These obligations survive termination for [3] years (and, for trade secrets, for as long as they remain trade secrets).",
+      "Obligations run both ways. Aperture's own methods, models, pricing, and working papers are equally confidential to Client, and Client owes the same duty of care for them.",
+      "If the Parties signed a mutual non-disclosure agreement before this one, it stays in force for everything exchanged under it. For anything exchanged under this Agreement, this clause and Clause 9 govern, and where they give more protection than the earlier agreement, they apply.",
     ],
   },
   {
     n: "9",
     title: "Data Protection & Security",
     body: [
-      "Aperture handles Client data on a least-access basis, stores it in access-controlled systems, and uses encryption in transit and at rest.",
-      "Aperture will not sell, share, or reuse Client data for any other client or purpose.",
-      "Aperture de-identifies personal data for analysis where identity is not required, and works within the privacy laws applicable to Client's business.",
-      "On request at termination, Aperture will return or securely destroy Client's raw data, retaining only the Client-owned deliverables and records reasonably needed for legal or accounting purposes.",
+      "Ownership. Client data stays Client's. Aperture claims no ownership of it and acquires no licence beyond what is needed to deliver the Services under this Agreement.",
+      "Purpose limitation. Aperture will use Client data only to deliver this engagement. Aperture will not sell it, share it, use it to benefit another client, or use it to train any general-purpose machine-learning model.",
+      "Least access. Only those working on the engagement get access, on a need-to-know basis, under written confidentiality obligations at least as strict as this Agreement.",
+      "Security. Data is held in access-controlled systems with multi-factor authentication, encrypted in transit (TLS) and at rest, with access logged. Aperture does not copy Client data to personal devices or unmanaged storage.",
+      "Minimisation. Aperture asks for the narrowest data that answers the question, and de-identifies or aggregates personal data wherever identity is not required for the analysis.",
+      "Sub-processors. Aperture may use service providers (for example cloud hosting and analytics tools) bound by equivalent confidentiality and security terms. On request, Aperture will name the sub-processors that touch Client data, and will give Client notice before adding a new one that processes it.",
+      "Location. Client data is processed and stored in the United States unless the Parties agree otherwise in writing.",
+      "Personal and regulated data. Client will not send personal data that is not needed for the Services, and will not send protected health information, payment card data, or similar regulated data unless the Parties first agree in writing how it will be handled. Aperture will work within the privacy laws applicable to Client's business.",
+      "Incident notice. If Aperture becomes aware of a security incident affecting Client data, Aperture will notify Client without undue delay and in any case within [72] hours, share what is known, and cooperate in Client's response and in any notice Client must give.",
+      "Retention and return. During the engagement Aperture keeps raw Client data only as long as it is needed. Within [30] days of a written request, or on termination, Aperture will return or securely destroy it, keeping only the Client-owned deliverables and the minimum records required for legal, tax, or insurance purposes, which stay subject to the confidentiality terms of this Agreement.",
+      "Audit. On reasonable notice and no more than once a year, Client may ask Aperture in writing to describe the controls that apply to Client data, and Aperture will answer in writing.",
+      "No publicity without consent. Aperture will not name Client, use Client's logo, or describe the engagement publicly without Client's prior written consent. Any case study is anonymised, approved in writing, or both.",
     ],
   },
   {
@@ -306,6 +316,126 @@ export const agreementClauses: Clause[] = [
       "Notices. Notices are given by email to the Parties' primary contacts, effective on confirmed delivery.",
       "Severability & waiver. If any provision is unenforceable, the rest remains in effect; no waiver is implied by delay.",
       "Counterparts & e-signature. This Agreement may be signed in counterparts and by electronic signature.",
+    ],
+  },
+];
+
+
+// ---------------------------------------------------------------------------
+// MUTUAL NON-DISCLOSURE AGREEMENT
+// ---------------------------------------------------------------------------
+/**
+ * A two-way NDA, signable before anything else.
+ *
+ * Deliberately mutual: an owner is about to hand over their P&L, their customer
+ * list and the things that keep them up at night, and a one-way NDA that only
+ * protects the consultant reads exactly like what it is. Both Parties are bound
+ * on the same terms.
+ *
+ * Square brackets are the figures to settle with counsel before this is used in
+ * anger: term, survival, and governing state.
+ */
+export const ndaMeta = {
+  title: "Mutual Non-Disclosure Agreement",
+  subtitle: "Two-way confidentiality, before anything is shared",
+  template:
+    "Sign this first if you want protection in place before our first real conversation. It binds both of us on the same terms. You will receive a signed PDF for your records, and a copy is saved to your secure client area.",
+};
+
+export const ndaClauses: Clause[] = [
+  {
+    n: "1",
+    title: "Purpose",
+    body: [
+      "The Parties wish to explore and may carry out a business analytics, strategy, and geographic-intelligence engagement delivered through The Aperture Method (the “Purpose”). To do that, each Party may disclose confidential information to the other. This Agreement is mutual: each Party may be the Disclosing Party or the Receiving Party, and the obligations are identical in both directions.",
+    ],
+  },
+  {
+    n: "2",
+    title: "What is confidential",
+    body: [
+      "“Confidential Information” means non-public information disclosed by one Party to the other, in any form, that is marked confidential or that a reasonable person would understand to be confidential from its nature or the circumstances of disclosure. It includes, without limitation: financial statements and management accounts; pricing, margins, and unit economics; customer and supplier lists and contracts; employee and compensation information; strategy, plans, and forecasts; data files, systems access, and credentials; and the existence and content of the Parties' discussions.",
+      "On Aperture's side it also includes the Method's models, scoring rubrics, templates, working papers, and fee structures.",
+      "Information does not have to be marked to be protected. Nothing in this Agreement requires a Party to mark or confirm in writing what is obviously confidential.",
+    ],
+  },
+  {
+    n: "3",
+    title: "What is not confidential",
+    body: [
+      "This Agreement does not apply to information that: is or becomes public through no act or omission of the Receiving Party; was rightfully known to the Receiving Party without restriction before disclosure; is rightfully received from a third party without a duty of confidentiality; or is independently developed by the Receiving Party without use of or reference to the other Party's Confidential Information, as shown by its records.",
+    ],
+  },
+  {
+    n: "4",
+    title: "How it will be treated",
+    body: [
+      "Use it only for the Purpose. The Receiving Party will not use the other Party's Confidential Information for any other purpose, including its own commercial advantage or the benefit of any other client.",
+      "Protect it. The Receiving Party will protect it with at least the care it uses for its own confidential information, and never less than reasonable care.",
+      "Limit who sees it. Disclosure is limited to the Receiving Party's personnel, contractors, and professional advisers who need it for the Purpose and who are bound by confidentiality obligations at least as protective as these. The Receiving Party stays responsible for their compliance.",
+      "No copies beyond need. The Receiving Party will not copy or store Confidential Information beyond what the Purpose requires, and will keep it in access-controlled systems.",
+      "No reverse engineering. The Receiving Party will not reverse engineer, decompile, or disassemble anything provided, nor use Confidential Information to train any general-purpose machine-learning model.",
+    ],
+  },
+  {
+    n: "5",
+    title: "Security and personal data",
+    body: [
+      "Each Party will use reasonable administrative, technical, and physical safeguards, including encryption in transit and at rest, access control, and multi-factor authentication on systems holding the other Party's Confidential Information.",
+      "Where Confidential Information includes personal data, the Receiving Party will handle it in line with applicable privacy laws, use the minimum needed for the Purpose, and de-identify or aggregate it wherever identity is not required.",
+      "If a Party becomes aware of a security incident affecting the other Party's Confidential Information, it will notify the other Party without undue delay and in any case within [72] hours, share what is known, and cooperate in the response.",
+    ],
+  },
+  {
+    n: "6",
+    title: "Compelled disclosure",
+    body: [
+      "If the Receiving Party is required by law, regulation, or court order to disclose Confidential Information, it may do so, provided it gives the Disclosing Party prompt written notice where legally permitted, discloses only what is required, and cooperates with any effort by the Disclosing Party to obtain protective treatment.",
+    ],
+  },
+  {
+    n: "7",
+    title: "No licence, no obligation to proceed",
+    body: [
+      "All Confidential Information remains the property of the Disclosing Party. Nothing here grants any licence or right in it, by implication or otherwise, beyond the limited use permitted for the Purpose.",
+      "Nothing here obliges either Party to proceed with any engagement, to disclose any particular information, or to refrain from doing business with anyone else, except as expressly stated.",
+      "No representation or warranty is made as to the accuracy or completeness of Confidential Information disclosed. Neither Party is liable to the other for decisions taken in reliance on it, which is separate from the duty to keep it confidential.",
+    ],
+  },
+  {
+    n: "8",
+    title: "Return or destruction",
+    body: [
+      "On written request, or when the Purpose ends, the Receiving Party will within [30] days return or securely destroy the other Party's Confidential Information and confirm in writing that it has done so.",
+      "Each Party may keep one copy in its legal or archival files, and copies held in routine backups, solely for compliance purposes. Anything kept stays subject to this Agreement for as long as it is held.",
+    ],
+  },
+  {
+    n: "9",
+    title: "Term and survival",
+    body: [
+      "This Agreement starts on the Effective Date and continues for [two (2)] years, unless ended earlier by either Party on [thirty (30)] days' written notice.",
+      "Confidentiality obligations continue for [three (3)] years after the date of disclosure, and for as long as the information remains a trade secret under applicable law. Obligations relating to personal data continue for as long as the data is held.",
+      "If the Parties later sign the Aperture Method New Customer Agreement, this Agreement stays in force for everything already exchanged, and the confidentiality and data-protection terms of that agreement govern what is exchanged after it.",
+    ],
+  },
+  {
+    n: "10",
+    title: "Remedies",
+    body: [
+      "Each Party acknowledges that a breach of this Agreement may cause harm that money alone cannot fix, and that the other Party may seek injunctive or equitable relief in addition to any other remedy available, without the need to post a bond.",
+    ],
+  },
+  {
+    n: "11",
+    title: "General",
+    body: [
+      "Entire agreement. This is the entire agreement on confidentiality between the Parties until superseded as described in Clause 9, and replaces prior discussions on the subject.",
+      "Amendment and waiver. Changes must be in writing and signed by both Parties. No waiver is implied by delay.",
+      "Assignment. Neither Party may assign this Agreement without the other's written consent, except to a successor of its business.",
+      "Severability. If any provision is unenforceable, the rest remains in effect.",
+      "Governing law. This Agreement is governed by the laws of the State of [Texas], without regard to conflict-of-laws rules, and the Parties submit to the courts located in [Harris County, Texas].",
+      "Counterparts and e-signature. This Agreement may be signed in counterparts and by electronic signature, which has the same effect as a handwritten one.",
     ],
   },
 ];

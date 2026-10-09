@@ -4,6 +4,8 @@ import { APERTURE_LOGO_WHITE_HORIZONTAL_B64, APERTURE_ICON_WHITE_B64, FENWICK_SI
 import {
   agreementClauses,
   agreementMeta,
+  ndaClauses,
+  ndaMeta,
   feeSchedule,
   ESIGN_CONSENT,
 } from "./content";
@@ -482,12 +484,61 @@ async function buildAgreement(p: OnboardingPayload, meta: Meta): Promise<Uint8Ar
   return d.doc.save();
 }
 
+// ------- MUTUAL NDA PDF -------
+/**
+ * The two-way NDA. Same shape as the agreement, minus Exhibit A: an NDA has no
+ * scope and no fees, and adding either would invite the reader to think they
+ * had engaged something.
+ */
+async function buildNda(p: OnboardingPayload, meta: Meta): Promise<Uint8Array> {
+  const d = new Doc();
+  await d.init(ndaMeta.title, meta);
+  d.para(ndaMeta.subtitle, { font: d.ital, size: 11, color: MUTED, after: 8 });
+
+  const eff = fieldValue(p.answers, "effective_date") || meta.date;
+  const legal = fieldValue(p.answers, "client_legal_name") || p.company;
+  d.para(
+    `This Mutual Non-Disclosure Agreement (the "Agreement") is entered into as of ${eff} (the "Effective Date") by and between The Aperture Method ("Aperture") and ${legal} ("Counterparty"). Each is a "Party" and together the "Parties." Each Party may act as the Disclosing Party or the Receiving Party, and the obligations below apply equally to both.`,
+    { size: 10, after: 6 }
+  );
+
+  for (const c of ndaClauses) {
+    d.heading(`${c.n}. ${c.title}`);
+    if (c.body.length === 1) {
+      d.para(c.body[0] ?? "", { size: 10, after: 4 });
+    } else {
+      for (const item of c.body) d.bullet(item);
+      d.y -= 2;
+    }
+  }
+
+  if (p.draft) {
+    d.y -= 10;
+    d.ensure(70);
+    d.heading("Signature");
+    d.para(
+      "This is a reading copy. Nothing here is signed and nothing is in force. When you are ready, complete and sign on the website; the executed copy is emailed to you and filed in your client area the moment you submit it.",
+      { size: 9, color: MUTED, after: 6 }
+    );
+  } else {
+    await d.signatureBlock(p, true);
+  }
+  d.finalizeFooters();
+  if (p.draft) d.draftStamp();
+  return d.doc.save();
+}
+
 export async function generateOnboardingPdf(
   p: OnboardingPayload,
   meta: { ip: string; date: string }
 ): Promise<{ bytes: Uint8Array; filename: string }> {
   const m: Meta = { signerName: p.signerName, date: meta.date, ip: meta.ip, recipient: p.company };
-  const bytes = p.kind === "agreement" ? await buildAgreement(p, m) : await buildIntake(p, m);
+  const bytes =
+    p.kind === "agreement"
+      ? await buildAgreement(p, m)
+      : p.kind === "nda"
+        ? await buildNda(p, m)
+        : await buildIntake(p, m);
   const safeCompany = p.company.replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "client";
   const stamp = meta.date.replace(/[^0-9]/g, "").slice(0, 8);
   const filename = `${KIND_LABEL[p.kind].replace(/\s+/g, "-")}-${safeCompany}-${stamp}.pdf`;

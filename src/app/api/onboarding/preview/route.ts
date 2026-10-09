@@ -50,8 +50,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, pdfBase64: "", filename: "" });
   }
 
+  /* Either signable document can be read unsigned; anything else is treated as
+     the agreement, which is what this route was built for. */
+  const kind = body.kind === "nda" ? "nda" : "agreement";
   const payload: OnboardingPayload = {
-    kind: "agreement",
+    kind,
     answers: (body.answers as Record<string, string>) ?? {},
     signerName: body.signerName?.trim() || "",
     signerTitle: body.signerTitle?.trim() || "",
@@ -72,7 +75,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       pdfBase64: Buffer.from(bytes).toString("base64"),
-      filename: "Aperture-New-Customer-Agreement-DRAFT.pdf",
+      filename: kind === "nda" ? "Aperture-Mutual-NDA-DRAFT.pdf" : "Aperture-New-Customer-Agreement-DRAFT.pdf",
     });
   } catch (err) {
     console.error("[onboarding/preview] pdf generation failed:", err);

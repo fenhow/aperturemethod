@@ -195,24 +195,42 @@ export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) 
       <AnonymityLine className="mt-3" study />
 
       <div className="mt-8 space-y-8">
-        <div>
-          <label htmlFor="rc-heard" className="text-body font-semibold text-ink">
+        {/*
+          Oct 2026: this was a <select> defaulting to "Choose one (optional)",
+          sitting on a page headed "All optional" and surrounded by chip
+          buttons. A closed dropdown hides its options and asks for two
+          interactions, so most people walked past it and the source column
+          filled up with nulls. Same chips as every other field here: all the
+          options visible, one tap, and it looks like something to answer.
+        */}
+        <fieldset>
+          <legend className="text-body font-semibold text-ink">
             How did you hear about this survey?
-          </label>
-          <select
-            id="rc-heard"
-            value={heard}
-            onChange={(e) => setHeard(e.target.value)}
-            className="mt-3 block w-full max-w-sm rounded-md border border-line bg-paper px-4 py-3 text-body text-ink outline-none transition focus:border-maroon"
-          >
-            <option value="">Choose one (optional)</option>
-            {heardFromOptions.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </div>
+          </legend>
+          <p className="mt-1 text-caption text-muted">
+            This one genuinely helps: it tells me where owners are finding the research.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {heardFromOptions.map((o) => {
+              const on = heard === o.value;
+              return (
+                <button
+                  key={o.value}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setHeard(on ? "" : o.value)}
+                  className={`rounded-full border px-4 py-2 text-small transition-colors ${
+                    on
+                      ? "border-maroon bg-maroon text-white"
+                      : "border-line bg-paper text-ink hover:border-maroon"
+                  }`}
+                >
+                  {o.label}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
 
         {studyFields.filter((f) => f.inProfile !== false).map((f) => (
           <fieldset key={f.id}>
@@ -266,7 +284,7 @@ export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) 
         </button>
         <button
           type="button"
-          onClick={() => onDone(null)}
+          onClick={() => onDone(heard ? { heard_from: heard } : null)}
           className="text-caption font-semibold text-muted transition-colors hover:text-ink"
         >
           Skip these and see my score

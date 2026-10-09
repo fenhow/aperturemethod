@@ -18,27 +18,38 @@ import { createPortal } from "react-dom";
  * changes first.
  */
 
-export function AnonymityPromise({ study = false }: { study?: boolean }) {
+export function AnonymityPromise({
+  study = false,
+  className = "max-w-xl",
+}: {
+  study?: boolean;
+  /** Width, so the box lines up with whatever card sits above it. */
+  className?: string;
+}) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="mt-8 max-w-xl rounded-lg border border-line bg-surface p-5">
-      <p className="text-small text-body">
-        <strong className="font-semibold text-ink">This is anonymous.</strong> No name, email,
-        company or IP address is stored with your answers, and there is no sign-in — so there is
-        nothing for an answer to be attached to.
-      </p>
-      {/* Maroon and underlined: as a bare .link-arrow this read as a heading
-          and nobody clicked it. */}
+    <>
+      {/* The whole box is the control, not just the link: it lifts on hover
+          and opens the detail wherever you click it. */}
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="mt-3 inline-flex items-center gap-1.5 text-small font-semibold text-maroon underline underline-offset-4 transition-colors hover:text-maroon-hover"
+        className={`group mt-8 block w-full rounded-lg border border-line bg-surface p-5 text-left transition-all duration-fast hover:border-maroon hover:bg-paper hover:shadow-sm focus-visible:border-maroon focus-visible:outline-none ${className}`}
       >
-        How we keep this anonymous
-        <span aria-hidden="true">&rarr;</span>
+        <p className="text-small text-body">
+          <strong className="font-semibold text-ink">This is anonymous.</strong> No name, email,
+          company or IP address is stored with your answers, and there is no sign-in — so there is
+          nothing for an answer to be attached to.
+        </p>
+        <span className="mt-3 inline-flex items-center gap-1.5 text-small font-semibold text-maroon underline underline-offset-4">
+          How we keep this anonymous
+          <span aria-hidden="true" className="transition-transform duration-fast group-hover:translate-x-0.5">
+            &rarr;
+          </span>
+        </span>
       </button>
       <AnonymityDialog open={open} onClose={() => setOpen(false)} study={study} />
-    </div>
+    </>
   );
 }
 

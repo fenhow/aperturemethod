@@ -90,14 +90,14 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
           </p>
         </div>
       </div>
-      <AnonymityPromise study />
+      <AnonymityPromise study className="max-w-2xl" />
 
       <button
         type="button"
         onClick={onStart}
         className="btn mt-9 w-full justify-center sm:w-auto sm:px-10"
       >
-        I agree. Start the survey
+        Start the survey
       </button>
     </div>
   );

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { primaryCta } from "@/lib/site";
 import { MetricExplainer } from "@/components/reality/MetricExplainer";
 import { ThankYouRedirect } from "@/components/reality/ThankYouRedirect";
+import { AnonymityPromise, AnonymityLine } from "@/components/reality/AnonymityNote";
 import { StudyIntro, StudyCommit, StudyHelp, StudyCalibrate, StudyProfileForm, StudyThanks, StudyThankYouModal, StudyConfetti, StudyResultsNote, StudyHelpNudge } from "@/components/reality/StudyParts";
 import type { StudyProfile } from "@/lib/realityStudy";
 import { questions, scoreAnswers, MAX_PER_QUESTION, type RCQuestion, QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
@@ -271,43 +272,14 @@ export function RealityCheck({
         </div>
 
         {/*
-          The privacy promise, Oct 2026. This was one grey caption at the foot
-          of the page and people were missing it: the honest worry about a
-          questionnaire like this is "who finds out how I answered", and that
-          deserves a straight answer in full view, not small print. Every line
-          below is what the code actually does — the stored row carries the
-          answers, the score and the timings and nothing else. If that ever
-          changes, change this first.
+          The privacy promise, Oct 2026. It began as one grey caption at the
+          foot of the page, which people missed; then as four bullets, which
+          said everything but asked a lot of a reader who has not started yet.
+          Now: one confident line in view, with the whole answer a click away
+          for whoever wants it. See AnonymityNote.tsx — the claims live with
+          the component, beside a note about keeping them true.
         */}
-        <div className="mt-8 max-w-xl rounded-lg border border-line bg-surface p-5">
-          <p className="text-small font-semibold text-ink">
-            Nothing you answer is attached to you.
-          </p>
-          <ul className="mt-3 space-y-2 text-small text-muted">
-            <li>
-              No name, no email, no company, no IP address is stored with your answers. There is no
-              account and no sign-in, so there is nothing for an answer to be attached to.
-            </li>
-            <li>
-              What is kept is the answers, the score and how long it took, in one anonymous pile
-              with everyone else&rsquo;s. We use it to find out which questions are hard to answer.
-            </li>
-            <li>
-              Nobody is told how you scored &mdash; not your bank, not your accountant, not anyone
-              at your company. We could not tell them if we wanted to, because we do not know who
-              answered.
-            </li>
-            <li>
-              If you ask for the written breakdown at the end, that is the one place a name and
-              email appear. They are used to send it to you, and they are never joined to the
-              anonymous record.
-            </li>
-          </ul>
-          <p className="mt-3 text-small text-muted">
-            Your answers also stay in your browser while you work through them; nothing is recorded
-            until you reach the end.
-          </p>
-        </div>
+        <AnonymityPromise />
         <button
           type="button"
           onClick={beginQuiz}
@@ -364,6 +336,7 @@ export function RealityCheck({
               : "Last one. Your score is next, and you can have the full written breakdown emailed to you."}
           </p>
         ) : null}
+        {idx === 0 ? <AnonymityLine className="mt-2" /> : null}
 
         <h2 className="mt-8 text-h3 font-semibold leading-snug text-ink">{q.prompt}</h2>
         {q.note ? <p className="mt-3 text-body text-muted">{q.note}</p> : null}
@@ -535,11 +508,14 @@ export function RealityCheck({
       ) : null}
 
       {study ? null : (
-        <p className="mt-10 -mb-6 text-caption text-muted">
-          Optional, and separate from the survey: the breakdown is emailed to you, and Fenwick gets
-          a copy so he can answer if you have questions. Your name and email are not joined to the
-          anonymous record of your answers.
-        </p>
+        <div className="mt-10 -mb-6">
+          <p className="text-small text-muted">
+            Optional, and separate from the survey: the breakdown is emailed to you, and Fenwick
+            gets a copy so he can answer if you have questions. Your name and email are not joined
+            to the anonymous record of your answers.
+          </p>
+          <AnonymityLine className="mt-2" />
+        </div>
       )}
 
       <ReportForm score={score} band={band.name} answers={answers} />

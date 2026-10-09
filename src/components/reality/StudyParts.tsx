@@ -56,6 +56,7 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
         wrong answers here, only honest ones.
       </p>
 
+      <AnonymityPromise study className="max-w-2xl" />
       <div className="mt-8 max-w-2xl rounded-lg border border-line border-l-4 border-l-maroon bg-surface p-5 sm:p-6">
         <p className="text-small font-semibold text-ink">Before you start</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-small text-muted">
@@ -90,14 +91,13 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
           </p>
         </div>
       </div>
-      <AnonymityPromise study className="max-w-2xl" />
 
       <button
         type="button"
         onClick={onStart}
         className="btn mt-9 w-full justify-center sm:w-auto sm:px-10"
       >
-        Start the survey
+        I agree. Start the survey
       </button>
     </div>
   );

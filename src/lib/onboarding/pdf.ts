@@ -315,6 +315,56 @@ class Doc {
     }
   }
 
+  /**
+   * The signature page for a copy that will be printed and signed by hand.
+   *
+   * Ruled lines rather than a rendered signature, both parties on the page, and
+   * one instruction that says where to send it. No DRAFT wash: this copy is
+   * meant to become the executed one, and a watermark saying otherwise would
+   * make the signed version arguable.
+   */
+  printSignatureBlock(p: OnboardingPayload, secondParty: boolean) {
+    const rule = (label: string, width = 250) => {
+      this.ensure(34);
+      this.y -= 22;
+      this.page.drawLine({ start: { x: MARGIN, y: this.y }, end: { x: MARGIN + width, y: this.y }, thickness: 0.75, color: INK });
+      this.page.drawText(san(label), { x: MARGIN, y: this.y - 10, size: 8, font: this.reg, color: MUTED });
+      this.y -= 14;
+    };
+
+    this.y -= 10;
+    this.ensure(260);
+    this.heading("Signatures");
+    this.para(
+      "Print this copy, sign below, and return it. Signing by hand has exactly the same effect as signing on the website; you do not need to do both.",
+      { size: 9, color: MUTED, after: 10 }
+    );
+
+    this.para(`For ${san(p.company || "the Client")}`, { font: this.bold, size: 9.5, color: MAROON, after: 0 });
+    rule("Signature");
+    rule(`Print name${p.signerName ? `   (${san(p.signerName)})` : ""}`);
+    rule("Title");
+    rule("Date", 150);
+
+    if (secondParty) {
+      this.y -= 12;
+      this.ensure(130);
+      this.para("For The Aperture Method", { font: this.bold, size: 9.5, color: MAROON, after: 0 });
+      rule("Signature");
+      rule("Print name   (Fenwick How)");
+      rule("Title   (Founder)");
+      rule("Date", 150);
+    }
+
+    this.y -= 16;
+    this.ensure(50);
+    this.para("How to return it", { font: this.bold, size: 9.5, after: 2 });
+    this.para(
+      "Email a scan or photo of every signed page to hello@aperturemethod.com. A countersigned copy comes back to you, and it is filed in your client area. Nothing is in force until both parties have signed.",
+      { size: 9, color: MUTED, after: 4 }
+    );
+  }
+
   // Fenwick's authorship + signature, printed on the intake so it carries his
   // name, title and signature as the person who personally reviews the work.
   authorBlock(note: string) {
@@ -407,7 +457,8 @@ async function buildIntake(p: OnboardingPayload, meta: Meta): Promise<Uint8Array
   d.page.drawLine({ start: { x: MARGIN, y: cy + 1 }, end: { x: MARGIN + 3, y: cy - 2 }, thickness: 1.2, color: MAROON });
   d.page.drawLine({ start: { x: MARGIN + 3, y: cy - 2 }, end: { x: MARGIN + 8, y: cy + 5 }, thickness: 1.2, color: MAROON });
   d.para(intakeConsentLine, { x: MARGIN + 14, size: 8.5, gap: 12, after: 2 });
-  await d.signatureBlock(p, false);
+  if (p.printable) d.printSignatureBlock(p, false);
+  else await d.signatureBlock(p, false);
   d.finalizeFooters();
   return d.doc.save();
 }
@@ -468,7 +519,9 @@ async function buildAgreement(p: OnboardingPayload, meta: Meta): Promise<Uint8Ar
   d.para(`Primary Aperture contact: Fenwick How`, { size: 9.5, after: 2 });
   d.para(`Primary Client contact: ${clientContact || p.signerName}`, { size: 9.5, after: 4 });
 
-  if (p.draft) {
+  if (p.printable) {
+    d.printSignatureBlock(p, true);
+  } else if (p.draft) {
     d.y -= 10;
     d.ensure(70);
     d.heading("Signature");
@@ -480,7 +533,7 @@ async function buildAgreement(p: OnboardingPayload, meta: Meta): Promise<Uint8Ar
     await d.signatureBlock(p, true);
   }
   d.finalizeFooters();
-  if (p.draft) d.draftStamp();
+  if (p.draft && !p.printable) d.draftStamp();
   return d.doc.save();
 }
 
@@ -512,7 +565,9 @@ async function buildNda(p: OnboardingPayload, meta: Meta): Promise<Uint8Array> {
     }
   }
 
-  if (p.draft) {
+  if (p.printable) {
+    d.printSignatureBlock(p, true);
+  } else if (p.draft) {
     d.y -= 10;
     d.ensure(70);
     d.heading("Signature");
@@ -524,7 +579,7 @@ async function buildNda(p: OnboardingPayload, meta: Meta): Promise<Uint8Array> {
     await d.signatureBlock(p, true);
   }
   d.finalizeFooters();
-  if (p.draft) d.draftStamp();
+  if (p.draft && !p.printable) d.draftStamp();
   return d.doc.save();
 }
 

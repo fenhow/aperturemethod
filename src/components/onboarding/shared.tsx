@@ -83,6 +83,56 @@ export function useOnboardingSubmit() {
   return { status, serverErrors, message, result, submit, download };
 }
 
+/** An unsigned copy of a document, so nobody has to sign something in order to
+ *  read it, and nobody is forced to sign on a screen.
+ *    "read"  - a DRAFT copy, stamped on every page.
+ *    "print" - the same document with ruled signature lines, to print, sign by
+ *              hand and email back.
+ *  Neither one is stored, emailed or treated as executed. */
+export function useDocumentCopy() {
+  const [busy, setBusy] = useState<"read" | "print" | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  async function open(mode: "read" | "print", body: Record<string, unknown>) {
+    setBusy(mode);
+    setFailed(false);
+    try {
+      const res = await fetch("/api/onboarding/preview", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ...body, printable: mode === "print" }),
+      });
+      const json = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        pdfBase64?: string;
+        filename?: string;
+      };
+      if (!res.ok || !json.ok || !json.pdfBase64) throw new Error("failed");
+      const bytes = Uint8Array.from(atob(json.pdfBase64), (c) => c.charCodeAt(0));
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      if (mode === "print") {
+        // Something to keep and print, so save it rather than opening a tab.
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = json.filename ?? "print-and-sign.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else {
+        // A new tab rather than a forced save: most people want to read it now.
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch {
+      setFailed(true);
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  return { busy, failed, open };
+}
+
 /** Centered modal overlay. Locks body scroll and scrolls the page to top so it
  * is always visible (fixes the "stuck at the bottom" issue). Closes on backdrop
  * click or Escape. */

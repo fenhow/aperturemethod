@@ -3,13 +3,20 @@ import type { OnboardingPayload } from "@/lib/onboarding/types";
 import { generateOnboardingPdf } from "@/lib/onboarding/pdf";
 
 /**
- * An unsigned reading copy of the agreement, so nobody has to sign a document
- * to find out what it says.
+ * An unsigned copy of a document, in one of two shapes.
  *
- * Deliberately different from the submit route: nothing is stored, nothing is
- * emailed, no record is created, and the PDF is stamped DRAFT on every page.
- * Requirements are relaxed to match, because a person who wants to read the
- * contract has not necessarily decided on a company name yet.
+ *   draft (default)  a reading copy, stamped DRAFT on every page, so nobody has
+ *                    to sign a document to find out what it says.
+ *   printable        a copy to print, sign by hand and send back: ruled
+ *                    signature lines for both parties, instructions for
+ *                    returning it, and no DRAFT wash, because this one is meant
+ *                    to become the executed copy once it is signed.
+ *
+ * Deliberately different from the submit route either way: nothing is stored,
+ * nothing is emailed, and no record is created. A hand-signed document only
+ * exists once it comes back by email. Requirements are relaxed to match,
+ * because a person who wants to read the contract has not necessarily decided
+ * on a company name yet.
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -52,7 +59,8 @@ export async function POST(request: Request) {
 
   /* Either signable document can be read unsigned; anything else is treated as
      the agreement, which is what this route was built for. */
-  const kind = body.kind === "nda" ? "nda" : "agreement";
+  const kind = body.kind === "nda" ? "nda" : body.kind === "intake" ? "intake" : "agreement";
+  const printable = body.printable === true;
   const payload: OnboardingPayload = {
     kind,
     answers: (body.answers as Record<string, string>) ?? {},
@@ -65,6 +73,7 @@ export async function POST(request: Request) {
     consent: false,
     segments: Array.isArray(body.segments) ? body.segments.slice(0, 12).map(String) : [],
     draft: true,
+    printable,
   };
 
   try {
@@ -75,7 +84,13 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       pdfBase64: Buffer.from(bytes).toString("base64"),
-      filename: kind === "nda" ? "Aperture-Mutual-NDA-DRAFT.pdf" : "Aperture-New-Customer-Agreement-DRAFT.pdf",
+      filename: `${
+        kind === "nda"
+          ? "Aperture-Mutual-NDA"
+          : kind === "intake"
+            ? "Aperture-Client-Intake"
+            : "Aperture-New-Customer-Agreement"
+      }-${printable ? "PRINT-AND-SIGN" : "DRAFT"}.pdf`,
     });
   } catch (err) {
     console.error("[onboarding/preview] pdf generation failed:", err);

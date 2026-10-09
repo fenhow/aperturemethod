@@ -14,7 +14,17 @@ import {
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { buildDataRequest, outstandingCount } from "@/lib/onboarding/dataRequest";
 import { SignaturePad } from "./SignaturePad";
-import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog, SavedDialog } from "./shared";
+import {
+  inputCls,
+  labelCls,
+  errCls,
+  FieldError,
+  useOnboardingSubmit,
+  useDocumentCopy,
+  ErrorDialog,
+  SuccessDialog,
+  SavedDialog,
+} from "./shared";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALL_KEYS = allSegments.map((s) => s.key);
@@ -125,6 +135,19 @@ export function IntakeForm() {
   const [saving, setSaving] = useState(false);
   const [loadingDraft, setLoadingDraft] = useState(false);
   const { status, message, result, submit, download } = useOnboardingSubmit();
+  const { busy: copyBusy, failed: copyFailed, open: openCopy } = useDocumentCopy();
+
+  /** What the preview route needs to draw this intake as it stands. */
+  const copyBody = () => ({
+    kind: "intake",
+    answers: ans,
+    signerName: ans.contact_name ?? "",
+    signerTitle: ans.contact_title ?? "",
+    signerEmail: ans.contact_email ?? "",
+    company: ans.b_legal ?? "",
+    segments: selected,
+    website: "",
+  });
   const router = useRouter();
 
   const set = (name: string, v: string) => setAns((a) => ({ ...a, [name]: v }));
@@ -716,6 +739,37 @@ export function IntakeForm() {
             <div className="mt-2">
               <SignaturePad value={signature} onChange={setSignature} error={errors.signature} />
             </div>
+          </div>
+          <div className="rounded-sm border border-line bg-surface/60 p-5">
+            <p className="text-small font-semibold text-ink">Would rather sign on paper?</p>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => openCopy("print", copyBody())}
+                className="btn--secondary"
+                disabled={copyBusy !== null}
+              >
+                {copyBusy === "print" ? "Preparing…" : "Download to print & sign"}
+              </button>
+              <button
+                type="button"
+                onClick={() => openCopy("read", copyBody())}
+                className="btn--secondary"
+                disabled={copyBusy !== null}
+              >
+                {copyBusy === "read" ? "Preparing…" : "Read a copy first"}
+              </button>
+            </div>
+            <p className="mt-4 max-w-measure text-small text-muted">
+              Downloads this intake, with your answers so far, as a PDF with signature lines instead
+              of the signature box. Print it, sign it and email it to hello@aperturemethod.com — it
+              counts the same as signing here. Nothing is submitted by downloading it.
+            </p>
+            {copyFailed && (
+              <p className="mt-3 text-small text-maroon">
+                That did not work. Email hello@aperturemethod.com and I will send a copy.
+              </p>
+            )}
           </div>
         </fieldset>
 

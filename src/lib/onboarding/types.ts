@@ -35,6 +35,17 @@ export type OnboardingPayload = {
    * off as a signed agreement.
    */
   draft?: boolean;
+  /**
+   * A copy to print, sign by hand and send back.
+   *
+   * Same words as the on-screen document, but with ruled signature lines for
+   * both parties and instructions for returning it, and no DRAFT wash across
+   * the page, because this one IS meant to become the executed copy once it is
+   * signed and returned. Like `draft`, it is never stored, emailed or treated
+   * as executed by the site: it only becomes an agreement when a signed copy
+   * comes back.
+   */
+  printable?: boolean;
 };
 
 export type OnboardingErrors = Record<string, string>;

@@ -5,7 +5,16 @@ import { useRouter } from "next/navigation";
 import { ndaClauses, ESIGN_CONSENT } from "@/lib/onboarding/content";
 import type { OnboardingPayload, SignaturePayload } from "@/lib/onboarding/types";
 import { SignaturePad } from "./SignaturePad";
-import { inputCls, labelCls, errCls, FieldError, useOnboardingSubmit, ErrorDialog, SuccessDialog } from "./shared";
+import {
+  inputCls,
+  labelCls,
+  errCls,
+  FieldError,
+  useOnboardingSubmit,
+  useDocumentCopy,
+  ErrorDialog,
+  SuccessDialog,
+} from "./shared";
 
 /**
  * The mutual NDA, signed on its own.
@@ -23,7 +32,7 @@ export function NdaForm() {
   const [errOpen, setErrOpen] = useState(false);
   const [problems, setProblems] = useState<string[]>([]);
   const { status, message, submit, download } = useOnboardingSubmit();
-  const [readingCopy, setReadingCopy] = useState<"idle" | "working" | "error">("idle");
+  const { busy: copyBusy, failed: copyFailed, open: openCopy } = useDocumentCopy();
   const router = useRouter();
   const set = (name: string, v: string) => setF((s) => ({ ...s, [name]: v }));
 
@@ -33,35 +42,16 @@ export function NdaForm() {
     setF((s) => (s.effective_date ? s : { ...s, effective_date: today }));
   }, []);
 
-  async function downloadReadingCopy() {
-    setReadingCopy("working");
-    try {
-      const res = await fetch("/api/onboarding/preview", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          kind: "nda",
-          answers: { ...f },
-          signerName: f.signer_name ?? "",
-          signerTitle: f.signer_title ?? "",
-          signerEmail: f.signer_email ?? "",
-          company: f.client_legal_name ?? "",
-          website: "",
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok || !json?.ok || !json.pdfBase64) throw new Error(json?.message ?? "failed");
-      const bin = atob(json.pdfBase64);
-      const buf = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i += 1) buf[i] = bin.charCodeAt(i);
-      const url = URL.createObjectURL(new Blob([buf], { type: "application/pdf" }));
-      window.open(url, "_blank", "noopener,noreferrer");
-      setTimeout(() => URL.revokeObjectURL(url), 60_000);
-      setReadingCopy("idle");
-    } catch {
-      setReadingCopy("error");
-    }
-  }
+  /** What the preview route needs to draw this NDA as it stands. */
+  const copyBody = () => ({
+    kind: "nda",
+    answers: { ...f },
+    signerName: f.signer_name ?? "",
+    signerTitle: f.signer_title ?? "",
+    signerEmail: f.signer_email ?? "",
+    company: f.client_legal_name ?? "",
+    website: "",
+  });
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -137,21 +127,37 @@ export function NdaForm() {
         </fieldset>
 
         <div className="rounded-sm border border-line bg-surface p-6">
-          <div className="mb-5 flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              onClick={downloadReadingCopy}
-              className="btn--secondary"
-              disabled={readingCopy === "working"}
-            >
-              {readingCopy === "working" ? "Preparing…" : "Read it first"}
-            </button>
-            <p className="max-w-measure text-small text-muted">
-              Opens an unsigned copy in a new tab, marked DRAFT on every page. Take it to your lawyer
-              if you want to. Nothing is signed until you submit this page.
+          <div className="mb-5">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => openCopy("read", copyBody())}
+                className="btn--secondary"
+                disabled={copyBusy !== null}
+              >
+                {copyBusy === "read" ? "Preparing…" : "Read it first"}
+              </button>
+              <button
+                type="button"
+                onClick={() => openCopy("print", copyBody())}
+                className="btn--secondary"
+                disabled={copyBusy !== null}
+              >
+                {copyBusy === "print" ? "Preparing…" : "Download to print & sign"}
+              </button>
+            </div>
+            <p className="mt-4 max-w-measure text-small text-muted">
+              <strong className="font-semibold text-ink">Read it first</strong> opens an unsigned
+              copy in a new tab, marked DRAFT on every page. Take it to your lawyer if you want to.
             </p>
-            {readingCopy === "error" && (
-              <p className="text-small text-maroon">
+            <p className="mt-2 max-w-measure text-small text-muted">
+              <strong className="font-semibold text-ink">Print &amp; sign</strong> downloads the same
+              NDA with signature lines instead of the signature box. Sign it by hand, scan it and
+              email it to hello@aperturemethod.com and it counts the same as signing here. Either
+              way, it is in force once both of us have signed.
+            </p>
+            {copyFailed && (
+              <p className="mt-3 text-small text-maroon">
                 That did not work. Email hello@aperturemethod.com and I will send a copy.
               </p>
             )}

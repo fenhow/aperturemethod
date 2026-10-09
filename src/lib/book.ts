@@ -7,6 +7,18 @@
  * contributors in Accounting · Marketing · Technology" and /book shows
  * the seat as "to be announced". Nothing invented is ever shown as a person.
  */
+/**
+ * Mays MBA cohorts read the book free. Fenwick is writing with faculty at Texas
+ * A&M's Mays Business School, and the offer is to their MBA cohorts. Worded once
+ * here so the hero, the reserve section, the checkbox and the thank-you all say
+ * the same thing.
+ */
+export const MAYS_OFFER = {
+  short: "Free to Mays MBA cohorts.",
+  long: "Mays MBA cohorts read Look Closer free.",
+  badge: "Free to Mays MBA cohorts",
+} as const;
+
 export type BookContributor = {
   area: "Accounting" | "Marketing" | "Technology";
   /** Confirmed co-author's name, or null until announced. */

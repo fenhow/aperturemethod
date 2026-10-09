@@ -21,6 +21,7 @@ import {
   type StudyFieldId,
 } from "@/lib/realityStudy";
 import { QUESTION_COUNT, APPROX_MINUTES } from "@/lib/realityCheck";
+import { AnonymityPromise, AnonymityLine } from "@/components/reality/AnonymityNote";
 
 /** Questions about the survey go straight to Fenwick (Oct 2026). */
 const STUDY_CONTACT = "fen@aperturemethod.com";
@@ -67,7 +68,7 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
             <span className="font-semibold text-ink">Your answers are anonymous.</span> No name,
             email, company, address or IP is collected with them, so nothing you select can be
             traced back to you or your business. Results are only ever reported as totals across
-            all businesses, never one at a time, and no individual response is shown to anyone.
+            all businesses, never one at a time.
           </li>
           <li>
             The research supports the capstone project for my Executive MBA at Texas A&amp;M, and a
@@ -89,6 +90,7 @@ export function StudyIntro({ onStart, count }: { onStart: () => void; count?: nu
           </p>
         </div>
       </div>
+      <AnonymityPromise study />
 
       <button
         type="button"
@@ -190,6 +192,7 @@ export function StudyProfileForm({ onDone }: { onDone: (p: StudyProfile | null) 
         All optional. They let your answers be compared with businesses like yours, and none of
         them identifies you.
       </p>
+      <AnonymityLine className="mt-3" study />
 
       <div className="mt-8 space-y-8">
         <div>

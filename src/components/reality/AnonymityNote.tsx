@@ -18,7 +18,7 @@ import { createPortal } from "react-dom";
  * changes first.
  */
 
-export function AnonymityPromise() {
+export function AnonymityPromise({ study = false }: { study?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="mt-8 max-w-xl rounded-lg border border-line bg-surface p-5">
@@ -37,14 +37,14 @@ export function AnonymityPromise() {
         How we keep this anonymous
         <span aria-hidden="true">&rarr;</span>
       </button>
-      <AnonymityDialog open={open} onClose={() => setOpen(false)} />
+      <AnonymityDialog open={open} onClose={() => setOpen(false)} study={study} />
     </div>
   );
 }
 
 /** The same promise, one line, for places deeper in the flow where the intro is
  *  long behind them: the question screens and the breakdown form. */
-export function AnonymityLine({ className = "" }: { className?: string }) {
+export function AnonymityLine({ className = "", study = false }: { className?: string; study?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -58,12 +58,20 @@ export function AnonymityLine({ className = "" }: { className?: string }) {
           How that works
         </button>
       </p>
-      <AnonymityDialog open={open} onClose={() => setOpen(false)} />
+      <AnonymityDialog open={open} onClose={() => setOpen(false)} study={study} />
     </>
   );
 }
 
-function AnonymityDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+function AnonymityDialog({
+  open,
+  onClose,
+  study = false,
+}: {
+  open: boolean;
+  onClose: () => void;
+  study?: boolean;
+}) {
   const [mounted, setMounted] = useState(false);
   const closeRef = useRef<HTMLButtonElement | null>(null);
 
@@ -126,9 +134,17 @@ function AnonymityDialog({ open, onClose }: { open: boolean; onClose: () => void
               "What nobody can be told",
               "Not your bank, not your accountant, not anyone at your company. We could not tell them if we wanted to, because we do not know who answered."
             )}
+            {study
+              ? point(
+                  "How the research reports it",
+                  "Only as totals across all the businesses taking part. No single response is shown to anyone, quoted, or shared with a client, a sponsor or the university."
+                )
+              : null}
             {point(
               "The one exception, and it is yours to choose",
-              "If you ask for the written breakdown at the end, you give a name and email so it can be sent to you. That travels by email and is never joined to the anonymous record."
+              study
+                ? "If you ask for the benchmark report, your email is kept on its own list with no link to any response — not even a hidden one. Asking for the written breakdown of your own score works the same way: it is emailed to you, never joined to the anonymous record."
+                : "If you ask for the written breakdown at the end, you give a name and email so it can be sent to you. That travels by email and is never joined to the anonymous record."
             )}
           </div>
           <p className="mt-5 border-l-2 border-maroon pl-3 text-small font-semibold text-ink">

@@ -347,7 +347,9 @@ class Doc {
     rule("Date", 150);
 
     if (secondParty) {
-      this.y -= 12;
+      // Breathing room, so the Client's Date line and Aperture's heading do not
+      // read as one block.
+      this.y -= 26;
       this.ensure(130);
       this.para("For The Aperture Method", { font: this.bold, size: 9.5, color: MAROON, after: 0 });
       rule("Signature");
@@ -360,7 +362,9 @@ class Doc {
     this.ensure(50);
     this.para("How to return it", { font: this.bold, size: 9.5, after: 2 });
     this.para(
-      "Email a scan or photo of every signed page to hello@aperturemethod.com. A countersigned copy comes back to you, and it is filed in your client area. Nothing is in force until both parties have signed.",
+      secondParty
+        ? "Email a scan or photo of every signed page to hello@aperturemethod.com. A countersigned copy comes back to you, and it is filed in your client area. Nothing is in force until both parties have signed."
+        : "Email a scan or photo of every signed page to hello@aperturemethod.com, with any documents you were asked for. A copy comes back to you and is filed in your client area.",
       { size: 9, color: MUTED, after: 4 }
     );
   }

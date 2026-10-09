@@ -172,8 +172,14 @@ export function PreorderForm({
           className="mt-0.5 h-4 w-4 shrink-0 accent-maroon"
         />
         <span>
-          I&apos;m in a <strong className={dark ? "text-paper" : "text-ink"}>Mays MBA</strong> cohort.{" "}
-          <span className={dark ? "text-white/60" : "text-muted"}>{MAYS_OFFER.short}</span>
+          I&apos;m in a <strong className={dark ? "text-paper" : "text-ink"}>Mays MBA</strong> cohort.
+          {/* The hero card already carries the offer as a badge; don't say it twice. */}
+          {!compact && (
+            <>
+              {" "}
+              <span className={dark ? "text-white/60" : "text-muted"}>{MAYS_OFFER.short}</span>
+            </>
+          )}
         </span>
       </label>
 

@@ -741,7 +741,7 @@ export function IntakeForm() {
             </div>
           </div>
           <div className="rounded-sm border border-line bg-surface/60 p-5">
-            <p className="text-small font-semibold text-ink">Would rather sign on paper?</p>
+            <p className="text-small font-semibold text-ink">Would you rather sign on paper?</p>
             <div className="mt-3 flex flex-wrap items-center gap-3">
               <button
                 type="button"

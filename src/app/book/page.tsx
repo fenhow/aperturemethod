@@ -25,7 +25,7 @@ const bookSerif = localFont({
 export const metadata: Metadata = pageMeta({
   title: "Look Closer · The Book",
   description:
-    "Look Closer: The Aperture Method is becoming a book by Fenwick How: why owner-run businesses are the last ones without real intelligence, and the five-component path that brings a business into focus. In progress. Reserve a copy, no charge.",
+    "Look Closer: The Aperture Method is becoming a book by Fenwick How: why owner-run businesses are the last ones without real intelligence, and the five-component path that brings a business into focus. In progress. Reserve a copy, no charge. Free to Mays MBA cohorts.",
   path: "/book",
 });
 

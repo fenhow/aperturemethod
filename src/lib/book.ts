@@ -15,7 +15,8 @@
  */
 export const MAYS_OFFER = {
   short: "Free to Mays MBA cohorts.",
-  long: "Mays MBA cohorts read Look Closer free.",
+  /* Non-breaking space: "free." must never be orphaned on its own line. */
+  long: "Mays MBA cohorts read Look Closer\u00A0free.",
   badge: "Free to Mays MBA cohorts",
 } as const;
 

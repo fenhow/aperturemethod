@@ -256,13 +256,13 @@ function ThanksDialog({
         onClick={onClose}
         className="absolute inset-0 cursor-default bg-dark/70 backdrop-blur-[2px]"
       />
-      <div className="relative max-h-[86vh] w-full max-w-sm overflow-y-auto overscroll-contain rounded-lg border border-line bg-paper shadow-2xl">
+      <div className="relative max-h-[86vh] w-full max-w-[26rem] overflow-y-auto overscroll-contain rounded-lg border border-line bg-paper shadow-2xl">
         <div className="sticky top-0 h-1 w-full bg-maroon" aria-hidden="true" />
         <div className="p-6">
           <p className="eyebrow">{mays ? "Mays MBA · on the house" : "Pre-order confirmed"}</p>
           <h2
             id="preorder-thanks-title"
-            className="mt-3 text-h4 font-semibold leading-tight text-ink"
+            className="mt-3 text-balance text-h4 font-semibold leading-tight text-ink"
           >
             {alreadyOn
               ? "You were already on the list."
@@ -270,7 +270,7 @@ function ThanksDialog({
                 ? "You’re on the list — and it’s on me."
                 : "Thank you. You’re on the list."}
           </h2>
-          <div className="mt-4 space-y-3 text-small leading-relaxed text-body">
+          <div className="mt-4 space-y-3 text-pretty text-small leading-relaxed text-body">
             <p>
               <em>Look Closer</em> is being written now, one chapter at a time, out of real
               engagements rather than theory. You have put your name on a book that does not exist

@@ -73,9 +73,12 @@ export default function BookPage() {
                 Read an excerpt
               </a>
             </div>
+            <p className="mt-6 text-small text-muted">
+              {BOOK_PUBLISHER} · Paperback · ISBN <span className="font-semibold text-ink tabular-nums">{BOOK_ISBN}</span>
+            </p>
             {/* Pre-order right here, rather than only at the foot of the page:
                 most visitors decide while they are still looking at the cover. */}
-            <div className="mt-8 max-w-md rounded-lg border border-line bg-surface/70 p-5">
+            <div className="mt-5 max-w-md rounded-lg border border-line bg-surface/70 p-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="text-small font-semibold text-ink">Reserve your copy</p>
                 <span className="inline-flex items-center gap-2 rounded-full border border-maroon/25 bg-maroon/[0.06] px-3 py-1 text-small font-semibold text-maroon">
@@ -88,9 +91,6 @@ export default function BookPage() {
               </p>
               <PreorderForm source="book-hero" compact />
             </div>
-            <p className="mt-6 text-small text-muted">
-              {BOOK_PUBLISHER} · Paperback · ISBN <span className="font-semibold text-ink tabular-nums">{BOOK_ISBN}</span>
-            </p>
           </Reveal>
         </div>
       </Section>

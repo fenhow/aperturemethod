@@ -29,3 +29,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# scratch: tarballs Claude stages to the cloud sandbox to run builds and
+# browser checks against. Working files only — never part of the site.
+/_to_delete/

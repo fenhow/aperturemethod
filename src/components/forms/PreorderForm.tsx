@@ -256,13 +256,13 @@ function ThanksDialog({
         onClick={onClose}
         className="absolute inset-0 cursor-default bg-dark/70 backdrop-blur-[2px]"
       />
-      <div className="relative max-h-[88vh] w-full max-w-lg overflow-y-auto overscroll-contain rounded-lg border border-line bg-paper shadow-2xl">
-        <div className="sticky top-0 h-1.5 w-full bg-maroon" aria-hidden="true" />
-        <div className="p-7 sm:p-9">
+      <div className="relative max-h-[86vh] w-full max-w-sm overflow-y-auto overscroll-contain rounded-lg border border-line bg-paper shadow-2xl">
+        <div className="sticky top-0 h-1 w-full bg-maroon" aria-hidden="true" />
+        <div className="p-6">
           <p className="eyebrow">{mays ? "Mays MBA · on the house" : "Pre-order confirmed"}</p>
           <h2
             id="preorder-thanks-title"
-            className="mt-4 text-h2 font-semibold leading-tight text-ink"
+            className="mt-3 text-h4 font-semibold leading-tight text-ink"
           >
             {alreadyOn
               ? "You were already on the list."
@@ -270,37 +270,41 @@ function ThanksDialog({
                 ? "You’re on the list — and it’s on me."
                 : "Thank you. You’re on the list."}
           </h2>
-          <div className="mt-5 space-y-4 text-body text-body">
+          <div className="mt-4 space-y-3 text-small leading-relaxed text-body">
             <p>
               <em>Look Closer</em> is being written now, one chapter at a time, out of real
-              engagements rather than theory. You have just put your name on a copy of a book that
-              does not exist yet — a generous thing to do with an email address, and not something
-              I take lightly.
+              engagements rather than theory. You have put your name on a book that does not exist
+              yet, and I do not take that lightly.
             </p>
             {mays ? (
               <p>
-                <strong className="font-semibold text-ink">{MAYS_OFFER.long}</strong> I will confirm
-                how to claim it when the book is ready — nothing for you to do now.
+                <strong className="font-semibold text-ink">{MAYS_OFFER.long}</strong> I&apos;ll
+                confirm how to claim it when the book is ready.
               </p>
             ) : (
               <p>
-                You will get the sample chapter before anyone else, and a note the week the book is
-                available. No charge today, and nothing else in between.
+                You&apos;ll get the sample chapter before anyone else, and a note the week the
+                book is available.
               </p>
             )}
             <p className="text-muted">
-              Two emails, maybe three. Unsubscribe in one click, any time.
+              Two emails, maybe three. Unsubscribe in one click.
             </p>
           </div>
-          <p className="mt-6 border-l-2 border-maroon pl-4 text-small font-semibold text-ink">
+          <p className="mt-5 border-l-2 border-maroon pl-3 text-small font-semibold text-ink">
             Fenwick How · The Aperture Method
           </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <button ref={closeRef} type="button" onClick={onClose} className="btn">
-              Wonderful
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <button
+              ref={closeRef}
+              type="button"
+              onClick={onClose}
+              className="btn px-5 py-2.5 text-small"
+            >
+              Gig &rsquo;em!
             </button>
             <a href="#excerpt" onClick={onClose} className="link-arrow text-small font-semibold">
-              Read an excerpt while you wait
+              Read an excerpt
             </a>
           </div>
         </div>

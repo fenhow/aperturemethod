@@ -158,7 +158,8 @@ export function LandingView({ page }: { page: LandingPage }) {
 
       {/* Live map: Atlas carries it with the analysis; Intelligence without. */}
       {(page.slug === "/scoreboard" || page.slug === "/market-map") && (
-        <Section tone="dark">
+        /* id: the home page links straight here with /scoreboard#live-map. */
+        <Section tone="dark" id="live-map">
           <Reveal className="max-w-measure">
             <p className="eyebrow eyebrow--on-dark mb-4">See it live</p>
             <h2 className="text-h2 font-semibold text-paper">Your market, on one live map.</h2>

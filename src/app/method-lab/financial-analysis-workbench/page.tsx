@@ -341,8 +341,11 @@ export default function FinancialAnalysisWorkbench() {
             business actually stands before anyone proposes what to do about it. Founder-led, in plain
             language, done for you.</p>
           <div className="row">
-            <a className="b" href="/book">Book a consultation</a>
-            <a className="b ghost" href="/the-method">See the Method</a>
+            {/* Oct 2026: these were /book and /the-method. /book is now the
+                Look Closer book page, so "Book a consultation" was sending
+                people to a book; /the-method has never existed and 404'd. */}
+            <a className="b" href="/contact#book">Book a consultation</a>
+            <a className="b ghost" href="/the-aperture-method">See the Method</a>
           </div>
         </div>
       </section>

@@ -363,7 +363,16 @@ export function AtlasMarketMap({ className, showAnalysis = true, product = "ATLA
 
   return (
     <div className={cn("atl", className)} style={th.vars as React.CSSProperties}>
-      <style>{CSS + ANALYSIS_CSS}</style>
+      {/*
+        dangerouslySetInnerHTML, not a text child. As a child React escapes the
+        four ">" child combinators in this stylesheet to "&gt;", and the HTML
+        parser does NOT decode entities inside <style> — so the browser got
+        ".atl-kpis&gt;div{...}", which is invalid CSS, and React then saw the
+        text differ from what it rendered and threw the whole server HTML away
+        to re-render on the client. Raw injection fixes both: the rules apply,
+        and hydration matches.
+      */}
+      <style dangerouslySetInnerHTML={{ __html: CSS + ANALYSIS_CSS }} />
       <div className="atl-stage">
         <div className="atl-mapwrap">
           <svg className="atl-map" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet" role="img"

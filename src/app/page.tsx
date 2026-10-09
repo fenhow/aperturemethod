@@ -315,7 +315,7 @@ export default function Home() {
             projects where the business is heading.
           </p>
           <div className="mt-6">
-            <LinkArrow href="/scoreboard" onDark>
+            <LinkArrow href="/scoreboard#live-map" onDark>
               See Atlas in action
             </LinkArrow>
           </div>

@@ -78,7 +78,7 @@ export default function AboutPage() {
             </p>
           </Reveal>
           <Reveal variant="left" delay={100} className="max-w-measure">
-            <SectionHeading title="Why we exist." />
+            <SectionHeading title="Our raison d’être." />
             <p className="mt-6 text-body-lg text-body">
               Most good businesses this size run on instinct and spreadsheets, not for lack of
               ambition, but because real analytics and modern technology have always been priced and

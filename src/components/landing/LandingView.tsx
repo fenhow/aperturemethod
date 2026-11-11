@@ -92,6 +92,17 @@ export function LandingView({ page }: { page: LandingPage }) {
             {cta}
             <span className="text-small text-muted">{page.priceNote}</span>
           </Reveal>
+          {page.quote && (
+            <Reveal delay={200} className="mt-4">
+              <p className="text-small text-muted">
+                Several markets, national or international?{" "}
+                <a href="#quote" className="link-arrow font-semibold text-ink">
+                  Request a quote
+                  <span className="arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              </p>
+            </Reveal>
+          )}
         </div>
       </Section>
 

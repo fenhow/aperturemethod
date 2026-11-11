@@ -40,6 +40,10 @@ import {
   SITE_SELECTION_FEE,
   SITE_SELECTION_TERMS,
   COMPONENT_FEE_NUMBER,
+  MARKET_MAP_SCOPE,
+  ADDITIONAL_MARKET_TERMS,
+  ADDITIONAL_MARKET_FEE,
+  MULTI_MARKET_TERMS,
 } from "@/lib/pricing";
 import { LENSES } from "@/lib/lenses";
 
@@ -654,14 +658,14 @@ export const marketMap: LandingPage = {
   slug: "/market-map",
   eyebrow: "Aperture Intelligence™ · the Customer & Market Map",
   h1: "Where are your best customers, and where are the next ones?",
-  sub: `The Customer & Market Map answers both on real geography, so a second location or a marketing budget stops being a guess. Fixed fee of ${COMPONENT_FEE}.`,
+  sub: `The Customer & Market Map answers both on real geography, so a second location or a marketing budget stops being a guess. Fixed fee of ${COMPONENT_FEE} for one metro market.`,
   bylineBlurb: BYLINE,
   answerHeading: "What is a Customer & Market Map?",
   answer:
-    "A Customer & Market Map segments your existing customers by what they are actually worth, then puts them on real geography: trade areas, drive times, demographics and competitive pressure. It shows where your demand concentrates, where it is going unmet, and which candidate site is the defensible one before you sign a lease.",
+    "A Customer & Market Map segments your existing customers by what they are actually worth, then puts them on real geography: trade areas, drive times, demographics and competitive pressure. It shows where your demand concentrates, where it is going unmet, and which candidate sites deserve a closer look before you sign a lease.",
   ctaLabel: "Book a Market Map",
   ctaHref: "/contact#book",
-  priceNote: `${COMPONENT_FEE} fixed fee · two to three weeks`,
+  priceNote: `${COMPONENT_FEE} fixed fee · one metro market · two to three weeks`,
   meta: {
     title: "Where are your best customers, and where are the next ones?",
     description: `The Customer & Market Map is a fixed-fee customer, market and geographic analysis: segmentation, lifetime value, trade areas, drive times and white space, delivered as a report and a GIS package you keep. ${COMPONENT_FEE}.`,
@@ -792,7 +796,7 @@ export const marketMap: LandingPage = {
   },
   price: {
     headline: `${COMPONENT_FEE}, fixed, agreed before anything starts.`,
-    body: `That covers the full customer, market and geographic analysis and the GIS package you keep. If you are weighing one specific site rather than mapping the whole market, the Site Selection Study is ${SITE_SELECTION_FEE}, ${SITE_SELECTION_TERMS}.`,
+    body: `That covers the full customer, market and geographic analysis and the GIS package you keep, for ${MARKET_MAP_SCOPE}. More markets are ${ADDITIONAL_MARKET_TERMS}. ${MULTI_MARKET_TERMS}. If you are choosing between specific sites, the Site Selection Study is ${SITE_SELECTION_FEE}, ${SITE_SELECTION_TERMS}.`,
     footnote: `Not sure this is the right component? The ${XRAY_FEE} Business X-Ray will tell you, and it ${XRAY_CREDIT_TERMS}.`,
   },
   faqHeading: "Questions owners ask about the Market Map.",
@@ -807,7 +811,11 @@ export const marketMap: LandingPage = {
     },
     {
       q: "Can this tell me where to open next?",
-      a: `The Market Map identifies the trade areas with unmet demand, which is the honest answer to where should we look. If you are choosing between specific sites and about to commit to a lease, the Site Selection Study at ${SITE_SELECTION_FEE} scores the candidates properly. That is a bigger decision and it is priced on the decision, not on the effort.`,
+      a: `The Market Map identifies the trade areas with unmet demand and screens up to three candidate sites, which is the honest answer to where should we look. If you are choosing between specific sites and about to commit to a lease, the Site Selection Study at ${SITE_SELECTION_FEE} scores the candidates properly. That is a bigger decision and it is priced on the decision, not on the effort.`,
+    },
+    {
+      q: "What if we operate in more than one market?",
+      a: `The fixed fee covers ${MARKET_MAP_SCOPE}. Each further metro market adds ${ADDITIONAL_MARKET_FEE}. ${MULTI_MARKET_TERMS}, because a national map is a different piece of work, not a bigger version of a local one.`,
     },
     {
       q: "Do I keep the maps?",

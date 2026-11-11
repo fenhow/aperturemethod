@@ -181,12 +181,33 @@ export const BUNDLE_SAVING: string | null = COMPONENT_FEE
   ? usd(XRAY_FEE_NUMBER + 3 * COMPONENT_FEE_NUMBER - FULL_METHOD_FEE_NUMBER)
   : null;
 
+/**
+ * GEOGRAPHIC BOOKENDS (11 Nov 2026, Fenwick). The Market Map and the Site Selection
+ * Study are priced for ONE market. "Fixed fee" with no geographic limit invited a
+ * 14-state footprint for the price of one metro. A market is one metro area (one MSA),
+ * or the 60-minute drive-time area around the client's locations, whichever is smaller.
+ *
+ * The Full Method assumes the same one-market scope, so the bundle inequality above
+ * is unaffected. ADDITIONAL_MARKET_FEE is per extra metro and reuses the setup already
+ * done; anything statewide, multi-state or national is quoted on the footprint.
+ */
+export const MARKET_DEFINITION =
+  "one metro market (a single metro area, or the 60-minute drive-time area around your locations, whichever is smaller)";
+export const MARKET_MAP_SCOPE =
+  `${MARKET_DEFINITION}, up to three existing locations, one customer file, and up to three candidate sites screened`;
+export const SITE_SELECTION_SCOPE =
+  "one metro market and up to five candidate sites";
+export const ADDITIONAL_MARKET_FEE = "$3,500";
+export const ADDITIONAL_MARKET_TERMS = `${ADDITIONAL_MARKET_FEE} for each additional metro market`;
+export const MULTI_MARKET_TERMS =
+  "Statewide, multi-state and national footprints are quoted individually, once the footprint is known";
+
 /** Terms that must travel with the numbers wherever they are shown. */
 export const XRAY_CREDIT_TERMS =
   "counts in full toward the Method if you continue within 60 days";
 export const ATLAS_TERMS = "6-month minimum, 30 days' notice thereafter";
 export const SITE_SELECTION_TERMS =
-  "fixed fee, per site-selection question, scoped to the candidate market before you commit";
+  `fixed fee, per site-selection question, covering ${SITE_SELECTION_SCOPE}`;
 
 /** Shown on the homepage and the How-it-works path. Set a value to null to hide it. */
 export const PRICES = {
@@ -216,7 +237,7 @@ export const feeSchedule = [
     fee: `${SNAPSHOT_FEE} fixed`,
   },
   { key: "analytics", phase: "Aperture Analytics™", deliverable: "Profit Map + scenario model", fee: `from ${COMPONENT_FEE}` },
-  { key: "intelligence", phase: "Aperture Intelligence™", deliverable: "Customer & Market Map + GIS package", fee: `from ${COMPONENT_FEE}` },
+  { key: "intelligence", phase: "Aperture Intelligence™", deliverable: `Customer & Market Map + GIS package, covering ${MARKET_MAP_SCOPE}`, fee: `from ${COMPONENT_FEE}` },
   { key: "compass", phase: "Aperture Compass™", deliverable: "Opportunity Matrix + Focus Plan", fee: `from ${COMPONENT_FEE}` },
   {
     key: "full",
@@ -227,8 +248,20 @@ export const feeSchedule = [
   {
     key: "site",
     phase: "Site Selection Study",
-    deliverable: "Candidate-site scoring + trade-area & drive-time modeling (standalone)",
+    deliverable: `Candidate-site scoring + trade-area & drive-time modeling (standalone), covering ${SITE_SELECTION_SCOPE}`,
     fee: `${SITE_SELECTION_FEE} fixed`,
+  },
+  {
+    key: "addmarket",
+    phase: "Additional market",
+    deliverable: "Each further metro market added to a Market Map or Site Selection Study",
+    fee: `${ADDITIONAL_MARKET_FEE} per market`,
+  },
+  {
+    key: "multimarket",
+    phase: "Multi-state or national footprint",
+    deliverable: `Market Map or Site Selection across many markets. ${MULTI_MARKET_TERMS}.`,
+    fee: "Quoted",
   },
   {
     key: "atlas1",

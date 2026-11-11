@@ -23,6 +23,9 @@ import {
   ATLAS_PREPAY_TERMS,
   SITE_SELECTION_FEE,
   SITE_SELECTION_TERMS,
+  MARKET_DEFINITION,
+  ADDITIONAL_MARKET_TERMS,
+  MULTI_MARKET_TERMS,
 } from "@/lib/pricing";
 
 /**
@@ -86,7 +89,7 @@ const components: { short: string; product: string; question: string; get: strin
     short: "Intelligence",
     product: "Aperture Intelligence™",
     question: "What does it reveal?",
-    get: "Your Customer & Market Map and the full GIS layer package: segmentation and lifetime value, trade areas and drive times, penetration against the market, and the white space you are not serving.",
+    get: `Your Customer & Market Map and the full GIS layer package: segmentation and lifetime value, trade areas and drive times, penetration against the market, and the white space you are not serving. Covers ${MARKET_DEFINITION}; more markets are ${ADDITIONAL_MARKET_TERMS}.`,
     href: "/market-map",
   },
   {
@@ -419,7 +422,8 @@ export default function PricingPage() {
               </div>
             </div>
             <p className="mt-6 border-t border-line pt-4 text-small text-muted">
-              {SITE_SELECTION_TERMS}.
+              {SITE_SELECTION_TERMS}. More markets are {ADDITIONAL_MARKET_TERMS}.{" "}
+              {MULTI_MARKET_TERMS}.
             </p>
           </div>
         </Reveal>

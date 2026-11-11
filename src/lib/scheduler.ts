@@ -9,7 +9,7 @@
  */
 
 // ⬇️  Paste your Calendly event link here (or leave "" and use the env var).
-const DEFAULT_SCHEDULER_URL = "https://calendly.com/fenhow/30min";
+const DEFAULT_SCHEDULER_URL = "https://calendly.com/fenhow/consultation";
 
 export const schedulerUrl =
   process.env.NEXT_PUBLIC_SCHEDULER_URL || DEFAULT_SCHEDULER_URL || "";

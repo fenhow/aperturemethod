@@ -243,7 +243,9 @@ try {
   )
     .split("\n")
     .filter(Boolean)
-    .filter((f) => f !== "src/lib/pricing.ts");
+    .filter((f) => f !== "src/lib/pricing.ts")
+    // Generated at build time from the latest commit message, which may mention a fee.
+    .filter((f) => f !== "src/lib/buildInfo.generated.ts");
   for (const f of files) {
     const src_ = readFileSync(path.join(root, f), "utf8");
     if (src_.slice(0, 2000).includes(ILLUSTRATIVE)) continue;

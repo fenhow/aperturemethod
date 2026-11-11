@@ -17,11 +17,11 @@ export type BuildInfo = {
 };
 
 export const BUILD: BuildInfo = {
-  commit: "e40dc77a4a77aa2ee8dcf9b97a13fd3fea0a5391",
-  shortCommit: "e40dc77",
+  commit: "86306d2b4afcb05aacf9ecdedaa14eaacb8268b1",
+  shortCommit: "86306d2",
   branch: "main",
-  message: "1",
-  builtAt: "2026-09-16T00:29:04.473Z",
+  message: "Bound Market Map and Site Selection to one metro market; add $3,500 extra-market fee",
+  builtAt: "2026-11-11T17:47:46.768Z",
   env: "development",
   dirty: true,
   rubricVersion: "1.3.0",

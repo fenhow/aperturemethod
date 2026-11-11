@@ -117,6 +117,8 @@ export type LandingPage = {
   };
   comparison: { heading: string; lede: string };
   price: { headline: string; body: string; footnote?: string };
+  /** Optional quote-request block for work beyond the fixed-fee scope. Renders at #quote. */
+  quote?: { eyebrow: string; heading: string; lede: string; points: string[] };
   /** The FAQ section heading. Named, because "about this" persuades nobody. */
   faqHeading: string;
   faqs: LandingFaq[];
@@ -798,6 +800,17 @@ export const marketMap: LandingPage = {
     headline: `${COMPONENT_FEE}, fixed, agreed before anything starts.`,
     body: `That covers the full customer, market and geographic analysis and the GIS package you keep, for ${MARKET_MAP_SCOPE}. More markets are ${ADDITIONAL_MARKET_TERMS}. ${MULTI_MARKET_TERMS}. If you are choosing between specific sites, the Site Selection Study is ${SITE_SELECTION_FEE}, ${SITE_SELECTION_TERMS}.`,
     footnote: `Not sure this is the right component? The ${XRAY_FEE} Business X-Ray will tell you, and it ${XRAY_CREDIT_TERMS}.`,
+  },
+  quote: {
+    eyebrow: "Multi-market, national & international",
+    heading: "Bigger footprint? We will scope it properly.",
+    lede: `The fixed fee is built for ${MARKET_MAP_SCOPE}. Work across many markets is a different study, not a larger version of a local one: it starts with a national screen that ranks every market, then goes deep only where the decision is. Tell us what you are weighing and you will get a written, fixed-fee scope before anything starts.`,
+    points: [
+      "Several metro markets, statewide or regional programs",
+      "National (USA) customer and market screening",
+      "Site and market selection in other countries",
+      "Specialty analysis: territory design, network optimization, closures and consolidation",
+    ],
   },
   faqHeading: "Questions owners ask about the Market Map.",
   faqs: [

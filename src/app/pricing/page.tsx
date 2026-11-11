@@ -424,6 +424,11 @@ export default function PricingPage() {
             <p className="mt-6 border-t border-line pt-4 text-small text-muted">
               {SITE_SELECTION_TERMS}. More markets are {ADDITIONAL_MARKET_TERMS}.{" "}
               {MULTI_MARKET_TERMS}.
+              {" "}
+              <Link href="/market-map#quote" className="font-semibold text-ink underline underline-offset-4">
+                Request a quote
+              </Link>
+              .
             </p>
           </div>
         </Reveal>

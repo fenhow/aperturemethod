@@ -16,6 +16,7 @@ import { LANDING_PRODUCT } from "@/lib/coursework";
 import { AtlasMarketMap } from "@/components/sections/AtlasMarketMap";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { methodPhases } from "@/lib/content";
+import { QuoteRequestForm } from "@/components/forms/QuoteRequestForm";
 
 const REPORT = "/reports/Lumina-Aperture-Method-Example-Report.pdf";
 
@@ -258,6 +259,15 @@ export function LandingView({ page }: { page: LandingPage }) {
               {page.ctaLabel}
             </Link>
           </p>
+          {page.quote && (
+            <p className="mt-4 text-small text-white/75">
+              Several markets, national or international?{" "}
+              <a href="#quote" className="font-semibold text-paper underline underline-offset-4">
+                Request a quote
+              </a>
+              .
+            </p>
+          )}
           <p className="mt-4 text-small text-white/55">
             Not ready to book?{" "}
             <Link href="/contact" className="underline hover:text-white">
@@ -267,6 +277,30 @@ export function LandingView({ page }: { page: LandingPage }) {
           </p>
         </Reveal>
       </Section>
+
+      {/* Quote request: work beyond the fixed-fee scope */}
+      {page.quote && (
+        <Section tone="surface" id="quote">
+          <div className="grid gap-10 lg:grid-cols-[2fr_3fr] lg:gap-14">
+            <Reveal>
+              <p className="eyebrow mb-4">{page.quote.eyebrow}</p>
+              <h2 className="text-h2 font-semibold text-ink">{page.quote.heading}</h2>
+              <p className="mt-5 text-body-lg text-muted">{page.quote.lede}</p>
+              <ul className="mt-6 space-y-3">
+                {page.quote.points.map((pt) => (
+                  <li key={pt} className="flex gap-3 text-body text-ink">
+                    <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-maroon" />
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <Reveal>
+              <QuoteRequestForm source={`website:${page.slug}#quote`} />
+            </Reveal>
+          </div>
+        </Section>
+      )}
 
       {/* Under the hood: frameworks from the Method that the cards above do not name. */}
       {(() => {

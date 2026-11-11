@@ -10,6 +10,7 @@ export type AnalyticsEvent =
   | "contact_form_submit"
   | "contact_form_success"
   | "contact_form_error"
+  | "quote_request_submit"
   | "newsletter_submit"
   | "newsletter_success"
   | "newsletter_error"
